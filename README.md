@@ -22,20 +22,20 @@ yarn add -D slidy
     ]; // slides items
 
     $: slidy_default = { // any name you like
-		slidys: local,
-		wrap: {
-			id: 'slidy_default',
-			width: '100%',
-			height: '50vh',
-			padding: '0',
-		},
-		slide: {
-			gap: 0,
-			width: 'auto',
-			height: '100%',
-		},
-		controls: {
-			dots: true,
+        slidys: local,
+        wrap: {
+            id: 'slidy_default',
+            width: '100%',
+            height: '50vh',
+            padding: '0',
+        },
+        slide: {
+            gap: 0,
+            width: 'auto',
+            height: '100%',
+        },
+        controls: {
+            dots: true,
             dotsnum: true,
             dotsarrow: true,
             dotspure: false,
@@ -43,9 +43,9 @@ yarn add -D slidy
             keys: true,
             drag: true,
             wheel: true,
-		},
-		duration: 250,
-	} // slidy settings for current instance
+        },
+        duration: 250,
+    } // slidy settings for current instance
 </script>
 
 <Slidy {...slidy_default} />
@@ -55,53 +55,45 @@ yarn add -D slidy
 - !!! IMPORTANT – you need declared all the settings objects for each instance of Slidy. 
 ```
 
-<!-- ```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-``` -->
-
 ## Customize
 
 ### Custome slide skin
 
 ```html
 <script>
-	import Slidy from 'svelte-slidy'
+    import Slidy from 'svelte-slidy'
 
-	const local = [
+    const local = [
         { 
-			id: 1, 
-			src: 'img/img.webp', 
-			header: 'What is Slidy?',
-			text: 'SLIDY – simple configurable carousel component on SvelteJS.' },
+            id: 1, 
+            src: 'img/img.webp', 
+            header: 'What is Slidy?',
+            text: 'SLIDY – simple configurable carousel component on SvelteJS.' },
         ...
     ];
 
     $: slidy_cards = {
-		slidys: local,
-		... //all setting for this instance
-	}
+        slidys: local,
+        ... //all setting for this instance
+    }
 </script>
 
 <Slidy {...slidy_cards}>
-	<div slot="slide" let:item class="slide"> <!--!!! slot="slide" let:item -->
-		<img alt="{item.header}" src="{item.src}"/>
-		<article>
-			<h2>{item.header</h2>
-			<p>
-				{item.text}
-			</p>
-		</article>
-	</div>
+    <div slot="slide" let:item class="slide"> <!--!!! slot="slide" let:item -->
+        <img alt="{item.header}" src="{item.src}"/>
+        <article>
+            <h2>{item.header</h2>
+            <p>
+                {item.text}
+            </p>
+        </article>
+    </div>
 </Slidy>
 
 <style>
-	.slide {
-		...yours style for slide
-	}
+    .slide {
+        ...yours style for slide
+    }
 </style>
 ```
 
@@ -122,20 +114,20 @@ yarn add -D slidy
     ]; // slides items
 
     $: slidy_default = { // any name you like
-		slidys: local,
-		wrap: {
-			id: 'slidy_default', // custom #id for this instance Slidy
-			width: '100%',
-			height: '50vh',
-			padding: '0',
-		},
-		slide: {
-			gap: 0,
-			width: 'auto',
-			height: '100%',
-		},
-		controls: {
-			dots: true,
+        slidys: local,
+        wrap: {
+            id: 'slidy_default', // custom #id for this instance Slidy
+            width: '100%',
+            height: '50vh',
+            padding: '0',
+        },
+        slide: {
+            gap: 0,
+            width: 'auto',
+            height: '100%',
+        },
+        controls: {
+            dots: true,
             dotsnum: true,
             dotsarrow: true,
             dotspure: false,
@@ -143,17 +135,17 @@ yarn add -D slidy
             keys: true,
             drag: true,
             wheel: true,
-		},
-		duration: 250,
-	} // slidy settings for current instance
+        },
+        duration: 250,
+    } // slidy settings for current instance
 </script>
 
 <Slidy {...slidy_default} />
 
 <style>
-	:global(#slidy_default) {
-		... yours new styles for default
-	}
+    :global(#slidy_default) {
+        ... yours new styles for default
+    }
 </style>
 ```
 
@@ -161,20 +153,20 @@ yarn add -D slidy
 
 ```html
 <section id="yours custom #id" class="slidy">
-	<ul class="svelte-slidy-ul">
-		<li class="svelte-slidy-li">
-			<slot name="slide" {item}> // for yours custom slide skin
-		</li>
-	</ul>
-	<button class="svelte-slidy-arrow-left"></button>
-	<button class="svelte-slidy-arrow-right"></button>
-	<ul class="svelte-slidy-dots">
-		<li><button class="svelte-slidy-arrow-left"></button></li>
-		<li>
-			<button></button> // first & last arrows not in each (optional)
-		</li>
-		<li><button class="svelte-slidy-arrow-right"></button></li>
-	</ul>
+    <ul class="svelte-slidy-ul">
+        <li class="svelte-slidy-li">
+            <slot name="slide" {item}> // for yours custom slide skin
+        </li>
+    </ul>
+    <button class="svelte-slidy-arrow-left"></button>
+    <button class="svelte-slidy-arrow-right"></button>
+    <ul class="svelte-slidy-dots">
+        <li><button class="svelte-slidy-arrow-left"></button></li>
+        <li>
+            <button></button> // first & last arrows not in each (optional)
+        </li>
+        <li><button class="svelte-slidy-arrow-right"></button></li>
+    </ul>
 </section>
 ```
 <!-- ```diff
