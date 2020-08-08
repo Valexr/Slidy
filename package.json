@@ -1,0 +1,29 @@
+{
+  "name": "svelte-slidy",
+  "description": "Simple configurable carousel component on SvelteJS",
+  "version": "1.0.0",
+  "keywords": [
+    "Svelte",
+    "SvelteJs",
+    "Carousel",
+    "Svelte-plugin"
+  ],
+  "author": "Valexr",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "svelte": "src/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "prettier-plugin-svelte": "^1.1.0",
+    "rollup": "^2.23.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.2.3",
+    "rollup-plugin-terser": "^6.1.0",
+    "svelte": "^3.24.1"
+  }
+}

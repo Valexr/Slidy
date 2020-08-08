@@ -1,0 +1,11 @@
+# Directories
+node_modules/
+dist/
+.vscode
+
+#Files
+.htaccess
+.DS_Store
+*.lock
+*.log
+*.bak
