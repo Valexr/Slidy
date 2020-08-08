@@ -2,6 +2,12 @@
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)
 
+## Site
+[https://valexr.github.io/slidy-site/](https://valexr.github.io/slidy-site/)
+
+## Sandbox
+[https://svelte.dev/repl/](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd?version=3.24.1)
+
 ## Install
 
 ```bash

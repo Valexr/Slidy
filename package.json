@@ -1,7 +1,7 @@
 {
   "name": "svelte-slidy",
   "description": "Simple configurable carousel component on SvelteJS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "Svelte",
     "SvelteJs",
@@ -10,6 +10,14 @@
   ],
   "author": "Valexr",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Valexr/svelte-slidy"
+  },
+  "homepage": "https://valexr.github.io/slidy-site/",
+  "bugs": {
+    "url": "https://github.com/Valexr/svelte-slidy/issues"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "svelte": "src/index.js",
