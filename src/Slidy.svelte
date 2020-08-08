@@ -363,6 +363,9 @@
 		justify-content: center;
 		touch-action: none;
 	}
+	.svelte-slidy ul li.active {
+		color: red;
+	}
 	.svelte-slidy ul li.active span {
 		color: red;
 	}
