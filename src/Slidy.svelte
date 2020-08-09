@@ -1,3 +1,29 @@
+<script context="module">
+	import { readable, derived } from 'svelte/store'
+
+	const setupMq = (queryString) => (set) => {
+		const query = window.matchMedia(queryString)
+		const callback = (e) => set(e.matches)
+		query.addListener(callback)
+		callback(query)
+		return () => query.removeListener(callback)
+	}
+
+	const defaultQueries = {
+		desktop: 'screen and (min-width: 769px)',
+		mobile: 'screen and (max-width: 768px)',
+	}
+
+	let queryStores
+	export let media
+
+	export const mediaquery = (queries = defaultQueries) => {
+		queryStores = Object.entries(queries).reduce((acc, [mediaName, queryString]) => ((acc[mediaName] = readable(false, setupMq(queryString))), acc), {})
+		media = derived(Object.values(queryStores), ($queryStores) => $queryStores.reduce((acc, q, i) => ((acc[Object.keys(queryStores)[i]] = q), acc), {}))
+	}
+	mediaquery()
+</script>
+
 <script>
 	import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte'
 	import { spring, tweened } from 'svelte/motion'
@@ -333,7 +359,7 @@
 		height: var(--wrapheight);
 		margin: 0 auto;
 	}
-	.svelte-slidy ul {
+	.svelte-slidy-ul {
 		box-sizing: border-box;
 		display: flex;
 		flex-wrap: nowrap;
@@ -352,7 +378,7 @@
 		transform: translate3d(var(--transformx), 0, 0);
 		-webkit-transform: translate3d(var(--transformx), 0, 0);
 	}
-	.svelte-slidy ul li {
+	.svelte-slidy-li {
 		flex: none;
 		width: var(--liwidth);
 		height: var(--liheight);
@@ -363,16 +389,16 @@
 		justify-content: center;
 		touch-action: none;
 	}
-	.svelte-slidy ul li.active {
+	.svelte-slidy-li.active {
 		color: red;
 	}
-	.svelte-slidy ul li.active span {
+	.svelte-slidy-li.active span {
 		color: red;
 	}
-	.svelte-slidy ul li.drag {
+	.svelte-slidy-li.drag {
 		cursor: grab;
 	}
-	.svelte-slidy ul li span {
+	.svelte-slidy-li span {
 		color: white;
 		position: absolute;
 		top: 0;
@@ -382,7 +408,7 @@
 		text-align: left;
 		box-sizing: border-box;
 	}
-	.svelte-slidy ul li img {
+	.svelte-slidy-li img {
 		width: var(--imgwidth);
 		height: 100%;
 		max-height: var(--wraph);
@@ -391,7 +417,7 @@
 		object-fit: cover;
 	}
 
-	.svelte-slidy .svelte-slidy-dots {
+	.svelte-slidy-dots {
 		display: flex;
 		flex-wrap: nowrap;
 		list-style: none;
@@ -401,18 +427,18 @@
 		bottom: 0;
 		height: 50px;
 	}
-	.svelte-slidy .svelte-slidy-dots li {
+	.svelte-slidy-dots li {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
-	.svelte-slidy .svelte-slidy-dots li.active button {
+	.svelte-slidy-dots li.active button {
 		color: red;
 	}
-	.svelte-slidy .svelte-slidy-dots.pure li {
+	.svelte-slidy-dots.pure li {
 		width: 25px;
 	}
-	.svelte-slidy .svelte-slidy-dots.pure li button {
+	.svelte-slidy-dots.pure li button {
 		border-radius: 50%;
 		color: red;
 		width: 10px;
@@ -420,16 +446,16 @@
 		line-height: 10px;
 		transition: all 250ms ease;
 	}
-	.svelte-slidy .svelte-slidy-dots li button.svelte-slidy-arrow-left,
-	.svelte-slidy .svelte-slidy-dots li button.svelte-slidy-arrow-right {
+	.svelte-slidy-dots li button.svelte-slidy-arrow-left,
+	.svelte-slidy-dots li button.svelte-slidy-arrow-right {
 		position: relative;
 	}
-	.svelte-slidy .svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
-	.svelte-slidy .svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
+	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
+	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
 		background: none;
 		width: 15px;
 	}
-	.svelte-slidy .svelte-slidy-dots.pure li.active button {
+	.svelte-slidy-dots.pure li.active button {
 		width: 15px;
 		height: 15px;
 		background: red;
@@ -453,9 +479,6 @@
 	.svelte-slidy .svelte-slidy-arrow-right,
 	.svelte-slidy .svelte-slidy-arrow-left {
 		position: absolute;
-		/* transform: translateY(-25%); */
-		/* top: 50%; */
-		/* background: rgba(0, 0, 0, 0.45); */
 		color: white;
 		cursor: pointer;
 	}
