@@ -62,6 +62,9 @@ yarn add -D slidy
 
 
 ## Customize slide skin
+
+[Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660?version=3.24.1)
+
 You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:item``` derective:
 
 ```html
@@ -116,6 +119,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
         wrap: {
             id: 'slidy_default', // custom #id for this instance Slidy
             ...
+        }
     }
 </script>
 
@@ -147,6 +151,98 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
         <li><button class="svelte-slidy-arrow-right"></button></li>
     </ul>
 </section>
+```
+
+## Media queries (not implemented yet, but...)
+I recomended use [svelte-match-media](https://github.com/pearofducks/svelte-match-media) by @pearofducks.
+
+### Instal svelte-match-media
+```bash 
+yarn add -D svelte-match-media
+```
+
+### Default settings mediaquery:
+```js
+{
+    desktop: 'screen and (min-width: 769px)',
+    mobile: 'screen and (max-width: 768px)'
+}
+```
+### Just call function ```setup()``` with default:
+
+```js
+/* main.js */
+
+import { setup } from 'svelte-match-media' // import setting function
+
+setup()
+```
+
+### or setup it in yours "root" ```main/howitcall.js``` file:
+```js
+/* main.js */
+
+import { setup } from 'svelte-match-media' // import setting function
+
+setup({
+    desktop: 'screen and (min-width: 769px)',
+    tablet: 'screen and (max-width: 768px)',
+    mobile: 'screen and (max-width: 425px)',
+    landscape: 'only screen and (orientation:landscape)',
+	portrait: 'only screen and (orientation:portrait)',
+	dark: '(prefers-color-scheme: dark)',
+	light: '(prefers-color-scheme: light)',
+	no_color: '(prefers-color-scheme: no-preference)',
+	standalone: '(display-mode: standalone)',
+	touchscreen: '(hover: none) and (pointer: coarse)',
+	pointerscreen: '(hover: hover) and (pointer: fine)',
+	short: '(max-height: 399px)',
+	tiny: '(orientation: portrait) and (max-height: 599px)',
+    //... & all what you want ;)
+})
+```
+
+### & use it in Slidy settings by importing store ```$media```:
+```html
+<script>
+    import Slidy from 'svelte-slidy' // import $media store from Slidy
+    import { media } from 'svelte-match-media'
+    ...
+
+    $: slidy_default = { 
+        ...
+        slide: {
+            width: $media.mobile ? '100%' : '50%' // rule for $media.mobile query
+        },
+        ...
+    }
+</script>
+
+<Slidy {...slidy_default} />
+```
+
+### Also you can make responsive by CSS media-queries inside default Slidy styles – rewrite it with yours unic #ID
+
+```html
+<script>
+    import Slidy from 'svelte-slidy'
+
+    $: slidy_unic = {
+        ...
+        wrap: {
+            id: 'youunicid', // custom #id for this instance Slidy
+            ...
+        }
+    }
+</script>
+
+<Slidy {...slidy_unic}/>
+
+<style>
+    @media screen and (max-width: 425px) {
+		:global(#youunicid .svelte-slidy-li) {width: 100vw;}
+	}
+</style>
 ```
 
 ## License
