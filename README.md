@@ -61,7 +61,7 @@ yarn add -D slidy
 >**!!!MPORTANT** – you need declared all the settings objects for each instance of Slidy.
 
 
-## Custome slide skin
+## Customize slide skin
 You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:item``` derective:
 
 ```html
@@ -105,7 +105,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 >**!!!MPORTANT** – slot="slide" & let:item derectives for each yours items in new skin ;). 
 
 
-## Custome default Slidy styles
+## Customize default Slidy styles
 
 ```html
 <script>
