@@ -337,7 +337,7 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-wrap: nowrap;
-		margin: 0 calc((var(--ligap) / 2) * -1);
+		margin: 0 auto;
 		padding: var(--wrappadding);
 		list-style: none;
 		align-items: center;
@@ -450,16 +450,16 @@
 		background: red;
 		color: white;
 	}
-	.svelte-slidy .svelte-slidy-arrow-right,
-	.svelte-slidy .svelte-slidy-arrow-left {
+	.svelte-slidy-arrow-right,
+	.svelte-slidy-arrow-left {
 		position: absolute;
 		color: white;
 		cursor: pointer;
 	}
-	.svelte-slidy .svelte-slidy-arrow-left {
+	.svelte-slidy-arrow-left {
 		left: 0;
 	}
-	.svelte-slidy .svelte-slidy-arrow-right {
+	.svelte-slidy-arrow-right {
 		right: 0;
 	}
 </style>
