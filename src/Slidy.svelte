@@ -29,7 +29,27 @@
 		drag: true,
 		wheel: true,
 	}
-	export let duration = 250
+	export let duration = 350
+	export let slidyGO = {
+		play: false,
+		playduration: 350,
+		prev: false,
+		next: false,
+	}
+	$: slidyGO.play ? slidyPlay() : slidyStop()
+	$: if (slidyGO.prev) {
+		slidyPrev()
+	} else if (slidyGO.next) {
+		slidyNext()
+	}
+
+	let timerId
+	function slidyPlay() {
+		timerId = setInterval(() => slidyNext(), slidyGO.playduration)
+	}
+	function slidyStop() {
+		clearInterval(timerId)
+	}
 
 	let arr = slidys
 	let dots = arr
@@ -39,33 +59,16 @@
 		active: arr[Math.floor(arr.length / 2)],
 		first: arr[0],
 		last: arr[arr.length - 1],
+		// maxwidth: arr.map((a) => a.width).reduce((p, v) => (p > v ? p : v)),
+		// minwidth: arr.map((a) => a.width).reduce((p, v) => (p < v ? p : v)),
+		// fullwidth: arr.map((a) => a.width).reduce((p, v) => p + v),
+		beforewidth: arr.map((a, i) => (i < 4 ? a.width : null)).reduce((p, v) => p + v),
+		afterwidth: arr.map((a, i) => (i > 4 ? a.width : null)).reduce((p, v) => p + v),
 	}
+	$: diff = (element.beforewidth - element.afterwidth) / 2
 
-	let domLoaded
-	function windowR() {}
-	function firstLoad() {
-		arr = slidys.map((s, i) => {
-			return {
-				num: i + 1,
-				...s,
-				width: nodes[s.id].clientWidth,
-				height: nodes[s.id].clientHeight,
-			}
-		})
-		// dots = arr
-	}
-
-	// RESIZE-OBSERVER ---------------------------------
-	let wrapCR, wrapWpx, wrapHpx
-	function resizeWrap(e) {
-		wrapCR = e.detail.cR
-		wrapWpx = e.detail.cR.width
-		wrapHpx = e.detail.cR.height
-	}
-
-	function resizeLi(e) {}
-
-	function resizeUl(e) {
+	let slidyinit = false
+	function slidyLoad() {
 		arr = slidys.map((s, i) => {
 			return {
 				num: i + 1,
@@ -75,6 +78,19 @@
 			}
 		})
 		dots = arr
+		slidyinit = true
+	}
+
+	// RESIZE-OBSERVER ---------------------------------
+	function resizeWrap(e) {
+		arr = slidys.map((s, i) => {
+			return {
+				num: i + 1,
+				...s,
+				width: nodes[s.id].clientWidth,
+				height: nodes[s.id].clientHeight,
+			}
+		})
 	}
 
 	// CONTROLS & ANIMATION -----------------------------------------------
@@ -88,11 +104,6 @@
 		duration: 0,
 		// easing: cubicIn,
 	})
-	const [send, receive] = crossfade({
-		duration: duration,
-		easing: cubicOut,
-		fallback: scale,
-	})
 
 	function prev() {
 		arr = [arr[arr.length - 1], ...arr.slice(0, -1)]
@@ -101,18 +112,16 @@
 		arr = [...arr.slice(1), arr[0]]
 	}
 
-	let itemsCount = 0
 	let sly = 0
-	function previous() {
-		itemsCount += 1
-		sly += element.last.width
+	function slidyPrev() {
+		sly += lastN
 		translate.set(sly, { duration: duration })
-		left.set(-sly, { duration: 0 })
+		left.set(-sly)
 		prev()
 	}
-	function nextious() {
+	function slidyNext() {
 		itemsCount -= 1
-		sly -= element.first.width
+		sly -= firstN
 		translate.set(sly, { duration: duration })
 		left.set(-sly)
 		next()
@@ -121,199 +130,186 @@
 	// KEYS -------------------------------------------------------
 	let key = ''
 	let keyCode = 0
-	function handleKeydown(e) {
+	function slidyKeys(e) {
 		key = e.key
 		keyCode = e.keyCode
 		if (key === 'ArrowLeft') {
-			previous()
+			slidyPrev()
 		} else if (key === 'ArrowRight') {
-			nextious()
+			slidyNext()
 		}
 	}
 
 	// SLIDY-DOT --------------------------------------------------
-	function slidyDot(id) {
+	function slidyDots(id) {
 		let i = element.active.num
 		itemsCount = 0
-		if (id > i && i !== element.last.num) {
-			i = element.active.num + 1
-			while (i <= id) {
-				nextious()
-				i++
-			}
-		} else if (id < i && i !== element.first.num) {
+		if (id < i && i !== element.first.num) {
 			i = element.active.num - 1
 			while (i >= id) {
-				previous()
+				slidyPrev()
 				i--
+			}
+		} else if (id > i && i !== element.last.num) {
+			i = element.active.num + 1
+			while (i <= id) {
+				slidyNext()
+				i++
 			}
 		}
 	}
 
 	// SLIDY -------------------------------------------------------
-	let count = 0
-	let firstN = 0
-	let lastN = 0
-	let trans = 0
+	let trans = null,
+		count = null,
+		itemsCount = null
+	$: firstN = element.first.width + slide.gap
+	$: lastN = element.last.width + slide.gap
+
 	function slidy() {
+		itemsCount = Math.round(posX / trans)
 		if (count === itemsCount) {
 			return
 		} else if (count < itemsCount) {
-			lastN = element.last.width
-			sly += lastN
-			left.set(-sly)
 			trans = lastN
+			sly += trans
+			left.set(-sly)
 			prev()
 		} else if (count > itemsCount) {
-			firstN = element.first.width
-			sly -= firstN
-			left.set(-sly)
 			trans = firstN
+			sly -= trans
+			left.set(-sly)
 			next()
 		}
 		count = itemsCount
 	}
+	// $: console.log(posX, trans, itemsCount, count)
 
 	// WHEELLING -------------------------------------------------------
-	let posX = 0
+	let posX = null
 	let isWheelling
-	function wheeling(e) {
-		posX += e.detail.dx
-		itemsCount = Math.round(-posX / trans)
-		translate.set(-posX, { duration: 0 })
+
+	function slidyWheel(e) {
+		posX += -e.detail.dx
+		translate.set(posX, { duration: 0 })
 		slidy()
 
-		window.clearTimeout(isWheelling)
-		isWheelling = setTimeout(function () {
-			count = 0
-			itemsCount = 0
-			posX = 0
-			firstN = 0
-			lastN = 0
-			sly = 0
-			trans = 0
-			translate.set(0, { duration: duration / 2, easing: cubicOut }), left.set(0, { duration: duration / 2, easing: cubicOut })
+		clearTimeout(isWheelling)
+		isWheelling = setTimeout(() => {
+			itemsCount = count = posX = sly = 0
+			translate.set(0, { duration: duration / 2 })
+			left.set(0, { duration: duration / 2 })
 		}, duration / 2)
 	}
 
 	// DRAG -------------------------------------------------------
-	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 })
 	let mD = false
-	let posXDiffrence = 0
 	let htx
 	let tracker
 	let speedDrag = 0
 
 	function dragStart(e) {
 		mD = true
-		count = 0
-		itemsCount = 0
-		sly = 0
-		firstN = 0
-		lastN = 0
+		itemsCount = count = posX = sly = 0
 		left.set(0)
-		coords.set({ x: 0, y: 0 })
 		translate.set(0, { duration: 0 })
-		coords.stiffness = coords.damping = 1
-		e.target.style.setProperty('transition', 'none')
 	}
 	function dragSlide(e) {
 		if (mD) {
-			coords.update(($coords) => ({
-				x: $coords.x + e.detail.dx,
-				y: $coords.y + e.detail.dy,
-			}))
-			posXDiffrence = $coords.x
-			itemsCount = Math.round(posXDiffrence / trans)
-			translate.set(posXDiffrence, { duration: 0 })
-
-			e.target.style.setProperty('user-select', $coords.x !== 0 ? 'none' : null)
-			e.target.style.setProperty('pointer-events', $coords.x !== 0 ? 'none' : null)
+			posX += e.detail.dx
+			translate.set(posX, { duration: 0 })
+			e.target.style.setProperty('user-select', posX !== 0 ? 'none' : null)
+			e.target.style.setProperty('-webkit-user-select', posX !== 0 ? 'none' : null)
+			e.target.style.setProperty('pointer-events', posX !== 0 ? 'none' : null)
 			slidy()
-			let time = duration
-			tracker = setInterval(function () {
-				htx = posXDiffrence
-			}, time)
-			speedDrag = (htx - posXDiffrence) / time
+			tracker = setInterval(() => (htx = posX), duration)
+			speedDrag = (htx - posX) / duration
 		}
 	}
 	function dragStop(e) {
-		// coords.stiffness = 0.2
-		// coords.damping = 0.4
-		// coords.set({ x: 0, y: 0 })
 		mD = false
-		// posXDiffrence = 0
-		// count = 0
-		// itemsCount = 0
-		// sly = 0
-		// clearInterval(tracker)
-		if (speedDrag < -0.025) {
-			previous(), (speedDrag = 0), clearInterval(tracker)
-		} else if (speedDrag > 0.025) {
-			nextious(), (speedDrag = 0), clearInterval(tracker)
+		if (speedDrag < -0.015) {
+			clearInterval(tracker)
+			slidyPrev()
+			// speedDrag = itemsCount = count = posX = sly = 0
+		} else if (speedDrag > 0.015) {
+			clearInterval(tracker)
+			slidyNext()
+			// speedDrag = itemsCount = count = posX = sly = 0
 		} else {
-			translate.set(0, { duration: duration / 2 }), left.set(0, { duration: duration / 2 }), clearInterval(tracker)
+			clearInterval(tracker)
+			translate.set(0, { duration: duration / 2 })
+			left.set(0, { duration: duration / 2 })
+			itemsCount = count = posX = sly = 0
 		}
-		e.target.style.setProperty('user-select', $coords.x !== 0 ? 'inherit' : null)
-		e.target.style.setProperty('pointer-events', $coords.x !== 0 ? 'inherit' : null)
+		e.target.style.setProperty('user-select', posX !== 0 ? 'inherit' : null)
+		e.target.style.setProperty('-webkit-user-select', posX !== 0 ? 'inherit' : null)
+		e.target.style.setProperty('pointer-events', posX !== 0 ? 'inherit' : null)
 	}
 </script>
 
-<svelte:window on:load="{firstLoad}" on:resize="{windowR}" on:keydown="{controls.keys ? handleKeydown : ''}" />
-<svelte:body on:touchstart|preventDefault />
+<svelte:window on:load="{slidyLoad}" on:keydown="{controls.keys ? slidyKeys : ''}" />
 
-<section id="{wrap.id}" class="svelte-slidy" use:wheel on:wheels="{controls.wheel ? wheeling : ''}" style="--wrapwidth: {wrap.width}; --wrapheight: {wrap.height};">
+<section
+	class="svelte-slidy"
+	use:resizeobserver
+	on:resizeob="{resizeWrap}"
+	id="{wrap.id}"
+	use:wheel
+	on:wheels="{controls.wheel ? slidyWheel : null}"
+	style="--wrapwidth: {wrap.width}; --wrapheight: {wrap.height};"
+>
 	<ul
 		class="svelte-slidy-ul"
-		use:resizeobserver
-		on:resizeob="{resizeUl}"
 		use:pannable
 		on:panstart="{controls.drag ? dragStart : ''}"
 		on:panmove="{controls.drag ? dragSlide : ''}"
 		on:panend="{controls.drag ? dragStop : ''}"
 		on:contextmenu="{() => (mD = false)}"
-		style="--ulwidth: {wrap.width}; --ulheight: {wrap.height}; --wrappadding: {wrap.padding}; --left: {$left}px; --transformx: {$translate}px;"
+		style="--wrappadding: {wrap.padding}; --left: {$left}px; --transformx: {$translate - diff}px;"
 	>
-		{#each arr as item (item.id)}
-			<li
-				bind:this="{nodes[item.id]}"
-				class="svelte-slidy-li"
-				class:active="{item.id === element.active.id}"
-				class:first="{item.id === element.first.id}"
-				class:last="{item.id === element.last.id}"
-				class:drag="{controls.drag ? true : false}"
-				style="--liwidth:{slide.width}; --ligap:{slide.gap / 2}px; --liheight: {slide.height};"
-			>
-				<slot name="slide" {item}>
-					<img alt="{item.id}" src="{item.src}" style="--imgwidth: {slide.width === 'auto' ? 'auto' : '100%'}" onmousedown="if (event.preventDefault) event.preventDefault()" />
-					<span>
-						<strong>{item.num}</strong>
-						<sub>{item.width - slide.gap}x{item.height}</sub>
-					</span>
-				</slot>
-			</li>
-		{/each}
+		{#if arr.length > 0}
+			{#each arr as item, i (item.id)}
+				<li
+					bind:this="{nodes[item.id]}"
+					class="svelte-slidy-li"
+					class:active="{item.id === element.active.id}"
+					class:first="{item.id === element.first.id}"
+					class:last="{item.id === element.last.id}"
+					class:drag="{controls.drag ? true : false}"
+					style="--liwidth:{slide.width}; --ligap:{slide.gap / 2}px; --liheight: {slide.height};"
+				>
+					<slot name="slide" {item}>
+						<img alt="{item.id}" src="{item.src}" style="--imgwidth: {slide.width === 'auto' ? 'auto' : '100%'}" onmousedown="if (event.preventDefault) event.preventDefault()" />
+						<span>
+							<strong>{item.num} {i}</strong>
+							<sub>{item.width}x{item.height}</sub>
+						</span>
+					</slot>
+				</li>
+			{/each}
+		{/if}
 	</ul>
 	{#if controls.arrows}
-		<button class="svelte-slidy-arrow-left" on:click="{() => previous()}">&#8592;</button>
-		<button class="svelte-slidy-arrow-right" on:click="{() => nextious()}">&#8594;</button>
+		<button class="svelte-slidy-arrow-left" on:click="{() => slidyPrev()}">&#8592;</button>
+		<button class="svelte-slidy-arrow-right" on:click="{() => slidyNext()}">&#8594;</button>
 	{/if}
 
 	{#if controls.dots}
 		<ul class="svelte-slidy-dots" class:pure="{controls.dotspure}">
 			{#if controls.dotsarrow}
 				<li>
-					<button class="svelte-slidy-arrow-left" on:click="{() => previous()}">&#8592;</button>
+					<button class="svelte-slidy-arrow-left" on:click="{() => slidyPrev()}">&#8592;</button>
 				</li>
 			{/if}
 			{#each dots as dot (dot.id)}
 				<li class:active="{dot.id === element.active.id}">
-					<button on:click="{() => slidyDot(dot.num)}">{controls.dotsnum && !controls.dotspure ? dot.num : ''}</button>
+					<button on:click="{() => slidyDots(dot.num)}">{controls.dotsnum && !controls.dotspure ? dot.num : ''}</button>
 				</li>
 			{/each}
 			{#if controls.dotsarrow}
 				<li>
-					<button class="svelte-slidy-arrow-right" on:click="{() => nextious()}">&#8594;</button>
+					<button class="svelte-slidy-arrow-right" on:click="{() => slidyNext()}">&#8594;</button>
 				</li>
 			{/if}
 		</ul>
@@ -323,8 +319,9 @@
 <style>
 	.svelte-slidy {
 		display: flex;
+		flex-flow: column;
+		flex-shrink: 0;
 		align-items: center;
-		width: 100%;
 		position: relative;
 		overflow-x: hidden;
 		justify-content: center;
@@ -342,26 +339,27 @@
 		list-style: none;
 		align-items: center;
 		justify-content: center;
-		height: var(--ulheight);
+		height: 100%;
+		width: 100%;
 		user-select: none;
 		touch-action: pan-y;
 		will-change: transform;
 		position: relative;
 		left: var(--left);
-		width: var(--ulwidth);
 		transform: translate3d(var(--transformx), 0, 0);
 		-webkit-transform: translate3d(var(--transformx), 0, 0);
 	}
 	.svelte-slidy-li {
 		flex: none;
+		max-width: 100%;
 		width: var(--liwidth);
 		height: var(--liheight);
 		max-height: var(--ulheight);
-		padding: 0 var(--ligap);
-		box-sizing: content-box;
+		margin: 0 var(--ligap);
+		box-sizing: border-box;
 		position: relative;
 		justify-content: center;
-		touch-action: none;
+		/* touch-action: none; */
 	}
 	.svelte-slidy-li.active {
 		color: red;
@@ -378,7 +376,7 @@
 		top: 0;
 		left: 0;
 		padding: 1em;
-		background: rgba(0, 0, 0, 0.45);
+		background: rgba(0, 0, 0, 0.18);
 		text-align: left;
 		box-sizing: border-box;
 	}
@@ -394,6 +392,9 @@
 	.svelte-slidy-dots {
 		display: flex;
 		flex-wrap: nowrap;
+		flex-shrink: 0;
+		justify-content: center;
+		align-items: center;
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -408,9 +409,14 @@
 	}
 	.svelte-slidy-dots li.active button {
 		color: red;
+		outline: 0;
+	}
+	.svelte-slidy-dots.pure {
+		position: relative;
 	}
 	.svelte-slidy-dots.pure li {
 		width: 25px;
+		height: 25px;
 	}
 	.svelte-slidy-dots.pure li button {
 		border-radius: 50%;
@@ -418,11 +424,9 @@
 		width: 10px;
 		height: 10px;
 		line-height: 10px;
-		transition: all 250ms ease;
-	}
-	.svelte-slidy-dots li button.svelte-slidy-arrow-left,
-	.svelte-slidy-dots li button.svelte-slidy-arrow-right {
-		position: relative;
+		transition: color 250ms ease, width 250ms ease, height 250ms ease;
+		outline: none;
+		box-shadow: none;
 	}
 	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
 	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
@@ -443,23 +447,30 @@
 		height: 50px;
 		line-height: 50px;
 		color: white;
-		background: rgba(0, 0, 0, 0.45);
+		background: rgba(0, 0, 0, 0.18);
 		cursor: pointer;
+		outline: 0;
+		overflow: hidden;
 	}
 	.svelte-slidy button:active {
 		background: red;
 		color: white;
+		outline: 0;
 	}
-	.svelte-slidy-arrow-right,
-	.svelte-slidy-arrow-left {
+	.svelte-slidy .svelte-slidy-arrow-right,
+	.svelte-slidy .svelte-slidy-arrow-left {
 		position: absolute;
 		color: white;
 		cursor: pointer;
 	}
-	.svelte-slidy-arrow-left {
+	.svelte-slidy .svelte-slidy-arrow-left {
 		left: 0;
 	}
-	.svelte-slidy-arrow-right {
+	.svelte-slidy .svelte-slidy-arrow-right {
 		right: 0;
+	}
+	.svelte-slidy-dots li button.svelte-slidy-arrow-left,
+	.svelte-slidy-dots li button.svelte-slidy-arrow-right {
+		position: relative;
 	}
 </style>

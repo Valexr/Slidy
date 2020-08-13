@@ -244,6 +244,37 @@ setup({
 	}
 </style>
 ```
+## External controls!
+
+[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae?version=3.24.1)
+
+You can controls yours Slidy instance externamlly from parent component:
+
+```html
+<script>
+    import Slidy from 'svelte-slidy'
+
+    $: slidy_unic = {
+        ...
+        slidyGO: { // new portion settings for external controls Slidy instance )))
+            prev: false,
+            play: false,
+            playduration: 350, // duration only for slidyPlay() external function
+			next: false,
+        }
+    }
+
+    function slidy_unicGOplay() { // any name what you like & inside you have prop for controls unic instance Slidy
+		slidy_unic.slidyGO.play = !slidy_unic.slidyGO.play
+	}
+</script>
+
+<button on:click="{slidy_unicGOplay}">{slidy_unic.slidyGO.play ? 'STOP' : 'PLAY'}</button> <!--just call function from any you like element on the page -->
+
+<Slidy {...slidy_unic}/>
+``
+
+Let`s slidyGO! ...tnx
 
 ## License
 
