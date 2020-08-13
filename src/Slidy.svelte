@@ -45,7 +45,7 @@
 
 	let timerId
 	function slidyPlay() {
-		timerId = setInterval(() => slidyNext(), slidyGO.playduration)
+		timerId = setInterval(() => slidyNext(slidyGO.playduration), slidyGO.playduration)
 	}
 	function slidyStop() {
 		clearInterval(timerId)
@@ -113,16 +113,16 @@
 	}
 
 	let sly = 0
-	function slidyPrev() {
+	function slidyPrev(dur = duration) {
 		sly += lastN
-		translate.set(sly, { duration: duration })
+		translate.set(sly, { duration: dur })
 		left.set(-sly)
 		prev()
 	}
-	function slidyNext() {
+	function slidyNext(dur = duration) {
 		itemsCount -= 1
 		sly -= firstN
-		translate.set(sly, { duration: duration })
+		translate.set(sly, { duration: dur })
 		left.set(-sly)
 		next()
 	}
