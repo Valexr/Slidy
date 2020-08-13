@@ -72,9 +72,9 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
     import Slidy from 'svelte-slidy'
 
     const local = [
-        { 
-            id: 1, 
-            src: 'img/img.webp', 
+        {
+            id: 1,
+            src: 'img/img.webp',
             header: 'What is Slidy?',
             text: 'SLIDY – simple configurable carousel component on SvelteJS.' },
         ...
@@ -105,7 +105,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
->**!!!MPORTANT** – slot="slide" & let:item derectives for each yours items in new skin ;). 
+>**!!!MPORTANT** – slot="slide" & let:item derectives for each yours items in new skin ;).
 
 
 ## Customize default Slidy styles
@@ -157,7 +157,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 I recomended use [svelte-match-media](https://github.com/pearofducks/svelte-match-media) by @pearofducks.
 
 ### Instal svelte-match-media
-```bash 
+```bash
 yarn add -D svelte-match-media
 ```
 
@@ -189,15 +189,15 @@ setup({
     tablet: 'screen and (max-width: 768px)',
     mobile: 'screen and (max-width: 425px)',
     landscape: 'only screen and (orientation:landscape)',
-	portrait: 'only screen and (orientation:portrait)',
-	dark: '(prefers-color-scheme: dark)',
-	light: '(prefers-color-scheme: light)',
-	no_color: '(prefers-color-scheme: no-preference)',
-	standalone: '(display-mode: standalone)',
-	touchscreen: '(hover: none) and (pointer: coarse)',
-	pointerscreen: '(hover: hover) and (pointer: fine)',
-	short: '(max-height: 399px)',
-	tiny: '(orientation: portrait) and (max-height: 599px)',
+    portrait: 'only screen and (orientation:portrait)',
+    dark: '(prefers-color-scheme: dark)',
+    light: '(prefers-color-scheme: light)',
+    no_color: '(prefers-color-scheme: no-preference)',
+    standalone: '(display-mode: standalone)',
+    touchscreen: '(hover: none) and (pointer: coarse)',
+    pointerscreen: '(hover: hover) and (pointer: fine)',
+    short: '(max-height: 399px)',
+    tiny: '(orientation: portrait) and (max-height: 599px)',
     //... & all what you want ;)
 })
 ```
@@ -209,7 +209,7 @@ setup({
     import { media } from 'svelte-match-media'
     ...
 
-    $: slidy_default = { 
+    $: slidy_default = {
         ...
         slide: {
             width: $media.mobile ? '100%' : '50%' // rule for $media.mobile query
@@ -240,8 +240,8 @@ setup({
 
 <style>
     @media screen and (max-width: 425px) {
-		:global(#youunicid .svelte-slidy-li) {width: 100vw;}
-	}
+        :global(#youunicid .svelte-slidy-li) {width: 100vw;}
+    }
 </style>
 ```
 ## External controls!
@@ -260,19 +260,19 @@ You can controls yours Slidy instance externamlly from parent component:
             prev: false,
             play: false,
             playduration: 350, // duration only for slidyPlay() external function
-			next: false,
+            next: false,
         }
     }
 
     function slidy_unicGOplay() { // any name what you like & inside you have prop for controls unic instance Slidy
-		slidy_unic.slidyGO.play = !slidy_unic.slidyGO.play
-	}
+        slidy_unic.slidyGO.play = !slidy_unic.slidyGO.play
+    }
 </script>
 
 <button on:click="{slidy_unicGOplay}">{slidy_unic.slidyGO.play ? 'STOP' : 'PLAY'}</button> <!--just call function from any you like element on the page -->
 
 <Slidy {...slidy_unic}/>
-``
+```
 
 Let`s slidyGO! ...tnx
 

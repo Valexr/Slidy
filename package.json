@@ -1,7 +1,7 @@
 {
   "name": "svelte-slidy",
   "description": "Simple configurable carousel component on SvelteJS",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "keywords": [
     "Svelte",
     "SvelteJs",
