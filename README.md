@@ -4,7 +4,8 @@
 
 ## Features
 [**!!! New external controls**](#external)   
-[**!!! New internal option thumbs**](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
+[**!!! New internal option thumbs**](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
+[**!!! New internal option shift + mousewheel**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Site
 [**https://valexr.github.io/slidy-site/**](https://valexr.github.io/slidy-site/)
