@@ -1,6 +1,8 @@
 # SLIDY – simple configurable carousel component on SvelteJS.
 
-[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)
+[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)  
+[**8.6kb** gzip](https://bundlephobia.com/result?p=svelte-slidy "bundlephobia.com")
+
 
 ## Changelog
 - [New external controls](#external)   
