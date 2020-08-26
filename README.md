@@ -2,10 +2,10 @@
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)
 
-## Features
-[**!!! New external controls**](#external)   
-[**!!! New internal option thumbs**](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
-[**!!! New internal option shift + mousewheel**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+## Changelog
+- [New external controls](#external)   
+- [Internal option thumbs](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
+- [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Site
 [**https://valexr.github.io/slidy-site/**](https://valexr.github.io/slidy-site/)
@@ -174,6 +174,29 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </section>
 ```
 
+## <a name="external"></a> !!! NEW External controls 
+
+[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
+
+You can controls yours Slidy instance externally from parent component:
+
+```html
+<script>
+    import Slidy from 'svelte-slidy'
+
+    $: slidy_unic = {
+        ...
+    }
+
+    let index = 5 // declarate yours prop, if it not empty, onmount this number will be active slide
+</script>
+
+<button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
+
+<Slidy {...slidy_unic} bind:slidyx={index}/> <!-- Just bind:slidyx – dinamic prop for current active slide to yours prop -->
+```
+
+
 ## Media queries (not implemented yet, but...)
 I recomended use [svelte-match-media](https://github.com/pearofducks/svelte-match-media) by @pearofducks.
 
@@ -264,27 +287,6 @@ setup({
         :global(#youunicid .svelte-slidy-ul li) {width: 100vw;}
     }
 </style>
-```
-## <a name="external"></a> !!! NEW External controls 
-
-[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
-
-You can controls yours Slidy instance externally from parent component:
-
-```html
-<script>
-    import Slidy from 'svelte-slidy'
-
-    $: slidy_unic = {
-        ...
-    }
-
-    let index = 5 // declarate yours props, if it not empty, onmount this number will be active slide
-</script>
-
-<button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
-
-<Slidy {...slidy_unic} bind:slidyx={youindex}/> <!-- Just bind:slidyx – dinamicly props for current active slide -->
 ```
 
 Let`s slidyGO! ...tnx
