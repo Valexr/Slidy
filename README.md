@@ -1,12 +1,12 @@
 # SLIDY – simple configurable carousel component on SvelteJS.
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)  
-[**8.6kb** gzip](https://bundlephobia.com/result?p=svelte-slidy "bundlephobia.com")
+[**7.5kb** gzip](https://bundlephobia.com/result?p=svelte-slidy "bundlephobia.com")
 
 
 ## Changelog
 - [New external controls](#external)   
-- [Internal option thumbs](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
+- [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Site
@@ -52,13 +52,18 @@ yarn add -D slidy
             dotsnum: true,
             dotsarrow: true,
             dotspure: false,
-            dotsthumbs: false, // new future in 2.0
             arrows: true,
             keys: true,
             drag: true,
             wheel: true,
         },
         duration: 250,
+        loader: {
+            color: 'red',
+            size: 75,
+            speed: duration,
+            thickness: 1,
+        }
     } // slidy settings for current instance
 </script>
 

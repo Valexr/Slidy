@@ -3,7 +3,6 @@
     import { pannable } from './actions/pannable.js'
     import { resizeobserver } from './actions/resizeobserver.js'
     import Spinner from './Spinner.svelte'
-    import Svg from './Svg.svelte'
 
     export let slidys = []
     export let wrap = {
@@ -22,13 +21,18 @@
         dotsnum: true,
         dotsarrow: true,
         dotspure: false,
-        dotsthumbs: false,
         arrows: true,
         keys: true,
         drag: true,
         wheel: true,
     }
     export let duration = 350
+    export let loader = {
+        color: 'red',
+        size: 75,
+        speed: duration,
+        thickness: 1,
+    }
     export let slidyx = Math.round(slidys.length / 2)
 
     $: slidyinit && slidyTo(slidyx)
@@ -251,7 +255,7 @@
 >
     {#if !slidyinit}
         <slot name="loader">
-            <Spinner size="75" speed="750" color="red" thickness="1" gap="25" />
+            <Spinner size="{loader.size}" speed="{loader.speed}" color="{loader.color}" thickness="{loader.thickness}" gap="25" />
         </slot>
     {/if}
 
@@ -279,42 +283,34 @@
 
     {#if controls.arrows && slidyinit}
         <button class="svelte-slidy-arrow-left" on:click="{(e) => slidyx--}">
-            <slot name="arrow-left">
-                <Svg name="{'slidy-chevron-left'}" />
-            </slot>
+            <slot name="arrow-left">&#8592;</slot>
         </button>
         <button class="svelte-slidy-arrow-right" on:click="{(e) => slidyx++}">
-            <slot name="arrow-right">
-                <Svg name="{'slidy-chevron-right'}" />
-            </slot>
+            <slot name="arrow-right">&#8594;</slot>
         </button>
     {/if}
 
     {#if controls.dots && slidyinit}
         <ul class="svelte-slidy-dots" class:pure="{controls.dotspure}" class:thumbs="{controls.dotsthumbs}">
             {#if controls.dotsarrow}
-                <li>
-                    <button class="svelte-slidy-arrow-left" on:click="{(e) => slidyx--}">
-                        <slot name="dots-arrow-letf">
-                            <Svg name="{'slidy-arrow-left'}" />
-                        </slot>
-                    </button>
+                <li on:click="{(e) => slidyx--}">
+                    <slot name="dots-arrow-left">
+                        <button class="svelte-slidy-arrow-left">&#8592;</button>
+                    </slot>
                 </li>
             {/if}
             {#each dots as dot (dot.id)}
                 <li class:active="{dot.id === element.active.id}" on:click="{() => (slidyx = dot.ix)}">
                     <slot name="slidy-dot" {dot}>
-                        <button style="{controls.dotsthumbs ? `background-image: url(${dot.src})` : null}">{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
+                        <button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
                     </slot>
                 </li>
             {/each}
             {#if controls.dotsarrow}
-                <li>
-                    <button class="svelte-slidy-arrow-right" on:click="{(e) => slidyx++}">
-                        <slot name="dots-arrow-right">
-                            <Svg name="{'slidy-arrow-right'}" />
-                        </slot>
-                    </button>
+                <li on:click="{(e) => slidyx++}">
+                    <slot name="dots-arrow-right">
+                        <button class="svelte-slidy-arrow-right">&#8594;</button>
+                    </slot>
                 </li>
             {/if}
         </ul>
@@ -415,18 +411,6 @@
     .svelte-slidy-dots.pure li.active button {
         transform: scale(1.8);
         background: red;
-    }
-    .svelte-slidy-dots.thumbs li button {
-        width: 100px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        filter: grayscale(1) opacity(0.45);
-        transition: filter var(--duration);
-    }
-    .svelte-slidy-dots.thumbs li:hover button,
-    .svelte-slidy-dots.thumbs li.active button {
-        filter: grayscale(0) opacity(1);
     }
     .svelte-slidy button {
         margin: 0;
