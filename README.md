@@ -2,11 +2,15 @@
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)
 
+## Features
+[**!!! New external controls**](#external)   
+[**!!! New internal option thumbs**](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
+
 ## Site
 [**https://valexr.github.io/slidy-site/**](https://valexr.github.io/slidy-site/)
 
 ## Playground
-[**https://svelte.dev/repl/**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd?version=3.24.1)
+[**https://svelte.dev/repl/**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Install
 
@@ -45,6 +49,7 @@ yarn add -D slidy
             dotsnum: true,
             dotsarrow: true,
             dotspure: false,
+            dotsthumbs: false, // new future in 2.0
             arrows: true,
             keys: true,
             drag: true,
@@ -63,7 +68,7 @@ yarn add -D slidy
 
 ## Customize slide skin
 
-[Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660?version=3.24.1)
+[Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
 
 You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:item``` derective:
 
@@ -132,23 +137,38 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
-## Slidy nodes tree
+## Slidy nodes tree & slots for customize
 
 ```html
 <section id="yours custom #id" class="svelte-slidy">
+    <slot name="loader"> <!--for yours custom loader -->
     <ul class="svelte-slidy-ul">
-        <li class="svelte-slidy-li">
+        <li>
             <slot name="slide" {item}> <!--for yours custom slide skin -->
         </li>
     </ul>
-    <button class="svelte-slidy-arrow-left"></button>
-    <button class="svelte-slidy-arrow-right"></button>
+    <button class="svelte-slidy-arrow-left">
+        <slot name="arrow-left"> <!--for yours custom arrow-left -->
+    </button>
+    <button class="svelte-slidy-arrow-right">
+        <slot name="arrow-right"> <!--for yours custom arrow-right -->
+    </button>
     <ul class="svelte-slidy-dots">
-        <li><button class="svelte-slidy-arrow-left"></button></li>
         <li>
-            <button></button>
+            <button class="svelte-slidy-arrow-left">
+                <slot name="dots-arrow-left"> <!--for yours custom dots-arrow-left -->
+            </button>
         </li>
-        <li><button class="svelte-slidy-arrow-right"></button></li>
+        <li>
+            <button>
+                <slot name="dot"> <!--for yours custom dot -->
+            </button>
+        </li>
+        <li>
+            <button class="svelte-slidy-arrow-right">
+                <slot name="dots-arrow-right"> <!--for yours custom dots-arrow-right -->
+            </button>
+        </li>
     </ul>
 </section>
 ```
@@ -240,15 +260,15 @@ setup({
 
 <style>
     @media screen and (max-width: 425px) {
-        :global(#youunicid .svelte-slidy-li) {width: 100vw;}
+        :global(#youunicid .svelte-slidy-ul li) {width: 100vw;}
     }
 </style>
 ```
-## External controls!
+## <a name="external"></a> !!! NEW External controls 
 
-[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae?version=3.24.1)
+[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
 
-You can controls yours Slidy instance externamlly from parent component:
+You can controls yours Slidy instance externally from parent component:
 
 ```html
 <script>
@@ -256,22 +276,14 @@ You can controls yours Slidy instance externamlly from parent component:
 
     $: slidy_unic = {
         ...
-        slidyGO: { // new portion settings for external controls Slidy instance )))
-            prev: false,
-            play: false,
-            playduration: 350, // duration only for slidyPlay() external function
-            next: false,
-        }
     }
 
-    function slidy_unicGOplay() { // any name what you like & inside you have prop for controls unic instance Slidy
-        slidy_unic.slidyGO.play = !slidy_unic.slidyGO.play
-    }
+    let index = 5 // declarate yours props, if it not empty, onmount this number will be active slide
 </script>
 
-<button on:click="{slidy_unicGOplay}">{slidy_unic.slidyGO.play ? 'STOP' : 'PLAY'}</button> <!--just call function from any you like element on the page -->
+<button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
 
-<Slidy {...slidy_unic}/>
+<Slidy {...slidy_unic} bind:slidyx={youindex}/> <!-- Just bind:slidyx – dinamicly props for current active slide -->
 ```
 
 Let`s slidyGO! ...tnx

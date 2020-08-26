@@ -1,6 +1,5 @@
 export function pannable(node) {
-    let x;
-    let y;
+    let x = 0, y = 0
 
     function unify(e) { return e.changedTouches ? e.changedTouches[0] : e };
 
@@ -12,10 +11,10 @@ export function pannable(node) {
             detail: { x, y }
         }));
 
-        window.addEventListener('mousemove', handleMousemove, false);
-        window.addEventListener('mouseup', handleMouseup, false);
-        window.addEventListener('touchmove', handleMousemove, false);
-        window.addEventListener('touchend', handleMouseup, false);
+        node.addEventListener('mousemove', handleMousemove);
+        node.addEventListener('mouseup', handleMouseup);
+        node.addEventListener('touchmove', handleMousemove);
+        node.addEventListener('touchend', handleMouseup);
     }
 
     function handleMousemove(e) {
@@ -23,6 +22,9 @@ export function pannable(node) {
         const dy = unify(e).clientY - y;
         x = unify(e).clientX;
         y = unify(e).clientY;
+        if (dx !== 0) {
+            e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+        }
 
         node.dispatchEvent(new CustomEvent('panmove', {
             detail: { x, y, dx, dy }
@@ -37,14 +39,14 @@ export function pannable(node) {
             detail: { x, y }
         }));
 
-        window.removeEventListener('mousemove', handleMousemove);
-        window.removeEventListener('mouseup', handleMouseup);
-        window.removeEventListener('touchmove', handleMousemove);
-        window.removeEventListener('touchend', handleMouseup);
+        node.removeEventListener('mousemove', handleMousemove);
+        node.removeEventListener('mouseup', handleMouseup);
+        node.removeEventListener('touchmove', handleMousemove);
+        node.removeEventListener('touchend', handleMouseup);
     }
 
-    node.addEventListener('mousedown', handleMousedown, false);
-    node.addEventListener('touchstart', handleMousedown, false);
+    node.addEventListener('mousedown', handleMousedown);
+    node.addEventListener('touchstart', handleMousedown);
 
     return {
         destroy() {

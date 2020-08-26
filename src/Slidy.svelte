@@ -1,476 +1,469 @@
 <script>
-	import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte'
-	import { spring, tweened } from 'svelte/motion'
-	import { cubicOut, cubicIn, expoInOut, sineInOut, quintOut, expoOut } from 'svelte/easing'
-	import { fly, fade, scale, crossfade } from 'svelte/transition'
-	import { pannable } from './actions/pannable.js'
-	import { wheel } from './actions/wheel.js'
-	import { resizeobserver } from './actions/resizeobserver.js'
+    import { wheel } from './actions/wheel.js'
+    import { pannable } from './actions/pannable.js'
+    import { resizeobserver } from './actions/resizeobserver.js'
+    import Spinner from './Spinner.svelte'
+    import Svg from './Svg.svelte'
 
-	export let slidys = []
-	export let wrap = {
-		id: null,
-		width: '100%',
-		height: '50vh',
-		padding: '0',
-	}
-	export let slide = {
-		gap: 0,
-		width: 'auto',
-		height: '100%',
-	}
-	export let controls = {
-		dots: true,
-		dotsnum: true,
-		dotsarrow: true,
-		dotspure: false,
-		arrows: true,
-		keys: true,
-		drag: true,
-		wheel: true,
-	}
-	export let duration = 350
-	export let slidyGO = {
-		play: false,
-		playduration: 350,
-		prev: false,
-		next: false,
-	}
-	$: slidyGO.play ? slidyPlay() : slidyStop()
-	$: if (slidyGO.prev) {
-		slidyPrev()
-	} else if (slidyGO.next) {
-		slidyNext()
-	}
+    export let slidys = []
+    export let wrap = {
+        id: null,
+        width: '100%',
+        height: '50vh',
+        padding: '0',
+    }
+    export let slide = {
+        gap: 0,
+        width: 'auto',
+        height: '100%',
+    }
+    export let controls = {
+        dots: true,
+        dotsnum: true,
+        dotsarrow: true,
+        dotspure: false,
+        dotsthumbs: false,
+        arrows: true,
+        keys: true,
+        drag: true,
+        wheel: true,
+    }
+    export let duration = 350
+    export let slidyx = Math.round(slidys.length / 2)
 
-	let timerId
-	function slidyPlay() {
-		timerId = setInterval(() => slidyNext(slidyGO.playduration), slidyGO.playduration)
-	}
-	function slidyStop() {
-		clearInterval(timerId)
-	}
+    $: slidyinit && slidyTo(slidyx)
 
-	let arr = slidys
-	let dots = arr
-	let nodes = []
-	$: element = {
-		all: arr.length,
-		active: arr[Math.floor(arr.length / 2)],
-		first: arr[0],
-		last: arr[arr.length - 1],
-		// maxwidth: arr.map((a) => a.width).reduce((p, v) => (p > v ? p : v)),
-		// minwidth: arr.map((a) => a.width).reduce((p, v) => (p < v ? p : v)),
-		// fullwidth: arr.map((a) => a.width).reduce((p, v) => p + v),
-		beforewidth: arr.map((a, i) => (i < 4 ? a.width : null)).reduce((p, v) => p + v),
-		afterwidth: arr.map((a, i) => (i > 4 ? a.width : null)).reduce((p, v) => p + v),
-	}
-	$: diff = (element.beforewidth - element.afterwidth) / 2
+    function slidyTo(i) {
+        if (i < 1) {
+            slidyx = arr.length
+            slidyIndex(i)
+        } else if (i > arr.length) {
+            slidyx = 1
+            slidyIndex(i)
+        } else {
+            slidyIndex(i)
+        }
+    }
 
-	let slidyinit = false
-	function slidyLoad() {
-		arr = slidys.map((s, i) => {
-			return {
-				num: i + 1,
-				...s,
-				width: nodes[s.id].clientWidth,
-				height: nodes[s.id].clientHeight,
-			}
-		})
-		dots = arr
-		slidyinit = true
-	}
+    // SLIDY-INIT ---------------------------------------------------
+    let arr = slidys,
+        dots = arr,
+        nodes = []
 
-	// RESIZE-OBSERVER ---------------------------------
-	function resizeWrap(e) {
-		arr = slidys.map((s, i) => {
-			return {
-				num: i + 1,
-				...s,
-				width: nodes[s.id].clientWidth,
-				height: nodes[s.id].clientHeight,
-			}
-		})
-	}
+    $: element = {
+        active: arr[Math.floor(arr.length / 2)],
+        activewidth: arr[Math.floor(arr.length / 2)].width + slide.gap,
+        first: arr[0],
+        firstwidth: arr[0].width + slide.gap,
+        last: arr[arr.length - 1],
+        lastwidth: arr[arr.length - 1].width + slide.gap,
+        beforewidth: arr.map((a, i) => (i < Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+        afterwidth: arr.map((a, i) => (i > Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+    }
+    $: diff = (element.beforewidth - element.afterwidth) / 2
 
-	// CONTROLS & ANIMATION -----------------------------------------------
-	const translate = tweened(0, {
-		delay: 0,
-		duration: duration,
-		// easing: cubicOut,
-	})
-	const left = tweened(0, {
-		delay: 0,
-		duration: 0,
-		// easing: cubicIn,
-	})
+    let slidyinit = false
+    function slidyLoad() {
+        arr = slidys.map((s, i) => {
+            return {
+                ix: i + 1,
+                ...s,
+                width: nodes[s.id].clientWidth,
+                height: nodes[s.id].clientHeight,
+            }
+        })
+        dots = arr
+        slidyinit = true
+    }
 
-	function prev() {
-		arr = [arr[arr.length - 1], ...arr.slice(0, -1)]
-	}
-	function next() {
-		arr = [...arr.slice(1), arr[0]]
-	}
+    // RESIZE-OBSERVER ----------------------------------------------
+    function resizeWrap(e) {
+        arr = slidys.map((s, i) => {
+            return {
+                ix: i + 1,
+                ...s,
+                width: nodes[s.id].clientWidth,
+                height: nodes[s.id].clientHeight,
+            }
+        })
+    }
 
-	let sly = 0
-	function slidyPrev(dur = duration) {
-		sly += lastN
-		translate.set(sly, { duration: dur })
-		left.set(-sly)
-		prev()
-	}
-	function slidyNext(dur = duration) {
-		itemsCount -= 1
-		sly -= firstN
-		translate.set(sly, { duration: dur })
-		left.set(-sly)
-		next()
-	}
+    // CONTROLS & ANIMATION -----------------------------------------
+    let sly = 0,
+        posx = 0,
+        left = 0,
+        translate = 0,
+        transition = 0
 
-	// KEYS -------------------------------------------------------
-	let key = ''
-	let keyCode = 0
-	function slidyKeys(e) {
-		key = e.key
-		keyCode = e.keyCode
-		if (key === 'ArrowLeft') {
-			slidyPrev()
-		} else if (key === 'ArrowRight') {
-			slidyNext()
-		}
-	}
+    const move = (x, y, l) => `transform: translate(${x}px, ${y}px); left: ${l}px`
 
-	// SLIDY-DOT --------------------------------------------------
-	function slidyDots(id) {
-		let i = element.active.num
-		itemsCount = 0
-		if (id < i && i !== element.first.num) {
-			i = element.active.num - 1
-			while (i >= id) {
-				slidyPrev()
-				i--
-			}
-		} else if (id > i && i !== element.last.num) {
-			i = element.active.num + 1
-			while (i <= id) {
-				slidyNext()
-				i++
-			}
-		}
-	}
+    $: translate = posx
+    $: left = -sly
 
-	// SLIDY -------------------------------------------------------
-	let trans = null,
-		count = null,
-		itemsCount = null
-	$: firstN = element.first.width + slide.gap
-	$: lastN = element.last.width + slide.gap
+    function prev() {
+        arr = [arr[arr.length - 1], ...arr.slice(0, -1)]
+    }
+    function next() {
+        arr = [...arr.slice(1), arr[0]]
+    }
 
-	function slidy() {
-		itemsCount = Math.round(posX / trans)
-		if (count === itemsCount) {
-			return
-		} else if (count < itemsCount) {
-			trans = lastN
-			sly += trans
-			left.set(-sly)
-			prev()
-		} else if (count > itemsCount) {
-			trans = firstN
-			sly -= trans
-			left.set(-sly)
-			next()
-		}
-		count = itemsCount
-	}
-	// $: console.log(posX, trans, itemsCount, count)
+    function slidyPrev() {
+        posx += element.lastwidth
+        transition = duration
+        slidyX()
+    }
+    function slidyNext() {
+        posx -= element.firstwidth
+        transition = duration
+        slidyX()
+    }
 
-	// WHEELLING -------------------------------------------------------
-	let posX = null
-	let isWheelling
+    let count = 0
+    function slidyX() {
+        if (count === posx) {
+            return
+        } else if (count < posx) {
+            sly = posx
+            prev()
+        } else if (count > posx) {
+            sly = posx
+            next()
+        }
+        count = posx
+    }
 
-	function slidyWheel(e) {
-		posX += -e.detail.dx
-		translate.set(posX, { duration: 0 })
-		slidy()
+    // SLIDY ------------------------------------------------------
+    function slidy() {
+        if (posx >= element.lastwidth) {
+            prev()
+            posx = 0
+        } else if (posx <= -element.firstwidth) {
+            next()
+            posx = 0
+        }
+    }
 
-		clearTimeout(isWheelling)
-		isWheelling = setTimeout(() => {
-			itemsCount = count = posX = sly = 0
-			translate.set(0, { duration: duration / 2 })
-			left.set(0, { duration: duration / 2 })
-		}, duration / 2)
-	}
+    function slidyStop() {
+        transition = duration / 2
+        const nulled = () => {
+            posx = sly = speed = transition = 0
+            setTimeout(() => (slidyx = element.active.ix), transition)
+        }
+        if (posx >= element.lastwidth / 3 || speed <= -0.01) {
+            posx += element.lastwidth - posx
+            setTimeout(() => (prev(), nulled()), transition)
+        } else if (posx <= -element.firstwidth / 3 || speed >= 0.01) {
+            posx -= element.lastwidth + posx
+            setTimeout(() => (next(), nulled()), transition)
+        } else {
+            nulled()
+        }
+    }
+    function toDefault() {
+        if (sly !== 0) sly = posx = count = 0
+    }
 
-	// DRAG -------------------------------------------------------
-	let mD = false
-	let htx
-	let tracker
-	let speedDrag = 0
+    // WHEELL -----------------------------------------------------
+    let iswheel = 0
+    function slidyWheel(e) {
+        posx += -e.detail.dx
+        transition = 0
+        toDefault()
+        slidy()
+        if (iswheel !== null) {
+            clearTimeout(iswheel)
+        }
+        iswheel = setTimeout(() => {
+            slidyStop()
+        }, duration / 2)
+    }
 
-	function dragStart(e) {
-		mD = true
-		itemsCount = count = posX = sly = 0
-		left.set(0)
-		translate.set(0, { duration: 0 })
-	}
-	function dragSlide(e) {
-		if (mD) {
-			posX += e.detail.dx
-			translate.set(posX, { duration: 0 })
-			e.target.style.setProperty('user-select', posX !== 0 ? 'none' : null)
-			e.target.style.setProperty('-webkit-user-select', posX !== 0 ? 'none' : null)
-			e.target.style.setProperty('pointer-events', posX !== 0 ? 'none' : null)
-			slidy()
-			tracker = setInterval(() => (htx = posX), duration)
-			speedDrag = (htx - posX) / duration
-		}
-	}
-	function dragStop(e) {
-		mD = false
-		if (speedDrag < -0.015) {
-			clearInterval(tracker)
-			slidyPrev()
-			// speedDrag = itemsCount = count = posX = sly = 0
-		} else if (speedDrag > 0.015) {
-			clearInterval(tracker)
-			slidyNext()
-			// speedDrag = itemsCount = count = posX = sly = 0
-		} else {
-			clearInterval(tracker)
-			translate.set(0, { duration: duration / 2 })
-			left.set(0, { duration: duration / 2 })
-			itemsCount = count = posX = sly = 0
-		}
-		e.target.style.setProperty('user-select', posX !== 0 ? 'inherit' : null)
-		e.target.style.setProperty('-webkit-user-select', posX !== 0 ? 'inherit' : null)
-		e.target.style.setProperty('pointer-events', posX !== 0 ? 'inherit' : null)
-	}
+    // DRAG -------------------------------------------------------
+    let isdrag = false,
+        htx,
+        tracker,
+        speed
+    function dragStart(e) {
+        isdrag = true
+        transition = 0
+        toDefault()
+        if (tracker !== null) {
+            clearInterval(tracker)
+        }
+    }
+    function dragSlide(e) {
+        if (isdrag) {
+            posx += e.detail.dx
+            slidy()
+            tracker = setInterval(() => (htx = posx), duration / 2)
+            speed = (htx - posx) / duration / 2
+        }
+    }
+    function dragStop(e) {
+        isdrag = false
+        clearInterval(tracker)
+        slidyStop()
+    }
+
+    // KEYS -------------------------------------------------------
+    function slidyKeys(e) {
+        if (e.keyCode === 37) {
+            slidyx--
+        } else if (e.keyCode === 39) {
+            slidyx++
+        }
+    }
+
+    // INDEX -----------------------------------------------------
+    function slidyIndex(id) {
+        let i = element.active.ix
+        if (id < i && i !== element.first.ix) {
+            i = element.active.ix - 1
+            while (i >= id) {
+                slidyPrev()
+                i--
+            }
+        } else if (id > i && i !== element.last.ix) {
+            i = element.active.ix + 1
+            while (i <= id) {
+                slidyNext()
+                i++
+            }
+        }
+    }
+    $: stateCheck = setInterval(() => {
+        if (document.readyState === 'complete') {
+            clearInterval(stateCheck)
+            slidyLoad()
+        }
+    }, 100)
 </script>
 
-<svelte:window on:load="{slidyLoad}" on:keydown="{controls.keys ? slidyKeys : ''}" />
-
+<svelte:window on:keydown="{controls.keys ? slidyKeys : ''}" />
 <section
-	class="svelte-slidy"
-	use:resizeobserver
-	on:resizeob="{resizeWrap}"
-	id="{wrap.id}"
-	use:wheel
-	on:wheels="{controls.wheel ? slidyWheel : null}"
-	style="--wrapwidth: {wrap.width}; --wrapheight: {wrap.height};"
+    id="{wrap.id}"
+    class="svelte-slidy"
+    use:resizeobserver
+    on:resizeob="{resizeWrap}"
+    use:wheel
+    on:wheels="{controls.wheel ? slidyWheel : null}"
+    style="--wrapwidth: {wrap.width}; --wrapheight: {wrap.height}; --wrappadding: {wrap.padding || 0}; --slidewidth: {slide.width}; --slideheight: {slide.height}; --slidegap: {slide.gap / 2}px; --duration: {duration}ms;"
 >
-	<ul
-		class="svelte-slidy-ul"
-		use:pannable
-		on:panstart="{controls.drag ? dragStart : ''}"
-		on:panmove="{controls.drag ? dragSlide : ''}"
-		on:panend="{controls.drag ? dragStop : ''}"
-		on:contextmenu="{() => (mD = false)}"
-		style="--wrappadding: {wrap.padding}; --left: {$left}px; --transformx: {$translate - diff}px;"
-	>
-		{#if arr.length > 0}
-			{#each arr as item, i (item.id)}
-				<li
-					bind:this="{nodes[item.id]}"
-					class="svelte-slidy-li"
-					class:active="{item.id === element.active.id}"
-					class:first="{item.id === element.first.id}"
-					class:last="{item.id === element.last.id}"
-					class:drag="{controls.drag ? true : false}"
-					style="--liwidth:{slide.width}; --ligap:{slide.gap / 2}px; --liheight: {slide.height};"
-				>
-					<slot name="slide" {item}>
-						<img alt="{item.id}" src="{item.src}" style="--imgwidth: {slide.width === 'auto' ? 'auto' : '100%'}" onmousedown="if (event.preventDefault) event.preventDefault()" />
-						<span>
-							<strong>{item.num} {i}</strong>
-							<sub>{item.width}x{item.height}</sub>
-						</span>
-					</slot>
-				</li>
-			{/each}
-		{/if}
-	</ul>
-	{#if controls.arrows}
-		<button class="svelte-slidy-arrow-left" on:click="{() => slidyPrev()}">&#8592;</button>
-		<button class="svelte-slidy-arrow-right" on:click="{() => slidyNext()}">&#8594;</button>
-	{/if}
+    {#if !slidyinit}
+        <slot name="loader">
+            <Spinner size="75" speed="750" color="red" thickness="1" gap="25" />
+        </slot>
+    {/if}
 
-	{#if controls.dots}
-		<ul class="svelte-slidy-dots" class:pure="{controls.dotspure}">
-			{#if controls.dotsarrow}
-				<li>
-					<button class="svelte-slidy-arrow-left" on:click="{() => slidyPrev()}">&#8592;</button>
-				</li>
-			{/if}
-			{#each dots as dot (dot.id)}
-				<li class:active="{dot.id === element.active.id}">
-					<button on:click="{() => slidyDots(dot.num)}">{controls.dotsnum && !controls.dotspure ? dot.num : ''}</button>
-				</li>
-			{/each}
-			{#if controls.dotsarrow}
-				<li>
-					<button class="svelte-slidy-arrow-right" on:click="{() => slidyNext()}">&#8594;</button>
-				</li>
-			{/if}
-		</ul>
-	{/if}
+    <ul
+        class="svelte-slidy-ul"
+        class:loaded="{slidyinit}"
+        class:autowidth="{slide.width === 'auto'}"
+        use:pannable
+        on:panstart="{controls.drag ? dragStart : null}"
+        on:panmove="{controls.drag ? dragSlide : null}"
+        on:panend="{controls.drag ? dragStop : null}"
+        on:contextmenu="{() => (isdrag = false)}"
+        style="{move(translate - diff, 0, left)}; transition: transform {transition}ms;"
+    >
+        {#if arr.length > 0}
+            {#each arr as item, i (item.id)}
+                <li bind:this="{nodes[item.id]}" class:active="{item.id === element.active.id}">
+                    <slot name="slide" {item}>
+                        <img alt="{item.id}" src="{item.src}" />
+                    </slot>
+                </li>
+            {/each}
+        {/if}
+    </ul>
+
+    {#if controls.arrows && slidyinit}
+        <button class="svelte-slidy-arrow-left" on:click="{(e) => slidyx--}">
+            <slot name="arrow-left">
+                <Svg name="{'slidy-chevron-left'}" />
+            </slot>
+        </button>
+        <button class="svelte-slidy-arrow-right" on:click="{(e) => slidyx++}">
+            <slot name="arrow-right">
+                <Svg name="{'slidy-chevron-right'}" />
+            </slot>
+        </button>
+    {/if}
+
+    {#if controls.dots && slidyinit}
+        <ul class="svelte-slidy-dots" class:pure="{controls.dotspure}" class:thumbs="{controls.dotsthumbs}">
+            {#if controls.dotsarrow}
+                <li>
+                    <button class="svelte-slidy-arrow-left" on:click="{(e) => slidyx--}">
+                        <slot name="dots-arrow-letf">
+                            <Svg name="{'slidy-arrow-left'}" />
+                        </slot>
+                    </button>
+                </li>
+            {/if}
+            {#each dots as dot (dot.id)}
+                <li class:active="{dot.id === element.active.id}" on:click="{() => (slidyx = dot.ix)}">
+                    <slot name="slidy-dot" {dot}>
+                        <button style="{controls.dotsthumbs ? `background-image: url(${dot.src})` : null}">{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
+                    </slot>
+                </li>
+            {/each}
+            {#if controls.dotsarrow}
+                <li>
+                    <button class="svelte-slidy-arrow-right" on:click="{(e) => slidyx++}">
+                        <slot name="dots-arrow-right">
+                            <Svg name="{'slidy-arrow-right'}" />
+                        </slot>
+                    </button>
+                </li>
+            {/if}
+        </ul>
+    {/if}
 </section>
 
 <style>
-	.svelte-slidy {
-		display: flex;
-		flex-flow: column;
-		flex-shrink: 0;
-		align-items: center;
-		position: relative;
-		overflow-x: hidden;
-		justify-content: center;
-		box-sizing: border-box;
-		width: var(--wrapwidth);
-		height: var(--wrapheight);
-		margin: 0 auto;
-	}
-	.svelte-slidy-ul {
-		box-sizing: border-box;
-		display: flex;
-		flex-wrap: nowrap;
-		margin: 0 auto;
-		padding: var(--wrappadding);
-		list-style: none;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		width: 100%;
-		user-select: none;
-		touch-action: pan-y;
-		will-change: transform;
-		position: relative;
-		left: var(--left);
-		transform: translate3d(var(--transformx), 0, 0);
-		-webkit-transform: translate3d(var(--transformx), 0, 0);
-	}
-	.svelte-slidy-li {
-		flex: none;
-		max-width: 100%;
-		width: var(--liwidth);
-		height: var(--liheight);
-		max-height: var(--ulheight);
-		margin: 0 var(--ligap);
-		box-sizing: border-box;
-		position: relative;
-		justify-content: center;
-		/* touch-action: none; */
-	}
-	.svelte-slidy-li.active {
-		color: red;
-	}
-	.svelte-slidy-li.active span {
-		color: red;
-	}
-	.svelte-slidy-li.drag {
-		cursor: grab;
-	}
-	.svelte-slidy-li span {
-		color: white;
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 1em;
-		background: rgba(0, 0, 0, 0.18);
-		text-align: left;
-		box-sizing: border-box;
-	}
-	.svelte-slidy-li img {
-		width: var(--imgwidth);
-		height: 100%;
-		max-height: var(--wraph);
-		box-sizing: border-box;
-		vertical-align: middle;
-		object-fit: cover;
-	}
-
-	.svelte-slidy-dots {
-		display: flex;
-		flex-wrap: nowrap;
-		flex-shrink: 0;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: absolute;
-		bottom: 0;
-		height: 50px;
-	}
-	.svelte-slidy-dots li {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	.svelte-slidy-dots li.active button {
-		color: red;
-		outline: 0;
-	}
-	.svelte-slidy-dots.pure {
-		position: relative;
-	}
-	.svelte-slidy-dots.pure li {
-		width: 25px;
-		height: 25px;
-	}
-	.svelte-slidy-dots.pure li button {
-		border-radius: 50%;
-		color: red;
-		width: 10px;
-		height: 10px;
-		line-height: 10px;
-		transition: color 250ms ease, width 250ms ease, height 250ms ease;
-		outline: none;
-		box-shadow: none;
-	}
-	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
-	.svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
-		background: none;
-		width: 15px;
-	}
-	.svelte-slidy-dots.pure li.active button {
-		width: 15px;
-		height: 15px;
-		background: red;
-	}
-	.svelte-slidy button {
-		margin: 0;
-		border: 0;
-		padding: 0;
-		border-radius: 0;
-		width: 50px;
-		height: 50px;
-		line-height: 50px;
-		color: white;
-		background: rgba(0, 0, 0, 0.18);
-		cursor: pointer;
-		outline: 0;
-		overflow: hidden;
-	}
-	.svelte-slidy button:active {
-		background: red;
-		color: white;
-		outline: 0;
-	}
-	.svelte-slidy .svelte-slidy-arrow-right,
-	.svelte-slidy .svelte-slidy-arrow-left {
-		position: absolute;
-		color: white;
-		cursor: pointer;
-	}
-	.svelte-slidy .svelte-slidy-arrow-left {
-		left: 0;
-	}
-	.svelte-slidy .svelte-slidy-arrow-right {
-		right: 0;
-	}
-	.svelte-slidy-dots li button.svelte-slidy-arrow-left,
-	.svelte-slidy-dots li button.svelte-slidy-arrow-right {
-		position: relative;
-	}
+    .svelte-slidy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        width: var(--wrapwidth);
+        height: var(--wrapheight);
+    }
+    .svelte-slidy ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        margin: 0;
+        border: 0;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .svelte-slidy-ul {
+        width: 100%;
+        height: 100%;
+        padding: var(--wrappadding);
+        position: relative;
+        touch-action: pan-y;
+        will-change: transform;
+    }
+    .svelte-slidy-ul.loaded li {
+        opacity: 1;
+    }
+    :global(.svelte-slidy img) {
+        pointer-events: none;
+        object-fit: cover;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    :global(.svelte-slidy-ul.autowidth li img) {
+        width: auto;
+    }
+    .svelte-slidy-ul li {
+        flex-shrink: 0;
+        max-width: 100%;
+        max-height: 100%;
+        position: relative;
+        color: currentColor;
+        transition: color var(--duration), opacity var(--duration);
+        opacity: 0;
+        width: var(--slidewidth);
+        height: var(--slideheight);
+        margin: 0 var(--slidegap);
+        box-sizing: border-box;
+    }
+    .svelte-slidy-ul li.active {
+        color: red;
+    }
+    .svelte-slidy-dots {
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        padding: 0;
+    }
+    .svelte-slidy-dots li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .svelte-slidy-dots li.active,
+    .svelte-slidy-dots li.active button {
+        color: red;
+    }
+    .svelte-slidy-dots.pure li {
+        width: 27px;
+        height: 27px;
+    }
+    .svelte-slidy-dots.pure li button {
+        border-radius: 50%;
+        color: red;
+        width: 9px;
+        height: 9px;
+        transform: scale(1);
+        transition: color calc(var(--duration) / 2), transform calc(var(--duration) / 2);
+        box-shadow: none;
+    }
+    .svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
+    .svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
+        background: none;
+        width: auto;
+        height: auto;
+    }
+    .svelte-slidy-dots.pure li.active button {
+        transform: scale(1.8);
+        background: red;
+    }
+    .svelte-slidy-dots.thumbs li button {
+        width: 100px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        filter: grayscale(1) opacity(0.45);
+        transition: filter var(--duration);
+    }
+    .svelte-slidy-dots.thumbs li:hover button,
+    .svelte-slidy-dots.thumbs li.active button {
+        filter: grayscale(0) opacity(1);
+    }
+    .svelte-slidy button {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        border-radius: 0;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        color: white;
+        background: rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        outline: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .svelte-slidy button:active {
+        background: red;
+        color: white;
+        outline: 0;
+    }
+    .svelte-slidy .svelte-slidy-arrow-left {
+        left: 0;
+    }
+    .svelte-slidy .svelte-slidy-arrow-right {
+        right: 0;
+    }
+    .svelte-slidy .svelte-slidy-arrow-right,
+    .svelte-slidy .svelte-slidy-arrow-left {
+        position: absolute;
+        color: white;
+        cursor: pointer;
+    }
+    .svelte-slidy-dots li button.svelte-slidy-arrow-left,
+    .svelte-slidy-dots li button.svelte-slidy-arrow-right {
+        position: relative;
+    }
 </style>

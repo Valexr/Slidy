@@ -3,12 +3,12 @@
     "svelteStrictMode": true,
     "svelteBracketNewLine": true,
     "svelteAllowShorthand": true,
-    "useTabs": true,
+    "useTabs": false,
     "tabWidth": 4,
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5",
-    "printWidth": 200,
+    "printWidth": 250,
     "plugins": [
         "prettier-plugin-svelte"
     ]

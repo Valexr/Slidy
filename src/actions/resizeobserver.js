@@ -8,8 +8,6 @@ export function resizeobserver(node) {
         for (let entry of entries) {
             const cr = entry.contentRect;
             const et = entry.target;
-            // console.log('contentRect:', cr);
-            // console.log('Element:', entry.target);
             cR = cr
             eT = et
         }
