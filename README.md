@@ -154,9 +154,11 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 <section id="yours custom #id" class="slidy">
     <slot name="loader"> <!--for yours custom loader -->
     <ul class="slidy-ul">
-        <li>
-            <slot {slide}> <!--for yours custom slide skin -->
-        </li>
+        {#each}
+            <li>
+                <slot {slide}> <!--for yours custom slide skin -->
+            </li>
+        {/each}
     </ul>
     <button class="arrow-left">
         <slot name="arrow-left"> <!--for yours custom arrow-left -->
@@ -165,20 +167,16 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
         <slot name="arrow-right"> <!--for yours custom arrow-right -->
     </button>
     <ul class="slidy-dots">
-        <li>
-            <button class="dots-arrow-left">
-                <slot name="dots-arrow-left"> <!--for yours custom dots-arrow-left -->
-            </button>
+        <li class="dots-arrow-left">
+            <slot name="dots-arrow-left"> <!--for yours custom dots-arrow-left -->
         </li>
-        <li>
-            <button>
+        {#each}
+            <li>
                 <slot name="dot"> <!--for yours custom dot -->
-            </button>
-        </li>
-        <li>
-            <button class="dots-arrow-right">
-                <slot name="dots-arrow-right"> <!--for yours custom dots-arrow-right -->
-            </button>
+            </li>
+        {/each}
+        <li class="dots-arrow-right">
+            <slot name="dots-arrow-right"> <!--for yours custom dots-arrow-right -->
         </li>
     </ul>
 </section>
@@ -276,6 +274,8 @@ setup({
 ```
 
 ### Also you can make responsive by CSS media-queries inside default Slidy styles – rewrite it with yours unic #ID
+
+[**Example**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ```html
 <script>
