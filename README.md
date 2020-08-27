@@ -81,7 +81,7 @@ yarn add -D slidy
 
 [Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
 
-You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:slide``` derective:
+You can use any tags what you want inside Slidy component for ```{#each it}``` by ```let:slide``` derective:
 
 ```html
 <script>
@@ -121,7 +121,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
->**!MPORTANT** – slot="slide" & let:slide derectives for each yours items in new skin ;).
+>**!MPORTANT** – let:slide derectives for each yours items in new skin & can be without wrappers ;).
 
 
 ## Customize default Slidy styles
