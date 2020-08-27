@@ -293,9 +293,9 @@
     {#if controls.dots && slidyinit}
         <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
-                <li on:click="{(e) => index--}">
+                <li class="dots-arrow-left" on:click="{(e) => index--}">
                     <slot name="dots-arrow-left">
-                        <button class="dots-arrow-left">&#8592;</button>
+                        <button>&#8592;</button>
                     </slot>
                 </li>
             {/if}
@@ -307,9 +307,9 @@
                 </li>
             {/each}
             {#if controls.dotsarrow}
-                <li on:click="{(e) => index++}">
+                <li class="dots-arrow-right" on:click="{(e) => index++}">
                     <slot name="dots-arrow-right">
-                        <button class="dots-arrow-right">&#8594;</button>
+                        <button>&#8594;</button>
                     </slot>
                 </li>
             {/if}
@@ -385,10 +385,6 @@
         align-items: center;
         justify-content: center;
     }
-    .slidy-dots li.active,
-    .slidy-dots li.active button {
-        color: red;
-    }
     .slidy-dots.pure li {
         width: 27px;
         height: 27px;
@@ -405,12 +401,6 @@
     .slidy-dots.pure li.active button {
         transform: scale(1.8);
         background: red;
-    }
-    .slidy-dots.pure li .dots-arrow-left,
-    .slidy-dots.pure li .dots-arrow-right {
-        background: none;
-        width: auto;
-        height: auto;
     }
     .slidy button {
         margin: 0;
@@ -445,11 +435,10 @@
     .arrow-right,
     .arrow-left {
         position: absolute;
-        color: white;
-        cursor: pointer;
     }
-    .dots-arrow-left,
-    .dots-arrow-right {
-        position: relative;
+    .slidy-dots.pure .dots-arrow-left button,
+    .slidy-dots.pure .dots-arrow-right button {
+        background: none;
+        width: auto;
     }
 </style>
