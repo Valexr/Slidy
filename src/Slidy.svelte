@@ -148,17 +148,17 @@
     }
 
     function slidyStop() {
-        transition = duration / 2
+        transition = duration / 3
         const nulled = () => {
-            posx = sly = speed = transition = 0
+            posx = sly = speed = 0
             setTimeout(() => (slidyx = element.active.ix), transition)
         }
-        if (posx >= element.lastwidth / 3 || speed <= -0.01) {
+        if (posx >= element.lastwidth / 3 || speed <= -0.005) {
             posx += element.lastwidth - posx
-            setTimeout(() => (prev(), nulled()), transition)
-        } else if (posx <= -element.firstwidth / 3 || speed >= 0.01) {
+            setTimeout(() => (prev(), nulled(), (transition = 0)), transition)
+        } else if (posx <= -element.firstwidth / 3 || speed >= 0.005) {
             posx -= element.lastwidth + posx
-            setTimeout(() => (next(), nulled()), transition)
+            setTimeout(() => (next(), nulled(), (transition = 0)), transition)
         } else {
             nulled()
         }
@@ -179,7 +179,7 @@
         }
         iswheel = setTimeout(() => {
             slidyStop()
-        }, duration / 2)
+        }, duration / 3)
     }
 
     // DRAG -------------------------------------------------------
@@ -199,8 +199,8 @@
         if (isdrag) {
             posx += e.detail.dx
             slidy()
-            tracker = setInterval(() => (htx = posx), duration / 2)
-            speed = (htx - posx) / duration / 2
+            tracker = setInterval(() => (htx = posx), duration / 3)
+            speed = (htx - posx) / duration / 3
         }
     }
     function dragStop(e) {
@@ -246,7 +246,7 @@
 <svelte:window on:keydown="{controls.keys ? slidyKeys : ''}" />
 <section
     id="{wrap.id}"
-    class="svelte-slidy"
+    class="slidy"
     use:resizeobserver
     on:resizeob="{resizeWrap}"
     use:wheel
@@ -260,7 +260,7 @@
     {/if}
 
     <ul
-        class="svelte-slidy-ul"
+        class="slidy-ul"
         class:loaded="{slidyinit}"
         class:autowidth="{slide.width === 'auto'}"
         use:pannable
@@ -282,26 +282,26 @@
     </ul>
 
     {#if controls.arrows && slidyinit}
-        <button class="svelte-slidy-arrow-left" on:click="{(e) => slidyx--}">
+        <button class="arrow-left" on:click="{(e) => slidyx--}">
             <slot name="arrow-left">&#8592;</slot>
         </button>
-        <button class="svelte-slidy-arrow-right" on:click="{(e) => slidyx++}">
+        <button class="arrow-right" on:click="{(e) => slidyx++}">
             <slot name="arrow-right">&#8594;</slot>
         </button>
     {/if}
 
     {#if controls.dots && slidyinit}
-        <ul class="svelte-slidy-dots" class:pure="{controls.dotspure}" class:thumbs="{controls.dotsthumbs}">
+        <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
                 <li on:click="{(e) => slidyx--}">
                     <slot name="dots-arrow-left">
-                        <button class="svelte-slidy-arrow-left">&#8592;</button>
+                        <button class="dots-arrow-left">&#8592;</button>
                     </slot>
                 </li>
             {/if}
             {#each dots as dot (dot.id)}
                 <li class:active="{dot.id === element.active.id}" on:click="{() => (slidyx = dot.ix)}">
-                    <slot name="slidy-dot" {dot}>
+                    <slot name="dot" {dot}>
                         <button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
                     </slot>
                 </li>
@@ -309,7 +309,7 @@
             {#if controls.dotsarrow}
                 <li on:click="{(e) => slidyx++}">
                     <slot name="dots-arrow-right">
-                        <button class="svelte-slidy-arrow-right">&#8594;</button>
+                        <button class="dots-arrow-right">&#8594;</button>
                     </slot>
                 </li>
             {/if}
@@ -318,7 +318,7 @@
 </section>
 
 <style>
-    .svelte-slidy {
+    .slidy {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -327,7 +327,7 @@
         width: var(--wrapwidth);
         height: var(--wrapheight);
     }
-    .svelte-slidy ul {
+    .slidy ul {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -337,7 +337,7 @@
         user-select: none;
         -webkit-user-select: none;
     }
-    .svelte-slidy-ul {
+    .slidy-ul {
         width: 100%;
         height: 100%;
         padding: var(--wrappadding);
@@ -345,20 +345,20 @@
         touch-action: pan-y;
         will-change: transform;
     }
-    .svelte-slidy-ul.loaded li {
+    .slidy-ul.loaded li {
         opacity: 1;
     }
-    :global(.svelte-slidy img) {
+    :global(.slidy-ul li img) {
         pointer-events: none;
         object-fit: cover;
         display: block;
         width: 100%;
         height: 100%;
     }
-    :global(.svelte-slidy-ul.autowidth li img) {
+    :global(.slidy-ul.autowidth li img) {
         width: auto;
     }
-    .svelte-slidy-ul li {
+    .slidy-ul li {
         flex-shrink: 0;
         max-width: 100%;
         max-height: 100%;
@@ -371,29 +371,29 @@
         margin: 0 var(--slidegap);
         box-sizing: border-box;
     }
-    .svelte-slidy-ul li.active {
+    .slidy-ul li.active {
         color: red;
     }
-    .svelte-slidy-dots {
+    .slidy-dots {
         position: absolute;
         bottom: 0;
         height: 50px;
         padding: 0;
     }
-    .svelte-slidy-dots li {
+    .slidy-dots li {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .svelte-slidy-dots li.active,
-    .svelte-slidy-dots li.active button {
+    .slidy-dots li.active,
+    .slidy-dots li.active button {
         color: red;
     }
-    .svelte-slidy-dots.pure li {
+    .slidy-dots.pure li {
         width: 27px;
         height: 27px;
     }
-    .svelte-slidy-dots.pure li button {
+    .slidy-dots.pure li button {
         border-radius: 50%;
         color: red;
         width: 9px;
@@ -402,17 +402,17 @@
         transition: color calc(var(--duration) / 2), transform calc(var(--duration) / 2);
         box-shadow: none;
     }
-    .svelte-slidy-dots.pure li button.svelte-slidy-arrow-left,
-    .svelte-slidy-dots.pure li button.svelte-slidy-arrow-right {
+    .slidy-dots.pure li.active button {
+        transform: scale(1.8);
+        background: red;
+    }
+    .slidy-dots.pure li .dots-arrow-left,
+    .slidy-dots.pure li .dots-arrow-right {
         background: none;
         width: auto;
         height: auto;
     }
-    .svelte-slidy-dots.pure li.active button {
-        transform: scale(1.8);
-        background: red;
-    }
-    .svelte-slidy button {
+    .slidy button {
         margin: 0;
         border: 0;
         padding: 0;
@@ -429,25 +429,27 @@
         align-items: center;
         justify-content: center;
     }
-    .svelte-slidy button:active {
+    .slidy button:active {
         background: red;
         color: white;
         outline: 0;
     }
-    .svelte-slidy .svelte-slidy-arrow-left {
+    .arrow-left,
+    .dots-arrow-left {
         left: 0;
     }
-    .svelte-slidy .svelte-slidy-arrow-right {
+    .arrow-right,
+    .dots-arrow-right {
         right: 0;
     }
-    .svelte-slidy .svelte-slidy-arrow-right,
-    .svelte-slidy .svelte-slidy-arrow-left {
+    .arrow-right,
+    .arrow-left {
         position: absolute;
         color: white;
         cursor: pointer;
     }
-    .svelte-slidy-dots li button.svelte-slidy-arrow-left,
-    .svelte-slidy-dots li button.svelte-slidy-arrow-right {
+    .dots-arrow-left,
+    .dots-arrow-right {
         position: relative;
     }
 </style>

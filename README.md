@@ -148,22 +148,22 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 ## Slidy nodes tree & slots for customize
 
 ```html
-<section id="yours custom #id" class="svelte-slidy">
+<section id="yours custom #id" class="slidy">
     <slot name="loader"> <!--for yours custom loader -->
-    <ul class="svelte-slidy-ul">
+    <ul class="slidy-ul">
         <li>
             <slot name="slide" {item}> <!--for yours custom slide skin -->
         </li>
     </ul>
-    <button class="svelte-slidy-arrow-left">
+    <button class="arrow-left">
         <slot name="arrow-left"> <!--for yours custom arrow-left -->
     </button>
-    <button class="svelte-slidy-arrow-right">
+    <button class="arrow-right">
         <slot name="arrow-right"> <!--for yours custom arrow-right -->
     </button>
-    <ul class="svelte-slidy-dots">
+    <ul class="slidy-dots">
         <li>
-            <button class="svelte-slidy-arrow-left">
+            <button class="dots-arrow-left">
                 <slot name="dots-arrow-left"> <!--for yours custom dots-arrow-left -->
             </button>
         </li>
@@ -173,7 +173,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
             </button>
         </li>
         <li>
-            <button class="svelte-slidy-arrow-right">
+            <button class="dots-arrow-right">
                 <slot name="dots-arrow-right"> <!--for yours custom dots-arrow-right -->
             </button>
         </li>
