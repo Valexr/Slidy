@@ -8,6 +8,9 @@
 - [New external controls](#external)   
 - [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+- [New props names](#newpropsname)
+- [New classNames && slots in Slidy nodes tree](#newclassname)  
+
 
 ## Site
 [**https://valexr.github.io/slidy-site/**](https://valexr.github.io/slidy-site/)
@@ -23,7 +26,7 @@ yarn add -D slidy
 
 ## Usage
 
-### By default setiings looks like:
+### <a name="newpropsname"></a> By default setiings looks like:
 
 ```html
 <script>
@@ -35,9 +38,9 @@ yarn add -D slidy
     ]; // slides items
 
     $: slidy_default = { // any name you like
-        slidys: local,
+        slides: local, // new name "slides" for arr yours slides elements in 2.0
         wrap: {
-            id: 'slidy_default',
+            id: 'slidy_default', // customize this instance Slidy by #id
             width: '100%',
             height: '50vh',
             padding: '0',
@@ -51,14 +54,14 @@ yarn add -D slidy
             dots: true,
             dotsnum: true,
             dotsarrow: true,
-            dotspure: false,
+            dotspure: false, // dotnav like realy dots :)
             arrows: true,
-            keys: true,
-            drag: true,
-            wheel: true,
+            keys: true, // nav by arrow keys
+            drag: true, // nav by mousedrag
+            wheel: true, // nav by mousewheel (shift + wheel) or swipe on touch/trackpads
         },
-        duration: 250,
-        loader: {
+        duration: 250, // duration slides animation
+        loader: { // new in 2.0 settings for preloader spinner
             color: 'red',
             size: 75,
             speed: duration,
@@ -67,18 +70,18 @@ yarn add -D slidy
     } // slidy settings for current instance
 </script>
 
-<Slidy {...slidy_default} />
+<Slidy {...slidy_default} bind:index let:slide /> <!-- bind:index new prop in 2.0 for external controls & let:slide new name for prop to eached elements -->
 ```
 
 
->**!!!MPORTANT** – you need declared all the settings objects for each instance of Slidy.
+>**!MPORTANT** – you need declared all the settings objects for each instance of Slidy.
 
 
 ## Customize slide skin
 
 [Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
 
-You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:item``` derective:
+You can use any tags what you want inside Slidy component for ```{#each it}``` by ```slot="slide"``` wrapper & ```let:slide``` derective:
 
 ```html
 <script>
@@ -94,18 +97,18 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
     ]; // items with text & header
 
     $: slidy_cards = {
-        slidys: local,
+        slides: local,
         ...
     }
 </script>
 
 <Slidy {...slidy_cards}>
-    <div slot="slide" let:item class="slide"> <!-- wrapper for new skin -->
-        <img alt="{item.header}" src="{item.src}"/>
+    <div slot="slide" let:slide class="slide"> <!-- wrapper for new skin -->
+        <img alt="{slide.header}" src="{slide.src}"/>
         <article>
-            <h2>{item.header</h2>
+            <h2>{slide.header</h2>
             <p>
-                {item.text}
+                {slide.text}
             </p>
         </article>
     </div>
@@ -118,7 +121,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
->**!!!MPORTANT** – slot="slide" & let:item derectives for each yours items in new skin ;).
+>**!MPORTANT** – slot="slide" & let:slide derectives for each yours items in new skin ;).
 
 
 ## Customize default Slidy styles
@@ -145,7 +148,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
-## Slidy nodes tree & slots for customize
+## <a name="newclassname"></a> Slidy nodes tree & slots for customize
 
 ```html
 <section id="yours custom #id" class="slidy">
@@ -181,7 +184,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </section>
 ```
 
-## <a name="external"></a> !!! NEW External controls 
+## <a name="external"></a> NEW External controls 
 
 [Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
 
@@ -200,7 +203,7 @@ You can controls yours Slidy instance externally from parent component:
 
 <button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
 
-<Slidy {...slidy_unic} bind:slidyx={index}/> <!-- Just bind:slidyx – dinamic prop for current active slide to yours prop -->
+<Slidy {...slidy_unic} bind:index/> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
 ```
 
 

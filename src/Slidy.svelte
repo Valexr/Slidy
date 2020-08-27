@@ -4,7 +4,7 @@
     import { resizeobserver } from './actions/resizeobserver.js'
     import Spinner from './Spinner.svelte'
 
-    export let slidys = []
+    export let slides = []
     export let wrap = {
         id: null,
         width: '100%',
@@ -30,19 +30,19 @@
     export let loader = {
         color: 'red',
         size: 75,
-        speed: duration,
         thickness: 1,
+        speed: duration,
     }
-    export let slidyx = Math.round(slidys.length / 2)
+    export let index = Math.round(slides.length / 2)
 
-    $: slidyinit && slidyTo(slidyx)
+    $: slidyinit && slidyTo(index)
 
     function slidyTo(i) {
         if (i < 1) {
-            slidyx = arr.length
+            index = arr.length
             slidyIndex(i)
         } else if (i > arr.length) {
-            slidyx = 1
+            index = 1
             slidyIndex(i)
         } else {
             slidyIndex(i)
@@ -50,7 +50,7 @@
     }
 
     // SLIDY-INIT ---------------------------------------------------
-    let arr = slidys,
+    let arr = slides,
         dots = arr,
         nodes = []
 
@@ -68,7 +68,7 @@
 
     let slidyinit = false
     function slidyLoad() {
-        arr = slidys.map((s, i) => {
+        arr = slides.map((s, i) => {
             return {
                 ix: i + 1,
                 ...s,
@@ -82,7 +82,7 @@
 
     // RESIZE-OBSERVER ----------------------------------------------
     function resizeWrap(e) {
-        arr = slidys.map((s, i) => {
+        arr = slides.map((s, i) => {
             return {
                 ix: i + 1,
                 ...s,
@@ -151,7 +151,7 @@
         transition = duration / 3
         const nulled = () => {
             posx = sly = speed = 0
-            setTimeout(() => (slidyx = element.active.ix), transition)
+            setTimeout(() => (index = element.active.ix), transition)
         }
         if (posx >= element.lastwidth / 3 || speed <= -0.005) {
             posx += element.lastwidth - posx
@@ -212,9 +212,9 @@
     // KEYS -------------------------------------------------------
     function slidyKeys(e) {
         if (e.keyCode === 37) {
-            slidyx--
+            index--
         } else if (e.keyCode === 39) {
-            slidyx++
+            index++
         }
     }
 
@@ -248,10 +248,10 @@
     id="{wrap.id}"
     class="slidy"
     use:resizeobserver
-    on:resizeob="{resizeWrap}"
+    on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
-    style="--wrapwidth: {wrap.width}; --wrapheight: {wrap.height}; --wrappadding: {wrap.padding || 0}; --slidewidth: {slide.width}; --slideheight: {slide.height}; --slidegap: {slide.gap / 2}px; --duration: {duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slideg: {slide.gap / 2}px; --dur: {duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
@@ -271,10 +271,10 @@
         style="{move(translate - diff, 0, left)}; transition: transform {transition}ms;"
     >
         {#if arr.length > 0}
-            {#each arr as item, i (item.id)}
-                <li bind:this="{nodes[item.id]}" class:active="{item.id === element.active.id}">
-                    <slot name="slide" {item}>
-                        <img alt="{item.id}" src="{item.src}" />
+            {#each arr as slide, i (slide.id)}
+                <li bind:this="{nodes[slide.id]}" class:active="{slide.id === element.active.id}">
+                    <slot name="slide" {slide}>
+                        <img alt="{slide.id}" src="{slide.src}" />
                     </slot>
                 </li>
             {/each}
@@ -282,10 +282,10 @@
     </ul>
 
     {#if controls.arrows && slidyinit}
-        <button class="arrow-left" on:click="{(e) => slidyx--}">
+        <button class="arrow-left" on:click="{(e) => index--}">
             <slot name="arrow-left">&#8592;</slot>
         </button>
-        <button class="arrow-right" on:click="{(e) => slidyx++}">
+        <button class="arrow-right" on:click="{(e) => index++}">
             <slot name="arrow-right">&#8594;</slot>
         </button>
     {/if}
@@ -293,21 +293,21 @@
     {#if controls.dots && slidyinit}
         <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
-                <li on:click="{(e) => slidyx--}">
+                <li on:click="{(e) => index--}">
                     <slot name="dots-arrow-left">
                         <button class="dots-arrow-left">&#8592;</button>
                     </slot>
                 </li>
             {/if}
             {#each dots as dot (dot.id)}
-                <li class:active="{dot.id === element.active.id}" on:click="{() => (slidyx = dot.ix)}">
+                <li class:active="{dot.id === element.active.id}" on:click="{() => (index = dot.ix)}">
                     <slot name="dot" {dot}>
                         <button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
                     </slot>
                 </li>
             {/each}
             {#if controls.dotsarrow}
-                <li on:click="{(e) => slidyx++}">
+                <li on:click="{(e) => index++}">
                     <slot name="dots-arrow-right">
                         <button class="dots-arrow-right">&#8594;</button>
                     </slot>
@@ -324,8 +324,8 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-        width: var(--wrapwidth);
-        height: var(--wrapheight);
+        width: var(--wrapw);
+        height: var(--wraph);
     }
     .slidy ul {
         display: flex;
@@ -340,7 +340,7 @@
     .slidy-ul {
         width: 100%;
         height: 100%;
-        padding: var(--wrappadding);
+        padding: var(--wrapp);
         position: relative;
         touch-action: pan-y;
         will-change: transform;
@@ -364,11 +364,11 @@
         max-height: 100%;
         position: relative;
         color: currentColor;
-        transition: color var(--duration), opacity var(--duration);
+        transition: color var(--dur), opacity var(--dur);
         opacity: 0;
-        width: var(--slidewidth);
-        height: var(--slideheight);
-        margin: 0 var(--slidegap);
+        width: var(--slidew);
+        height: var(--slideh);
+        margin: 0 var(--slideg);
         box-sizing: border-box;
     }
     .slidy-ul li.active {
@@ -399,7 +399,7 @@
         width: 9px;
         height: 9px;
         transform: scale(1);
-        transition: color calc(var(--duration) / 2), transform calc(var(--duration) / 2);
+        transition: color calc(var(--dur) / 2), transform calc(var(--dur) / 2);
         box-shadow: none;
     }
     .slidy-dots.pure li.active button {

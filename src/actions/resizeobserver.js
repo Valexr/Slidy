@@ -11,7 +11,7 @@ export function resizeobserver(node) {
             cR = cr
             eT = et
         }
-        node.dispatchEvent(new CustomEvent('resizeob', {
+        node.dispatchEvent(new CustomEvent('resize', {
             detail: { cR, eT }
         }));
     });
