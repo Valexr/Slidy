@@ -390,6 +390,7 @@
     .slidy button:active {
         outline: 0;
     }
+    .slidy li.active,
     .slidy li.active button {
         color: red;
     }
