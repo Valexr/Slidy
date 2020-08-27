@@ -273,7 +273,7 @@
         {#if arr.length > 0}
             {#each arr as slide, i (slide.id)}
                 <li bind:this="{nodes[slide.id]}" class:active="{slide.id === element.active.id}">
-                    <slot name="slide" {slide}>
+                    <slot {slide}>
                         <img alt="{slide.id}" src="{slide.src}" />
                     </slot>
                 </li>
@@ -371,7 +371,7 @@
         margin: 0 var(--slideg);
         box-sizing: border-box;
     }
-    .slidy-ul li.active {
+    .slidy li.active {
         color: red;
     }
     .slidy-dots {
@@ -388,6 +388,7 @@
     .slidy-dots.pure li {
         width: 27px;
         height: 27px;
+        background: none;
     }
     .slidy-dots.pure li button {
         border-radius: 50%;
@@ -396,7 +397,6 @@
         height: 9px;
         transform: scale(1);
         transition: color calc(var(--dur) / 2), transform calc(var(--dur) / 2);
-        box-shadow: none;
     }
     .slidy-dots.pure li.active button {
         transform: scale(1.8);
@@ -410,7 +410,7 @@
         width: 50px;
         height: 50px;
         line-height: 50px;
-        color: white;
+        color: inherit;
         background: rgba(0, 0, 0, 0.18);
         cursor: pointer;
         outline: 0;
@@ -440,5 +440,11 @@
     .slidy-dots.pure .dots-arrow-right button {
         background: none;
         width: auto;
+        height: auto;
+    }
+    .dots-arrow-left,
+    .dots-arrow-right {
+        width: 50px;
+        height: 50px;
     }
 </style>
