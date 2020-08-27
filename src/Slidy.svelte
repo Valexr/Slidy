@@ -363,7 +363,6 @@
         max-width: 100%;
         max-height: 100%;
         position: relative;
-        color: currentColor;
         transition: color var(--dur), opacity var(--dur);
         opacity: 0;
         width: var(--slidew);
@@ -371,9 +370,30 @@
         margin: 0 var(--slideg);
         box-sizing: border-box;
     }
-    .slidy li.active {
+    .slidy button {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        border-radius: 0;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        color: white;
+        background: rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        outline: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .slidy button:active {
+        outline: 0;
+    }
+    .slidy li.active button {
         color: red;
     }
+
     .slidy-dots {
         position: absolute;
         bottom: 0;
@@ -401,28 +421,6 @@
     .slidy-dots.pure li.active button {
         transform: scale(1.8);
         background: red;
-    }
-    .slidy button {
-        margin: 0;
-        border: 0;
-        padding: 0;
-        border-radius: 0;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        color: inherit;
-        background: rgba(0, 0, 0, 0.18);
-        cursor: pointer;
-        outline: 0;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .slidy button:active {
-        background: red;
-        color: white;
-        outline: 0;
     }
     .arrow-left,
     .dots-arrow-left {

@@ -102,8 +102,8 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
     }
 </script>
 
-<Slidy {...slidy_cards}>
-    <div slot="slide" let:slide class="slide"> <!-- wrapper for new skin -->
+<Slidy {...slidy_cards} let:slide>
+    <div class="slide"> <!-- wrapper for new skin -->
         <img alt="{slide.header}" src="{slide.src}"/>
         <article>
             <h2>{slide.header</h2>
@@ -155,7 +155,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
     <slot name="loader"> <!--for yours custom loader -->
     <ul class="slidy-ul">
         <li>
-            <slot name="slide" {item}> <!--for yours custom slide skin -->
+            <slot {slide}> <!--for yours custom slide skin -->
         </li>
     </ul>
     <button class="arrow-left">
@@ -203,7 +203,7 @@ You can controls yours Slidy instance externally from parent component:
 
 <button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
 
-<Slidy {...slidy_unic} bind:index/> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
+<Slidy {...slidy_unic} bind:index /> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
 ```
 
 
