@@ -27,6 +27,7 @@
         wheel: true,
     }
     export let duration = 350
+    export let axis = 'x'
     export let loader = {
         color: 'red',
         size: 75,
@@ -56,15 +57,21 @@
 
     $: element = {
         active: arr[Math.floor(arr.length / 2)],
-        activewidth: arr[Math.floor(arr.length / 2)].width + slide.gap,
         first: arr[0],
         firstwidth: arr[0].width + slide.gap,
+        firstheight: arr[0].height + slide.gap,
         last: arr[arr.length - 1],
         lastwidth: arr[arr.length - 1].width + slide.gap,
+        lastheight: arr[arr.length - 1].height + slide.gap,
         beforewidth: arr.map((a, i) => (i < Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+        beforeheight: arr.map((a, i) => (i < Math.floor(arr.length / 2) ? a.height + slide.gap : null)).reduce((p, v) => p + v),
         afterwidth: arr.map((a, i) => (i > Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+        afterheight: arr.map((a, i) => (i > Math.floor(arr.length / 2) ? a.height + slide.gap : null)).reduce((p, v) => p + v),
     }
-    $: diff = (element.beforewidth - element.afterwidth) / 2
+
+    $: firstsize = axis === 'y' ? element.firstheight : element.firstwidth
+    $: lastsize = axis === 'y' ? element.lastheight : element.lastwidth
+    $: diff = axis === 'y' ? (element.beforeheight - element.afterheight) / 2 : (element.beforewidth - element.afterwidth) / 2
 
     let slidyinit = false
     function slidyLoad() {
@@ -94,15 +101,21 @@
 
     // CONTROLS & ANIMATION -----------------------------------------
     let sly = 0,
-        posx = 0,
-        left = 0,
+        pos = 0,
+        comp = 0,
         translate = 0,
         transition = 0
 
-    const move = (x, y, l) => `transform: translate(${x}px, ${y}px); left: ${l}px`
+    $: move = () => {
+        if (axis === 'y') {
+            return `transform: translate(0, ${translate - diff}px); top: ${comp}px`
+        } else {
+            return `transform: translate(${translate - diff}px, 0); left: ${comp}px`
+        }
+    }
 
-    $: translate = posx
-    $: left = -sly
+    $: translate = pos
+    $: comp = -sly
 
     function prev() {
         arr = [arr[arr.length - 1], ...arr.slice(0, -1)]
@@ -112,65 +125,69 @@
     }
 
     function slidyPrev() {
-        posx += element.lastwidth
+        pos += lastsize
         transition = duration
         slidyX()
     }
     function slidyNext() {
-        posx -= element.firstwidth
+        pos -= firstsize
         transition = duration
         slidyX()
     }
 
     let count = 0
     function slidyX() {
-        if (count === posx) {
+        if (count === pos) {
             return
-        } else if (count < posx) {
-            sly = posx
+        } else if (count < pos) {
+            sly = pos
             prev()
-        } else if (count > posx) {
-            sly = posx
+        } else if (count > pos) {
+            sly = pos
             next()
         }
-        count = posx
+        count = pos
     }
 
     // SLIDY ------------------------------------------------------
     function slidy() {
-        if (posx >= element.lastwidth) {
+        if (pos >= lastsize) {
             prev()
-            posx = 0
-        } else if (posx <= -element.firstwidth) {
+            pos = 0
+        } else if (pos <= -firstsize) {
             next()
-            posx = 0
+            pos = 0
         }
     }
 
     function slidyStop() {
         transition = duration / 3
         const nulled = () => {
-            posx = sly = speed = 0
+            pos = sly = speed = 0
             setTimeout(() => (index = element.active.ix), transition)
         }
-        if (posx >= element.lastwidth / 3 || speed <= -0.005) {
-            posx += element.lastwidth - posx
+        if (pos >= lastsize / 3 || speed <= -0.005) {
+            pos += lastsize - pos
             setTimeout(() => (prev(), nulled(), (transition = 0)), transition)
-        } else if (posx <= -element.firstwidth / 3 || speed >= 0.005) {
-            posx -= element.lastwidth + posx
+        } else if (pos <= -firstsize / 3 || speed >= 0.005) {
+            pos -= firstsize + pos
             setTimeout(() => (next(), nulled(), (transition = 0)), transition)
         } else {
             nulled()
         }
     }
     function toDefault() {
-        if (sly !== 0) sly = posx = count = 0
+        if (sly !== 0) sly = pos = count = 0
     }
 
     // WHEELL -----------------------------------------------------
     let iswheel = 0
     function slidyWheel(e) {
-        posx += -e.detail.dx
+        if (axis === 'y') {
+            pos += -e.detail.dy
+        } else {
+            pos += -e.detail.dx
+        }
         transition = 0
         toDefault()
         slidy()
@@ -197,10 +214,14 @@
     }
     function dragSlide(e) {
         if (isdrag) {
-            posx += e.detail.dx
+            if (axis === 'y') {
+                pos += e.detail.dy
+            } else {
+                pos += e.detail.dx
+            }
             slidy()
-            tracker = setInterval(() => (htx = posx), duration / 3)
-            speed = (htx - posx) / duration / 3
+            tracker = setInterval(() => (htx = pos), duration / 3)
+            speed = (htx - pos) / duration / 3
         }
     }
     function dragStop(e) {
@@ -211,9 +232,9 @@
 
     // KEYS -------------------------------------------------------
     function slidyKeys(e) {
-        if (e.keyCode === 37) {
+        if (e.keyCode === 37 || e.keyCode === 38) {
             index--
-        } else if (e.keyCode === 39) {
+        } else if (e.keyCode === 39 || e.keyCode === 40) {
             index++
         }
     }
@@ -243,15 +264,17 @@
     }, 100)
 </script>
 
-<svelte:window on:keydown="{controls.keys ? slidyKeys : ''}" />
 <section
+    on:keydown="{controls.keys ? slidyKeys : ''}"
+    tabindex="0"
+    aria-label="Slidy"
     id="{wrap.id}"
     class="slidy"
     use:resizeobserver
     on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slideg: {slide.gap / 2}px; --dur: {duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
@@ -263,18 +286,19 @@
         class="slidy-ul"
         class:loaded="{slidyinit}"
         class:autowidth="{slide.width === 'auto'}"
+        class:axisy="{axis === 'y'}"
         use:pannable
         on:panstart="{controls.drag ? dragStart : null}"
         on:panmove="{controls.drag ? dragSlide : null}"
         on:panend="{controls.drag ? dragStop : null}"
         on:contextmenu="{() => (isdrag = false)}"
-        style="{move(translate - diff, 0, left)}; transition: transform {transition}ms;"
+        style="{move()}; transition: transform {transition}ms; flex-direction: {axis === 'y' ? 'column' : 'row'}"
     >
         {#if arr.length > 0}
             {#each arr as slide, i (slide.id)}
                 <li bind:this="{nodes[slide.id]}" class:active="{slide.id === element.active.id}">
                     <slot {slide}>
-                        <img alt="{slide.id}" src="{slide.src}" />
+                        <img alt="{slide.id}" src="{slide.src ? slide.src : slide.download_url}" />
                     </slot>
                 </li>
             {/each}
@@ -291,7 +315,7 @@
     {/if}
 
     {#if controls.dots && slidyinit}
-        <ul class="slidy-dots" class:pure="{controls.dotspure}">
+        <ul class="slidy-dots" class:pure="{controls.dotspure}" class:axisy="{axis === 'y'}">
             {#if controls.dotsarrow}
                 <li class="dots-arrow-left" on:click="{(e) => index--}">
                     <slot name="dots-arrow-left">
@@ -367,7 +391,7 @@
         opacity: 0;
         width: var(--slidew);
         height: var(--slideh);
-        margin: 0 var(--slideg);
+        margin: var(--slideg);
         box-sizing: border-box;
     }
     .slidy button {
@@ -401,10 +425,21 @@
         height: 50px;
         padding: 0;
     }
+    .slidy-dots.axisy {
+        bottom: 50%;
+        right: 0;
+        width: 50px;
+        flex-direction: column;
+    }
     .slidy-dots li {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+    }
+    .slidy-dots.axisy .dots-arrow-left,
+    .slidy-dots.axisy .dots-arrow-right {
+        transform: rotate(90deg);
     }
     .slidy-dots.pure li {
         width: 27px;

@@ -8,8 +8,15 @@
 - [New external controls](#external)   
 - [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New props names](#newpropsname)
-- [New classNames && slots in Slidy nodes tree](#newclassname)  
+- [New props names & settings](#newpropsname)
+- [New classNames && slots in Slidy nodes tree](#newclassname)
+- [New settings for preloader](#newclassname)
+- [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
+- Classnames on state:
+  - .loaded – on init Slidy
+  - .autowidth – on slide.width: 'auto'  
+  - .axisy – on axis: 'y' direction
+- Keyboard arrowkeys navigation only Slidy in focus
 
 
 ## Site
@@ -61,6 +68,7 @@ yarn add -D slidy
             wheel: true, // nav by mousewheel (shift + wheel) or swipe on touch/trackpads
         },
         duration: 250, // duration slides animation
+        axis: 'x', // new in 2.2.0 axis direction
         loader: { // new in 2.0 settings for preloader spinner
             color: 'red',
             size: 75,
