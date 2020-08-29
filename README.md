@@ -20,10 +20,10 @@
 
 
 ## Site
-[**https://valexr.github.io/slidy-site/**](https://valexr.github.io/slidy-site/)
+[https://valexr.github.io/slidy-site/](https://valexr.github.io/slidy-site/)
 
 ## Playground
-[**https://svelte.dev/repl/**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+[https://svelte.dev/repl/](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Install
 

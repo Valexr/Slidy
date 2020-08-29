@@ -88,7 +88,7 @@
     }
 
     // RESIZE-OBSERVER ----------------------------------------------
-    function resizeWrap(e) {
+    function resizeWrap() {
         arr = slides.map((s, i) => {
             return {
                 ix: i + 1,
@@ -108,9 +108,9 @@
 
     $: move = () => {
         if (axis === 'y') {
-            return `transform: translate(0, ${translate - diff}px); top: ${comp}px`
+            return `transform: translate3d(0, ${translate - diff}px, 0); top: ${comp}px`
         } else {
-            return `transform: translate(${translate - diff}px, 0); left: ${comp}px`
+            return `transform: translate3d(${translate - diff}px, 0, 0); left: ${comp}px`
         }
     }
 
@@ -204,7 +204,7 @@
         htx,
         tracker,
         speed
-    function dragStart(e) {
+    function dragStart() {
         isdrag = true
         transition = 0
         toDefault()
@@ -224,7 +224,7 @@
             speed = (htx - pos) / duration / 3
         }
     }
-    function dragStop(e) {
+    function dragStop() {
         isdrag = false
         clearInterval(tracker)
         slidyStop()
@@ -292,7 +292,7 @@
         on:panmove="{controls.drag ? dragSlide : null}"
         on:panend="{controls.drag ? dragStop : null}"
         on:contextmenu="{() => (isdrag = false)}"
-        style="{move()}; transition: transform {transition}ms; flex-direction: {axis === 'y' ? 'column' : 'row'}"
+        style="{move()};transition: transform {transition}ms; flex-direction: {axis === 'y' ? 'column' : 'row'}"
     >
         {#if arr.length > 0}
             {#each arr as slide, i (slide.id)}
@@ -306,10 +306,10 @@
     </ul>
 
     {#if controls.arrows && slidyinit}
-        <button class="arrow-left" on:click="{(e) => index--}">
+        <button class="arrow-left" on:click="{() => index--}">
             <slot name="arrow-left">&#8592;</slot>
         </button>
-        <button class="arrow-right" on:click="{(e) => index++}">
+        <button class="arrow-right" on:click="{() => index++}">
             <slot name="arrow-right">&#8594;</slot>
         </button>
     {/if}
@@ -317,7 +317,7 @@
     {#if controls.dots && slidyinit}
         <ul class="slidy-dots" class:pure="{controls.dotspure}" class:axisy="{axis === 'y'}">
             {#if controls.dotsarrow}
-                <li class="dots-arrow-left" on:click="{(e) => index--}">
+                <li class="dots-arrow-left" on:click="{() => index--}">
                     <slot name="dots-arrow-left">
                         <button>&#8592;</button>
                     </slot>
@@ -331,7 +331,7 @@
                 </li>
             {/each}
             {#if controls.dotsarrow}
-                <li class="dots-arrow-right" on:click="{(e) => index++}">
+                <li class="dots-arrow-right" on:click="{() => index++}">
                     <slot name="dots-arrow-right">
                         <button>&#8594;</button>
                     </slot>
@@ -418,7 +418,6 @@
     .slidy li.active button {
         color: red;
     }
-
     .slidy-dots {
         position: absolute;
         bottom: 0;

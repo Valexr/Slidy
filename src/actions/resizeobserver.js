@@ -1,5 +1,3 @@
-// import { ResizeObserver } from '@juggle/resize-observer';
-
 export function resizeobserver(node) {
     let cR
     let eT
