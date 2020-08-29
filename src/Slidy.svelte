@@ -108,9 +108,9 @@
 
     $: move = () => {
         if (axis === 'y') {
-            return `transform: translate3d(0, ${translate - diff}px, 0); top: ${comp}px`
+            return `transform: translate3d(0, ${translate - diff}px, 0); transition: transform ${transition}ms; top: ${comp}px;`
         } else {
-            return `transform: translate3d(${translate - diff}px, 0, 0); left: ${comp}px`
+            return `transform: translate3d(${translate - diff}px, 0, 0); transition: transform ${transition}ms; left: ${comp}px;`
         }
     }
 
@@ -158,6 +158,7 @@
             next()
             pos = 0
         }
+        index = element.active.ix
     }
 
     function slidyStop() {
@@ -181,7 +182,7 @@
     }
 
     // WHEELL -----------------------------------------------------
-    let iswheel = 0
+    let iswheel
     function slidyWheel(e) {
         if (axis === 'y') {
             pos += -e.detail.dy
@@ -265,15 +266,18 @@
 </script>
 
 <section
-    on:keydown="{controls.keys ? slidyKeys : ''}"
     tabindex="0"
     aria-label="Slidy"
     id="{wrap.id}"
     class="slidy"
+    class:loaded="{slidyinit}"
+    class:axisy="{axis === 'y'}"
+    class:autowidth="{slide.width === 'auto'}"
     use:resizeobserver
     on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
+    on:keydown="{controls.keys ? slidyKeys : null}"
     style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
 >
     {#if !slidyinit}
@@ -282,20 +286,9 @@
         </slot>
     {/if}
 
-    <ul
-        class="slidy-ul"
-        class:loaded="{slidyinit}"
-        class:autowidth="{slide.width === 'auto'}"
-        class:axisy="{axis === 'y'}"
-        use:pannable
-        on:panstart="{controls.drag ? dragStart : null}"
-        on:panmove="{controls.drag ? dragSlide : null}"
-        on:panend="{controls.drag ? dragStop : null}"
-        on:contextmenu="{() => (isdrag = false)}"
-        style="{move()};transition: transform {transition}ms; flex-direction: {axis === 'y' ? 'column' : 'row'}"
-    >
+    <ul class="slidy-ul" use:pannable on:panstart="{controls.drag ? dragStart : null}" on:panmove="{controls.drag ? dragSlide : null}" on:panend="{controls.drag ? dragStop : null}" on:contextmenu="{() => (isdrag = false)}" style="{move()}">
         {#if arr.length > 0}
-            {#each arr as slide, i (slide.id)}
+            {#each arr as slide (slide.id)}
                 <li bind:this="{nodes[slide.id]}" class:active="{slide.id === element.active.id}">
                     <slot {slide}>
                         <img alt="{slide.id}" src="{slide.src ? slide.src : slide.download_url}" />
@@ -315,7 +308,7 @@
     {/if}
 
     {#if controls.dots && slidyinit}
-        <ul class="slidy-dots" class:pure="{controls.dotspure}" class:axisy="{axis === 'y'}">
+        <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
                 <li class="dots-arrow-left" on:click="{() => index--}">
                     <slot name="dots-arrow-left">
@@ -350,6 +343,7 @@
         overflow: hidden;
         width: var(--wrapw);
         height: var(--wraph);
+        outline: 0;
     }
     .slidy ul {
         display: flex;
@@ -369,8 +363,11 @@
         touch-action: pan-y;
         will-change: transform;
     }
-    .slidy-ul.loaded li {
+    .slidy.loaded .slidy-ul li {
         opacity: 1;
+    }
+    .slidy.axisy .slidy-ul {
+        flex-direction: column;
     }
     :global(.slidy-ul li img) {
         pointer-events: none;
@@ -387,8 +384,8 @@
         max-width: 100%;
         max-height: 100%;
         position: relative;
-        transition: color var(--dur), opacity var(--dur);
         opacity: 0;
+        transition: color var(--dur), opacity var(--dur);
         width: var(--slidew);
         height: var(--slideh);
         margin: var(--slideg);
@@ -424,7 +421,7 @@
         height: 50px;
         padding: 0;
     }
-    .slidy-dots.axisy {
+    .slidy.axisy .slidy-dots {
         bottom: 50%;
         right: 0;
         width: 50px;
@@ -436,8 +433,8 @@
         justify-content: center;
         flex-shrink: 0;
     }
-    .slidy-dots.axisy .dots-arrow-left,
-    .slidy-dots.axisy .dots-arrow-right {
+    .slidy.axisy .dots-arrow-left,
+    .slidy.axisy .dots-arrow-right {
         transform: rotate(90deg);
     }
     .slidy-dots.pure li {

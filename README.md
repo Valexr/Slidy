@@ -1,7 +1,7 @@
 # SLIDY – simple configurable carousel component on SvelteJS.
 
-[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg?style=flat)](https://www.npmjs.com/package/svelte-slidy)  
-[**7.5kb** gzip](https://bundlephobia.com/result?p=svelte-slidy "bundlephobia.com")
+[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
 
 ## Changelog
@@ -28,7 +28,11 @@
 ## Install
 
 ```bash
-yarn add -D slidy
+npm i -D svelte-slidy
+
+or
+
+yarn add -D svelte-slidy
 ```
 
 ## Usage
