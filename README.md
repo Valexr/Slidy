@@ -5,6 +5,7 @@
 
 
 ## Changelog
+- **!!!New** – slot for slide (slot="slide") without name now. 
 - [New external controls](#external)   
 - [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
@@ -18,7 +19,6 @@
   - .axisy – on axis: 'y' direction
 - Keyboard arrowkeys navigation only Slidy in focus
 - [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#newpropsname) – [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
-- New slot for slide without name now. 
 - If you are using yours content in slot & slide.backimg: 'false' you need tag ```<img />``` inside slot. By default empty slot have ```<img />``` tag.
 - New props rename let:slide > let:item
 
