@@ -13,8 +13,11 @@
     }
     export let slide = {
         gap: 0,
-        width: 'auto',
+        class: '',
+        width: '50vw',
         height: '100%',
+        backimg: false,
+        imgsrckey: 'src',
     }
     export let controls = {
         dots: true,
@@ -73,7 +76,7 @@
     $: lastsize = axis === 'y' ? element.lastheight : element.lastwidth
     $: diff = axis === 'y' ? (element.beforeheight - element.afterheight) / 2 : (element.beforewidth - element.afterwidth) / 2
 
-    let slidyinit = false
+    export let slidyinit = false
     function slidyLoad() {
         arr = slides.map((s, i) => {
             return {
@@ -108,9 +111,9 @@
 
     $: move = () => {
         if (axis === 'y') {
-            return `transform: translate3d(0, ${translate - diff}px, 0); transition: transform ${transition}ms; top: ${comp}px;`
+            return `transform: translate(0, ${translate - diff}px); transition: transform ${transition}ms; top: ${comp}px;`
         } else {
-            return `transform: translate3d(${translate - diff}px, 0, 0); transition: transform ${transition}ms; left: ${comp}px;`
+            return `transform: translate(${translate - diff}px, 0); transition: transform ${transition}ms; left: ${comp}px;`
         }
     }
 
@@ -136,7 +139,7 @@
     }
 
     let count = 0
-    function slidyX() {
+    async function slidyX() {
         if (count === pos) {
             return
         } else if (count < pos) {
@@ -150,7 +153,7 @@
     }
 
     // SLIDY ------------------------------------------------------
-    function slidy() {
+    async function slidy() {
         if (pos >= lastsize) {
             prev()
             pos = 0
@@ -161,7 +164,7 @@
         index = element.active.ix
     }
 
-    function slidyStop() {
+    async function slidyStop() {
         transition = duration / 3
         const nulled = () => {
             pos = sly = speed = 0
@@ -196,6 +199,7 @@
             clearTimeout(iswheel)
         }
         iswheel = setTimeout(() => {
+            clearTimeout(iswheel)
             slidyStop()
         }, duration / 3)
     }
@@ -263,9 +267,14 @@
             slidyLoad()
         }
     }, 100)
+
+    function backimgsrc(item) {
+        if (slide.backimg === true) return `--backimg: url(${item[slide.imgsrckey]})`
+    }
 </script>
 
 <section
+    role="region"
     tabindex="0"
     aria-label="Slidy"
     id="{wrap.id}"
@@ -288,10 +297,10 @@
 
     <ul class="slidy-ul" use:pannable on:panstart="{controls.drag ? dragStart : null}" on:panmove="{controls.drag ? dragSlide : null}" on:panend="{controls.drag ? dragStop : null}" on:contextmenu="{() => (isdrag = false)}" style="{move()}">
         {#if arr.length > 0}
-            {#each arr as slide (slide.id)}
-                <li bind:this="{nodes[slide.id]}" class:active="{slide.id === element.active.id}">
-                    <slot {slide}>
-                        <img alt="{slide.id}" src="{slide.src ? slide.src : slide.download_url}" />
+            {#each arr as item (item.id)}
+                <li bind:this="{nodes[item.id]}" class="{slide.class}" class:active="{item.id === element.active.id}" style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}">
+                    <slot item="{item}">
+                        {#if slide.backimg === false}<img alt="{item.id}" src="{slide.imgsrckey ? item[slide.imgsrckey] : item.src}" width="{item.width}" height="{item.height}" />{/if}
                     </slot>
                 </li>
             {/each}
@@ -311,23 +320,17 @@
         <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
                 <li class="dots-arrow-left" on:click="{() => index--}">
-                    <slot name="dots-arrow-left">
-                        <button>&#8592;</button>
-                    </slot>
+                    <slot name="dots-arrow-left"><button>&#8592;</button></slot>
                 </li>
             {/if}
             {#each dots as dot (dot.id)}
                 <li class:active="{dot.id === element.active.id}" on:click="{() => (index = dot.ix)}">
-                    <slot name="dot" {dot}>
-                        <button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button>
-                    </slot>
+                    <slot name="dot" dot="{dot}"><button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button></slot>
                 </li>
             {/each}
             {#if controls.dotsarrow}
                 <li class="dots-arrow-right" on:click="{() => index++}">
-                    <slot name="dots-arrow-right">
-                        <button>&#8594;</button>
-                    </slot>
+                    <slot name="dots-arrow-right"><button>&#8594;</button></slot>
                 </li>
             {/if}
         </ul>
@@ -359,9 +362,13 @@
         width: 100%;
         height: 100%;
         padding: var(--wrapp);
-        position: relative;
+        position: absolute;
         touch-action: pan-y;
         will-change: transform;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        perspective: 1000;
     }
     .slidy.loaded .slidy-ul li {
         opacity: 1;
@@ -376,7 +383,7 @@
         width: 100%;
         height: 100%;
     }
-    :global(.slidy-ul.autowidth li img) {
+    :global(.slidy.autowidth .slidy-ul li img) {
         width: auto;
     }
     .slidy-ul li {
@@ -390,6 +397,11 @@
         height: var(--slideh);
         margin: var(--slideg);
         box-sizing: border-box;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: center;
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0);
     }
     .slidy button {
         margin: 0;
@@ -414,6 +426,7 @@
     .slidy li.active,
     .slidy li.active button {
         color: red;
+        z-index: 1;
     }
     .slidy-dots {
         position: absolute;
@@ -422,9 +435,10 @@
         padding: 0;
     }
     .slidy.axisy .slidy-dots {
-        bottom: 50%;
+        bottom: auto;
         right: 0;
         width: 50px;
+        height: 100%;
         flex-direction: column;
     }
     .slidy-dots li {

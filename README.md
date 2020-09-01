@@ -10,13 +10,17 @@
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - [New props names & settings](#newpropsname)
 - [New classNames && slots in Slidy nodes tree](#newclassname)
-- [New settings for preloader](#newclassname)
+- [New settings for preloader](#newpropsname)
 - [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
 - Classnames on state:
   - .loaded – on init Slidy
   - .autowidth – on slide.width: 'auto'  
   - .axisy – on axis: 'y' direction
 - Keyboard arrowkeys navigation only Slidy in focus
+- [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#newpropsname) – [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
+- New slot for slide without name now. 
+- If you are using yours content in slot & slide.backimg: 'false' you need tag ```<img />``` inside slot. By default empty slot have ```<img />``` tag.
+- New props rename let:slide > let:item
 
 
 ## Site
@@ -58,8 +62,11 @@ yarn add -D svelte-slidy
         },
         slide: {
             gap: 0,
+            class: '', // classname for styling slide
             width: 'auto',
             height: '100%',
+            backimg: true, // if true image on background slidewrap & slot for content empty
+            imgsrckey: 'src' // prop for ypurs image src key 
         },
         controls: {
             dots: true,
@@ -82,7 +89,7 @@ yarn add -D svelte-slidy
     } // slidy settings for current instance
 </script>
 
-<Slidy {...slidy_default} bind:index let:slide /> <!-- bind:index new prop in 2.0 for external controls & let:slide new name for prop to eached elements -->
+<Slidy {...slidy_default} bind:index let:item /> <!-- bind:index new prop in 2.0 for external controls & let:item new name for prop to eached elements -->
 ```
 
 
@@ -93,7 +100,7 @@ yarn add -D svelte-slidy
 
 [Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
 
-You can use any tags what you want inside Slidy component for ```{#each it}``` by ```let:slide``` derective:
+You can use any tags what you want inside Slidy component for ```{#each it}``` by ```let:item``` derective:
 
 ```html
 <script>
@@ -114,13 +121,13 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
     }
 </script>
 
-<Slidy {...slidy_cards} let:slide>
+<Slidy {...slidy_cards} let:item>
     <div class="slide"> <!-- wrapper for new skin -->
-        <img alt="{slide.header}" src="{slide.src}"/>
+        <img alt="{item.header}" src="{item.src}"/>
         <article>
-            <h2>{slide.header</h2>
+            <h2>{item.header</h2>
             <p>
-                {slide.text}
+                {item.text}
             </p>
         </article>
     </div>
@@ -133,7 +140,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
->**!MPORTANT** – let:slide derectives for each yours items in new skin & can be without wrappers ;).
+>**!MPORTANT** – let:item derectives for each yours items in new skin & can be without wrappers ;).
 
 
 ## Customize default Slidy styles
