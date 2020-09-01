@@ -33,9 +33,9 @@
 
 ```bash
 npm i -D svelte-slidy
-
+```
 or
-
+```
 yarn add -D svelte-slidy
 ```
 
