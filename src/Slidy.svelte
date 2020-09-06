@@ -267,10 +267,6 @@
             slidyLoad()
         }
     }, 100)
-
-    function backimgsrc(item) {
-        if (slide.backimg === true) return `--backimg: url(${item[slide.imgsrckey]})`
-    }
 </script>
 
 <section
