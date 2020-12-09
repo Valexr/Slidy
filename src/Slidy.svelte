@@ -284,7 +284,7 @@
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slidef: ${slide.objectFit || 'cover'} --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slidef: {slide.objectFit || 'cover'}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
