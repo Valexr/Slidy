@@ -66,7 +66,8 @@ yarn add -D svelte-slidy
             width: 'auto',
             height: '100%',
             backimg: true, // if true image on background slidewrap & slot for content empty
-            imgsrckey: 'src' // prop for ypurs image src key 
+            imgsrckey: 'src', // prop for ypurs image src key
+            objectFit: 'cover'
         },
         controls: {
             dots: true,
