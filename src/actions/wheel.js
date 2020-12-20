@@ -16,7 +16,7 @@ export function wheel(node) {
         }));
     }
 
-    node.addEventListener('wheel', handleWheel);
+    node.addEventListener('wheel', handleWheel, { passive: false });
 
     return {
         destroy() {

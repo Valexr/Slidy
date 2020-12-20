@@ -1,4 +1,5 @@
 export function pannable(node) {
+    const eventHandlerOptions = { passive: false };
     let x = 0, y = 0
 
     function unify(e) { return e.changedTouches ? e.changedTouches[0] : e };
@@ -11,10 +12,10 @@ export function pannable(node) {
             detail: { x, y }
         }));
 
-        window.addEventListener('mousemove', handleMousemove);
-        window.addEventListener('mouseup', handleMouseup);
-        window.addEventListener('touchmove', handleMousemove);
-        window.addEventListener('touchend', handleMouseup);
+        window.addEventListener('mousemove', handleMousemove, eventHandlerOptions);
+        window.addEventListener('mouseup', handleMouseup, eventHandlerOptions);
+        window.addEventListener('touchmove', handleMousemove, eventHandlerOptions);
+        window.addEventListener('touchend', handleMouseup, eventHandlerOptions);
     }
 
     function handleMousemove(e) {
@@ -39,19 +40,19 @@ export function pannable(node) {
             detail: { x, y }
         }));
 
-        window.removeEventListener('mousemove', handleMousemove);
-        window.removeEventListener('mouseup', handleMouseup);
-        window.removeEventListener('touchmove', handleMousemove);
-        window.removeEventListener('touchend', handleMouseup);
+        window.removeEventListener('mousemove', handleMousemove, eventHandlerOptions);
+        window.removeEventListener('mouseup', handleMouseup, eventHandlerOptions);
+        window.removeEventListener('touchmove', handleMousemove, eventHandlerOptions);
+        window.removeEventListener('touchend', handleMouseup, eventHandlerOptions);
     }
 
-    node.addEventListener('mousedown', handleMousedown);
-    node.addEventListener('touchstart', handleMousedown);
+    node.addEventListener('mousedown', handleMousedown, eventHandlerOptions);
+    node.addEventListener('touchstart', handleMousedown, eventHandlerOptions);
 
     return {
         destroy() {
-            node.removeEventListener('mousedown', handleMousedown);
-            node.removeEventListener('touchstart', handleMousedown);
+            node.removeEventListener('mousedown', handleMousedown, eventHandlerOptions);
+            node.removeEventListener('touchstart', handleMousedown, eventHandlerOptions);
         }
     };
 }
