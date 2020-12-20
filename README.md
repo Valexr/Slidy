@@ -5,7 +5,7 @@
 
 
 ## Changelog
-- ** IMPORTANT ** - index = i
+- **IMPORTANT** - index = i
 - [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/slidy-site/)
 - New block [options: {
             axis: 'x',
