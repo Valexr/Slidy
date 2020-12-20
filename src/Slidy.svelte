@@ -1,6 +1,5 @@
 <script>
-    import { afterUpdate } from 'svelte'
-    import { spring } from 'svelte/motion'
+    import { afterUpdate, tick } from 'svelte'
     import { wheel } from './actions/wheel.js'
     import { pannable } from './actions/pannable.js'
     import { resizeobserver } from './actions/resizeobserver.js'
@@ -227,8 +226,8 @@
             if (direct) {
                 if (options.loop) {
                     direct()
-                    pos = speed = 0
-                    index = i = element.active.ix
+                    pos = speed = transition = 0
+                    tick().then(() => (index = i = element.active.ix))
                 } else {
                     index = direct
                     pos = speed = 0
