@@ -145,8 +145,7 @@
     let pos = 0,
         comp = 0,
         translate = 0,
-        transition = options.duration,
-        coords = spring({ x: 0, y: 0 }, { stiffness: 0.05, damping: 0.5 })
+        transition = options.duration
 
     $: move = () => {
         if (options.axis === 'y') {
@@ -227,29 +226,30 @@
         const nulled = (direct) => {
             if (direct) {
                 if (options.loop) {
-                    isdrag === false ? (slidyLoop(), (pos = speed = transition = 0)) : null
+                    direct()
+                    pos = speed = transition = 0
                     setTimeout(() => (index = i = element.active.ix), transition)
                 } else {
-                    pos = speed = 0
                     index = direct
+                    pos = speed = 0
                 }
             } else {
                 pos = comp = speed = 0
             }
         }
-        if (pos >= lastsize / 3 || speed <= -0.005) {
+        if (pos >= lastsize / 3 || speed < 0) {
             if (options.loop) {
                 pos += lastsize - pos
                 setTimeout(() => nulled(prev), transition)
             } else {
-                nulled((i -= 1))
+                nulled((i = index -= 1))
             }
-        } else if (pos <= -firstsize / 3 || speed >= 0.005) {
+        } else if (pos <= -firstsize / 3 || speed > 0) {
             if (options.loop) {
                 pos -= firstsize + pos
                 setTimeout(() => nulled(next), transition)
             } else {
-                nulled((i += 1))
+                nulled((i = index += 1))
             }
         } else {
             nulled()
