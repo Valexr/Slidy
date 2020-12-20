@@ -1,4 +1,6 @@
 <script>
+    import { afterUpdate } from 'svelte'
+    import { spring } from 'svelte/motion'
     import { wheel } from './actions/wheel.js'
     import { pannable } from './actions/pannable.js'
     import { resizeobserver } from './actions/resizeobserver.js'
@@ -10,6 +12,8 @@
         width: '100%',
         height: '50vh',
         padding: '0',
+        align: 'middle',
+        alignmargin: 0,
     }
     export let slide = {
         gap: 0,
@@ -18,7 +22,7 @@
         height: '100%',
         backimg: false,
         imgsrckey: 'src',
-        objectFit: 'cover'
+        objectfit: 'cover',
     }
     export let controls = {
         dots: true,
@@ -30,179 +34,253 @@
         drag: true,
         wheel: true,
     }
-    export let duration = 350
-    export let axis = 'x'
+    export let options = {
+        axis: 'x',
+        loop: true,
+        duration: 350,
+    }
     export let loader = {
         color: 'red',
         size: 75,
         thickness: 1,
-        speed: duration,
+        speed: options.duration,
     }
-    export let index = Math.round(slides.length / 2)
+    export let index = Math.floor(slides.length / 2)
+    export let slidyinit = false
 
-    $: slidyinit && slidyTo(index)
-
-    function slidyTo(i) {
-        if (i < 1) {
-            index = arr.length
-            slidyIndex(i)
-        } else if (i > arr.length) {
-            index = 1
-            slidyIndex(i)
+    $: if (index < 0) {
+        if (options.loop) {
+            index = slides.length - 1
+            i = slides.length
         } else {
-            slidyIndex(i)
+            index = 0
+        }
+    } else if (index > slides.length - 1) {
+        if (options.loop) {
+            index = 0
+            i = -1
+        } else {
+            index = slides.length - 1
         }
     }
 
+    $: slidyinit && slidyIndex(index)
+
     // SLIDY-INIT ---------------------------------------------------
-    let arr = slides,
-        dots = arr,
-        nodes = []
+    let nodes = {},
+        dots = slides
+
+    let element = {
+            active: null,
+            activewidth: null,
+            activeheight: null,
+            first: null,
+            firstwidth: null,
+            firstheight: null,
+            last: null,
+            lastwidth: null,
+            lastheight: null,
+            beforewidth: null,
+            beforeheight: null,
+            afterwidth: null,
+            afterheight: null,
+            fullwidth: null,
+            fullheight: null,
+        },
+        firstsize,
+        lastsize,
+        activesize,
+        beforesize,
+        aftersize,
+        wrapsize,
+        aligndiff,
+        diffsize
 
     $: element = {
-        active: arr[Math.floor(arr.length / 2)],
-        first: arr[0],
-        firstwidth: arr[0].width + slide.gap,
-        firstheight: arr[0].height + slide.gap,
-        last: arr[arr.length - 1],
-        lastwidth: arr[arr.length - 1].width + slide.gap,
-        lastheight: arr[arr.length - 1].height + slide.gap,
-        beforewidth: arr.map((a, i) => (i < Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
-        beforeheight: arr.map((a, i) => (i < Math.floor(arr.length / 2) ? a.height + slide.gap : null)).reduce((p, v) => p + v),
-        afterwidth: arr.map((a, i) => (i > Math.floor(arr.length / 2) ? a.width + slide.gap : null)).reduce((p, v) => p + v),
-        afterheight: arr.map((a, i) => (i > Math.floor(arr.length / 2) ? a.height + slide.gap : null)).reduce((p, v) => p + v),
+        active: slides[options.loop ? Math.floor(slides.length / 2) : index],
+        activewidth: slides[index].width + slide.gap,
+        activeheight: slides[index].height + slide.gap,
+        first: slides[0],
+        firstwidth: slides[0].width + slide.gap,
+        firstheight: slides[0].height + slide.gap,
+        last: slides[slides.length - 1],
+        lastwidth: slides[slides.length - 1].width + slide.gap,
+        lastheight: slides[slides.length - 1].height + slide.gap,
+        beforewidth: slides.map((a, i) => (i < index ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+        beforeheight: slides.map((a, i) => (i < index ? a.height + slide.gap : null)).reduce((p, v) => p + v),
+        afterwidth: slides.map((a, i) => (i > index ? a.width + slide.gap : null)).reduce((p, v) => p + v),
+        afterheight: slides.map((a, i) => (i > index ? a.height + slide.gap : null)).reduce((p, v) => p + v),
+        fullwidth: slides.reduce((p, v) => p + v.width + slide.gap, 0),
+        fullheight: slides.reduce((p, v) => p + v.height + slide.gap, 0),
     }
+    $: firstsize = options.axis === 'y' ? element.firstheight : element.firstwidth
+    $: lastsize = options.axis === 'y' ? element.lastheight : element.lastwidth
+    $: activesize = options.axis === 'y' ? element.activeheight : element.activewidth
+    $: beforesize = options.axis === 'y' ? element.beforeheight : element.beforewidth
+    $: aftersize = options.axis === 'y' ? element.afterheight : element.afterwidth
+    $: wrapsize = options.axis === 'y' ? wrapheight : wrapwidth
+    $: aligndiff = (wrapsize - activesize + slide.gap) / 2 - wrap.alignmargin
+    $: diffsize = (beforesize - aftersize) / 2 - pos
 
-    $: firstsize = axis === 'y' ? element.firstheight : element.firstwidth
-    $: lastsize = axis === 'y' ? element.lastheight : element.lastwidth
-    $: diff = axis === 'y' ? (element.beforeheight - element.afterheight) / 2 : (element.beforewidth - element.afterwidth) / 2
-
-    export let slidyinit = false
-    function slidyLoad() {
-        arr = slides.map((s, i) => {
-            return {
-                ix: i + 1,
-                ...s,
-                width: nodes[s.id].clientWidth,
-                height: nodes[s.id].clientHeight,
-            }
-        })
-        dots = arr
-        slidyinit = true
+    // LOADSTATE-CHECK -------------------------------------------------
+    afterUpdate(() => slidyInit())
+    function slidyInit() {
+        slides = dots = slides.map((s, i) => ({
+            ix: i,
+            ...s,
+            width: nodes[s.id].clientWidth,
+            height: nodes[s.id].clientHeight,
+        }))
+        setTimeout(() => (slidyinit = true), 1000)
     }
 
     // RESIZE-OBSERVER ----------------------------------------------
-    function resizeWrap() {
-        arr = slides.map((s, i) => {
-            return {
-                ix: i + 1,
-                ...s,
-                width: nodes[s.id].clientWidth,
-                height: nodes[s.id].clientHeight,
-            }
-        })
+    let wrapwidth, wrapheight
+    function resizeWrap(e) {
+        wrapwidth = e.detail.CR.width
+        wrapheight = e.detail.CR.height
     }
 
     // CONTROLS & ANIMATION -----------------------------------------
-    let sly = 0,
-        pos = 0,
+    let pos = 0,
         comp = 0,
         translate = 0,
-        transition = 0
+        transition = options.duration,
+        coords = spring({ x: 0, y: 0 }, { stiffness: 0.05, damping: 0.5 })
 
     $: move = () => {
-        if (axis === 'y') {
-            return `transform: translate(0, ${translate - diff}px); transition: transform ${transition}ms; top: ${comp}px;`
+        if (options.axis === 'y') {
+            return `transform: translate(0, ${translate}px); top: ${comp}px;`
         } else {
-            return `transform: translate(${translate - diff}px, 0); transition: transform ${transition}ms; left: ${comp}px;`
+            return `transform: translate(${translate}px, 0); left: ${comp}px;`
         }
     }
 
-    $: translate = pos
-    $: comp = -sly
+    $: if (wrap.align === 'end') {
+        translate = slides.length % 2 === 0 ? (options.loop ? pos + aligndiff - activesize / 2 : -diffsize + aligndiff) : options.loop ? pos + aligndiff : -diffsize + aligndiff
+    } else if (wrap.align === 'start') {
+        translate = slides.length % 2 === 0 ? (options.loop ? pos - aligndiff - activesize / 2 : -diffsize - aligndiff) : options.loop ? pos - aligndiff : -diffsize - aligndiff
+    } else {
+        translate = slides.length % 2 === 0 ? (options.loop ? pos - activesize / 2 : -diffsize) : options.loop ? pos : -diffsize
+    }
 
     function prev() {
-        arr = [arr[arr.length - 1], ...arr.slice(0, -1)]
+        slides = [slides[slides.length - 1], ...slides.slice(0, -1)]
     }
     function next() {
-        arr = [...arr.slice(1), arr[0]]
+        slides = [...slides.slice(1), slides[0]]
     }
 
-    function slidyPrev() {
-        pos += lastsize
-        transition = duration
-        slidyX()
-    }
-    function slidyNext() {
-        pos -= firstsize
-        transition = duration
-        slidyX()
-    }
-
-    let count = 0
-    async function slidyX() {
-        if (count === pos) {
-            return
-        } else if (count < pos) {
-            sly = pos
-            prev()
-        } else if (count > pos) {
-            sly = pos
-            next()
+    // INDEX ------------------------------------------------------
+    let i = Math.floor(slides.length / 2)
+    function slidyIndex(id) {
+        while (i > id) {
+            transition = options.duration
+            if (options.loop) {
+                pos += lastsize
+                comp = -pos
+                prev()
+            } else {
+                null
+            }
+            i--
         }
-        count = pos
+        while (i < id) {
+            transition = options.duration
+            if (options.loop) {
+                pos -= firstsize
+                comp = -pos
+                next()
+            } else {
+                null
+            }
+            i++
+        }
     }
 
     // SLIDY ------------------------------------------------------
-    async function slidy() {
+    function slidyLoop() {
         if (pos >= lastsize) {
-            prev()
+            if (options.loop) {
+                prev()
+            } else {
+                index = i -= 1
+            }
             pos = 0
         } else if (pos <= -firstsize) {
-            next()
+            if (options.loop) {
+                next()
+            } else {
+                index = i += 1
+            }
             pos = 0
         }
-        index = element.active.ix
+        if (options.loop) {
+            index = i = element.active.ix
+        } else {
+            pos >= beforesize || pos <= -aftersize ? (pos = pos / 1.5) : (pos = pos)
+        }
     }
 
-    async function slidyStop() {
-        transition = duration / 3
-        const nulled = () => {
-            pos = sly = speed = 0
-            setTimeout(() => (index = element.active.ix), transition)
+    function slidyStop() {
+        transition = options.duration / 2
+        const nulled = (direct) => {
+            if (direct) {
+                if (options.loop) {
+                    isdrag === false ? (slidyLoop(), (pos = speed = transition = 0)) : null
+                    setTimeout(() => (index = i = element.active.ix), transition)
+                } else {
+                    pos = speed = 0
+                    index = direct
+                }
+            } else {
+                pos = comp = speed = 0
+            }
         }
         if (pos >= lastsize / 3 || speed <= -0.005) {
-            pos += lastsize - pos
-            setTimeout(() => (prev(), nulled(), (transition = 0)), transition)
+            if (options.loop) {
+                pos += lastsize - pos
+                setTimeout(() => nulled(prev), transition)
+            } else {
+                nulled((i -= 1))
+            }
         } else if (pos <= -firstsize / 3 || speed >= 0.005) {
-            pos -= firstsize + pos
-            setTimeout(() => (next(), nulled(), (transition = 0)), transition)
+            if (options.loop) {
+                pos -= firstsize + pos
+                setTimeout(() => nulled(next), transition)
+            } else {
+                nulled((i += 1))
+            }
         } else {
             nulled()
         }
     }
-    function toDefault() {
-        if (sly !== 0) sly = pos = count = 0
+
+    function slidyNull() {
+        if (comp !== 0) comp = pos = 0
     }
 
     // WHEELL -----------------------------------------------------
-    let iswheel
+    let iswheel = false
+    let wheeltime
     function slidyWheel(e) {
-        if (axis === 'y') {
+        slidyNull()
+        iswheel = true
+        transition = 0
+        if (options.axis === 'y') {
             pos += -e.detail.dy
         } else {
             pos += -e.detail.dx
         }
-        transition = 0
-        toDefault()
-        slidy()
-        if (iswheel !== null) {
-            clearTimeout(iswheel)
+        slidyLoop()
+        if (wheeltime !== null) {
+            clearTimeout(wheeltime)
         }
-        iswheel = setTimeout(() => {
-            clearTimeout(iswheel)
+        wheeltime = setTimeout(() => {
+            iswheel = false
+            clearTimeout(wheeltime)
             slidyStop()
-        }, duration / 3)
+        }, options.duration / 2)
     }
 
     // DRAG -------------------------------------------------------
@@ -211,23 +289,23 @@
         tracker,
         speed
     function dragStart() {
+        slidyNull()
         isdrag = true
         transition = 0
-        toDefault()
         if (tracker !== null) {
             clearInterval(tracker)
         }
     }
     function dragSlide(e) {
         if (isdrag) {
-            if (axis === 'y') {
+            if (options.axis === 'y') {
                 pos += e.detail.dy
             } else {
                 pos += e.detail.dx
             }
-            slidy()
-            tracker = setInterval(() => (htx = pos), duration / 3)
-            speed = (htx - pos) / duration / 3
+            slidyLoop()
+            tracker = setInterval(() => (htx = pos), options.duration)
+            speed = (htx - pos) / options.duration
         }
     }
     function dragStop() {
@@ -244,30 +322,6 @@
             index++
         }
     }
-
-    // INDEX -----------------------------------------------------
-    function slidyIndex(id) {
-        let i = element.active.ix
-        if (id < i && i !== element.first.ix) {
-            i = element.active.ix - 1
-            while (i >= id) {
-                slidyPrev()
-                i--
-            }
-        } else if (id > i && i !== element.last.ix) {
-            i = element.active.ix + 1
-            while (i <= id) {
-                slidyNext()
-                i++
-            }
-        }
-    }
-    $: stateCheck = setInterval(() => {
-        if (document.readyState === 'complete') {
-            clearInterval(stateCheck)
-            slidyLoad()
-        }
-    }, 100)
 </script>
 
 <section
@@ -277,14 +331,18 @@
     id="{wrap.id}"
     class="slidy"
     class:loaded="{slidyinit}"
-    class:axisy="{axis === 'y'}"
+    class:axisy="{options.axis === 'y'}"
     class:autowidth="{slide.width === 'auto'}"
+    class:antiloop="{options.loop === false}"
+    class:alignmiddle="{wrap.align === 'middle'}"
+    class:alignstart="{wrap.align === 'start'}"
+    class:alignend="{wrap.align === 'end'}"
     use:resizeobserver
     on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slidef: {slide.objectFit || 'cover'}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slidef: ${slide.objectfit || 'cover'}; --slideg: {options.axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {options.duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
@@ -292,10 +350,18 @@
         </slot>
     {/if}
 
-    <ul class="slidy-ul" use:pannable on:panstart="{controls.drag ? dragStart : null}" on:panmove="{controls.drag ? dragSlide : null}" on:panend="{controls.drag ? dragStop : null}" on:contextmenu="{() => (isdrag = false)}" style="{move()}">
-        {#if arr.length > 0}
-            {#each arr as item (item.id)}
-                <li bind:this="{nodes[item.id]}" class="{slide.class}" class:active="{item.id === element.active.id}" style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}">
+    <ul
+        class="slidy-ul"
+        use:pannable
+        on:panstart="{controls.drag ? dragStart : null}"
+        on:panmove="{controls.drag ? dragSlide : null}"
+        on:panend="{controls.drag ? dragStop : null}"
+        on:contextmenu="{() => (isdrag = false)}"
+        style="{move()}; transition: transform {transition}ms; {options.axis === 'y' ? `height: ${element.fullheight}px;` : `width: ${element.fullwidth}px;`}"
+    >
+        {#if slides}
+            {#each slides as item, i (item.id)}
+                <li bind:this="{nodes[item.id]}" class="{slide.class}" class:active="{item.ix === index}" style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}">
                     <slot item="{item}">
                         {#if slide.backimg === false}<img alt="{item.id}" src="{slide.imgsrckey ? item[slide.imgsrckey] : item.src}" width="{item.width}" height="{item.height}" />{/if}
                     </slot>
@@ -320,8 +386,8 @@
                     <slot name="dots-arrow-left"><button>&#8592;</button></slot>
                 </li>
             {/if}
-            {#each dots as dot (dot.id)}
-                <li class:active="{dot.id === element.active.id}" on:click="{() => (index = dot.ix)}">
+            {#each dots as dot, i}
+                <li class:active="{i === index}" on:click="{() => (index = i)}">
                     <slot name="dot" dot="{dot}"><button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button></slot>
                 </li>
             {/each}
@@ -347,6 +413,8 @@
     }
     .slidy ul {
         display: flex;
+        flex-grow: 1;
+        flex-shrink: 0;
         align-items: center;
         justify-content: center;
         list-style: none;
@@ -356,16 +424,12 @@
         -webkit-user-select: none;
     }
     .slidy-ul {
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         padding: var(--wrapp);
-        position: absolute;
+        position: relative;
         touch-action: pan-y;
         will-change: transform;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        -webkit-perspective: 1000;
-        perspective: 1000;
     }
     .slidy.loaded .slidy-ul li {
         opacity: 1;
@@ -377,17 +441,18 @@
         pointer-events: none;
         object-fit: var(--slidef);
         display: block;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
     }
     :global(.slidy.autowidth .slidy-ul li img) {
         width: auto;
     }
     .slidy-ul li {
         flex-shrink: 0;
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 100vw;
+        max-height: 100vh;
         position: relative;
+        overflow: hidden;
         opacity: 0;
         transition: color var(--dur), opacity var(--dur);
         width: var(--slidew);
@@ -423,19 +488,20 @@
     .slidy li.active,
     .slidy li.active button {
         color: red;
-        z-index: 1;
+        /* z-index: 1; */
     }
     .slidy-dots {
         position: absolute;
         bottom: 0;
         height: 50px;
         padding: 0;
+        width: 100vw;
     }
     .slidy.axisy .slidy-dots {
         bottom: auto;
         right: 0;
         width: 50px;
-        height: 100%;
+        height: 100vh;
         flex-direction: column;
     }
     .slidy-dots li {

@@ -1,10 +1,20 @@
-# SLIDY – simple configurable carousel component on SvelteJS.
+# SLIDY – simple, configurable carousel component built with SvelteJS.
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
 
 ## Changelog
+- [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/slidy-site/)
+- New block [options: {
+            axis: 'x',
+            loop: false,
+            duration: 550
+        }](#newpropsname) in settings object
+- [New { loop: true/false } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+- [New { objectfit: 'cover' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+- [New { align: 'middle',
+        alignmargin: 50 } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - **!!!New** – slot for slide (slot="slide") without name now. 
 - [New external controls](#external)   
 - [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
@@ -59,6 +69,8 @@ yarn add -D svelte-slidy
             width: '100%',
             height: '50vh',
             padding: '0',
+            align: 'middle',
+            alignmargin: 50
         },
         slide: {
             gap: 0,
@@ -67,7 +79,7 @@ yarn add -D svelte-slidy
             height: '100%',
             backimg: true, // if true image on background slidewrap & slot for content empty
             imgsrckey: 'src', // prop for ypurs image src key
-            objectFit: 'cover'
+            objectfit: 'cover' // new in 2.3.0
         },
         controls: {
             dots: true,
@@ -79,8 +91,11 @@ yarn add -D svelte-slidy
             drag: true, // nav by mousedrag
             wheel: true, // nav by mousewheel (shift + wheel) or swipe on touch/trackpads
         },
-        duration: 250, // duration slides animation
-        axis: 'x', // new in 2.2.0 axis direction
+        options: {
+            axis: 'x', // new in 2.2.0 axis direction
+            loop: false, // new in 2.3.0 loop/no options
+            duration: 550, // duration slides animation
+        },
         loader: { // new in 2.0 settings for preloader spinner
             color: 'red',
             size: 75,
