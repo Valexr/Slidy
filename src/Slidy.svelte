@@ -260,8 +260,8 @@
     }
 
     // WHEELL -----------------------------------------------------
-    let iswheel = false
-    let wheeltime
+    let iswheel = false,
+        wheeltime
     function slidyWheel(e) {
         slidyNull()
         iswheel = true
@@ -284,9 +284,9 @@
 
     // DRAG -------------------------------------------------------
     let isdrag = false,
-        htx,
-        tracker,
-        speed
+        htx = 0,
+        speed = 0,
+        tracker
     function dragStart() {
         slidyNull()
         isdrag = true
@@ -303,8 +303,8 @@
                 pos += e.detail.dx
             }
             slidyLoop()
-            tracker = setInterval(() => (htx = pos), options.duration)
-            speed = (htx - pos) / options.duration
+            tracker = setInterval(() => (htx = pos), options.duration / 2)
+            speed = (htx - pos) / options.duration / 2
         }
     }
     function dragStop() {
