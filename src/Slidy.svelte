@@ -227,8 +227,8 @@
             if (direct) {
                 if (options.loop) {
                     direct()
-                    pos = speed = transition = 0
-                    setTimeout(() => (index = i = element.active.ix), transition)
+                    pos = speed = 0
+                    index = i = element.active.ix
                 } else {
                     index = direct
                     pos = speed = 0
