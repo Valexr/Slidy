@@ -388,7 +388,7 @@
             {/if}
             {#each dots as dot, i}
                 <li class:active="{i === index}" on:click="{() => (index = i)}">
-                    <slot name="dot" dot="{dot}"><button>{controls.dotsnum && !controls.dotspure ? dot.ix : ''}</button></slot>
+                    <slot name="dot" dot="{dot}"><button>{controls.dotsnum && !controls.dotspure ? i : ''}</button></slot>
                 </li>
             {/each}
             {#if controls.dotsarrow}
