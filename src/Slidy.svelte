@@ -18,6 +18,7 @@
         height: '100%',
         backimg: false,
         imgsrckey: 'src',
+        objectFit: 'cover'
     }
     export let controls = {
         dots: true,
@@ -283,7 +284,7 @@
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slidef: {slide.objectFit || 'cover'}; --slideh: {slide.height}; --slideg: {axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
@@ -374,7 +375,7 @@
     }
     :global(.slidy-ul li img) {
         pointer-events: none;
-        object-fit: cover;
+        object-fit: var(--slidef);
         display: block;
         width: 100%;
         height: 100%;
@@ -396,7 +397,7 @@
         background-repeat: no-repeat;
         background-attachment: scroll;
         background-position: center;
-        background-size: cover;
+        background-size: var(--slidef);
         background-color: rgba(0, 0, 0, 0);
     }
     .slidy button {
