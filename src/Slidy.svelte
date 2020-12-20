@@ -342,7 +342,7 @@
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slidef: ${slide.objectfit || 'cover'}; --slideg: {options.axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {options.duration}ms;"
+    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slidef: {slide.objectfit || 'cover'}; --slideg: {options.axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {options.duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
