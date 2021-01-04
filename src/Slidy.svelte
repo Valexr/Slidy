@@ -136,8 +136,8 @@
     // RESIZE-OBSERVER ----------------------------------------------
     let wrapwidth, wrapheight
     function resizeWrap(e) {
-        wrapwidth = e.detail.CR.width
-        wrapheight = e.detail.CR.height
+        wrapwidth = e.detail.cR.width
+        wrapheight = e.detail.cR.height
     }
 
     // CONTROLS & ANIMATION -----------------------------------------
