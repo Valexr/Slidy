@@ -1,1 +1,1 @@
-export { default as default } from './Slidy.svelte';
+export { default as Slidy } from './Slidy.svelte';

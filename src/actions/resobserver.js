@@ -1,16 +1,14 @@
-export function resizeobserver(node) {
-    let cR
-    let eT
+export function resobserver(node) {
+    let CR
+    let ET
 
     const ro = new ResizeObserver((entries, observer) => {
         for (let entry of entries) {
-            const cr = entry.contentRect;
-            const et = entry.target;
-            cR = cr
-            eT = et
+            CR = entry.contentRect
+            ET = entry.target
         }
         node.dispatchEvent(new CustomEvent('resize', {
-            detail: { cR, eT }
+            detail: { CR, ET }
         }));
     });
 

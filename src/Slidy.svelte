@@ -2,7 +2,7 @@
     import { afterUpdate, tick } from 'svelte'
     import { wheel } from './actions/wheel.js'
     import { pannable } from './actions/pannable.js'
-    import { resizeobserver } from './actions/resizeobserver.js'
+    import { resobserver } from './actions/resobserver.js'
     import Spinner from './Spinner.svelte'
 
     export let slides = []
@@ -136,8 +136,8 @@
     // RESIZE-OBSERVER ----------------------------------------------
     let wrapwidth, wrapheight
     function resizeWrap(e) {
-        wrapwidth = e.detail.cR.width
-        wrapheight = e.detail.cR.height
+        wrapwidth = e.detail.CR.width
+        wrapheight = e.detail.CR.height
     }
 
     // CONTROLS & ANIMATION -----------------------------------------
@@ -336,7 +336,7 @@
     class:alignmiddle="{wrap.align === 'middle'}"
     class:alignstart="{wrap.align === 'start'}"
     class:alignend="{wrap.align === 'end'}"
-    use:resizeobserver
+    use:resobserver
     on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
