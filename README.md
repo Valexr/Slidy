@@ -5,7 +5,7 @@
 
 
 ## Changelog
-- Simplify initializion sized props (prepare for intersection events...)
+- Simplifyed sizes props initializion (prepare for intersection events...)
 - Move pannable.js listeners to wrap node <sections>
 - Rename resobserver.js > resize.js
 - [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)

@@ -413,7 +413,7 @@
         <ul class="slidy-dots" class:pure="{controls.dotspure}">
             {#if controls.dotsarrow}
                 <li class="dots-arrow-left" on:click="{() => index--}">
-                    <slot name="dots-arrow-left"><button>&#8592;</button></slot>
+                    <slot name="dots-arrow-left"><button>←</button></slot>
                 </li>
             {/if}
             {#each dots as dot, i}
@@ -425,7 +425,7 @@
             {/each}
             {#if controls.dotsarrow}
                 <li class="dots-arrow-right" on:click="{() => index++}">
-                    <slot name="dots-arrow-right"><button>&#8594;</button></slot>
+                    <slot name="dots-arrow-right"><button>→</button></slot>
                 </li>
             {/if}
         </ul>
