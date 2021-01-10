@@ -1,10 +1,14 @@
-# SLIDY – simple, configurable carousel component built with SvelteJS.
+# SLIDY – simple, configurable & reusable carousel component built with SvelteJS.
 
 [![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
 
 ## Changelog
+- Simplify initializion sized props (prepare for intersection events...)
+- Move pannable.js listeners to wrap node <sections>
+- Rename resobserver.js > resize.js
+- [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - **IMPORTANT** - index = i
 - [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/slidy-site/)
 - New block [options: {
@@ -68,7 +72,7 @@ yarn add -D svelte-slidy
         wrap: {
             id: 'slidy_default', // customize this instance Slidy by #id
             width: '100%',
-            height: '50vh',
+            height: '50%',
             padding: '0',
             align: 'middle',
             alignmargin: 50
@@ -76,11 +80,12 @@ yarn add -D svelte-slidy
         slide: {
             gap: 0,
             class: '', // classname for styling slide
-            width: 'auto',
+            width: '50%',
             height: '100%',
             backimg: true, // if true image on background slidewrap & slot for content empty
             imgsrckey: 'src', // prop for ypurs image src key
-            objectfit: 'cover' // new in 2.3.0
+            objectfit: 'cover', // new in 2.3.0
+            overflow: 'hidden' // new in 2.4.1
         },
         controls: {
             dots: true,

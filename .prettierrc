@@ -8,7 +8,7 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5",
-    "printWidth": 250,
+    "printWidth": 100,
     "plugins": [
         "prettier-plugin-svelte"
     ]

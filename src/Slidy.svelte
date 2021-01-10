@@ -2,14 +2,14 @@
     import { afterUpdate, tick } from 'svelte'
     import { wheel } from './actions/wheel.js'
     import { pannable } from './actions/pannable.js'
-    import { resobserver } from './actions/resobserver.js'
+    import { resize } from './actions/resize.js'
     import Spinner from './Spinner.svelte'
 
     export let slides = []
     export let wrap = {
         id: null,
         width: '100%',
-        height: '50vh',
+        height: '50%',
         padding: '0',
         align: 'middle',
         alignmargin: 0,
@@ -17,11 +17,12 @@
     export let slide = {
         gap: 0,
         class: '',
-        width: '50vw',
+        width: '50%',
         height: '100%',
         backimg: false,
         imgsrckey: 'src',
         objectfit: 'cover',
+        overflow: 'hidden',
     }
     export let controls = {
         dots: true,
@@ -63,37 +64,11 @@
         }
     }
 
-    $: slidyinit && slidyIndex(index)
+    $: slidyinit, slidyIndex(index)
 
     // SLIDY-INIT ---------------------------------------------------
-    let nodes = {},
+    let nodes = [],
         dots = slides
-
-    let element = {
-            active: null,
-            activewidth: null,
-            activeheight: null,
-            first: null,
-            firstwidth: null,
-            firstheight: null,
-            last: null,
-            lastwidth: null,
-            lastheight: null,
-            beforewidth: null,
-            beforeheight: null,
-            afterwidth: null,
-            afterheight: null,
-            fullwidth: null,
-            fullheight: null,
-        },
-        firstsize,
-        lastsize,
-        activesize,
-        beforesize,
-        aftersize,
-        wrapsize,
-        aligndiff,
-        diffsize
 
     $: element = {
         active: slides[options.loop ? Math.floor(slides.length / 2) : index],
@@ -105,10 +80,18 @@
         last: slides[slides.length - 1],
         lastwidth: slides[slides.length - 1].width + slide.gap,
         lastheight: slides[slides.length - 1].height + slide.gap,
-        beforewidth: slides.map((a, i) => (i < index ? a.width + slide.gap : null)).reduce((p, v) => p + v),
-        beforeheight: slides.map((a, i) => (i < index ? a.height + slide.gap : null)).reduce((p, v) => p + v),
-        afterwidth: slides.map((a, i) => (i > index ? a.width + slide.gap : null)).reduce((p, v) => p + v),
-        afterheight: slides.map((a, i) => (i > index ? a.height + slide.gap : null)).reduce((p, v) => p + v),
+        beforewidth: slides
+            .map((a, i) => (i < index ? a.width + slide.gap : null))
+            .reduce((p, v) => p + v),
+        beforeheight: slides
+            .map((a, i) => (i < index ? a.height + slide.gap : null))
+            .reduce((p, v) => p + v),
+        afterwidth: slides
+            .map((a, i) => (i > index ? a.width + slide.gap : null))
+            .reduce((p, v) => p + v),
+        afterheight: slides
+            .map((a, i) => (i > index ? a.height + slide.gap : null))
+            .reduce((p, v) => p + v),
         fullwidth: slides.reduce((p, v) => p + v.width + slide.gap, 0),
         fullheight: slides.reduce((p, v) => p + v.height + slide.gap, 0),
     }
@@ -127,8 +110,8 @@
         slides = dots = slides.map((s, i) => ({
             ix: i,
             ...s,
-            width: nodes[s.id].clientWidth,
-            height: nodes[s.id].clientHeight,
+            width: nodes[i].offsetWidth,
+            height: nodes[i].offsetHeight,
         }))
         setTimeout(() => (slidyinit = true), 1000)
     }
@@ -155,11 +138,32 @@
     }
 
     $: if (wrap.align === 'end') {
-        translate = slides.length % 2 === 0 ? (options.loop ? pos + aligndiff - activesize / 2 : -diffsize + aligndiff) : options.loop ? pos + aligndiff : -diffsize + aligndiff
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos + aligndiff - activesize / 2
+                    : -diffsize + aligndiff
+                : options.loop
+                ? pos + aligndiff
+                : -diffsize + aligndiff
     } else if (wrap.align === 'start') {
-        translate = slides.length % 2 === 0 ? (options.loop ? pos - aligndiff - activesize / 2 : -diffsize - aligndiff) : options.loop ? pos - aligndiff : -diffsize - aligndiff
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos - aligndiff - activesize / 2
+                    : -diffsize - aligndiff
+                : options.loop
+                ? pos - aligndiff
+                : -diffsize - aligndiff
     } else {
-        translate = slides.length % 2 === 0 ? (options.loop ? pos - activesize / 2 : -diffsize) : options.loop ? pos : -diffsize
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos - activesize / 2
+                    : -diffsize
+                : options.loop
+                ? pos
+                : -diffsize
     }
 
     function prev() {
@@ -336,33 +340,60 @@
     class:alignmiddle="{wrap.align === 'middle'}"
     class:alignstart="{wrap.align === 'start'}"
     class:alignend="{wrap.align === 'end'}"
-    use:resobserver
+    use:resize
     on:resize="{resizeWrap}"
     use:wheel
     on:wheels="{controls.wheel ? slidyWheel : null}"
+    use:pannable
+    on:panstart="{controls.drag ? dragStart : null}"
+    on:panmove="{controls.drag ? dragSlide : null}"
+    on:panend="{controls.drag ? dragStop : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
-    style="--wrapw: {wrap.width}; --wraph: {wrap.height}; --wrapp: {wrap.padding || 0}; --slidew: {slide.width}; --slideh: {slide.height}; --slidef: {slide.objectfit || 'cover'}; --slideg: {options.axis === 'y' ? `${slide.gap / 2}px 0` : `0 ${slide.gap / 2}px`}; --dur: {options.duration}ms;"
+    style="
+        --wrapw: {wrap.width}; 
+        --wraph: {wrap.height}; 
+        --wrapp: {wrap.padding};
+        --slidew: {slide.width};
+        --slideh: {slide.height}; 
+        --slidef: {slide.objectfit}; 
+        --slideo: {slide.overflow}; 
+        --slideg: {options.axis === 'y' ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`}; 
+        --dur: {options.duration}ms;"
 >
     {#if !slidyinit}
         <slot name="loader">
-            <Spinner size="{loader.size}" speed="{loader.speed}" color="{loader.color}" thickness="{loader.thickness}" gap="25" />
+            <Spinner
+                size="{loader.size}"
+                speed="{loader.speed}"
+                color="{loader.color}"
+                thickness="{loader.thickness}"
+                gap="25"
+            />
         </slot>
     {/if}
 
     <ul
         class="slidy-ul"
-        use:pannable
-        on:panstart="{controls.drag ? dragStart : null}"
-        on:panmove="{controls.drag ? dragSlide : null}"
-        on:panend="{controls.drag ? dragStop : null}"
         on:contextmenu="{() => (isdrag = false)}"
-        style="{move()}; transition: transform {transition}ms; {options.axis === 'y' ? `height: ${element.fullheight}px;` : `width: ${element.fullwidth}px;`}"
+        style="{move()}; transition: transform {transition}ms;"
     >
         {#if slides}
             {#each slides as item, i (item.id)}
-                <li bind:this="{nodes[item.id]}" class="{slide.class}" class:active="{item.ix === index}" style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}">
+                <li
+                    bind:this="{nodes[i]}"
+                    class="{slide.class}"
+                    class:active="{item.ix === index}"
+                    style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}"
+                >
                     <slot item="{item}">
-                        {#if slide.backimg === false}<img alt="{item.id}" src="{slide.imgsrckey ? item[slide.imgsrckey] : item.src}" width="{item.width}" height="{item.height}" />{/if}
+                        {#if slide.backimg === false}
+                            <img
+                                alt="{item.id}"
+                                src="{item[slide.imgsrckey]}"
+                                width="{item.width}"
+                                height="{item.height}"
+                            />
+                        {/if}
                     </slot>
                 </li>
             {/each}
@@ -387,7 +418,9 @@
             {/if}
             {#each dots as dot, i}
                 <li class:active="{i === index}" on:click="{() => (index = i)}">
-                    <slot name="dot" dot="{dot}"><button>{controls.dotsnum && !controls.dotspure ? i : ''}</button></slot>
+                    <slot name="dot" dot="{dot}">
+                        <button>{controls.dotsnum && !controls.dotspure ? i : ''}</button>
+                    </slot>
                 </li>
             {/each}
             {#if controls.dotsarrow}
@@ -409,11 +442,11 @@
         width: var(--wrapw);
         height: var(--wraph);
         outline: 0;
+        margin: auto;
     }
     .slidy ul {
         display: flex;
-        flex-grow: 1;
-        flex-shrink: 0;
+        flex: 1 0 auto;
         align-items: center;
         justify-content: center;
         list-style: none;
@@ -423,12 +456,15 @@
         -webkit-user-select: none;
     }
     .slidy-ul {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         padding: var(--wrapp);
         position: relative;
         touch-action: pan-y;
         will-change: transform;
+    }
+    .slidy-ul > * + * {
+        margin: var(--slideg);
     }
     .slidy.loaded .slidy-ul li {
         opacity: 1;
@@ -436,33 +472,30 @@
     .slidy.axisy .slidy-ul {
         flex-direction: column;
     }
-    :global(.slidy-ul li img) {
-        pointer-events: none;
-        object-fit: var(--slidef);
-        display: block;
-        width: 100vw;
-        height: 100vh;
-    }
-    :global(.slidy.autowidth .slidy-ul li img) {
-        width: auto;
-    }
     .slidy-ul li {
-        flex-shrink: 0;
-        max-width: 100vw;
-        max-height: 100vh;
+        flex: 1 0 auto;
         position: relative;
-        overflow: hidden;
+        overflow: var(--slideo);
         opacity: 0;
-        transition: color var(--dur), opacity var(--dur);
+        transition: opacity var(--dur);
         width: var(--slidew);
         height: var(--slideh);
-        margin: var(--slideg);
         box-sizing: border-box;
         background-repeat: no-repeat;
         background-attachment: scroll;
         background-position: center;
         background-size: var(--slidef);
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.09);
+    }
+    :global(.slidy-ul li img) {
+        display: block;
+        pointer-events: none;
+        max-width: var(--wrapw);
+        max-height: var(--wraph);
+        object-fit: var(--slidef);
+    }
+    :global(.slidy.autowidth .slidy-ul li img) {
+        width: auto;
     }
     .slidy button {
         margin: 0;
@@ -473,7 +506,7 @@
         height: 50px;
         line-height: 50px;
         color: white;
-        background: rgba(0, 0, 0, 0.18);
+        background-color: rgba(0, 0, 0, 0.09);
         cursor: pointer;
         outline: 0;
         overflow: hidden;
@@ -487,20 +520,19 @@
     .slidy li.active,
     .slidy li.active button {
         color: red;
-        /* z-index: 1; */
     }
     .slidy-dots {
         position: absolute;
         bottom: 0;
         height: 50px;
         padding: 0;
-        width: 100vw;
+        width: 100%;
     }
     .slidy.axisy .slidy-dots {
         bottom: auto;
         right: 0;
         width: 50px;
-        height: 100vh;
+        height: 100%;
         flex-direction: column;
     }
     .slidy-dots li {
@@ -514,20 +546,18 @@
         transform: rotate(90deg);
     }
     .slidy-dots.pure li {
-        width: 27px;
-        height: 27px;
+        width: 32px;
+        height: 32px;
         background: none;
     }
     .slidy-dots.pure li button {
         border-radius: 50%;
         color: red;
-        width: 9px;
-        height: 9px;
-        transform: scale(1);
-        transition: color calc(var(--dur) / 2), transform calc(var(--dur) / 2);
+        width: 12px;
+        height: 12px;
+        transition: color var(--dur);
     }
     .slidy-dots.pure li.active button {
-        transform: scale(1.8);
         background: red;
     }
     .arrow-left,

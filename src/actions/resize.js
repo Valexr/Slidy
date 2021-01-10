@@ -1,4 +1,4 @@
-export function resobserver(node) {
+export function resize(node) {
     let CR
     let ET
 
