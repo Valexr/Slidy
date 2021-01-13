@@ -480,7 +480,7 @@
         background-attachment: scroll;
         background-position: center;
         background-size: var(--slidef);
-        background-color: rgba(0, 0, 0, 0.09);
+        background-color: transparent;
     }
     :global(.slidy-ul li img) {
         display: block;
