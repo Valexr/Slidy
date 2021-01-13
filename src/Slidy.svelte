@@ -3,7 +3,6 @@
     import { wheel } from './actions/wheel.js'
     import { pannable } from './actions/pannable.js'
     import { resize } from './actions/resize.js'
-    import Spinner from './Spinner.svelte'
 
     export let slides = []
     export let wrap = {
@@ -38,12 +37,6 @@
         axis: 'x',
         loop: true,
         duration: 350,
-    }
-    export let loader = {
-        color: 'red',
-        size: 75,
-        thickness: 1,
-        speed: options.duration,
     }
     export let index = Math.floor(slides.length / 2)
     export let slidyinit = false
@@ -361,15 +354,9 @@
         --dur: {options.duration}ms;"
 >
     {#if !slidyinit}
-        <slot name="loader">
-            <Spinner
-                size="{loader.size}"
-                speed="{loader.speed}"
-                color="{loader.color}"
-                thickness="{loader.thickness}"
-                gap="25"
-            />
-        </slot>
+        <section id="loader">
+            <slot name="loader">Loading...</slot>
+        </section>
     {/if}
 
     <ul
@@ -433,6 +420,14 @@
 </section>
 
 <style>
+    #loader {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+    }
     .slidy {
         display: flex;
         align-items: center;

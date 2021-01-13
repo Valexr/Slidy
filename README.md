@@ -5,6 +5,7 @@
 
 
 ## Changelog
+- Sorry, but remove <Spinner /> loader from core & now just <slot name="loader" />
 - Simplifyed sizes props initializion (prepare for intersection events...)
 - Move pannable.js listeners to wrap node <sections>
 - Rename resobserver.js > resize.js
