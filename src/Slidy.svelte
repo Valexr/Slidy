@@ -343,14 +343,17 @@
     on:panend="{controls.drag ? dragStop : null}"
     on:keydown="{controls.keys ? slidyKeys : null}"
     style="
-        --wrapw: {wrap.width}; 
-        --wraph: {wrap.height}; 
+        --wrapw: {wrap.width};
+        --wraph: {wrap.height};
         --wrapp: {wrap.padding};
         --slidew: {slide.width};
-        --slideh: {slide.height}; 
-        --slidef: {slide.objectfit}; 
-        --slideo: {slide.overflow}; 
-        --slideg: {options.axis === 'y' ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`}; 
+        --slideh: {slide.height};
+        --slidef: {slide.objectfit};
+        --slideo: {slide.overflow};
+        --slideg: {options.axis ===
+    'y'
+        ? `${slide.gap}px 0 0 0`
+        : `0 0 0 ${slide.gap}px`};
         --dur: {options.duration}ms;"
 >
     {#if !slidyinit}
@@ -370,7 +373,9 @@
                     bind:this="{nodes[i]}"
                     class="{slide.class}"
                     class:active="{item.ix === index}"
-                    style="{slide.backimg === true ? `background-image: url(${item[slide.imgsrckey]})` : null}"
+                    style="{slide.backimg === true
+                        ? `background-image: url(${item[slide.imgsrckey]})`
+                        : null}"
                 >
                     <slot item="{item}">
                         {#if slide.backimg === false}
@@ -483,6 +488,8 @@
         background-color: transparent;
     }
     :global(.slidy-ul li img) {
+        width: 100%;
+        height: 100%;
         display: block;
         pointer-events: none;
         max-width: var(--wrapw);
