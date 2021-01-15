@@ -5,7 +5,7 @@
 
 
 ## Changelog
-- Sorry, but remove `<Spinner />` loader from core & now just `<slot name="loader" />` (it`s in the repo like svelte file ;)))
+- Sorry, remove `<Spinner />` loader from core & now just `<slot name="loader" />` (you can get Spinner [there](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
 - Simplifyed sizes props initializion (prepare for intersection events...)
 - Move pannable.js listeners to wrap node <sections>
 - Rename resobserver.js > resize.js
