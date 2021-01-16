@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Sans";
+    src: local("ProductSans"), local("ProductSans-Regular"),
+        url("ProductSans-Regular.woff") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Sans";
+    src: local("ProductSans"), local("ProductSans-Bold"),
+        url("ProductSans-Bold.woff") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}
+
+/*MATERIAL-ICON*/
+@font-face {
+    font-family: "Material Icons Outlined";
+    font-style: normal;
+    font-weight: 400;
+    src: url(Material-Icons-Outlined.woff2) format("woff2");
+}

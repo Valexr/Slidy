@@ -1,6 +1,6 @@
 /node_modules
 /ico
-/www
+/www/build
 
 *.lock
 *.log
