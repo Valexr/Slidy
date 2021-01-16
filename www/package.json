@@ -1,12 +1,15 @@
 {
+	"homepage": "https://valexr.github.io/svelte-slidy/",
 	"name": "slidy-site",
 	"version": "2.4.9",
 	"license": "MIT",
 	"scripts": {
 		"build": "rollup -c",
 		"dev": "rollup -c -w",
-		"start": "sirv www",
-		"format": "npx prettier --write \"{,!(node_modules|public)/**/}*.{js,svelte}\""
+		"start": "sirv public",
+		"format": "npx prettier --write \"{,!(node_modules|public)/**/}*.{js,svelte}\"",
+		"predeploy": "rollup -c",
+		"deploy": "gh-pages -v '*.json' -d public"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^16.0.0",

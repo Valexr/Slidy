@@ -14,7 +14,7 @@ export default {
 		sourcemap: !production,
 		format: 'iife',
 		name: 'app',
-		file: 'www/build/index.js'
+		file: 'public/build/index.js'
 	},
 	plugins: [
 		svelte({
@@ -49,7 +49,7 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('www'),
+		!production && livereload('public'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
