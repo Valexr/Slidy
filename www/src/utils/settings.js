@@ -30,11 +30,10 @@ let settingX = {
 		wheel: true,
 	},
 	options: {
-		// axisy: false,
 		axis: 'x',
 		loop: false,
 		duration: 550,
-		intersecting: true
+		// intersecting: true
 	},
 	// loader: {
 	//     color: 'red',

@@ -5,9 +5,18 @@
     import { slides, local } from './api/items.js'
     import { getPhotos } from './api/api.js'
     import { randomQ } from './utils/utils.js'
-    import { Settings, Controls, NavTop, NavBottom, NavThumbs, Button, Svg, Spinner } from './comps'
-    import Slidy from './Slidy.svelte'
-    // import Slidy from 'svelte-slidy'
+    import {
+        Settings,
+        Controls,
+        NavTop,
+        NavBottom,
+        NavThumbs,
+        Button,
+        Svg,
+        Spinner,
+        // Slidy,
+    } from './cmp'
+    import Slidy from 'svelte-slidy'
 
     let items = [],
         limit = 9,
@@ -119,7 +128,7 @@
                 class:loaded="{loaded.includes(item.ix)}"
                 alt="{item.id}"
                 on:load|once|stopPropagation="{() => onLoad(item.ix)}"
-                src="{intersected.includes(item.ix) ? item[$settings.slide.imgsrckey] : null}"
+                src="{item[$settings.slide.imgsrckey]}"
             />
             <!-- src="{item[$settings.slide.imgsrckey]}"
                  src="{intersected.includes(item.ix) ? item[$settings.slide.imgsrckey] : null}"

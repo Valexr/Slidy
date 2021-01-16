@@ -1,7 +1,7 @@
 <script>
     import { fly } from 'svelte/transition'
     import { settings, set } from '../utils/settings.js'
-    import { clickout } from '../actions/clickout.js'
+    import { clickout } from '../acts/clickout.js'
 
     export let text = JSON.stringify($settings, 0, 2)
 </script>

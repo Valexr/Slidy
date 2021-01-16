@@ -1,10 +1,10 @@
 <script>
     import { onMount, afterUpdate, tick } from 'svelte'
     import { spring } from 'svelte/motion'
-    import { wheel } from './actions/wheel.js'
-    import { pannable } from './actions/pannable.js'
-    import { resize } from './actions/resize.js'
-    import { intersection } from './actions/intersection.js'
+    import { wheel } from '../acts/wheel.js'
+    import { pannable } from '../acts/pannable.js'
+    import { resize } from '../acts/resize.js'
+    import { intersection } from '../acts/intersection.js'
 
     export let slides = []
     export let wrap = {
@@ -36,7 +36,7 @@
         wheel: true,
     }
     export let options = {
-        axisy: false,
+        axis: 'x',
         loop: true,
         duration: 350,
         intersecting: false,
@@ -91,13 +91,13 @@
         fullwidth: slides.reduce((p, v) => p + v.width + slide.gap, 0),
         fullheight: slides.reduce((p, v) => p + v.height + slide.gap, 0),
     }
-    $: firstsize = options.axisy ? element.firstheight : element.firstwidth
-    $: lastsize = options.axisy ? element.lastheight : element.lastwidth
-    $: activesize = options.axisy ? element.activeheight : element.activewidth
-    $: beforesize = options.axisy ? element.beforeheight : element.beforewidth
-    $: aftersize = options.axisy ? element.afterheight : element.afterwidth
-    $: fullsize = options.axisy ? element.fullheight : element.fullwidth
-    $: wrapsize = options.axisy ? wrapheight : wrapwidth
+    $: firstsize = options.axis === 'y' ? element.firstheight : element.firstwidth
+    $: lastsize = options.axis === 'y' ? element.lastheight : element.lastwidth
+    $: activesize = options.axis === 'y' ? element.activeheight : element.activewidth
+    $: beforesize = options.axis === 'y' ? element.beforeheight : element.beforewidth
+    $: aftersize = options.axis === 'y' ? element.afterheight : element.afterwidth
+    $: fullsize = options.axis === 'y' ? element.fullheight : element.fullwidth
+    $: wrapsize = options.axis === 'y' ? wrapheight : wrapwidth
     $: aligndiff = (wrapsize - activesize + slide.gap) / 2 - wrap.alignmargin
     $: diffsize = (beforesize - aftersize) / 2 - pos
 
@@ -133,7 +133,7 @@
         coords = spring({ x: 0, y: 0 }, { stiffness: 0.05, damping: 0.5 })
 
     $: move = () => {
-        return options.axisy
+        return options.axis === 'y'
             ? `transform: translate(0, ${translate}px); top: ${comp}px;`
             : `transform: translate(${translate}px, 0); left: ${comp}px;`
     }
@@ -334,7 +334,7 @@
         iswheel = true
         dontdrag = false
         transition = 0
-        if (options.axisy) {
+        if (options.axis === 'y') {
             pos += -e.detail.dy
         } else {
             pos += -e.detail.dx
@@ -375,7 +375,7 @@
         // slidyDragAcl()
         // let px = 0
         if (isdrag) {
-            if (options.axisy) {
+            if (options.axis === 'y') {
                 pos += e.detail.dy
                 px += e.detail.dy
             } else {
@@ -476,7 +476,7 @@
     id="{wrap.id}"
     class="slidy"
     class:loaded="{slidyinit}"
-    class:axisy="{options.axisy}"
+    class:axisy="{options.axis === 'y'}"
     class:autowidth="{slide.width === 'auto'}"
     class:antiloop="{options.loop === false}"
     class:alignmiddle="{wrap.align === 'middle'}"
@@ -499,7 +499,8 @@
         --slideh: {slide.height};
         --slidef: {slide.objectfit};
         --slideo: {slide.overflow};
-        --slideg: {options.axisy
+        --slideg: {options.axis ===
+    'y'
         ? `${slide.gap}px 0 0 0`
         : `0 0 0 ${slide.gap}px`};
         --dur: {options.duration}ms;"

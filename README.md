@@ -40,7 +40,7 @@
 
 
 ## Site
-[https://valexr.github.io/slidy-site/](https://valexr.github.io/slidy-site/)
+[https://valexr.github.io/svelte-slidy/](https://valexr.github.io/svelte-slidy/)
 
 ## Playground
 [https://svelte.dev/repl/](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)

@@ -1,7 +1,7 @@
 <script>
     import { fly } from 'svelte/transition'
     import { settings, con, index } from '../utils/settings.js'
-    import { clickout } from '../actions/clickout.js'
+    import { clickout } from '../acts/clickout.js'
     import { slides } from '../api/items.js'
     import Svg from './Svg.svelte'
 
