@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import preprocess from 'svelte-preprocess';
 import css from 'rollup-plugin-css-only';
+import del from 'rollup-plugin-delete'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -31,6 +32,7 @@ export default {
 			}),
 		}),
 		css({ output: 'index.css' }),
+		del({ targets: 'public/build/*' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

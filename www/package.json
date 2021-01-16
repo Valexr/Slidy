@@ -9,23 +9,24 @@
 		"start": "sirv public",
 		"format": "npx prettier --write \"{,!(node_modules|public)/**/}*.{js,svelte}\"",
 		"predeploy": "rollup -c",
-		"deploy": "gh-pages -v '*.json' -d public"
+		"deploy": "gh-pages -d public"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^16.0.0",
 		"@rollup/plugin-node-resolve": "^10.0.0",
+		"gh-pages": "^3.1.0",
 		"prettier": "^2.2.1",
 		"prettier-plugin-svelte": "^2.1.0",
 		"rollup": "^2.3.4",
 		"rollup-plugin-css-only": "^3.1.0",
+		"rollup-plugin-delete": "^2.0.0",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-svelte": "^7.0.0",
 		"rollup-plugin-terser": "^7.0.0",
 		"sass": "^1.26.9",
 		"svelte": "^3.0.0",
 		"svelte-preprocess": "^4.6.1",
-		"svelte-slidy": "^2.3.4",
-		"gh-pages": "^3.1.0"
+		"svelte-slidy": "^2.3.4"
 	},
 	"dependencies": {
 		"sirv-cli": "^1.0.0"

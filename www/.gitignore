@@ -1,6 +1,8 @@
 /node_modules
 /ico
 /public/build
+/www
+/src
 
 *.lock
 *.log

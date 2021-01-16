@@ -14,9 +14,9 @@
         Button,
         Svg,
         Spinner,
-        // Slidy,
+        Slidy,
     } from './cmp'
-    import Slidy from 'svelte-slidy'
+    // import Slidy from 'svelte-slidy'
 
     let items = [],
         limit = 9,
@@ -128,7 +128,7 @@
                 class:loaded="{loaded.includes(item.ix)}"
                 alt="{item.id}"
                 on:load|once|stopPropagation="{() => onLoad(item.ix)}"
-                src="{item[$settings.slide.imgsrckey]}"
+                src="{intersected.includes(item.ix) ? item[$settings.slide.imgsrckey] : null}"
             />
             <!-- src="{item[$settings.slide.imgsrckey]}"
                  src="{intersected.includes(item.ix) ? item[$settings.slide.imgsrckey] : null}"

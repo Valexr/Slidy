@@ -33,25 +33,8 @@ let settingX = {
 		axis: 'x',
 		loop: false,
 		duration: 550,
-		// intersecting: true
-	},
-	// loader: {
-	//     color: 'red',
-	//     size: 75,
-	//     thickness: 1,
-	//     speed: 550,
-	// },
-	// index: 4,
-	// limit: 9,
-	// slides: `local`,
-	// activescale: false,
-	// text: true,
-	// mode: 'cards',
-	// extcontrols: true,
-	// extthumbs: true,
-	// attention: 'limit * page <= 1000',
-	// page: 25,
-	// slidyinit: false
+		intersecting: true
+	}
 }
 
 export const settings = writable(JSON.parse(sessionStorage.getItem("slidySettings")) || settingX);
@@ -67,5 +50,3 @@ export const con = writable({
 })
 
 export const index = writable(4)
-export const limit = writable(9)
-export const page = writable(25)
