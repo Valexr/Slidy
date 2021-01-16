@@ -1,0 +1,10 @@
+/node_modules
+/ico
+/www
+
+*.lock
+*.log
+*.bak
+
+.htaccess
+.DS_Store
