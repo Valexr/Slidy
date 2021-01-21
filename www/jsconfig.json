@@ -1,0 +1,11 @@
+{
+    "baseUrl": ".",
+    "compilerOptions": {
+        "paths": {
+            "svelte-slidy": [
+                "../src/index.js"
+            ]
+        },
+        "module": "es2020",
+    }
+}
