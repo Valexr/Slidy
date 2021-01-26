@@ -1,37 +1,37 @@
 {
-	"name": "svelte-slidy",
-	"version": "2.4.9",
-	"description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
-	"main": "dist/slidy.js",
-	"module": "dist/slidy.esm.js",
-	"browser": "dist/slidy.iife.js",
-	"svelte": "src/index.js",
-	"scripts": {
-		"build": "node esbuild",
-		"dev": "node esbuild.dev",
-		"compare": "npm run test:build && node tests/esbuild.compare",
-		"test:build": "node tests/esbuild.dev",
-		"test": "npm run test:build && node tests | tap-diff"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Valexr/svelte-slidy.git"
-	},
-	"keywords": [
-		"Svelte",
-		"SvelteJs",
-		"Carousel",
-		"Svelte-plugin"
-	],
-	"author": "Valexr",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Valexr/svelte-slidy/issues"
-	},
-	"homepage": "https://valexr.github.io/svelte-slidy/",
-	"devDependencies": {
-		"esbuild": "^0.8.33",
-		"esbuild-svelte": "^0.4.0",
-		"svelte": "^3.31.2"
-	}
+  "name": "svelte-slidy",
+  "version": "2.5.0",
+  "description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
+  "main": "dist/slidy.js",
+  "module": "dist/slidy.esm.js",
+  "browser": "dist/slidy.iife.js",
+  "svelte": "src/index.js",
+  "scripts": {
+    "build": "node esbuild",
+    "dev": "node esbuild.dev",
+    "compare": "npm run test:build && node tests/esbuild.compare",
+    "test:build": "node tests/esbuild.dev",
+    "test": "npm run test:build && node tests | tap-diff"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Valexr/svelte-slidy.git"
+  },
+  "keywords": [
+    "Svelte",
+    "SvelteJs",
+    "Carousel",
+    "Svelte-plugin"
+  ],
+  "author": "Valexr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Valexr/svelte-slidy/issues"
+  },
+  "homepage": "https://valexr.github.io/svelte-slidy/",
+  "devDependencies": {
+    "esbuild": "^0.8.33",
+    "esbuild-svelte": "^0.4.0",
+    "svelte": "^3.31.2"
+  }
 }
