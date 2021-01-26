@@ -1,15 +1,15 @@
 <script>
-    import { settings, index } from '../utils/settings.js'
-    import { slides } from '../api/items.js'
+    import { settings, index } from "@settings";
+    import { slides } from "@items";
 </script>
 
-<nav id="thumbs" class:axisx="{!$settings.options.axisy}">
+<nav id="thumbs" class:axisx={!$settings.options.axisy}>
     {#each $slides as dot, i (dot.id)}
         <button
             style="background-image: url({dot.src ? dot.src : dot.download_url})"
-            class:active="{i === $index}"
-            on:click="{() => ($index = i)}">{dot.id}</button
-        >
+            class:active={i === $index}
+            on:click={() => ($index = i)}
+        />
     {/each}
 </nav>
 

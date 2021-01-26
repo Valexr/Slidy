@@ -17,7 +17,7 @@ let settingX = {
 		backimg: false,
 		imgsrckey: 'src',
 		objectfit: 'cover',
-		overflow: 'visible',
+		overflow: 'hidden',
 	},
 	controls: {
 		dots: true,
@@ -33,7 +33,7 @@ let settingX = {
 		axis: 'x',
 		loop: false,
 		duration: 550,
-		intersecting: true
+		intersecting: false
 	}
 }
 
@@ -42,7 +42,8 @@ settings.subscribe(val => sessionStorage.setItem("slidySettings", JSON.stringify
 
 export const set = writable({
 	open: false,
-	input: false
+	input: false,
+	check: false
 })
 
 export const con = writable({

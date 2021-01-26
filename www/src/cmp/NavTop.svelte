@@ -1,70 +1,68 @@
 <script>
-    import { settings, index } from '../utils/settings.js'
-    import { slides } from '../api/items.js'
-    import { randomQ } from '../utils/utils.js'
-    import Svg from './Svg.svelte'
+    import { settings, index } from "@settings";
+    import { slides } from "@items";
+    import { randomQ } from "@utils";
+    import { Svg } from "@cmp";
 
     export let limit = 9,
-        page = 25
+        page = 25;
 
     let play = false,
         playduration = 550,
-        timerPlay
+        timerPlay;
     function slidyPlay() {
         if (timerPlay !== null) {
-            clearInterval(timerPlay)
+            clearInterval(timerPlay);
         }
-        timerPlay = setInterval(() => $index++, playduration)
+        timerPlay = setInterval(() => $index++, playduration);
     }
     $: if ($slides)
         (!$settings.options.loop && $index >= $slides.length - 1) ||
         (!$settings.options.loop && $index <= 0)
             ? (play = false)
-            : null
-    $: play ? slidyPlay() : clearInterval(timerPlay)
+            : null;
+    $: play ? slidyPlay() : clearInterval(timerPlay);
 </script>
 
 <nav id="slidy-controls">
     <div>
         <button
             class="slidy-ext-controls"
-            on:click="{() => ($settings.options.loop = !$settings.options.loop)}"
-        >
+            on:click={() => ($settings.options.loop = !$settings.options.loop)}>
             <Svg
                 name="slidy-repeat"
                 transform="scale(0.69)"
-                color="{$settings.options.loop ? 'blue' : 'white'}"
+                color={$settings.options.loop ? "blue" : "white"}
             />
         </button>
-        <button class="slidy-ext-controls" on:click="{() => $index--}">
+        <button class="slidy-ext-controls" on:click={() => $index--}>
             <Svg name="slidy-back" />
         </button>
-        <button class="slidy-ext-controls" class:play on:click="{() => (play = !play)}">
-            <Svg name="{play ? 'slidy-pause' : 'slidy-play'}" />
+        <button class="slidy-ext-controls" class:play on:click={() => (play = !play)}>
+            <Svg name={play ? "slidy-pause" : "slidy-play"} />
         </button>
-        <button class="slidy-ext-controls" on:click="{() => $index++}">
+        <button class="slidy-ext-controls" on:click={() => $index++}>
             <Svg name="slidy-forward" />
         </button>
         <button
             class="slidy-ext-controls"
-            on:click="{() => ($settings.options.intersecting = !$settings.options.intersecting)}"
-        >
+            on:click={() => ($settings.options.intersecting = !$settings.options.intersecting)}>
             <Svg
-                name="{!$settings.options.intersecting ? 'slidy-eye-off' : 'slidy-eye'}"
+                name={!$settings.options.intersecting ? "slidy-eye-off" : "slidy-eye"}
                 transform="scale(0.69)"
-                color="{$settings.options.intersecting ? 'blue' : 'white'}"
+                color={$settings.options.intersecting ? "blue" : "white"}
             />
         </button>
         <!-- <button class="slidy-ext-controls" on:click="{observerConnect}"> OBSERVE </button> -->
     </div>
     <div>
-        <button class="slidy-ext-controls" on:click="{() => limit--}">
+        <button class="slidy-ext-controls" on:click={() => limit--}>
             <Svg name="slidy-mines" />
         </button>
-        <button class="slidy-ext-controls" on:click="{() => (page = randomQ(0, 20))}">
+        <button class="slidy-ext-controls" on:click={() => (page = randomQ(0, 20))}>
             <Svg name="slidy-refresh" />
         </button>
-        <button class="slidy-ext-controls" on:click="{() => limit++}">
+        <button class="slidy-ext-controls" on:click={() => limit++}>
             <Svg name="slidy-plus" />
         </button>
     </div>

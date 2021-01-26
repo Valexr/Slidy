@@ -1,16 +1,40 @@
 <script>
-    import { fly } from 'svelte/transition'
-    import { settings, set } from '../utils/settings.js'
-    import { clickout } from '../acts/clickout.js'
+    import { fly } from "svelte/transition";
+    import { settings, set } from "@settings";
+    import { clickout } from "@act";
 
-    export let text = JSON.stringify($settings, 0, 2)
+    let text = JSON.stringify($settings, 0, 2);
+
+    $: $set.check && setSettings();
+
+    function onKeydown(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            if ($set.input) {
+                $set.check = !$set.check;
+                $set.input = false;
+            }
+        } else if (e.keyCode === 27) {
+            e.preventDefault();
+            $set.check = !$set.check;
+            $set.input = false;
+            $set.open = !$set.open;
+        }
+    }
+
+    function setSettings() {
+        $settings = JSON.parse(text);
+        $set.check = !$set.check;
+    }
 </script>
+
+<svelte:window on:keydown={$set.open ? onKeydown : null} />
 
 <section
     id="settings"
     use:clickout
-    on:clickout="{() => ($set.open = false)}"
-    transition:fly="{{ x: 350, duration: 350 }}"
+    on:clickout={() => ($set.open = false)}
+    transition:fly={{ x: 350, duration: 350 }}
 >
     <h2>Settings</h2>
     <pre>

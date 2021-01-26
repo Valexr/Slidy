@@ -1,11 +1,8 @@
-# Directories
-node_modules/
-dist/
 .vscode
+node_modules
+www/node_modules
+www/public/build
 
-#Files
-.htaccess
 .DS_Store
-*.lock
-*.log
-*.bak
+package-lock.json
+esbuild.dev.js

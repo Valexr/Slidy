@@ -1,33 +1,37 @@
 {
-	"homepage": "https://valexr.github.io/svelte-slidy/",
-	"name": "slidy-site",
-	"version": "2.4.9",
-	"license": "MIT",
-	"scripts": {
-		"build": "rollup -c",
-		"dev": "rollup -c -w",
-		"start": "sirv public",
-		"format": "npx prettier --write \"{,!(node_modules|public)/**/}*.{js,svelte}\"",
-		"predeploy": "rollup -c",
-		"deploy": "gh-pages -d public"
-	},
-	"devDependencies": {
-		"@rollup/plugin-commonjs": "^16.0.0",
-		"@rollup/plugin-node-resolve": "^10.0.0",
-		"gh-pages": "^3.1.0",
-		"prettier": "^2.2.1",
-		"prettier-plugin-svelte": "^2.1.0",
-		"rollup": "^2.3.4",
-		"rollup-plugin-css-only": "^3.1.0",
-		"rollup-plugin-delete": "^2.0.0",
-		"rollup-plugin-livereload": "^2.0.0",
-		"rollup-plugin-svelte": "^7.0.0",
-		"rollup-plugin-terser": "^7.0.0",
-		"sass": "^1.26.9",
-		"svelte": "^3.0.0",
-		"svelte-preprocess": "^4.6.1"
-	},
-	"dependencies": {
-		"sirv-cli": "^1.0.0"
-	}
+  "name": "svelte-slidy-site",
+  "version": "2.4.9",
+  "description": "Starter for new Svelte application with ESBuild bundler ",
+  "main": "index.js",
+  "scripts": {
+    "build": "node esbuild",
+    "dev": "node esbuild --dev",
+    "start": "npx derver --production --port=5000 public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexxNB/svelte-esbuild-starter.git"
+  },
+  "keywords": [
+    "svelte",
+    "starter",
+    "derver",
+    "esbuild"
+  ],
+  "author": "Alexey Schebelev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexxNB/svelte-esbuild-starter/issues"
+  },
+  "homepage": "https://github.com/AlexxNB/svelte-esbuild-starter#readme",
+  "devDependencies": {
+    "derver": "^0.4.11",
+    "esbuild": "^0.8.33",
+    "esbuild-svelte": "^0.4.0",
+    "esbuild-svelte-paths": "^0.1.2",
+    "sass": "^1.32.4",
+    "svelte": "^3.31.2",
+    "svelte-preprocess": "^4.6.1",
+    "svelte-reactive-preprocessor": "^0.6.0"
+  }
 }

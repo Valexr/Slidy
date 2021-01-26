@@ -4,8 +4,28 @@
         "paths": {
             "svelte-slidy": [
                 "../src/index.js"
+                // "../dist/slidy.esm.js"
+                // "../dist/slidy.iife.js"
+                // "../dist/slidy.js"
+            ],
+            "@cmp": [
+                "./src/cmp/index.js"
+            ],
+            "@act": [
+                "./src/act/index.js"
+            ],
+            "@utils": [
+                "./src/utils/utils.js"
+            ],
+            "@settings": [
+                "./src/utils/settings.js"
+            ],
+            "@items": [
+                "./src/api/items.js"
+            ],
+            "@api": [
+                "./src/api/api.js"
             ]
-        },
-        "module": "es2020",
+        }
     }
 }
