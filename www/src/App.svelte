@@ -32,7 +32,7 @@
 
 	async function loadSlides(limit, page) {
 		loaded = intersected = intersect.entries = [];
-		// slidyinit = false;
+		slidyinit = false;
 		items = await getPhotos(limit, page, 1280, 800);
 		// tick().then(() => (slidyinit = !slidyinit));
 	}
