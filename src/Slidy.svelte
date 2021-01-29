@@ -119,8 +119,6 @@
 		}
 	}
 
-	$: console.log(ix, index, aix, comp, pos, translate, size);
-
 	// RESIZE-OBSERVER ----------------------------------------------
 	let wrapwidth, wrapheight;
 	function resizeWrap(e) {
