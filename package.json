@@ -11,7 +11,8 @@
     "dev": "node esbuild.dev",
     "compare": "npm run test:build && node tests/esbuild.compare",
     "test:build": "node tests/esbuild.dev",
-    "test": "npm run test:build && node tests | tap-diff"
+    "test": "npm run test:build && node tests | tap-diff",
+    "prepublishOnly": "node esbuild"
   },
   "repository": {
     "type": "git",
