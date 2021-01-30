@@ -1,11 +1,11 @@
 <script>
-	import { onMount, afterUpdate, beforeUpdate, tick } from "svelte";
-	import { fly, fade, scale, crossfade, slide } from "svelte/transition";
-	import pkg from "../../package.json";
-	import { settings, set, con, index } from "@settings";
-	import { slides, local } from "@items";
-	import { getPhotos } from "@api";
-	import { randomQ } from "@utils";
+	import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
+	import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
+	import pkg from '../../package.json';
+	import { settings, set, con, index } from '@settings';
+	import { slides, local } from '@items';
+	import { getPhotos } from '@api';
+	import { randomQ } from '@utils';
 	import {
 		Settings,
 		Controls,
@@ -16,11 +16,11 @@
 		Svg,
 		Spinner,
 		SpinnerD,
-	} from "@cmp";
+	} from '@cmp';
 	// import { Slidy } from "@cmp";
-	import { Slidy } from "svelte-slidy";
+	import { Slidy } from 'svelte-slidy';
 
-	import gitlogo from "../public/img/git.svg";
+	import gitlogo from '../public/img/git.svg';
 	// import slidymaincss from "../../dist/slidy.css";
 
 	let items = [],
@@ -46,7 +46,7 @@
 			init: false,
 			options: {
 				root: null,
-				rootMargin: "0px",
+				rootMargin: '0px',
 				threshold: 1.0,
 			},
 			entries: [],
@@ -104,7 +104,7 @@
 	<link rel="stylesheet" href={`build/${slidymaincss}`} />
 </svelte:head> -->
 
-<h1>Let`s <strong> Slidy <sup>{pkg.version.replace(/\.[^.]*$/, "")}</sup> </strong> GO!</h1>
+<h1>Let`s <strong> Slidy <sup>{pkg.version.replace(/\.[^.]*$/, '')}</sup> </strong> GO!</h1>
 
 <NavTop bind:limit bind:page />
 
@@ -162,16 +162,16 @@
 		/>
 	{/if}
 	<span class="internal-controls" slot="arrow-left">
-		<Svg name={"slidy-chevron-left"} />
+		<Svg name={'slidy-chevron-left'} />
 	</span>
 	<span class="internal-controls" slot="arrow-right">
-		<Svg name={"slidy-chevron-right"} />
+		<Svg name={'slidy-chevron-right'} />
 	</span>
 	<span class="internal-controls" slot="dots-arrow-left">
-		<Svg name={"slidy-arrow-left"} />
+		<Svg name={'slidy-arrow-left'} />
 	</span>
 	<span class="internal-controls" slot="dots-arrow-right">
-		<Svg name={"slidy-arrow-right"} />
+		<Svg name={'slidy-arrow-right'} />
 	</span>
 </Slidy>
 
@@ -185,11 +185,11 @@
 	<Controls />
 {/if}
 
-<Button id="controls" style={"left: 20px;"} open={$con.open} on:click={controlsClick}>
+<Button id="controls" style={'left: 20px;'} open={$con.open} on:click={controlsClick}>
 	{#if $con.open}
-		<Svg name={"slidy-x"} />
+		<Svg name={'slidy-x'} />
 	{:else}
-		<Svg name={"slidy-play"} transform="translate(3px, 0)" />
+		<Svg name={'slidy-play'} transform="translate(3px, 0)" />
 	{/if}
 </Button>
 
@@ -199,17 +199,17 @@
 
 <Button
 	id="settings"
-	style={"right: 20px;"}
+	style={'right: 20px;'}
 	open={$set.open}
 	check={$set.input}
 	on:click={settingsClick}
 >
 	{#if $set.input}
-		<Svg name={"slidy-check"} />
+		<Svg name={'slidy-check'} />
 	{:else if $set.open}
-		<Svg name={"slidy-x"} />
+		<Svg name={'slidy-x'} />
 	{:else}
-		<Svg name={"slidy-sliders"} />
+		<Svg name={'slidy-sliders'} />
 	{/if}
 </Button>
 
