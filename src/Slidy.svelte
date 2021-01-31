@@ -1,26 +1,25 @@
 <script>
-	import { afterUpdate, tick } from "svelte";
-	import { debug } from "svelte/internal";
-	import * as action from "./actions.js";
+	import { afterUpdate, tick } from 'svelte';
+	import * as action from './actions.js';
 
 	export let slides = [],
 		wrap = {
 			id: null,
-			width: "100%",
-			height: "50%",
-			padding: "0",
-			align: "middle",
+			width: '100%',
+			height: '50%',
+			padding: '0',
+			align: 'middle',
 			alignmargin: 0,
 		},
 		slide = {
 			gap: 0,
-			class: "",
-			width: "50%",
-			height: "100%",
+			class: '',
+			width: '50%',
+			height: '100%',
 			backimg: false,
-			imgsrckey: "src",
-			objectfit: "cover",
-			overflow: "hidden",
+			imgsrckey: 'src',
+			objectfit: 'cover',
+			overflow: 'hidden',
 		},
 		controls = {
 			dots: true,
@@ -33,7 +32,7 @@
 			wheel: true,
 		},
 		options = {
-			axis: "x",
+			axis: 'x',
 			loop: true,
 			duration: 450,
 		},
@@ -105,12 +104,12 @@
 	function slidyMatch() {
 		if (render) {
 			size = {
-				first: options.axis === "y" ? el.first.height : el.first.width,
-				last: options.axis === "y" ? el.last.height : el.last.width,
-				active: options.axis === "y" ? el.active.height : el.active.width,
-				before: options.axis === "y" ? el.before.height : el.before.width,
-				after: options.axis === "y" ? el.after.height : el.after.width,
-				wrap: options.axis === "y" ? wrapheight : wrapwidth,
+				first: options.axis === 'y' ? el.first.height : el.first.width,
+				last: options.axis === 'y' ? el.last.height : el.last.width,
+				active: options.axis === 'y' ? el.active.height : el.active.width,
+				before: options.axis === 'y' ? el.before.height : el.before.width,
+				after: options.axis === 'y' ? el.after.height : el.after.width,
+				wrap: options.axis === 'y' ? wrapheight : wrapwidth,
 			};
 			diff = {
 				align: (size.wrap - size.active + slide.gap) / 2 - wrap.alignmargin,
@@ -143,14 +142,14 @@
 		transition = options.duration;
 
 	$: move = () => {
-		if (options.axis === "y") {
+		if (options.axis === 'y') {
 			return `transform: translate(0, ${translate}px); top: ${comp}px; transition: transform ${transition}ms;`;
 		} else {
 			return `transform: translate(${translate}px, 0); left: ${comp}px; transition: transform ${transition}ms;`;
 		}
 	};
 
-	$: if (wrap.align === "end") {
+	$: if (wrap.align === 'end') {
 		translate =
 			slides.length % 2 === 0
 				? options.loop
@@ -159,7 +158,7 @@
 				: options.loop
 				? pos + diff.align
 				: -diff.pos + diff.align;
-	} else if (wrap.align === "start") {
+	} else if (wrap.align === 'start') {
 		translate =
 			slides.length % 2 === 0
 				? options.loop
@@ -303,7 +302,7 @@
 		slidyNull();
 		iswheel = true;
 		transition = 0;
-		if (options.axis === "y") {
+		if (options.axis === 'y') {
 			pos += -e.detail.dy;
 		} else {
 			pos += -e.detail.dx;
@@ -334,7 +333,7 @@
 	}
 	function dragSlide(e) {
 		if (isdrag) {
-			if (options.axis === "y") {
+			if (options.axis === 'y') {
 				pos += e.detail.dy;
 			} else {
 				pos += e.detail.dx;
@@ -367,12 +366,12 @@
 	id={wrap.id}
 	class="slidy"
 	class:loaded={slidyinit}
-	class:axisy={options.axis === "y"}
-	class:autowidth={slide.width === "auto"}
+	class:axisy={options.axis === 'y'}
+	class:autowidth={slide.width === 'auto'}
 	class:antiloop={options.loop === false}
-	class:alignmiddle={wrap.align === "middle"}
-	class:alignstart={wrap.align === "start"}
-	class:alignend={wrap.align === "end"}
+	class:alignmiddle={wrap.align === 'middle'}
+	class:alignstart={wrap.align === 'start'}
+	class:alignend={wrap.align === 'end'}
 	use:action.resize
 	on:resize={resizeWrap}
 	use:action.wheel
@@ -470,7 +469,7 @@
 			{#each dots as dot, i}
 				<li class:active={i === index} on:click={() => (index = i)}>
 					<slot name="dot" {dot}>
-						<button>{controls.dotsnum && !controls.dotspure ? i : ""}</button>
+						<button>{controls.dotsnum && !controls.dotspure ? i : ''}</button>
 					</slot>
 				</li>
 			{/each}
