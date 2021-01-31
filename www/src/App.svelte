@@ -145,13 +145,13 @@
 	{#if $settings.slide.backimg === true}
 		<span class="default">
 			<strong>{item.ix}</strong>
-			<sub>{item.width}x{item.height}</sub>
+			<!-- <sub>{item.width}x{item.height}</sub> -->
 		</span>
 	{:else}
 		{#if loaded.includes(item.ix)}
 			<span class="default">
 				<strong>{item.ix}</strong>
-				<sub>{item.width}x{item.height}</sub>
+				<!-- <sub>{item.width}x{item.height}</sub> -->
 			</span>
 		{:else}<span class="loading">Loading...</span>{/if}
 		<img
