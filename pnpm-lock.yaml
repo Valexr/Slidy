@@ -1,0 +1,31 @@
+devDependencies:
+  esbuild: 0.8.56
+  esbuild-svelte: 0.4.2_esbuild@0.8.56
+  svelte: 3.35.0
+lockfileVersion: 5.2
+packages:
+  /esbuild-svelte/0.4.2_esbuild@0.8.56:
+    dependencies:
+      esbuild: 0.8.56
+      svelte: 3.35.0
+    dev: true
+    peerDependencies:
+      esbuild: 0.8.x
+    resolution:
+      integrity: sha512-NadN2sZYEjJrcx/gbxjg9BZXFpfbso46dyfFsdB8Yn0Ir+QGsqhMTvtxdaBCqf18Ju1mHyoj/riQtToBq2CNUg==
+  /esbuild/0.8.56:
+    dev: true
+    hasBin: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-PTMdAWK3JI2MNW811znGssGP5GR44tQPr++VQ1rPP0n8Z1cTKbCPD3S/kXPLr3ZZDIwAaVm08fuFym6Rp8l/0A==
+  /svelte/3.35.0:
+    dev: true
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-gknlZkR2sXheu/X+B7dDImwANVvK1R0QGQLd8CNIfxxGPeXBmePnxfzb6fWwTQRsYQG7lYkZXvpXJvxvpsoB7g==
+specifiers:
+  esbuild: ^0.8.33
+  esbuild-svelte: ^0.4.0
+  svelte: ^3.31.2

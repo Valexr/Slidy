@@ -257,7 +257,7 @@
 	}
 
 	function slidyStop() {
-		transition = options.duration / 2;
+		transition = options.duration;
 		const nulled = (direct) => {
 			if (direct) {
 				if (options.loop) {
@@ -274,14 +274,14 @@
 		};
 		if (pos > size.last / 3 || speed < 0) {
 			if (options.loop) {
-				pos += size.last - pos;
+				pos += size.last - pos * (speed / 1.6);
 				setTimeout(() => nulled(prev), transition);
 			} else {
 				nulled((index = ix -= 1));
 			}
 		} else if (pos < -size.first / 3 || speed > 0) {
 			if (options.loop) {
-				pos -= size.first + pos;
+				pos -= size.first + pos * (speed / 1.6);
 				setTimeout(() => nulled(next), transition);
 			} else {
 				nulled((index = ix += 1));
@@ -334,13 +334,13 @@
 	function dragSlide(e) {
 		if (isdrag) {
 			if (options.axis === 'y') {
-				pos += e.detail.dy;
+				pos += e.detail.dy * 1.6;
 			} else {
-				pos += e.detail.dx;
+				pos += e.detail.dx * 1.6;
 			}
 			slidyLoop();
-			tracker = setInterval(() => (htx = pos), options.duration / 2);
-			speed = (htx - pos) / options.duration / 2;
+			tracker = setInterval(() => (htx = pos), 60);
+			speed = (htx - pos) / 60;
 		}
 	}
 	function dragStop() {
