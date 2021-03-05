@@ -5,5 +5,4 @@ www/node_modules
 www/public/build
 
 .DS_Store
-package-lock.json
-esbuild.dev.js
+*-lock.*
