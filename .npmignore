@@ -3,5 +3,4 @@ node_modules
 www
 
 .DS_Store
-package-lock.json
-esbuild.dev.js
+*-lock.*

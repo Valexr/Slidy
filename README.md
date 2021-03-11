@@ -62,7 +62,7 @@ yarn add -D svelte-slidy
 
 ```html
 <script>
-    import Slidy from 'svelte-slidy' // import component
+    import { Slidy } from 'svelte-slidy' // import component
 
     const local = [
         { id: 1, src: 'img/img.webp' },
@@ -122,7 +122,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 
 ```html
 <script>
-    import Slidy from 'svelte-slidy'
+    import { Slidy } from 'svelte-slidy'
 
     const local = [
         {
@@ -165,7 +165,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 
 ```html
 <script>
-    import Slidy from 'svelte-slidy'
+    import { Slidy } from 'svelte-slidy'
 
     $: slidy_default = {
         ...
@@ -227,7 +227,7 @@ You can controls yours Slidy instance externally from parent component:
 
 ```html
 <script>
-    import Slidy from 'svelte-slidy'
+    import { Slidy } from 'svelte-slidy'
 
     $: slidy_unic = {
         ...
@@ -294,7 +294,7 @@ setup({
 ### & use it in Slidy settings by importing store ```$media```:
 ```html
 <script>
-    import Slidy from 'svelte-slidy' // import $media store from Slidy
+    import { Slidy } from 'svelte-slidy' // import $media store from Slidy
     import { media } from 'svelte-match-media'
     ...
 
@@ -316,7 +316,7 @@ setup({
 
 ```html
 <script>
-    import Slidy from 'svelte-slidy'
+    import { Slidy } from 'svelte-slidy'
 
     $: slidy_unic = {
         ...
