@@ -1,6 +1,6 @@
 {
     "name": "svelte-slidy",
-    "version": "2.5.3",
+    "version": "2.5.7",
     "description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
     "main": "dist/slidy.js",
     "module": "dist/slidy.esm.js",
@@ -8,7 +8,6 @@
     "svelte": "src/index.js",
     "scripts": {
         "build": "node esbuild",
-        "dev": "node esbuild.dev",
         "compare": "npm run test:build && node tests/esbuild.compare",
         "test:build": "node tests/esbuild.dev",
         "test": "npm run test:build && node tests | tap-diff",

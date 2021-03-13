@@ -5,6 +5,7 @@
 
 
 ## Changelog
+- New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like exanple time for spinner
 - Named export `import { Slidy } from 'svelte-slidy';` & esbuild bundler 👍🏻
 - Sorry, remove `<Spinner />` loader from core & now just `<slot name="loader" />` (you can get Spinner [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
 - Simplifyed sizes props initializion (prepare for intersection events...)
@@ -12,7 +13,7 @@
 - Rename resobserver.js > resize.js
 - [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - **IMPORTANT** - index = i
-- [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/slidy-site/)
+- [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/svelte-slidy/)
 - New block [options: {
             axis: 'x',
             loop: false,
