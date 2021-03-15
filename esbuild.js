@@ -26,16 +26,16 @@ const pkg = require('./package.json');
         plugins: [sveltePlugin({ compileOptions: { css: true } })],
     });
 
-    await esbuild.build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.browser,
-        platform: 'browser',
-        format: "iife",
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        globalName: "svelteSLidy",
-        plugins: [sveltePlugin({ compileOptions: { css: true } })],
-    });
+    // await esbuild.build({
+    //     entryPoints: ['src/index.js'],
+    //     outfile: pkg.browser,
+    //     platform: 'browser',
+    //     format: "iife",
+    //     bundle: true,
+    //     minify: true,
+    //     sourcemap: false,
+    //     globalName: "svelteSLidy",
+    //     plugins: [sveltePlugin({ compileOptions: { css: true } })],
+    // });
 
 })()

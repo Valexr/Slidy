@@ -4,7 +4,7 @@
         "paths": {
             "svelte-slidy": [
                 "../src/index.js"
-                // "../dist/slidy.esm.js"
+                // "../dist/slidy.es.js"
                 // "../dist/slidy.iife.js"
                 // "../dist/slidy.js"
             ],
