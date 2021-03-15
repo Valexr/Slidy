@@ -1,9 +1,8 @@
 const { build } = require("esbuild");
 const { derver } = require("derver");
 const sveltePlugin = require("esbuild-svelte");
-const { sveltePaths } = require('esbuild-svelte-paths');
 const sveltePreprocess = require('svelte-preprocess');
-const { reactivePreprocess } = require("svelte-reactive-preprocessor");
+const pkg = require('../package.json');
 
 const DEV = process.argv.includes('--dev');
 
@@ -28,14 +27,14 @@ async function build_client() {
         minify: !DEV,
         incremental: DEV,
         platform: 'browser',
-        loader: {
-            '.svg': 'file',
-            // '.css': 'file'
-        },
+        // loader: {
+        //     '.svg': 'file',
+        //     // '.css': 'file'
+        // },
+        external: ['../img/*'],
         mainFields: ['svelte', 'module', 'main', 'browser'],
         plugins: [
             fix_svelte_path(),
-            sveltePaths(),
             sveltePlugin({
                 compileOptions: {
                     dev: DEV,
@@ -64,7 +63,7 @@ build_client().then(bundle => {
     if (DEV) {
         derver({
             dir: 'public',
-            port: 5050,
+            port: 5000,
             host: '0.0.0.0',
             watch: ['public', 'src', '../src'],
             onwatch: async (lr, item) => {
@@ -80,3 +79,41 @@ build_client().then(bundle => {
         })
     }
 });
+
+!DEV && (async () => {
+
+    await build({
+        entryPoints: ['../src/index.js'],
+        outfile: pkg.main,
+        format: 'cjs',
+        bundle: true,
+        minify: true,
+        sourcemap: false,
+        external: ['svelte', 'svelte/*'],
+        plugins: [sveltePlugin({ compileOptions: { css: true } })]
+    });
+
+    await build({
+        entryPoints: ['../src/index.js'],
+        outfile: pkg.module,
+        format: "esm",
+        bundle: true,
+        minify: true,
+        sourcemap: false,
+        external: ['svelte', 'svelte/*'],
+        plugins: [sveltePlugin({ compileOptions: { css: true } })],
+    });
+
+    // await build({
+    //     entryPoints: ['src/index.js'],
+    //     outfile: pkg.browser,
+    //     platform: 'browser',
+    //     format: "iife",
+    //     bundle: true,
+    //     minify: true,
+    //     sourcemap: false,
+    //     globalName: "svelteSLidy",
+    //     plugins: [sveltePlugin({ compileOptions: { css: true } })],
+    // });
+
+})()

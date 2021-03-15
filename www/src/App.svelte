@@ -20,9 +20,6 @@
     // import { Slidy } from "@cmp";
     import { Slidy } from 'svelte-slidy';
 
-    import gitlogo from '../public/img/git.svg';
-    // import slidymaincss from "../../dist/slidy.css";
-
     let items = [],
         limit = 9,
         page = randomQ(0, 20),
@@ -96,8 +93,6 @@
         $con.open = !$con.open;
         $set.open = false;
     }
-
-    // import url from "../img/github.svg";
 </script>
 
 <!-- <svelte:head>
@@ -221,9 +216,12 @@
     {/if}
 </Button>
 
-<a id="github" target="_blank" href="https://github.com/Valexr/svelte-slidy">
-    <img src={`build/${gitlogo}`} alt="GitHub" />
-</a>
+<a
+    id="github"
+    alt="https://github.com/Valexr/svelte-slidy"
+    target="_blank"
+    href="https://github.com/Valexr/svelte-slidy">&nbsp;</a
+>
 
 <style lang="scss">
     // @import url(var(--slidymaincss));
@@ -321,9 +319,9 @@
         height: 2em;
         z-index: 1000;
         border-radius: 50%;
-        // background-image: var(--gitlogo);
-        img {
-            opacity: 1;
-        }
+        background-image: url('../img/git.svg');
+        // img {
+        //     opacity: 1;
+        // }
     }
 </style>

@@ -1,7 +1,6 @@
 .vscode
 dist
 node_modules
-www/node_modules
 www/public/build
 
 .DS_Store

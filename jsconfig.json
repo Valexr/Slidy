@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "svelte-slidy": [
+                "src/index.js"
+                // "dist/slidy.es.js"
+                // "dist/slidy.iife.js"
+                // "dist/slidy.js"
+            ],
+            "@cmp": [
+                "www/src/cmp/index.js"
+            ],
+            "@act": [
+                "www/src/act/index.js"
+            ],
+            "@utils": [
+                "www/src/utils/utils.js"
+            ],
+            "@settings": [
+                "www/src/utils/settings.js"
+            ],
+            "@items": [
+                "www/src/api/items.js"
+            ],
+            "@api": [
+                "www/src/api/api.js"
+            ]
+        }
+    }
+}
