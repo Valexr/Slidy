@@ -3,4 +3,3 @@ node_modules
 www
 
 .DS_Store
-*-lock.*
