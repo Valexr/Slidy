@@ -1,0 +1,36 @@
+<script>
+    export let options, index, slides;
+</script>
+
+{#if !options.loop}
+    {#if index > 0}
+        <button class="arrow-left" on:click={() => index--}>
+            <slot name="arrow-left">&#8592;</slot>
+        </button>
+    {/if}
+    {#if index < slides.length - 1}
+        <button class="arrow-right" on:click={() => index++}>
+            <slot name="arrow-right">&#8594;</slot>
+        </button>
+    {/if}
+{:else}
+    <button class="arrow-left" on:click={() => index--}>
+        <slot name="arrow-left">&#8592;</slot>
+    </button>
+    <button class="arrow-right" on:click={() => index++}>
+        <slot name="arrow-right">&#8594;</slot>
+    </button>
+{/if}
+
+<style>
+    .arrow-left {
+        left: 0;
+    }
+    .arrow-right {
+        right: 0;
+    }
+    .arrow-right,
+    .arrow-left {
+        position: absolute;
+    }
+</style>
