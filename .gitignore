@@ -3,5 +3,6 @@ dist
 node_modules
 www/public/build
 
+Icon?
 .DS_Store
 *-lock.*
