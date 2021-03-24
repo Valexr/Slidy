@@ -13,7 +13,7 @@
 - Rename resobserver.js > resize.js
 - [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - **IMPORTANT** - index = i
-- [Fully reactive Slidy for update slides in runtime](https://valexr.github.io/svelte-slidy/)
+- [Fully reactive Slidy for update slides in runtime](https://slidy.valexr.online)
 - New block [options: {
             axis: 'x',
             loop: false,
