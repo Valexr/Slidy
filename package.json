@@ -28,7 +28,7 @@
     "bugs": {
         "url": "https://github.com/Valexr/svelte-slidy/issues"
     },
-    "homepage": "https://valexr.github.io/svelte-slidy/",
+    "homepage": "https://slidy.valexr.online",
     "devDependencies": {
         "derver": "^0.4.14",
         "esbuild": "^0.9.6",
