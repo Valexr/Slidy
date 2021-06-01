@@ -19,15 +19,14 @@
 
   Usage example:
 
-```svelte
-<Slidy keyExtractor={(item,index)=>item.id+index+uid()} />
-```
+      ```svelte
+      <Slidy keyExtractor={(item,index)=>item.id+index+uid()} />
+      ```
+  or
 
-or
-
-```svelte
-<Slidy keyExtractor={(item)=>item.id.toString()} />
-```
+      ```svelte
+      <Slidy keyExtractor={(item)=>item.id.toString()} />
+      ```
 
 - New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like
   exanple time for spinner
