@@ -263,6 +263,9 @@
 		if (transtime !== null) {
 			clearTimeout(transtime);
 		}
+		if (wheeltime !== null) {
+			clearTimeout(wheeltime);
+		}
 	}
 
 	// WHEEL -----------------------------------------------------
