@@ -3,6 +3,7 @@
 	import * as action from "./actions.js";
 
 	export let slides = [],
+		keyExtractor=(item,i)=>item.id||i,
 		wrap = {
 			id: null,
 			width: "100%",
@@ -380,7 +381,7 @@
 
 	<ul class="slidy-ul" on:contextmenu={() => (isdrag = false)} style={move()}>
 		{#if slides}
-			{#each slides as item, i (item.id)}
+			{#each slides as item, i (keyExtractor(item,i))}
 				<li
 					bind:this={nodes[i]}
 					data-id={i}
@@ -395,7 +396,7 @@
 					{#if slidyinit}
 						<slot {item}>
 							{#if slide.backimg === false}
-								<img alt={item.id} src={item[slide.imgsrckey]} width={item.width} height={item.height} />
+								<img alt={keyExtractor(item,i)} src={item[slide.imgsrckey]} width={item.width} height={item.height} />
 							{/if}
 						</slot>
 					{/if}
