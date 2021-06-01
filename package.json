@@ -1,6 +1,6 @@
 {
     "name": "svelte-slidy",
-    "version": "2.6.4",
+    "version": "2.6.6",
     "description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
     "main": "dist/slidy.js",
     "module": "dist/slidy.es.js",
@@ -32,13 +32,13 @@
     "devDependencies": {
         "derver": "^0.4.15",
         "esbuild": "^0.12.5",
-        "esbuild-svelte": "0.4.3",
+        "esbuild-svelte": "^0.5.1",
         "gh-pages": "^3.2.0",
         "sass": "^1.34.0",
-        "svelte": "3.37.0",
+        "svelte": "^3.38.2",
         "svelte-preprocess": "^4.7.3"
     },
     "peerDependencies": {
-        "svelte": "3.37.0"
+        "svelte": "^3.38.2"
     }
 }

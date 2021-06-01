@@ -1,26 +1,26 @@
 <script>
-	import { tick } from "svelte";
-	import * as action from "./actions.js";
+	import { tick } from 'svelte';
+	import * as action from './actions.js';
 
 	export let slides = [],
-		keyExtractor=(item,i)=>item.id||i,
+		keyExtractor = (item, i) => item.id || i,
 		wrap = {
 			id: null,
-			width: "100%",
-			height: "50%",
-			padding: "0",
-			align: "middle",
+			width: '100%',
+			height: '50%',
+			padding: '0',
+			align: 'middle',
 			alignmargin: 0,
 		},
 		slide = {
 			gap: 0,
-			class: "",
-			width: "50%",
-			height: "100%",
+			class: '',
+			width: '50%',
+			height: '100%',
 			backimg: false,
-			imgsrckey: "src",
-			objectfit: "cover",
-			overflow: "hidden",
+			imgsrckey: 'src',
+			objectfit: 'cover',
+			overflow: 'hidden',
 		},
 		controls = {
 			dots: true,
@@ -33,7 +33,7 @@
 			wheel: true,
 		},
 		options = {
-			axis: "x",
+			axis: 'x',
 			loop: true,
 			duration: 450,
 		},
@@ -41,7 +41,7 @@
 		slidyinit = false,
 		timeout = 0;
 
-	// LOADSTATE-CHECK -------------------------------------------------
+	// INIT -------------------------------------------------
 	$: render && slidyInit(slides);
 
 	async function slidyInit() {
@@ -56,13 +56,7 @@
 	// SIZES ---------------------------------------------------
 	let nodes = [],
 		dots = [],
-		el = {
-			active: { node: 0, width: 0, height: 0 },
-			first: { node: 0, width: 0, height: 0 },
-			last: { node: 0, width: 0, height: 0 },
-			before: { width: 0, height: 0 },
-			after: { width: 0, height: 0 },
-		},
+		el = {},
 		aix = 0;
 	$: nodes = nodes.filter(Boolean);
 	$: render = nodes.length !== 0 && slides.length !== 0 && nodes.length === slides.length;
@@ -96,10 +90,6 @@
 					width: nodes.map((a, i) => (i > index ? a.offsetWidth + slide.gap : null)).reduce((p, v) => p + v),
 					height: nodes.map((a, i) => (i > index ? a.offsetHeight + slide.gap : null)).reduce((p, v) => p + v),
 				},
-				// full: {
-				//     width: nodes.reduce((p, v) => p + v.offsetWidth + slide.gap, 0),
-				//     height: nodes.reduce((p, v) => p + v.offsetHeight + slide.gap, 0),
-				// },
 			};
 		}
 	}
@@ -112,13 +102,12 @@
 	function slidyMatch() {
 		if (render) {
 			size = {
-				first: options.axis === "y" ? el.first.height : el.first.width,
-				last: options.axis === "y" ? el.last.height : el.last.width,
-				active: options.axis === "y" ? el.active.height : el.active.width,
-				before: options.axis === "y" ? el.before.height : el.before.width,
-				after: options.axis === "y" ? el.after.height : el.after.width,
-				wrap: options.axis === "y" ? wh : ww,
-				// full: options.axis === 'y' ? el.full.height : el.full.width,
+				first: options.axis === 'y' ? el.first.height : el.first.width,
+				last: options.axis === 'y' ? el.last.height : el.last.width,
+				active: options.axis === 'y' ? el.active.height : el.active.width,
+				before: options.axis === 'y' ? el.before.height : el.before.width,
+				after: options.axis === 'y' ? el.after.height : el.after.width,
+				wrap: options.axis === 'y' ? wh : ww,
 			};
 			diff = {
 				align: (size.wrap - size.active + slide.gap) / 2 - wrap.alignmargin,
@@ -142,24 +131,16 @@
 		transition = options.duration;
 
 	$: move = () => {
-		if (options.axis === "y") {
+		if (options.axis === 'y') {
 			return `transform: translate(0, ${translate}px); top: ${comp}px; transition: transform ${transition}ms;`;
 		} else {
 			return `transform: translate(${translate}px, 0); left: ${comp}px; transition: transform ${transition}ms;`;
 		}
 	};
 
-	// $: fullsize = () => {
-	// 	if (options.axis === "y") {
-	// 		return `height: ${size.full}px;`;
-	// 	} else {
-	// 		return `width: ${size.full}px;`;
-	// 	}
-	// };
-
-	$: if (wrap.align === "end") {
+	$: if (wrap.align === 'end') {
 		translate = slides.length % 2 === 0 ? (options.loop ? pos + diff.align - size.active / 2 : -diff.pos + diff.align) : options.loop ? pos + diff.align : -diff.pos + diff.align;
-	} else if (wrap.align === "start") {
+	} else if (wrap.align === 'start') {
 		translate = slides.length % 2 === 0 ? (options.loop ? pos - diff.align - size.active / 2 : -diff.pos - diff.align) : options.loop ? pos - diff.align : -diff.pos - diff.align;
 	} else {
 		translate = slides.length % 2 === 0 ? (options.loop ? pos - size.active / 2 : -diff.pos) : options.loop ? pos : -diff.pos;
@@ -214,7 +195,7 @@
 		}
 	}
 
-	// SLIDY ------------------------------------------------------
+	// LOOP ------------------------------------------------------
 	function slidyLoop() {
 		if (pos >= size.last) {
 			if (options.loop) {
@@ -238,6 +219,8 @@
 		}
 	}
 
+	// STOP ---------------------------------------------------------------------------
+	let transtime;
 	function slidyStop() {
 		transition = options.duration;
 		const nulled = (direct) => {
@@ -246,6 +229,7 @@
 					direct();
 					pos = speed = transition = 0;
 					tick().then(() => (index = ix = el.active.node.ix));
+					clearTimeout(transtime);
 				} else {
 					index = direct;
 					pos = speed = 0;
@@ -257,14 +241,14 @@
 		if (pos > size.last / 3 || speed < 0) {
 			if (options.loop) {
 				pos += size.last - pos;
-				setTimeout(() => nulled(prev), transition);
+				transtime = setTimeout(() => nulled(prev), transition);
 			} else {
 				nulled((index = ix -= 1));
 			}
 		} else if (pos < -size.first / 3 || speed > 0) {
 			if (options.loop) {
 				pos -= size.first + pos;
-				setTimeout(() => nulled(next), transition);
+				transtime = setTimeout(() => nulled(next), transition);
 			} else {
 				nulled((index = ix += 1));
 			}
@@ -273,22 +257,23 @@
 		}
 	}
 
+	// NULL ------------------------------------------------------
 	function slidyNull() {
-		if (comp !== 0) comp = pos = 0;
+		if (comp !== 0) comp = pos = speed = 0;
+		if (transtime !== null) {
+			clearTimeout(transtime);
+		}
 	}
 
-	// WHEELL -----------------------------------------------------
+	// WHEEL -----------------------------------------------------
 	let iswheel = false,
 		wheeltime;
 	function slidyWheel(e) {
 		slidyNull();
 		iswheel = true;
 		transition = 0;
-		if (options.axis === "y") {
-			pos += -e.detail.dy;
-		} else {
-			pos += -e.detail.dx;
-		}
+		let dd = options.axis === 'y' ? Math.floor(e.detail.dy) : Math.floor(e.detail.dx);
+		pos -= dd * 1.6;
 		slidyLoop();
 		if (wheeltime !== null) {
 			clearTimeout(wheeltime);
@@ -315,18 +300,16 @@
 	}
 	function dragSlide(e) {
 		if (isdrag) {
-			if (options.axis === "y") {
-				pos += e.detail.dy * 1.6;
-			} else {
-				pos += e.detail.dx * 1.6;
-			}
-			slidyLoop();
+			let dd = options.axis === 'y' ? Math.floor(e.detail.dy) : Math.floor(e.detail.dx);
+			pos += dd * 1.6;
 			tracker = setInterval(() => (htx = pos), 60);
 			speed = (htx - pos) / 60;
+			slidyLoop();
 		}
 	}
 	function dragStop() {
 		isdrag = false;
+		pos += (pos * speed) / 1.6;
 		clearInterval(tracker);
 		slidyStop();
 	}
@@ -348,12 +331,12 @@
 	id={wrap.id}
 	class="slidy"
 	class:loaded={slidyinit}
-	class:axisy={options.axis === "y"}
-	class:autowidth={slide.width === "auto"}
+	class:axisy={options.axis === 'y'}
+	class:autowidth={slide.width === 'auto'}
 	class:antiloop={options.loop === false}
-	class:alignmiddle={wrap.align === "middle"}
-	class:alignstart={wrap.align === "start"}
-	class:alignend={wrap.align === "end"}
+	class:alignmiddle={wrap.align === 'middle'}
+	class:alignstart={wrap.align === 'start'}
+	class:alignend={wrap.align === 'end'}
 	use:action.resize
 	on:resize={resizeWrap}
 	use:action.wheel
@@ -367,10 +350,7 @@
         --slideh: {slide.height};
         --slidef: {slide.objectfit};
         --slideo: {slide.overflow};
-        --slideg: {options.axis ===
-	'y'
-		? `${slide.gap}px 0 0 0`
-		: `0 0 0 ${slide.gap}px`};
+        --slideg: {options.axis === 'y' ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`};
         --dur: {options.duration}ms;"
 >
 	{#if !slidyinit}
@@ -381,7 +361,7 @@
 
 	<ul class="slidy-ul" on:contextmenu={() => (isdrag = false)} style={move()}>
 		{#if slides}
-			{#each slides as item, i (keyExtractor(item,i))}
+			{#each slides as item, i (keyExtractor(item, i))}
 				<li
 					bind:this={nodes[i]}
 					data-id={i}
@@ -396,7 +376,7 @@
 					{#if slidyinit}
 						<slot {item}>
 							{#if slide.backimg === false}
-								<img alt={keyExtractor(item,i)} src={item[slide.imgsrckey]} width={item.width} height={item.height} />
+								<img alt={keyExtractor(item, i)} src={item[slide.imgsrckey]} width={item.width} height={item.height} />
 							{/if}
 						</slot>
 					{/if}
@@ -444,7 +424,7 @@
 			{#each dots as dot, i}
 				<li class:active={i === index} on:click|stopPropagation={() => (index = i)}>
 					<slot name="dot" {dot}>
-						<button>{controls.dotsnum && !controls.dotspure ? i : ""}</button>
+						<button>{controls.dotsnum && !controls.dotspure ? i : ''}</button>
 					</slot>
 				</li>
 			{/each}
@@ -496,7 +476,6 @@
 		-webkit-user-select: none;
 	}
 	.slidy-ul {
-		/* flex: 1 0 var(--slidew); */
 		width: 100%;
 		height: 100%;
 		padding: var(--wrapp);

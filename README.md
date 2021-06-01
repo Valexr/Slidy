@@ -1,50 +1,79 @@
 # SLIDY – simple, configurable & reusable carousel component built with SvelteJS.
 
-[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy) [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
+[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
+[![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
-
 ## Changelog
-- New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like exanple time for spinner
+
+- 2.6.5 - add keyExtractor props as function to customize svelte loop key. The
+  default return value is item.id or will fallback to array index if there is no
+  id key.
+
+  ```js
+  keyExtractor = (item, i) => item.id || i;
+  ```
+
+  Tx @axmad386👍🏻 for [PR](https://github.com/Valexr/svelte-slidy/pull/22) &
+  @tehnolog for [issue](https://github.com/Valexr/svelte-slidy/issues/18)
+
+  Usage example:
+
+```svelte
+<Slidy keyExtractor={(item,index)=>item.id+index+uid()} />
+```
+
+or
+
+```svelte
+<Slidy keyExtractor={(item)=>item.id.toString()} />
+```
+
+- New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like
+  exanple time for spinner
 - Named export `import { Slidy } from 'svelte-slidy';` & esbuild bundler 👍🏻
-- Sorry, remove `<Spinner />` loader from core & now just `<slot name="loader" />` (you can get Spinner [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
+- Sorry, remove `<Spinner />` loader from core & now just
+  `<slot name="loader" />` (you can get Spinner
+  [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
 - Simplifyed sizes props initializion (prepare for intersection events...)
 - Move pannable.js listeners to wrap node <sections>
 - Rename resobserver.js > resize.js
 - [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - **IMPORTANT** - index = i
-- [Fully reactive Slidy for update slides in runtime](https://slidy.valexr.online)
-- New block [options: {
-            axis: 'x',
-            loop: false,
-            duration: 550
-        }](#usage) in settings object
+- [Fully reactive Slidy for update slides in
+  runtime](https://slidy.valexr.online)
+- New block [options: { axis: 'x', loop: false, duration: 550 }](#usage) in
+  settings object
 - [New { loop: true/false } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - [New { objectfit: 'cover' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New { align: 'middle',
-        alignmargin: 50 } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- **!!!New** – slot for slide (slot="slide") without name now. 
-- [New external controls](#-new-external-controls)   
-- [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)   
+- [New { align: 'middle', alignmargin: 50 }
+  setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+- **!!!New** – slot for slide (slot="slide") without name now.
+- [New external controls](#-new-external-controls)
+- [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
 - [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 - [New props names & settings](#usage)
-- [New classNames && slots in Slidy nodes tree](#-slidy-nodes-tree--slots-for-customize)
+- [New classNames && slots in Slidy nodes
+  tree](#-slidy-nodes-tree--slots-for-customize)
 - [New settings for preloader](#usage)
 - [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
 - Classnames on state:
   - .loaded – on init Slidy
-  - .autowidth – on slide.width: 'auto'  
+  - .autowidth – on slide.width: 'auto'
   - .axisy – on axis: 'y' direction
 - Keyboard arrowkeys navigation only Slidy in focus
-- [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#usage) – [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
-- If you are using yours content in slot & slide.backimg: 'false' you need tag ```<img />``` inside slot. By default empty slot have ```<img />``` tag.
+- [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#usage) –
+  [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
+- If you are using yours content in slot & slide.backimg: 'false' you need tag
+  `<img />` inside slot. By default empty slot have `<img />` tag.
 - New props rename let:slide > let:item
 
-
 ## Site
+
 [https://slidy.valexr.online](https://slidy.valexr.online)
 
 ## Playground
+
 [https://svelte.dev/repl/](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
 
 ## Install
@@ -52,7 +81,9 @@
 ```bash
 npm i -D svelte-slidy
 ```
+
 or
+
 ```
 yarn add -D svelte-slidy
 ```
@@ -111,15 +142,15 @@ yarn add -D svelte-slidy
 <Slidy {...slidy_default} bind:index let:item /> <!-- bind:index new prop in 2.0 for external controls & let:item new name for prop to eached elements -->
 ```
 
-
->**!MPORTANT** – you need declared all the settings objects for each instance of Slidy.
-
+> **!MPORTANT** – you need declared all the settings objects for each instance
+> of Slidy.
 
 ## Customize slide skin
 
 [Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
 
-You can use any tags what you want inside Slidy component for ```{#each it}``` by ```let:item``` derective:
+You can use any tags what you want inside Slidy component for `{#each it}` by
+`let:item` derective:
 
 ```html
 <script>
@@ -159,8 +190,8 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </style>
 ```
 
->**!MPORTANT** – let:item derectives for each yours items in new skin & can be without wrappers ;).
-
+> **!MPORTANT** – let:item derectives for each yours items in new skin & can be
+> without wrappers ;).
 
 ## Customize default Slidy styles
 
@@ -220,7 +251,7 @@ You can use any tags what you want inside Slidy component for ```{#each it}``` b
 </section>
 ```
 
-## <a name="external"></a> NEW External controls 
+## <a name="external"></a> NEW External controls
 
 [Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
 
@@ -242,57 +273,64 @@ You can controls yours Slidy instance externally from parent component:
 <Slidy {...slidy_unic} bind:index /> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
 ```
 
-
 ## Media queries (not implemented yet, but...)
-I recomended use [svelte-match-media](https://github.com/pearofducks/svelte-match-media) by @pearofducks.
+
+I recomended use
+[svelte-match-media](https://github.com/pearofducks/svelte-match-media) by
+@pearofducks.
 
 ### Instal svelte-match-media
+
 ```bash
 yarn add -D svelte-match-media
 ```
 
 ### Default settings mediaquery:
+
 ```js
 {
     desktop: 'screen and (min-width: 769px)',
     mobile: 'screen and (max-width: 768px)'
 }
 ```
-### Just call function ```setup()``` with default:
+
+### Just call function `setup()` with default:
 
 ```js
 /* main.js */
 
-import { setup } from 'svelte-match-media' // import setting function
+import { setup } from "svelte-match-media"; // import setting function
 
-setup()
+setup();
 ```
 
-### or setup it in yours "root" ```main/howitcall.js``` file:
+### or setup it in yours "root" `main/howitcall.js` file:
+
 ```js
 /* main.js */
 
-import { setup } from 'svelte-match-media' // import setting function
+import { setup } from "svelte-match-media"; // import setting function
 
 setup({
-    desktop: 'screen and (min-width: 769px)',
-    tablet: 'screen and (max-width: 768px)',
-    mobile: 'screen and (max-width: 425px)',
-    landscape: 'only screen and (orientation:landscape)',
-    portrait: 'only screen and (orientation:portrait)',
-    dark: '(prefers-color-scheme: dark)',
-    light: '(prefers-color-scheme: light)',
-    no_color: '(prefers-color-scheme: no-preference)',
-    standalone: '(display-mode: standalone)',
-    touchscreen: '(hover: none) and (pointer: coarse)',
-    pointerscreen: '(hover: hover) and (pointer: fine)',
-    short: '(max-height: 399px)',
-    tiny: '(orientation: portrait) and (max-height: 599px)',
-    //... & all what you want ;)
-})
+  desktop: "screen and (min-width: 769px)",
+  tablet: "screen and (max-width: 768px)",
+  mobile: "screen and (max-width: 425px)",
+  landscape: "only screen and (orientation:landscape)",
+  portrait: "only screen and (orientation:portrait)",
+  dark: "(prefers-color-scheme: dark)",
+  light: "(prefers-color-scheme: light)",
+  no_color: "(prefers-color-scheme: no-preference)",
+  standalone: "(display-mode: standalone)",
+  touchscreen: "(hover: none) and (pointer: coarse)",
+  pointerscreen: "(hover: hover) and (pointer: fine)",
+  short: "(max-height: 399px)",
+  tiny: "(orientation: portrait) and (max-height: 599px)",
+  //... & all what you want ;)
+});
 ```
 
-### & use it in Slidy settings by importing store ```$media```:
+### & use it in Slidy settings by importing store `$media`:
+
 ```html
 <script>
     import { Slidy } from 'svelte-slidy' // import $media store from Slidy
