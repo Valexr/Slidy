@@ -3,10 +3,12 @@
     import { slides } from "@items";
 </script>
 
-<nav id="thumbs" class:axisx={!$settings.options.axisy}>
+<nav id="thumbs" class:axisx={$settings.options.axis !== "y"}>
     {#each $slides as dot, i (dot.id)}
         <button
-            style="background-image: url({dot.src ? dot.src : dot.download_url})"
+            style="background-image: url({dot.src
+                ? dot.src
+                : dot.download_url})"
             class:active={i === $index}
             on:click={() => ($index = i)}
         />

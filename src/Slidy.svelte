@@ -221,8 +221,8 @@
 
     let ix = index;
     function slidyIndex(id) {
-        transition = options.duration;
         while (ix > id) {
+            transition = options.duration;
             if (options.loop) {
                 pos += size.last;
                 comp = -pos;
@@ -231,6 +231,7 @@
             ix--;
         }
         while (ix < id) {
+            transition = options.duration;
             if (options.loop) {
                 pos -= size.first;
                 comp = -pos;
@@ -301,6 +302,7 @@
         transtime !== null && clearTimeout(transtime);
         wheeltime !== null && clearTimeout(wheeltime);
         dragtime !== null && clearInterval(dragtime);
+        return;
     }
 
     // WHEEL -----------------------------------------------------
