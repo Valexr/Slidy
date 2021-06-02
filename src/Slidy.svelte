@@ -217,7 +217,7 @@
             }
         }
 
-    $: slidyinit && slidyIndex(index);
+    $: render && slidyIndex(index);
 
     let ix = index;
     function slidyIndex(id) {
