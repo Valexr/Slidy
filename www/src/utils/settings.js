@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store'
 
 let settingX = {
+    index: 1,
     wrap: {
         id: 'slidy',
         width: '100%',
@@ -12,8 +13,8 @@ let settingX = {
     slide: {
         gap: 50,
         class: 'slide',
-        width: '100%',
-        height: '100%',
+        width: '50%',
+        height: '50%',
         backimg: false,
         imgsrckey: 'src',
         objectfit: 'cover',
@@ -30,7 +31,7 @@ let settingX = {
         wheel: true,
     },
     options: {
-        axis: 'y',
+        axis: 'x',
         loop: false,
         duration: 550,
         intersecting: false
@@ -50,4 +51,4 @@ export const con = writable({
     open: false
 })
 
-export const index = writable(null)
+export const index = writable(4)

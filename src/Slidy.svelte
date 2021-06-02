@@ -37,7 +37,7 @@
             loop: true,
             duration: 450,
         },
-        index = 0,
+        index = Math.floor(slides.length / 2),
         slidyinit = false,
         timeout = 0;
 
@@ -217,7 +217,7 @@
             }
         }
 
-    $: render && slidyIndex(index);
+    $: slidyinit && slidyIndex(index);
 
     let ix = index;
     function slidyIndex(id) {

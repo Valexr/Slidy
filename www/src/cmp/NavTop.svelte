@@ -28,7 +28,8 @@
     <div>
         <button
             class="slidy-ext-controls"
-            on:click={() => ($settings.options.loop = !$settings.options.loop)}>
+            on:click={() => ($settings.options.loop = !$settings.options.loop)}
+        >
             <Svg
                 name="slidy-repeat"
                 transform="scale(0.69)"
@@ -38,7 +39,11 @@
         <button class="slidy-ext-controls" on:click={() => $index--}>
             <Svg name="slidy-back" />
         </button>
-        <button class="slidy-ext-controls" class:play on:click={() => (play = !play)}>
+        <button
+            class="slidy-ext-controls"
+            class:play
+            on:click={() => (play = !play)}
+        >
             <Svg name={play ? "slidy-pause" : "slidy-play"} />
         </button>
         <button class="slidy-ext-controls" on:click={() => $index++}>
@@ -46,9 +51,14 @@
         </button>
         <button
             class="slidy-ext-controls"
-            on:click={() => ($settings.options.intersecting = !$settings.options.intersecting)}>
+            on:click={() =>
+                ($settings.options.intersecting =
+                    !$settings.options.intersecting)}
+        >
             <Svg
-                name={!$settings.options.intersecting ? "slidy-eye-off" : "slidy-eye"}
+                name={!$settings.options.intersecting
+                    ? "slidy-eye-off"
+                    : "slidy-eye"}
                 transform="scale(0.69)"
                 color={$settings.options.intersecting ? "blue" : "white"}
             />
@@ -59,7 +69,10 @@
         <button class="slidy-ext-controls" on:click={() => limit--}>
             <Svg name="slidy-mines" />
         </button>
-        <button class="slidy-ext-controls" on:click={() => (page = randomQ(0, 20))}>
+        <button
+            class="slidy-ext-controls"
+            on:click={() => (page = randomQ(0, 96))}
+        >
             <Svg name="slidy-refresh" />
         </button>
         <button class="slidy-ext-controls" on:click={() => limit++}>

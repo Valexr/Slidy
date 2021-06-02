@@ -24,14 +24,20 @@
         limit = 9,
         page = randomQ(0, 96),
         slidyinit = false;
+    // $index = 1;
+    // onMount(() => ($index = 1));
 
+    // $: items.length > 1 && ($index = 1);
     async function loadSlides(limit, page) {
-        loaded = intersected = intersect.entries = [];
         slidyinit = false;
+        // $index = 0;
+        loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page, 1280, 800);
-        $index = 1;
-        // tick().then(() => (slidyinit = !slidyinit));
+        // $index = 1;
+        // tick().then(() => (slidyinit = true));
     }
+    $: slidyinit && ($index = 1);
+    $: console.log(slidyinit);
     // $: slidyinit, (intersected = loaded = [])
     $: items.length, ($slides = items);
     $: loadSlides(limit, page);
