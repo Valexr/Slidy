@@ -23,7 +23,9 @@
     let items = [],
         limit = 9,
         page = randomQ(0, 96),
-        slidyinit = false;
+        slidyinit = false,
+        ww = 0,
+        wh = 0;
     // $index = 1;
     // onMount(() => ($index = 1));
 
@@ -32,12 +34,12 @@
         slidyinit = false;
         // $index = 0;
         loaded = intersected = intersect.entries = [];
-        items = await getPhotos(limit, page, 1280, 800);
+        items = await getPhotos(limit, page, ww * 2, wh * 2);
         // $index = 1;
         // tick().then(() => (slidyinit = true));
     }
-    $: slidyinit && ($index = 1);
-    $: console.log(slidyinit);
+    // $: slidyinit && ($index = 1);
+    // $: console.log(slidyinit);
     // $: slidyinit, (intersected = loaded = [])
     $: items.length, ($slides = items);
     $: loadSlides(limit, page);
@@ -102,11 +104,13 @@
     }
 </script>
 
+<svelte:window bind:innerWidth={ww} bind:innerHeight={wh} />
+
 <h1>
     Let`s <strong>
         Slidy <sup>{pkg.version.replace(/\.[^.]*$/, "")}</sup>
     </strong>
-    GO! {$index}
+    GO!
 </h1>
 
 <NavTop bind:limit bind:page />

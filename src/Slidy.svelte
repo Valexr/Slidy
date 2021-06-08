@@ -3,7 +3,7 @@
     import * as action from "./actions.js";
 
     export let slides = [],
-        keyExtractor = (item, i) => item.id || i,
+        key = (item) => item.id || item[slide.imgsrckey],
         wrap = {
             id: null,
             width: "100%",
@@ -37,7 +37,7 @@
             loop: true,
             duration: 450,
         },
-        index = Math.floor(slides.length / 2),
+        index = 0,
         slidyinit = false,
         timeout = 0;
 
@@ -392,10 +392,10 @@
 
     <ul class="slidy-ul" on:contextmenu={() => (isdrag = false)} style={move()}>
         {#if slides}
-            {#each slides as item, i (keyExtractor(item, i))}
+            {#each slides as item, i (key(item))}
                 <li
                     bind:this={nodes[i]}
-                    data-id={i}
+                    data-id={item.ix}
                     use:action.pannable
                     on:panstart={controls.drag ? dragStart : null}
                     on:panmove={controls.drag ? dragSlide : null}
@@ -410,7 +410,7 @@
                         <slot {item}>
                             {#if slide.backimg === false}
                                 <img
-                                    alt={keyExtractor(item, i)}
+                                    alt={item[slide.imgsrckey]}
                                     src={item[slide.imgsrckey]}
                                     width={item.width}
                                     height={item.height}

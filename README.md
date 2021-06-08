@@ -6,6 +6,16 @@
 
 ## Changelog
 
+- 2.6.9 - `keyExtractor()` now `key()` & by default:
+  ```js
+  key = (item) => item.id || item[slide.imgsrckey];
+  ```
+  Slides may not have `id`'s, but you must have `imgsrckey` (by default
+  `imgsrckey="src"`). Svelte needs a unique identifier for `{#each}` loop. Or
+  you can customize key() in template:
+  ```svelte
+  <Slidy key={(item)=>uid()} />
+  ```
 - 2.6.5 - add keyExtractor props as function to customize svelte loop key. The
   default return value is item.id or will fallback to array index if there is no
   id key.

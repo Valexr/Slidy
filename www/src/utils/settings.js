@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 
 let settingX = {
-    index: 1,
+    // index: 1,
     wrap: {
         id: 'slidy',
         width: '100%',
