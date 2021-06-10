@@ -6,6 +6,7 @@
 
 ## Changelog
 
+- 2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
 - 2.6.9 - `keyExtractor()` now `key()` & by default:
   ```js
   key = (item) => item.id || item[slide.imgsrckey];
