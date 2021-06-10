@@ -1,9 +1,11 @@
 <script>
-    import { fly } from 'svelte/transition';
-    import { settings, con, index } from '@settings';
-    import { clickout } from '@act';
-    import { slides } from '@items';
-    import { Svg } from '@cmp';
+    import { fly } from "svelte/transition";
+    import { settings, con } from "@settings";
+    import { clickout } from "@act";
+    import { slides } from "@items";
+    import { Svg } from "@cmp";
+
+    export let index;
 
     let play = false,
         playduration = 550,
@@ -12,9 +14,13 @@
         if (timerPlay !== null) {
             clearInterval(timerPlay);
         }
-        timerPlay = setInterval(() => $index++, playduration);
+        timerPlay = setInterval(() => index++, playduration);
     }
-    $: if ($slides) (!$settings.options.loop && $index >= $slides.length - 1) || (!$settings.options.loop && $index <= 0) ? (play = false) : null;
+    $: if ($slides)
+        (!$settings.options.loop && index >= $slides.length - 1) ||
+        (!$settings.options.loop && index <= 0)
+            ? (play = false)
+            : null;
     $: play && $con.open ? slidyPlay() : clearInterval(timerPlay);
 
     function onKeydown(e) {
@@ -27,40 +33,65 @@
 
 <svelte:window on:keydown={$con.open ? onKeydown : null} />
 
-<section id="controls" use:clickout on:clickout={() => ($con.open = false)} transition:fly={{ x: -350, duration: 350 }}>
+<section
+    id="controls"
+    use:clickout
+    on:clickout={() => ($con.open = false)}
+    transition:fly={{ x: -350, duration: 350 }}
+>
     <h2>Controls</h2>
-    <h3>Goto <strong>{$index}</strong> index</h3>
+    <h3>Goto <strong>{index}</strong> index</h3>
     <label>
-        <input type="range" min="0" max={$slides.length - 1} step="1" bind:value={$index} />
+        <input
+            type="range"
+            min="0"
+            max={$slides.length - 1}
+            step="1"
+            bind:value={index}
+        />
     </label>
     <h3>Buttons</h3>
     <nav id="slidy-controls">
-        <button class="slidy-ext-controls" on:click={() => $index--}>
+        <button class="slidy-ext-controls" on:click={() => index--}>
             <Svg name="slidy-back" />
         </button>
-        <button class="slidy-ext-controls" class:play on:click={() => (play = !play)}>
+        <button
+            class="slidy-ext-controls"
+            class:play
+            on:click={() => (play = !play)}
+        >
             {#if play}
                 <Svg name="slidy-pause" />
             {:else}
                 <Svg name="slidy-play" />
             {/if}
         </button>
-        <button class="slidy-ext-controls" on:click={() => $index++}>
+        <button class="slidy-ext-controls" on:click={() => index++}>
             <Svg name="slidy-forward" />
         </button>
     </nav>
     <h3>Dots</h3>
     <nav id="dots">
-        <button on:click={() => $index--}>&#8592;</button>
+        <button on:click={() => index--}>&#8592;</button>
         {#each $slides as dot, i}
-            <button class:active={i === $index} on:click={() => ($index = i)} style="--imgback: url('{dot.src ? dot.src : dot.download_url}')" />
+            <button
+                class:active={i === index}
+                on:click={() => (index = i)}
+                style="--imgback: url('{dot.src ? dot.src : dot.download_url}')"
+            />
         {/each}
-        <button on:click={() => $index++}>&#8594;</button>
+        <button on:click={() => index++}>&#8594;</button>
     </nav>
     <h3>Thumbs</h3>
     <nav id="thumbs">
         {#each $slides as thumb, i}
-            <button style="background-image: url({thumb.src ? thumb.src : thumb.download_url})" class:active={i === $index} on:click={() => ($index = i)}>{thumb.id}</button>
+            <button
+                style="background-image: url({thumb.src
+                    ? thumb.src
+                    : thumb.download_url})"
+                class:active={i === index}
+                on:click={() => (index = i)}>{thumb.id}</button
+            >
         {/each}
     </nav>
 </section>
@@ -97,7 +128,7 @@
             }
         }
     }
-    :global(input[type='range']) {
+    :global(input[type="range"]) {
         -webkit-appearance: none;
         appearance: none;
         background: rgba(0, 0, 0, 0.18);
@@ -108,9 +139,9 @@
             outline: none;
         }
     }
-    :global(input[type='range']::-webkit-slider-thumb),
-    :global(input[type='range']::-moz-range-thumb),
-    :global(input[type='range']::-webkit-slider-runnable-track) {
+    :global(input[type="range"]::-webkit-slider-thumb),
+    :global(input[type="range"]::-moz-range-thumb),
+    :global(input[type="range"]::-webkit-slider-runnable-track) {
         -webkit-appearance: none;
         appearance: none;
         width: 18px;
@@ -122,7 +153,7 @@
         position: relative;
         z-index: 2;
     }
-    :global(input[type='range']::-webkit-slider-thumb) {
+    :global(input[type="range"]::-webkit-slider-thumb) {
         -webkit-appearance: none;
         appearance: none;
         width: 18px;
@@ -221,7 +252,7 @@
                 height: auto;
             }
             &:after {
-                content: '';
+                content: "";
                 background: center var(--imgback) no-repeat;
                 background-size: cover;
                 width: 78px;

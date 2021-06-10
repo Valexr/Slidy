@@ -1,6 +1,8 @@
 <script>
-    import { settings, index } from "@settings";
+    import { settings } from "@settings";
     import { slides } from "@items";
+
+    export let index;
 </script>
 
 <nav id="thumbs" class:axisx={$settings.options.axis !== "y"}>
@@ -9,8 +11,8 @@
             style="background-image: url({dot.src
                 ? dot.src
                 : dot.download_url})"
-            class:active={i === $index}
-            on:click={() => ($index = i)}
+            class:active={i === index}
+            on:click={() => (index = i)}
         />
     {/each}
 </nav>

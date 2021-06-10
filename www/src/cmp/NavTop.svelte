@@ -1,11 +1,12 @@
 <script>
-    import { settings, index } from "@settings";
+    import { settings } from "@settings";
     import { slides } from "@items";
     import { randomQ } from "@utils";
     import { Svg } from "@cmp";
 
     export let limit = 9,
-        page = 25;
+        page = 25,
+        index;
 
     let play = false,
         playduration = 550,
@@ -14,11 +15,11 @@
         if (timerPlay !== null) {
             clearInterval(timerPlay);
         }
-        timerPlay = setInterval(() => $index++, playduration);
+        timerPlay = setInterval(() => index++, playduration);
     }
     $: if ($slides)
-        (!$settings.options.loop && $index >= $slides.length - 1) ||
-        (!$settings.options.loop && $index <= 0)
+        (!$settings.options.loop && index >= $slides.length - 1) ||
+        (!$settings.options.loop && index <= 0)
             ? (play = false)
             : null;
     $: play ? slidyPlay() : clearInterval(timerPlay);
@@ -36,7 +37,7 @@
                 color={$settings.options.loop ? "blue" : "white"}
             />
         </button>
-        <button class="slidy-ext-controls" on:click={() => $index--}>
+        <button class="slidy-ext-controls" on:click={() => index--}>
             <Svg name="slidy-back" />
         </button>
         <button
@@ -46,7 +47,7 @@
         >
             <Svg name={play ? "slidy-pause" : "slidy-play"} />
         </button>
-        <button class="slidy-ext-controls" on:click={() => $index++}>
+        <button class="slidy-ext-controls" on:click={() => index++}>
             <Svg name="slidy-forward" />
         </button>
         <button

@@ -2,7 +2,7 @@
     import { onMount, afterUpdate, beforeUpdate, tick } from "svelte";
     import { fly, fade, scale, crossfade, slide } from "svelte/transition";
     import pkg from "../../package.json";
-    import { settings, set, con, index } from "@settings";
+    import { settings, set, con } from "@settings";
     import { slides, local } from "@items";
     import { getPhotos } from "@api";
     import { randomQ } from "@utils";
@@ -21,28 +21,28 @@
     import { Slidy } from "svelte-slidy";
 
     let items = [],
+        index = 4,
         limit = 9,
         page = randomQ(0, 96),
-        slidyinit = false,
+        init = false,
+        timeout = 0,
         ww = 0,
         wh = 0;
-    // $index = 1;
-    // onMount(() => ($index = 1));
 
-    // $: items.length > 1 && ($index = 1);
+    // onMount(() => (index = 1));
+
+    // $: items.length > 1 && (index = 1);
     async function loadSlides(limit, page) {
-        slidyinit = false;
-        // $index = 0;
+        init = false;
         loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page, ww * 2, wh * 2);
-        // $index = 1;
-        // tick().then(() => (slidyinit = true));
+        // index = 4;
     }
-    // $: slidyinit && ($index = 1);
-    // $: console.log(slidyinit);
-    // $: slidyinit, (intersected = loaded = [])
+    // $: init && (index = 1);
+    // $: init, (intersected = loaded = [])
     $: items.length, ($slides = items);
     $: loadSlides(limit, page);
+    $: console.log(index);
 
     let intersected = [],
         loaded = [],
@@ -70,7 +70,10 @@
         }
     // $: console.log(loaded, intersected)
     function onLoad(id) {
+        const equal = loaded.length === items.length - 1;
         loaded = [...loaded, id];
+        equal && (init = true);
+        // console.log(loaded.length, items.length, equal);
         // loaded.length == intersected.length ? observer.disconnect() : null
     }
     // function observerConnect() {
@@ -113,22 +116,25 @@
     GO!
 </h1>
 
-<NavTop bind:limit bind:page />
+<NavTop bind:limit bind:page bind:index />
+
+<!-- <Slidy slides={local} /> -->
 
 <Slidy
-    timeout="500"
+    {timeout}
     let:item
     {...$settings}
     slides={$slides}
-    bind:slidyinit
-    bind:index={$index}
+    bind:init
+    bind:index
     bind:intersect
 >
     <span slot="loader">
         <SpinnerD />
+        {loaded.length !== 0 ? Math.floor(100 - 100 / loaded.length) : 0}
     </span>
 
-    {#if $settings.slide.backimg === true}
+    {#if $settings.slide.backimg}
         <span class="default">
             <strong>{item.ix}</strong>
         </span>
@@ -162,12 +168,12 @@
 
 <NavBottom />
 
-{#if slidyinit}
-    <NavThumbs />
+{#if init}
+    <NavThumbs bind:index />
 {/if}
 
 {#if $con.open}
-    <Controls />
+    <Controls bind:index />
 {/if}
 
 <Button

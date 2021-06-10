@@ -37,21 +37,21 @@
             loop: true,
             duration: 450,
         },
-        index = 0,
-        slidyinit = false,
+        index = 4,
+        init = true,
         timeout = 0;
 
     // INIT -------------------------------------------------
     $: render && slidyInit(slides);
 
-    async function slidyInit() {
+    function slidyInit() {
         if (slides) {
             slides = dots = slides.map((s, i) => {
                 return { ix: i, ...s };
             });
-            timeout
-                ? setTimeout(() => (slidyinit = true), timeout)
-                : tick().then(() => (slidyinit = true));
+            timeout > 0
+                ? setTimeout(() => (init = true), timeout)
+                : (init = init);
         }
     }
 
@@ -73,17 +73,15 @@
             aix = options.loop ? Math.floor(slides.length / 2) : index;
             el = {
                 active: {
-                    node: slides[aix],
+                    ix: slides[aix].ix,
                     width: nodes[aix].offsetWidth + slide.gap,
                     height: nodes[aix].offsetHeight + slide.gap,
                 },
                 first: {
-                    node: slides[0],
                     width: nodes[0].offsetWidth + slide.gap,
                     height: nodes[0].offsetHeight + slide.gap,
                 },
                 last: {
-                    node: slides[slides.length - 1],
                     width: nodes[slides.length - 1].offsetWidth + slide.gap,
                     height: nodes[slides.length - 1].offsetHeight + slide.gap,
                 },
@@ -200,7 +198,7 @@
     }
 
     // INDEX ------------------------------------------------------
-    $: if (slidyinit)
+    $: if (init) {
         if (index < 0) {
             if (options.loop) {
                 index = slides.length - 1;
@@ -216,8 +214,9 @@
                 index = slides.length - 1;
             }
         }
+    }
 
-    $: render && slidyIndex(index);
+    $: init && slidyIndex(index);
 
     let ix = index;
     function slidyIndex(id) {
@@ -251,7 +250,7 @@
             pos = comp = 0;
         }
         options.loop
-            ? (index = ix = el.active.node.ix)
+            ? (index = ix = el.active.ix)
             : pos >= size.before || pos <= -size.after
             ? (pos = pos / 1.5)
             : (pos = pos);
@@ -264,9 +263,10 @@
         const nulled = (direct) => {
             if (direct) {
                 if (options.loop) {
-                    direct();
+                    // direct();
+                    slidyLoop();
                     pos = speed = transition = 0;
-                    tick().then(() => (index = ix = el.active.node.ix));
+                    tick().then(() => (index = ix = el.active.ix));
                     clearTimeout(transtime);
                 } else {
                     index = direct;
@@ -361,7 +361,7 @@
     aria-label="Slidy"
     id={wrap.id}
     class="slidy"
-    class:loaded={slidyinit}
+    class:loaded={init}
     class:axisy
     class:autowidth={slide.width === "auto"}
     class:antiloop={options.loop === false}
@@ -384,7 +384,7 @@
         --slideg: {axisy ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`};
         --dur: {options.duration}ms;"
 >
-    {#if !slidyinit}
+    {#if !init}
         <section id="loader">
             <slot name="loader">Loading...</slot>
         </section>
@@ -406,24 +406,22 @@
                         ? `background-image: url(${item[slide.imgsrckey]})`
                         : null}
                 >
-                    {#if slidyinit}
-                        <slot {item}>
-                            {#if slide.backimg === false}
-                                <img
-                                    alt={item[slide.imgsrckey]}
-                                    src={item[slide.imgsrckey]}
-                                    width={item.width}
-                                    height={item.height}
-                                />
-                            {/if}
-                        </slot>
-                    {/if}
+                    <slot {item}>
+                        {#if !slide.backimg}
+                            <img
+                                alt={item[slide.imgsrckey]}
+                                src={item[slide.imgsrckey]}
+                                width={item.width}
+                                height={item.height}
+                            />
+                        {/if}
+                    </slot>
                 </li>
             {/each}
         {/if}
     </ul>
 
-    {#if controls.arrows && slidyinit}
+    {#if controls.arrows && init}
         {#if !options.loop}
             {#if index > 0}
                 <button class="arrow-left" on:click={() => index--}>
@@ -444,7 +442,7 @@
             </button>
         {/if}
     {/if}
-    {#if controls.dots && slidyinit}
+    {#if controls.dots && init}
         <ul class="slidy-dots" class:pure={controls.dotspure}>
             {#if controls.dotsarrow}
                 {#if !options.loop}
@@ -566,8 +564,8 @@
         height: 100%;
         display: block;
         pointer-events: none;
-        max-width: var(--wrapw);
-        max-height: var(--wraph);
+        /* max-width: var(--wrapw); */
+        /* max-height: var(--wraph); */
         object-fit: var(--slidef);
     }
     :global(.slidy.autowidth .slidy-ul li img) {

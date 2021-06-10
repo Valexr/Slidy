@@ -43,7 +43,7 @@ build_client().then(bundle => {
     if (DEV) {
         derver({
             dir: 'www/public',
-            port: 5000,
+            port: 5050,
             host: '0.0.0.0',
             watch: ['www/public', 'www/src', 'src'],
             onwatch: async (lr, item) => {
