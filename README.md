@@ -7,6 +7,7 @@
 ## Changelog
 
 - 2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
+  [Example](https://svelte.dev/repl/c4b8e256b4eb45a9be8487a891799076)
 - 2.6.9 - `keyExtractor()` now `key()` & by default:
   ```js
   key = (item) => item.id || item[slide.imgsrckey];
