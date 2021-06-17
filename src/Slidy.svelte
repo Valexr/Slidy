@@ -36,6 +36,7 @@
             axis: "x",
             loop: true,
             duration: 450,
+            sensity: 0.3,
         },
         index = 4,
         init = true,
@@ -276,14 +277,14 @@
                 pos = comp = speed = 0;
             }
         };
-        if (pos > size.last / 3 || speed < 0) {
+        if (pos > size.last / 3 || speed < -options.sensity) {
             if (options.loop) {
                 pos += size.last - pos;
                 transtime = setTimeout(() => nulled(prev), transition);
             } else {
                 nulled((index = ix -= 1));
             }
-        } else if (pos < -size.first / 3 || speed > 0) {
+        } else if (pos < -size.first / 3 || speed > options.sensity) {
             if (options.loop) {
                 pos -= size.first + pos;
                 transtime = setTimeout(() => nulled(next), transition);
