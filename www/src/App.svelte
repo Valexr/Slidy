@@ -35,7 +35,7 @@
     async function loadSlides(limit, page) {
         init = false;
         loaded = intersected = intersect.entries = [];
-        items = await getPhotos(limit, page, ww * 2, wh * 2);
+        items = await getPhotos(limit, page);
         // index = 4;
     }
     // $: init && (index = 1);
