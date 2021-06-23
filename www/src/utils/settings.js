@@ -33,6 +33,7 @@ let settingX = {
         axis: 'y',
         loop: false,
         duration: 550,
+        sensity: 0.3,
         intersecting: false
     }
 }
