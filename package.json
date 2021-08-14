@@ -30,13 +30,13 @@
     },
     "homepage": "https://slidy.valexr.online",
     "devDependencies": {
-        "derver": "^0.4.16",
-        "esbuild": "^0.12.9",
-        "esbuild-svelte": "^0.5.1",
+        "derver": "^0.4.17",
+        "esbuild": "^0.12.20",
+        "esbuild-svelte": "^0.5.4",
         "gh-pages": "^3.2.3",
-        "sass": "^1.35.1",
-        "svelte": "^3.38.3",
-        "svelte-preprocess": "^4.7.3"
+        "sass": "^1.37.5",
+        "svelte": "^3.42.1",
+        "svelte-preprocess": "^4.7.4"
     },
     "peerDependencies": {
         "svelte": "^3.38.2"
