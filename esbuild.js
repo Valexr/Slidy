@@ -25,12 +25,7 @@ async function build_client() {
                 },
                 preprocess: [
                     sveltePreprocess({
-                        sourceMap: DEV,
-                        defaults: {
-                            markup: 'html',
-                            script: 'js',
-                            style: 'scss'
-                        }
+                        sourceMap: DEV
                     })
                 ]
             })

@@ -30,15 +30,15 @@
     },
     "homepage": "https://slidy.valexr.online",
     "devDependencies": {
-        "derver": "^0.4.17",
-        "esbuild": "^0.12.20",
+        "derver": "^0.4.19",
+        "esbuild": "^0.12.25",
         "esbuild-svelte": "^0.5.4",
         "gh-pages": "^3.2.3",
-        "sass": "^1.37.5",
-        "svelte": "^3.42.1",
-        "svelte-preprocess": "^4.7.4"
+        "sass": "^1.39.0",
+        "svelte": "^3.42.4",
+        "svelte-preprocess": "^4.9.0"
     },
     "peerDependencies": {
-        "svelte": "^3.38.2"
+        "svelte": "^3.42.4"
     }
 }
