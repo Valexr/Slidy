@@ -79,4 +79,16 @@ build_client().then(bundle => {
         plugins: [sveltePlugin({ compileOptions: { css: true } })],
     });
 
+    await build({
+        entryPoints: ['src/index.js'],
+        outfile: pkg.browser,
+        platform: 'browser',
+        format: "iife",
+        bundle: true,
+        minify: true,
+        sourcemap: false,
+        globalName: "Slidy",
+        plugins: [sveltePlugin({ compileOptions: { css: true } })],
+    });
+
 })()

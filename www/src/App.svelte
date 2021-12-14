@@ -42,7 +42,7 @@
     // $: init, (intersected = loaded = [])
     $: items.length, ($slides = items);
     $: loadSlides(limit, page);
-    $: console.log(index);
+    // $: console.log(index);
 
     let intersected = [],
         loaded = [],
@@ -118,7 +118,7 @@
 
 <NavTop bind:limit bind:page bind:index />
 
-<!-- <Slidy slides={local} /> -->
+<!-- <Slidy slides={local} options={{ loop: false }} /> -->
 
 <Slidy
     {timeout}
@@ -129,10 +129,10 @@
     bind:index
     bind:intersect
 >
-    <span slot="loader">
+    <slot slot="loader">
         <SpinnerD />
         {loaded.length !== 0 ? Math.floor(100 - 100 / loaded.length) : 0}
-    </span>
+    </slot>
 
     {#if $settings.slide.backimg}
         <span class="default">
@@ -168,9 +168,9 @@
 
 <NavBottom />
 
-{#if init}
+<!-- {#if init}
     <NavThumbs bind:index />
-{/if}
+{/if} -->
 
 {#if $con.open}
     <Controls bind:index />

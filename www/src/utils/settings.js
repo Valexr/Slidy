@@ -12,8 +12,8 @@ let settingX = {
     slide: {
         gap: 50,
         class: 'slide',
-        width: '100%',
-        height: '100%',
+        width: '50%',
+        height: '50%',
         backimg: false,
         imgsrckey: 'src',
         objectfit: 'cover',
@@ -30,7 +30,7 @@ let settingX = {
         wheel: true,
     },
     options: {
-        axis: 'y',
+        axis: 'x',
         loop: false,
         duration: 550,
         sensity: 0.3,

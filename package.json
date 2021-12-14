@@ -3,7 +3,8 @@
     "version": "2.7.1",
     "description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
     "main": "dist/slidy.js",
-    "module": "dist/slidy.es.js",
+    "module": "dist/slidy.esm.js",
+    "browser": "dist/slidy.iife.js",
     "svelte": "src/index.js",
     "scripts": {
         "build": "node esbuild",
@@ -31,14 +32,15 @@
     "homepage": "https://slidy.valexr.online",
     "devDependencies": {
         "derver": "^0.4.19",
-        "esbuild": "^0.12.25",
-        "esbuild-svelte": "^0.5.4",
+        "esbuild": "^0.13.4",
+        "esbuild-svelte": "^0.5.6",
         "gh-pages": "^3.2.3",
-        "sass": "^1.39.0",
-        "svelte": "^3.42.4",
-        "svelte-preprocess": "^4.9.0"
+        "sass": "^1.42.1",
+        "svelte": "^3.43.1",
+        "svelte-preprocess": "^4.9.8",
+        "typescript": "^4.4.3"
     },
     "peerDependencies": {
-        "svelte": "^3.42.4"
+        "svelte": "^3.42.5"
     }
 }

@@ -1,60 +1,41 @@
-export function pannable(node) {
-    const options = { passive: false };
+export function drag(node) {
     let x = 0, y = 0
 
-    function unify(e) { return e.changedTouches ? e.changedTouches[0] : e };
+    function start(e) {
+        x = e.clientX;
+        y = e.clientY;
 
-    function down(e) {
-        x = unify(e).clientX;
-        y = unify(e).clientY;
-
-        node.dispatchEvent(new CustomEvent('panstart', {
+        node.onpointermove = move;
+        node.setPointerCapture(e.pointerId);
+        node.dispatchEvent(new CustomEvent('start', {
             detail: { x, y }
         }));
+    }
 
-        window.addEventListener('mousemove', move, options);
-        window.addEventListener('mouseup', up, options);
-        window.addEventListener('touchmove', move, options);
-        window.addEventListener('touchend', up, options);
+    function stop(e) {
+        x = e.clientX;
+        y = e.clientY;
+
+        node.onpointermove = null;
+        node.releasePointerCapture(e.pointerId);
+        node.dispatchEvent(new CustomEvent('stop', {
+            detail: { x, y }
+        }));
     }
 
     function move(e) {
-        const dx = unify(e).clientX - x;
-        const dy = unify(e).clientY - y;
-        x = unify(e).clientX;
-        y = unify(e).clientY;
-        // if (dx !== 0) {
-        // 	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-        // }
+        const dx = e.clientX - x;
+        const dy = e.clientY - y;
+        x = e.clientX;
+        y = e.clientY;
 
-        node.dispatchEvent(new CustomEvent('panmove', {
+        node.dispatchEvent(new CustomEvent('move', {
             detail: { x, y, dx, dy }
         }));
     }
 
-    function up(e) {
-        x = unify(e).clientX;
-        y = unify(e).clientY;
-
-        node.dispatchEvent(new CustomEvent('panend', {
-            detail: { x, y }
-        }));
-
-        window.removeEventListener('mousemove', move, options);
-        window.removeEventListener('mouseup', up, options);
-        window.removeEventListener('touchmove', move, options);
-        window.removeEventListener('touchend', up, options);
-    }
-
-    node.addEventListener('mousedown', down, options);
-    node.addEventListener('touchstart', down, options);
-
-    return {
-        destroy() {
-            node.removeEventListener('mousedown', down, options);
-            node.removeEventListener('touchstart', down, options);
-        }
-    };
+    node.onpointerdown = start;
+    node.onpointerup = stop;
 }
 
 export function resize(node) {
@@ -83,12 +64,18 @@ export function resize(node) {
 export function wheel(node) {
     let dx = 0, dy = 0
 
+    function pointer(e) {
+        console.log(e)
+    }
+    node.onpointerdown = pointer;
+
     function handleWheel(e) {
+        e.preventDefault()
         if ((navigator.platform.indexOf('Win') > -1) && e.shiftKey) {
             dx = e.deltaY;
         } else {
-            dx = e.deltaX * 1.5;
-            dy = e.deltaY * 1.5;
+            dx = e.deltaX;
+            dy = e.deltaY;
         }
         if (dx !== 0) {
             e.preventDefault ? e.preventDefault() : (e.returnValue = false);

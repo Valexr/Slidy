@@ -1,6 +1,7 @@
 <script>
     import { tick } from "svelte";
     import * as action from "./actions.js";
+    import { Arrows, Dots, Loader } from "./cmp";
 
     export let slides = [],
         key = (item) => item.id || item[slide.imgsrckey],
@@ -152,7 +153,8 @@
     let pos = 0,
         comp = 0,
         translate = 0,
-        transition = options.duration;
+        transition = options.duration,
+        transtime = undefined;
 
     $: move = () => {
         if (axisy) {
@@ -258,7 +260,6 @@
     }
 
     // STOP ---------------------------------------------------------------------------
-    let transtime;
     function slidyStop() {
         transition = options.duration;
         const nulled = (direct) => {
@@ -299,28 +300,33 @@
     // NULL ------------------------------------------------------
     function slidyNull() {
         transition = 0;
-        comp !== 0 && (comp = pos = speed = 0);
-        transtime !== null && clearTimeout(transtime);
-        wheeltime !== null && clearTimeout(wheeltime);
-        dragtime !== null && clearInterval(dragtime);
+        comp &&= pos = speed = 0;
+        transtime && clearTimeout(transtime);
+        wheeltime && clearTimeout(wheeltime);
+        dragtime && clearInterval(dragtime);
         return;
     }
 
     // WHEEL -----------------------------------------------------
-    const axiscoord = (e) =>
-        Math.floor(axisy ? e.detail.dy : e.detail.dx) * 1.6;
-
     let iswheel = false,
-        wheeltime;
+        wheeltime,
+        evcalc = 0;
+
+    const axiscoord = (e) => (axisy ? e.detail.dy : e.detail.dx);
+
     function slidyWheel(e) {
         slidyNull();
         iswheel = true;
         pos -= axiscoord(e);
+        evcalc += e ? 1 : 0;
+        console.log(axiscoord(e), pos, evcalc);
         slidyLoop();
+        Math.abs(axiscoord(e)) <= 1 && slidyStop();
         wheeltime = setTimeout(() => {
             iswheel = false;
+            evcalc = 0;
             clearTimeout(wheeltime);
-            slidyStop();
+            // slidyStop();
         }, options.duration / 2);
     }
 
@@ -329,7 +335,8 @@
         htx = 0,
         speed = 0,
         dragtime;
-    function dragStart() {
+
+    function dragStart(e) {
         slidyNull();
         isdrag = true;
     }
@@ -372,8 +379,8 @@
     use:action.resize
     on:resize={resizeWrap}
     use:action.wheel
-    on:wheels={controls.wheel ? slidyWheel : null}
-    on:keydown={controls.keys ? slidyKeys : null}
+    on:wheels={controls.wheel && slidyWheel}
+    on:keydown={controls.keys && slidyKeys}
     style="
         --wrapw: {wrap.width};
         --wraph: {wrap.height};
@@ -386,6 +393,7 @@
         --dur: {options.duration}ms;"
 >
     {#if !init}
+        <!-- <Loader><slot /></Loader> -->
         <section id="loader">
             <slot name="loader">Loading...</slot>
         </section>
@@ -397,10 +405,10 @@
                 <li
                     bind:this={nodes[i]}
                     data-id={item.ix}
-                    use:action.pannable
-                    on:panstart={controls.drag ? dragStart : null}
-                    on:panmove={controls.drag ? dragSlide : null}
-                    on:panend={controls.drag ? dragStop : null}
+                    use:action.drag
+                    on:start={controls.drag && dragStart}
+                    on:move={controls.drag && dragSlide}
+                    on:stop={controls.drag && dragStop}
                     class={slide.class}
                     class:active={item.ix === index}
                     style={slide.backimg === true
@@ -421,6 +429,11 @@
             {/each}
         {/if}
     </ul>
+
+    <!-- <Arrows>
+        <slot name="arrowLeft">&#8592;</slot>
+        <slot name="arrowRight">&#8594;</slot>
+    </Arrows> -->
 
     {#if controls.arrows && init}
         {#if !options.loop}
