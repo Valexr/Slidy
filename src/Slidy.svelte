@@ -210,7 +210,7 @@
 
     $: nodes = nodes.filter(Boolean);
 
-    $: render && slidySizes(pos, index);
+    $: render && tick().then(() => slidySizes(pos, index));
 
     function slidySizes() {
         if (render) {
@@ -262,7 +262,7 @@
 
     $: axisy = options.axis === 'y';
 
-    $: render && slidyMatch(el);
+    $: render && tick().then(() => slidyMatch(el));
 
     function slidyMatch() {
         if (render) {
@@ -305,36 +305,38 @@
         }
     };
 
-    $: tick().then(() => {
-        if (wrap.align === 'end') {
-            translate =
-                slides.length % 2 === 0
-                    ? options.loop
-                        ? pos + diff.align - size.active / 2
-                        : -diff.pos + diff.align
-                    : options.loop
-                    ? pos + diff.align
-                    : -diff.pos + diff.align;
-        } else if (wrap.align === 'start') {
-            translate =
-                slides.length % 2 === 0
-                    ? options.loop
-                        ? pos - diff.align - size.active / 2
-                        : -diff.pos - diff.align
-                    : options.loop
-                    ? pos - diff.align
-                    : -diff.pos - diff.align;
-        } else {
-            translate =
-                slides.length % 2 === 0
-                    ? options.loop
-                        ? pos - size.active / 2
-                        : -diff.pos
-                    : options.loop
-                    ? pos
-                    : -diff.pos;
-        }
-    });
+    $: if (render) {
+        tick().then(() => {
+            if (wrap.align === 'end') {
+                translate =
+                    slides.length % 2 === 0
+                        ? options.loop
+                            ? pos + diff.align - size.active / 2
+                            : -diff.pos + diff.align
+                        : options.loop
+                        ? pos + diff.align
+                        : -diff.pos + diff.align;
+            } else if (wrap.align === 'start') {
+                translate =
+                    slides.length % 2 === 0
+                        ? options.loop
+                            ? pos - diff.align - size.active / 2
+                            : -diff.pos - diff.align
+                        : options.loop
+                        ? pos - diff.align
+                        : -diff.pos - diff.align;
+            } else {
+                translate =
+                    slides.length % 2 === 0
+                        ? options.loop
+                            ? pos - size.active / 2
+                            : -diff.pos
+                        : options.loop
+                        ? pos
+                        : -diff.pos;
+            }
+        });
+    }
 
     function prev() {
         slides = [slides[slides.length - 1], ...slides.slice(0, -1)];
@@ -344,22 +346,24 @@
     }
 
     // INDEX ------------------------------------------------------
-    $: if (init) {
-        if (index < 0) {
-            if (options.loop) {
-                index = slides.length - 1;
-                ix = slides.length;
-            } else {
-                index = 0;
+    $: if (render) {
+        tick().then(() => {
+            if (index < 0) {
+                if (options.loop) {
+                    index = ix = slides.length - 1;
+                    // ix = slides.length;
+                } else {
+                    index = 0;
+                }
+            } else if (index > slides.length - 1) {
+                if (options.loop) {
+                    index = ix = 0;
+                    // ix = -1;
+                } else {
+                    index = slides.length - 1;
+                }
             }
-        } else if (index > slides.length - 1) {
-            if (options.loop) {
-                index = 0;
-                ix = -1;
-            } else {
-                index = slides.length - 1;
-            }
-        }
+        });
     }
 
     $: init && slidyIndex(index);
