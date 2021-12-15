@@ -1,27 +1,170 @@
+<svelte:options immutable={true} />
+
+<section
+    role="region"
+    tabindex="0"
+    aria-label="Slidy"
+    id={wrap.id}
+    class="slidy"
+    class:loaded={init}
+    class:axisy
+    class:autowidth={slide.width === 'auto'}
+    class:antiloop={options.loop === false}
+    class:alignmiddle={wrap.align === 'middle'}
+    class:alignstart={wrap.align === 'start'}
+    class:alignend={wrap.align === 'end'}
+    use:action.resize
+    on:resize={resizeWrap}
+    use:action.wheel
+    on:wheels={controls.wheel && slidyWheel}
+    on:keydown={controls.keys && slidyKeys}
+    style="
+        --wrapw: {wrap.width};
+        --wraph: {wrap.height};
+        --wrapp: {wrap.padding};
+        --slidew: {slide.width};
+        --slideh: {slide.height};
+        --slidef: {slide.objectfit};
+        --slideo: {slide.overflow};
+        --slideg: {axisy ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`};
+        --dur: {options.duration}ms;"
+>
+    {#if !init}
+        <section id="loader">
+            <slot name="loader">Loading...</slot>
+        </section>
+    {/if}
+
+    <ul class="slidy-ul" on:contextmenu={() => (isdrag = false)} style={move()}>
+        {#if slides}
+            {#each slides as item, i (key(item))}
+                <li
+                    bind:this={nodes[i]}
+                    data-id={item.ix}
+                    use:action.drag
+                    on:start={controls.drag && dragStart}
+                    on:move={controls.drag && dragSlide}
+                    on:stop={controls.drag && dragStop}
+                    class={slide.class}
+                    class:active={item.ix === index}
+                    style={slide.backimg === true
+                        ? `background-image: url(${item[slide.imgsrckey]})`
+                        : null}
+                >
+                    <slot {item}>
+                        {#if !slide.backimg}
+                            <img
+                                alt={item[slide.imgsrckey]}
+                                src={item[slide.imgsrckey]}
+                                width={item.width}
+                                height={item.height}
+                            />
+                        {/if}
+                    </slot>
+                </li>
+            {/each}
+        {/if}
+    </ul>
+
+    {#if controls.arrows && init}
+        {#if !options.loop}
+            {#if index > 0}
+                <button class="arrow-left" on:click={() => index--}>
+                    <slot name="arrow-left">&#8592;</slot>
+                </button>
+            {/if}
+            {#if index < slides.length - 1}
+                <button class="arrow-right" on:click={() => index++}>
+                    <slot name="arrow-right">&#8594;</slot>
+                </button>
+            {/if}
+        {:else}
+            <button class="arrow-left" on:click={() => index--}>
+                <slot name="arrow-left">&#8592;</slot>
+            </button>
+            <button class="arrow-right" on:click={() => index++}>
+                <slot name="arrow-right">&#8594;</slot>
+            </button>
+        {/if}
+    {/if}
+    {#if controls.dots && init}
+        <ul class="slidy-dots" class:pure={controls.dotspure}>
+            {#if controls.dotsarrow}
+                {#if !options.loop}
+                    {#if index > 0}
+                        <li class="dots-arrow-left" on:click={() => index--}>
+                            <slot name="dots-arrow-left"
+                                ><button>&#8592;</button></slot
+                            >
+                        </li>
+                    {/if}
+                {:else}
+                    <li class="dots-arrow-left" on:click={() => index--}>
+                        <slot name="dots-arrow-left"
+                            ><button>&#8592;</button></slot
+                        >
+                    </li>
+                {/if}
+            {/if}
+            {#each dots as dot, i}
+                <li
+                    class:active={i === index}
+                    on:click|stopPropagation={() => (index = i)}
+                >
+                    <slot name="dot" {dot}>
+                        <button
+                            >{controls.dotsnum && !controls.dotspure
+                                ? i
+                                : ''}</button
+                        >
+                    </slot>
+                </li>
+            {/each}
+            {#if controls.dotsarrow}
+                {#if !options.loop}
+                    {#if index < slides.length - 1}
+                        <li class="dots-arrow-right" on:click={() => index++}>
+                            <slot name="dots-arrow-right"
+                                ><button>&#8594;</button></slot
+                            >
+                        </li>
+                    {/if}
+                {:else}
+                    <li class="dots-arrow-right" on:click={() => index++}>
+                        <slot name="dots-arrow-right"
+                            ><button>&#8594;</button></slot
+                        >
+                    </li>
+                {/if}
+            {/if}
+        </ul>
+    {/if}
+</section>
+
 <script>
-    import { tick } from "svelte";
-    import * as action from "./actions.js";
-    import { Arrows, Dots, Loader } from "./cmp";
+    import { tick } from 'svelte';
+    import * as action from './actions.js';
+    import { Arrows, Dots, Loader } from './cmp';
 
     export let slides = [],
         key = (item) => item.id || item[slide.imgsrckey],
         wrap = {
             id: null,
-            width: "100%",
-            height: "50%",
-            padding: "0",
-            align: "middle",
+            width: '100%',
+            height: '50%',
+            padding: '0',
+            align: 'middle',
             alignmargin: 0,
         },
         slide = {
             gap: 0,
-            class: "",
-            width: "50%",
-            height: "100%",
+            class: '',
+            width: '50%',
+            height: '100%',
             backimg: false,
-            imgsrckey: "src",
-            objectfit: "cover",
-            overflow: "hidden",
+            imgsrckey: 'src',
+            objectfit: 'cover',
+            overflow: 'hidden',
         },
         controls = {
             dots: true,
@@ -34,7 +177,7 @@
             wheel: true,
         },
         options = {
-            axis: "x",
+            axis: 'x',
             loop: true,
             duration: 450,
             sensity: 0.3,
@@ -44,17 +187,22 @@
         timeout = 0;
 
     // INIT -------------------------------------------------
+    let render = false;
+    $: tick().then(
+        () =>
+            (render =
+                nodes.length !== 0 &&
+                slides.length !== 0 &&
+                nodes.length === slides.length)
+    );
+
     $: render && slidyInit(slides);
 
     function slidyInit() {
-        if (slides) {
-            slides = dots = slides.map((s, i) => {
-                return { ix: i, ...s };
-            });
-            timeout > 0
-                ? setTimeout(() => (init = true), timeout)
-                : (init = init);
-        }
+        slides = dots = slides.map((s, i) => {
+            return { ix: i, ...s };
+        });
+        timeout > 0 ? setTimeout(() => (init = true), timeout) : (init = init);
     }
 
     // SIZES ---------------------------------------------------
@@ -62,11 +210,8 @@
         dots = [],
         el = {},
         aix = 0;
+
     $: nodes = nodes.filter(Boolean);
-    $: render =
-        nodes.length !== 0 &&
-        slides.length !== 0 &&
-        nodes.length === slides.length;
 
     $: render && slidySizes(pos, index);
 
@@ -118,7 +263,7 @@
     let size = {},
         diff = {};
 
-    $: axisy = options.axis === "y";
+    $: axisy = options.axis === 'y';
 
     $: render && slidyMatch(el);
 
@@ -164,7 +309,7 @@
         }
     };
 
-    $: if (wrap.align === "end") {
+    $: if (wrap.align === 'end') {
         translate =
             slides.length % 2 === 0
                 ? options.loop
@@ -173,7 +318,7 @@
                 : options.loop
                 ? pos + diff.align
                 : -diff.pos + diff.align;
-    } else if (wrap.align === "start") {
+    } else if (wrap.align === 'start') {
         translate =
             slides.length % 2 === 0
                 ? options.loop
@@ -362,153 +507,6 @@
         }
     }
 </script>
-
-<section
-    role="region"
-    tabindex="0"
-    aria-label="Slidy"
-    id={wrap.id}
-    class="slidy"
-    class:loaded={init}
-    class:axisy
-    class:autowidth={slide.width === "auto"}
-    class:antiloop={options.loop === false}
-    class:alignmiddle={wrap.align === "middle"}
-    class:alignstart={wrap.align === "start"}
-    class:alignend={wrap.align === "end"}
-    use:action.resize
-    on:resize={resizeWrap}
-    use:action.wheel
-    on:wheels={controls.wheel && slidyWheel}
-    on:keydown={controls.keys && slidyKeys}
-    style="
-        --wrapw: {wrap.width};
-        --wraph: {wrap.height};
-        --wrapp: {wrap.padding};
-        --slidew: {slide.width};
-        --slideh: {slide.height};
-        --slidef: {slide.objectfit};
-        --slideo: {slide.overflow};
-        --slideg: {axisy ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`};
-        --dur: {options.duration}ms;"
->
-    {#if !init}
-        <!-- <Loader><slot /></Loader> -->
-        <section id="loader">
-            <slot name="loader">Loading...</slot>
-        </section>
-    {/if}
-
-    <ul class="slidy-ul" on:contextmenu={() => (isdrag = false)} style={move()}>
-        {#if slides}
-            {#each slides as item, i (key(item))}
-                <li
-                    bind:this={nodes[i]}
-                    data-id={item.ix}
-                    use:action.drag
-                    on:start={controls.drag && dragStart}
-                    on:move={controls.drag && dragSlide}
-                    on:stop={controls.drag && dragStop}
-                    class={slide.class}
-                    class:active={item.ix === index}
-                    style={slide.backimg === true
-                        ? `background-image: url(${item[slide.imgsrckey]})`
-                        : null}
-                >
-                    <slot {item}>
-                        {#if !slide.backimg}
-                            <img
-                                alt={item[slide.imgsrckey]}
-                                src={item[slide.imgsrckey]}
-                                width={item.width}
-                                height={item.height}
-                            />
-                        {/if}
-                    </slot>
-                </li>
-            {/each}
-        {/if}
-    </ul>
-
-    <!-- <Arrows>
-        <slot name="arrowLeft">&#8592;</slot>
-        <slot name="arrowRight">&#8594;</slot>
-    </Arrows> -->
-
-    {#if controls.arrows && init}
-        {#if !options.loop}
-            {#if index > 0}
-                <button class="arrow-left" on:click={() => index--}>
-                    <slot name="arrow-left">&#8592;</slot>
-                </button>
-            {/if}
-            {#if index < slides.length - 1}
-                <button class="arrow-right" on:click={() => index++}>
-                    <slot name="arrow-right">&#8594;</slot>
-                </button>
-            {/if}
-        {:else}
-            <button class="arrow-left" on:click={() => index--}>
-                <slot name="arrow-left">&#8592;</slot>
-            </button>
-            <button class="arrow-right" on:click={() => index++}>
-                <slot name="arrow-right">&#8594;</slot>
-            </button>
-        {/if}
-    {/if}
-    {#if controls.dots && init}
-        <ul class="slidy-dots" class:pure={controls.dotspure}>
-            {#if controls.dotsarrow}
-                {#if !options.loop}
-                    {#if index > 0}
-                        <li class="dots-arrow-left" on:click={() => index--}>
-                            <slot name="dots-arrow-left"
-                                ><button>&#8592;</button></slot
-                            >
-                        </li>
-                    {/if}
-                {:else}
-                    <li class="dots-arrow-left" on:click={() => index--}>
-                        <slot name="dots-arrow-left"
-                            ><button>&#8592;</button></slot
-                        >
-                    </li>
-                {/if}
-            {/if}
-            {#each dots as dot, i}
-                <li
-                    class:active={i === index}
-                    on:click|stopPropagation={() => (index = i)}
-                >
-                    <slot name="dot" {dot}>
-                        <button
-                            >{controls.dotsnum && !controls.dotspure
-                                ? i
-                                : ""}</button
-                        >
-                    </slot>
-                </li>
-            {/each}
-            {#if controls.dotsarrow}
-                {#if !options.loop}
-                    {#if index < slides.length - 1}
-                        <li class="dots-arrow-right" on:click={() => index++}>
-                            <slot name="dots-arrow-right"
-                                ><button>&#8594;</button></slot
-                            >
-                        </li>
-                    {/if}
-                {:else}
-                    <li class="dots-arrow-right" on:click={() => index++}>
-                        <slot name="dots-arrow-right"
-                            ><button>&#8594;</button></slot
-                        >
-                    </li>
-                {/if}
-            {/if}
-        </ul>
-    {/if}
-</section>
 
 <style>
     #loader {
