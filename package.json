@@ -1,6 +1,6 @@
 {
     "name": "svelte-slidy",
-    "version": "2.8.1",
+    "version": "2.8.2",
     "description": "SLIDY - simple, configurable & reusable carousel component built with SvelteJS",
     "main": "dist/slidy.js",
     "module": "dist/slidy.mjs",

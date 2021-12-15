@@ -349,19 +349,9 @@
     $: if (render) {
         tick().then(() => {
             if (index < 0) {
-                if (options.loop) {
-                    index = ix = slides.length - 1;
-                    // ix = slides.length;
-                } else {
-                    index = 0;
-                }
+                index = options.loop ? (ix = slides.length - 1) : 0;
             } else if (index > slides.length - 1) {
-                if (options.loop) {
-                    index = ix = 0;
-                    // ix = -1;
-                } else {
-                    index = slides.length - 1;
-                }
+                index = options.loop ? (ix = 0) : slides.length - 1;
             }
         });
     }
@@ -416,7 +406,9 @@
                     // direct();
                     slidyLoop();
                     pos = speed = transition = 0;
-                    tick().then(() => (index = ix = el.active.ix));
+                    tick().then(() =>
+                        tick().then(() => (index = ix = el.active.ix))
+                    );
                     clearTimeout(transtime);
                 } else {
                     index = direct;

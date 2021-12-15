@@ -6,6 +6,8 @@
 
 ## Changelog
 
+- 2.8.2 - fix index on stop
+- 2.8.1 - fix index limits
 - 2.8.0 - `immutable={true}`
 - 2.7.1 - new props `options.sensity: 0.3` – scroll sensity to go next slide
 - 2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
