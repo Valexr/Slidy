@@ -19,9 +19,10 @@ async function build_client() {
         mainFields: ['svelte', 'module', 'main', 'browser'],
         plugins: [
             sveltePlugin({
-                compileOptions: {
+                compilerOptions: {
                     dev: DEV,
-                    css: false
+                    css: false,
+                    immutable: false
                 },
                 preprocess: [
                     sveltePreprocess({
@@ -47,11 +48,11 @@ build_client().then(bundle => {
                     try {
                         await bundle.rebuild();
                     } catch (err) {
-                        lr.error(err.message, 'Svelte compile error')
+                        lr.error(err.message, 'Svelte compile error');
                     }
                 }
             }
-        })
+        });
     }
 });
 
@@ -65,7 +66,7 @@ build_client().then(bundle => {
         minify: true,
         sourcemap: false,
         external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compileOptions: { css: true } })]
+        plugins: [sveltePlugin({ compilerOptions: { css: true, immutable: true } })]
     });
 
     await build({
@@ -76,7 +77,7 @@ build_client().then(bundle => {
         minify: true,
         sourcemap: false,
         external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compileOptions: { css: true } })],
+        plugins: [sveltePlugin({ compilerOptions: { css: true, immutable: true } })],
     });
 
-})()
+})();

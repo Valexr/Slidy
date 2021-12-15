@@ -4,8 +4,7 @@
         "paths": {
             "svelte-slidy": [
                 "src/index.js"
-                // "dist/slidy.es.js"
-                // "dist/slidy.iife.js"
+                // "dist/slidy.mjs"
                 // "dist/slidy.js"
             ],
             "@cmp": [

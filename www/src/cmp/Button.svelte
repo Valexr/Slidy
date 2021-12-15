@@ -1,11 +1,11 @@
 <script>
-    export let id = '',
-        style = '',
+    export let id = "",
+        style = "",
         open = false,
-        check = false
+        check = false;
 </script>
 
-<button id="{id}" class:open class:check on:click|stopPropagation style="{style}">
+<button {id} class:open class:check on:click|stopPropagation {style}>
     <slot />
 </button>
 

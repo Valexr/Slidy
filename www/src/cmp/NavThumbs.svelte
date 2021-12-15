@@ -1,12 +1,5 @@
-<script>
-    import { settings } from "@settings";
-    import { slides } from "@items";
-
-    export let index;
-</script>
-
-<nav id="thumbs" class:axisx={$settings.options.axis !== "y"}>
-    {#each $slides as dot, i (dot.id)}
+<nav id="thumbs" class:axisx={$settings.options.axis !== 'y'}>
+    {#each slides as dot, i (dot.id)}
         <button
             style="background-image: url({dot.src
                 ? dot.src
@@ -16,6 +9,13 @@
         />
     {/each}
 </nav>
+
+<script>
+    import { settings } from '@settings';
+
+    export let index,
+        slides = [];
+</script>
 
 <style lang="scss">
     #thumbs {
