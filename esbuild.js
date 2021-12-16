@@ -5,6 +5,7 @@ const sveltePreprocess = require('svelte-preprocess');
 const pkg = require('./package.json');
 
 const DEV = process.argv.includes('--dev');
+const DEPLOY = process.argv.includes('--deploy');
 
 async function build_client() {
     return await build({
@@ -55,6 +56,8 @@ build_client().then(bundle => {
         });
     }
 });
+
+!DEPLOY && (async () => await build_client())();
 
 !DEV && (async () => {
 

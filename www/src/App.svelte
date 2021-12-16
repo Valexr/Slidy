@@ -4,7 +4,7 @@
 
 <h1>
     Let`s <strong>
-        Slidy <sup>{pkg.version.replace(/\.[^.]*$/, '')}</sup>
+        Slidy <sup>{version.replace(/\.[^.]*$/, '')}</sup>
     </strong>
     GO!
 </h1>
@@ -112,7 +112,7 @@
 <script>
     import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
     import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
-    import pkg from '../../package.json';
+    import { version } from '../../package.json';
     import { settings } from '@settings';
     // import { slides, local } from "@items";
     import { getPhotos } from '@api';
