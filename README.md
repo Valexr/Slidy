@@ -1,397 +1,277 @@
-# SLIDY – simple, configurable & reusable carousel component built with SvelteJS.
+<div align="center">
+  <a href="https://www.npmjs.com/package/svelte-slidy">
+    <img alt="npm package version" src="https://badgen.net/npm/v/svelte-slidy" />
+  </a>
+  <a href="https://www.npmjs.com/package/svelte-slidy">
+    <img alt="types included" src="https://badgen.net/npm/types/svelte-slidy" />
+  </a>
+  <a href="https://www.npmjs.com/package/svelte-slidy">
+    <img alt="downloads count" src="https://badgen.net/npm/dt/svelte-slidy" />
+  </a>
+  <a href="https://www.npmjs.com/package/svelte-slidy">
+    <img alt="licence" src="https://badgen.net/npm/license/svelte-slidy" />
+  </a>
+</div>
 
-[![NPM version](https://img.shields.io/npm/v/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
-[![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
+<div align="center">
+  <a href="https://bundlephobia.com/package/svelte-slidy">
+    <img alt="minified size" src="https://badgen.net/bundlephobia/min/svelte-slidy/" />
+  </a>
+  <a href="https://bundlephobia.com/package/svelte-slidy">
+    <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/svelte-slidy/" />
+  </a>
+  <a href="https://bundlephobia.com/package/svelte-slidy">
+    <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/svelte-slidy/" />
+  </a>
+  <a href="https://bundlephobia.com/package/svelte-slidy">
+    <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/svelte-slidy/" />
+  </a>
+</div>
 
-## Changelog
+# SLIDY
 
-- 2.8.2 - fix index on stop
-- 2.8.1 - fix index limits
-- 2.8.0 - `immutable={true}`
-- 2.7.1 - new props `options.sensity: 0.3` – scroll sensity to go next slide
-- 2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
-  [Example](https://svelte.dev/repl/c4b8e256b4eb45a9be8487a891799076)
-- 2.6.9 - `keyExtractor()` now `key()` & by default:
-  ```js
-  key = (item) => item.id || item[slide.imgsrckey];
-  ```
-  Slides may not have `id`'s, but you must have `imgsrckey` (by default
-  `imgsrckey="src"`). Svelte needs a unique identifier for `{#each}` loop. Or
-  you can customize key() in template:
-  ```svelte
-  <Slidy key={(item)=>uid()} />
-  ```
-- 2.6.5 - add keyExtractor props as function to customize svelte loop key. The
-  default return value is item.id or will fallback to array index if there is no
-  id key.
+Simple, configurable & reusable carousel component built with SvelteJS.
 
-  ```js
-  keyExtractor = (item, i) => item.id || i;
-  ```
+Try the [demo](https://slidy.valexr.online).
 
-  Tx @axmad386👍🏻 for [PR](https://github.com/Valexr/svelte-slidy/pull/22) &
-  @tehnolog for [issue](https://github.com/Valexr/svelte-slidy/issues/18)
+## Getting started
 
-  Usage example:
-
-  ```svelte
-  <Slidy keyExtractor={(item,index)=>item.id+index+uid()} />
-  ```
-
-  or
-
-  ```svelte
-  <Slidy keyExtractor={(item)=>item.id.toString()} />
-  ```
-
-- New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like
-  exanple time for spinner
-- Named export `import { Slidy } from 'svelte-slidy';` & esbuild bundler 👍🏻
-- Sorry, remove `<Spinner />` loader from core & now just
-  `<slot name="loader" />` (you can get Spinner
-  [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
-- Simplifyed sizes props initializion (prepare for intersection events...)
-- Move pannable.js listeners to wrap node <sections>
-- Rename resobserver.js > resize.js
-- [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- **IMPORTANT** - index = i
-- [Fully reactive Slidy for update slides in
-  runtime](https://slidy.valexr.online)
-- New block [options: { axis: 'x', loop: false, duration: 550 }](#usage) in
-  settings object
-- [New { loop: true/false } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New { objectfit: 'cover' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New { align: 'middle', alignmargin: 50 }
-  setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- **!!!New** – slot for slide (slot="slide") without name now.
-- [New external controls](#-new-external-controls)
-- [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
-- [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New props names & settings](#usage)
-- [New classNames && slots in Slidy nodes
-  tree](#-slidy-nodes-tree--slots-for-customize)
-- [New settings for preloader](#usage)
-- [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
-- Classnames on state:
-  - .loaded – on init Slidy
-  - .autowidth – on slide.width: 'auto'
-  - .axisy – on axis: 'y' direction
-- Keyboard arrowkeys navigation only Slidy in focus
-- [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#usage) –
-  [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
-- If you are using yours content in slot & slide.backimg: 'false' you need tag
-  `<img />` inside slot. By default empty slot have `<img />` tag.
-- New props rename let:slide > let:item
-
-## Site
-
-[https://slidy.valexr.online](https://slidy.valexr.online)
-
-## Playground
-
-[https://svelte.dev/repl/](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-
-## Install
-
-```bash
-npm i -D svelte-slidy
-```
-
-or
+The package is available via [npm](https://www.npmjs.com/package/@ericrovell/radix):
 
 ```
-yarn add -D svelte-slidy
+npm i svelte-slidy
 ```
+
+REPL is available [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd).
 
 ## Usage
 
-### By default setiings looks like:
+To use `Slidy` use named import. The only required props are `slides` - an array of objects with image related data:
 
-```html
-<script>
-    import { Slidy } from 'svelte-slidy' // import component
+```js
+import { Slidy } from "svelte-slidy";
 
-    const local = [
-        { id: 1, src: 'img/img.webp' },
-        ...
-    ]; // slides items
+const slides = [
+	{
+		id: 1,
+		src: "static/img/some-image.webp
+	}
+];
 
-    $: slidy_default = { // any name you like
-        slides: local, // new name "slides" for arr yours slides elements in 2.0
-        wrap: {
-            id: 'slidy_default', // customize this instance Slidy by #id
-            width: '100%',
-            height: '50%',
-            padding: '0',
-            align: 'middle',
-            alignmargin: 50
-        },
-        slide: {
-            gap: 50,
-            class: '', // classname for styling slide
-            width: '50%',
-            height: '100%',
-            backimg: true, // if true image on background slidewrap & slot for content empty
-            imgsrckey: 'src', // prop for ypurs image src key
-            objectfit: 'cover', // new in 2.3.0
-            overflow: 'hidden' // new in 2.4.1
-        },
-        controls: {
-            dots: true,
-            dotsnum: true,
-            dotsarrow: true,
-            dotspure: false, // dotnav like realy dots :)
-            arrows: true,
-            keys: true, // nav by arrow keys
-            drag: true, // nav by mousedrag
-            wheel: true, // nav by mousewheel (shift + wheel) or swipe on touch/trackpads
-        },
-        options: {
-            axis: 'x', // new in 2.2.0 axis direction
-            loop: false, // new in 2.3.0 loop/no options
-            duration: 550, // duration slides animation
-        }
-    } // slidy settings for current instance
-</script>
-
-<Slidy {...slidy_default} bind:index let:item /> <!-- bind:index new prop in 2.0 for external controls & let:item new name for prop to eached elements -->
+<Slidy {slides} />
 ```
 
-> **!MPORTANT** – you need declared all the settings objects for each instance
-> of Slidy.
+## Options
 
-## Customize slide skin
+Component's behaviour can be customized with object. All settings are broken into 4 categories. Most of the options are self-explanatory. Each `Slidy` instance should have it's own options.
 
-[Example](https://svelte.dev/repl/61bddcb0ec1e45be87dbd56f43f7c660)
+Example with all available options and their default values:
 
-You can use any tags what you want inside Slidy component for `{#each it}` by
-`let:item` derective:
+```js
+import { Slidy } from "svelte-slidy";
+
+const options = {
+	slides: [],
+	wrap: {
+		id: "",
+		width: "100%",
+		height: "50%",
+		padding: "0",
+		align: "middle",
+		alignmargin: 50
+	},
+	slide: {
+		gap: 50,
+		class: "",
+		width: "50%",
+		height: "100%",
+		backimg: true,
+		imgsrckey: "src",
+		objectfit: "cover",
+		overflow: "hidden"
+	},
+	controls: {
+		dots: true,
+		dotsnum: true,
+		dotsarrow: true,
+		dotspure: false,
+		arrows: true,
+		keys: true,
+		drag: true,
+		wheel: true
+	},
+	options: {
+		axis: "x",
+		loop: false,
+		duration: 550
+	}
+};
+
+<Slidy
+	{...options}
+/>
+```
+
+## Custom styling
+
+To customize default `Slidy` nodes markup styles, provide an `id` use `:global()` to get necessary specifity.
 
 ```html
 <script>
-    import { Slidy } from 'svelte-slidy'
+	import { Slidy } from "svelte-slidy";
 
-    const local = [
-        {
-            id: 1,
-            src: 'img/img.webp',
-            header: 'What is Slidy?',
-            text: 'SLIDY – simple configurable carousel component on SvelteJS.' },
-        ...
-    ]; // items with text & header
-
-    $: slidy_cards = {
-        slides: local,
-        ...
-    }
+	const options = {
+		slides: [],
+		id: "slidy-id"
+	};
 </script>
 
-<Slidy {...slidy_cards} let:item>
-    <div class="slide"> <!-- wrapper for new skin -->
-        <img alt="{item.header}" src="{item.src}"/>
-        <article>
-            <h2>{item.header</h2>
-            <p>
-                {item.text}
-            </p>
-        </article>
-    </div>
-</Slidy>
+<Slidy
+	{...options}
+/>
 
 <style>
-    .slide {
-        ...yours style for slide
-    }
+	:global("#slidy-id") {
+		/* your CSS styling */
+	}
 </style>
 ```
 
-> **!MPORTANT** – let:item derectives for each yours items in new skin & can be
-> without wrappers ;).
-
-## Customize default Slidy styles
-
-```html
-<script>
-    import { Slidy } from 'svelte-slidy'
-
-    $: slidy_default = {
-        ...
-        wrap: {
-            id: 'slidy_default', // custom #id for this instance Slidy
-            ...
-        }
-    }
-</script>
-
-<Slidy {...slidy_default} />
-
-<style>
-    :global(#slidy_default) {
-        ... yours new styles for default
-    }
-</style>
-```
-
-## <a name="newclassname"></a> Slidy nodes tree & slots for customize
+`Slidy`'s markup structure with it's classes:
 
 ```html
 <section id="yours custom #id" class="slidy">
-    <slot name="loader"> <!--for yours custom loader -->
-    <ul class="slidy-ul">
-        {#each}
-            <li>
-                <slot {slide}> <!--for yours custom slide skin -->
-            </li>
-        {/each}
-    </ul>
-    <button class="arrow-left">
-        <slot name="arrow-left"> <!--for yours custom arrow-left -->
-    </button>
-    <button class="arrow-right">
-        <slot name="arrow-right"> <!--for yours custom arrow-right -->
-    </button>
-    <ul class="slidy-dots">
-        <li class="dots-arrow-left">
-            <slot name="dots-arrow-left"> <!--for yours custom dots-arrow-left -->
-        </li>
-        {#each}
-            <li>
-                <slot name="dot"> <!--for yours custom dot -->
-            </li>
-        {/each}
-        <li class="dots-arrow-right">
-            <slot name="dots-arrow-right"> <!--for yours custom dots-arrow-right -->
-        </li>
-    </ul>
+	<ul class="slidy-ul">
+		<!-- slides node -->
+	</ul>
+	<button class="arrow-left">
+		<!-- previous slide control node -->
+	</button>
+	<button class="arrow-right">
+		<!-- next slide control node -->
+	</button>
+	<ul class="slidy-dots">
+		<li class="dots-arrow-left">
+			<!-- next slide dots control node -->
+		</li>
+		<li>
+			<!-- dots node -->
+		</li>
+		<li class="dots-arrow-left">
+			<!-- previous slide dots control node -->
+		</li>
+	</ul>
 </section>
 ```
 
-## <a name="external"></a> NEW External controls
-
-[Example](https://svelte.dev/repl/c3f50a4277384ebf860fcb1bb8d26dae)
-
-You can controls yours Slidy instance externally from parent component:
+For example, to override styles of specific section, use the classes described above:
 
 ```html
-<script>
-    import { Slidy } from 'svelte-slidy'
-
-    $: slidy_unic = {
-        ...
-    }
-
-    let index = 5 // declarate yours prop, if it not empty, onmount this number will be active slide
-</script>
-
-<button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
-
-<Slidy {...slidy_unic} bind:index /> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
-```
-
-## Media queries (not implemented yet, but...)
-
-I recomended use
-[svelte-match-media](https://github.com/pearofducks/svelte-match-media) by
-@pearofducks.
-
-### Instal svelte-match-media
-
-```bash
-yarn add -D svelte-match-media
-```
-
-### Default settings mediaquery:
-
-```js
-{
-    desktop: 'screen and (min-width: 769px)',
-    mobile: 'screen and (max-width: 768px)'
-}
-```
-
-### Just call function `setup()` with default:
-
-```js
-/* main.js */
-
-import { setup } from "svelte-match-media"; // import setting function
-
-setup();
-```
-
-### or setup it in yours "root" `main/howitcall.js` file:
-
-```js
-/* main.js */
-
-import { setup } from "svelte-match-media"; // import setting function
-
-setup({
-  desktop: "screen and (min-width: 769px)",
-  tablet: "screen and (max-width: 768px)",
-  mobile: "screen and (max-width: 425px)",
-  landscape: "only screen and (orientation:landscape)",
-  portrait: "only screen and (orientation:portrait)",
-  dark: "(prefers-color-scheme: dark)",
-  light: "(prefers-color-scheme: light)",
-  no_color: "(prefers-color-scheme: no-preference)",
-  standalone: "(display-mode: standalone)",
-  touchscreen: "(hover: none) and (pointer: coarse)",
-  pointerscreen: "(hover: hover) and (pointer: fine)",
-  short: "(max-height: 399px)",
-  tiny: "(orientation: portrait) and (max-height: 599px)",
-  //... & all what you want ;)
-});
-```
-
-### & use it in Slidy settings by importing store `$media`:
-
-```html
-<script>
-    import { Slidy } from 'svelte-slidy' // import $media store from Slidy
-    import { media } from 'svelte-match-media'
-    ...
-
-    $: slidy_default = {
-        ...
-        slide: {
-            width: $media.mobile ? '100%' : '50%' // rule for $media.mobile query
-        },
-        ...
-    }
-</script>
-
-<Slidy {...slidy_default} />
-```
-
-### Also you can make responsive by CSS media-queries inside default Slidy styles – rewrite it with yours unic #ID
-
-[**Example**](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-
-```html
-<script>
-    import { Slidy } from 'svelte-slidy'
-
-    $: slidy_unic = {
-        ...
-        wrap: {
-            id: 'youunicid', // custom #id for this instance Slidy
-            ...
-        }
-    }
-</script>
-
-<Slidy {...slidy_unic}/>
-
 <style>
-    @media screen and (max-width: 425px) {
-        :global(#youunicid .svelte-slidy-ul li) {width: 100vw;}
-    }
+	:global("slidy-instance-id" .dots-arrow-left) {
+		/* your custom CSS styles */
+	}
 </style>
 ```
 
-Let`s slidyGO! ...tnx
+## External controls
+
+It is possible to control `Slidy` instance from parent component.
+Declare the variable to hold the index and bind it to the `Slidy` instance to control the slides navigation.
+
+```html
+<script>
+	import { Slidy } from "svelte-slidy";
+
+	const slides = [];
+
+	let index = 0;
+</script>
+
+<button on:click={() => index += 1}>
+	Next slide
+</button>
+
+<Slidy
+	bind:index
+	slides
+/>
+```
+
+## Custom slides
+
+Sometimes the default markup is not enough. For custom slides markup use `let:item` directive:
+
+```html
+<script>
+	import { Slidy } from "svelte-slidy";
+
+	const slides = [
+		{
+			id: 1,
+			src: "/img.webp",
+			figcaption: "Some text here"
+		}
+	];
+</script>
+
+<Slidy slides let:item>
+	<figure>
+		<img src={item.src} alt={item.figcaption}>
+		<figcaption>
+			{item.figcaption}
+		</figcaption>
+	</figure>
+</Slidy>
+```
+
+## Custom nodes
+
+`Slidy` supports customization of it's nodes via slots:
+
+- `<slot />` for slides;
+- `<slot name="loader" />` for loading indicator;
+- `<slot name="arrow-left">` for the previous slide control;
+- `<slot name="arrow-right">` for the next slide control;
+- `<slot name="dots-arrow-left">` for previous slide control at dots;
+- `<slot name="dots-arrow-right">` for next slide control at dots;
+- `<slot name="dots">` for custom dots controls.
+
+Example:
+
+```html
+<script>
+	import { Slidy } from "svelte-slidy";
+
+	const slides = [];
+</script>
+
+<Slidy slides>
+	<!-- custom dots indicators -->
+	<button slot="dots" />
+</Slidy>
+```
+
+Important note: slots are [not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
+Check if the code runs in the browser before render.
+
+Example for `svelte\kit` users:
+
+```html
+<script>
+	import { Slidy } from "svelte-slidy";
+	import { browser } from "$app/env";
+
+	const slides = [];
+</script>
+
+{#if browser}
+	<Slidy slides>
+		<!-- custom dots indicators -->
+		<button slot="dots" />
+	</Slidy>
+{/if}
+```
 
 ## License
 
