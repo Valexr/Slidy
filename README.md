@@ -82,7 +82,7 @@ const options = {
     height: "50%",
     padding: "0",
     align: "middle",
-    alignmargin: 50
+    alignmargin: 50,
   },
   slide: {
     gap: 50,
@@ -91,8 +91,8 @@ const options = {
     height: "100%",
     backimg: true,
     imgsrckey: "src",
-    objectfit: "cover"
-    overflow: "hidden"
+    objectfit: "cover",
+    overflow: "hidden",
   },
   controls: {
     dots: true,
@@ -102,16 +102,16 @@ const options = {
     arrows: true,
     keys: true,
     drag: true,
-    wheel: true
+    wheel: true,
   },
   options: {
     axis: "x",
     loop: false,
-    duration: 550
-  }
+    duration: 550,
+  },
 };
 
-<Slidy {...options} />
+<Slidy {...options} />;
 ```
 
 ## Custom styling
