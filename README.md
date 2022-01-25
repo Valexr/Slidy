@@ -42,11 +42,13 @@ The package is available via [npm](https://www.npmjs.com/package/svelte-slidy):
 npm i svelte-slidy
 ```
 
-REPL is available [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd).
+REPL is available
+[here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd).
 
 ## Usage
 
-To use `Slidy` use named import. The only required props are `slides` - an array of objects with image related data:
+To use `Slidy` use named import. The only required props are `slides` - an array
+of objects with image related data:
 
 ```js
 import { Slidy } from "svelte-slidy";
@@ -63,7 +65,9 @@ const slides = [
 
 ## Options
 
-Component's behaviour can be customized with object. All settings are broken into 4 categories. Most of the options are self-explanatory. Each `Slidy` instance should have it's own options.
+Component's behaviour can be customized with object. All settings are broken
+into 4 categories. Most of the options are self-explanatory. Each `Slidy`
+instance should have it's own options.
 
 Example with all available options and their default values:
 
@@ -87,7 +91,7 @@ const options = {
     height: "100%",
     backimg: true,
     imgsrckey: "src",
-    objectfit: "cover",
+    objectfit: "cover"
     overflow: "hidden"
   },
   controls: {
@@ -112,7 +116,8 @@ const options = {
 
 ## Custom styling
 
-To customize default `Slidy` nodes markup styles, provide an `id` use `:global()` to get necessary specifity.
+To customize default `Slidy` nodes markup styles, provide an `id` use
+`:global()` to get necessary specifity.
 
 ```html
 <script>
@@ -160,7 +165,8 @@ To customize default `Slidy` nodes markup styles, provide an `id` use `:global()
 </section>
 ```
 
-For example, to override styles of specific section, use the classes described above:
+For example, to override styles of specific section, use the classes described
+above:
 
 ```html
 <style>
@@ -172,8 +178,9 @@ For example, to override styles of specific section, use the classes described a
 
 ## External controls
 
-It is possible to control `Slidy` instance from parent component.
-Declare the variable to hold the index and bind it to the `Slidy` instance to control the slides navigation.
+It is possible to control `Slidy` instance from parent component. Declare the
+variable to hold the index and bind it to the `Slidy` instance to control the
+slides navigation.
 
 ```html
 <script>
@@ -196,7 +203,8 @@ Declare the variable to hold the index and bind it to the `Slidy` instance to co
 
 ## Custom slides
 
-Sometimes the default markup is not enough. For custom slides markup use `let:item` directive:
+Sometimes the default markup is not enough. For custom slides markup use
+`let:item` directive:
 
 ```html
 <script>
@@ -248,7 +256,8 @@ Example:
 </Slidy>
 ```
 
-Important note: slots are [not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
+Important note: slots are
+[not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
 Check if the code runs in the browser before render.
 
 Example for `svelte\kit` users:
