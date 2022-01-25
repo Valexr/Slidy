@@ -36,8 +36,7 @@ Try the [demo](https://slidy.valexr.online).
 
 ## Getting started
 
-The package is available via
-[npm](https://www.npmjs.com/package/@ericrovell/radix):
+The package is available via [npm](https://www.npmjs.com/package/svelte-slidy):
 
 ```
 npm i svelte-slidy
@@ -55,10 +54,10 @@ of objects with image related data:
 import { Slidy } from "svelte-slidy";
 
 const slides = [
-    {
-        id: 1,
-        src: "static/img/some-image.webp
-    }
+  {
+    id: 1,
+    src: "static/img/some-image.webp
+  }
 ];
 
 <Slidy {slides} />
@@ -83,7 +82,7 @@ const options = {
     height: "50%",
     padding: "0",
     align: "middle",
-    alignmargin: 50,
+    alignmargin: 50
   },
   slide: {
     gap: 50,
@@ -92,8 +91,8 @@ const options = {
     height: "100%",
     backimg: true,
     imgsrckey: "src",
-    objectfit: "cover",
-    overflow: "hidden",
+    objectfit: "cover"
+    overflow: "hidden"
   },
   controls: {
     dots: true,
@@ -103,18 +102,16 @@ const options = {
     arrows: true,
     keys: true,
     drag: true,
-    wheel: true,
+    wheel: true
   },
   options: {
     axis: "x",
     loop: false,
-    duration: 550,
-  },
+    duration: 550
+  }
 };
 
-<Slidy
-  {...options}
-/>;
+<Slidy {...options} />
 ```
 
 ## Custom styling
@@ -124,22 +121,20 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 
 ```html
 <script>
-    import { Slidy } from "svelte-slidy";
+ import { Slidy } from "svelte-slidy";
 
-    const options = {
-        slides: [],
-        id: "slidy-id"
-    };
+  const options = {
+    slides: [],
+    id: "slidy-id"
+	};
 </script>
 
-<Slidy
-    {...options}
-/>
+<Slidy {...options} />
 
 <style>
-    :global("#slidy-id") {
-        /* your CSS styling */
-    }
+  :global("#slidy-id") {
+    /* your CSS styling */
+  }
 </style>
 ```
 
@@ -147,26 +142,26 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 
 ```html
 <section id="yours custom #id" class="slidy">
-    <ul class="slidy-ul">
-        <!-- slides node -->
-    </ul>
-    <button class="arrow-left">
-        <!-- previous slide control node -->
-    </button>
-    <button class="arrow-right">
-        <!-- next slide control node -->
-    </button>
-    <ul class="slidy-dots">
-        <li class="dots-arrow-left">
-            <!-- next slide dots control node -->
-        </li>
-        <li>
-            <!-- dots node -->
-        </li>
-        <li class="dots-arrow-left">
-            <!-- previous slide dots control node -->
-        </li>
-    </ul>
+  <ul class="slidy-ul">
+    <!-- slides node -->
+  </ul>
+  <button class="arrow-left">
+    <!-- previous slide control node -->
+  </button>
+  <button class="arrow-right">
+    <!-- next slide control node -->
+  </button>
+  <ul class="slidy-dots">
+    <li class="dots-arrow-left">
+      <!-- next slide dots control node -->
+    </li>
+    <li>
+      <!-- dots node -->
+    </li>
+    <li class="dots-arrow-left">
+      <!-- previous slide dots control node -->
+    </li>
+  </ul>
 </section>
 ```
 
@@ -175,9 +170,9 @@ above:
 
 ```html
 <style>
-    :global("slidy-instance-id" .dots-arrow-left) {
-        /* your custom CSS styles */
-    }
+  :global("slidy-instance-id" .dots-arrow-left) {
+    /* your custom CSS styles */
+  }
 </style>
 ```
 
@@ -189,20 +184,20 @@ slides navigation.
 
 ```html
 <script>
-    import { Slidy } from "svelte-slidy";
+  import { Slidy } from "svelte-slidy";
 
-    const slides = [];
+  const slides = [];
 
-    let index = 0;
+  let index = 0;
 </script>
 
 <button on:click={() => index += 1}>
-    Next slide
+  Next slide
 </button>
 
 <Slidy
-    bind:index
-    slides
+  bind:index
+  slides
 />
 ```
 
@@ -213,24 +208,24 @@ Sometimes the default markup is not enough. For custom slides markup use
 
 ```html
 <script>
-    import { Slidy } from "svelte-slidy";
+  import { Slidy } from "svelte-slidy";
 
-    const slides = [
-        {
-            id: 1,
-            src: "/img.webp",
-            figcaption: "Some text here"
-        }
-    ];
+  const slides = [
+    {
+      id: 1,
+      src: "/img.webp",
+      figcaption: "Some text here"
+    }
+  ];
 </script>
 
 <Slidy slides let:item>
-    <figure>
-        <img src={item.src} alt={item.figcaption}>
-        <figcaption>
-            {item.figcaption}
-        </figcaption>
-    </figure>
+  <figure>
+    <img src={item.src} alt={item.figcaption}>
+    <figcaption>
+      {item.figcaption}
+    </figcaption>
+  </figure>
 </Slidy>
 ```
 
@@ -250,14 +245,14 @@ Example:
 
 ```html
 <script>
-    import { Slidy } from "svelte-slidy";
+  import { Slidy } from "svelte-slidy";
 
-    const slides = [];
+  const slides = [];
 </script>
 
 <Slidy slides>
-    <!-- custom dots indicators -->
-    <button slot="dots" />
+  <!-- custom dots indicators -->
+  <button slot="dots" />
 </Slidy>
 ```
 
@@ -269,17 +264,17 @@ Example for `svelte\kit` users:
 
 ```html
 <script>
-    import { Slidy } from "svelte-slidy";
-    import { browser } from "$app/env";
+  import { Slidy } from "svelte-slidy";
+  import { browser } from "$app/env";
 
-    const slides = [];
+  const slides = [];
 </script>
 
 {#if browser}
-    <Slidy slides>
-        <!-- custom dots indicators -->
-        <button slot="dots" />
-    </Slidy>
+  <Slidy slides>
+    <!-- custom dots indicators -->
+    <button slot="dots" />
+  </Slidy>
 {/if}
 ```
 
