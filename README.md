@@ -1,31 +1,31 @@
 <div align="center">
-  <a href="https://www.npmjs.com/package/svelte-slidy">
-    <img alt="npm package version" src="https://badgen.net/npm/v/svelte-slidy" />
-  </a>
-  <a href="https://www.npmjs.com/package/svelte-slidy">
-    <img alt="types included" src="https://badgen.net/npm/types/svelte-slidy" />
-  </a>
-  <a href="https://www.npmjs.com/package/svelte-slidy">
-    <img alt="downloads count" src="https://badgen.net/npm/dt/svelte-slidy" />
-  </a>
-  <a href="https://www.npmjs.com/package/svelte-slidy">
-    <img alt="licence" src="https://badgen.net/npm/license/svelte-slidy" />
-  </a>
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="npm package version" src="https://badgen.net/npm/v/svelte-slidy" />
+    </a>
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="types included" src="https://badgen.net/npm/types/svelte-slidy" />
+    </a>
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="downloads count" src="https://badgen.net/npm/dt/svelte-slidy" />
+    </a>
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="licence" src="https://badgen.net/npm/license/svelte-slidy" />
+    </a>
 </div>
 
 <div align="center">
-  <a href="https://bundlephobia.com/package/svelte-slidy">
-    <img alt="minified size" src="https://badgen.net/bundlephobia/min/svelte-slidy/" />
-  </a>
-  <a href="https://bundlephobia.com/package/svelte-slidy">
-    <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/svelte-slidy/" />
-  </a>
-  <a href="https://bundlephobia.com/package/svelte-slidy">
-    <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/svelte-slidy/" />
-  </a>
-  <a href="https://bundlephobia.com/package/svelte-slidy">
-    <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/svelte-slidy/" />
-  </a>
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="minified size" src="https://badgen.net/bundlephobia/min/svelte-slidy/" />
+    </a>
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/svelte-slidy/" />
+    </a>
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/svelte-slidy/" />
+    </a>
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/svelte-slidy/" />
+    </a>
 </div>
 
 # SLIDY
@@ -54,10 +54,10 @@ of objects with image related data:
 import { Slidy } from "svelte-slidy";
 
 const slides = [
-  {
-    id: 1,
-    src: "static/img/some-image.webp
-  }
+    {
+        id: 1,
+        src: "static/img/some-image.webp"
+    }
 ];
 
 <Slidy {slides} />
@@ -121,20 +121,20 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 
 ```html
 <script>
- import { Slidy } from "svelte-slidy";
+    import { Slidy } from "svelte-slidy";
 
-  const options = {
-    slides: [],
-    id: "slidy-id"
-	};
+    const options = {
+        slides: [],
+        id: "slidy-id"
+    };
 </script>
 
 <Slidy {...options} />
 
 <style>
-  :global("#slidy-id") {
-    /* your CSS styling */
-  }
+    :global("#slidy-id") {
+        /* your CSS styling */
+    }
 </style>
 ```
 
@@ -142,26 +142,26 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 
 ```html
 <section id="yours custom #id" class="slidy">
-  <ul class="slidy-ul">
-    <!-- slides node -->
-  </ul>
-  <button class="arrow-left">
-    <!-- previous slide control node -->
-  </button>
-  <button class="arrow-right">
-    <!-- next slide control node -->
-  </button>
-  <ul class="slidy-dots">
-    <li class="dots-arrow-left">
-      <!-- next slide dots control node -->
-    </li>
+    <ul class="slidy-ul">
+        <!-- slides node -->
+    </ul>
+    <button class="arrow-left">
+        <!-- previous slide control node -->
+    </button>
+    <button class="arrow-right">
+        <!-- next slide control node -->
+    </button>
+    <ul class="slidy-dots">
+        <li class="dots-arrow-left">
+            <!-- next slide dots control node -->
+        </li>
     <li>
-      <!-- dots node -->
+        <!-- dots node -->
     </li>
-    <li class="dots-arrow-left">
-      <!-- previous slide dots control node -->
-    </li>
-  </ul>
+        <li class="dots-arrow-left">
+            <!-- previous slide dots control node -->
+        </li>
+    </ul>
 </section>
 ```
 
@@ -170,9 +170,9 @@ above:
 
 ```html
 <style>
-  :global("slidy-instance-id" .dots-arrow-left) {
-    /* your custom CSS styles */
-  }
+    :global("slidy-instance-id" .dots-arrow-left) {
+        /* your custom CSS styles */
+    }
 </style>
 ```
 
@@ -184,20 +184,20 @@ slides navigation.
 
 ```html
 <script>
-  import { Slidy } from "svelte-slidy";
+    import { Slidy } from "svelte-slidy";
 
-  const slides = [];
+    const slides = [];
 
-  let index = 0;
+    let index = 0;
 </script>
 
 <button on:click={() => index += 1}>
-  Next slide
+    Next slide
 </button>
 
 <Slidy
-  bind:index
-  slides
+    bind:index
+    slides
 />
 ```
 
@@ -208,24 +208,24 @@ Sometimes the default markup is not enough. For custom slides markup use
 
 ```html
 <script>
-  import { Slidy } from "svelte-slidy";
+    import { Slidy } from "svelte-slidy";
 
-  const slides = [
-    {
-      id: 1,
-      src: "/img.webp",
-      figcaption: "Some text here"
-    }
-  ];
+    const slides = [
+        {
+            id: 1,
+            src: "/img.webp",
+            figcaption: "Some text here"
+        }
+    ];
 </script>
 
 <Slidy slides let:item>
-  <figure>
-    <img src={item.src} alt={item.figcaption}>
-    <figcaption>
-      {item.figcaption}
-    </figcaption>
-  </figure>
+    <figure>
+        <img src={item.src} alt={item.figcaption}>
+        <figcaption>
+            {item.figcaption}
+        </figcaption>
+    </figure>
 </Slidy>
 ```
 
@@ -245,14 +245,14 @@ Example:
 
 ```html
 <script>
-  import { Slidy } from "svelte-slidy";
+    import { Slidy } from "svelte-slidy";
 
-  const slides = [];
+    const slides = [];
 </script>
 
 <Slidy slides>
-  <!-- custom dots indicators -->
-  <button slot="dots" />
+    <!-- custom dots indicators -->
+    <button slot="dot" />
 </Slidy>
 ```
 
@@ -264,17 +264,17 @@ Example for `svelte\kit` users:
 
 ```html
 <script>
-  import { Slidy } from "svelte-slidy";
-  import { browser } from "$app/env";
+    import { Slidy } from "svelte-slidy";
+    import { browser } from "$app/env";
 
-  const slides = [];
+    const slides = [];
 </script>
 
 {#if browser}
-  <Slidy slides>
-    <!-- custom dots indicators -->
-    <button slot="dots" />
-  </Slidy>
+    <Slidy slides>
+        <!-- custom dots indicators -->
+        <button slot="dot" />
+    </Slidy>
 {/if}
 ```
 
