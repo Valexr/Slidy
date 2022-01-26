@@ -50,7 +50,7 @@ REPL is available
 To use `Slidy` use named import. The only required props are `slides` - an array
 of objects with image related data:
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -73,7 +73,7 @@ instance should have it's own options.
 
 Example with all available options and their default values:
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -123,7 +123,7 @@ Example with all available options and their default values:
 To customize default `Slidy` nodes markup styles, provide an `id` use
 `:global()` to get necessary specifity.
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -144,7 +144,7 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 
 `Slidy`'s markup structure with it's classes:
 
-```sv
+```svelte
 <section id="yours custom #id" class="slidy">
     <ul class="slidy-ul">
         <!-- slides node -->
@@ -172,7 +172,7 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 For example, to override styles of specific section, use the classes described
 above:
 
-```sv
+```svelte
 <style>
     :global("slidy-instance-id" .dots-arrow-left) {
         /* your custom CSS styles */
@@ -186,7 +186,7 @@ It is possible to control `Slidy` instance from parent component. Declare the
 variable to hold the index and bind it to the `Slidy` instance to control the
 slides navigation.
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -210,7 +210,7 @@ slides navigation.
 Sometimes the default markup is not enough. For custom slides markup use
 `let:item` directive:
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -247,7 +247,7 @@ Sometimes the default markup is not enough. For custom slides markup use
 
 Example:
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
 
@@ -266,7 +266,7 @@ Check if the code runs in the browser before render.
 
 Example for `svelte\kit` users:
 
-```sv
+```svelte
 <script>
     import { Slidy } from "svelte-slidy";
     import { browser } from "$app/env";
