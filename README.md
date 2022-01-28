@@ -136,7 +136,7 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 <Slidy {...options} />
 
 <style>
-    :global("#slidy-id") {
+    :global(#slidy-id) {
         /* your CSS styling */
     }
 </style>
