@@ -32,7 +32,7 @@
 
 Simple, configurable & reusable carousel component built with SvelteJS.
 
-Try the [demo](https://slidy.valexr.online).
+Try the [demo](https://valexr.github.io/svelte-slidy).
 
 ## Getting started
 
