@@ -5,6 +5,19 @@ import sveltePreprocess from 'svelte-preprocess';
 
 const DEV = process.argv.includes('--dev');
 
+const options = {
+    compilerOptions: {
+        dev: DEV,
+        css: false
+    },
+    preprocess: [
+        sveltePreprocess({
+            sourceMap: DEV,
+            typescript: true,
+        }),
+    ],
+};
+
 async function build_client() {
     return await build({
         entryPoints: ['www/src/main.js'],
@@ -16,19 +29,8 @@ async function build_client() {
         platform: 'browser',
         external: ['../img/*'],
         mainFields: ['svelte', 'module', 'main', 'browser'],
-        plugins: [
-            sveltePlugin({
-                compileOptions: {
-                    dev: DEV,
-                    css: false
-                },
-                preprocess: [
-                    sveltePreprocess({
-                        sourceMap: DEV
-                    })
-                ]
-            })
-        ]
+        plugins: [sveltePlugin(options)],
+        logLevel: 'debug'
     });
 }
 

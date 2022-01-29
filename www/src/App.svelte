@@ -11,13 +11,13 @@
 
 <NavTop bind:limit bind:page bind:index />
 
-<Slidy slides={local} />
+<!-- <Slidy slides={local} /> -->
 
 <Slidy
     {timeout}
     let:item
     {...$settings}
-    bind:slides={items}
+    slides={items}
     bind:init
     bind:index
     bind:intersect
@@ -102,22 +102,19 @@
     {/if}
 </Button>
 
-<a
-    id="github"
-    alt="https://github.com/Valexr/svelte-slidy"
-    target="_blank"
-    href="https://github.com/Valexr/svelte-slidy">&nbsp;</a
+<a id="github" alt={repository.url} target="_blank" href={repository.url}
+    >&nbsp;</a
 >
 
 <script lang="ts">
     import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
     import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
-    import { version } from '../../package.json';
+    import { version, repository } from '../../package.json';
     import { settings } from '@settings';
-    import { local } from '@items';
+    import { slides, local } from '@items';
     import { getPhotos } from '@api';
     import { randomQ } from '@utils';
-g    import {
+    import {
         Settings,
         Controls,
         NavTop,
@@ -138,7 +135,11 @@ g    import {
         init = false,
         timeout = 0,
         ww = 0,
-        wh = 0;
+        wh = 0,
+        conOpen = false,
+        setOpen = false,
+        setInput = false,
+        setCheck = false;
 
     // onMount(() => (index = 1));
 
@@ -147,14 +148,15 @@ g    import {
         init = false;
         loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page);
-        // init = true;
+        $slides = items;
+        return items;
         // index = 4;
     }
-    // $: init && (index = 1);
+    // $: init && (index = 5);
     // $: init, (intersected = loaded = [])
-    $: items.length, ($slides = items);
+    // $: items.length, ($slides = items);
     $: loadSlides(limit, page);
-    // $: console.log(index);
+    $: console.log(index);
 
     let intersected = [],
         loaded = [],
@@ -162,7 +164,7 @@ g    import {
             init: false,
             options: {
                 root: null,
-                rootMargin: "0px",
+                rootMargin: '0px',
                 threshold: 1.0,
             },
             entries: [],
@@ -209,124 +211,15 @@ g    import {
     }
     // $: console.log(intersected);
     function settingsClick() {
-        $set.input
-            ? (($set.check = true), ($set.input = false))
-            : (($set.open = !$set.open), ($con.open = false));
+        setInput
+            ? ((setCheck = true), (setInput = false))
+            : ((setOpen = !setOpen), (conOpen = false));
     }
     function controlsClick() {
-        $con.open = !$con.open;
-        $set.open = false;
+        conOpen = !conOpen;
+        setOpen = false;
     }
 </script>
-
-<svelte:window bind:innerWidth={ww} bind:innerHeight={wh} />
-
-<h1>
-    Let`s <strong>
-        Slidy <sup>{pkg.version.replace(/\.[^.]*$/, "")}</sup>
-    </strong>
-    GO!
-</h1>
-
-<NavTop bind:limit bind:page bind:index />
-
-<!-- <Slidy slides={local} options={{ loop: false }} /> -->
-
-<Slidy
-    {timeout}
-    let:item
-    {...$settings}
-    slides={$slides}
-    bind:init
-    bind:index
-    bind:intersect
->
-    <slot slot="loader">
-        <SpinnerD />
-        {loaded.length !== 0 ? Math.floor(100 - 100 / loaded.length) : 0}
-    </slot>
-
-    {#if $settings.slide.backimg}
-        <span class="default">
-            <strong>{item.ix}</strong>
-        </span>
-    {:else}
-        {#if loaded.includes(item.ix)}
-            <span class="default">
-                <strong>{item.ix}</strong>
-            </span>
-        {:else}<span class="loading">Loading...</span>{/if}
-        <img
-            class:loaded={loaded.includes(item.ix)}
-            alt={item.id}
-            on:load|once={() => onLoad(item.ix)}
-            src={imgSrc(item)}
-        />
-    {/if}
-
-    <span class="internal-controls" slot="arrow-left">
-        <Svg name={"slidy-chevron-left"} />
-    </span>
-    <span class="internal-controls" slot="arrow-right">
-        <Svg name={"slidy-chevron-right"} />
-    </span>
-    <span class="internal-controls" slot="dots-arrow-left">
-        <Svg name={"slidy-arrow-left"} />
-    </span>
-    <span class="internal-controls" slot="dots-arrow-right">
-        <Svg name={"slidy-arrow-right"} />
-    </span>
-</Slidy>
-
-<NavBottom />
-
-<!-- {#if init}
-    <NavThumbs bind:index />
-{/if} -->
-
-{#if $con.open}
-    <Controls bind:index />
-{/if}
-
-<Button
-    id="controls"
-    style={"left: 20px;"}
-    open={$con.open}
-    on:click={controlsClick}
->
-    {#if $con.open}
-        <Svg name={"slidy-x"} />
-    {:else}
-        <Svg name={"slidy-play"} transform="translate(3px, 0)" />
-    {/if}
-</Button>
-
-{#if $set.open}
-    <Settings />
-{/if}
-
-<Button
-    id="settings"
-    style={"right: 20px;"}
-    open={$set.open}
-    check={$set.input}
-    on:click={settingsClick}
->
-    {#if $set.input}
-        <Svg name={"slidy-check"} />
-    {:else if $set.open}
-        <Svg name={"slidy-x"} />
-    {:else}
-        <Svg name={"slidy-sliders"} />
-    {/if}
-</Button>
-
-<a
-    id="github"
-    alt="https://github.com/Valexr/svelte-slidy"
-    target="_blank"
-    href="https://github.com/Valexr/svelte-slidy">&nbsp;</a
->
 
 <style lang="scss">
     :root {
@@ -417,6 +310,6 @@ g    import {
         height: 2em;
         z-index: 1000;
         border-radius: 50%;
-        background-image: url("../img/git.svg");
+        background-image: url('../img/git.svg');
     }
 </style>

@@ -1,13 +1,13 @@
 export const local = [
-    { id: 1, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/face.webp' },
-    { id: 2, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/photo.webp' },
-    { id: 3, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/platonic.webp' },
-    { id: 4, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/dark.webp' },
-    { id: 5, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/reading.webp' },
-    { id: 6, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/light.webp' },
-    { id: 7, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/atom.webp' },
-    { id: 8, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/photo2.webp' },
-    { id: 9, header: 'What is Slidy?', text: `<strong>SLIDY</strong> – simple configurable carousel component on SvelteJS`, src: '../img/torus.webp' },
+    { id: 1, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/face.webp' },
+    { id: 2, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/photo.webp' },
+    { id: 3, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/platonic.webp' },
+    { id: 4, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/dark.webp' },
+    { id: 5, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/reading.webp' },
+    { id: 6, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/light.webp' },
+    { id: 7, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/atom.webp' },
+    { id: 8, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/photo2.webp' },
+    { id: 9, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/torus.webp' },
 ]
 
 export const video = [
