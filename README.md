@@ -260,9 +260,10 @@ Example:
 </Slidy>
 ```
 
-Important note: slots are
-[not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
-Check if the code runs in the browser before render.
+### SvelteKit
+
+> Important note: slots are [not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
+> Check if the code runs in the browser before render.
 
 Example for `svelte\kit` users:
 
