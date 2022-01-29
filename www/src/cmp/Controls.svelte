@@ -1,36 +1,3 @@
-<script>
-    import { fly } from "svelte/transition";
-    import { settings, con } from "@settings";
-    import { clickout } from "@act";
-    import { slides } from "@items";
-    import { Svg } from "@cmp";
-
-    export let index;
-
-    let play = false,
-        playduration = 550,
-        timerPlay;
-    function slidyPlay() {
-        if (timerPlay !== null) {
-            clearInterval(timerPlay);
-        }
-        timerPlay = setInterval(() => index++, playduration);
-    }
-    $: if ($slides)
-        (!$settings.options.loop && index >= $slides.length - 1) ||
-        (!$settings.options.loop && index <= 0)
-            ? (play = false)
-            : null;
-    $: play && $con.open ? slidyPlay() : clearInterval(timerPlay);
-
-    function onKeydown(e) {
-        if (e.keyCode === 27) {
-            e.preventDefault();
-            $con.open = !$con.open;
-        }
-    }
-</script>
-
 <svelte:window on:keydown={$con.open ? onKeydown : null} />
 
 <section
@@ -45,7 +12,7 @@
         <input
             type="range"
             min="0"
-            max={$slides.length - 1}
+            max={slides.length - 1}
             step="1"
             bind:value={index}
         />
@@ -58,7 +25,7 @@
         <button
             class="slidy-ext-controls"
             class:play
-            on:click={() => (play = !play)}
+            on:click|stopPropagation={() => (play = !play)}
         >
             {#if play}
                 <Svg name="slidy-pause" />
@@ -73,7 +40,7 @@
     <h3>Dots</h3>
     <nav id="dots">
         <button on:click={() => index--}>&#8592;</button>
-        {#each $slides as dot, i}
+        {#each slides as dot, i}
             <button
                 class:active={i === index}
                 on:click={() => (index = i)}
@@ -84,7 +51,7 @@
     </nav>
     <h3>Thumbs</h3>
     <nav id="thumbs">
-        {#each $slides as thumb, i}
+        {#each slides as thumb, i}
             <button
                 style="background-image: url({thumb.src
                     ? thumb.src
@@ -95,6 +62,38 @@
         {/each}
     </nav>
 </section>
+
+<script>
+    import { fly } from 'svelte/transition';
+    import { settings, con } from '@settings';
+    import { clickout } from '@act';
+    import { Svg } from '@cmp';
+
+    export let index, slides;
+
+    let play = false,
+        playduration = 550,
+        timerPlay;
+    function slidyPlay() {
+        if (timerPlay !== null) {
+            clearInterval(timerPlay);
+        }
+        timerPlay = setInterval(() => index++, playduration);
+    }
+    $: if (slides)
+        (!$settings.options.loop && index >= slides.length - 1) ||
+        (!$settings.options.loop && index <= 0)
+            ? (play = false)
+            : null;
+    $: play && $con.open ? slidyPlay() : clearInterval(timerPlay);
+
+    function onKeydown(e) {
+        if (e.keyCode === 27) {
+            e.preventDefault();
+            $con.open = !$con.open;
+        }
+    }
+</script>
 
 <style lang="scss">
     #controls {
@@ -128,7 +127,7 @@
             }
         }
     }
-    :global(input[type="range"]) {
+    :global(input[type='range']) {
         -webkit-appearance: none;
         appearance: none;
         background: rgba(0, 0, 0, 0.18);
@@ -139,9 +138,9 @@
             outline: none;
         }
     }
-    :global(input[type="range"]::-webkit-slider-thumb),
-    :global(input[type="range"]::-moz-range-thumb),
-    :global(input[type="range"]::-webkit-slider-runnable-track) {
+    :global(input[type='range']::-webkit-slider-thumb),
+    :global(input[type='range']::-moz-range-thumb),
+    :global(input[type='range']::-webkit-slider-runnable-track) {
         -webkit-appearance: none;
         appearance: none;
         width: 18px;
@@ -153,7 +152,7 @@
         position: relative;
         z-index: 2;
     }
-    :global(input[type="range"]::-webkit-slider-thumb) {
+    :global(input[type='range']::-webkit-slider-thumb) {
         -webkit-appearance: none;
         appearance: none;
         width: 18px;
@@ -252,7 +251,7 @@
                 height: auto;
             }
             &:after {
-                content: "";
+                content: '';
                 background: center var(--imgback) no-repeat;
                 background-size: cover;
                 width: 78px;

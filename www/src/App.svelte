@@ -1,4 +1,4 @@
-<svelte:options immutable={true} />
+<svelte:options immutable={false} />
 
 <svelte:window bind:innerWidth={ww} bind:innerHeight={wh} />
 
@@ -65,37 +65,41 @@
     <NavThumbs bind:index slides={items} />
 {/if}
 
-{#if conOpen}
-    <Controls bind:index bind:open={conOpen} slides={items} />
+{#if $con.open}
+    <Controls bind:index bind:open={$con.open} bind:slides={items} />
 {/if}
 
 <Button
     id="controls"
     style={'left: 20px;'}
-    open={conOpen}
+    open={$con.open}
     on:click={controlsClick}
 >
-    {#if conOpen}
+    {#if $con.open}
         <Svg name={'slidy-x'} />
     {:else}
         <Svg name={'slidy-play'} transform="translate(3px, 0)" />
     {/if}
 </Button>
 
-{#if setOpen}
-    <Settings bind:input={setInput} bind:check={setCheck} bind:open={setOpen} />
+{#if $set.open}
+    <Settings
+        bind:input={$set.input}
+        bind:check={$set.check}
+        bind:open={$set.open}
+    />
 {/if}
 
 <Button
     id="settings"
     style={'right: 20px;'}
-    open={setOpen}
-    check={setInput}
+    open={$set.open}
+    check={$set.input}
     on:click={settingsClick}
 >
-    {#if setInput}
+    {#if $set.input}
         <Svg name={'slidy-check'} />
-    {:else if setOpen}
+    {:else if $set.open}
         <Svg name={'slidy-x'} />
     {:else}
         <Svg name={'slidy-sliders'} />
@@ -110,7 +114,7 @@
     import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
     import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
     import { version, repository } from '../../package.json';
-    import { settings } from '@settings';
+    import { settings, set, con } from '@settings';
     import { slides, local } from '@items';
     import { getPhotos } from '@api';
     import { randomQ } from '@utils';
@@ -135,28 +139,18 @@
         init = false,
         timeout = 0,
         ww = 0,
-        wh = 0,
-        conOpen = false,
-        setOpen = false,
-        setInput = false,
-        setCheck = false;
+        wh = 0;
 
-    // onMount(() => (index = 1));
-
-    // $: items.length > 1 && (index = 1);
     async function loadSlides(limit, page) {
         init = false;
         loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page);
-        $slides = items;
+        // $slides = items;
         return items;
         // index = 4;
     }
-    // $: init && (index = 5);
     // $: init, (intersected = loaded = [])
-    // $: items.length, ($slides = items);
     $: loadSlides(limit, page);
-    $: console.log(index);
 
     let intersected = [],
         loaded = [],
@@ -211,13 +205,13 @@
     }
     // $: console.log(intersected);
     function settingsClick() {
-        setInput
-            ? ((setCheck = true), (setInput = false))
-            : ((setOpen = !setOpen), (conOpen = false));
+        $set.input
+            ? (($set.check = true), ($set.input = false))
+            : (($set.open = !$set.open), ($con.open = false));
     }
     function controlsClick() {
-        conOpen = !conOpen;
-        setOpen = false;
+        $con.open = !$con.open;
+        $set.open = false;
     }
 </script>
 
