@@ -1,0 +1,3 @@
+# @slidy/core
+
+👨🏻‍💻 docs in progress...

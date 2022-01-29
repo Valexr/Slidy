@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "ES2020",
+        "target": "ESNext",
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationDir": "dist/",
+        "strict": true,
+        "esModuleInterop": true,
+        "moduleResolution": "Node",
+        "types": [
+            "src/global.d.ts"
+        ]
+    },
+    "include": [
+        "src/slidy.ts"
+    ],
+    "files": [
+        "./src/index.ts"
+    ]
+}

@@ -1,46 +1,54 @@
 {
-    "name": "svelte-slidy",
-    "version": "2.7.1",
-    "description": "SLIDY – simple, configurable & reusable carousel component built with SvelteJS",
-    "main": "dist/slidy.js",
-    "module": "dist/slidy.esm.js",
-    "browser": "dist/slidy.iife.js",
-    "svelte": "src/index.js",
+    "name": "slidy",
+    "version": "3.0.0",
+    "description": "SLIDY - simple, configurable & reusable carousel component",
+    "private": true,
+    "type": "module",
     "scripts": {
-        "build": "node esbuild",
         "dev": "node esbuild --dev",
-        "start": "npx derver --production --port=5000 www/public",
-        "predeploy": "node esbuild",
-        "deploy": "echo 'slidy.valexr.online' > ./www/public/CNAME && gh-pages -d www/public",
+        "dev:www": "pnpm dev --parallel --filter=slidy...",
+        "dev:core": "pnpm dev:core --parallel",
+        "dev:svelte": "pnpm dev:svelte --parallel",
+        "build": "node esbuild",
+        "build:core": "pnpm build --filter=@slidy/core",
+        "build:svelte": "pnpm build --filter=@slidy/svelte",
+        "start": "npx derver --production --port=5555 www/public",
+        "predeploy": "node esbuild --deploy",
+        "deploy": "gh-pages -d www/public",
         "prepublishOnly": "node esbuild"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Valexr/svelte-slidy.git"
+        "url": "git+https://github.com/Valexr/slidy.git"
     },
     "keywords": [
         "Svelte",
-        "SvelteJs",
+        "Malina",
+        "React",
+        "Vue",
+        "WebComponent",
+        "Slidy",
+        "Slider",
         "Carousel",
-        "Svelte-plugin"
+        "Action",
+        "Script",
+        "Js",
+        "Ts"
     ],
     "author": "Valexr",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Valexr/svelte-slidy/issues"
+        "url": "https://github.com/Valexr/slidy/issues"
     },
     "homepage": "https://slidy.valexr.online",
     "devDependencies": {
-        "derver": "^0.4.19",
-        "esbuild": "^0.13.4",
-        "esbuild-svelte": "^0.5.6",
+        "derver": "^0.5.3",
+        "esbuild": "^0.14.14",
+        "esbuild-svelte": "^0.6.2",
         "gh-pages": "^3.2.3",
-        "sass": "^1.42.1",
-        "svelte": "^3.43.1",
-        "svelte-preprocess": "^4.9.8",
-        "typescript": "^4.4.3"
-    },
-    "peerDependencies": {
-        "svelte": "^3.42.5"
+        "sass": "^1.49.0",
+        "svelte": "^3.46.3",
+        "svelte-preprocess": "^4.10.2",
+        "@slidy/svelte": "workspace:*"
     }
 }

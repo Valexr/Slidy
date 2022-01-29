@@ -1,12 +1,123 @@
-<script>
-    import { onMount, afterUpdate, beforeUpdate, tick } from "svelte";
-    import { fly, fade, scale, crossfade, slide } from "svelte/transition";
-    import pkg from "../../package.json";
-    import { settings, set, con } from "@settings";
-    import { slides, local } from "@items";
-    import { getPhotos } from "@api";
-    import { randomQ } from "@utils";
-    import {
+<svelte:options immutable={true} />
+
+<svelte:window bind:innerWidth={ww} bind:innerHeight={wh} />
+
+<h1>
+    Let`s <strong>
+        Slidy <sup>{version.replace(/\.[^.]*$/, '')}</sup>
+    </strong>
+    GO!
+</h1>
+
+<NavTop bind:limit bind:page bind:index />
+
+<Slidy slides={local} />
+
+<Slidy
+    {timeout}
+    let:item
+    {...$settings}
+    bind:slides={items}
+    bind:init
+    bind:index
+    bind:intersect
+>
+    <span slot="loader">
+        <SpinnerD />
+        {loaded.length !== 0 ? Math.floor(100 - 100 / loaded.length) : 0}
+    </span>
+
+    {#if $settings.slide.backimg}
+        <span class="default">
+            <strong>{item.ix}</strong>
+        </span>
+    {:else}
+        {#if loaded.includes(item.ix)}
+            <span class="default">
+                <strong>{item.ix}</strong>
+            </span>
+        {:else}<span class="loading">Loading...</span>{/if}
+        <img
+            class:loaded={loaded.includes(item.ix)}
+            alt={item.id}
+            on:load|once={() => onLoad(item.ix)}
+            src={imgSrc(item)}
+        />
+    {/if}
+
+    <span class="internal-controls" slot="arrow-left">
+        <Svg name={'slidy-chevron-left'} />
+    </span>
+    <span class="internal-controls" slot="arrow-right">
+        <Svg name={'slidy-chevron-right'} />
+    </span>
+    <span class="internal-controls" slot="dots-arrow-left">
+        <Svg name={'slidy-arrow-left'} />
+    </span>
+    <span class="internal-controls" slot="dots-arrow-right">
+        <Svg name={'slidy-arrow-right'} />
+    </span>
+</Slidy>
+
+<NavBottom />
+
+{#if init}
+    <NavThumbs bind:index slides={items} />
+{/if}
+
+{#if conOpen}
+    <Controls bind:index bind:open={conOpen} slides={items} />
+{/if}
+
+<Button
+    id="controls"
+    style={'left: 20px;'}
+    open={conOpen}
+    on:click={controlsClick}
+>
+    {#if conOpen}
+        <Svg name={'slidy-x'} />
+    {:else}
+        <Svg name={'slidy-play'} transform="translate(3px, 0)" />
+    {/if}
+</Button>
+
+{#if setOpen}
+    <Settings bind:input={setInput} bind:check={setCheck} bind:open={setOpen} />
+{/if}
+
+<Button
+    id="settings"
+    style={'right: 20px;'}
+    open={setOpen}
+    check={setInput}
+    on:click={settingsClick}
+>
+    {#if setInput}
+        <Svg name={'slidy-check'} />
+    {:else if setOpen}
+        <Svg name={'slidy-x'} />
+    {:else}
+        <Svg name={'slidy-sliders'} />
+    {/if}
+</Button>
+
+<a
+    id="github"
+    alt="https://github.com/Valexr/svelte-slidy"
+    target="_blank"
+    href="https://github.com/Valexr/svelte-slidy">&nbsp;</a
+>
+
+<script lang="ts">
+    import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
+    import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
+    import { version } from '../../package.json';
+    import { settings } from '@settings';
+    import { local } from '@items';
+    import { getPhotos } from '@api';
+    import { randomQ } from '@utils';
+g    import {
         Settings,
         Controls,
         NavTop,
@@ -16,9 +127,9 @@
         Svg,
         Spinner,
         SpinnerD,
-    } from "@cmp";
-    // import { Slidy } from '@cmp';
-    import { Slidy } from "svelte-slidy";
+    } from '@cmp';
+
+    import { Slidy } from '@slidy/svelte';
 
     let items = [],
         index = 4,
@@ -36,6 +147,7 @@
         init = false;
         loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page);
+        // init = true;
         // index = 4;
     }
     // $: init && (index = 1);

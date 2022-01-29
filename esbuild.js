@@ -1,8 +1,7 @@
-const { build } = require("esbuild");
-const { derver } = require("derver");
-const sveltePlugin = require("esbuild-svelte");
-const sveltePreprocess = require('svelte-preprocess');
-const pkg = require('./package.json');
+import { build } from "esbuild";
+import { derver } from "derver";
+import sveltePlugin from "esbuild-svelte";
+import sveltePreprocess from 'svelte-preprocess';
 
 const DEV = process.argv.includes('--dev');
 
@@ -33,6 +32,7 @@ async function build_client() {
     });
 }
 
+const observed = ['www/public', 'www/src', 'packages/svelte/dist', 'packages/core/dist']
 
 build_client().then(bundle => {
     if (DEV) {
@@ -40,9 +40,9 @@ build_client().then(bundle => {
             dir: 'www/public',
             port: 3000,
             host: '0.0.0.0',
-            watch: ['www/public', 'www/src', 'src'],
+            watch: observed,
             onwatch: async (lr, item) => {
-                if (item == 'www/src' || item == 'src') {
+                if (item !== 'www/public') {
                     lr.prevent();
                     try {
                         await bundle.rebuild();
@@ -54,41 +54,3 @@ build_client().then(bundle => {
         })
     }
 });
-
-!DEV && (async () => {
-
-    await build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.main,
-        format: 'cjs',
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compileOptions: { css: true } })]
-    });
-
-    await build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.module,
-        format: "esm",
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compileOptions: { css: true } })],
-    });
-
-    await build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.browser,
-        platform: 'browser',
-        format: "iife",
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        globalName: "Slidy",
-        plugins: [sveltePlugin({ compileOptions: { css: true } })],
-    });
-
-})()

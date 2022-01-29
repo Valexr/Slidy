@@ -32,8 +32,10 @@ let settingX = {
     options: {
         axis: 'x',
         loop: false,
-        duration: 550,
-        sensity: 0.3,
+        duration: 375,
+        clamp: false,
+        snap: true,
+        gravity: 1.2,
         intersecting: false
     }
 }
