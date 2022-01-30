@@ -1,4 +1,4 @@
-import { readFile, readFileSync, writeFile, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { build, transformSync } from 'esbuild';
 import { preprocess } from 'svelte/compiler';
 import { derver } from 'derver';
@@ -91,10 +91,12 @@ if (DEV) {
             globalName: 'Slidy',
             format: 'iife',
         });
-        preprocess(source, transpilator, 'Slidy.svelte').then(({ code }) => {
-            const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
-            writeFileSync('./dist/Slidy.svelte', transpiled);
-        });
+        await preprocess(source, transpilator, 'Slidy.svelte').then(
+            ({ code }) => {
+                const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
+                writeFileSync('./dist/Slidy.svelte', transpiled);
+            }
+        );
     })();
 }
 

@@ -38,9 +38,12 @@
         position: fixed;
         display: flex;
         justify-content: center;
-        bottom: 1em;
+        bottom: 100px;
         width: 100%;
         height: 50px;
+        @media screen and (max-width: 700px) {
+            bottom: 2em;
+        }
         #slidy-align {
             div {
                 display: flex;

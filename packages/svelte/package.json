@@ -19,10 +19,9 @@
         "dev": "node esbuild --dev",
         "dev:svelte": "node esbuild --svelte",
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-        "build": "node esbuild && prettier --write \"**/*.{js,ts,md,svelte,json}\" && tsc --emitDeclarationOnly --outDir dist",
+        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public",
-        "format": "prettier --ignore-path .gitignore --write .",
-        "transpile": "node transpile && prettier --write \"**/*.{js,ts,md,svelte,json}\""
+        "format": "prettier --write '**/*.{js,ts,md,svelte,json}'"
     },
     "repository": {
         "type": "git",
