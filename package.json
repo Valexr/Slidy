@@ -10,7 +10,7 @@
         "dev": "node esbuild --dev",
         "start": "npx derver --production --port=5000 www/public",
         "predeploy": "node esbuild --deploy",
-        "deploy": "echo 'slidy.valexr.online' > ./www/public/CNAME && gh-pages -d www/public",
+        "deploy": "gh-pages -d www/public",
         "prepublishOnly": "node esbuild"
     },
     "repository": {
