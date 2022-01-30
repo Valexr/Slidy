@@ -1,1 +1,307 @@
-var Slidy=(()=>{var I=Object.defineProperty;var ue=Object.getOwnPropertyDescriptor;var me=Object.getOwnPropertyNames;var fe=Object.prototype.hasOwnProperty;var he=e=>I(e,"__esModule",{value:!0});var de=(e,n)=>{for(var i in n)I(e,i,{get:n[i],enumerable:!0})},Ee=(e,n,i,r)=>{if(n&&typeof n=="object"||typeof n=="function")for(let o of me(n))!fe.call(e,o)&&(i||o!=="default")&&I(e,o,{get:()=>n[o],enumerable:!(r=ue(n,o))||r.enumerable});return e};var ve=(e=>(n,i)=>e&&e.get(n)||(i=Ee(he({}),n,1),e&&e.set(n,i),i))(typeof WeakMap!="undefined"?new WeakMap:0);var Te={};de(Te,{slidy:()=>Le});function U(e){return new Promise((n,i)=>{let r,o=0;clearInterval(r),r=setInterval(()=>{o++,console.log(o,e.children.length),e.children.length>2?(clearInterval(r),Array.from(e.children).forEach((l,f)=>{l.dataset.index=f}),n(e.children)):o>=69&&(clearInterval(r),i("Slidy haven't items"))},16)})}function O(e,n,i){return Math.min(e,Math.max(n,i))||0}function W(e,n,i=!1){return i?n<0?y(e).length-1:n>y(e).length-1?0:n:O(y(e).length-1,0,n)}function v(e,n){return e.type==="wheel"?n==="y"||e.shiftKey?e.deltaY:e.deltaX:n==="y"?G(e).clientY:G(e).clientX}var G=e=>e.changedTouches?e.changedTouches[0]:e;var y=e=>Array.from(e.children),ye=(e,n)=>e.children[n];var be=e=>e==="y"?"offsetTop":"offsetLeft",D=e=>e==="y"?"offsetHeight":"offsetWidth",ge=e=>e==="middle"?.5:1,pe=(e,n)=>e!=="start"?n:0,Me=(e,n,i)=>e.parentElement[D(i)]-n[D(i)],K=(e,n,i,r,o=!1)=>n[be(i)]-pe(r,Me(e,n,i)*ge(r));function Q(e,n,i,r,o=!1){return y(e).reduce((l,f,T)=>{let h=p=>K(e,p,i,r,o);return Math.abs(h(f)-n)<Math.abs(h(l)-n)?f:l})}var E={index:(e,n,i,r,o,l=!1)=>i?y(e).indexOf(i):+Q(e,n,r,o,l).dataset.index,position:(e,n,i,r,o=!1)=>K(e,ye(e,n),i,r,o),target:(e,n,i,r,o=!1)=>K(e,Q(e,n,i,r,o),i,r,o),size:(e,n,i)=>y(e)[n][D(i)],child:(e,n)=>y(e).find(i=>+i.dataset.index===n)};var P=(e,n)=>e.slice(n).concat(e.slice(0,n));function B(e,n){let i=e.children[e.children.length-1];e.prepend(i)}function V(e,n){let i=e.children[0];e.append(i)}function Le(e,n={}){let{gap:i=0,index:r=0,axis:o="x",loop:l=!1,snap:f=!1,clamp:T=!1,gravity:h=1.2,duration:p=375,align:b="start",indexer:Z=t=>t,scroller:_=t=>t}=n,Y,j,w=0,$=0,u=0,x=0,ee,N,te=u,M=r,a=e.parentElement,X=Math.floor(e.children.length/2),H=requestAnimationFrame;U(e).then(t=>{console.log("mounted"),a&&(a.style.outline="none"),e.style.userSelect="none",e.style.touchAction="pan-y",e.style.pointerEvents="none",e.style.willChange="auto",e.style.webkitUserSelect="none",l&&(e.replaceChildren(...P(Array.from(t),r-X)),e.style.justifyContent="center"),m(r),a&&(a.onresize=()=>m(r),a.oncontextmenu=()=>g(),a.addEventListener("touchstart",A),a.addEventListener("mousedown",A),a.addEventListener("keydown",J),a.addEventListener("wheel",q))}).catch(t=>console.error(t));function C(t,s=0){u+=l?ne(t):t,r=E.index(e,u,void 0,o,b,l);let c=d=>d==="y"?`0, ${-u}px, 0`:`${-u}px, 0, 0`;e.style.transform=`translate3d(${c(o)})`,e.style.transition=`${s}ms`,e.dataset.position=`${u}`,e.dataset.index=`${r}`,Z(r),_(u)}function ne(t){let s=te-t,c=E.size(e,0,o),d=E.size(e,e.children.length-1,o),L=F=>(F+i)*Math.sign(-t);return M!==r&&(t>0?V(e,o):B(e,o),t+=L(t>0?c:d),x=u+t+s),M=r,t}function m(t,s=null){g(),t=M=W(e,t,l);let c=E.child(e,t),d=l?E.index(e,u,c,o,b,l):t,L=s?f?E.target(e,s,o,b,l):s:s===0?0:E.position(e,d,o,b,l);C(L-u,p)}function re(t){H(function s(c){let d=1e3*(u-x)/(1+(c-t));w=(2-h)*d+O(1,0,1-h)*w,t=c,x=u,j=H(s)})}function ie({target:t,amplitude:s,duration:c,timestamp:d}){s&&H(function L(F){let ae=(F-d)/c,S=s*Math.exp(-ae),ce=u-(t-S);C(l?S/16.7:-ce),Y=Math.abs(S)>.5?H(L):null,l&&Math.abs(S)<5&&m(r)})}function A(t){e.style.pointerEvents=t.type!=="mousedown"?"auto":"none",g(),x=u,$=v(t,o),re(performance.now()),window.addEventListener("mousemove",z),window.addEventListener("mouseup",R),window.addEventListener("touchmove",z),window.addEventListener("touchend",R)}function z(t){let s=($-v(t,o))*(2-h);$=v(t,o),C(s)}function R(t){g();let{target:s,amplitude:c}=oe(u);Math.abs(c)>10&&(Math.abs(w)<100?m(r):T?m(r,s):ie({target:s,amplitude:c,duration:p,timestamp:performance.now()}))}function oe(t){let s=(2-h)*w,c=f?E.target(e,t+s,o,b,l):t+s;return s=c-t,{target:c,amplitude:s}}let k=!1;function q(t){g(),k=!0,(Math.abs(v(t,"x"))&&Math.abs(v(t,"y"))<15||t.shiftKey)&&t.preventDefault(),C(v(t,o)*(2-h)),t.shiftKey?m(r-Math.sign(t.deltaY)):(f||T)&&(N=setTimeout(()=>(m(r),k=!1),100))}function J(t){t.key==="ArrowLeft"?m(r-1):t.key==="ArrowRight"&&m(r+1)}function g(){M=k?M:r,clearInterval(ee),clearTimeout(N),cancelAnimationFrame(Y),cancelAnimationFrame(j),window.removeEventListener("mousemove",z),window.removeEventListener("mouseup",R),window.removeEventListener("touchmove",z),window.removeEventListener("touchend",R)}function se(t){p=t.duration??375,h=O(2,0,t.gravity??1.2),o=t.axis??"x",b=t.align??"middle",f=t.snap??!0,T=t.clamp??!1,i=t.gap??0,r!==t.index&&(r=W(e,t.index??0,l),m(r)),l!==t.loop&&(console.log(Array.from(e.children)),l=t.loop??!1,l?(e.replaceChildren(...P(Array.from(e.children),r-X)),e.style.justifyContent="center",m(r)):(e.replaceChildren(...Array.from(e.children)),e.style.justifyContent="start",m(r)))}function le(){g(),a&&(a.onresize=null,a.oncontextmenu=null,a.removeEventListener("touchstart",A),a.removeEventListener("mousedown",A),a.removeEventListener("keydown",J),a.removeEventListener("wheel",q))}return{update:se,destroy:le,to:m}}return ve(Te);})();
+var Slidy = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __reExport = (target, module, copyDefault, desc) => {
+    if (module && typeof module === "object" || typeof module === "function") {
+      for (let key of __getOwnPropNames(module))
+        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
+    }
+    return target;
+  };
+  var __toCommonJS = /* @__PURE__ */ ((cache) => {
+    return (module, temp) => {
+      return cache && cache.get(module) || (temp = __reExport(__markAsModule({}), module, 1), cache && cache.set(module, temp), temp);
+    };
+  })(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+
+  // src/slidy.ts
+  var slidy_exports = {};
+  __export(slidy_exports, {
+    slidy: () => slidy
+  });
+
+  // src/env.ts
+  function onMounted(node) {
+    return new Promise((resolve, reject) => {
+      let mounting, count = 0;
+      clearInterval(mounting);
+      mounting = setInterval(() => {
+        count++;
+        console.log(count, node.children.length);
+        if (node.children.length > 2) {
+          clearInterval(mounting);
+          Array.from(node.children).forEach((c, i) => {
+            c.dataset.index = i;
+          });
+          resolve(node.children);
+        } else if (count >= 69) {
+          clearInterval(mounting);
+          reject(`Slidy haven't items`);
+        }
+      }, 16);
+    });
+  }
+
+  // src/utils.ts
+  function maxMin(max, min, val) {
+    return Math.min(max, Math.max(min, val)) || 0;
+  }
+  function indexing(node, index, loop = false) {
+    if (loop) {
+      if (index < 0) {
+        return nodes(node).length - 1;
+      } else if (index > nodes(node).length - 1) {
+        return 0;
+      } else
+        return index;
+    } else
+      return maxMin(nodes(node).length - 1, 0, index);
+  }
+  function axisCoord(e, axis) {
+    if (e.type === "wheel") {
+      return axis === "y" ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
+    } else
+      return axis === "y" ? uniQ(e).clientY : uniQ(e).clientX;
+  }
+  var uniQ = (e) => e.changedTouches ? e.changedTouches[0] : e;
+  var nodes = (node) => Array.from(node.children);
+  var child = (node, index) => node.children[index];
+  var coord = (axis) => axis === "y" ? "offsetTop" : "offsetLeft";
+  var size = (axis) => axis === "y" ? "offsetHeight" : "offsetWidth";
+  var part = (align) => align === "middle" ? 0.5 : 1;
+  var diff = (align, pos) => align !== "start" ? pos : 0;
+  var offset = (node, child2, axis) => node.parentElement[size(axis)] - child2[size(axis)];
+  var position = (node, child2, axis, align, loop = false) => child2[coord(axis)] - diff(align, offset(node, child2, axis) * part(align));
+  function closest(node, target, axis, align, loop = false) {
+    return nodes(node).reduce((prev2, curr, i) => {
+      const pos = (child2) => position(node, child2, axis, align, loop);
+      return Math.abs(pos(curr) - target) < Math.abs(pos(prev2) - target) ? curr : prev2;
+    });
+  }
+  var find = {
+    index: (node, target, child2, axis, align, loop = false) => child2 ? nodes(node).indexOf(child2) : +closest(node, target, axis, align, loop).dataset.index,
+    position: (node, index, axis, align, loop = false) => position(node, child(node, index), axis, align, loop),
+    target: (node, target, axis, align, loop = false) => position(node, closest(node, target, axis, align, loop), axis, align, loop),
+    size: (node, index, axis) => nodes(node)[index][size(axis)],
+    child: (node, index) => nodes(node).find((child2) => +child2.dataset.index === index)
+  };
+  var rotate = (array, key) => array.slice(key).concat(array.slice(0, key));
+  function prev(node, axis) {
+    const last = node.children[node.children.length - 1];
+    node.prepend(last);
+  }
+  function next(node, axis) {
+    const first = node.children[0];
+    node.append(first);
+  }
+
+  // src/slidy.ts
+  function slidy(node, options = {}) {
+    let {
+      gap = 0,
+      index = 0,
+      axis = "x",
+      loop = false,
+      snap = false,
+      clamp = false,
+      gravity = 1.2,
+      duration = 375,
+      align = "start",
+      indexer = (x) => x,
+      scroller = (p) => p
+    } = options;
+    let raf, rak, velocity = 0, reference = 0, position2 = 0, frame = 0, dragtime, wheeltime, hip = position2, hix = index;
+    const PARENT = node.parentElement;
+    const CIX = Math.floor(node.children.length / 2);
+    const RAF = requestAnimationFrame;
+    onMounted(node).then((childs) => {
+      console.log("mounted");
+      if (PARENT)
+        PARENT.style.outline = "none";
+      node.style.userSelect = "none";
+      node.style.touchAction = "pan-y";
+      node.style.pointerEvents = "none";
+      node.style.willChange = "auto";
+      node.style.webkitUserSelect = "none";
+      if (loop) {
+        node.replaceChildren(...rotate(Array.from(childs), index - CIX));
+        node.style.justifyContent = "center";
+      }
+      to(index);
+      if (PARENT) {
+        PARENT.onresize = () => to(index);
+        PARENT.oncontextmenu = () => clear();
+        PARENT.addEventListener("touchstart", onDown);
+        PARENT.addEventListener("mousedown", onDown);
+        PARENT.addEventListener("keydown", onKeys);
+        PARENT.addEventListener("wheel", onWheel);
+      }
+    }).catch((error) => console.error(error));
+    function move(pos, transition = 0) {
+      position2 += loop ? looping(pos) : pos;
+      index = find.index(node, position2, void 0, axis, align, loop);
+      const translate = (axis2) => {
+        return axis2 === "y" ? `0, ${-position2}px, 0` : `${-position2}px, 0, 0`;
+      };
+      node.style.transform = `translate3d(${translate(axis)})`;
+      node.style.transition = `${transition}ms`;
+      node.dataset.position = `${position2}`;
+      node.dataset.index = `${index}`;
+      indexer(index);
+      scroller(position2);
+    }
+    function looping(pos) {
+      const delta = hip - pos;
+      const first = find.size(node, 0, axis);
+      const last = find.size(node, node.children.length - 1, axis);
+      const history = (size2) => (size2 + gap) * Math.sign(-pos);
+      if (hix !== index) {
+        pos > 0 ? next(node, axis) : prev(node, axis);
+        pos += history(pos > 0 ? first : last);
+        frame = position2 + pos + delta;
+      }
+      hix = index;
+      return pos;
+    }
+    function to(index2, target = null) {
+      clear();
+      index2 = hix = indexing(node, index2, loop);
+      const child2 = find.child(node, index2);
+      const ix = loop ? find.index(node, position2, child2, axis, align, loop) : index2;
+      let pos = target ? snap ? find.target(node, target, axis, align, loop) : target : target === 0 ? 0 : find.position(node, ix, axis, align, loop);
+      move(pos - position2, duration);
+    }
+    function track(timestamp) {
+      RAF(function track2(time) {
+        const v = 1e3 * (position2 - frame) / (1 + (time - timestamp));
+        velocity = (2 - gravity) * v + maxMin(1, 0, 1 - gravity) * velocity;
+        timestamp = time;
+        frame = position2;
+        rak = RAF(track2);
+      });
+    }
+    function scroll({ target, amplitude, duration: duration2, timestamp }) {
+      if (amplitude) {
+        RAF(function scroll2(time) {
+          const elapsed = (time - timestamp) / duration2;
+          const delta = amplitude * Math.exp(-elapsed);
+          const dist = position2 - (target - delta);
+          move(loop ? delta / 16.7 : -dist);
+          raf = Math.abs(delta) > 0.5 ? RAF(scroll2) : null;
+          if (loop && Math.abs(delta) < 5)
+            to(index);
+        });
+      }
+    }
+    function onDown(e) {
+      node.style.pointerEvents = e.type !== "mousedown" ? "auto" : "none";
+      clear();
+      frame = position2;
+      reference = axisCoord(e, axis);
+      track(performance.now());
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+      window.addEventListener("touchmove", onMove);
+      window.addEventListener("touchend", onUp);
+    }
+    function onMove(e) {
+      const delta = (reference - axisCoord(e, axis)) * (2 - gravity);
+      reference = axisCoord(e, axis);
+      move(delta);
+    }
+    function onUp(e) {
+      clear();
+      const { target, amplitude } = delting(position2);
+      if (Math.abs(amplitude) > 10)
+        Math.abs(velocity) < 100 ? to(index) : clamp ? to(index, target) : scroll({
+          target,
+          amplitude,
+          duration,
+          timestamp: performance.now()
+        });
+    }
+    function delting(position3) {
+      let amplitude = (2 - gravity) * velocity;
+      const target = snap ? find.target(node, position3 + amplitude, axis, align, loop) : position3 + amplitude;
+      amplitude = target - position3;
+      return { target, amplitude };
+    }
+    let wheeling = false;
+    function onWheel(e) {
+      clear();
+      wheeling = true;
+      if (Math.abs(axisCoord(e, "x")) && Math.abs(axisCoord(e, "y")) < 15 || e.shiftKey)
+        e.preventDefault();
+      move(axisCoord(e, axis) * (2 - gravity));
+      if (e.shiftKey)
+        to(index - Math.sign(e.deltaY));
+      else if (snap || clamp)
+        wheeltime = setTimeout(() => (to(index), wheeling = false), 100);
+    }
+    function onKeys(e) {
+      if (e.key === "ArrowLeft") {
+        to(index - 1);
+      } else if (e.key === "ArrowRight") {
+        to(index + 1);
+      }
+    }
+    function clear() {
+      hix = wheeling ? hix : index;
+      clearInterval(dragtime);
+      clearTimeout(wheeltime);
+      cancelAnimationFrame(raf);
+      cancelAnimationFrame(rak);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
+    }
+    function update(options2) {
+      duration = options2.duration ?? 375;
+      gravity = maxMin(2, 0, options2.gravity ?? 1.2);
+      axis = options2.axis ?? "x";
+      align = options2.align ?? "middle";
+      snap = options2.snap ?? true;
+      clamp = options2.clamp ?? false;
+      gap = options2.gap ?? 0;
+      if (index !== options2.index) {
+        index = indexing(node, options2.index ?? 0, loop);
+        to(index);
+      }
+      if (loop !== options2.loop) {
+        console.log(Array.from(node.children));
+        loop = options2.loop ?? false;
+        if (loop) {
+          node.replaceChildren(...rotate(Array.from(node.children), index - CIX));
+          node.style.justifyContent = "center";
+          to(index);
+        } else {
+          node.replaceChildren(...Array.from(node.children));
+          node.style.justifyContent = "start";
+          to(index);
+        }
+      }
+    }
+    function destroy() {
+      clear();
+      if (PARENT) {
+        PARENT.onresize = null;
+        PARENT.oncontextmenu = null;
+        PARENT.removeEventListener("touchstart", onDown);
+        PARENT.removeEventListener("mousedown", onDown);
+        PARENT.removeEventListener("keydown", onKeys);
+        PARENT.removeEventListener("wheel", onWheel);
+      }
+    }
+    return { update, destroy, to };
+  }
+  return __toCommonJS(slidy_exports);
+})();

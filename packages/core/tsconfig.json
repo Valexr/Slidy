@@ -15,6 +15,9 @@
     "include": [
         "src/slidy.ts"
     ],
+    "exclude": [
+        "node_modules/*",
+    ],
     "files": [
         "./src/index.ts"
     ]

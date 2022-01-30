@@ -346,14 +346,15 @@
     }
     .slidy-dots.pure li button {
         border-radius: 50%;
-        border: 1px solid red;
+        background: red;
+        opacity: 0.18;
         color: red;
         width: 12px;
         height: 12px;
         transition: color var(--dur);
     }
     .slidy-dots.pure li.active button {
-        background: red;
+        opacity: 1;
     }
     .arrow-left,
     .dots-arrow-left {

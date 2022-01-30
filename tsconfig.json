@@ -21,5 +21,13 @@
                 "www/src/api/api.js"
             ]
         }
-    }
+    },
+    "include": [
+        "www/src/**/*",
+        "utils/**/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "www/public/*"
+    ]
 }
