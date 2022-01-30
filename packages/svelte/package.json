@@ -5,7 +5,7 @@
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
-    "svelte": "src/index.js",
+    "svelte": "dist/index.js",
     "type": "module",
     "exports": {
         ".": {
@@ -20,7 +20,9 @@
         "dev:svelte": "node esbuild --svelte",
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
         "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist",
-        "pub": "pnpm build && pnpm publish --no-git-checks --access public"
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
+        "format": "prettier --ignore-path .gitignore --write .",
+        "transpile": "node transpile && prettier --write \"**/*.{js,ts,md,svelte,json}\""
     },
     "repository": {
         "type": "git",
@@ -57,9 +59,12 @@
         "derver": "^0.5.3",
         "esbuild": "^0.14.14",
         "esbuild-svelte": "^0.6.2",
+        "sass": "^1.49.0",
         "svelte": "^3.46.3",
         "svelte-preprocess": "^4.10.2",
-        "tslib": "^2.3.1"
+        "tsc": "^2.0.4",
+        "tslib": "^2.3.1",
+        "typescript": "^4.5.5"
     },
     "peerDependencies": {
         "svelte": "^3.42.4"

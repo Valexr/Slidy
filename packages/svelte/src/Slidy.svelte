@@ -212,11 +212,9 @@
         timeout > 0 ? setTimeout(() => (init = true), timeout) : (init = init);
         return slides;
     }
-
-    // $: console.log(slides);
 </script>
 
-<style>
+<style lang="scss">
     #loader {
         display: flex;
         width: 100%;
@@ -235,17 +233,38 @@
         height: var(--wraph);
         outline: 0;
         margin: auto;
+        ul {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            border: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        button {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            border-radius: 0;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.09);
+            cursor: pointer;
+            outline: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:active {
+                outline: 0;
+            }
+        }
     }
-    .slidy ul {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        list-style: none;
-        margin: 0;
-        border: 0;
-        user-select: none;
-        -webkit-user-select: none;
-    }
+
     .slidy-ul {
         width: 100%;
         height: 100%;
@@ -253,6 +272,31 @@
         position: relative;
         touch-action: pan-y;
         will-change: transform;
+        li {
+            flex: 1 0 auto;
+            position: relative;
+            overflow: var(--slideo);
+            opacity: 0;
+            z-index: 0;
+            transition: opacity var(--dur);
+            width: var(--slidew);
+            height: var(--slideh);
+            box-sizing: border-box;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: center;
+            background-size: var(--slidef);
+            background-color: transparent;
+            :global(img) {
+                width: 100%;
+                height: 100%;
+                display: block;
+                pointer-events: none;
+                max-width: var(--wrapw);
+                max-height: var(--wraph);
+                object-fit: var(--slidef);
+            }
+        }
     }
     .slidy-ul > * + * {
         margin: var(--slideg);
@@ -263,53 +307,8 @@
     .slidy.axisy .slidy-ul {
         flex-direction: column;
     }
-    .slidy-ul li {
-        flex: 1 0 auto;
-        position: relative;
-        overflow: var(--slideo);
-        opacity: 0;
-        z-index: 0;
-        transition: opacity var(--dur);
-        width: var(--slidew);
-        height: var(--slideh);
-        box-sizing: border-box;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
-        background-position: center;
-        background-size: var(--slidef);
-        background-color: transparent;
-    }
-    :global(.slidy-ul li img) {
-        width: 100%;
-        height: 100%;
-        display: block;
-        pointer-events: none;
-        /* max-width: var(--wrapw); */
-        /* max-height: var(--wraph); */
-        object-fit: var(--slidef);
-    }
     :global(.slidy.autowidth .slidy-ul li img) {
         width: auto;
-    }
-    .slidy button {
-        margin: 0;
-        border: 0;
-        padding: 0;
-        border-radius: 0;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        color: white;
-        background-color: rgba(0, 0, 0, 0.09);
-        cursor: pointer;
-        outline: 0;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .slidy button:active {
-        outline: 0;
     }
     .slidy li.active,
     .slidy li.active button {

@@ -1,16 +1,21 @@
 export function pannable(node) {
     const options = { passive: false };
-    let x = 0, y = 0
+    let x = 0,
+        y = 0;
 
-    function unify(e) { return e.changedTouches ? e.changedTouches[0] : e };
+    function unify(e) {
+        return e.changedTouches ? e.changedTouches[0] : e;
+    }
 
     function down(e) {
         x = unify(e).clientX;
         y = unify(e).clientY;
 
-        node.dispatchEvent(new CustomEvent('panstart', {
-            detail: { x, y }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('panstart', {
+                detail: { x, y },
+            })
+        );
 
         window.addEventListener('mousemove', move, options);
         window.addEventListener('mouseup', up, options);
@@ -27,18 +32,22 @@ export function pannable(node) {
         // 	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
         // }
 
-        node.dispatchEvent(new CustomEvent('panmove', {
-            detail: { x, y, dx, dy }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('panmove', {
+                detail: { x, y, dx, dy },
+            })
+        );
     }
 
     function up(e) {
         x = unify(e).clientX;
         y = unify(e).clientY;
 
-        node.dispatchEvent(new CustomEvent('panend', {
-            detail: { x, y }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('panend', {
+                detail: { x, y },
+            })
+        );
 
         window.removeEventListener('mousemove', move, options);
         window.removeEventListener('mouseup', up, options);
@@ -53,22 +62,24 @@ export function pannable(node) {
         destroy() {
             node.removeEventListener('mousedown', down, options);
             node.removeEventListener('touchstart', down, options);
-        }
+        },
     };
 }
 
 export function resize(node) {
-    let CR
-    let ET
+    let CR;
+    let ET;
 
     const ro = new ResizeObserver((entries, observer) => {
         for (let entry of entries) {
-            CR = entry.contentRect
-            ET = entry.target
+            CR = entry.contentRect;
+            ET = entry.target;
         }
-        node.dispatchEvent(new CustomEvent('resize', {
-            detail: { CR, ET }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('resize', {
+                detail: { CR, ET },
+            })
+        );
     });
 
     ro.observe(node);
@@ -76,15 +87,16 @@ export function resize(node) {
     return {
         destroy() {
             ro.disconnect();
-        }
-    }
+        },
+    };
 }
 
 export function wheel(node) {
-    let dx = 0, dy = 0
+    let dx = 0,
+        dy = 0;
 
     function handleWheel(e) {
-        if ((navigator.platform.indexOf('Win') > -1) && e.shiftKey) {
+        if (navigator.platform.indexOf('Win') > -1 && e.shiftKey) {
             dx = e.deltaY;
         } else {
             dx = e.deltaX * 1.5;
@@ -93,9 +105,11 @@ export function wheel(node) {
         if (dx !== 0) {
             e.preventDefault ? e.preventDefault() : (e.returnValue = false);
         }
-        node.dispatchEvent(new CustomEvent('wheels', {
-            detail: { dx, dy }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('wheels', {
+                detail: { dx, dy },
+            })
+        );
     }
 
     node.addEventListener('wheel', handleWheel, { passive: false });
@@ -103,6 +117,6 @@ export function wheel(node) {
     return {
         destroy() {
             node.removeEventListener('wheel', handleWheel);
-        }
+        },
     };
-};
+}

@@ -7,16 +7,9 @@
         "declarationDir": "dist/",
         "strict": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "Node"
     },
     "extends": "@tsconfig/svelte/tsconfig.json",
-    "include": [
-        "src/**/*",
-        "www/src/**/*",
-        "utils/**/*"
-    ],
-    "exclude": [
-        "node_modules/*",
-        "www/public/*"
-    ]
+    "include": ["src/**/*", "www/src/**/*", "utils/**/*"],
+    "exclude": ["node_modules/*", "www/public/*"]
 }

@@ -1,12 +1,12 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
-import sveltePlugin from "esbuild-svelte";
-import sveltePreprocess from "svelte-preprocess";
+import sveltePlugin from 'esbuild-svelte';
+import sveltePreprocess from 'svelte-preprocess';
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
 
-const options = {
+const svelteOptions = {
     compilerOptions: {
         dev: DEV,
         css: !SVELTE,
@@ -19,28 +19,32 @@ const options = {
         }),
     ],
 };
-
-const base = {
+const esbuidBase = {
     entryPoints: ['src/index.ts'],
     bundle: true,
     minify: true,
     sourcemap: false,
     legalComments: 'none',
     external: ['svelte', 'svelte/*'],
-    plugins: [sveltePlugin(options)]
-
-}
+    plugins: [sveltePlugin(svelteOptions)],
+};
+const derverConfig = {
+    dir: 'dev/public',
+    port: 3331,
+    host: '0.0.0.0',
+    watch: ['dev/public', 'dev/src/', 'src', '../core/dist'],
+};
 
 if (DEV) {
     build({
-        ...base,
+        ...esbuidBase,
         outfile: 'dist/slidy.mjs',
         format: 'esm',
         sourcemap: 'inline',
         incremental: true,
-        watch: true
-    }).then(bundle => {
-        console.log('watching @slidy/svelte...')
+        watch: true,
+    }).then((bundle) => {
+        console.log('watching @slidy/svelte...');
     });
 } else if (SVELTE) {
     build({
@@ -51,14 +55,10 @@ if (DEV) {
         sourcemap: 'inline',
         incremental: true,
         legalComments: 'none',
-        plugins: [sveltePlugin(options)]
+        plugins: [sveltePlugin(svelteOptions)],
     }).then((bundle) => {
-        const observed = ['dev/public', 'dev/src/', 'src', '../core/dist']
         derver({
-            dir: 'dev/public',
-            port: 3330,
-            host: '0.0.0.0',
-            watch: observed,
+            ...derverConfig,
             onwatch: async (lr, item) => {
                 if (item !== 'dev/public') {
                     lr.prevent();
@@ -74,18 +74,17 @@ if (DEV) {
 } else {
     (async () => {
         await build({
-            ...base,
+            ...esbuidBase,
             outfile: 'dist/slidy.cjs',
             format: 'cjs',
-
         });
         await build({
-            ...base,
+            ...esbuidBase,
             outfile: 'dist/slidy.mjs',
-            format: "esm",
+            format: 'esm',
         });
         await build({
-            ...base,
+            ...esbuidBase,
             outfile: 'dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',

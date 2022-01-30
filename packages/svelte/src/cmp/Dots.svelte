@@ -1,7 +1,3 @@
-<script>
-    export let index, controls, options, dots;
-</script>
-
 <ul class="slidy-dots" class:pure={controls.dotspure}>
     {#if controls.dotsarrow}
         {#if !options.loop}
@@ -17,9 +13,14 @@
         {/if}
     {/if}
     {#each dots as dot, i}
-        <li class:active={i === index} on:click|stopPropagation={() => (index = i)}>
+        <li
+            class:active={i === index}
+            on:click|stopPropagation={() => (index = i)}
+        >
             <slot name="dot" {dot}>
-                <button>{controls.dotsnum && !controls.dotspure ? i : ''}</button>
+                <button
+                    >{controls.dotsnum && !controls.dotspure ? i : ''}</button
+                >
             </slot>
         </li>
     {/each}
@@ -27,7 +28,8 @@
         {#if !options.loop}
             {#if index < dots.length - 1}
                 <li class="dots-arrow-right" on:click={() => index++}>
-                    <slot name="dots-arrow-right"><button>&#8594;</button></slot>
+                    <slot name="dots-arrow-right"><button>&#8594;</button></slot
+                    >
                 </li>
             {/if}
         {:else}
@@ -37,6 +39,10 @@
         {/if}
     {/if}
 </ul>
+
+<script>
+    export let index, controls, options, dots;
+</script>
 
 <style>
     .slidy-dots {

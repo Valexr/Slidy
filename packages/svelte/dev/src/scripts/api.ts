@@ -19,7 +19,7 @@ export async function getPhotos(
             mode: 'cors',
             headers: {
                 // AccessControlAllowOrigin: 'https://picsum.photos'
-            }
+            },
         }
     ).then((res) => res.json());
     return res.map((item: Item) => {

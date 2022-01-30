@@ -51,18 +51,18 @@ To use `Slidy` use named import. The only required props are `slides` - an array
 of objects with image related data:
 
 ```svelte
+<Slidy {slides} />
+
 <script>
-    import { Slidy } from "svelte-slidy";
+    import { Slidy } from 'svelte-slidy';
 
     const slides = [
         {
             id: 1,
-            src: "static/img/some-image.webp"
-        }
+            src: 'static/img/some-image.webp',
+        },
     ];
 </script>
-
-<Slidy {slides} />
 ```
 
 ## Options
@@ -74,29 +74,31 @@ instance should have it's own options.
 Example with all available options and their default values:
 
 ```svelte
+<Slidy {...options} />;
+
 <script>
-    import { Slidy } from "svelte-slidy";
+    import { Slidy } from 'svelte-slidy';
 
     const options = {
         slides: [],
-        key = (item) => item.id || item[slide.imgsrckey],
+        key: (item) => item.id || item[slide.imgsrckey],
         wrap: {
-            id: "",
-            width: "100%",
-            height: "50%",
-            padding: "0",
-            align: "middle",
+            id: '',
+            width: '100%',
+            height: '50%',
+            padding: '0',
+            align: 'middle',
             alignmargin: 50,
         },
         slide: {
             gap: 50,
-            class: "",
-            width: "50%",
-            height: "100%",
+            class: '',
+            width: '50%',
+            height: '100%',
             backimg: true,
-            imgsrckey: "src",
-            objectfit: "cover",
-            overflow: "hidden",
+            imgsrckey: 'src',
+            objectfit: 'cover',
+            overflow: 'hidden',
         },
         controls: {
             dots: true,
@@ -109,14 +111,12 @@ Example with all available options and their default values:
             wheel: true,
         },
         options: {
-            axis: "x",
+            axis: 'x',
             loop: false,
             duration: 550,
         },
     };
 </script>
-
-<Slidy {...options} />;
 ```
 
 ## Custom styling
@@ -125,16 +125,16 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
 `:global()` to get necessary specifity.
 
 ```svelte
+<Slidy {...options} />
+
 <script>
-    import { Slidy } from "svelte-slidy";
+    import { Slidy } from 'svelte-slidy';
 
     const options = {
         slides: [],
-        id: "slidy-id"
+        id: 'slidy-id',
     };
 </script>
-
-<Slidy {...options} />
 
 <style>
     :global(#slidy-id) {
@@ -160,9 +160,9 @@ To customize default `Slidy` nodes markup styles, provide an `id` use
         <li class="dots-arrow-left">
             <!-- next slide dots control node -->
         </li>
-    <li>
-        <!-- dots node -->
-    </li>
+        <li>
+            <!-- dots node -->
+        </li>
         <li class="dots-arrow-left">
             <!-- previous slide dots control node -->
         </li>
@@ -175,7 +175,7 @@ above:
 
 ```svelte
 <style>
-    :global("slidy-instance-id" .dots-arrow-left) {
+    :global('slidy-instance-id' .dots-arrow-left) {
         /* your custom CSS styles */
     }
 </style>
@@ -188,22 +188,17 @@ variable to hold the index and bind it to the `Slidy` instance to control the
 slides navigation.
 
 ```svelte
+<button on:click={() => (index += 1)}> Next slide </button>
+
+<Slidy bind:index slides />
+
 <script>
-    import { Slidy } from "svelte-slidy";
+    import { Slidy } from 'svelte-slidy';
 
     const slides = [];
 
     let index = 0;
 </script>
-
-<button on:click={() => index += 1}>
-    Next slide
-</button>
-
-<Slidy
-    bind:index
-    slides
-/>
 ```
 
 ## Custom slides
@@ -212,74 +207,76 @@ Sometimes the default markup is not enough. For custom slides markup use
 `let:item` directive:
 
 ```svelte
-<script>
-    import { Slidy } from "svelte-slidy";
-
-    const slides = [
-        {
-            id: 1,
-            src: "/img.webp",
-            figcaption: "Some text here"
-        }
-    ];
-</script>
-
 <Slidy slides let:item>
     <figure>
-        <img src={item.src} alt={item.figcaption}>
+        <img src={item.src} alt={item.figcaption} />
         <figcaption>
             {item.figcaption}
         </figcaption>
     </figure>
 </Slidy>
+
+<script>
+    import { Slidy } from 'svelte-slidy';
+
+    const slides = [
+        {
+            id: 1,
+            src: '/img.webp',
+            figcaption: 'Some text here',
+        },
+    ];
+</script>
 ```
 
 ## Custom nodes
 
 `Slidy` supports customization of it's nodes via slots:
 
-- `<slot />` for slides;
-- `<slot name="loader" />` for loading indicator;
-- `<slot name="arrow-left">` for the previous slide control;
-- `<slot name="arrow-right">` for the next slide control;
-- `<slot name="dots-arrow-left">` for previous slide control at dots;
-- `<slot name="dots-arrow-right">` for next slide control at dots;
-- `<slot name="dots">` for custom dots controls.
+-   `<slot />` for slides;
+-   `<slot name="loader" />` for loading indicator;
+-   `<slot name="arrow-left">` for the previous slide control;
+-   `<slot name="arrow-right">` for the next slide control;
+-   `<slot name="dots-arrow-left">` for previous slide control at dots;
+-   `<slot name="dots-arrow-right">` for next slide control at dots;
+-   `<slot name="dots">` for custom dots controls.
 
 Example:
 
 ```svelte
-<script>
-    import { Slidy } from "svelte-slidy";
-
-    const slides = [];
-</script>
-
 <Slidy slides>
     <!-- custom dots indicators -->
     <button slot="dot" />
 </Slidy>
+
+<script>
+    import { Slidy } from 'svelte-slidy';
+
+    const slides = [];
+</script>
 ```
+
 ### SvelteKit
+
 > Important note: slots are [not SSR compatible](https://github.com/Valexr/svelte-slidy/issues/21) yet.
 > Check if the code runs in the browser before render.
 
 Example for `svelte\kit` users:
 
 ```svelte
-<script>
-    import { Slidy } from "svelte-slidy";
-    import { browser } from "$app/env";
-
-    const slides = [];
-</script>
-
 {#if browser}
     <Slidy slides>
         <!-- custom dots indicators -->
         <button slot="dot" />
     </Slidy>
 {/if}
+
+<script>
+    import { Slidy } from 'svelte-slidy';
+    import { browser } from '$app/env';
+
+    const slides = [];
+</script>
 ```
 
 ## License

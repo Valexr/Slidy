@@ -3,16 +3,25 @@ import { derver } from 'derver'
 
 const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
-const base = {
+
+const esbuildBase = {
     bundle: true,
     minify: true,
     sourcemap: false,
     legalComments: 'none',
     entryPoints: ['src/slidy.ts']
 }
+const derverConfig = {
+    dir: 'dev',
+    index: 'dev.html',
+    port: 3330,
+    host: '0.0.0.0',
+    watch: ['dev', 'src'],
+}
+
 if (DEV) {
     build({
-        ...base,
+        ...esbuildBase,
         minify: false,
         outfile: 'dist/slidy.mjs',
         format: 'esm',
@@ -23,7 +32,7 @@ if (DEV) {
     });
 } else if (CORE) {
     build({
-        ...base,
+        ...esbuildBase,
         minify: false,
         outfile: 'dev/dev.js',
         globalName: 'Slidy',
@@ -31,13 +40,9 @@ if (DEV) {
         incremental: true
     }).then(bundle => {
         derver({
-            dir: 'dev',
-            index: 'dev.html',
-            port: 3333,
-            host: '0.0.0.0',
-            watch: ['dev', 'src'],
+            ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item === 'src') {
+                if (item !== 'dev') {
                     lr.prevent();
                     try {
                         await bundle.rebuild();
@@ -53,24 +58,24 @@ if (DEV) {
         await build({
             outfile: 'dist/slidy.cjs',
             format: 'cjs',
-            ...base
+            ...esbuildBase
         });
         await build({
             outfile: 'dist/slidy.mjs',
             format: 'esm',
-            ...base
+            ...esbuildBase
         })
         await build({
             outfile: 'dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',
-            ...base
+            ...esbuildBase
         });
         await build({
             outfile: 'dev/dev.js',
             globalName: 'Slidy',
             format: 'iife',
-            ...base
+            ...esbuildBase
         });
     })();
 }

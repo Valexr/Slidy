@@ -5,7 +5,7 @@ import sveltePreprocess from 'svelte-preprocess';
 
 const DEV = process.argv.includes('--dev');
 
-const options = {
+const svelteOptions = {
     compilerOptions: {
         dev: DEV,
         css: false
@@ -29,20 +29,18 @@ async function build_client() {
         platform: 'browser',
         external: ['../img/*'],
         mainFields: ['svelte', 'module', 'main', 'browser'],
-        plugins: [sveltePlugin(options)],
+        plugins: [sveltePlugin(svelteOptions)],
         logLevel: 'debug'
     });
 }
-
-const observed = ['www/public', 'www/src', 'packages/svelte/dist', 'packages/core/dist']
 
 build_client().then(bundle => {
     if (DEV) {
         derver({
             dir: 'www/public',
-            port: 3000,
+            port: 3339,
             host: '0.0.0.0',
-            watch: observed,
+            watch: ['www/public', 'www/src', 'packages/svelte/dist', 'packages/core/dist'],
             onwatch: async (lr, item) => {
                 if (item !== 'www/public') {
                     lr.prevent();
