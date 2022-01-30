@@ -1,7 +1,6 @@
 <svelte:options immutable={true} />
 
 <section
-    role="region"
     tabindex="0"
     aria-label="Slidy"
     id={wrap.id}
