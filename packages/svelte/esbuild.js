@@ -1,4 +1,6 @@
-import { build } from 'esbuild';
+import { readFile, readFileSync, writeFile, writeFileSync } from 'fs';
+import { build, transformSync } from 'esbuild';
+import { preprocess } from 'svelte/compiler';
 import { derver } from 'derver';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
@@ -89,5 +91,23 @@ if (DEV) {
             globalName: 'Slidy',
             format: 'iife',
         });
+        preprocess(source, transpilator, 'Slidy.svelte').then(({ code }) => {
+            const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
+            writeFileSync('./dist/Slidy.svelte', transpiled);
+        });
     })();
 }
+
+const source = readFileSync('./src/Slidy.svelte').toString();
+
+const transpilator = [
+    sveltePreprocess({
+        typescript({ content }) {
+            const { code, map } = transformSync(content, {
+                loader: 'ts',
+                banner: `import { slidy } from "@slidy/core"`,
+            });
+            return { code, map };
+        },
+    }),
+];
