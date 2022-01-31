@@ -24,7 +24,7 @@ var Slidy = (() => {
     )(typeof WeakMap != 'undefined' ? new WeakMap() : 0);
     var Te = {};
     he(Te, { slidy: () => we });
-    function G(e) {
+    function X(e) {
         return new Promise((n, r) => {
             let i,
                 s = 0;
@@ -34,15 +34,15 @@ var Slidy = (() => {
                         console.log(s, e.children.length),
                         e.children.length > 2
                             ? (clearInterval(i),
-                              Array.from(e.children).forEach((l, E) => {
-                                  l.dataset.index = E;
+                              Array.from(e.children).forEach((a, E) => {
+                                  a.dataset.index = E;
                               }),
                               n(e.children))
                             : s >= 69 && (clearInterval(i), r("Slidy haven't items"));
                 }, 16));
         });
     }
-    function O(e, n, r) {
+    function S(e, n, r) {
         return Math.min(e, Math.max(n, r)) || 0;
     }
     function I(e, n, r = !1) {
@@ -52,7 +52,7 @@ var Slidy = (() => {
                 : n > h(e).length - 1
                 ? 0
                 : n
-            : O(h(e).length - 1, 0, n);
+            : S(h(e).length - 1, 0, n);
     }
     function b(e, n) {
         return e.type === 'wheel'
@@ -60,10 +60,10 @@ var Slidy = (() => {
                 ? e.deltaY
                 : e.deltaX
             : n === 'y'
-            ? J(e).clientY
-            : J(e).clientX;
+            ? G(e).clientY
+            : G(e).clientX;
     }
-    var J = (e) => (e.changedTouches ? e.changedTouches[0] : e),
+    var G = (e) => (e.changedTouches ? e.changedTouches[0] : e),
         Ee = (e) => Math.floor(e.children.length / 2),
         h = (e) => Array.from(e.children),
         be = (e, n) => e.children[n],
@@ -74,9 +74,9 @@ var Slidy = (() => {
         ye = (e, n, r) => e.parentElement[K(r)] - n[K(r)],
         P = (e, n, r, i) => n[ge(r)] - Me(i, ye(e, n, r) * pe(i));
     function Q(e, n, r, i) {
-        return h(e).reduce((s, l, E) => {
+        return h(e).reduce((s, a, E) => {
             let g = (v) => P(e, v, r, i);
-            return Math.abs(g(l) - n) < Math.abs(g(s) - n) ? l : s;
+            return Math.abs(g(a) - n) < Math.abs(g(s) - n) ? a : s;
         });
     }
     var d = {
@@ -107,11 +107,11 @@ var Slidy = (() => {
                 gap: r = 0,
                 index: i = 0,
                 axis: s = 'x',
-                loop: l = !1,
+                loop: a = !1,
                 snap: E = !1,
                 clamp: g = !1,
                 gravity: v = 1.2,
-                duration: S = 375,
+                duration: O = 375,
                 align: p = 'start',
                 indexer: Z = (t) => t,
                 scroller: _ = (t) => t,
@@ -122,15 +122,15 @@ var Slidy = (() => {
             k = 0,
             c = 0,
             T = 0,
-            U = 0,
+            N,
             ee = c,
             y = i,
             u = e.parentElement,
             x = requestAnimationFrame,
-            j = new ResizeObserver(() => {
+            U = new ResizeObserver(() => {
                 e.dispatchEvent(new CustomEvent('resize')), m(i);
             });
-        G(e)
+        X(e)
             .then((t) => {
                 console.log('mounted'),
                     (e.style.userSelect = 'none'),
@@ -138,22 +138,22 @@ var Slidy = (() => {
                     (e.style.pointerEvents = 'none'),
                     (e.style.willChange = 'auto'),
                     (e.style.webkitUserSelect = 'none'),
-                    D(e, i, l),
+                    D(e, i, a),
                     m(i),
                     u &&
                         (u.addEventListener('touchstart', A),
                         u.addEventListener('mousedown', A),
-                        u.addEventListener('keydown', X),
-                        u.addEventListener('wheel', N),
+                        u.addEventListener('keydown', J),
+                        u.addEventListener('wheel', j),
                         (u.oncontextmenu = () => M()),
                         (u.style.outline = 'none'),
-                        j.observe(u));
+                        U.observe(u));
             })
             .catch((t) => console.error(t));
         function H(t, o = 0) {
-            (c += l ? te(t) : t), (i = d.index(e, c, void 0, s, p, l));
-            let a = (f) => (f === 'y' ? `0, ${-c}px, 0` : `${-c}px, 0, 0`);
-            (e.style.transform = `translate3d(${a(s)})`),
+            (c += a ? te(t) : t), (i = d.index(e, c, void 0, s, p));
+            let l = (f) => (f === 'y' ? `0, ${-c}px, 0` : `${-c}px, 0, 0`);
+            (e.style.transform = `translate3d(${l(s)})`),
                 (e.style.transition = `${o}ms`),
                 (e.dataset.position = `${c}`),
                 (e.dataset.index = `${i}`),
@@ -162,44 +162,44 @@ var Slidy = (() => {
         }
         function te(t) {
             let o = ee - t,
-                a = d.size(e, 0, s),
+                l = d.size(e, 0, s),
                 f = d.size(e, e.children.length - 1, s),
                 L = (W) => (W + r) * Math.sign(-t);
             return (
                 y !== i &&
-                    (t > 0 ? V(e, s) : B(e, s), (t += L(t > 0 ? a : f)), (T = c + t + o)),
+                    (t > 0 ? V(e, s) : B(e, s), (t += L(t > 0 ? l : f)), (T = c + t + o)),
                 (y = i),
                 t
             );
         }
         function m(t, o = null) {
-            M(), (t = y = I(e, t, l));
-            let a = d.child(e, t),
-                f = l ? d.index(e, c, a, s, p, l) : t,
+            M(), (t = y = I(e, t, a));
+            let l = d.child(e, t),
+                f = a ? d.index(e, c, l, s, p) : t,
                 L = o
                     ? E
-                        ? d.target(e, o, s, p, l)
+                        ? d.target(e, o, s, p)
                         : o
                     : o === 0
                     ? 0
-                    : d.position(e, f, s, p, l);
-            H(L - c, S);
+                    : d.position(e, f, s, p);
+            H(L - c, O);
         }
         function ne(t) {
-            x(function o(a) {
-                let f = (1e3 * (c - T)) / (1 + (a - t));
-                (w = (2 - v) * f + O(1, 0, 1 - v) * w), (t = a), (T = c), (q = x(o));
+            x(function o(l) {
+                let f = (1e3 * (c - T)) / (1 + (l - t));
+                (w = (2 - v) * f + S(1, 0, 1 - v) * w), (t = l), (T = c), (q = x(o));
             });
         }
-        function re({ target: t, amplitude: o, duration: a, timestamp: f }) {
+        function re({ target: t, amplitude: o, duration: l, timestamp: f }) {
             o &&
                 x(function L(W) {
-                    let le = (W - f) / a,
+                    let le = (W - f) / l,
                         R = o * Math.exp(-le),
                         ae = c - (t - R);
-                    H(l ? R / 16.7 : -ae),
+                    H(a ? R / 16.7 : -ae),
                         (Y = Math.abs(R) > 0.5 ? x(L) : 0),
-                        l && Math.abs(R) < 5 && m(i);
+                        a && Math.abs(R) < 5 && m(i);
                 });
         }
         function A(t) {
@@ -219,26 +219,26 @@ var Slidy = (() => {
         }
         function z(t) {
             M();
-            let { target: o, amplitude: a } = ie(c);
-            Math.abs(a) > 10 &&
+            let { target: o, amplitude: l } = ie(c);
+            Math.abs(l) > 10 &&
                 (Math.abs(w) < 100
                     ? m(i)
                     : g
                     ? m(i, o)
                     : re({
                           target: o,
-                          amplitude: a,
-                          duration: S,
+                          amplitude: l,
+                          duration: O,
                           timestamp: performance.now(),
                       }));
         }
         function ie(t) {
             let o = (2 - v) * w,
-                a = E ? d.target(e, t + o, s, p, l) : t + o;
-            return (o = a - t), { target: a, amplitude: o };
+                l = E ? d.target(e, t + o, s, p) : t + o;
+            return (o = l - t), { target: l, amplitude: o };
         }
         let F = !1;
-        function N(t) {
+        function j(t) {
             M(),
                 (F = !0),
                 ((Math.abs(b(t, 'x')) && Math.abs(b(t, 'y')) < 15) || t.shiftKey) &&
@@ -247,16 +247,16 @@ var Slidy = (() => {
                 t.shiftKey
                     ? m(i - Math.sign(t.deltaY))
                     : (E || g) &&
-                      (U = setTimeout(() => {
+                      (N = setTimeout(() => {
                           m(i), (F = !1);
                       }, 100));
         }
-        function X(t) {
+        function J(t) {
             t.key === 'ArrowLeft' ? m(i - 1) : t.key === 'ArrowRight' && m(i + 1);
         }
         function M() {
             (y = F ? y : i),
-                clearTimeout(U),
+                clearTimeout(N),
                 cancelAnimationFrame(Y),
                 cancelAnimationFrame(q),
                 window.removeEventListener('touchmove', C),
@@ -265,26 +265,26 @@ var Slidy = (() => {
                 window.removeEventListener('mouseup', z);
         }
         function se(t) {
-            (S = t.duration || 375),
-                (v = O(2, 0, t.gravity || 1.2)),
+            (O = t.duration || 375),
+                (v = S(2, 0, t.gravity || 1.2)),
                 (s = t.axis || 'x'),
                 (p = t.align || 'middle'),
                 (E = t.snap || !0),
                 (g = t.clamp || !1),
                 (r = t.gap || 0),
-                i !== t.index && ((i = I(e, t.index || 0, l)), m(i)),
-                l !== t.loop && ((l = t.loop || !1), D(e, i, l), m(i));
+                i !== t.index && ((i = I(e, t.index || 0, a)), m(i)),
+                a !== t.loop && ((a = t.loop || !1), D(e, i, a), m(i));
         }
         function oe() {
             M(),
-                j.disconnect(),
+                U.disconnect(),
                 u &&
                     ((u.onresize = null),
                     (u.oncontextmenu = null),
                     u.removeEventListener('touchstart', A),
                     u.removeEventListener('mousedown', A),
-                    u.removeEventListener('keydown', X),
-                    u.removeEventListener('wheel', N));
+                    u.removeEventListener('keydown', J),
+                    u.removeEventListener('wheel', j));
         }
         return { update: se, destroy: oe, to: m };
     }

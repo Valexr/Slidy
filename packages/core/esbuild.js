@@ -44,11 +44,9 @@ if (DEV) {
             onwatch: async (lr, item) => {
                 if (item !== 'dev') {
                     lr.prevent();
-                    try {
-                        await bundle.rebuild();
-                    } catch (err) {
-                        lr.error(err.message, 'TS compile Error');
-                    }
+                    bundle
+                        .rebuild()
+                        .catch((err) => lr.error(err.message, 'TS compile error'));
                 }
             },
         });

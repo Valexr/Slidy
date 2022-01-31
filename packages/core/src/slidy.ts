@@ -42,7 +42,7 @@ export function slidy(
         position = 0,
         frame = 0,
         // dragtime: NodeJS.Timer,
-        wheeltime: number = 0,
+        wheeltime: NodeJS.Timeout,
         hip = position,
         hix = index;
 
@@ -84,7 +84,7 @@ export function slidy(
 
     function move(pos: number, transition: number = 0) {
         position += loop ? looping(pos) : pos;
-        index = find.index(node, position, undefined, axis, align, loop);
+        index = find.index(node, position, undefined, axis, align);
 
         const translate = (axis: string) => {
             return axis === 'y' ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
@@ -122,15 +122,15 @@ export function slidy(
 
         index = hix = indexing(node, index, loop);
         const child = find.child(node, index);
-        const ix = loop ? find.index(node, position, child, axis, align, loop) : index;
+        const ix = loop ? find.index(node, position, child, axis, align) : index;
 
         let pos = target
             ? snap
-                ? find.target(node, target, axis, align, loop)
+                ? find.target(node, target, axis, align)
                 : target
             : target === 0
             ? 0
-            : find.position(node, ix, axis, align, loop);
+            : find.position(node, ix, axis, align);
 
         // clamp && replace(node, index, loop)
         // console.log('to:', ix, index, target, pos - position)
@@ -216,7 +216,7 @@ export function slidy(
     function delting(position: number): Delta {
         let amplitude = (2 - gravity) * velocity;
         const target = snap
-            ? find.target(node, position + amplitude, axis, align, loop)
+            ? find.target(node, position + amplitude, axis, align)
             : position + amplitude;
         amplitude = target - position;
         return { target, amplitude };

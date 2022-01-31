@@ -69,11 +69,7 @@ if (DEV) {
             onwatch: async (lr, item) => {
                 if (item !== 'dev/public') {
                     lr.prevent();
-                    try {
-                        await bundle.rebuild();
-                    } catch (err) {
-                        lr.error(err.message, 'Svelte compile Error');
-                    }
+                    bundle.rebuild().catch(err => lr.error(err.message, 'Svelte compile error'));
                 }
             },
         });
