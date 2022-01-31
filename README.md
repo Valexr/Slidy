@@ -4,7 +4,7 @@
 
 # SLIDY
 
-Simple, configurable & reusable carousel sliding action script with templates
+Simple, configurable & reusable carousel sliding action script with templates.
 
 Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Valexr/svelte-slidy/tree/dev/packages) structure:
 - [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core) - Core sliding nativeJS script
