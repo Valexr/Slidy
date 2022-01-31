@@ -43,7 +43,7 @@
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
     },
-    "homepage": "https://slidy.valexr.online",
+    "homepage": "https://valexr.github.io/slidy",
     "prettier": {
         "tabWidth": 4,
         "semi": true,
