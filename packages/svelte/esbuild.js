@@ -5,6 +5,11 @@ import { derver } from 'derver';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 
+const pkg = JSON.parse(
+    readFileSync(new URL('package.json', import.meta.url), 'utf8')
+);
+console.log(pkg);
+
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
 

@@ -10,6 +10,6 @@
         "moduleResolution": "Node"
     },
     "extends": "@tsconfig/svelte/tsconfig.json",
-    "include": ["src/**/*", "www/src/**/*", "utils/**/*"],
-    "exclude": ["node_modules/*", "www/public/*"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules/*", "dist/*", "dev/public/*"]
 }

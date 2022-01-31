@@ -1,162 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="dev.css" />
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" href="dev.css" />
+        <title>Slidy 3.0 - NativeJS</title>
 
-    <title>Slidy 3.0 - NativeJS</title>
+        <script defer src="dev.js"></script>
+        <style>
+            nav#dots {
+                gap: 0.5ex;
+            }
+        </style>
+        <script>
+            let index = 15,
+                scrollPos = 0,
+                slidy = null,
+                snap = true,
+                stend = false,
+                images = true,
+                dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
+                slides = [],
+                page = randomQ(1, 69),
+                limit = 30,
+                node = null,
+                nav = null,
+                stats = null;
 
-    <script defer src="dev.js"></script>
-    <style>
-        nav#dots {
-            gap: 0.5ex;
-        }
-    </style>
-    <script>
-        let index = 15,
-            scrollPos = 0,
-            slidy = null,
-            snap = true,
-            stend = false,
-            images = true,
-            dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-            slides = [],
-            page = randomQ(1, 69),
-            limit = 30,
-            node = null,
-            nav = null,
-            stats = null;
+            function prev() {
+                slidy.to(index - 1);
+            }
+            function next() {
+                slidy.to(index + 1);
+            }
+            function goto(i) {
+                slidy.to(i);
+            }
+            function randomQ(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
 
-        function prev() {
-            slidy.to(index - 1);
-        }
-        function next() {
-            slidy.to(index + 1);
-        }
-        function goto(i) {
-            slidy.to(i);
-        }
-        function randomQ(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+            function activate(node, prop) {
+                node.classList.toggle('active');
+                return (prop = !prop);
+            }
 
-        function activate(node, prop) {
-            node.classList.toggle('active');
-            return (prop = !prop);
-        }
+            async function getPhotos(node, page, limit) {
+                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`).then(
+                    async (res) => {
+                        const photos = await res.json();
+                        node.innerHTML = photos
+                            .map(
+                                (d, i) =>
+                                    `<li data-id="${i}"><img src="${
+                                        d.download_url
+                                    }" width="${d.width / 5}" height="${
+                                        d.height / 5
+                                    }" alt="${i}" loading="lazy"/></li>`
+                            )
+                            .join('');
+                        nav.innerHTML = photos
+                            .map(
+                                (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
+                            )
+                            .join('');
+                    }
+                );
+            }
 
-        async function getPhotos(node, page, limit) {
-            fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`).then(
-                async (res) => {
-                    const photos = await res.json();
-                    node.innerHTML = photos
-                        .map(
-                            (d, i) =>
-                                `<li data-id="${i}"><img src="${d.download_url
-                                }" width="${d.width / 5}" height="${d.height / 5
-                                }" alt="${i}" loading="lazy"/></li>`
-                        )
-                        .join('');
-                    nav.innerHTML = photos
-                        .map(
-                            (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
-                        )
-                        .join('');
+            window.onload = () => {
+                console.log(window.Slidy);
+
+                node = document.querySelector('#slidy');
+                nav = document.querySelector('#dots');
+                stats = document.querySelector('#stats');
+
+                getPhotos(node, page, limit).then(() => {
+                    slidy = Slidy.slidy(node, {
+                        index,
+                        axis: 'x',
+                        align: 'middle',
+                        duration: 375,
+                        snap,
+                        gravity: 1.2,
+                        clamp: false,
+                        loop: false,
+                        indexer: (x) => indexing(x),
+                        scroller: (p) => scrolling(p),
+                    });
+                    slidy.to(index);
+                });
+
+                function scrolling(p) {
+                    scrollPos = p;
+                    stats.innerHTML = `index: [<b>${index}</b>], scrollPos: <b>${Math.trunc(
+                        scrollPos
+                    )}</b>px`;
                 }
-            );
-        }
 
-        window.onload = () => {
-            console.log(window.Slidy);
+                function indexing(x) {
+                    index = x;
+                    Array.from(node.children).forEach((n, i) =>
+                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                    Array.from(nav.children).forEach((n, i) =>
+                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                }
 
-            node = document.querySelector('#slidy');
-            nav = document.querySelector('#dots');
-            stats = document.querySelector('#stats');
-
-            getPhotos(node, page, limit).then(() => {
-                slidy = Slidy.slidy(node, {
-                    index,
-                    axis: 'x',
-                    align: 'middle',
-                    duration: 375,
-                    snap,
-                    gravity: 1.2,
-                    clamp: false,
-                    loop: false,
-                    indexer: (x) => indexing(x),
-                    scroller: (p) => scrolling(p),
+                const observer = new MutationObserver((mutationRecords, observer) => {
+                    mutationRecords.forEach((record) => {
+                        // console.log(index, scrollPos, node.SLIDY)
+                        // console.dir(record)
+                        // console.dir(record.target.dataset.position)
+                        // slidy.update(options)
+                        // record.target.classList.toggle('active')
+                        // console.log(index, scrollPos)
+                    });
+                    // console.dir(mutationRecords.target.style.transform); // console.log(изменения)
                 });
-                slidy.to(index);
-            });
+                const options = {
+                    childList: true, // наблюдать за непосредственными детьми
+                    subtree: true, // и более глубокими потомками
+                    characterDataOldValue: true, // передавать старое значение в колбэк
+                    attributes: true,
+                    attributeFilter: ['style', 'data-index'],
+                    characterData: true,
+                };
+                // observer.observe(node, options);
 
-            function scrolling(p) {
-                scrollPos = p;
-                stats.innerHTML = `index: [<b>${index}</b>], scrollPos: <b>${Math.trunc(
-                    scrollPos
-                )}</b>px`;
-            }
-
-            function indexing(x) {
-                index = x;
-                Array.from(node.children).forEach((n, i) =>
-                    i === x ? n.classList.add('active') : n.classList.remove('active')
-                );
-                Array.from(nav.children).forEach((n, i) =>
-                    i === x ? n.classList.add('active') : n.classList.remove('active')
-                );
-            }
-
-            const observer = new MutationObserver((mutationRecords, observer) => {
-                mutationRecords.forEach((record) => {
-                    // console.log(index, scrollPos, node.SLIDY)
-                    // console.dir(record)
-                    // console.dir(record.target.dataset.position)
-                    // slidy.update(options)
-                    // record.target.classList.toggle('active')
-                    // console.log(index, scrollPos)
-                });
-                // console.dir(mutationRecords.target.style.transform); // console.log(изменения)
-            });
-            const options = {
-                childList: true, // наблюдать за непосредственными детьми
-                subtree: true, // и более глубокими потомками
-                characterDataOldValue: true, // передавать старое значение в колбэк
-                attributes: true,
-                attributeFilter: ['style', 'data-index'],
-                characterData: true,
+                // slidy.to(15)
+                // slidy.update()
+                // slidy.destroy()
             };
-            // observer.observe(node, options);
+        </script>
+    </head>
 
-            // slidy.to(15)
-            // slidy.update()
-            // slidy.destroy()
-        };
-    </script>
-</head>
-
-<body>
-    <fieldset>
-        <legend>
-            <h1>Slidy 3.0<sup>nativeJS</sup></h1>
-            <button onclick="activate(this, stend)">stend</button>
-            <button onclick="activate(this, images)">images</button>
-            <button onclick="activate(this, dark)">dark</button>
-        </legend>
-        <p id="stats" />
-    </fieldset>
-    <main>
-        <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
-            <ul id="slidy" />
-        </section>
-        <nav id="dots"></nav>
-        <nav>
-            <button onclick="slidy.to(index - 1)">←</button>
-            <button onclick="slidy.to(index + 1)">→</button>
-            <button onclick="getPhotos(node, randomQ(1, 69), 30)">refresh</button>
-            <button onclick="activate(this, null), slidy.update({
+    <body>
+        <fieldset>
+            <legend>
+                <h1>Slidy 3.0<sup>nativeJS</sup></h1>
+                <button onclick="activate(this, stend)">stend</button>
+                <button onclick="activate(this, images)">images</button>
+                <button onclick="activate(this, dark)">dark</button>
+            </legend>
+            <p id="stats" />
+        </fieldset>
+        <main>
+            <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
+                <ul id="slidy" />
+            </section>
+            <nav id="dots"></nav>
+            <nav>
+                <button onclick="slidy.to(index - 1)">←</button>
+                <button onclick="slidy.to(index + 1)">→</button>
+                <button onclick="getPhotos(node, randomQ(1, 69), 30)">refresh</button>
+                <button
+                    onclick="activate(this, null), slidy.update({
                 index,
                 axis: 'x',
                 align: 'middle',
@@ -166,11 +168,12 @@
                 clamp: false,
                 indexer: (x) => (index = x),
                 scroller: (p) => scrolling(p)
-                })" class:active="{anchored}">
-                snap
-            </button>
-        </nav>
-    </main>
-</body>
-
+                })"
+                    class:active="{anchored}"
+                >
+                    snap
+                </button>
+            </nav>
+        </main>
+    </body>
 </html>

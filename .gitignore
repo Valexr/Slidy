@@ -1,8 +1,9 @@
 .vscode
-dist
 node_modules
-www/public/build
+dist
+build
 
 Icon?
 .DS_Store
 *-lock.*
+*.log

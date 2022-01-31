@@ -1,1 +1,1 @@
-export { slidy } from './slidy'
+export { slidy } from './slidy';

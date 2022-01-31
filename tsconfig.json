@@ -23,8 +23,7 @@
         }
     },
     "include": [
-        "www/src/**/*",
-        "utils/**/*"
+        "www/src/**/*"
     ],
     "exclude": [
         "node_modules/*",

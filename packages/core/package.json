@@ -5,8 +5,8 @@
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
-    "type": "module",
     "types": "./dist/index.d.ts",
+    "type": "module",
     "files": [
         "dist/*"
     ],
@@ -22,8 +22,9 @@
         "dev": "node esbuild --dev",
         "dev:core": "node esbuild --core",
         "dev:svelte": "node esbuild --dev",
-        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist",
-        "pub": "pnpm build && pnpm publish --no-git-checks --access public"
+        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
+        "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,json,html,css}'"
     },
     "repository": {
         "type": "git",

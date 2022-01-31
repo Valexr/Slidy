@@ -6,7 +6,11 @@
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
     "svelte": "dist/Slidy.svelte",
+    "types": "./dist/index.d.ts",
     "type": "module",
+    "files": [
+        "./dist/*"
+    ],
     "exports": {
         ".": {
             "import": "./dist/slidy.mjs",
@@ -19,9 +23,10 @@
         "dev": "node esbuild --dev",
         "dev:svelte": "node esbuild --svelte",
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
-        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
-        "format": "prettier --write '**/*.{js,ts,md,svelte,json}'"
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,svelte,json,html,css}'",
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public"
     },
     "repository": {
         "type": "git",
@@ -60,7 +65,9 @@
         "esbuild-svelte": "^0.6.2",
         "sass": "^1.49.0",
         "svelte": "^3.46.3",
+        "svelte-check": "^2.4.0",
         "svelte-preprocess": "^4.10.2",
+        "svelte2tsx": "^0.5.0",
         "tslib": "^2.3.1",
         "typescript": "^4.5.5"
     },

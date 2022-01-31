@@ -108,8 +108,8 @@ export function wheel(node: HTMLElement) {
 }
 
 export function resize(node: HTMLElement) {
-    let CR;
-    let ET;
+    let CR: DOMRectReadOnly;
+    let ET: Element;
 
     const ro = new ResizeObserver((entries, observer) => {
         for (let entry of entries) {

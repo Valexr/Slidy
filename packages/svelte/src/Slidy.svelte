@@ -154,6 +154,7 @@
 
 <script lang="ts">
     import { slidy } from '@slidy/core';
+    import { resize } from './actions';
 
     export let slides: any[] = [],
         key = (item: { [x: string]: any; id: any }) =>
