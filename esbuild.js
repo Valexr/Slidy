@@ -25,9 +25,7 @@ build({
     bundle: true,
     minify: false,
     incremental: DEV,
-    // platform: 'browser',
     external: ['../img/*'],
-    // mainFields: ['svelte', 'module', 'main', 'browser'],
     plugins: [sveltePlugin(svelteOptions)],
     legalComments: 'none'
 }).then(bundle => {
