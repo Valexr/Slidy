@@ -1,17 +1,16 @@
 :root {
-	--break-s: 640px;
+    --break-s: 640px;
     --break-m: 960px;
     --break-l: 1200px;
-	--break-xl: 1600px;
+    --break-xl: 1600px;
 
-	/* Typography */
-    --font-family: 'Sans', sans-serif;
+    /* Typography */
+    --font-family: "Sans", sans-serif;
     --font-weight: 400;
     --line-height: 1.75rem;
     --line-height-s: 1.25rem;
-    --letter-spacing: .075px;
+    --letter-spacing: 0.075px;
 }
-
 
 /* Typography */
 * {
@@ -65,16 +64,17 @@ a {
 *,
 *::after,
 *::before {
-	-webkit-user-drag: none;
-	-webkit-app-region: no-drag;
-	touch-action: manipulation;
+    -webkit-user-drag: none;
+    -webkit-app-region: no-drag;
+    touch-action: manipulation;
 }
 
-html, body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
@@ -82,3 +82,8 @@ body {
     color: white;
     background-color: #1b1f23;
 }
+
+/* #slidy.slidy .slidy-dots li.active button {
+    border: 1px solid blue;
+    background: blue;
+} */

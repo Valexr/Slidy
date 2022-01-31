@@ -1,0 +1,1 @@
+export { slidy } from './slidy';

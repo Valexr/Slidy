@@ -1,0 +1,66 @@
+{
+    "name": "@slidy/core",
+    "version": "3.0.0",
+    "description": "Slidy - simple, configurable & reusable sliding action script",
+    "main": "dist/slidy.cjs",
+    "module": "dist/slidy.mjs",
+    "browser": "dist/slidy.js",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "dist/*"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/slidy.mjs",
+            "module": "./dist/slidy.mjs",
+            "require": "./dist/slidy.cjs"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "dev": "node esbuild --dev",
+        "dev:core": "node esbuild --core",
+        "dev:svelte": "node esbuild --dev",
+        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
+        "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,json,html,css}'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Valexr/slidy.git"
+    },
+    "keywords": [
+        "Slidy",
+        "Slider",
+        "Carousel",
+        "Action",
+        "Script",
+        "Js",
+        "Ts"
+    ],
+    "author": "Valexr",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Valexr/slidy/issues"
+    },
+    "homepage": "https://valexr.github.io/slidy",
+    "prettier": {
+        "tabWidth": 4,
+        "semi": true,
+        "printWidth": 90,
+        "singleQuote": true,
+        "svelteSortOrder": "options-markup-scripts-styles",
+        "svelteStrictMode": false,
+        "svelteAllowShorthand": true,
+        "svelteIndentScriptAndStyle": true,
+        "plugins": [
+            "prettier-plugin-svelte"
+        ]
+    },
+    "devDependencies": {
+        "derver": "^0.5.3",
+        "esbuild": "^0.14.14",
+        "typescript": "^4.5.5"
+    }
+}

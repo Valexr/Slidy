@@ -15,8 +15,8 @@
     use:action.resize
     on:resize={resizeWrap}
     use:action.wheel
-    on:wheels={controls.wheel ? slidyWheel : null}
-    on:keydown={controls.keys ? slidyKeys : null}
+    on:wheels={controls.wheel && slidyWheel}
+    on:keydown={controls.keys && slidyKeys}
     style="
         --wrapw: {wrap.width};
         --wraph: {wrap.height};
@@ -40,10 +40,10 @@
                 <li
                     bind:this={nodes[i]}
                     data-id={item.ix}
-                    use:action.pannable
-                    on:panstart={controls.drag ? dragStart : null}
-                    on:panmove={controls.drag ? dragSlide : null}
-                    on:panend={controls.drag ? dragStop : null}
+                    use:action.drag
+                    on:start={controls.drag && dragStart}
+                    on:move={controls.drag && dragSlide}
+                    on:stop={controls.drag && dragStop}
                     class={slide.class}
                     class:active={item.ix === index}
                     style={slide.backimg === true
@@ -143,6 +143,7 @@
 <script>
     import { tick } from 'svelte';
     import * as action from './actions.js';
+    import { Arrows, Dots, Loader } from './cmp';
 
     export let slides = [],
         key = (item) => item.id || item[slide.imgsrckey],
@@ -185,19 +186,21 @@
         timeout = 0;
 
     // INIT -------------------------------------------------
-
     let render = false;
-    $: tick().then(() => {
-        render =
-            nodes.length !== 0 &&
-            slides.length !== 0 &&
-            nodes.length === slides.length;
-    });
+    $: tick().then(
+        () =>
+            (render =
+                nodes.length !== 0 &&
+                slides.length !== 0 &&
+                nodes.length === slides.length)
+    );
 
-    $: slidyInit(slides);
+    $: render && slidyInit(slides);
 
     function slidyInit() {
-        slides = dots = slides.map((s, i) => ({ ix: i, ...s }));
+        slides = dots = slides.map((s, i) => {
+            return { ix: i, ...s };
+        });
         timeout > 0 ? setTimeout(() => (init = true), timeout) : (init = init);
     }
 
@@ -209,7 +212,7 @@
 
     $: nodes = nodes.filter(Boolean);
 
-    $: render && tick().then(() => slidySizes(pos, index));
+    $: render && slidySizes(pos, index);
 
     function slidySizes() {
         if (render) {
@@ -261,7 +264,7 @@
 
     $: axisy = options.axis === 'y';
 
-    $: render && tick().then(() => slidyMatch(el));
+    $: render && slidyMatch(el);
 
     function slidyMatch() {
         if (render) {
@@ -294,7 +297,8 @@
     let pos = 0,
         comp = 0,
         translate = 0,
-        transition = options.duration;
+        transition = options.duration,
+        transtime = undefined;
 
     $: move = () => {
         if (axisy) {
@@ -304,37 +308,33 @@
         }
     };
 
-    $: if (render) {
-        tick().then(() => {
-            if (wrap.align === 'end') {
-                translate =
-                    slides.length % 2 === 0
-                        ? options.loop
-                            ? pos + diff.align - size.active / 2
-                            : -diff.pos + diff.align
-                        : options.loop
-                        ? pos + diff.align
-                        : -diff.pos + diff.align;
-            } else if (wrap.align === 'start') {
-                translate =
-                    slides.length % 2 === 0
-                        ? options.loop
-                            ? pos - diff.align - size.active / 2
-                            : -diff.pos - diff.align
-                        : options.loop
-                        ? pos - diff.align
-                        : -diff.pos - diff.align;
-            } else {
-                translate =
-                    slides.length % 2 === 0
-                        ? options.loop
-                            ? pos - size.active / 2
-                            : -diff.pos
-                        : options.loop
-                        ? pos
-                        : -diff.pos;
-            }
-        });
+    $: if (wrap.align === 'end') {
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos + diff.align - size.active / 2
+                    : -diff.pos + diff.align
+                : options.loop
+                ? pos + diff.align
+                : -diff.pos + diff.align;
+    } else if (wrap.align === 'start') {
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos - diff.align - size.active / 2
+                    : -diff.pos - diff.align
+                : options.loop
+                ? pos - diff.align
+                : -diff.pos - diff.align;
+    } else {
+        translate =
+            slides.length % 2 === 0
+                ? options.loop
+                    ? pos - size.active / 2
+                    : -diff.pos
+                : options.loop
+                ? pos
+                : -diff.pos;
     }
 
     function prev() {
@@ -345,14 +345,22 @@
     }
 
     // INDEX ------------------------------------------------------
-    $: if (render) {
-        tick().then(() => {
-            if (index < 0) {
-                index = options.loop ? (ix = slides.length - 1) : 0;
-            } else if (index > slides.length - 1) {
-                index = options.loop ? (ix = 0) : slides.length - 1;
+    $: if (init) {
+        if (index < 0) {
+            if (options.loop) {
+                index = slides.length - 1;
+                ix = slides.length;
+            } else {
+                index = 0;
             }
-        });
+        } else if (index > slides.length - 1) {
+            if (options.loop) {
+                index = 0;
+                ix = -1;
+            } else {
+                index = slides.length - 1;
+            }
+        }
     }
 
     $: init && slidyIndex(index);
@@ -396,7 +404,6 @@
     }
 
     // STOP ---------------------------------------------------------------------------
-    let transtime;
     function slidyStop() {
         transition = options.duration;
         const nulled = (direct) => {
@@ -405,9 +412,7 @@
                     // direct();
                     slidyLoop();
                     pos = speed = transition = 0;
-                    tick().then(() =>
-                        tick().then(() => (index = ix = el.active.ix))
-                    );
+                    tick().then(() => (index = ix = el.active.ix));
                     clearTimeout(transtime);
                 } else {
                     index = direct;
@@ -439,28 +444,33 @@
     // NULL ------------------------------------------------------
     function slidyNull() {
         transition = 0;
-        comp !== 0 && (comp = pos = speed = 0);
-        transtime !== null && clearTimeout(transtime);
-        wheeltime !== null && clearTimeout(wheeltime);
-        dragtime !== null && clearInterval(dragtime);
+        comp &&= pos = speed = 0;
+        transtime && clearTimeout(transtime);
+        wheeltime && clearTimeout(wheeltime);
+        dragtime && clearInterval(dragtime);
         return;
     }
 
     // WHEEL -----------------------------------------------------
-    const axiscoord = (e) =>
-        Math.floor(axisy ? e.detail.dy : e.detail.dx) * 1.6;
-
     let iswheel = false,
-        wheeltime;
+        wheeltime,
+        evcalc = 0;
+
+    const axiscoord = (e) => (axisy ? e.detail.dy : e.detail.dx);
+
     function slidyWheel(e) {
         slidyNull();
         iswheel = true;
         pos -= axiscoord(e);
+        evcalc += e ? 1 : 0;
+        console.log(axiscoord(e), pos, evcalc);
         slidyLoop();
+        Math.abs(axiscoord(e)) <= 1 && slidyStop();
         wheeltime = setTimeout(() => {
             iswheel = false;
+            evcalc = 0;
             clearTimeout(wheeltime);
-            slidyStop();
+            // slidyStop();
         }, options.duration / 2);
     }
 
@@ -469,7 +479,8 @@
         htx = 0,
         speed = 0,
         dragtime;
-    function dragStart() {
+
+    function dragStart(e) {
         slidyNull();
         isdrag = true;
     }

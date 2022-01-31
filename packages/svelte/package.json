@@ -1,0 +1,77 @@
+{
+    "name": "@slidy/svelte",
+    "version": "3.0.0",
+    "description": "SLIDY - simple, configurable & reusable carousel component built with SvelteJS",
+    "main": "dist/slidy.cjs",
+    "module": "dist/slidy.mjs",
+    "browser": "dist/slidy.js",
+    "svelte": "dist/Slidy.svelte",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "./dist/*"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/slidy.mjs",
+            "module": "./dist/slidy.mjs",
+            "require": "./dist/slidy.cjs"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "dev": "node esbuild --dev",
+        "dev:svelte": "node esbuild --svelte",
+        "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,svelte,json,html,css}'",
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Valexr/slidy.git"
+    },
+    "keywords": [
+        "Svelte",
+        "SvelteJs",
+        "Carousel",
+        "Svelte-plugin"
+    ],
+    "author": "Valexr",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Valexr/slidy/issues"
+    },
+    "homepage": "https://slidy.valexr.online",
+    "prettier": {
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": true,
+        "svelteSortOrder": "options-markup-scripts-styles",
+        "svelteStrictMode": false,
+        "svelteBracketNewLine": true,
+        "svelteAllowShorthand": true,
+        "svelteIndentScriptAndStyle": true,
+        "plugins": [
+            "prettier-plugin-svelte"
+        ]
+    },
+    "devDependencies": {
+        "@slidy/core": "workspace:*",
+        "@tsconfig/svelte": "^3.0.0",
+        "derver": "^0.5.3",
+        "esbuild": "^0.14.14",
+        "esbuild-svelte": "^0.6.2",
+        "sass": "^1.49.0",
+        "svelte": "^3.46.3",
+        "svelte-check": "^2.4.0",
+        "svelte-preprocess": "^4.10.2",
+        "svelte2tsx": "^0.5.0",
+        "tslib": "^2.3.1",
+        "typescript": "^4.5.5"
+    },
+    "peerDependencies": {
+        "svelte": "^3.42.4"
+    }
+}

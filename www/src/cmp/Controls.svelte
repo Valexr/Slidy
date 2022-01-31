@@ -1,4 +1,4 @@
-<svelte:window on:keydown={open ? onKeydown : null} />
+<svelte:window on:keydown={$con.open ? onKeydown : null} />
 
 <section
     id="controls"
@@ -25,7 +25,7 @@
         <button
             class="slidy-ext-controls"
             class:play
-            on:click={() => (play = !play)}
+            on:click|stopPropagation={() => (play = !play)}
         >
             {#if play}
                 <Svg name="slidy-pause" />
@@ -40,7 +40,7 @@
     <h3>Dots</h3>
     <nav id="dots">
         <button on:click={() => index--}>&#8592;</button>
-        {#each slides as dot, i (dot.id)}
+        {#each slides as dot, i}
             <button
                 class:active={i === index}
                 on:click={() => (index = i)}
@@ -65,13 +65,11 @@
 
 <script>
     import { fly } from 'svelte/transition';
-    import { settings } from '@settings';
+    import { settings, con } from '@settings';
     import { clickout } from '@act';
     import { Svg } from '@cmp';
 
-    export let index,
-        open = false,
-        slides = [];
+    export let index, slides;
 
     let play = false,
         playduration = 550,
@@ -82,16 +80,17 @@
         }
         timerPlay = setInterval(() => index++, playduration);
     }
-    $: (!$settings.options.loop && index >= slides.length - 1) ||
-    (!$settings.options.loop && index <= 0)
-        ? (play = false)
-        : null;
-    $: play && open ? slidyPlay() : clearInterval(timerPlay);
+    $: if (slides)
+        (!$settings.options.loop && index >= slides.length - 1) ||
+        (!$settings.options.loop && index <= 0)
+            ? (play = false)
+            : null;
+    $: play && $con.open ? slidyPlay() : clearInterval(timerPlay);
 
     function onKeydown(e) {
         if (e.keyCode === 27) {
             e.preventDefault();
-            open = !open;
+            $con.open = !$con.open;
         }
     }
 </script>
@@ -253,9 +252,7 @@
             }
             &:after {
                 content: '';
-                background-image: var(--imgback);
-                background-position: center;
-                background-repeat: no-repeat;
+                background: center var(--imgback) no-repeat;
                 background-size: cover;
                 width: 78px;
                 height: 78px;

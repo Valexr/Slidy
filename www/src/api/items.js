@@ -8,7 +8,7 @@ export const local = [
     { id: 7, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/atom.webp' },
     { id: 8, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/photo2.webp' },
     { id: 9, header: 'What is Slidy?', text: `<strong>SLIDY</strong> - simple configurable carousel component on SvelteJS`, src: '../img/torus.webp' },
-];
+]
 
 export const video = [
     { id: 1, type: 'video', src: 'https://www.youtube.com/embed/s5HEOmawFOA' },

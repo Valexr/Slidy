@@ -1,4 +1,4 @@
-<svelte:options immutable={true} />
+<svelte:options immutable={false} />
 
 <svelte:window bind:innerWidth={ww} bind:innerHeight={wh} />
 
@@ -65,56 +65,57 @@
     <NavThumbs bind:index slides={items} />
 {/if}
 
-{#if conOpen}
-    <Controls bind:index bind:open={conOpen} slides={items} />
+{#if $con.open}
+    <Controls bind:index bind:open={$con.open} bind:slides={items} />
 {/if}
 
 <Button
     id="controls"
     style={'left: 20px;'}
-    open={conOpen}
+    open={$con.open}
     on:click={controlsClick}
 >
-    {#if conOpen}
+    {#if $con.open}
         <Svg name={'slidy-x'} />
     {:else}
         <Svg name={'slidy-play'} transform="translate(3px, 0)" />
     {/if}
 </Button>
 
-{#if setOpen}
-    <Settings bind:input={setInput} bind:check={setCheck} bind:open={setOpen} />
+{#if $set.open}
+    <Settings
+        bind:input={$set.input}
+        bind:check={$set.check}
+        bind:open={$set.open}
+    />
 {/if}
 
 <Button
     id="settings"
     style={'right: 20px;'}
-    open={setOpen}
-    check={setInput}
+    open={$set.open}
+    check={$set.input}
     on:click={settingsClick}
 >
-    {#if setInput}
+    {#if $set.input}
         <Svg name={'slidy-check'} />
-    {:else if setOpen}
+    {:else if $set.open}
         <Svg name={'slidy-x'} />
     {:else}
         <Svg name={'slidy-sliders'} />
     {/if}
 </Button>
 
-<a
-    id="github"
-    alt="https://github.com/Valexr/svelte-slidy"
-    target="_blank"
-    href="https://github.com/Valexr/svelte-slidy">&nbsp;</a
+<a id="github" alt={repository.url} target="_blank" href={repository.url}
+    >&nbsp;</a
 >
 
-<script>
+<script lang="ts">
     import { onMount, afterUpdate, beforeUpdate, tick } from 'svelte';
     import { fly, fade, scale, crossfade, slide } from 'svelte/transition';
-    import { version } from '../../package.json';
-    import { settings } from '@settings';
-    // import { slides, local } from "@items";
+    import { version, repository } from '../../package.json';
+    import { settings, set, con } from '@settings';
+    import { slides, local } from '@items';
     import { getPhotos } from '@api';
     import { randomQ } from '@utils';
     import {
@@ -128,8 +129,8 @@
         Spinner,
         SpinnerD,
     } from '@cmp';
-    // import { Slidy } from '@cmp';
-    import { Slidy } from 'svelte-slidy';
+
+    import { Slidy } from '@slidy/svelte';
 
     let items = [],
         index = 4,
@@ -145,20 +146,16 @@
         setCheck = false,
         slides = [];
 
-    // onMount(() => (index = 1));
-
-    // $: items.length > 1 && (index = 1);
     async function loadSlides(limit, page) {
         init = false;
         loaded = intersected = intersect.entries = [];
         items = await getPhotos(limit, page);
+        // $slides = items;
+        return items;
         // index = 4;
     }
-    // $: init && (index = 5);
     // $: init, (intersected = loaded = [])
-    // $: items.length, ($slides = items);
     $: loadSlides(limit, page);
-    $: console.log(index);
 
     let intersected = [],
         loaded = [],

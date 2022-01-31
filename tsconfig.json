@@ -2,11 +2,6 @@
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {
-            "svelte-slidy": [
-                "src/index.js"
-                // "dist/slidy.mjs"
-                // "dist/slidy.js"
-            ],
             "@cmp": [
                 "www/src/cmp/index.js"
             ],
@@ -26,5 +21,12 @@
                 "www/src/api/api.js"
             ]
         }
-    }
+    },
+    "include": [
+        "www/src/**/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "www/public/*"
+    ]
 }

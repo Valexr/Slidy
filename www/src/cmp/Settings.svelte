@@ -1,7 +1,25 @@
+<svelte:window on:keydown={$set.open ? onKeydown : null} />
+
+<section
+    id="settings"
+    use:clickout
+    on:clickout={() => ($set.open = false)}
+    transition:fly={{ x: 350, duration: 350 }}
+>
+    <h2>Settings</h2>
+    <pre>
+        <code
+            contenteditable="true"
+            bind:textContent={text}
+            on:input={() => ($set.input = true)}
+        />
+    </pre>
+</section>
+
 <script>
-    import { fly } from "svelte/transition";
-    import { settings } from "@settings";
-    import { clickout } from "@act";
+    import { fly } from 'svelte/transition';
+    import { settings, set } from '@settings';
+    import { clickout } from '@act';
 
     let text = JSON.stringify($settings, 0, 2);
 
@@ -31,24 +49,6 @@
         check = !check;
     }
 </script>
-
-<svelte:window on:keydown={open ? onKeydown : null} />
-
-<section
-    id="settings"
-    use:clickout
-    on:clickout={() => (open = false)}
-    transition:fly={{ x: 350, duration: 350 }}
->
-    <h2>Settings</h2>
-    <pre>
-        <code
-            contenteditable="true"
-            bind:textContent={text}
-            on:input={() => (input = true)}
-        />
-    </pre>
-</section>
 
 <style lang="scss">
     #settings {

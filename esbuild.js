@@ -1,11 +1,22 @@
-const { build } = require("esbuild");
-const { derver } = require("derver");
-const sveltePlugin = require("esbuild-svelte");
-const sveltePreprocess = require('svelte-preprocess');
-const pkg = require('./package.json');
+import { build } from "esbuild";
+import { derver } from "derver";
+import sveltePlugin from "esbuild-svelte";
+import sveltePreprocess from 'svelte-preprocess';
 
 const DEV = process.argv.includes('--dev');
-const DEPLOY = process.argv.includes('--deploy');
+
+const svelteOptions = {
+    compilerOptions: {
+        dev: DEV,
+        css: false
+    },
+    preprocess: [
+        sveltePreprocess({
+            sourceMap: DEV,
+            typescript: true,
+        }),
+    ],
+};
 
 async function build_client() {
     return await build({
@@ -18,33 +29,20 @@ async function build_client() {
         platform: 'browser',
         external: ['../img/*'],
         mainFields: ['svelte', 'module', 'main', 'browser'],
-        plugins: [
-            sveltePlugin({
-                compilerOptions: {
-                    dev: DEV,
-                    css: false,
-                    immutable: false
-                },
-                preprocess: [
-                    sveltePreprocess({
-                        sourceMap: DEV
-                    })
-                ]
-            })
-        ]
+        plugins: [sveltePlugin(svelteOptions)],
+        logLevel: 'debug'
     });
 }
-
 
 build_client().then(bundle => {
     if (DEV) {
         derver({
             dir: 'www/public',
-            port: 3000,
+            port: 3339,
             host: '0.0.0.0',
-            watch: ['www/public', 'www/src', 'src'],
+            watch: ['www/public', 'www/src', 'packages/svelte/dist', 'packages/core/dist'],
             onwatch: async (lr, item) => {
-                if (item == 'www/src' || item == 'src') {
+                if (item !== 'www/public') {
                     lr.prevent();
                     try {
                         await bundle.rebuild();
@@ -56,31 +54,3 @@ build_client().then(bundle => {
         });
     }
 });
-
-!DEPLOY && (async () => await build_client())();
-
-!DEV && (async () => {
-
-    await build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.main,
-        format: 'cjs',
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compilerOptions: { css: true, immutable: true } })]
-    });
-
-    await build({
-        entryPoints: ['src/index.js'],
-        outfile: pkg.module,
-        format: "esm",
-        bundle: true,
-        minify: true,
-        sourcemap: false,
-        external: ['svelte', 'svelte/*'],
-        plugins: [sveltePlugin({ compilerOptions: { css: true, immutable: true } })],
-    });
-
-})();

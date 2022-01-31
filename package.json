@@ -1,39 +1,46 @@
 {
-    "name": "svelte-slidy",
-    "version": "2.8.7",
-    "description": "SLIDY - simple, configurable & reusable carousel component built with SvelteJS",
-    "main": "dist/slidy.js",
-    "module": "dist/slidy.mjs",
-    "svelte": "src/index.js",
-    "files": [
-        "dist/*",
-        "src/*",
-        "!src/cmp"
-    ],
+    "name": "slidy",
+    "version": "3.0.0",
+    "description": "SLIDY - simple, configurable & reusable carousel component",
+    "private": true,
+    "type": "module",
     "scripts": {
-        "build": "node esbuild",
         "dev": "node esbuild --dev",
-        "start": "npx derver --production --port=5000 www/public",
+        "dev:www": "pnpm dev --parallel --filter=slidy...",
+        "dev:core": "pnpm dev:core --parallel",
+        "dev:svelte": "pnpm dev:svelte --parallel",
+        "build": "node esbuild",
+        "build:core": "pnpm build --filter=@slidy/core",
+        "build:svelte": "pnpm build --filter=@slidy/svelte",
+        "start": "npx derver --production --port=5555 www/public",
         "predeploy": "node esbuild --deploy",
         "deploy": "gh-pages -d www/public",
         "prepublishOnly": "node esbuild"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Valexr/svelte-slidy.git"
+        "url": "https://github.com/Valexr/slidy.git"
     },
     "keywords": [
         "Svelte",
-        "SvelteJs",
+        "Malina",
+        "React",
+        "Vue",
+        "WebComponent",
+        "Slidy",
+        "Slider",
         "Carousel",
-        "Svelte-plugin"
+        "Action",
+        "Script",
+        "Js",
+        "Ts"
     ],
     "author": "Valexr",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Valexr/svelte-slidy/issues"
+        "url": "https://github.com/Valexr/slidy/issues"
     },
-    "homepage": "https://valexr.github.io/svelte-slidy",
+    "homepage": "https://valexr.github.io/slidy",
     "prettier": {
         "tabWidth": 4,
         "semi": true,
@@ -48,15 +55,15 @@
         ]
     },
     "devDependencies": {
+        "@slidy/svelte": "workspace:*",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.5",
-        "esbuild-svelte": "^0.6.0",
+        "esbuild": "^0.14.14",
+        "esbuild-svelte": "^0.6.2",
         "gh-pages": "^3.2.3",
-        "sass": "^1.45.0",
-        "svelte": "^3.44.3",
-        "svelte-preprocess": "^4.10.0"
-    },
-    "peerDependencies": {
-        "svelte": "^3.42.4"
+        "prettier": "^2.5.1",
+        "prettier-plugin-svelte": "^2.6.0",
+        "sass": "^1.49.0",
+        "svelte": "^3.46.3",
+        "svelte-preprocess": "^4.10.2"
     }
 }

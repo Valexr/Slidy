@@ -13,8 +13,7 @@
 <script>
     import { settings } from '@settings';
 
-    export let index,
-        slides = [];
+    export let index, slides;
 </script>
 
 <style lang="scss">

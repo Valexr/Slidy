@@ -1,0 +1,274 @@
+html,
+body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    color: var(--color);
+    background: var(--back);
+    margin: 0;
+    padding: 8px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--accent);
+}
+
+label {
+    display: block;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    -webkit-padding: 0.4em 0;
+    padding: 0.4em;
+    /* margin: 0 0 0.5em 0; */
+    box-sizing: border-box;
+    border: 1px solid var(--color);
+    border-radius: 0;
+    color: var(--color);
+    background-color: var(--back);
+    accent-color: var(--accent);
+}
+
+input:disabled {
+    color: #ccc;
+}
+
+button {
+    color: var(--color);
+    background-color: var(--back);
+    outline: none;
+    cursor: pointer;
+}
+
+button:disabled {
+    color: #999;
+}
+
+button:not(:disabled):active {
+    background-color: var(--color);
+    color: var(--back);
+}
+
+button:focus {
+    border-color: var(--accent);
+}
+
+nav {
+    margin: 1rem 0;
+    /* will-change: transform, border-color, color; */
+}
+
+b {
+    color: red;
+}
+nav#dots {
+    display: flex;
+    overflow-x: scroll;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+}
+legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+}
+h1 {
+    position: relative;
+}
+
+h1 sup {
+    position: absolute;
+    right: 0;
+    bottom: -0.5rem;
+    font-size: small;
+    font-weight: 300;
+    display: inline;
+}
+legend h1,
+legend p {
+    margin: 0;
+    display: inline;
+    padding: 0;
+}
+
+:root {
+    --color: black;
+    --back: white;
+    --accent: red;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color-scheme: light;
+        --color: black;
+        --back: white;
+        --accent: red;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --color: white;
+        --back: black;
+        --accent: red;
+    }
+}
+
+[scheme='dark'] {
+    color-scheme: dark;
+    --color: white;
+    --back: black;
+    --accent: red;
+}
+
+[scheme='light'] {
+    color-scheme: light;
+    --color: black;
+    --back: white;
+    --accent: red;
+}
+
+.active,
+/* :active, */
+/* :focus, */
+:checked {
+    color: var(--accent);
+    /* accent-color: var(--accent); */
+    /* outline-color: var(--accent) !important; */
+    /* will-change: transform, color; */
+}
+:disabled {
+    color: inherit;
+    border-color: inherit;
+    cursor: inherit;
+}
+.active:not(li, :disabled) {
+    border-color: var(--accent) !important;
+}
+
+main {
+    height: 300px;
+}
+
+section {
+    overflow: hidden;
+    margin: var(--gap) auto;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+#loader,
+#info {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ul#scroll {
+    overflow: auto;
+}
+ul#slidy {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: var(--flow) nowrap;
+    gap: var(--gap);
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+ul#slidy li {
+    --shadow: var(--color);
+    flex: 1 0 var(--width);
+    width: var(--width);
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: inset 0px 0px 1px 1px var(--shadow);
+    /* border-color: transparent; */
+    /* border: 1px dashed var(--color); */
+    /* will-change: transform; */
+}
+ul#slidy li.active {
+    --shadow: var(--accent);
+}
+ul#slidy li.slotted {
+    --shadow: transparent;
+}
+
+ul#slidy li:before {
+    content: attr(data-id);
+    position: absolute;
+    z-index: 1;
+    padding: 1rem;
+    bottom: 0;
+    background: var(--back);
+    /* will-change: transform; */
+}
+
+ul#slidy li img {
+    width: 100%;
+    height: 100%;
+    /* min-height: 100%; */
+    max-width: 100%;
+    object-fit: cover;
+    /* min-width: 0; */
+    /* position: relative; */
+    /* z-index: 0; */
+    /* overflow: hidden; */
+    /* will-change: transform; */
+}
+
+/* iOS */
+@supports (-webkit-touch-callout: none) {
+    ul#slidy li img {
+        width: auto;
+        /* will-change: transform; */
+    }
+    ul#slidy li:before {
+        will-change: transform;
+    }
+}
+/* MacOS */
+@media not all and (min-resolution: 0.001dpcm) {
+    ul#slidy li img {
+        width: auto;
+        /* will-change: transform; */
+    }
+    ul#slidy li:before {
+        will-change: transform;
+    }
+}
