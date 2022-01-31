@@ -2,6 +2,7 @@
 node_modules
 www
 src/cmp
+packages
 
 .DS_Store
 Icon?

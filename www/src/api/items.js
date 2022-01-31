@@ -20,7 +20,7 @@ export const video = [
     { id: 7, type: 'video', src: 'https://player.vimeo.com/video/265045525' },
     { id: 8, src: 'img/photo2.jpg' },
     { id: 9, type: 'video', src: 'https://player.vimeo.com/video/259411563' },
-]
+];
 
-import { writable } from 'svelte/store'
-export const slides = writable([])
+import { writable } from 'svelte/store';
+export const slides = writable([]);

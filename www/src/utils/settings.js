@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store'
+import { writable } from 'svelte/store';
 
 let settingX = {
     wrap: {
@@ -38,19 +38,9 @@ let settingX = {
         gravity: 1.2,
         intersecting: false
     }
-}
+};
 
 export const settings = writable(JSON.parse(sessionStorage.getItem("slidySettings")) || settingX);
 settings.subscribe(val => sessionStorage.setItem("slidySettings", JSON.stringify(val)));
 
-export const set = writable({
-    open: false,
-    input: false,
-    check: false
-})
-
-export const con = writable({
-    open: false
-})
-
-export const index = writable(4)
+export const index = writable(4);

@@ -47,10 +47,10 @@ build_client().then(bundle => {
                     try {
                         await bundle.rebuild();
                     } catch (err) {
-                        lr.error(err.message, 'Svelte compile error')
+                        lr.error(err.message, 'Svelte compile error');
                     }
                 }
             }
-        })
+        });
     }
 });

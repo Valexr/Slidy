@@ -1,40 +1,10 @@
-<script>
-    import { settings } from "@settings";
-    import { slides } from "@items";
-    import { randomQ } from "@utils";
-    import { Svg } from "@cmp";
-
-    export let limit = 9,
-        page = 25,
-        index;
-
-    let play = false,
-        playduration = 550,
-        timerPlay;
-    function slidyPlay() {
-        if (timerPlay !== null) {
-            clearInterval(timerPlay);
-        }
-        timerPlay = setInterval(() => index++, playduration);
-    }
-    $: if ($slides)
-        (!$settings.options.loop && index >= $slides.length - 1) ||
-        (!$settings.options.loop && index <= 0)
-            ? (play = false)
-            : null;
-    $: play ? slidyPlay() : clearInterval(timerPlay);
-</script>
-
 <nav id="slidy-controls">
     <div>
-        <button
-            class="slidy-ext-controls"
-            on:click={() => ($settings.options.loop = !$settings.options.loop)}
-        >
+        <button class="slidy-ext-controls" on:click={setLoop}>
             <Svg
                 name="slidy-repeat"
                 transform="scale(0.69)"
-                color={$settings.options.loop ? "blue" : "white"}
+                color={setColor($settings.options.loop)}
             />
         </button>
         <button class="slidy-ext-controls" on:click={() => index--}>
@@ -45,7 +15,7 @@
             class:play
             on:click={() => (play = !play)}
         >
-            <Svg name={play ? "slidy-pause" : "slidy-play"} />
+            <Svg name={play ? 'slidy-pause' : 'slidy-play'} />
         </button>
         <button class="slidy-ext-controls" on:click={() => index++}>
             <Svg name="slidy-forward" />
@@ -58,13 +28,12 @@
         >
             <Svg
                 name={!$settings.options.intersecting
-                    ? "slidy-eye-off"
-                    : "slidy-eye"}
+                    ? 'slidy-eye-off'
+                    : 'slidy-eye'}
                 transform="scale(0.69)"
-                color={$settings.options.intersecting ? "blue" : "white"}
+                color={$settings.options.intersecting ? 'blue' : 'white'}
             />
         </button>
-        <!-- <button class="slidy-ext-controls" on:click="{observerConnect}"> OBSERVE </button> -->
     </div>
     <div>
         <button class="slidy-ext-controls" on:click={() => limit--}>
@@ -81,6 +50,40 @@
         </button>
     </div>
 </nav>
+
+<script>
+    import { settings } from '@settings';
+    import { randomQ } from '@utils';
+    import { Svg } from '@cmp';
+
+    export let limit = 9,
+        page = 25,
+        index,
+        slides = [];
+
+    let play = false,
+        playduration = 550,
+        timerPlay,
+        loop = false;
+
+    function slidyPlay() {
+        if (timerPlay !== null) {
+            clearInterval(timerPlay);
+        }
+        timerPlay = setInterval(() => index++, playduration);
+    }
+    function setLoop() {
+        $settings.options.loop = !$settings.options.loop;
+    }
+    const setColor = (opt) => (opt ? 'blue' : 'white');
+
+    $: if (
+        (!$settings.options.loop && index >= slides.length - 1) ||
+        (!$settings.options.loop && index <= 0)
+    )
+        play = false;
+    $: play ? slidyPlay() : clearInterval(timerPlay);
+</script>
 
 <style lang="scss">
     #slidy-controls {

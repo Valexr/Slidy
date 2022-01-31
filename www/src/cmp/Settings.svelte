@@ -23,26 +23,30 @@
 
     let text = JSON.stringify($settings, 0, 2);
 
-    $: $set.check && setSettings();
+    export let open = false,
+        input = false,
+        check = false;
+
+    $: check && setSettings();
 
     function onKeydown(e) {
         if (e.keyCode === 13) {
             e.preventDefault();
-            if ($set.input) {
-                $set.check = !$set.check;
-                $set.input = false;
+            if (input) {
+                check = !check;
+                input = false;
             }
         } else if (e.keyCode === 27) {
             e.preventDefault();
-            $set.check = !$set.check;
-            $set.input = false;
-            $set.open = !$set.open;
+            check = !check;
+            input = false;
+            open = !open;
         }
     }
 
     function setSettings() {
         $settings = JSON.parse(text);
-        $set.check = !$set.check;
+        check = !check;
     }
 </script>
 

@@ -3,7 +3,7 @@
 <section
     id="controls"
     use:clickout
-    on:clickout={() => ($con.open = false)}
+    on:clickout={() => (open = false)}
     transition:fly={{ x: -350, duration: 350 }}
 >
     <h2>Controls</h2>
@@ -44,7 +44,7 @@
             <button
                 class:active={i === index}
                 on:click={() => (index = i)}
-                style="--imgback: url('{dot.src ? dot.src : dot.download_url}')"
+                style="--imgback: url('{dot.src}')"
             />
         {/each}
         <button on:click={() => index++}>&#8594;</button>
