@@ -265,15 +265,15 @@ var Slidy = (() => {
                 window.removeEventListener('mouseup', z);
         }
         function se(t) {
-            (S = t.duration ?? 375),
-                (v = O(2, 0, t.gravity ?? 1.2)),
-                (s = t.axis ?? 'x'),
-                (p = t.align ?? 'middle'),
-                (E = t.snap ?? !0),
-                (g = t.clamp ?? !1),
-                (r = t.gap ?? 0),
-                i !== t.index && ((i = I(e, t.index ?? 0, l)), m(i)),
-                l !== t.loop && ((l = t.loop ?? !1), D(e, i, l), m(i));
+            (S = t.duration || 375),
+                (v = O(2, 0, t.gravity || 1.2)),
+                (s = t.axis || 'x'),
+                (p = t.align || 'middle'),
+                (E = t.snap || !0),
+                (g = t.clamp || !1),
+                (r = t.gap || 0),
+                i !== t.index && ((i = I(e, t.index || 0, l)), m(i)),
+                l !== t.loop && ((l = t.loop || !1), D(e, i, l), m(i));
         }
         function oe() {
             M(),

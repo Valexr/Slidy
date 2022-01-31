@@ -265,22 +265,22 @@ export function slidy(
 
     // update(options)
     function update(options: Options) {
-        duration = options.duration ?? 375;
-        gravity = maxMin(2, 0, options.gravity ?? 1.2);
-        axis = options.axis ?? 'x';
-        align = options.align ?? 'middle';
-        snap = options.snap ?? true;
-        clamp = options.clamp ?? false;
-        gap = options.gap ?? 0;
-        // loop = options.loop ?? false;
+        duration = options.duration || 375;
+        gravity = maxMin(2, 0, options.gravity || 1.2);
+        axis = options.axis || 'x';
+        align = options.align || 'middle';
+        snap = options.snap || true;
+        clamp = options.clamp || false;
+        gap = options.gap || 0;
+        // loop = options.loop || false;
 
         if (index !== options.index) {
-            index = indexing(node, options.index ?? 0, loop);
+            index = indexing(node, options.index || 0, loop);
             to(index);
         }
 
         if (loop !== options.loop) {
-            loop = options.loop ?? false;
+            loop = options.loop || false;
             replace(node, index, loop);
             to(index);
         }

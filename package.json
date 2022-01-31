@@ -1,6 +1,6 @@
 {
     "name": "slidy",
-    "version": "3.0.0",
+    "version": "3.0.2",
     "description": "SLIDY - simple, configurable & reusable carousel component",
     "private": true,
     "type": "module",
@@ -15,7 +15,8 @@
         "start": "npx derver --production --port=5555 www/public",
         "predeploy": "node esbuild --deploy",
         "deploy": "gh-pages -d www/public",
-        "prepublishOnly": "node esbuild"
+        "prepublishOnly": "node esbuild",
+        "pub": "pnpm pub -r"
     },
     "repository": {
         "type": "git",

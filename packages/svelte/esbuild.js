@@ -8,7 +8,7 @@ import sveltePreprocess from 'svelte-preprocess';
 const pkg = JSON.parse(
     readFileSync(new URL('package.json', import.meta.url), 'utf8')
 );
-console.log(pkg);
+// console.log(pkg);
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
