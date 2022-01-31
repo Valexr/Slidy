@@ -10,7 +10,7 @@ Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Val
 - [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core) - Core sliding nativeJS script
 - [@slidy/svelte](https://github.com/Valexr/svelte-slidy/tree/dev/packages/svelte) - SvelteJS template
 
-> Slidy version 2 is no longer supported, but have package on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/) & source files temporally have in `./src` folder.
+> Slidy version 2 is no longer supported, but have package on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/) & source files temporally live in `./src` folder.
 
 ## Todo
 
