@@ -3,7 +3,7 @@
 <section
     id="controls"
     use:clickout
-    on:clickout={() => (open = false)}
+    on:clickout={() => ($con.open = false)}
     transition:fly={{ x: -350, duration: 350 }}
 >
     <h2>Controls</h2>

@@ -139,12 +139,7 @@
         init = false,
         timeout = 0,
         ww = 0,
-        wh = 0,
-        conOpen = false,
-        setOpen = false,
-        setInput = false,
-        setCheck = false,
-        slides = [];
+        wh = 0;
 
     async function loadSlides(limit, page) {
         init = false;
@@ -210,13 +205,13 @@
     }
     // $: console.log(intersected);
     function settingsClick() {
-        setInput
-            ? ((setCheck = true), (setInput = false))
-            : ((setOpen = !setOpen), (conOpen = false));
+        $set.input
+            ? (($set.check = true), ($set.input = false))
+            : (($set.open = !$set.open), ($con.open = false));
     }
     function controlsClick() {
-        conOpen = !conOpen;
-        setOpen = false;
+        $con.open = !$con.open;
+        $set.open = false;
     }
 </script>
 

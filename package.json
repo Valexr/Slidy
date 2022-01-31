@@ -9,7 +9,7 @@
         "dev:www": "pnpm dev --parallel --filter=slidy...",
         "dev:core": "pnpm dev:core --parallel",
         "dev:svelte": "pnpm dev:svelte --parallel",
-        "build": "node esbuild",
+        "build": "pnpm build -r",
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
         "start": "npx derver --production --port=5555 www/public",

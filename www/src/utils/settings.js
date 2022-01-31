@@ -43,4 +43,14 @@ let settingX = {
 export const settings = writable(JSON.parse(sessionStorage.getItem("slidySettings")) || settingX);
 settings.subscribe(val => sessionStorage.setItem("slidySettings", JSON.stringify(val)));
 
-export const index = writable(4);
+export const set = writable({
+    open: false,
+    input: false,
+    check: false
+})
+
+export const con = writable({
+    open: false
+})
+
+export const index = writable(4)
