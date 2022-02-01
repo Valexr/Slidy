@@ -30,20 +30,20 @@
 
 # @slidy/svelte
 
-Simple, configurable & reusable carousel component built with SvelteJS based on [`@slidy/core`](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core).
+Simple, configurable & reusable carousel component built with SvelteJS based on [`@slidy/core`](https://github.com/Valexr/slidy/tree/master/packages/core).
 
-Try the [demo](https://valexr.github.io/svelte-slidy/?target="_blank").
+Try the [demo](https://valexr.github.io/slidy).
 
 ## Getting started
 
-The package is available via [npm](https://www.npmjs.com/package/svelte-slidy):
+The package is available via [npm](https://www.npmjs.com/package/@slidy/svelte):
 
 ```
 npm i svelte-slidy
 ```
 
 REPL is available
-[here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd).
+[here](https://svelte.dev/repl/d33251a407df44b8ba48e93916b13588?version=3.46.3).
 
 ## Usage
 
