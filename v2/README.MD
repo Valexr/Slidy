@@ -1,42 +1,42 @@
 <div align="center">
-    <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="npm package version" src="https://badgen.net/npm/v/@slidy/svelte" />
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="npm package version" src="https://badgen.net/npm/v/svelte-slidy" />
     </a>
-    <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="types included" src="https://badgen.net/npm/types/@slidy/svelte" />
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="types included" src="https://badgen.net/npm/types/svelte-slidy" />
     </a>
-    <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="downloads count" src="https://badgen.net/npm/dt/@slidy/svelte" />
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="downloads count" src="https://badgen.net/npm/dt/svelte-slidy" />
     </a>
-    <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="licence" src="https://badgen.net/npm/license/@slidy/svelte" />
+    <a href="https://www.npmjs.com/package/svelte-slidy">
+        <img alt="licence" src="https://badgen.net/npm/license/svelte-slidy" />
     </a>
 </div>
 
 <div align="center">
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="minified size" src="https://badgen.net/bundlephobia/min/@slidy/svelte/" />
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="minified size" src="https://badgen.net/bundlephobia/min/svelte-slidy/" />
     </a>
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/svelte/" />
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/svelte-slidy/" />
     </a>
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/svelte/" />
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/svelte-slidy/" />
     </a>
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/@slidy/svelte/" />
+    <a href="https://bundlephobia.com/package/svelte-slidy">
+        <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/svelte-slidy/" />
     </a>
 </div>
 
 # @slidy/svelte
 
-Simple, configurable & reusable carousel component built with SvelteJS based on [`@slidy/core`](https://github.com/Valexr/slidy/tree/master/packages/core).
+Simple, configurable & reusable carousel component built with SvelteJS.
 
 Try the [demo](https://valexr.github.io/slidy).
 
 ## Getting started
 
-The package is available via [npm](https://www.npmjs.com/package/@slidy/svelte):
+The package is available via [npm](https://www.npmjs.com/package/svelte-slidy):
 
 ```
 npm i svelte-slidy
