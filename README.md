@@ -14,10 +14,9 @@ And npm organization [@slidy](https://www.npmjs.com/org/slidy).
 
 > ## ⚠️ version 3.0 in beta now
 
-> Version 2 is no longer supported, but have package on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/).
-Source files temporally live in [`./v2`](https://github.com/Valexr/slidy/tree/master/v2) folder.
+> Version 2 is no longer supported, but have packages on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/). Source files temporally live in [`./v2`](https://github.com/Valexr/slidy/tree/master/v2) folder.
 
-## Contribute
+## Development
 
 For monorepos behavior @slidy use `pnpm workspaces`.
 
