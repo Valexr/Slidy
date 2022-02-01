@@ -189,7 +189,7 @@
         options = {
             axis: 'x',
             loop: false,
-            duration: 450,
+            duration: 375,
             clamp: false,
             snap: true,
             gravity: 1.2,
@@ -293,7 +293,6 @@
                 display: block;
                 pointer-events: none;
                 max-width: var(--wrapw);
-                max-height: var(--wraph);
                 object-fit: var(--slidef);
             }
         }

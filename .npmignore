@@ -1,7 +1,7 @@
 .vscode
 node_modules
 www
-src/cmp
+v2
 packages
 
 .DS_Store
