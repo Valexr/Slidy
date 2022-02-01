@@ -131,3 +131,66 @@ export function resize(node: HTMLElement) {
         },
     };
 }
+
+// let options = {
+//     root: parent,
+//     rootMargin: '0px',
+//     threshold: [1.0],
+// };
+// observer.observe(node);
+
+// let intersected = [];
+// let callback = (entries, observer) => {
+//     console.log('entries:', entries);
+//     // intersected = entries.filter(e => e.isIntersecting);
+//     for (const entry of entries) {
+//         // console.log(entry.intersectionRect.x);
+//         const right = entry.boundingClientRect.right;
+//         const center = entry.rootBounds.width / 2;
+//         const end = entry.rootBounds.width * 0.75;
+//         if (entry.intersectionRatio && right > center && right < end) {
+//             entry.target.style.outline = '1px dashed blue';
+//             entry.target.style.color = 'blue';
+//             // observer.unobserve(entry.target);
+//             console.log(+entry.target.id, entry.boundingClientRect, entry.boundingClientRect.right, entry.rootBounds.width);
+//         } else {
+//             entry.target.style.outline = '0';
+//             entry.target.style.color = 'inherit';
+//         }
+//     }
+//     // console.log('int:', intersected);
+//     // for (const entry of entries) {
+//     //     if (entry.isIntersecting) {
+//     //         // console.log(entry.target.id, entry);
+//     //         // intersected.filter(e => e !== +entry.target.id);
+//     //         intersected = [...new Set([...intersected.filter(e => e !== +entry.target.id), +entry.target.id])];
+//     //         observer.unobserve(entry.target);
+//     //         console.log('intersected:', intersected);
+//     //     } else {
+//     //         // intersected.filter(e => e !== +entry.target.id);
+//     //         console.log('untersected:', intersected, +entry.target.id);
+//     //     }
+//     // }
+//     // entries.forEach((entry, i) => {
+//     //     // console.log('io:', entry.target.id, entry);
+//     //     if (entry.isIntersecting) {
+//     //         // console.log(entry.target.id, entry);
+//     //         intersected = [...new Set([...intersected, +entry.target.id])];
+//     //         observer.unobserve(entry.target);
+//     //         intersected.filter(e => e !== +entry.target.id);
+//     //         console.log('intersected:', intersected);
+//     //     } else {
+//     //         // intersected.filter(e => e !== +entry.target.id);
+//     //         console.log('untersected:', intersected, +entry.target.id);
+//     //     }
+//     //     // Each entry describes an intersection change for one observed
+//     //     // target element:
+//     //     //   entry.boundingClientRect
+//     //     //   entry.intersectionRatio
+//     //     //   entry.intersectionRect
+//     //     //   entry.isIntersecting
+//     //     //   entry.rootBounds
+//     //     //   entry.target
+//     //     //   entry.time
+//     // });
+// };

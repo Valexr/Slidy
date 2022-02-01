@@ -43,7 +43,7 @@ npm i svelte-slidy
 ```
 
 REPL is available
-[here](https://svelte.dev/repl/d33251a407df44b8ba48e93916b13588?version=3.46.3).
+[here](https://svelte.dev/repl/de699aa1f8c04874b0402352ac93df96).
 
 ## Usage
 

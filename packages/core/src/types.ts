@@ -43,3 +43,10 @@ export interface Delta {
     target: number;
     amplitude: number;
 }
+
+export interface Scroll {
+    target: number;
+    amplitude: number;
+    duration: number;
+    timestamp: number;
+}

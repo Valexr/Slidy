@@ -1,5 +1,5 @@
 import { onMounted } from './env';
-import type { Delta, Options } from './types';
+import type { Delta, Options, Scroll } from './types';
 import {
     find,
     indexing,
@@ -25,8 +25,8 @@ export function slidy(
         gravity = 1.2,
         duration = 375,
         align = 'start',
-        indexer = (x: number): number => x,
-        scroller = (p: number): number => p,
+        indexer = (x: number) => x,
+        scroller = (p: number) => p,
     }: Options
 ): {
     update: (options: Options) => void;
@@ -50,11 +50,10 @@ export function slidy(
         events: [keyof HTMLElementEventMap, EventListener][],
         off: boolean = false
     ) =>
-        events.forEach(
-            ([e, h]) =>
-                off
-                    ? node?.removeEventListener(e, h, true)
-                    : node?.addEventListener(e, h, true)
+        events.forEach(([event, handle]) =>
+            off
+                ? node?.removeEventListener(event, handle, true)
+                : node?.addEventListener(event, handle, true)
         );
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
         ['touchmove', onMove],
@@ -83,7 +82,7 @@ export function slidy(
             node.style.touchAction = 'pan-y';
             node.style.pointerEvents = 'none';
             node.style.willChange = 'auto';
-            node.style.webkitUserSelect = 'none';
+            // node.style.webkitUserSelect = 'none';
             // node.onresize = () => to(index);
 
             replace(node, index, loop);
@@ -147,9 +146,9 @@ export function slidy(
                 ? 0
                 : find.position(node, ix, axis, align);
 
-        // clamp && replace(node, index, loop)
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
+        // clamp && loop && replace(node, index, loop);
         // scroll({
         //     target: pos - position,
         //     amplitude: pos / duration,
@@ -168,12 +167,6 @@ export function slidy(
         });
     }
 
-    interface Scroll {
-        target: number;
-        amplitude: number;
-        duration: number;
-        timestamp: number;
-    }
     function scroll({ target, amplitude, duration, timestamp }: Scroll) {
         if (amplitude) {
             RAF(function scroll(time: number) {
