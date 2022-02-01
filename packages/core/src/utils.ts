@@ -5,10 +5,9 @@ function maxMin(max: number, min: number, val: number) {
 }
 
 function maxSize(node: HTMLElement, axis: string) {
-    const parent: HTMLElement = node.parentElement;
     return axis === 'y'
-        ? node.scrollHeight - parent.offsetHeight
-        : node.scrollWidth - parent.offsetWidth;
+        ? node.scrollHeight - parent(node).offsetHeight
+        : node.scrollWidth - parent(node).offsetWidth;
 }
 
 function indexing(node: HTMLElement, index: number, loop: boolean = false) {
@@ -36,6 +35,7 @@ const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouche
 // }
 
 const cix = (node: HTMLElement) => Math.floor(node.children.length / 2);
+const parent = (node: HTMLElement) => node.parentElement;
 const nodes = (node: HTMLElement) => Array.from(node.children);
 const child = (node: HTMLElement, index: number) => node.children[index];
 // const computed = (child: Element, axis: string) =>

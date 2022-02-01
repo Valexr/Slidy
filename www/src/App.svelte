@@ -61,9 +61,9 @@
 
 <NavBottom />
 
-{#if init}
+<!-- {#if init}
     <NavThumbs bind:index slides={items} />
-{/if}
+{/if} -->
 
 {#if $con.open}
     <Controls bind:index bind:open={$con.open} bind:slides={items} />
@@ -251,6 +251,7 @@
         z-index: 0;
         border-radius: 1rem;
         box-shadow: var(--box-shadow-large);
+        will-change: transform;
         span {
             top: 0;
             border-top-left-radius: 1rem;
@@ -259,6 +260,7 @@
             z-index: 1;
             padding: 1em;
             background: var(--back-color);
+            will-change: transform;
         }
     }
 
@@ -290,7 +292,7 @@
     img {
         opacity: 0;
         transition: opacity 1000ms ease-in;
-        will-change: auto;
+        will-change: transform;
         &.loaded {
             opacity: 1;
         }

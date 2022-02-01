@@ -1,15 +1,15 @@
 export type Options = {
-    index?: number;
-    duration?: number | undefined;
-    gravity?: number;
-    indexer?: Function;
-    scroller?: Function;
-    align?: string;
-    axis?: string;
-    clamp?: boolean;
-    snap?: boolean;
-    loop?: boolean;
-    gap?: number;
+    index: number;
+    duration: number;
+    gravity: number;
+    indexer: Function;
+    scroller: Function;
+    align: string;
+    axis: string;
+    clamp: boolean;
+    snap: boolean;
+    loop: boolean;
+    gap: number;
 };
 
 export interface Step {

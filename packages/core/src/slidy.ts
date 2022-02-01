@@ -3,7 +3,7 @@ import type { Delta, Options } from './types';
 import {
     find,
     indexing,
-    rotate,
+    // rotate,
     replace,
     prev,
     next,
@@ -15,13 +15,7 @@ import {
 
 export function slidy(
     node: HTMLElement,
-    options: Options = {}
-): {
-    update: (options: Options) => void;
-    destroy: () => void;
-    to: (index: number, target?: number) => void;
-} {
-    let {
+    {
         gap = 0,
         index = 0,
         axis = 'x',
@@ -33,8 +27,12 @@ export function slidy(
         align = 'start',
         indexer = (x: number): number => x,
         scroller = (p: number): number => p,
-    } = options;
-
+    }: Options
+): {
+    update: (options: Options) => void;
+    destroy: () => void;
+    to: (index: number, target?: number) => void;
+} {
     let raf: number,
         rak: number,
         velocity = 0,
@@ -46,12 +44,36 @@ export function slidy(
         hip = position,
         hix = index;
 
-    const PARENT = node.parentElement;
+    const PARENT = node?.parentElement;
+    const listen = (
+        node: Window | HTMLElement | null,
+        events: [keyof HTMLElementEventMap, EventListener][],
+        off: boolean = false
+    ) =>
+        events.forEach(
+            ([e, h]) =>
+                off
+                    ? node?.removeEventListener(e, h, true)
+                    : node?.addEventListener(e, h, true)
+        );
+    const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
+        ['touchmove', onMove],
+        ['mousemove', onMove],
+        ['touchend', onUp],
+        ['mouseup', onUp],
+    ];
+    const parentEvents: [keyof HTMLElementEventMap, EventListener][] = [
+        ['contextmenu', clear],
+        ['touchstart', onDown],
+        ['mousedown', onDown],
+        ['keydown', onKeys],
+        ['wheel', onWheel],
+        ['resize', () => to(index)],
+    ];
     // const CIX: number = Math.floor(node.children.length / 2); // node.children.length / 2 >> 1
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        node.dispatchEvent(new CustomEvent('resize'));
-        to(index);
+        PARENT?.dispatchEvent(new CustomEvent('resize'));
     });
 
     onMounted(node)
@@ -62,21 +84,14 @@ export function slidy(
             node.style.pointerEvents = 'none';
             node.style.willChange = 'auto';
             node.style.webkitUserSelect = 'none';
+            // node.onresize = () => to(index);
 
-            // if (loop) {
-            //     node.replaceChildren(...rotate(Array.from(childs), index - CIX));
-            //     node.style.justifyContent = 'center';
-            // }
             replace(node, index, loop);
             to(index);
 
             if (PARENT) {
-                PARENT.addEventListener('touchstart', onDown);
-                PARENT.addEventListener('mousedown', onDown);
-                PARENT.addEventListener('keydown', onKeys);
-                PARENT.addEventListener('wheel', onWheel);
-                PARENT.oncontextmenu = () => clear();
                 PARENT.style.outline = 'none';
+                listen(PARENT, parentEvents);
                 RO.observe(PARENT);
             }
         })
@@ -129,8 +144,8 @@ export function slidy(
                 ? find.target(node, target, axis, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, axis, align);
+                ? 0
+                : find.position(node, ix, axis, align);
 
         // clamp && replace(node, index, loop)
         // console.log('to:', ix, index, target, pos - position)
@@ -183,13 +198,10 @@ export function slidy(
         reference = axisCoord(e, axis);
         track(performance.now());
 
-        window.addEventListener('touchmove', onMove);
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('touchend', onUp);
-        window.addEventListener('mouseup', onUp);
+        listen(window, windowEvents);
     }
 
-    function onMove(e: MouseEvent | TouchEvent) {
+    function onMove(e: Event) {
         const delta = (reference - axisCoord(e, axis)) * (2 - gravity);
         reference = axisCoord(e, axis);
         move(delta);
@@ -204,13 +216,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                ? to(index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration,
+                        timestamp: performance.now(),
+                    });
     }
 
     function delting(position: number): Delta {
@@ -257,30 +269,27 @@ export function slidy(
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);
-        window.removeEventListener('touchmove', onMove);
-        window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('touchend', onUp);
-        window.removeEventListener('mouseup', onUp);
+        listen(window, windowEvents, true);
     }
 
     // update(options)
     function update(options: Options) {
-        duration = options.duration || 375;
-        gravity = maxMin(2, 0, options.gravity || 1.2);
-        axis = options.axis || 'x';
-        align = options.align || 'middle';
-        snap = options.snap || true;
-        clamp = options.clamp || false;
-        gap = options.gap || 0;
-        // loop = options.loop || false;
+        duration = options.duration;
+        gravity = maxMin(2, 0, options.gravity);
+        axis = options.axis;
+        align = options.align;
+        snap = options.snap;
+        clamp = options.clamp;
+        gap = options.gap;
+        // loop = options.loop ?? false;
 
         if (index !== options.index) {
-            index = indexing(node, options.index || 0, loop);
+            index = indexing(node, options.index, loop);
             to(index);
         }
 
         if (loop !== options.loop) {
-            loop = options.loop || false;
+            loop = options.loop;
             replace(node, index, loop);
             to(index);
         }
@@ -288,15 +297,15 @@ export function slidy(
 
     function destroy() {
         clear();
+        // if (PARENT) {
         RO.disconnect();
-        if (PARENT) {
-            PARENT.onresize = null;
-            PARENT.oncontextmenu = null;
-            PARENT.removeEventListener('touchstart', onDown);
-            PARENT.removeEventListener('mousedown', onDown);
-            PARENT.removeEventListener('keydown', onKeys);
-            PARENT.removeEventListener('wheel', onWheel);
-        }
+        // PARENT.onresize = null;
+        listen(PARENT, parentEvents, true);
+        // unlisten('touchstart', onDown);
+        // unlisten('mousedown', onDown);
+        // unlisten('keydown', onKeys);
+        // unlisten('wheel', onWheel);
+        // }
     }
     return { update, destroy, to };
 }
