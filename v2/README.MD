@@ -28,7 +28,7 @@
     </a>
 </div>
 
-# @slidy/svelte
+# svelte-slidy
 
 Simple, configurable & reusable carousel component built with SvelteJS.
 
