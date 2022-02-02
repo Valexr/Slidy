@@ -2,7 +2,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/@slidy/core)](https://www.npmjs.com/package/@slidy/core)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@slidy/core)](https://bundlephobia.com/package/@slidy/core)
 
-# SLIDY
+# @Slidy
 
 Simple, configurable & reusable carousel sliding action script with templates.
 
