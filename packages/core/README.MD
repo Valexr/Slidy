@@ -20,7 +20,7 @@ Simple, configurable & reusable sliding action script
 
 <script>
     let slidy, node
-    
+
     window.onload = () => {
         node = document.querySelector('#slidy');
         slidy = Slidy.slidy(node, {
@@ -35,11 +35,11 @@ Simple, configurable & reusable sliding action script
                     indexer: (x) => indexing(x),
                     scroller: (p) => scrolling(p),
                 });
-        slidy.to(index);
+        slidy.to(5);
     }
 </script>
 
-<section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
+<section tabindex="0">
     <ul id="slidy" />
 </section>
 
