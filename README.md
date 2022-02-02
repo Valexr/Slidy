@@ -28,6 +28,7 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 - Demo docs site based on SvelteKit
 - @slidy/wc - WebComponent template
 - @slidy/malina - MalinaJS template
+- @slidy/solid - SolidJS template
 - @slidy/react - ReactJS template
 - @slidy/vue - VueJS template
 
