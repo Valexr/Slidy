@@ -40,7 +40,10 @@ Simple, configurable & reusable sliding action script
 </script>
 
 <section tabindex="0">
-    <ul id="slidy" />
+    <ul id="slidy">
+        <li>...</li>
+        ...
+    </ul>
 </section>
 
 <nav>
