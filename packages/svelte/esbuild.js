@@ -12,10 +12,10 @@ import sveltePreprocess from 'svelte-preprocess';
 // );
 // console.log(pkg);
 // const App = require('./src/Slidy.svelte').default;
-// import Comp from './src/Slidy.svelte'
+// import Comp from './src/index.js'
 
 // const { html, css, head } = App.render({ answer: 42 });
-// console.log(html, css, head, register)
+// console.log(Comp)
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
