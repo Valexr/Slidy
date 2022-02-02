@@ -143,8 +143,8 @@ export function slidy(
                 ? find.target(node, target, axis, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, axis, align);
+            ? 0
+            : find.position(node, ix, axis, align);
 
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
@@ -209,13 +209,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                    ? to(index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration,
+                      timestamp: performance.now(),
+                  });
     }
 
     function delting(position: number): Delta {

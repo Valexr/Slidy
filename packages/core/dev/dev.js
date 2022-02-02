@@ -127,10 +127,10 @@ var Slidy = (() => {
             Y,
             ee = c,
             H = t,
-            T = e?.parentElement,
+            T = e.parentElement,
             A = (n, o, i = !1) =>
                 o.forEach(([m, b]) =>
-                    i ? n?.removeEventListener(m, b, !0) : n?.addEventListener(m, b, !0)
+                    i ? n.removeEventListener(m, b, !0) : n.addEventListener(m, b, !0)
                 ),
             q = [
                 ['touchmove', J],
@@ -148,7 +148,7 @@ var Slidy = (() => {
             ],
             C = requestAnimationFrame,
             U = new ResizeObserver(() => {
-                T?.dispatchEvent(new CustomEvent('resize'));
+                T.dispatchEvent(new CustomEvent('resize'));
             });
         G(e)
             .then((n) => {
