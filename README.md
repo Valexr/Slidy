@@ -3,6 +3,8 @@
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@slidy/core)](https://bundlephobia.com/package/@slidy/core)
 [![npm license](https://img.shields.io/npm/l/@slidy/core)](https://www.npmjs.com/package/@slidy/core)
 
+[!github issues (https://img.shields.io/github/issues/valexr/slidy)](https://github.com/Valexr/slidy/issues)
+
 # @Slidy
 
 Simple, configurable & reusable carousel sliding action script with templates.
