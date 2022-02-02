@@ -10,8 +10,8 @@
 Simple, configurable & reusable carousel sliding action script with templates.
 
 Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Valexr/svelte-slidy/tree/master/packages) structure:
-- [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/master/packages/core) - Core sliding nativeJS script
-- [@slidy/svelte](https://github.com/Valexr/svelte-slidy/tree/master/packages/svelte) - SvelteJS template
+- [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding nativeJS script
+- [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 
 And npm organization [@slidy](https://www.npmjs.com/org/slidy).
 
