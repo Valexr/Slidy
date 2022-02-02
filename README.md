@@ -1,6 +1,6 @@
-[![NPM version](https://img.shields.io/npm/v/@slidy/core.svg)](https://www.npmjs.com/package/@slidy/core)
-[![NPM downloads](https://img.shields.io/npm/d/@slidy/core.svg)](https://www.npmjs.com/package/@slidy/core)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@slidy/core.svg)](https://www.npmjs.com/package/@slidy/core)
+[![npm version](https://img.shields.io/npm/v/@slidy/core)](https://www.npmjs.com/package/@slidy/core)
+[![npm downloads](https://img.shields.io/npm/dt/@slidy/core)](https://www.npmjs.com/package/@slidy/core)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@slidy/core)](https://bundlephobia.com/package/@slidy/core)
 
 # SLIDY
 
