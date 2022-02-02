@@ -1,7 +1,7 @@
 {
     "name": "slidy",
     "version": "3.0.4",
-    "description": "SLIDY - simple, configurable & reusable carousel component",
+    "description": "Simple, configurable & reusable carousel component",
     "private": true,
     "type": "module",
     "scripts": {
