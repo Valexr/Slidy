@@ -61,7 +61,7 @@
     },
     "devDependencies": {
         "derver": "^0.5.3",
-        "esbuild": "^0.14.16",
+        "esbuild": "^0.14.17",
         "typescript": "^4.5.5"
     }
 }
