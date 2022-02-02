@@ -44,7 +44,7 @@ export function slidy(
         hip = position,
         hix = index;
 
-    const PARENT = node?.parentElement;
+    const PARENT = node.parentElement;
     const listen = (
         node: Window | HTMLElement | null,
         events: [keyof HTMLElementEventMap, EventListener][],
@@ -52,8 +52,8 @@ export function slidy(
     ) =>
         events.forEach(([event, handle]) =>
             off
-                ? node?.removeEventListener(event, handle, true)
-                : node?.addEventListener(event, handle, true)
+                ? node.removeEventListener(event, handle, true)
+                : node.addEventListener(event, handle, true)
         );
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
         ['touchmove', onMove],
@@ -72,7 +72,7 @@ export function slidy(
     // const CIX: number = Math.floor(node.children.length / 2); // node.children.length / 2 >> 1
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        PARENT?.dispatchEvent(new CustomEvent('resize'));
+        PARENT.dispatchEvent(new CustomEvent('resize'));
     });
 
     onMounted(node)
@@ -143,8 +143,8 @@ export function slidy(
                 ? find.target(node, target, axis, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, axis, align);
+                ? 0
+                : find.position(node, ix, axis, align);
 
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
@@ -209,13 +209,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                ? to(index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration,
+                        timestamp: performance.now(),
+                    });
     }
 
     function delting(position: number): Delta {
