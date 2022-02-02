@@ -251,7 +251,7 @@
         z-index: 0;
         border-radius: 1rem;
         box-shadow: var(--box-shadow-large);
-        will-change: transform;
+        // will-change: transform;
         span {
             top: 0;
             border-top-left-radius: 1rem;
@@ -292,9 +292,23 @@
     img {
         opacity: 0;
         transition: opacity 1000ms ease-in;
-        will-change: transform;
+        // will-change: auto;
         &.loaded {
             opacity: 1;
+        }
+    }
+    /* iOS */
+    @supports (-webkit-touch-callout: none) {
+        img {
+            width: auto;
+            // will-change: transform;
+        }
+    }
+    /* MacOS */
+    @media not all and (min-resolution: 0.001dpcm) {
+        img {
+            // width: auto;
+            will-change: transform, box-shadow;
         }
     }
 

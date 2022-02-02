@@ -48,6 +48,7 @@ if (DEV) {
         outfile: 'dist/slidy.mjs',
         format: 'esm',
         sourcemap: 'inline',
+        minify: false,
         incremental: true,
         watch: true,
     }).then((bundle) => {

@@ -82,16 +82,16 @@ export function slidy(
             node.style.touchAction = 'pan-y';
             node.style.pointerEvents = 'none';
             node.style.willChange = 'auto';
-            // node.style.webkitUserSelect = 'none';
+            node.style.webkitUserSelect = 'none';
             // node.onresize = () => to(index);
 
             replace(node, index, loop);
             to(index);
 
             if (PARENT) {
+                RO.observe(PARENT);
                 PARENT.style.outline = 'none';
                 listen(PARENT, parentEvents);
-                RO.observe(PARENT);
             }
         })
         .catch((error) => console.error(error));
@@ -143,8 +143,8 @@ export function slidy(
                 ? find.target(node, target, axis, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, axis, align);
+            ? 0
+            : find.position(node, ix, axis, align);
 
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
@@ -209,13 +209,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                    ? to(index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration,
+                      timestamp: performance.now(),
+                  });
     }
 
     function delting(position: number): Delta {
@@ -265,8 +265,26 @@ export function slidy(
         listen(window, windowEvents, true);
     }
 
-    // update(options)
+    // update(options);
     function update(options: Options) {
+        // const props = [
+        //     duration,
+        //     gravity,
+        //     axis,
+        //     align,
+        //     snap,
+        //     clamp,
+        //     gap
+        // ]
+
+        // for (let key in options) {
+        //     if (Object.prototype.hasOwnProperty.call(options, key)) {
+        //         // const element = options[key];
+        //         console.log({ [key]: options[key] }, loop, props[key])
+        //     }
+        //     // props.forEach(p => p = (p !== options[key]) ? options[key] : p)
+        //     // if (props[key] !== options[key]) props[key] = options[key]
+        // }
         duration = options.duration;
         gravity = maxMin(2, 0, options.gravity);
         axis = options.axis;
@@ -274,7 +292,7 @@ export function slidy(
         snap = options.snap;
         clamp = options.clamp;
         gap = options.gap;
-        // loop = options.loop ?? false;
+        // loop = options.loop;
 
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
