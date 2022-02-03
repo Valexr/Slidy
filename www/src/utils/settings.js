@@ -24,18 +24,15 @@ let settingX = {
         dotsnum: true,
         dotsarrow: true,
         dotspure: true,
-        arrows: false,
-        keys: true,
-        drag: true,
-        wheel: true,
+        arrows: false
     },
     options: {
-        vartical: false,
-        loop: false,
         duration: 375,
-        clamp: false,
-        snap: true,
         gravity: 1.2,
+        snap: true,
+        loop: false,
+        clamp: false,
+        vertical: false,
         intersecting: false
     }
 };

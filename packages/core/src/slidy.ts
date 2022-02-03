@@ -16,14 +16,13 @@ import {
 export function slidy(
     node: HTMLElement,
     {
-        gap = 0,
         index = 0,
-        vertical = false,
-        loop = false,
-        snap = false,
-        clamp = false,
         gravity = 1.2,
         duration = 375,
+        vertical = false,
+        clamp = false,
+        loop = false,
+        snap = false,
         align = 'start',
         indexer = (x: number) => x,
         scroller = (p: number) => p,
@@ -43,6 +42,7 @@ export function slidy(
         wheeltime: NodeJS.Timeout,
         hip = position,
         hix = index;
+    // gap = 0;
 
     const PARENT = node.parentElement;
     const listen = (
@@ -69,7 +69,7 @@ export function slidy(
         ['wheel', onWheel],
         ['resize', () => to(index)],
     ];
-    // const CIX: number = Math.floor(node.children.length / 2); // node.children.length / 2 >> 1
+
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
         PARENT.dispatchEvent(new CustomEvent('resize'));
@@ -77,16 +77,17 @@ export function slidy(
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
-            console.log('mounted');
+            // console.log('mounted');
             node.style.userSelect = 'none';
             node.style.touchAction = 'pan-y';
             node.style.pointerEvents = 'none';
             node.style.willChange = 'auto';
             node.style.webkitUserSelect = 'none';
-            // node.onresize = () => to(index);
 
             replace(node, index, loop);
             to(index);
+
+            // gap = find.gap(node, vertical, align);
 
             if (PARENT) {
                 RO.observe(PARENT);
@@ -118,7 +119,8 @@ export function slidy(
         const first = find.size(node, 0, vertical);
         const last = find.size(node, node.children.length - 1, vertical);
         // const active = find.size(node, hix, vertical)
-        const history = (size: number) => (size + gap) * Math.sign(-pos);
+        const history = (size: number) =>
+            (size + find.gap(node, vertical, align)) * Math.sign(-pos);
 
         if (hix !== index) {
             pos > 0 ? next(node, vertical) : prev(node, vertical);
@@ -291,7 +293,7 @@ export function slidy(
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;
-        gap = options.gap;
+        // gap = options.gap;
         // loop = options.loop;
 
         if (index !== options.index) {
