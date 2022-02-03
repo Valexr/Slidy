@@ -2,14 +2,13 @@ export type Options = {
     index: number;
     duration: number;
     gravity: number;
-    indexer: Function;
-    scroller: Function;
     align: string;
-    vertical: boolean;
-    clamp: boolean;
     snap: boolean;
     loop: boolean;
-    gap: number;
+    clamp: boolean;
+    vertical: boolean;
+    indexer: Function;
+    scroller: Function;
 };
 
 export interface Step {

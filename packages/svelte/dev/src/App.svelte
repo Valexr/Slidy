@@ -63,7 +63,7 @@
                 wheel: true,
             }}
             options={{
-                axis,
+                vertical,
                 loop,
                 duration,
                 clamp,
@@ -100,7 +100,8 @@
         disabled={!loop && index === items.length - 1}>→</button
     >
     <button on:click={shuffle}><i class="icon icon-refresh" /></button>
-    <button on:click={() => (axisY = !axisY)} class:active={axisY}>axisY</button
+    <button on:click={() => (vertical = !vertical)} class:active={vertical}
+        >vertical</button
     >
     <button on:click={() => (clamp = !clamp)} class:active={clamp}>
         clamp
@@ -171,16 +172,8 @@
             </select>
         </label>
     </fieldset>
-    <!-- <fieldset> -->
-    <!-- <label>clamp <input type="checkbox" bind:checked={clamp} /></label> -->
-    <!-- <label>snap <input type="checkbox" bind:checked={snap} /></label> -->
-    <!-- </fieldset> -->
 </form>
 
-<!-- 
-<article>
-    {@html article}
-</article> -->
 <script lang="ts" context="module">
     import { getPhotos, randomQ } from './scripts/api';
     import Slidy from '../../src/Slidy.svelte';
@@ -193,10 +186,10 @@
     let items: Item[] = [],
         position = 0,
         page = randomQ(0, 90),
-        limit = 3,
+        limit = 13,
         index = 0,
-        axisY = false,
-        clamp = true,
+        vertical = false,
+        clamp = false,
         align = 'middle',
         duration = 375,
         stend = false,
@@ -204,17 +197,10 @@
         width = 'auto',
         snap = true,
         images = true,
-        loop = false,
+        loop = true,
         gap = 16;
 
     $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // export let article = '';
-    // fetch('article.md').then(
-    //     async (a) => (article = snarkdown(await a.text()))
-    // );
-
-    $: axis = axisY ? 'y' : 'x';
 
     async function loadPhotos(limit: number, page: number) {
         items = await getPhotos(limit, page);

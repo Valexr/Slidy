@@ -10,7 +10,7 @@ function maxSize(node: HTMLElement, vertical: boolean) {
         : node.scrollWidth - parent(node).offsetWidth;
 }
 
-function indexing(node: HTMLElement, index: number, loop: boolean = false) {
+function indexing(node: HTMLElement, index: number, loop: boolean) {
     if (loop) {
         if (index < 0) {
             return nodes(node).length - 1;
@@ -48,7 +48,7 @@ const offset = (node: HTMLElement, child: Element, vertical: boolean) =>
     node.parentElement[size(vertical)] - child[size(vertical)];
 const position = (node: HTMLElement, child: Element, vertical: boolean, align: string) =>
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
-// loop ? computed(child, vertical) :
+const distance = (node: HTMLElement, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)])
 
 function closest(node: HTMLElement, target: number, vertical: boolean, align: string) {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
@@ -77,10 +77,9 @@ const find = {
         nodes(node)[index][size(vertical)],
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
-    gap: (node: HTMLElement, vertical: boolean, align: string, loop: boolean) =>
-        loop
-            ? Math.abs(position(node, child(node, 0), vertical, align)) - Math.abs(position(node, child(node, 1), vertical, align)) - Math.abs(nodes(node)[0][size(vertical)])
-            : Math.abs(position(node, child(node, 0), vertical, align)) - Math.abs(position(node, child(node, 1), vertical, align)) - Math.abs(nodes(node)[0][size(vertical)])
+    gap: (node: HTMLElement, vertical: boolean) => {
+        return distance(node, 0, vertical) - distance(node, 1, vertical) - nodes(node)[0][size(vertical)]
+    }
 };
 
 // const styling = (node: HTMLElement, undo: boolean = false) => {
@@ -132,11 +131,11 @@ const rotate = (array: Array<Element>, key: number) =>
 //     });
 // }
 
-function prev(node: HTMLElement, vertical: boolean) {
+function prev(node: HTMLElement) {
     const last = node.children[node.children.length - 1];
     node.prepend(last);
 }
-function next(node: HTMLElement, vertical: boolean) {
+function next(node: HTMLElement) {
     const first = node.children[0];
     node.append(first);
 }
@@ -144,10 +143,10 @@ function next(node: HTMLElement, vertical: boolean) {
 function replace(node: HTMLElement, index: number, loop: boolean) {
     if (loop) {
         node.replaceChildren(...rotate(nodes(node), index - cix(node)));
-        node.style.justifyContent = 'center';
+        // node.style.justifyContent = 'center';
     } else {
         node.replaceChildren(...nodes(node));
-        node.style.justifyContent = 'start';
+        // node.style.justifyContent = 'start';
     }
 }
 

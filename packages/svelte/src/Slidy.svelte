@@ -42,7 +42,6 @@
                 gravity: options.gravity,
                 snap: options.snap,
                 loop: options.loop,
-                gap: slide.gap,
                 indexer: (x) => (index = x),
                 scroller: (p) => (position = p),
             }}
@@ -156,6 +155,7 @@
 
 <script lang="ts">
     import { slidy } from '@slidy/core';
+    import type { Options } from '@slidy/core';
 
     export let slides: any[] = [],
         key = (item: { [x: string]: any; id: any }) =>
@@ -202,6 +202,8 @@
         position = 0;
 
     // $: slides = slidyInit(slides);
+
+    $: console.log(index);
 
     async function slidyInit(
         slides: any[],
@@ -345,11 +347,13 @@
     .slidy-dots.pure li button {
         border-radius: 50%;
         background: red;
-        opacity: 0.18;
         color: red;
         width: 12px;
         height: 12px;
         transition: color var(--dur);
+    }
+    .slidy-dots li:not(.dots-arrow-left, .dots-arrow-right, .active) {
+        opacity: 0.18;
     }
     .slidy-dots.pure li.active button {
         opacity: 1;
