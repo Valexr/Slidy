@@ -292,7 +292,7 @@
     img {
         opacity: 0;
         transition: opacity 1000ms ease-in;
-        // will-change: auto;
+        will-change: transform;
         &.loaded {
             opacity: 1;
         }
@@ -301,7 +301,7 @@
     @supports (-webkit-touch-callout: none) {
         img {
             width: auto;
-            // will-change: transform;
+            will-change: auto;
         }
     }
     /* MacOS */
