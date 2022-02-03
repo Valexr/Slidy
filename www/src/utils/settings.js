@@ -30,7 +30,7 @@ let settingX = {
         wheel: true,
     },
     options: {
-        axis: 'x',
+        vartical: false,
         loop: false,
         duration: 375,
         clamp: false,

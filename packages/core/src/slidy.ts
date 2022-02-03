@@ -9,7 +9,7 @@ import {
     next,
     maxMin,
     // maxSize,
-    axisCoord,
+    coordinate,
 } from './utils';
 // import { resize } from './actions'
 
@@ -18,7 +18,7 @@ export function slidy(
     {
         gap = 0,
         index = 0,
-        axis = 'x',
+        vertical = false,
         loop = false,
         snap = false,
         clamp = false,
@@ -98,13 +98,13 @@ export function slidy(
 
     function move(pos: number, transition: number = 0) {
         position += loop ? looping(pos) : pos;
-        index = find.index(node, position, undefined, axis, align);
+        index = find.index(node, position, undefined, vertical, align);
 
-        const translate = (axis: string) => {
-            return axis === 'y' ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+        const translate = (vertical: boolean) => {
+            return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
         };
 
-        node.style.transform = `translate3d(${translate(axis)})`;
+        node.style.transform = `translate3d(${translate(vertical)})`;
         node.style.transition = `${transition}ms`;
         node.dataset.position = `${position}`;
         node.dataset.index = `${index}`;
@@ -115,13 +115,13 @@ export function slidy(
 
     function looping(pos: number) {
         const delta = hip - pos;
-        const first = find.size(node, 0, axis);
-        const last = find.size(node, node.children.length - 1, axis);
-        // const active = find.size(node, hix, axis)
+        const first = find.size(node, 0, vertical);
+        const last = find.size(node, node.children.length - 1, vertical);
+        // const active = find.size(node, hix, vertical)
         const history = (size: number) => (size + gap) * Math.sign(-pos);
 
         if (hix !== index) {
-            pos > 0 ? next(node, axis) : prev(node, axis);
+            pos > 0 ? next(node, vertical) : prev(node, vertical);
             pos += history(pos > 0 ? first : last);
             frame = position + pos + delta;
             // node.style.left = `${history(delta ? first : last)}px`;
@@ -136,15 +136,15 @@ export function slidy(
 
         index = hix = indexing(node, index, loop);
         const child = find.child(node, index);
-        const ix = loop ? find.index(node, position, child, axis, align) : index;
+        const ix = loop ? find.index(node, position, child, vertical, align) : index;
 
         let pos = target
             ? snap
-                ? find.target(node, target, axis, align)
+                ? find.target(node, target, vertical, align)
                 : target
             : target === 0
             ? 0
-            : find.position(node, ix, axis, align);
+            : find.position(node, ix, vertical, align);
 
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
@@ -171,7 +171,7 @@ export function slidy(
         if (amplitude) {
             RAF(function scroll(time: number) {
                 const elapsed = (time - timestamp) / duration;
-                // const near = find.position(node, loop ? CIX : index, axis, align, loop)
+                // const near = find.position(node, loop ? CIX : index, vertical, align, loop)
                 const delta = amplitude * Math.exp(-elapsed);
                 const dist = position - (target - delta);
 
@@ -188,15 +188,15 @@ export function slidy(
         clear();
 
         frame = position;
-        reference = axisCoord(e, axis);
+        reference = coordinate(e, vertical);
         track(performance.now());
 
         listen(window, windowEvents);
     }
 
     function onMove(e: Event) {
-        const delta = (reference - axisCoord(e, axis)) * (2 - gravity);
-        reference = axisCoord(e, axis);
+        const delta = (reference - coordinate(e, vertical)) * (2 - gravity);
+        reference = coordinate(e, vertical);
         move(delta);
     }
 
@@ -221,7 +221,7 @@ export function slidy(
     function delting(position: number): Delta {
         let amplitude = (2 - gravity) * velocity;
         const target = snap
-            ? find.target(node, position + amplitude, axis, align)
+            ? find.target(node, position + amplitude, vertical, align)
             : position + amplitude;
         amplitude = target - position;
         return { target, amplitude };
@@ -232,11 +232,11 @@ export function slidy(
         clear();
         wheeling = true;
 
-        ((Math.abs(axisCoord(e, 'x')) && Math.abs(axisCoord(e, 'y')) < 15) ||
+        ((Math.abs(coordinate(e, 'x')) && Math.abs(coordinate(e, 'y')) < 15) ||
             e.shiftKey) &&
             e.preventDefault();
 
-        move(axisCoord(e, axis) * (2 - gravity));
+        move(coordinate(e, vertical) * (2 - gravity));
 
         if (e.shiftKey) to(index - Math.sign(e.deltaY));
         else if (snap || clamp)
@@ -270,7 +270,7 @@ export function slidy(
         // const props = [
         //     duration,
         //     gravity,
-        //     axis,
+        //     vertical,
         //     align,
         //     snap,
         //     clamp,
@@ -287,7 +287,7 @@ export function slidy(
         // }
         duration = options.duration;
         gravity = maxMin(2, 0, options.gravity);
-        axis = options.axis;
+        vertical = options.vertical;
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;

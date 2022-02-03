@@ -4,8 +4,8 @@ function maxMin(max: number, min: number, val: number) {
     return Math.min(max, Math.max(min, val)) || 0;
 }
 
-function maxSize(node: HTMLElement, axis: string) {
-    return axis === 'y'
+function maxSize(node: HTMLElement, vertical: boolean) {
+    return vertical
         ? node.scrollHeight - parent(node).offsetHeight
         : node.scrollWidth - parent(node).offsetWidth;
 }
@@ -20,10 +20,10 @@ function indexing(node: HTMLElement, index: number, loop: boolean = false) {
     } else return maxMin(nodes(node).length - 1, 0, index);
 }
 
-function axisCoord(e: MouseEvent | TouchEvent | WheelEvent, axis: string) {
+function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) {
     if (e.type === 'wheel') {
-        return axis === 'y' ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-    } else return axis === 'y' ? uniQ(e).clientY : uniQ(e).clientX;
+        return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
+    } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
@@ -40,19 +40,19 @@ const nodes = (node: HTMLElement) => Array.from(node.children);
 const child = (node: HTMLElement, index: number) => node.children[index];
 // const computed = (child: Element, axis: string) =>
 //     getComputedStyle(child).transform.split(',')[axis === 'y' ? 5 : 4];
-const coord = (axis: string) => (axis === 'y' ? 'offsetTop' : 'offsetLeft');
-const size = (axis: string) => (axis === 'y' ? 'offsetHeight' : 'offsetWidth');
+const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
+const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
 const part = (align: string) => (align === 'middle' ? 0.5 : 1);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
-const offset = (node: HTMLElement, child: Element, axis: string) =>
-    node.parentElement[size(axis)] - child[size(axis)];
-const position = (node: HTMLElement, child: Element, axis: string, align: string) =>
-    child[coord(axis)] - diff(align, offset(node, child, axis) * part(align));
-// loop ? computed(child, axis) :
+const offset = (node: HTMLElement, child: Element, vertical: boolean) =>
+    node.parentElement[size(vertical)] - child[size(vertical)];
+const position = (node: HTMLElement, child: Element, vertical: boolean, align: string) =>
+    child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
+// loop ? computed(child, vertical) :
 
-function closest(node: HTMLElement, target: number, axis: string, align: string) {
+function closest(node: HTMLElement, target: number, vertical: boolean, align: string) {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
-        const pos = (child: Element) => position(node, child, axis, align);
+        const pos = (child: Element) => position(node, child, vertical, align);
         // console.log(i, 'curr:', pos(curr), 'prev:', pos(prev));
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
@@ -63,18 +63,18 @@ const find = {
         node: HTMLElement,
         target: number,
         child: Element | undefined,
-        axis: string,
+        vertical: boolean,
         align: string
     ) =>
         child
             ? nodes(node).indexOf(child)
-            : +closest(node, target, axis, align).dataset.index,
-    position: (node: HTMLElement, index: number, axis: string, align: string) =>
-        position(node, child(node, index), axis, align),
-    target: (node: HTMLElement, target: number, axis: string, align: string) =>
-        position(node, closest(node, target, axis, align), axis, align),
-    size: (node: HTMLElement, index: number, axis: string) =>
-        nodes(node)[index][size(axis)],
+            : +closest(node, target, vertical, align).dataset.index,
+    position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
+        position(node, child(node, index), vertical, align),
+    target: (node: HTMLElement, target: number, vertical: boolean, align: string) =>
+        position(node, closest(node, target, vertical, align), vertical, align),
+    size: (node: HTMLElement, index: number, vertical: boolean) =>
+        nodes(node)[index][size(vertical)],
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
 };
@@ -128,11 +128,11 @@ const rotate = (array: Array<Element>, key: number) =>
 //     });
 // }
 
-function prev(node: HTMLElement, axis: string) {
+function prev(node: HTMLElement, vertical: boolean) {
     const last = node.children[node.children.length - 1];
     node.prepend(last);
 }
-function next(node: HTMLElement, axis: string) {
+function next(node: HTMLElement, vertical: boolean) {
     const first = node.children[0];
     node.append(first);
 }
@@ -160,7 +160,7 @@ export {
     maxMin,
     maxSize,
     indexing,
-    axisCoord,
+    coordinate,
     // setCss,
     uniQ,
 };

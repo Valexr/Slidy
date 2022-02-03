@@ -6,7 +6,7 @@
     id={wrap.id}
     class="slidy"
     class:loaded={init}
-    class:axisy
+    class:vertical={options.vertical}
     class:autowidth={slide.width === 'auto'}
     class:antiloop={options.loop === false}
     class:alignmiddle={wrap.align === 'middle'}
@@ -20,7 +20,9 @@
         --slideh: {slide.height};
         --slidef: {slide.objectfit};
         --slideo: {slide.overflow};
-        --slideg: {axisy ? `${slide.gap}px 0 0 0` : `0 0 0 ${slide.gap}px`};
+        --slideg: {options.vertical
+        ? `${slide.gap}px 0 0 0`
+        : `0 0 0 ${slide.gap}px`};
         --dur: {options.duration}ms;"
 >
     {#await slidyInit(slides, timeout) then slides}
@@ -33,7 +35,7 @@
             class="slidy-ul"
             use:slidy={{
                 index,
-                axis: options.axis,
+                vertical: options.vertical,
                 align: wrap.align,
                 duration: options.duration,
                 clamp: options.clamp,
@@ -187,7 +189,7 @@
             wheel: true,
         },
         options = {
-            axis: 'x',
+            vertical: false,
             loop: false,
             duration: 375,
             clamp: false,
@@ -198,8 +200,6 @@
         init = true,
         timeout = 0,
         position = 0;
-
-    $: axisy = options.axis === 'y';
 
     // $: slides = slidyInit(slides);
 
@@ -303,7 +303,7 @@
     .slidy.loaded .slidy-ul li {
         opacity: 1;
     }
-    .slidy.axisy .slidy-ul {
+    .slidy.vertical .slidy-ul {
         flex-direction: column;
     }
     :global(.slidy.autowidth .slidy-ul li img) {
@@ -320,7 +320,7 @@
         padding: 0;
         width: 100%;
     }
-    .slidy.axisy .slidy-dots {
+    .slidy.vertical .slidy-dots {
         bottom: auto;
         right: 0;
         width: 50px;
@@ -333,8 +333,8 @@
         justify-content: center;
         flex-shrink: 0;
     }
-    .slidy.axisy .dots-arrow-left,
-    .slidy.axisy .dots-arrow-right {
+    .slidy.vertical .dots-arrow-left,
+    .slidy.vertical .dots-arrow-right {
         transform: rotate(90deg);
     }
     .slidy-dots.pure li {

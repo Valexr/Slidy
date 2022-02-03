@@ -1,306 +1,291 @@
 var Slidy = (() => {
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
-  };
-  var __reExport = (target, module, copyDefault, desc) => {
-    if (module && typeof module === "object" || typeof module === "function") {
-      for (let key of __getOwnPropNames(module))
-        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
+    var W = Object.defineProperty;
+    var me = Object.getOwnPropertyDescriptor;
+    var fe = Object.getOwnPropertyNames;
+    var he = Object.prototype.hasOwnProperty;
+    var Ee = (e) => W(e, '__esModule', { value: !0 });
+    var be = (e, r) => {
+            for (var t in r) W(e, t, { get: r[t], enumerable: !0 });
+        },
+        Me = (e, r, t, o) => {
+            if ((r && typeof r == 'object') || typeof r == 'function')
+                for (let s of fe(r))
+                    !he.call(e, s) &&
+                        (t || s !== 'default') &&
+                        W(e, s, {
+                            get: () => r[s],
+                            enumerable: !(o = me(r, s)) || o.enumerable,
+                        });
+            return e;
+        };
+    var Te = (
+        (e) => (r, t) =>
+            (e && e.get(r)) || ((t = Me(Ee({}), r, 1)), e && e.set(r, t), t)
+    )(typeof WeakMap != 'undefined' ? new WeakMap() : 0);
+    var Ae = {};
+    be(Ae, { slidy: () => de });
+    function X(e) {
+        return new Promise((r, t) => {
+            let o,
+                s = 0;
+            clearInterval(o),
+                (o = setInterval(() => {
+                    s++,
+                        console.log(s, e.children.length),
+                        e.children.length > 2
+                            ? (clearInterval(o),
+                              Array.from(e.children).forEach((m, T) => {
+                                  m.dataset.index = T;
+                              }),
+                              r(e.children))
+                            : s >= 69 && (clearInterval(o), t("Slidy haven't items"));
+                }, 16));
+        });
     }
-    return target;
-  };
-  var __toCommonJS = /* @__PURE__ */ ((cache) => {
-    return (module, temp) => {
-      return cache && cache.get(module) || (temp = __reExport(__markAsModule({}), module, 1), cache && cache.set(module, temp), temp);
-    };
-  })(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-
-  // src/slidy.ts
-  var slidy_exports = {};
-  __export(slidy_exports, {
-    slidy: () => slidy
-  });
-
-  // src/env.ts
-  function onMounted(node) {
-    return new Promise((resolve, reject) => {
-      let mounting, count = 0;
-      clearInterval(mounting);
-      mounting = setInterval(() => {
-        count++;
-        console.log(count, node.children.length);
-        if (node.children.length > 2) {
-          clearInterval(mounting);
-          Array.from(node.children).forEach((c, i) => {
-            c.dataset.index = i;
-          });
-          resolve(node.children);
-        } else if (count >= 69) {
-          clearInterval(mounting);
-          reject(`Slidy haven't items`);
+    function k(e, r, t) {
+        return Math.min(e, Math.max(r, t)) || 0;
+    }
+    function K(e, r, t = !1) {
+        return t
+            ? r < 0
+                ? h(e).length - 1
+                : r > h(e).length - 1
+                ? 0
+                : r
+            : k(h(e).length - 1, 0, r);
+    }
+    function M(e, r) {
+        return e.type === 'wheel'
+            ? r || e.shiftKey
+                ? e.deltaY
+                : e.deltaX
+            : r
+            ? G(e).clientY
+            : G(e).clientX;
+    }
+    var G = (e) => (e.changedTouches ? e.changedTouches[0] : e),
+        ye = (e) => Math.floor(e.children.length / 2);
+    var h = (e) => Array.from(e.children),
+        Le = (e, r) => e.children[r],
+        pe = (e) => (e ? 'offsetTop' : 'offsetLeft'),
+        $ = (e) => (e ? 'offsetHeight' : 'offsetWidth'),
+        ve = (e) => (e === 'middle' ? 0.5 : 1),
+        He = (e, r) => (e !== 'start' ? r : 0),
+        ge = (e, r, t) => e.parentElement[$(t)] - r[$(t)],
+        I = (e, r, t, o) => r[pe(t)] - He(o, ge(e, r, t) * ve(o));
+    function Q(e, r, t, o) {
+        return h(e).reduce((s, m, T) => {
+            let f = (H) => I(e, H, t, o);
+            return Math.abs(f(m) - r) < Math.abs(f(s) - r) ? m : s;
+        });
+    }
+    var E = {
+            index: (e, r, t, o, s) =>
+                t ? h(e).indexOf(t) : +Q(e, r, o, s).dataset.index,
+            position: (e, r, t, o) => I(e, Le(e, r), t, o),
+            target: (e, r, t, o) => I(e, Q(e, r, t, o), t, o),
+            size: (e, r, t) => h(e)[r][$(t)],
+            child: (e, r) => h(e).find((t) => +t.dataset.index === r),
+        },
+        we = (e, r) => e.slice(r).concat(e.slice(0, r));
+    function B(e, r) {
+        let t = e.children[e.children.length - 1];
+        e.prepend(t);
+    }
+    function V(e, r) {
+        let t = e.children[0];
+        e.append(t);
+    }
+    function P(e, r, t) {
+        t
+            ? (e.replaceChildren(...we(h(e), r - ye(e))),
+              (e.style.justifyContent = 'center'))
+            : (e.replaceChildren(...h(e)), (e.style.justifyContent = 'start'));
+    }
+    function de(
+        e,
+        {
+            gap: r = 0,
+            index: t = 0,
+            vertical: o = !1,
+            loop: s = !1,
+            snap: m = !1,
+            clamp: T = !1,
+            gravity: f = 1.2,
+            duration: H = 375,
+            align: y = 'start',
+            indexer: Z = (L) => L,
+            scroller: _ = (L) => L,
         }
-      }, 16);
-    });
-  }
-
-  // src/utils.ts
-  function maxMin(max, min, val) {
-    return Math.min(max, Math.max(min, val)) || 0;
-  }
-  function indexing(node, index, loop = false) {
-    if (loop) {
-      if (index < 0) {
-        return nodes(node).length - 1;
-      } else if (index > nodes(node).length - 1) {
-        return 0;
-      } else
-        return index;
-    } else
-      return maxMin(nodes(node).length - 1, 0, index);
-  }
-  function axisCoord(e, axis) {
-    if (e.type === "wheel") {
-      return axis === "y" ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-    } else
-      return axis === "y" ? uniQ(e).clientY : uniQ(e).clientX;
-  }
-  var uniQ = (e) => e.changedTouches ? e.changedTouches[0] : e;
-  var cix = (node) => Math.floor(node.children.length / 2);
-  var nodes = (node) => Array.from(node.children);
-  var child = (node, index) => node.children[index];
-  var coord = (axis) => axis === "y" ? "offsetTop" : "offsetLeft";
-  var size = (axis) => axis === "y" ? "offsetHeight" : "offsetWidth";
-  var part = (align) => align === "middle" ? 0.5 : 1;
-  var diff = (align, pos) => align !== "start" ? pos : 0;
-  var offset = (node, child2, axis) => node.parentElement[size(axis)] - child2[size(axis)];
-  var position = (node, child2, axis, align) => child2[coord(axis)] - diff(align, offset(node, child2, axis) * part(align));
-  function closest(node, target, axis, align) {
-    return nodes(node).reduce((prev2, curr, i) => {
-      const pos = (child2) => position(node, child2, axis, align);
-      return Math.abs(pos(curr) - target) < Math.abs(pos(prev2) - target) ? curr : prev2;
-    });
-  }
-  var find = {
-    index: (node, target, child2, axis, align) => child2 ? nodes(node).indexOf(child2) : +closest(node, target, axis, align).dataset.index,
-    position: (node, index, axis, align) => position(node, child(node, index), axis, align),
-    target: (node, target, axis, align) => position(node, closest(node, target, axis, align), axis, align),
-    size: (node, index, axis) => nodes(node)[index][size(axis)],
-    child: (node, index) => nodes(node).find((child2) => +child2.dataset.index === index)
-  };
-  var rotate = (array, key) => array.slice(key).concat(array.slice(0, key));
-  function prev(node, axis) {
-    const last = node.children[node.children.length - 1];
-    node.prepend(last);
-  }
-  function next(node, axis) {
-    const first = node.children[0];
-    node.append(first);
-  }
-  function replace(node, index, loop) {
-    if (loop) {
-      node.replaceChildren(...rotate(nodes(node), index - cix(node)));
-      node.style.justifyContent = "center";
-    } else {
-      node.replaceChildren(...nodes(node));
-      node.style.justifyContent = "start";
+    ) {
+        let L,
+            D,
+            w = 0,
+            S = 0,
+            c = 0,
+            d = 0,
+            Y,
+            ee = c,
+            g = t,
+            p = e.parentElement,
+            A = (n, l, i = !1) =>
+                l.forEach(([a, b]) =>
+                    i ? n.removeEventListener(a, b, !0) : n.addEventListener(a, b, !0)
+                ),
+            q = [
+                ['touchmove', j],
+                ['mousemove', j],
+                ['touchend', J],
+                ['mouseup', J],
+            ],
+            x = [
+                ['contextmenu', v],
+                ['touchstart', U],
+                ['mousedown', U],
+                ['keydown', le],
+                ['wheel', se],
+                ['resize', () => u(t)],
+            ],
+            z = requestAnimationFrame,
+            N = new ResizeObserver(() => {
+                p.dispatchEvent(new CustomEvent('resize'));
+            });
+        X(e)
+            .then((n) => {
+                console.log('mounted'),
+                    (e.style.userSelect = 'none'),
+                    (e.style.touchAction = 'pan-y'),
+                    (e.style.pointerEvents = 'none'),
+                    (e.style.willChange = 'auto'),
+                    (e.style.webkitUserSelect = 'none'),
+                    P(e, t, s),
+                    u(t),
+                    p && (N.observe(p), (p.style.outline = 'none'), A(p, x));
+            })
+            .catch((n) => console.error(n));
+        function C(n, l = 0) {
+            (c += s ? te(n) : n), (t = E.index(e, c, void 0, o, y));
+            let i = (a) => (a ? `0, ${-c}px, 0` : `${-c}px, 0, 0`);
+            (e.style.transform = `translate3d(${i(o)})`),
+                (e.style.transition = `${l}ms`),
+                (e.dataset.position = `${c}`),
+                (e.dataset.index = `${t}`),
+                Z(t),
+                _(c);
+        }
+        function te(n) {
+            let l = ee - n,
+                i = E.size(e, 0, o),
+                a = E.size(e, e.children.length - 1, o),
+                b = (F) => (F + r) * Math.sign(-n);
+            return (
+                g !== t &&
+                    (n > 0 ? V(e, o) : B(e, o), (n += b(n > 0 ? i : a)), (d = c + n + l)),
+                (g = t),
+                n
+            );
+        }
+        function u(n, l = null) {
+            v(), (n = g = K(e, n, s));
+            let i = E.child(e, n),
+                a = s ? E.index(e, c, i, o, y) : n,
+                b = l
+                    ? m
+                        ? E.target(e, l, o, y)
+                        : l
+                    : l === 0
+                    ? 0
+                    : E.position(e, a, o, y);
+            C(b - c, H);
+        }
+        function ne(n) {
+            z(function l(i) {
+                let a = (1e3 * (c - d)) / (1 + (i - n));
+                (w = (2 - f) * a + k(1, 0, 1 - f) * w), (n = i), (d = c), (D = z(l));
+            });
+        }
+        function re({ target: n, amplitude: l, duration: i, timestamp: a }) {
+            l &&
+                z(function b(F) {
+                    let ue = (F - a) / i,
+                        R = l * Math.exp(-ue),
+                        ae = c - (n - R);
+                    C(s ? R / 16.7 : -ae),
+                        (L = Math.abs(R) > 0.5 ? z(b) : 0),
+                        s && Math.abs(R) < 5 && u(t);
+                });
+        }
+        function U(n) {
+            (e.style.pointerEvents = n.type !== 'mousedown' ? 'auto' : 'none'),
+                v(),
+                (d = c),
+                (S = M(n, o)),
+                ne(performance.now()),
+                A(window, q);
+        }
+        function j(n) {
+            let l = (S - M(n, o)) * (2 - f);
+            (S = M(n, o)), C(l);
+        }
+        function J(n) {
+            v();
+            let { target: l, amplitude: i } = oe(c);
+            Math.abs(i) > 10 &&
+                (Math.abs(w) < 100
+                    ? u(t)
+                    : T
+                    ? u(t, l)
+                    : re({
+                          target: l,
+                          amplitude: i,
+                          duration: H,
+                          timestamp: performance.now(),
+                      }));
+        }
+        function oe(n) {
+            let l = (2 - f) * w,
+                i = m ? E.target(e, n + l, o, y) : n + l;
+            return (l = i - n), { target: i, amplitude: l };
+        }
+        let O = !1;
+        function se(n) {
+            v(),
+                (O = !0),
+                ((Math.abs(M(n, 'x')) && Math.abs(M(n, 'y')) < 15) || n.shiftKey) &&
+                    n.preventDefault(),
+                C(M(n, o) * (2 - f)),
+                n.shiftKey
+                    ? u(t - Math.sign(n.deltaY))
+                    : (m || T) &&
+                      (Y = setTimeout(() => {
+                          u(t), (O = !1);
+                      }, 100));
+        }
+        function le(n) {
+            n.key === 'ArrowLeft' ? u(t - 1) : n.key === 'ArrowRight' && u(t + 1);
+        }
+        function v() {
+            (g = O ? g : t),
+                clearTimeout(Y),
+                cancelAnimationFrame(L),
+                cancelAnimationFrame(D),
+                A(window, q, !0);
+        }
+        function ie(n) {
+            (H = n.duration),
+                (f = k(2, 0, n.gravity)),
+                (o = n.vertical),
+                (y = n.align),
+                (m = n.snap),
+                (T = n.clamp),
+                (r = n.gap),
+                t !== n.index && ((t = K(e, n.index, s)), u(t)),
+                s !== n.loop && ((s = n.loop), P(e, t, s), u(t));
+        }
+        function ce() {
+            v(), N.disconnect(), A(p, x, !0);
+        }
+        return { update: ie, destroy: ce, to: u };
     }
-  }
-
-  // src/slidy.ts
-  function slidy(node, {
-    gap = 0,
-    index = 0,
-    axis = "x",
-    loop = false,
-    snap = false,
-    clamp = false,
-    gravity = 1.2,
-    duration = 375,
-    align = "start",
-    indexer = (x) => x,
-    scroller = (p) => p
-  }) {
-    let raf, rak, velocity = 0, reference = 0, position2 = 0, frame = 0, wheeltime, hip = position2, hix = index;
-    const PARENT = node.parentElement;
-    const listen = (node2, events, off = false) => events.forEach(([event, handle]) => off ? node2.removeEventListener(event, handle, true) : node2.addEventListener(event, handle, true));
-    const windowEvents = [
-      ["touchmove", onMove],
-      ["mousemove", onMove],
-      ["touchend", onUp],
-      ["mouseup", onUp]
-    ];
-    const parentEvents = [
-      ["contextmenu", clear],
-      ["touchstart", onDown],
-      ["mousedown", onDown],
-      ["keydown", onKeys],
-      ["wheel", onWheel],
-      ["resize", () => to(index)]
-    ];
-    const RAF = requestAnimationFrame;
-    const RO = new ResizeObserver(() => {
-      PARENT.dispatchEvent(new CustomEvent("resize"));
-    });
-    onMounted(node).then((childs) => {
-      console.log("mounted");
-      node.style.userSelect = "none";
-      node.style.touchAction = "pan-y";
-      node.style.pointerEvents = "none";
-      node.style.willChange = "auto";
-      node.style.webkitUserSelect = "none";
-      replace(node, index, loop);
-      to(index);
-      if (PARENT) {
-        RO.observe(PARENT);
-        PARENT.style.outline = "none";
-        listen(PARENT, parentEvents);
-      }
-    }).catch((error) => console.error(error));
-    function move(pos, transition = 0) {
-      position2 += loop ? looping(pos) : pos;
-      index = find.index(node, position2, void 0, axis, align);
-      const translate = (axis2) => {
-        return axis2 === "y" ? `0, ${-position2}px, 0` : `${-position2}px, 0, 0`;
-      };
-      node.style.transform = `translate3d(${translate(axis)})`;
-      node.style.transition = `${transition}ms`;
-      node.dataset.position = `${position2}`;
-      node.dataset.index = `${index}`;
-      indexer(index);
-      scroller(position2);
-    }
-    function looping(pos) {
-      const delta = hip - pos;
-      const first = find.size(node, 0, axis);
-      const last = find.size(node, node.children.length - 1, axis);
-      const history = (size2) => (size2 + gap) * Math.sign(-pos);
-      if (hix !== index) {
-        pos > 0 ? next(node, axis) : prev(node, axis);
-        pos += history(pos > 0 ? first : last);
-        frame = position2 + pos + delta;
-      }
-      hix = index;
-      return pos;
-    }
-    function to(index2, target = null) {
-      clear();
-      index2 = hix = indexing(node, index2, loop);
-      const child2 = find.child(node, index2);
-      const ix = loop ? find.index(node, position2, child2, axis, align) : index2;
-      let pos = target ? snap ? find.target(node, target, axis, align) : target : target === 0 ? 0 : find.position(node, ix, axis, align);
-      move(pos - position2, duration);
-    }
-    function track(timestamp) {
-      RAF(function track2(time) {
-        const v = 1e3 * (position2 - frame) / (1 + (time - timestamp));
-        velocity = (2 - gravity) * v + maxMin(1, 0, 1 - gravity) * velocity;
-        timestamp = time;
-        frame = position2;
-        rak = RAF(track2);
-      });
-    }
-    function scroll({ target, amplitude, duration: duration2, timestamp }) {
-      if (amplitude) {
-        RAF(function scroll2(time) {
-          const elapsed = (time - timestamp) / duration2;
-          const delta = amplitude * Math.exp(-elapsed);
-          const dist = position2 - (target - delta);
-          move(loop ? delta / 16.7 : -dist);
-          raf = Math.abs(delta) > 0.5 ? RAF(scroll2) : 0;
-          if (loop && Math.abs(delta) < 5)
-            to(index);
-        });
-      }
-    }
-    function onDown(e) {
-      node.style.pointerEvents = e.type !== "mousedown" ? "auto" : "none";
-      clear();
-      frame = position2;
-      reference = axisCoord(e, axis);
-      track(performance.now());
-      listen(window, windowEvents);
-    }
-    function onMove(e) {
-      const delta = (reference - axisCoord(e, axis)) * (2 - gravity);
-      reference = axisCoord(e, axis);
-      move(delta);
-    }
-    function onUp(e) {
-      clear();
-      const { target, amplitude } = delting(position2);
-      if (Math.abs(amplitude) > 10)
-        Math.abs(velocity) < 100 ? to(index) : clamp ? to(index, target) : scroll({
-          target,
-          amplitude,
-          duration,
-          timestamp: performance.now()
-        });
-    }
-    function delting(position3) {
-      let amplitude = (2 - gravity) * velocity;
-      const target = snap ? find.target(node, position3 + amplitude, axis, align) : position3 + amplitude;
-      amplitude = target - position3;
-      return { target, amplitude };
-    }
-    let wheeling = false;
-    function onWheel(e) {
-      clear();
-      wheeling = true;
-      (Math.abs(axisCoord(e, "x")) && Math.abs(axisCoord(e, "y")) < 15 || e.shiftKey) && e.preventDefault();
-      move(axisCoord(e, axis) * (2 - gravity));
-      if (e.shiftKey)
-        to(index - Math.sign(e.deltaY));
-      else if (snap || clamp)
-        wheeltime = setTimeout(() => {
-          to(index);
-          wheeling = false;
-        }, 100);
-    }
-    function onKeys(e) {
-      if (e.key === "ArrowLeft") {
-        to(index - 1);
-      } else if (e.key === "ArrowRight") {
-        to(index + 1);
-      }
-    }
-    function clear() {
-      hix = wheeling ? hix : index;
-      clearTimeout(wheeltime);
-      cancelAnimationFrame(raf);
-      cancelAnimationFrame(rak);
-      listen(window, windowEvents, true);
-    }
-    function update(options) {
-      duration = options.duration;
-      gravity = maxMin(2, 0, options.gravity);
-      axis = options.axis;
-      align = options.align;
-      snap = options.snap;
-      clamp = options.clamp;
-      gap = options.gap;
-      if (index !== options.index) {
-        index = indexing(node, options.index, loop);
-        to(index);
-      }
-      if (loop !== options.loop) {
-        loop = options.loop;
-        replace(node, index, loop);
-        to(index);
-      }
-    }
-    function destroy() {
-      clear();
-      RO.disconnect();
-      listen(PARENT, parentEvents, true);
-    }
-    return { update, destroy, to };
-  }
-  return __toCommonJS(slidy_exports);
+    return Te(Ae);
 })();

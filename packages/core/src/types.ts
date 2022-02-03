@@ -5,7 +5,7 @@ export type Options = {
     indexer: Function;
     scroller: Function;
     align: string;
-    axis: string;
+    vertical: boolean;
     clamp: boolean;
     snap: boolean;
     loop: boolean;
