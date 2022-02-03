@@ -41,8 +41,8 @@ export function slidy(
         // dragtime: NodeJS.Timer,
         wheeltime: NodeJS.Timeout,
         hip = position,
-        hix = index;
-    // gap = 0;
+        hix = index,
+        gap = 0
 
     const PARENT = node.parentElement;
     const listen = (
@@ -77,17 +77,20 @@ export function slidy(
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
-            // console.log('mounted');
+            console.log('mounted');
             node.style.userSelect = 'none';
             node.style.touchAction = 'pan-y';
             node.style.pointerEvents = 'none';
             node.style.willChange = 'auto';
             node.style.webkitUserSelect = 'none';
 
+
             replace(node, index, loop);
+            gap = find.gap(node, vertical, align, loop)
+            console.log(childs, gap)
             to(index);
 
-            // gap = find.gap(node, vertical, align);
+            // find.gap(node, vertical, align)
 
             if (PARENT) {
                 RO.observe(PARENT);
@@ -119,8 +122,7 @@ export function slidy(
         const first = find.size(node, 0, vertical);
         const last = find.size(node, node.children.length - 1, vertical);
         // const active = find.size(node, hix, vertical)
-        const history = (size: number) =>
-            (size + find.gap(node, vertical, align)) * Math.sign(-pos);
+        const history = (size: number) => (size + gap) * Math.sign(-pos);
 
         if (hix !== index) {
             pos > 0 ? next(node, vertical) : prev(node, vertical);
@@ -145,8 +147,8 @@ export function slidy(
                 ? find.target(node, target, vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, vertical, align);
+                ? 0
+                : find.position(node, ix, vertical, align);
 
         // console.log('to:', ix, index, target, pos - position)
         move(pos - position, duration);
@@ -196,7 +198,7 @@ export function slidy(
         listen(window, windowEvents);
     }
 
-    function onMove(e: Event) {
+    function onMove(e: MouseEvent | TouchEvent) {
         const delta = (reference - coordinate(e, vertical)) * (2 - gravity);
         reference = coordinate(e, vertical);
         move(delta);
@@ -211,13 +213,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                ? to(index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration,
+                        timestamp: performance.now(),
+                    });
     }
 
     function delting(position: number): Delta {
@@ -234,7 +236,7 @@ export function slidy(
         clear();
         wheeling = true;
 
-        ((Math.abs(coordinate(e, 'x')) && Math.abs(coordinate(e, 'y')) < 15) ||
+        ((Math.abs(coordinate(e, vertical)) && Math.abs(coordinate(e, vertical)) < 15) ||
             e.shiftKey) &&
             e.preventDefault();
 
@@ -293,7 +295,7 @@ export function slidy(
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;
-        // gap = options.gap;
+        // console.log(gap)
         // loop = options.loop;
 
         if (index !== options.index) {
@@ -304,6 +306,8 @@ export function slidy(
         if (loop !== options.loop) {
             loop = options.loop;
             replace(node, index, loop);
+            gap = find.gap(node, vertical, align);
+            console.log(gap)
             to(index);
         }
     }

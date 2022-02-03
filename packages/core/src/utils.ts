@@ -77,8 +77,10 @@ const find = {
         nodes(node)[index][size(vertical)],
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
-    gap: (node: HTMLElement, vertical: boolean, align: string) =>
-        position(node, child(node, 1), vertical, align) - nodes(node)[0][size(vertical)],
+    gap: (node: HTMLElement, vertical: boolean, align: string, loop: boolean) =>
+        loop
+            ? Math.abs(position(node, child(node, 0), vertical, align)) - Math.abs(position(node, child(node, 1), vertical, align)) - Math.abs(nodes(node)[0][size(vertical)])
+            : Math.abs(position(node, child(node, 0), vertical, align)) - Math.abs(position(node, child(node, 1), vertical, align)) - Math.abs(nodes(node)[0][size(vertical)])
 };
 
 // const styling = (node: HTMLElement, undo: boolean = false) => {
