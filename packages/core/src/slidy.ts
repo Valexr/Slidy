@@ -8,13 +8,21 @@ import {
     prev,
     next,
     maxMin,
+    css,
+    dispatch,
     // maxSize,
     coordinate,
 } from './utils';
 
 export function slidy(
     node: HTMLElement,
-    {
+    options: Options
+): {
+    update: (options: Options) => void;
+    destroy: () => void;
+    to: (index: number, target?: number) => void;
+} {
+    let {
         index = 0,
         gravity = 1.2,
         duration = 375,
@@ -22,15 +30,9 @@ export function slidy(
         clamp = false,
         loop = false,
         snap = false,
-        align = 'start',
-        indexer = (x: number) => x,
-        scroller = (p: number) => p,
-    }: Options
-): {
-    update: (options: Options) => void;
-    destroy: () => void;
-    to: (index: number, target?: number) => void;
-} {
+        align = 'start'
+    }: Options = options
+
     let raf: number,
         rak: number,
         velocity = 0,
@@ -60,38 +62,55 @@ export function slidy(
         ['touchend', onUp],
         ['mouseup', onUp],
     ];
-    const parentEvents: [keyof HTMLElementEventMap, EventListener][] = [
+    const parentEvents: [keyof HTMLElementEventMap | string, EventListener][] = [
         ['contextmenu', clear],
         ['touchstart', onDown],
         ['mousedown', onDown],
         ['keydown', onKeys],
         ['wheel', onWheel],
         ['resize', onResize],
+        ['mutate', onMutate],
     ];
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        PARENT.dispatchEvent(new CustomEvent('resize'));
+        node.dispatchEvent(new CustomEvent('resize'));
     });
+    const MO = new MutationObserver(() => {
+        node.dispatchEvent(new CustomEvent('mutate'));
+    });
+    const observerOptions = {
+        childList: true,
+        attributes: true,
+
+        // Omit (or set to false) to observe only changes to the parent node
+        subtree: true,
+    };
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
-            console.log('mounted');
-            node.style.userSelect = 'none';
-            node.style.touchAction = 'pan-y';
-            node.style.pointerEvents = 'none';
-            node.style.willChange = 'auto';
-            node.style.webkitUserSelect = 'none';
+            RO.observe(node);
+            MO.observe(node, observerOptions);
+
+            const styles = {
+                userSelect: 'none',
+                touchAction: 'pan-y',
+                // pointerEvents: 'none',
+                willChange: 'auto',
+                webkitUserSelect: 'none',
+            };
+            css(node, styles);
 
             gap = find.gap(node, vertical);
-            replace(node, index, loop, vertical);
+            replace(node, index, loop);
             to(index);
+            console.log('gap:', gap);
 
             if (PARENT) {
-                RO.observe(node);
-                PARENT.style.outline = 'none';
+                css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
             }
+            dispatch(node, 'mounted', { childs });
         })
         .catch((error) => console.error(error));
 
@@ -102,13 +121,16 @@ export function slidy(
         const translate = (vertical: boolean) =>
             vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
 
-        node.style.transform = `translate3d(${translate(vertical)})`;
-        node.style.transition = `${transition}ms`;
-        node.dataset.position = `${position}`;
-        node.dataset.index = `${index}`;
-
-        indexer(index);
-        scroller(position);
+        const styles = {
+            transform: `translate3d(${translate(vertical)})`,
+            transition: `${transition}ms`,
+        };
+        css(node, styles);
+        dispatch(node, 'move', { detail: { index, position } });
+        // node.style.transform = `translate3d(${translate(vertical)})`;
+        // node.style.transition = `${transition}ms`;
+        // node.dataset.position = `${position}`;
+        // node.dataset.index = `${index}`;
     }
 
     function looping(pos: number) {
@@ -126,13 +148,13 @@ export function slidy(
         return pos;
     }
 
-    let toing = false
+    let toing = false;
     function to(index: number, target: number | null = null) {
-        toing = true
+        toing = true;
         clear();
 
-        index = indexing(node, index, loop);
-        hix = loop ? hix : index
+        index = hix = indexing(node, index, loop);
+        // hix = loop ? hix : index
         const child = find.child(node, index);
         const ix = loop ? find.index(node, position, child, vertical, align) : index;
 
@@ -172,7 +194,7 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent) {
-        node.style.pointerEvents = e.type !== 'mousedown' ? 'auto' : 'none';
+        // css(node, { pointerEvents: (e.type !== 'mousedown' ? 'auto' : 'none') });
         clear();
 
         frame = position;
@@ -244,13 +266,19 @@ export function slidy(
 
     function onResize(e: CustomEvent) {
         gap = find.gap(node, vertical);
-        to(index)
+        to(index);
+    }
+
+    function onMutate(e: CustomEvent) {
+        // console.log(e)
+        // gap = find.gap(node, vertical);
+        // to(index)
     }
 
     function clear() {
         // hip = position
         // frame = position
-        hix = wheeling || toing ? hix : index;
+        hix = wheeling ? hix : index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
@@ -258,14 +286,36 @@ export function slidy(
         listen(window, windowEvents, false);
     }
 
-    // update(options);
+    update(options);
     function update(options: Options) {
+        const props = {
+            index,
+            gravity,
+            duration,
+            vertical,
+            clamp,
+            loop,
+            snap,
+            align
+        }
+
+        for (const key in options) {
+            // if (Object.prototype.hasOwnProperty.call(object, key)) {
+            //     const element = object[key];
+
+            // }
+            if (key !== options[key]) {
+                // key = options[key]
+                console.log(key, options[key])
+            }
+        }
         duration = options.duration;
-        gravity = maxMin(2, 0, options.gravity);
+        // gravity = maxMin(2, 0, options.gravity);
         vertical = options.vertical;
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;
+        // console.log(options);
 
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
@@ -279,10 +329,14 @@ export function slidy(
             to(index);
         }
     }
+    // function updater(prop, cb) {
+
+    // }
 
     function destroy() {
         clear();
         RO.disconnect();
+        MO.disconnect();
         listen(PARENT, parentEvents, false);
     }
     return { update, destroy, to };

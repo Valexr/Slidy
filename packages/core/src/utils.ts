@@ -48,7 +48,8 @@ const offset = (node: HTMLElement, child: Element, vertical: boolean) =>
     node.parentElement[size(vertical)] - child[size(vertical)];
 const position = (node: HTMLElement, child: Element, vertical: boolean, align: string) =>
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
-const distance = (node: HTMLElement, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)])
+const distance = (node: HTMLElement, index: number, vertical: boolean) =>
+    Math.abs(nodes(node)[index][coord(vertical)]);
 
 function closest(node: HTMLElement, target: number, vertical: boolean, align: string) {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
@@ -78,8 +79,12 @@ const find = {
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
     gap: (node: HTMLElement, vertical: boolean) => {
-        return distance(node, 0, vertical) - distance(node, 1, vertical) - nodes(node)[0][size(vertical)]
-    }
+        return (
+            distance(node, 0, vertical) -
+            distance(node, 1, vertical) -
+            nodes(node)[0][size(vertical)]
+        );
+    },
 };
 
 // const styling = (node: HTMLElement, undo: boolean = false) => {
@@ -110,9 +115,19 @@ const find = {
 //     // })
 // };
 
-// function setCss(node: HTMLElement, styles: CssRule) {
-//     for (const property in styles) node.style[property] = styles[property];
-// }
+function css(node: HTMLElement, styles: CssRule) {
+    for (const property in styles) {
+        node.style[property] = styles[property];
+    }
+}
+
+function dispatch(
+    node: HTMLElement,
+    name: string,
+    detail: { [key: string]: string | number | HTMLCollection }
+) {
+    node.dispatchEvent(new CustomEvent(name, { ...detail }));
+}
 
 // function rotateArray1(nums, k) {
 //     for (let i = 0; i < k; i++) {
@@ -120,9 +135,6 @@ const find = {
 //     }
 //     return nums;
 // }
-
-const rotate = (array: Array<Element>, key: number) =>
-    array.slice(key).concat(array.slice(0, key));
 
 // function ordering(node: HTMLElement, nums: number[], index: number, cix: number) {
 //     node.style.justifyContent = 'center';
@@ -140,14 +152,15 @@ function next(node: HTMLElement) {
     node.append(first);
 }
 
+const rotate = (array: Array<Element>, key: number) =>
+    array.slice(key).concat(array.slice(0, key));
+
 function replace(node: HTMLElement, index: number, loop: boolean) {
-    if (loop) {
-        node.replaceChildren(...rotate(nodes(node), index - cix(node)));
-        // node.style.justifyContent = 'center';
-    } else {
-        node.replaceChildren(...nodes(node));
-        // node.style.justifyContent = 'start';
-    }
+    const replace = (nodes: Element[]) => node.replaceChildren(...nodes);
+    const elements = loop
+        ? rotate(nodes(node), index - cix(node))
+        : nodes(node).sort((a, b) => a.dataset.index - b.dataset.index);
+    replace(elements);
 }
 
 export {
@@ -160,6 +173,8 @@ export {
     replace,
     prev,
     next,
+    css,
+    dispatch,
     maxMin,
     maxSize,
     indexing,

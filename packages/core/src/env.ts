@@ -7,7 +7,7 @@ function onMounted(node: HTMLElement): Promise<HTMLCollection> {
 
         mounting = setInterval(() => {
             count++;
-            console.log(count, node.children.length);
+            // console.log(count, node.children.length);
             if (node.children.length > 2) {
                 clearInterval(mounting);
                 Array.from(node.children).forEach((c, i) => {

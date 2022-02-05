@@ -42,8 +42,10 @@
                 gravity: options.gravity,
                 snap: options.snap,
                 loop: options.loop,
-                indexer: (x) => (index = x),
-                scroller: (p) => (position = p),
+            }}
+            on:move={(e) => {
+                index = e.detail.index;
+                position = e.detail.position;
             }}
         >
             <!-- {#if init} -->
@@ -200,10 +202,6 @@
         init = true,
         timeout = 0,
         position = 0;
-
-    // $: slides = slidyInit(slides);
-
-    $: console.log(index);
 
     async function slidyInit(
         slides: any[],

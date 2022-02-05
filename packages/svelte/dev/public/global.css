@@ -213,7 +213,7 @@ ul.slidy-ul li {
     /* flex: 1 0 var(--width); */
     /* width: var(--width); */
     /* height: 100%; */
-    /* max-width: 100%; */
+    max-width: 100%;
     /* max-height: 100%; */
     /* box-sizing: border-box; */
     /* position: relative; */
@@ -257,7 +257,7 @@ ul#slidy li img {
     ul.slidy-ul li img {
         /* width: auto; */
         max-width: 100%;
-        will-change: transform;
+        /* will-change: transform; */
     }
     ul.slidy-ul li:before {
         will-change: transform;
@@ -268,7 +268,7 @@ ul#slidy li img {
     ul.slidy-ul li img {
         /* width: auto; */
         max-width: 100%;
-        will-change: transform;
+        /* will-change: transform; */
     }
     ul.slidy-ul li:before {
         will-change: transform;
