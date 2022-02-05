@@ -124,7 +124,7 @@
                 function indexing(x) {
                     options.index = x;
                     const cix = Math.floor(node.children.length / 2);
-                    console.log(cix);
+
                     Array.from(node.children).forEach((n, i) =>
                         i === (options.loop ? cix : x)
                             ? n.classList.add('active')

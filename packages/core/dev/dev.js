@@ -1,113 +1,114 @@
 var Slidy = (() => {
-    var O = Object.defineProperty;
-    var oe = Object.getOwnPropertyDescriptor;
+    var R = Object.defineProperty;
+    var me = Object.getOwnPropertyDescriptor;
     var fe = Object.getOwnPropertyNames;
-    var he = Object.prototype.hasOwnProperty;
-    var ve = (t) => O(t, '__esModule', { value: !0 });
-    var Ee = (t, e) => {
-            for (var r in e) O(t, r, { get: e[r], enumerable: !0 });
+    var ve = Object.prototype.hasOwnProperty;
+    var de = (t) => R(t, '__esModule', { value: !0 });
+    var he = (t, e) => {
+            for (var r in e) R(t, r, { get: e[r], enumerable: !0 });
         },
-        be = (t, e, r, a) => {
+        Ee = (t, e, r, i) => {
             if ((e && typeof e == 'object') || typeof e == 'function')
-                for (let i of fe(e))
-                    !he.call(t, i) &&
-                        (r || i !== 'default') &&
-                        O(t, i, {
-                            get: () => e[i],
-                            enumerable: !(a = oe(e, i)) || a.enumerable,
+                for (let a of fe(e))
+                    !ve.call(t, a) &&
+                        (r || a !== 'default') &&
+                        R(t, a, {
+                            get: () => e[a],
+                            enumerable: !(i = me(e, a)) || i.enumerable,
                         });
             return t;
         };
-    var de = (
+    var be = (
         (t) => (e, r) =>
-            (t && t.get(e)) || ((r = be(ve({}), e, 1)), t && t.set(e, r), r)
+            (t && t.get(e)) || ((r = Ee(de({}), e, 1)), t && t.set(e, r), r)
     )(typeof WeakMap != 'undefined' ? new WeakMap() : 0);
     var we = {};
-    Ee(we, { slidy: () => He });
-    function U(t) {
+    he(we, { slidy: () => He });
+    function N(t) {
         return new Promise((e, r) => {
-            let a,
-                i = 0;
-            clearInterval(a),
-                (a = setInterval(() => {
-                    i++,
+            let i,
+                a = 0;
+            clearInterval(i),
+                (i = setInterval(() => {
+                    a++,
+                        console.log(a, t.children.length),
                         t.children.length > 2
-                            ? (clearInterval(a),
-                              Array.from(t.children).forEach((u, c) => {
-                                  u.dataset.index = c;
+                            ? (clearInterval(i),
+                              Array.from(t.children).forEach((o, c) => {
+                                  o.dataset.index = c;
                               }),
                               e(t.children))
-                            : i >= 69 && (clearInterval(a), r("Slidy haven't items"));
+                            : a >= 69 && (clearInterval(i), r("Slidy haven't items"));
                 }, 16));
         });
     }
-    function A(t, e, r) {
+    function C(t, e, r) {
         return Math.min(t, Math.max(e, r)) || 0;
     }
-    function p(t, e, r) {
+    function S(t, e, r) {
         return r
             ? e < 0
-                ? h(t).length - 1
-                : e > h(t).length - 1
+                ? f(t).length - 1
+                : e > f(t).length - 1
                 ? 0
                 : e
-            : A(h(t).length - 1, 0, e);
+            : C(f(t).length - 1, 0, e);
     }
-    function b(t, e) {
+    function E(t, e) {
         return t.type === 'wheel'
             ? e || t.shiftKey
                 ? t.deltaY
                 : t.deltaX
             : e
-            ? J(t).clientY
-            : J(t).clientX;
+            ? U(t).clientY
+            : U(t).clientX;
     }
-    var J = (t) => (t.changedTouches ? t.changedTouches[0] : t),
+    var U = (t) => (t.changedTouches ? t.changedTouches[0] : t),
         Me = (t) => Math.floor(t.children.length / 2);
-    var h = (t) => Array.from(t.children),
+    var f = (t) => Array.from(t.children),
         ge = (t, e) => t.children[e],
-        Q = (t) => (t ? 'offsetTop' : 'offsetLeft'),
-        C = (t) => (t ? 'offsetHeight' : 'offsetWidth'),
+        G = (t) => (t ? 'offsetTop' : 'offsetLeft'),
+        p = (t) => (t ? 'offsetHeight' : 'offsetWidth'),
         Te = (t) => (t === 'middle' ? 0.5 : 1),
         xe = (t, e) => (t !== 'start' ? e : 0),
-        Le = (t, e, r) => t.parentElement[C(r)] - e[C(r)],
-        S = (t, e, r, a) => e[Q(r)] - xe(a, Le(t, e, r) * Te(a)),
-        X = (t, e, r) => Math.abs(h(t)[e][Q(r)]);
-    function G(t, e, r, a) {
-        return h(t).reduce((i, u, c) => {
-            let E = (x) => S(t, x, r, a);
-            return Math.abs(E(u) - e) < Math.abs(E(i) - e) ? u : i;
+        ye = (t, e, r) => t.parentElement[p(r)] - e[p(r)],
+        O = (t, e, r, i) => e[G(r)] - xe(i, ye(t, e, r) * Te(i)),
+        J = (t, e, r) => Math.abs(f(t)[e][G(r)]);
+    function X(t, e, r, i) {
+        return f(t).reduce((a, o, c) => {
+            let h = (T) => O(t, T, r, i);
+            return Math.abs(h(o) - e) < Math.abs(h(a) - e) ? o : a;
         });
     }
-    var f = {
-        index: (t, e, r, a, i) => (r ? h(t).indexOf(r) : +G(t, e, a, i).dataset.index),
-        position: (t, e, r, a) => S(t, ge(t, e), r, a),
-        target: (t, e, r, a) => S(t, G(t, e, r, a), r, a),
-        size: (t, e, r) => h(t)[e][C(r)],
-        child: (t, e) => h(t).find((r) => +r.dataset.index === e),
-        gap: (t, e) => X(t, 0, e) - X(t, 1, e) - h(t)[0][C(e)],
+    var v = {
+        index: (t, e, r, i, a) => (r ? f(t).indexOf(r) : +X(t, e, i, a).dataset.index),
+        position: (t, e, r, i) => O(t, ge(t, e), r, i),
+        target: (t, e, r, i) => O(t, X(t, e, r, i), r, i),
+        size: (t, e, r) => f(t)[e][p(r)],
+        child: (t, e) => f(t).find((r) => +r.dataset.index === e),
+        gap: (t, e) => J(t, 0, e) - J(t, 1, e) - f(t)[0][p(e)],
     };
-    function T(t, e) {
+    function g(t, e) {
         for (let r in e) t.style[r] = e[r];
     }
     function F(t, e, r) {
         t.dispatchEvent(new CustomEvent(e, { ...r }));
     }
-    function j(t) {
+    function Q(t) {
         let e = t.children[t.children.length - 1];
         t.prepend(e);
     }
-    function B(t) {
+    function j(t) {
         let e = t.children[0];
         t.append(e);
     }
-    var ye = (t, e) => t.slice(e).concat(t.slice(0, e));
+    var Le = (t, e) => t.slice(e).concat(t.slice(0, e));
     function W(t, e, r) {
-        let a = (u) => t.replaceChildren(...u),
-            i = r
-                ? ye(h(t), e - Me(t))
-                : h(t).sort((u, c) => u.dataset.index - c.dataset.index);
-        a(i);
+        let i = (o) => t.replaceChildren(...o),
+            a = r
+                ? Le(f(t), e - Me(t))
+                : f(t).sort((o, c) => o.dataset.index - c.dataset.index);
+        i(a);
     }
     function He(
         t,
@@ -123,19 +124,19 @@ var Slidy = (() => {
         }
     ) {
         let r,
-            a,
-            i = 0,
-            u = 0,
+            i,
+            a = 0,
+            o = 0,
             c = 0,
-            E = 0,
-            x,
-            V = c,
+            h = 0,
+            T,
+            B = c,
             M = e.index,
-            g = 0,
-            L = t.parentElement,
-            y = (n, l, s = !0) =>
-                l.forEach(([o, v]) =>
-                    s ? n.addEventListener(o, v, !0) : n.removeEventListener(o, v, !0)
+            x = 0,
+            y = t.parentElement,
+            L = (n, l, s = !0) =>
+                l.forEach(([m, d]) =>
+                    s ? n.addEventListener(m, d, !0) : n.removeEventListener(m, d, !0)
                 ),
             I = [
                 ['touchmove', $],
@@ -144,13 +145,13 @@ var Slidy = (() => {
                 ['mouseup', q],
             ],
             K = [
-                ['contextmenu', d],
+                ['contextmenu', b],
                 ['touchstart', Y],
                 ['mousedown', Y],
-                ['keydown', ae],
-                ['wheel', le],
+                ['keydown', le],
+                ['wheel', re],
                 ['resize', ie],
-                ['mutate', ce],
+                ['mutate', ae],
             ],
             H = requestAnimationFrame,
             P = new ResizeObserver(() => {
@@ -159,160 +160,157 @@ var Slidy = (() => {
             D = new MutationObserver(() => {
                 t.dispatchEvent(new CustomEvent('mutate'));
             }),
-            Z = { childList: !0, attributes: !0, subtree: !0 };
-        U(t)
+            V = { childList: !0, attributes: !0, subtree: !0 };
+        N(t)
             .then((n) => {
-                P.observe(t),
-                    D.observe(t, Z),
-                    T(t, {
+                console.log('mounted'),
+                    P.observe(t),
+                    D.observe(t, V),
+                    g(t, {
                         userSelect: 'none',
                         touchAction: 'pan-y',
                         willChange: 'auto',
                         webkitUserSelect: 'none',
                     }),
-                    (g = f.gap(t, e.vertical)),
+                    (x = v.gap(t, e.vertical)),
                     W(t, e.index, e.loop),
-                    m(e.index),
-                    console.log('gap:', g),
-                    L && (T(L, { outline: 'none' }), y(L, K)),
+                    u(e.index),
+                    console.log('gap:', x),
+                    y && (g(y, { outline: 'none' }), L(y, K)),
                     F(t, 'mounted', { childs: n });
             })
             .catch((n) => console.error(n));
-        function w(n, l = 0) {
-            (c += e.loop ? _(n) : n),
-                (e.index = f.index(t, c, void 0, e.vertical, e.align));
-            let o = {
-                transform: `translate3d(${((v) =>
-                    v ? `0, ${-c}px, 0` : `${-c}px, 0, 0`)(e.vertical)})`,
-                transition: `${l}ms`,
-            };
-            T(t, o), F(t, 'move', { detail: { index: e.index, position: c } });
+        function w({ pos: n, transition: l = 0 }) {
+            (c += e.loop ? Z(n) : n),
+                (e.index = v.index(t, c, void 0, e.vertical, e.align));
+            function s(d) {
+                return d ? `0, ${-c}px, 0` : `${-c}px, 0, 0`;
+            }
+            let m = { transform: `translate3d(${s(e.vertical)})`, transition: `${l}ms` };
+            g(t, m), F(t, 'move', { detail: { index: e.index, position: c } });
         }
-        function _(n) {
-            let l = V - n,
-                s = f.size(t, 0, e.vertical),
-                o = f.size(t, t.children.length - 1, e.vertical),
-                v = (R) => (R + g) * Math.sign(-n);
+        function Z(n) {
+            let l = B - n,
+                s = v.size(t, 0, e.vertical),
+                m = v.size(t, t.children.length - 1, e.vertical),
+                d = (z) => (z + x) * Math.sign(-n);
             return (
                 M !== e.index &&
-                    (n > 0 ? B(t) : j(t), (n += v(n > 0 ? s : o)), (E = c + n + l)),
+                    (n > 0 ? j(t) : Q(t), (n += d(n > 0 ? s : m)), (h = c + n + l)),
                 (M = e.index),
                 n
             );
         }
-        let ee = !1;
-        function m(n, l = null) {
-            (ee = !0), d(), (n = M = p(t, n, e.loop));
-            let s = f.child(t, n),
-                o = e.loop ? f.index(t, c, s, e.vertical, e.align) : n,
-                v = l
+        let _ = !1;
+        function u(n, l = null) {
+            (_ = !0), b(), (n = M = S(t, n, e.loop));
+            let s = v.child(t, n),
+                m = e.loop ? v.index(t, c, s, e.vertical, e.align) : n,
+                d = l
                     ? e.snap
-                        ? f.target(t, l, e.vertical, e.align)
+                        ? v.target(t, l, e.vertical, e.align)
                         : l
                     : l === 0
                     ? 0
-                    : f.position(t, o, e.vertical, e.align);
-            w(v - c, e.duration);
+                    : v.position(t, m, e.vertical, e.align);
+            w({ pos: d - c, transition: e.duration });
         }
-        function te(n) {
+        function ee(n) {
             H(function l(s) {
-                let o = (1e3 * (c - E)) / (1 + (s - n));
-                (i = (2 - e.gravity) * o + A(1, 0, 1 - e.gravity) * i),
+                let m = (1e3 * (c - h)) / (1 + (s - n));
+                (a = (2 - e.gravity) * m + C(1, 0, 1 - e.gravity) * a),
                     (n = s),
-                    (E = c),
-                    (a = H(l));
+                    (h = c),
+                    (i = H(l));
             });
         }
-        function ne({ target: n, amplitude: l, duration: s, timestamp: o }) {
+        function te({ target: n, amplitude: l, duration: s, timestamp: m }) {
             l &&
-                H(function v(R) {
-                    let ue = (R - o) / s,
-                        k = l * Math.exp(-ue),
-                        me = c - (n - k);
-                    w(e.loop ? k / 16.7 : -me),
-                        (r = Math.abs(k) > 0.5 ? H(v) : 0),
-                        e.loop && Math.abs(k) < 5 && m(e.index);
+                H(function d(z) {
+                    let oe = (z - m) / s,
+                        k = l * Math.exp(-oe),
+                        ue = c - (n - k);
+                    w({ pos: e.loop ? k / 27 : -ue }),
+                        (r = Math.abs(k) > 0.5 ? H(d) : 0),
+                        e.loop && Math.abs(k) < 5 && u(e.index);
                 });
         }
         function Y(n) {
-            T(t, { pointerEvents: n.type !== 'mousedown' ? 'auto' : 'none' }),
-                d(),
-                (E = c),
-                (u = b(n, e.vertical)),
-                te(performance.now()),
-                y(window, I);
+            console.log(n.type),
+                b(),
+                g(t, { pointerEvents: n.type !== 'mousedown' ? 'auto' : 'none' }),
+                (h = c),
+                (o = E(n, e.vertical)),
+                ee(performance.now()),
+                L(window, I);
         }
         function $(n) {
-            let l = (u - b(n, e.vertical)) * (2 - e.gravity);
-            (u = b(n, e.vertical)), w(l);
+            let l = (o - E(n, e.vertical)) * (2 - e.gravity);
+            (o = E(n, e.vertical)), w({ pos: l });
         }
         function q(n) {
-            d();
-            let { target: l, amplitude: s } = re(c);
+            b();
+            let { target: l, amplitude: s } = ne(c);
             Math.abs(s) > 10 &&
-                (Math.abs(i) < 100
-                    ? m(e.index)
+                (Math.abs(a) < 100
+                    ? u(e.index)
                     : e.clamp
-                    ? m(e.index, l)
-                    : ne({
+                    ? u(e.index, l)
+                    : te({
                           target: l,
                           amplitude: s,
                           duration: e.duration,
                           timestamp: performance.now(),
                       }));
         }
-        function re(n) {
-            let l = (2 - e.gravity) * i,
-                s = e.snap ? f.target(t, n + l, e.vertical, e.align) : n + l;
+        function ne(n) {
+            let l = (2 - e.gravity) * a,
+                s = e.snap ? v.target(t, n + l, e.vertical, e.align) : n + l;
             return (l = s - n), { target: s, amplitude: l };
         }
-        let z = !1;
-        function le(n) {
-            d(),
-                (z = !0),
-                ((Math.abs(b(n, e.vertical)) && Math.abs(b(n, e.vertical)) < 15) ||
+        let A = !1;
+        function re(n) {
+            b(),
+                (A = !0),
+                ((Math.abs(E(n, e.vertical)) && Math.abs(E(n, e.vertical)) < 15) ||
                     n.shiftKey) &&
                     n.preventDefault(),
-                w(b(n, e.vertical) * (2 - e.gravity)),
+                w({ pos: E(n, e.vertical) * (2 - e.gravity) }),
                 n.shiftKey
-                    ? m(e.index - Math.sign(n.deltaY))
+                    ? u(e.index - Math.sign(n.deltaY))
                     : (e.snap || e.clamp) &&
-                      (x = setTimeout(() => {
-                          m(e.index), (z = !1);
+                      (T = setTimeout(() => {
+                          u(e.index), (A = !1);
                       }, 100));
         }
-        function ae(n) {
+        function le(n) {
             n.key === 'ArrowLeft'
-                ? m(e.index - 1)
-                : n.key === 'ArrowRight' && m(e.index + 1);
+                ? u(e.index - 1)
+                : n.key === 'ArrowRight' && u(e.index + 1);
         }
         function ie(n) {
-            (g = f.gap(t, e.vertical)), m(e.index);
+            (x = v.gap(t, e.vertical)), u(e.index);
         }
-        function ce(n) {}
-        function d() {
-            (M = z ? M : e.index),
-                clearTimeout(x),
+        function ae(n) {}
+        function b() {
+            (M = A ? M : e.index),
+                clearTimeout(T),
                 cancelAnimationFrame(r),
-                cancelAnimationFrame(a),
-                y(window, I, !1);
+                cancelAnimationFrame(i),
+                L(window, I, !1);
         }
-        N(e);
-        function N(n) {
+        function ce(n) {
             for (let l in n)
                 if (e[l] !== n[l])
                     switch (l) {
                         case 'index':
-                            (e[l] = p(t, n[l], e.loop)), m(e[l]);
+                            (e[l] = S(t, n[l], e.loop)), u(e[l]);
                             break;
                         case 'loop':
-                            (e[l] = n[l]),
-                                (g = f.gap(t, e.vertical)),
-                                W(t, e.index, e[l]),
-                                m(e.index);
+                            (e[l] = n[l]), W(t, e.index, e[l]), u(e.index);
                             break;
                         case 'gravity':
-                            e[l] = A(2, 0, n[l]);
+                            e[l] = C(2, 0, n[l]);
                             break;
                         default:
                             e[l] = n[l];
@@ -320,9 +318,9 @@ var Slidy = (() => {
                     }
         }
         function se() {
-            d(), P.disconnect(), D.disconnect(), y(L, K, !1);
+            b(), P.disconnect(), D.disconnect(), L(y, K, !1);
         }
-        return { update: (n) => N({ ...e, ...n }), destroy: se, to: m };
+        return { update: (n) => ce({ ...e, ...n }), destroy: se, to: u };
     }
-    return de(we);
+    return be(we);
 })();

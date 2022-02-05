@@ -87,6 +87,7 @@ export function slidy(
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
+            console.log('mounted');
             RO.observe(node);
             MO.observe(node, moOptions);
 
@@ -112,7 +113,7 @@ export function slidy(
         })
         .catch((error) => console.error(error));
 
-    function move(pos: number, transition: number = 0) {
+    function move({ pos, transition = 0 }: { pos: number; transition?: number }): void {
         position += options.loop ? looping(pos) : pos;
         options.index = find.index(
             node,
@@ -122,8 +123,9 @@ export function slidy(
             options.align
         );
 
-        const translate = (vertical: boolean) =>
-            vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+        function translate(vertical: boolean): string {
+            return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+        }
 
         const styles = {
             transform: `translate3d(${translate(options.vertical)})`,
@@ -133,7 +135,7 @@ export function slidy(
         dispatch(node, 'move', { detail: { index: options.index, position } });
     }
 
-    function looping(pos: number) {
+    function looping(pos: number): number {
         const delta = hip - pos;
         const first = find.size(node, 0, options.vertical);
         const last = find.size(node, node.children.length - 1, options.vertical);
@@ -149,7 +151,7 @@ export function slidy(
     }
 
     let toing = false;
-    function to(index: number, target: number | null = null) {
+    function to(index: number, target: number | null = null): void {
         toing = true;
         clear();
 
@@ -168,10 +170,10 @@ export function slidy(
             ? 0
             : find.position(node, ix, options.vertical, options.align);
 
-        move(pos - position, options.duration);
+        move({ pos: pos - position, transition: options.duration });
     }
 
-    function track(timestamp: number) {
+    function track(timestamp: number): void {
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
             velocity =
@@ -182,23 +184,24 @@ export function slidy(
         });
     }
 
-    function scroll({ target, amplitude, duration, timestamp }: Scroll) {
+    function scroll({ target, amplitude, duration, timestamp }: Scroll): void {
         if (amplitude) {
             RAF(function scroll(time: number) {
                 const elapsed = (time - timestamp) / duration;
                 const delta = amplitude * Math.exp(-elapsed);
                 const dist = position - (target - delta);
 
-                move(options.loop ? delta / 16.7 : -dist);
+                move({ pos: options.loop ? delta / 27 : -dist });
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
                 if (options.loop && Math.abs(delta) < 5) to(options.index);
             });
         }
     }
 
-    function onDown(e: MouseEvent | TouchEvent) {
-        css(node, { pointerEvents: e.type !== 'mousedown' ? 'auto' : 'none' });
+    function onDown(e: MouseEvent | TouchEvent): void {
+        console.log(e.type);
         clear();
+        css(node, { pointerEvents: e.type !== 'mousedown' ? 'auto' : 'none' });
 
         frame = position;
         reference = coordinate(e, options.vertical);
@@ -207,15 +210,16 @@ export function slidy(
         listen(window, windowEvents);
     }
 
-    function onMove(e: MouseEvent | TouchEvent) {
+    function onMove(e: MouseEvent | TouchEvent): void {
         const delta =
             (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
         reference = coordinate(e, options.vertical);
-        move(delta);
+        move({ pos: delta });
     }
 
-    function onUp(e: MouseEvent | TouchEvent) {
+    function onUp(e: MouseEvent | TouchEvent): void {
         clear();
+        // track(performance.now());
 
         const { target, amplitude } = delting(position);
 
@@ -242,7 +246,7 @@ export function slidy(
     }
 
     let wheeling = false;
-    function onWheel(e: WheelEvent) {
+    function onWheel(e: WheelEvent): void {
         clear();
         wheeling = true;
 
@@ -251,7 +255,7 @@ export function slidy(
             e.shiftKey) &&
             e.preventDefault();
 
-        move(coordinate(e, options.vertical) * (2 - options.gravity));
+        move({ pos: coordinate(e, options.vertical) * (2 - options.gravity) });
 
         if (e.shiftKey) to(options.index - Math.sign(e.deltaY));
         else if (options.snap || options.clamp)
@@ -261,7 +265,7 @@ export function slidy(
             }, 100);
     }
 
-    function onKeys(e: KeyboardEvent) {
+    function onKeys(e: KeyboardEvent): void {
         if (e.key === 'ArrowLeft') {
             to(options.index - 1);
         } else if (e.key === 'ArrowRight') {
@@ -269,16 +273,16 @@ export function slidy(
         }
     }
 
-    function onResize(e: CustomEvent) {
+    function onResize(e: CustomEvent): void {
         gap = find.gap(node, options.vertical);
         to(options.index);
     }
 
-    function onMutate(e: CustomEvent) {
+    function onMutate(e: CustomEvent): void {
         // console.log(e)
     }
 
-    function clear() {
+    function clear(): void {
         // hip = position
         // frame = position
         hix = wheeling ? hix : options.index;
@@ -289,9 +293,9 @@ export function slidy(
         listen(window, windowEvents, false);
     }
 
-    updater(options);
+    // updater(options);
 
-    function updater(opts: Options) {
+    function updater(opts: Options): void {
         for (const key in opts) {
             if (options[key] !== opts[key]) {
                 switch (key) {
@@ -301,7 +305,6 @@ export function slidy(
                         break;
                     case 'loop':
                         options[key] = opts[key];
-                        gap = find.gap(node, options.vertical);
                         replace(node, options.index, options[key]);
                         to(options.index);
                         break;
@@ -317,7 +320,7 @@ export function slidy(
         }
     }
 
-    function destroy() {
+    function destroy(): void {
         clear();
         RO.disconnect();
         MO.disconnect();

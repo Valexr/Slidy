@@ -292,7 +292,7 @@
     img {
         opacity: 0;
         transition: opacity 1000ms ease-in;
-        will-change: transform;
+        // will-change: transform;
         &.loaded {
             opacity: 1;
         }
@@ -301,14 +301,14 @@
     @supports (-webkit-touch-callout: none) {
         img {
             width: auto;
-            will-change: auto;
+            // will-change: auto;
         }
     }
     /* MacOS */
     @media not all and (min-resolution: 0.001dpcm) {
         img {
-            // width: auto;
-            will-change: transform, box-shadow;
+            width: auto;
+            // will-change: transform;
         }
     }
 
