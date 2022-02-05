@@ -16,23 +16,21 @@ import {
 
 export function slidy(
     node: HTMLElement,
-    options: Options
+    options: Options = {
+        index: 0,
+        gravity: 1.2,
+        duration: 375,
+        vertical: false,
+        clamp: false,
+        loop: false,
+        snap: false,
+        align: 'start',
+    }
 ): {
     update: (options: Options) => void;
     destroy: () => void;
     to: (index: number, target?: number) => void;
 } {
-    let {
-        index = 0,
-        gravity = 1.2,
-        duration = 375,
-        vertical = false,
-        clamp = false,
-        loop = false,
-        snap = false,
-        align = 'start',
-    }: Options = options;
-
     let raf: number,
         rak: number,
         velocity = 0,
@@ -42,7 +40,7 @@ export function slidy(
         // dragtime: NodeJS.Timer,
         wheeltime: NodeJS.Timeout,
         hip = position,
-        hix = index,
+        hix = options.index,
         gap = 0;
 
     const PARENT = node.parentElement;
@@ -101,9 +99,9 @@ export function slidy(
             };
             css(node, styles);
 
-            gap = find.gap(node, vertical);
-            replace(node, index, loop);
-            to(index);
+            gap = find.gap(node, options.vertical);
+            replace(node, options.index, options.loop);
+            to(options.index);
             console.log('gap:', gap);
 
             if (PARENT) {
@@ -115,36 +113,38 @@ export function slidy(
         .catch((error) => console.error(error));
 
     function move(pos: number, transition: number = 0) {
-        position += loop ? looping(pos) : pos;
-        index = find.index(node, position, undefined, vertical, align);
+        position += options.loop ? looping(pos) : pos;
+        options.index = find.index(
+            node,
+            position,
+            undefined,
+            options.vertical,
+            options.align
+        );
 
         const translate = (vertical: boolean) =>
             vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
 
         const styles = {
-            transform: `translate3d(${translate(vertical)})`,
+            transform: `translate3d(${translate(options.vertical)})`,
             transition: `${transition}ms`,
         };
         css(node, styles);
-        dispatch(node, 'move', { detail: { index, position } });
-        // node.style.transform = `translate3d(${translate(vertical)})`;
-        // node.style.transition = `${transition}ms`;
-        // node.dataset.position = `${position}`;
-        // node.dataset.index = `${index}`;
+        dispatch(node, 'move', { detail: { index: options.index, position } });
     }
 
     function looping(pos: number) {
         const delta = hip - pos;
-        const first = find.size(node, 0, vertical);
-        const last = find.size(node, node.children.length - 1, vertical);
+        const first = find.size(node, 0, options.vertical);
+        const last = find.size(node, node.children.length - 1, options.vertical);
         const history = (size: number) => (size + gap) * Math.sign(-pos);
 
-        if (hix !== index) {
+        if (hix !== options.index) {
             pos > 0 ? next(node) : prev(node);
             pos += history(pos > 0 ? first : last);
             frame = position + pos + delta;
         }
-        hix = index;
+        hix = options.index;
         return pos;
     }
 
@@ -153,26 +153,29 @@ export function slidy(
         toing = true;
         clear();
 
-        index = hix = indexing(node, index, loop);
+        index = hix = indexing(node, index, options.loop);
         // hix = loop ? hix : index
         const child = find.child(node, index);
-        const ix = loop ? find.index(node, position, child, vertical, align) : index;
+        const ix = options.loop
+            ? find.index(node, position, child, options.vertical, options.align)
+            : index;
 
         let pos = target
-            ? snap
-                ? find.target(node, target, vertical, align)
+            ? options.snap
+                ? find.target(node, target, options.vertical, options.align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, vertical, align);
+            ? 0
+            : find.position(node, ix, options.vertical, options.align);
 
-        move(pos - position, duration);
+        move(pos - position, options.duration);
     }
 
     function track(timestamp: number) {
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
-            velocity = (2 - gravity) * v + maxMin(1, 0, 1 - gravity) * velocity;
+            velocity =
+                (2 - options.gravity) * v + maxMin(1, 0, 1 - options.gravity) * velocity;
             timestamp = time;
             frame = position;
             rak = RAF(track);
@@ -186,9 +189,9 @@ export function slidy(
                 const delta = amplitude * Math.exp(-elapsed);
                 const dist = position - (target - delta);
 
-                move(loop ? delta / 16.7 : -dist);
+                move(options.loop ? delta / 16.7 : -dist);
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
-                if (loop && Math.abs(delta) < 5) to(index);
+                if (options.loop && Math.abs(delta) < 5) to(options.index);
             });
         }
     }
@@ -198,15 +201,16 @@ export function slidy(
         clear();
 
         frame = position;
-        reference = coordinate(e, vertical);
+        reference = coordinate(e, options.vertical);
         track(performance.now());
 
         listen(window, windowEvents);
     }
 
     function onMove(e: MouseEvent | TouchEvent) {
-        const delta = (reference - coordinate(e, vertical)) * (2 - gravity);
-        reference = coordinate(e, vertical);
+        const delta =
+            (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
+        reference = coordinate(e, options.vertical);
         move(delta);
     }
 
@@ -217,21 +221,21 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10)
             Math.abs(velocity) < 100
-                ? to(index)
-                : clamp
-                    ? to(index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(options.index)
+                : options.clamp
+                ? to(options.index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration: options.duration,
+                      timestamp: performance.now(),
+                  });
     }
 
     function delting(position: number): Delta {
-        let amplitude = (2 - gravity) * velocity;
-        const target = snap
-            ? find.target(node, position + amplitude, vertical, align)
+        let amplitude = (2 - options.gravity) * velocity;
+        const target = options.snap
+            ? find.target(node, position + amplitude, options.vertical, options.align)
             : position + amplitude;
         amplitude = target - position;
         return { target, amplitude };
@@ -242,43 +246,42 @@ export function slidy(
         clear();
         wheeling = true;
 
-        ((Math.abs(coordinate(e, vertical)) && Math.abs(coordinate(e, vertical)) < 15) ||
+        ((Math.abs(coordinate(e, options.vertical)) &&
+            Math.abs(coordinate(e, options.vertical)) < 15) ||
             e.shiftKey) &&
             e.preventDefault();
 
-        move(coordinate(e, vertical) * (2 - gravity));
+        move(coordinate(e, options.vertical) * (2 - options.gravity));
 
-        if (e.shiftKey) to(index - Math.sign(e.deltaY));
-        else if (snap || clamp)
+        if (e.shiftKey) to(options.index - Math.sign(e.deltaY));
+        else if (options.snap || options.clamp)
             wheeltime = setTimeout(() => {
-                to(index);
+                to(options.index);
                 wheeling = false;
             }, 100);
     }
 
     function onKeys(e: KeyboardEvent) {
         if (e.key === 'ArrowLeft') {
-            to(index - 1);
+            to(options.index - 1);
         } else if (e.key === 'ArrowRight') {
-            to(index + 1);
+            to(options.index + 1);
         }
     }
 
     function onResize(e: CustomEvent) {
-        gap = find.gap(node, vertical);
-        to(index);
+        gap = find.gap(node, options.vertical);
+        to(options.index);
     }
 
     function onMutate(e: CustomEvent) {
         // console.log(e)
-        // gap = find.gap(node, vertical);
-        // to(index)
     }
 
     function clear() {
         // hip = position
         // frame = position
-        hix = wheeling ? hix : index;
+        hix = wheeling ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
@@ -288,49 +291,33 @@ export function slidy(
 
     updater(options);
 
-    function updater(options: Options) {
-        const props = {
-            index,
-            gravity,
-            duration,
-            vertical,
-            clamp,
-            loop,
-            snap,
-            align
-        }
+    function updater(opts: Options) {
+        for (const key in opts) {
+            if (options[key] !== opts[key]) {
+                switch (key) {
+                    case 'index':
+                        options[key] = indexing(node, opts[key], options.loop);
+                        to(options[key]);
+                        break;
+                    case 'loop':
+                        options[key] = opts[key];
+                        gap = find.gap(node, options.vertical);
+                        replace(node, options.index, options[key]);
+                        to(options.index);
+                        break;
+                    case 'gravity':
+                        options[key] = maxMin(2, 0, opts[key]);
+                        break;
 
-        for (const key in props) {
-            if (props[key] !== options[key]) {
-                props[key] = options[key]
-                console.log(key, props[key], options[key])
+                    default:
+                        options[key] = opts[key];
+                        break;
+                }
             }
-        }
-
-        if (index !== options.index) {
-            index = indexing(node, options.index, loop);
-            to(index);
-        } else if (loop !== options.loop) {
-            // loop = options.loop;
-            gap = find.gap(node, vertical);
-            replace(node, index, loop);
-            to(index);
-        } else if (duration !== options.duration) {
-            duration = options.duration;
-        } else if (gravity !== options.gravity) {
-            gravity = maxMin(2, 0, options.gravity);
-        } else if (vertical !== options.vertical) {
-            vertical = options.vertical;
-        } else if (align !== options.align) {
-            align = options.align;
-        } else if (snap !== options.snap) {
-            snap = options.snap;
-        } else if (clamp !== options.clamp) {
-            clamp = options.clamp;
         }
     }
 
-    function destroer() {
+    function destroy() {
         clear();
         RO.disconnect();
         MO.disconnect();
@@ -338,7 +325,7 @@ export function slidy(
     }
     return {
         update: (option) => updater({ ...options, ...option }),
-        destroy: () => destroer(),
+        destroy,
         to,
     };
 }

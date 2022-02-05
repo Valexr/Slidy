@@ -34,11 +34,22 @@
                 stats = null,
                 loop = false;
 
+            let options = {
+                index: 9,
+                axis: 'x',
+                align: 'middle',
+                duration: 375,
+                snap: true,
+                gravity: 1.2,
+                clamp: false,
+                loop: false,
+            };
+
             function prev() {
-                slidy.to(index - 1);
+                slidy.to(options.index - 1);
             }
             function next() {
-                slidy.to(index + 1);
+                slidy.to(options.index + 1);
             }
             function goto(i) {
                 slidy.to(i);
@@ -52,6 +63,12 @@
                 prop = !prop;
                 console.log(prop);
                 return prop;
+                // for (const key in options) {
+                //     if (options[key] !== prop[key]) {
+                //         options[key] = prop[key]
+                //         return prop[key];
+                //     }
+                // }
             }
 
             async function getPhotos(node, page, limit) {
@@ -75,16 +92,7 @@
                             .join('');
                     })
                     .then(() => {
-                        slidy = Slidy.slidy(node, {
-                            index,
-                            axis: 'x',
-                            align: 'middle',
-                            duration: 375,
-                            snap,
-                            gravity: 1.2,
-                            clamp: false,
-                            loop,
-                        });
+                        slidy = Slidy.slidy(node, options);
                     });
             }
 
@@ -108,17 +116,17 @@
 
                 function scrolling(p) {
                     scrollPos = p;
-                    stats.innerHTML = `index: [<b>${index}</b>], scrollPos: <b>${Math.trunc(
-                        scrollPos
-                    )}</b>px`;
+                    stats.innerHTML = `index: [<b>${
+                        options.index
+                    }</b>], scrollPos: <b>${Math.trunc(scrollPos)}</b>px`;
                 }
 
                 function indexing(x) {
-                    index = x;
+                    options.index = x;
                     const cix = Math.floor(node.children.length / 2);
                     console.log(cix);
                     Array.from(node.children).forEach((n, i) =>
-                        i === (loop ? cix : x)
+                        i === (options.loop ? cix : x)
                             ? n.classList.add('active')
                             : n.classList.remove('active')
                     );
@@ -171,11 +179,11 @@
             </section>
             <nav id="dots"></nav>
             <nav>
-                <button onclick="slidy.to(index - 1)">←</button>
+                <button onclick="slidy.to(options.index - 1)">←</button>
                 <button onclick="slidy.to(index + 1)">→</button>
                 <button onclick="getPhotos(node, randomQ(1, 69), 15)">refresh</button>
                 <button
-                    onclick="slidy.update({loop: activate(this, loop)})"
+                    onclick="slidy.update({loop: activate(this, options.loop)})"
                     class:active="{anchored}"
                 >
                     loop
