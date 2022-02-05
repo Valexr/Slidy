@@ -163,8 +163,8 @@ export function slidy(
                 ? find.target(node, target, vertical, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, vertical, align);
+            ? 0
+            : find.position(node, ix, vertical, align);
 
         move(pos - position, duration);
     }
@@ -219,13 +219,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                    ? to(index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration,
+                      timestamp: performance.now(),
+                  });
     }
 
     function delting(position: number): Delta {
@@ -289,29 +289,26 @@ export function slidy(
     updater(options);
 
     function updater(options: Options) {
-        duration = options.duration;
-        gravity = maxMin(2, 0, options.gravity);
-        vertical = options.vertical;
-        align = options.align;
-        snap = options.snap;
-        clamp = options.clamp;
-
-        for (let key in options) {
-            if (key !== options[key]) {
-                key = options[key]
-            }
-        }
-
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
             to(index);
-        }
-
-        if (loop !== options.loop) {
+        } else if (loop !== options.loop) {
             loop = options.loop;
             gap = find.gap(node, vertical);
             replace(node, index, loop);
             to(index);
+        } else if (duration !== options.duration) {
+            duration = options.duration;
+        } else if (gravity !== options.gravity) {
+            gravity = maxMin(2, 0, options.gravity);
+        } else if (vertical !== options.vertical) {
+            vertical = options.vertical;
+        } else if (align !== options.align) {
+            align = options.align;
+        } else if (snap !== options.snap) {
+            snap = options.snap;
+        } else if (clamp !== options.clamp) {
+            clamp = options.clamp;
         }
     }
 
