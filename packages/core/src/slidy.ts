@@ -163,8 +163,8 @@ export function slidy(
                 ? find.target(node, target, vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, vertical, align);
+                ? 0
+                : find.position(node, ix, vertical, align);
 
         move(pos - position, duration);
     }
@@ -219,13 +219,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                ? to(index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration,
+                        timestamp: performance.now(),
+                    });
     }
 
     function delting(position: number): Delta {
@@ -295,6 +295,12 @@ export function slidy(
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;
+
+        for (let key in options) {
+            if (key !== options[key]) {
+                key = options[key]
+            }
+        }
 
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
