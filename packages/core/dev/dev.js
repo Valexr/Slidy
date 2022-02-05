@@ -304,6 +304,21 @@ var Slidy = (() => {
     }
     updater(options);
     function updater(options2) {
+      const props = {
+        index,
+        gravity,
+        duration,
+        vertical,
+        clamp,
+        loop,
+        snap,
+        align
+      };
+      for (const key in props) {
+        if (props[key] !== options2[key]) {
+          console.log(key);
+        }
+      }
       if (index !== options2.index) {
         index = indexing(node, options2.index, loop);
         to(index);

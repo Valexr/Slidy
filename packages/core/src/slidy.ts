@@ -163,8 +163,8 @@ export function slidy(
                 ? find.target(node, target, vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, vertical, align);
+                ? 0
+                : find.position(node, ix, vertical, align);
 
         move(pos - position, duration);
     }
@@ -219,13 +219,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                ? to(index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration,
+                        timestamp: performance.now(),
+                    });
     }
 
     function delting(position: number): Delta {
@@ -289,11 +289,29 @@ export function slidy(
     updater(options);
 
     function updater(options: Options) {
+        const props = {
+            index,
+            gravity,
+            duration,
+            vertical,
+            clamp,
+            loop,
+            snap,
+            align
+        }
+
+        for (const key in props) {
+            if (props[key] !== options[key]) {
+                props[key] = options[key]
+                console.log(key, props[key], options[key])
+            }
+        }
+
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
             to(index);
         } else if (loop !== options.loop) {
-            loop = options.loop;
+            // loop = options.loop;
             gap = find.gap(node, vertical);
             replace(node, index, loop);
             to(index);
