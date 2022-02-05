@@ -7,7 +7,7 @@ let settingX = {
         height: '100%',
         padding: '0',
         align: 'middle',
-        alignmargin: 50
+        alignmargin: 50,
     },
     slide: {
         gap: 50,
@@ -24,7 +24,7 @@ let settingX = {
         dotsnum: true,
         dotsarrow: true,
         dotspure: true,
-        arrows: false
+        arrows: false,
     },
     options: {
         duration: 375,
@@ -33,21 +33,25 @@ let settingX = {
         loop: false,
         clamp: false,
         vertical: false,
-        intersecting: false
-    }
+        intersecting: false,
+    },
 };
 
-export const settings = writable(JSON.parse(sessionStorage.getItem("slidySettings")) || settingX);
-settings.subscribe(val => sessionStorage.setItem("slidySettings", JSON.stringify(val)));
+export const settings = writable(
+    JSON.parse(sessionStorage.getItem('slidySettings')) || settingX
+);
+settings.subscribe((val) =>
+    sessionStorage.setItem('slidySettings', JSON.stringify(val))
+);
 
 export const set = writable({
     open: false,
     input: false,
-    check: false
-})
+    check: false,
+});
 
 export const con = writable({
-    open: false
-})
+    open: false,
+});
 
-export const index = writable(4)
+export const index = writable(4);

@@ -13,6 +13,7 @@
         "build:www": "pnpm build -r",
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
+        "format": "prettier --ignore-path .gitignore --write '**/*.{js,ts,md,json,html,css}'",
         "start": "npx derver --production --port=5555 www/public",
         "deploy": "pnpm build:www && gh-pages -d www/public",
         "pub": "pnpm pub -r"

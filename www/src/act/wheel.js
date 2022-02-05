@@ -1,8 +1,9 @@
 export function wheel(node) {
-    let dx = 0, dy = 0
+    let dx = 0,
+        dy = 0;
 
     function handleWheel(e) {
-        if ((navigator.platform.indexOf('Win') > -1) && e.shiftKey) {
+        if (navigator.platform.indexOf('Win') > -1 && e.shiftKey) {
             dx = e.deltaY;
         } else {
             dx = e.deltaX * 1.5;
@@ -11,9 +12,11 @@ export function wheel(node) {
         if (dx !== 0) {
             e.preventDefault ? e.preventDefault() : (e.returnValue = false);
         }
-        node.dispatchEvent(new CustomEvent('wheels', {
-            detail: { dx, dy }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('wheels', {
+                detail: { dx, dy },
+            })
+        );
     }
 
     node.addEventListener('wheel', handleWheel, { passive: false });
@@ -21,9 +24,9 @@ export function wheel(node) {
     return {
         destroy() {
             node.removeEventListener('wheel', handleWheel);
-        }
+        },
     };
-};
+}
 
 // window.addEventListener("gesturestart", function (e) {
 //     e.preventDefault();

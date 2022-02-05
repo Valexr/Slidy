@@ -30,8 +30,8 @@ export function slidy(
         clamp = false,
         loop = false,
         snap = false,
-        align = 'start'
-    }: Options = options
+        align = 'start',
+    }: Options = options;
 
     let raf: number,
         rak: number,
@@ -79,7 +79,7 @@ export function slidy(
     const MO = new MutationObserver(() => {
         node.dispatchEvent(new CustomEvent('mutate'));
     });
-    const observerOptions = {
+    const moOptions = {
         childList: true,
         attributes: true,
 
@@ -90,7 +90,7 @@ export function slidy(
     onMounted(node)
         .then((childs: HTMLCollection) => {
             RO.observe(node);
-            MO.observe(node, observerOptions);
+            MO.observe(node, moOptions);
 
             const styles = {
                 userSelect: 'none',
@@ -163,8 +163,8 @@ export function slidy(
                 ? find.target(node, target, vertical, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, vertical, align);
+            ? 0
+            : find.position(node, ix, vertical, align);
 
         move(pos - position, duration);
     }
@@ -194,7 +194,7 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent) {
-        // css(node, { pointerEvents: (e.type !== 'mousedown' ? 'auto' : 'none') });
+        css(node, { pointerEvents: e.type !== 'mousedown' ? 'auto' : 'none' });
         clear();
 
         frame = position;
@@ -219,13 +219,13 @@ export function slidy(
             Math.abs(velocity) < 100
                 ? to(index)
                 : clamp
-                    ? to(index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration,
+                      timestamp: performance.now(),
+                  });
     }
 
     function delting(position: number): Delta {
@@ -286,36 +286,15 @@ export function slidy(
         listen(window, windowEvents, false);
     }
 
-    update(options);
-    function update(options: Options) {
-        const props = {
-            index,
-            gravity,
-            duration,
-            vertical,
-            clamp,
-            loop,
-            snap,
-            align
-        }
+    updater(options);
 
-        for (const key in options) {
-            // if (Object.prototype.hasOwnProperty.call(object, key)) {
-            //     const element = object[key];
-
-            // }
-            if (key !== options[key]) {
-                // key = options[key]
-                console.log(key, options[key])
-            }
-        }
+    function updater(options: Options) {
         duration = options.duration;
-        // gravity = maxMin(2, 0, options.gravity);
+        gravity = maxMin(2, 0, options.gravity);
         vertical = options.vertical;
         align = options.align;
         snap = options.snap;
         clamp = options.clamp;
-        // console.log(options);
 
         if (index !== options.index) {
             index = indexing(node, options.index, loop);
@@ -329,15 +308,16 @@ export function slidy(
             to(index);
         }
     }
-    // function updater(prop, cb) {
 
-    // }
-
-    function destroy() {
+    function destroer() {
         clear();
         RO.disconnect();
         MO.disconnect();
         listen(PARENT, parentEvents, false);
     }
-    return { update, destroy, to };
+    return {
+        update: (option) => updater({ ...options, ...option }),
+        destroy: () => destroer(),
+        to,
+    };
 }

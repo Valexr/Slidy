@@ -1,16 +1,21 @@
 export function round5(x) {
-    return Math.round(x / 5) * 5
+    return Math.round(x / 5) * 5;
 }
 
 export function itemsQ(q, i) {
-    return i.slice(0, q === i.length ? i.length : q - i.length)
+    return i.slice(0, q === i.length ? i.length : q - i.length);
 }
 
-export function minQ(obj) { return Math.min(...obj) }
+export function minQ(obj) {
+    return Math.min(...obj);
+}
 
 export function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
     let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-    return { width: Math.round(srcWidth * ratio), height: Math.round(srcHeight * ratio) };
+    return {
+        width: Math.round(srcWidth * ratio),
+        height: Math.round(srcHeight * ratio),
+    };
 }
 
 export function randomQ(min, max) {
@@ -20,8 +25,7 @@ export function randomQ(min, max) {
 export function filterObj(obj, keys) {
     const newobj = {};
     for (const [k, v] of Object.entries(obj)) {
-        if (keys.includes(k) && v != null)
-            newobj[k] = v;
+        if (keys.includes(k) && v != null) newobj[k] = v;
     }
     return newobj;
 }
@@ -31,24 +35,28 @@ export function objectMap(obj, fn) {
     }, {});
 }
 
-const objectsMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
-const objectReduce = (obj, value) => Object.values(obj, value).reduce((t, { value }) => t + value, 0)
+const objectsMap = (obj, fn) =>
+    Object.fromEntries(
+        Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)])
+    );
+const objectReduce = (obj, value) =>
+    Object.values(obj, value).reduce((t, { value }) => t + value, 0);
 // export function prev(arr) { arr = [{ ...arr[arr.length - 1] }, ...arr.slice(0, -1)] }
 // export function next(arr) { arr = [...arr.slice(1), { ...arr[0] }] }
 
 function debounce(f, ms) {
-    let isCooldown = false
+    let isCooldown = false;
 
     return function () {
-        if (isCooldown) return
-        f.apply(this, arguments)
-        isCooldown = true
-        setTimeout(() => (isCooldown = false), ms)
-    }
+        if (isCooldown) return;
+        f.apply(this, arguments);
+        isCooldown = true;
+        setTimeout(() => (isCooldown = false), ms);
+    };
 }
 
 function isInteger(num) {
-    return (num ^ 0) === num
+    return (num ^ 0) === num;
 }
 // export function slidy(arr, item, count, dist, delt) {
 //     if (count === item) {
@@ -91,7 +99,6 @@ function isInteger(num) {
 // document.write ("Gcd        = ", r, "<br>");
 // document.write ("Aspect     = ", w/r, ":", h/r);
 // document.write ("</pre>");
-
 
 // export function randomInteger(min, max) {
 //     let rand = min + Math.random() * (max + 1 - min);

@@ -1,347 +1,309 @@
 var Slidy = (() => {
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
-  };
-  var __reExport = (target, module, copyDefault, desc) => {
-    if (module && typeof module === "object" || typeof module === "function") {
-      for (let key of __getOwnPropNames(module))
-        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
-    }
-    return target;
-  };
-  var __toCommonJS = /* @__PURE__ */ ((cache) => {
-    return (module, temp) => {
-      return cache && cache.get(module) || (temp = __reExport(__markAsModule({}), module, 1), cache && cache.set(module, temp), temp);
-    };
-  })(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-
-  // src/slidy.ts
-  var slidy_exports = {};
-  __export(slidy_exports, {
-    slidy: () => slidy
-  });
-
-  // src/env.ts
-  function onMounted(node) {
-    return new Promise((resolve, reject) => {
-      let mounting, count = 0;
-      clearInterval(mounting);
-      mounting = setInterval(() => {
-        count++;
-        if (node.children.length > 2) {
-          clearInterval(mounting);
-          Array.from(node.children).forEach((c, i) => {
-            c.dataset.index = i;
-          });
-          resolve(node.children);
-        } else if (count >= 69) {
-          clearInterval(mounting);
-          reject(`Slidy haven't items`);
-        }
-      }, 16);
-    });
-  }
-
-  // src/utils.ts
-  function maxMin(max, min, val) {
-    return Math.min(max, Math.max(min, val)) || 0;
-  }
-  function indexing(node, index, loop) {
-    if (loop) {
-      if (index < 0) {
-        return nodes(node).length - 1;
-      } else if (index > nodes(node).length - 1) {
-        return 0;
-      } else
-        return index;
-    } else
-      return maxMin(nodes(node).length - 1, 0, index);
-  }
-  function coordinate(e, vertical) {
-    if (e.type === "wheel") {
-      return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-    } else
-      return vertical ? uniQ(e).clientY : uniQ(e).clientX;
-  }
-  var uniQ = (e) => e.changedTouches ? e.changedTouches[0] : e;
-  var cix = (node) => Math.floor(node.children.length / 2);
-  var nodes = (node) => Array.from(node.children);
-  var child = (node, index) => node.children[index];
-  var coord = (vertical) => vertical ? "offsetTop" : "offsetLeft";
-  var size = (vertical) => vertical ? "offsetHeight" : "offsetWidth";
-  var part = (align) => align === "middle" ? 0.5 : 1;
-  var diff = (align, pos) => align !== "start" ? pos : 0;
-  var offset = (node, child2, vertical) => node.parentElement[size(vertical)] - child2[size(vertical)];
-  var position = (node, child2, vertical, align) => child2[coord(vertical)] - diff(align, offset(node, child2, vertical) * part(align));
-  var distance = (node, index, vertical) => Math.abs(nodes(node)[index][coord(vertical)]);
-  function closest(node, target, vertical, align) {
-    return nodes(node).reduce((prev2, curr, i) => {
-      const pos = (child2) => position(node, child2, vertical, align);
-      return Math.abs(pos(curr) - target) < Math.abs(pos(prev2) - target) ? curr : prev2;
-    });
-  }
-  var find = {
-    index: (node, target, child2, vertical, align) => child2 ? nodes(node).indexOf(child2) : +closest(node, target, vertical, align).dataset.index,
-    position: (node, index, vertical, align) => position(node, child(node, index), vertical, align),
-    target: (node, target, vertical, align) => position(node, closest(node, target, vertical, align), vertical, align),
-    size: (node, index, vertical) => nodes(node)[index][size(vertical)],
-    child: (node, index) => nodes(node).find((child2) => +child2.dataset.index === index),
-    gap: (node, vertical) => {
-      return distance(node, 0, vertical) - distance(node, 1, vertical) - nodes(node)[0][size(vertical)];
-    }
-  };
-  function css(node, styles) {
-    for (const property in styles) {
-      node.style[property] = styles[property];
-    }
-  }
-  function dispatch(node, name, detail) {
-    node.dispatchEvent(new CustomEvent(name, { ...detail }));
-  }
-  function prev(node) {
-    const last = node.children[node.children.length - 1];
-    node.prepend(last);
-  }
-  function next(node) {
-    const first = node.children[0];
-    node.append(first);
-  }
-  var rotate = (array, key) => array.slice(key).concat(array.slice(0, key));
-  function replace(node, index, loop) {
-    const replace2 = (nodes2) => node.replaceChildren(...nodes2);
-    const elements = loop ? rotate(nodes(node), index - cix(node)) : nodes(node).sort((a, b) => a.dataset.index - b.dataset.index);
-    replace2(elements);
-  }
-
-  // src/slidy.ts
-  function slidy(node, options) {
-    let {
-      index = 0,
-      gravity = 1.2,
-      duration = 375,
-      vertical = false,
-      clamp = false,
-      loop = false,
-      snap = false,
-      align = "start"
-    } = options;
-    let raf, rak, velocity = 0, reference = 0, position2 = 0, frame = 0, wheeltime, hip = position2, hix = index, gap = 0;
-    const PARENT = node.parentElement;
-    const listen = (node2, events, on = true) => events.forEach(([event, handle]) => on ? node2.addEventListener(event, handle, true) : node2.removeEventListener(event, handle, true));
-    const windowEvents = [
-      ["touchmove", onMove],
-      ["mousemove", onMove],
-      ["touchend", onUp],
-      ["mouseup", onUp]
-    ];
-    const parentEvents = [
-      ["contextmenu", clear],
-      ["touchstart", onDown],
-      ["mousedown", onDown],
-      ["keydown", onKeys],
-      ["wheel", onWheel],
-      ["resize", onResize],
-      ["mutate", onMutate]
-    ];
-    const RAF = requestAnimationFrame;
-    const RO = new ResizeObserver(() => {
-      node.dispatchEvent(new CustomEvent("resize"));
-    });
-    const MO = new MutationObserver(() => {
-      node.dispatchEvent(new CustomEvent("mutate"));
-    });
-    const observerOptions = {
-      childList: true,
-      attributes: true,
-      subtree: true
-    };
-    onMounted(node).then((childs) => {
-      RO.observe(node);
-      MO.observe(node, observerOptions);
-      const styles = {
-        userSelect: "none",
-        touchAction: "pan-y",
-        willChange: "auto",
-        webkitUserSelect: "none"
-      };
-      css(node, styles);
-      gap = find.gap(node, vertical);
-      replace(node, index, loop);
-      to(index);
-      console.log("gap:", gap);
-      if (PARENT) {
-        css(PARENT, { outline: "none" });
-        listen(PARENT, parentEvents);
-      }
-      dispatch(node, "mounted", { childs });
-    }).catch((error) => console.error(error));
-    function move(pos, transition = 0) {
-      position2 += loop ? looping(pos) : pos;
-      index = find.index(node, position2, void 0, vertical, align);
-      const translate = (vertical2) => vertical2 ? `0, ${-position2}px, 0` : `${-position2}px, 0, 0`;
-      const styles = {
-        transform: `translate3d(${translate(vertical)})`,
-        transition: `${transition}ms`
-      };
-      css(node, styles);
-      dispatch(node, "move", { detail: { index, position: position2 } });
-    }
-    function looping(pos) {
-      const delta = hip - pos;
-      const first = find.size(node, 0, vertical);
-      const last = find.size(node, node.children.length - 1, vertical);
-      const history = (size2) => (size2 + gap) * Math.sign(-pos);
-      if (hix !== index) {
-        pos > 0 ? next(node) : prev(node);
-        pos += history(pos > 0 ? first : last);
-        frame = position2 + pos + delta;
-      }
-      hix = index;
-      return pos;
-    }
-    let toing = false;
-    function to(index2, target = null) {
-      toing = true;
-      clear();
-      index2 = hix = indexing(node, index2, loop);
-      const child2 = find.child(node, index2);
-      const ix = loop ? find.index(node, position2, child2, vertical, align) : index2;
-      let pos = target ? snap ? find.target(node, target, vertical, align) : target : target === 0 ? 0 : find.position(node, ix, vertical, align);
-      move(pos - position2, duration);
-    }
-    function track(timestamp) {
-      RAF(function track2(time) {
-        const v = 1e3 * (position2 - frame) / (1 + (time - timestamp));
-        velocity = (2 - gravity) * v + maxMin(1, 0, 1 - gravity) * velocity;
-        timestamp = time;
-        frame = position2;
-        rak = RAF(track2);
-      });
-    }
-    function scroll({ target, amplitude, duration: duration2, timestamp }) {
-      if (amplitude) {
-        RAF(function scroll2(time) {
-          const elapsed = (time - timestamp) / duration2;
-          const delta = amplitude * Math.exp(-elapsed);
-          const dist = position2 - (target - delta);
-          move(loop ? delta / 16.7 : -dist);
-          raf = Math.abs(delta) > 0.5 ? RAF(scroll2) : 0;
-          if (loop && Math.abs(delta) < 5)
-            to(index);
-        });
-      }
-    }
-    function onDown(e) {
-      css(node, { pointerEvents: e.type !== "mousedown" ? "auto" : "none" });
-      clear();
-      frame = position2;
-      reference = coordinate(e, vertical);
-      track(performance.now());
-      listen(window, windowEvents);
-    }
-    function onMove(e) {
-      const delta = (reference - coordinate(e, vertical)) * (2 - gravity);
-      reference = coordinate(e, vertical);
-      move(delta);
-    }
-    function onUp(e) {
-      clear();
-      const { target, amplitude } = delting(position2);
-      if (Math.abs(amplitude) > 10)
-        Math.abs(velocity) < 100 ? to(index) : clamp ? to(index, target) : scroll({
-          target,
-          amplitude,
-          duration,
-          timestamp: performance.now()
+    var I = Object.defineProperty;
+    var de = Object.getOwnPropertyDescriptor;
+    var ge = Object.getOwnPropertyNames;
+    var Te = Object.prototype.hasOwnProperty;
+    var Le = (e) => I(e, '__esModule', { value: !0 });
+    var He = (e, t) => {
+            for (var n in t) I(e, n, { get: t[n], enumerable: !0 });
+        },
+        ye = (e, t, n, r) => {
+            if ((t && typeof t == 'object') || typeof t == 'function')
+                for (let l of ge(t))
+                    !Te.call(e, l) &&
+                        (n || l !== 'default') &&
+                        I(e, l, {
+                            get: () => t[l],
+                            enumerable: !(r = de(t, l)) || r.enumerable,
+                        });
+            return e;
+        };
+    var we = (
+        (e) => (t, n) =>
+            (e && e.get(t)) || ((n = ye(Le({}), t, 1)), e && e.set(t, n), n)
+    )(typeof WeakMap != 'undefined' ? new WeakMap() : 0);
+    var Se = {};
+    He(Se, { slidy: () => ke });
+    function Z(e) {
+        return new Promise((t, n) => {
+            let r,
+                l = 0;
+            clearInterval(r),
+                (r = setInterval(() => {
+                    l++,
+                        e.children.length > 2
+                            ? (clearInterval(r),
+                              Array.from(e.children).forEach((s, M) => {
+                                  s.dataset.index = M;
+                              }),
+                              t(e.children))
+                            : l >= 69 && (clearInterval(r), n("Slidy haven't items"));
+                }, 16));
         });
     }
-    function delting(position3) {
-      let amplitude = (2 - gravity) * velocity;
-      const target = snap ? find.target(node, position3 + amplitude, vertical, align) : position3 + amplitude;
-      amplitude = target - position3;
-      return { target, amplitude };
+    function k(e, t, n) {
+        return Math.min(e, Math.max(t, n)) || 0;
     }
-    let wheeling = false;
-    function onWheel(e) {
-      clear();
-      wheeling = true;
-      (Math.abs(coordinate(e, vertical)) && Math.abs(coordinate(e, vertical)) < 15 || e.shiftKey) && e.preventDefault();
-      move(coordinate(e, vertical) * (2 - gravity));
-      if (e.shiftKey)
-        to(index - Math.sign(e.deltaY));
-      else if (snap || clamp)
-        wheeltime = setTimeout(() => {
-          to(index);
-          wheeling = false;
-        }, 100);
+    function P(e, t, n) {
+        return n
+            ? t < 0
+                ? E(e).length - 1
+                : t > E(e).length - 1
+                ? 0
+                : t
+            : k(E(e).length - 1, 0, t);
     }
-    function onKeys(e) {
-      if (e.key === "ArrowLeft") {
-        to(index - 1);
-      } else if (e.key === "ArrowRight") {
-        to(index + 1);
-      }
+    function p(e, t) {
+        return e.type === 'wheel'
+            ? t || e.shiftKey
+                ? e.deltaY
+                : e.deltaX
+            : t
+            ? _(e).clientY
+            : _(e).clientX;
     }
-    function onResize(e) {
-      gap = find.gap(node, vertical);
-      to(index);
+    var _ = (e) => (e.changedTouches ? e.changedTouches[0] : e),
+        xe = (e) => Math.floor(e.children.length / 2);
+    var E = (e) => Array.from(e.children),
+        Ce = (e, t) => e.children[t],
+        ne = (e) => (e ? 'offsetTop' : 'offsetLeft'),
+        R = (e) => (e ? 'offsetHeight' : 'offsetWidth'),
+        Ae = (e) => (e === 'middle' ? 0.5 : 1),
+        ze = (e, t) => (e !== 'start' ? t : 0),
+        Oe = (e, t, n) => e.parentElement[R(n)] - t[R(n)],
+        K = (e, t, n, r) => t[ne(n)] - ze(r, Oe(e, t, n) * Ae(r)),
+        ee = (e, t, n) => Math.abs(E(e)[t][ne(n)]);
+    function te(e, t, n, r) {
+        return E(e).reduce((l, s, M) => {
+            let c = (v) => K(e, v, n, r);
+            return Math.abs(c(s) - t) < Math.abs(c(l) - t) ? s : l;
+        });
     }
-    function onMutate(e) {
+    var h = {
+        index: (e, t, n, r, l) => (n ? E(e).indexOf(n) : +te(e, t, r, l).dataset.index),
+        position: (e, t, n, r) => K(e, Ce(e, t), n, r),
+        target: (e, t, n, r) => K(e, te(e, t, n, r), n, r),
+        size: (e, t, n) => E(e)[t][R(n)],
+        child: (e, t) => E(e).find((n) => +n.dataset.index === t),
+        gap: (e, t) => ee(e, 0, t) - ee(e, 1, t) - E(e)[0][R(t)],
+    };
+    function H(e, t) {
+        for (let n in t) e.style[n] = t[n];
     }
-    function clear() {
-      hix = wheeling ? hix : index;
-      clearTimeout(wheeltime);
-      cancelAnimationFrame(raf);
-      cancelAnimationFrame(rak);
-      listen(window, windowEvents, false);
+    function D(e, t, n) {
+        e.dispatchEvent(new CustomEvent(t, { ...n }));
     }
-    function update(options2) {
-      const props = {
-        index,
-        gravity,
-        duration,
-        vertical,
-        clamp,
-        loop,
-        snap,
-        align
-      };
-      for (const key in options2) {
-        if (key !== options2[key]) {
-          console.log(key, options2[key]);
+    function oe(e) {
+        let t = e.children[e.children.length - 1];
+        e.prepend(t);
+    }
+    function re(e) {
+        let t = e.children[0];
+        e.append(t);
+    }
+    var Re = (e, t) => e.slice(t).concat(e.slice(0, t));
+    function Y(e, t, n) {
+        let r = (s) => e.replaceChildren(...s),
+            l = n
+                ? Re(E(e), t - xe(e))
+                : E(e).sort((s, M) => s.dataset.index - M.dataset.index);
+        r(l);
+    }
+    function ke(e, t) {
+        let {
+                index: n = 0,
+                gravity: r = 1.2,
+                duration: l = 375,
+                vertical: s = !1,
+                clamp: M = !1,
+                loop: c = !1,
+                snap: v = !1,
+                align: d = 'start',
+            } = t,
+            $,
+            q,
+            y = 0,
+            S = 0,
+            u = 0,
+            w = 0,
+            N,
+            se = u,
+            T = n,
+            L = 0,
+            x = e.parentElement,
+            C = (o, i, a = !0) =>
+                i.forEach(([f, b]) =>
+                    a ? o.addEventListener(f, b, !0) : o.removeEventListener(f, b, !0)
+                ),
+            U = [
+                ['touchmove', j],
+                ['mousemove', j],
+                ['touchend', B],
+                ['mouseup', B],
+            ],
+            J = [
+                ['contextmenu', g],
+                ['touchstart', Q],
+                ['mousedown', Q],
+                ['keydown', he],
+                ['wheel', fe],
+                ['resize', Ee],
+                ['mutate', be],
+            ],
+            A = requestAnimationFrame,
+            X = new ResizeObserver(() => {
+                e.dispatchEvent(new CustomEvent('resize'));
+            }),
+            G = new MutationObserver(() => {
+                e.dispatchEvent(new CustomEvent('mutate'));
+            }),
+            ie = { childList: !0, attributes: !0, subtree: !0 };
+        Z(e)
+            .then((o) => {
+                X.observe(e),
+                    G.observe(e, ie),
+                    H(e, {
+                        userSelect: 'none',
+                        touchAction: 'pan-y',
+                        willChange: 'auto',
+                        webkitUserSelect: 'none',
+                    }),
+                    (L = h.gap(e, s)),
+                    Y(e, n, c),
+                    m(n),
+                    console.log('gap:', L),
+                    x && (H(x, { outline: 'none' }), C(x, J)),
+                    D(e, 'mounted', { childs: o });
+            })
+            .catch((o) => console.error(o));
+        function z(o, i = 0) {
+            (u += c ? le(o) : o), (n = h.index(e, u, void 0, s, d));
+            let f = {
+                transform: `translate3d(${((b) =>
+                    b ? `0, ${-u}px, 0` : `${-u}px, 0, 0`)(s)})`,
+                transition: `${i}ms`,
+            };
+            H(e, f), D(e, 'move', { detail: { index: n, position: u } });
         }
-      }
-      duration = options2.duration;
-      gravity = maxMin(2, 0, options2.gravity);
-      vertical = options2.vertical;
-      align = options2.align;
-      snap = options2.snap;
-      clamp = options2.clamp;
-      if (index !== options2.index) {
-        index = indexing(node, options2.index, loop);
-        to(index);
-      }
-      if (loop !== options2.loop) {
-        loop = options2.loop;
-        gap = find.gap(node, vertical);
-        replace(node, index, loop);
-        to(index);
-      }
+        function le(o) {
+            let i = se - o,
+                a = h.size(e, 0, s),
+                f = h.size(e, e.children.length - 1, s),
+                b = (W) => (W + L) * Math.sign(-o);
+            return (
+                T !== n &&
+                    (o > 0 ? re(e) : oe(e), (o += b(o > 0 ? a : f)), (w = u + o + i)),
+                (T = n),
+                o
+            );
+        }
+        let ae = !1;
+        function m(o, i = null) {
+            (ae = !0), g(), (o = T = P(e, o, c));
+            let a = h.child(e, o),
+                f = c ? h.index(e, u, a, s, d) : o,
+                b = i
+                    ? v
+                        ? h.target(e, i, s, d)
+                        : i
+                    : i === 0
+                    ? 0
+                    : h.position(e, f, s, d);
+            z(b - u, l);
+        }
+        function ce(o) {
+            A(function i(a) {
+                let f = (1e3 * (u - w)) / (1 + (a - o));
+                (y = (2 - r) * f + k(1, 0, 1 - r) * y), (o = a), (w = u), (q = A(i));
+            });
+        }
+        function ue({ target: o, amplitude: i, duration: a, timestamp: f }) {
+            i &&
+                A(function b(W) {
+                    let pe = (W - f) / a,
+                        O = i * Math.exp(-pe),
+                        ve = u - (o - O);
+                    z(c ? O / 16.7 : -ve),
+                        ($ = Math.abs(O) > 0.5 ? A(b) : 0),
+                        c && Math.abs(O) < 5 && m(n);
+                });
+        }
+        function Q(o) {
+            H(e, { pointerEvents: o.type !== 'mousedown' ? 'auto' : 'none' }),
+                g(),
+                (w = u),
+                (S = p(o, s)),
+                ce(performance.now()),
+                C(window, U);
+        }
+        function j(o) {
+            let i = (S - p(o, s)) * (2 - r);
+            (S = p(o, s)), z(i);
+        }
+        function B(o) {
+            g();
+            let { target: i, amplitude: a } = me(u);
+            Math.abs(a) > 10 &&
+                (Math.abs(y) < 100
+                    ? m(n)
+                    : M
+                    ? m(n, i)
+                    : ue({
+                          target: i,
+                          amplitude: a,
+                          duration: l,
+                          timestamp: performance.now(),
+                      }));
+        }
+        function me(o) {
+            let i = (2 - r) * y,
+                a = v ? h.target(e, o + i, s, d) : o + i;
+            return (i = a - o), { target: a, amplitude: i };
+        }
+        let F = !1;
+        function fe(o) {
+            g(),
+                (F = !0),
+                ((Math.abs(p(o, s)) && Math.abs(p(o, s)) < 15) || o.shiftKey) &&
+                    o.preventDefault(),
+                z(p(o, s) * (2 - r)),
+                o.shiftKey
+                    ? m(n - Math.sign(o.deltaY))
+                    : (v || M) &&
+                      (N = setTimeout(() => {
+                          m(n), (F = !1);
+                      }, 100));
+        }
+        function he(o) {
+            o.key === 'ArrowLeft' ? m(n - 1) : o.key === 'ArrowRight' && m(n + 1);
+        }
+        function Ee(o) {
+            (L = h.gap(e, s)), m(n);
+        }
+        function be(o) {}
+        function g() {
+            (T = F ? T : n),
+                clearTimeout(N),
+                cancelAnimationFrame($),
+                cancelAnimationFrame(q),
+                C(window, U, !1);
+        }
+        V(t);
+        function V(o) {
+            (l = o.duration),
+                (r = k(2, 0, o.gravity)),
+                (s = o.vertical),
+                (d = o.align),
+                (v = o.snap),
+                (M = o.clamp),
+                console.log(c, o),
+                n !== o.index && ((n = P(e, o.index, c)), m(n)),
+                c !== o.loop && ((c = o.loop), (L = h.gap(e, s)), Y(e, n, c), m(n));
+        }
+        function Me() {
+            g(), X.disconnect(), G.disconnect(), C(x, J, !1);
+        }
+        return { update: (o) => V({ ...t, ...o }), destroy: () => Me(), to: m };
     }
-    function destroy() {
-      clear();
-      RO.disconnect();
-      MO.disconnect();
-      listen(PARENT, parentEvents, false);
-    }
-    return { update, destroy, to };
-  }
-  return __toCommonJS(slidy_exports);
+    return we(Se);
 })();

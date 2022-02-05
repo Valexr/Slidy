@@ -1,5 +1,6 @@
 export function drag(node) {
-    let x = 0, y = 0
+    let x = 0,
+        y = 0;
 
     function start(e) {
         x = e.clientX;
@@ -7,9 +8,11 @@ export function drag(node) {
 
         node.onpointermove = move;
         node.setPointerCapture(e.pointerId);
-        node.dispatchEvent(new CustomEvent('start', {
-            detail: { x, y }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('start', {
+                detail: { x, y },
+            })
+        );
     }
 
     function stop(e) {
@@ -18,9 +21,11 @@ export function drag(node) {
 
         node.onpointermove = null;
         node.releasePointerCapture(e.pointerId);
-        node.dispatchEvent(new CustomEvent('stop', {
-            detail: { x, y }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('stop', {
+                detail: { x, y },
+            })
+        );
     }
 
     function move(e) {
@@ -29,9 +34,11 @@ export function drag(node) {
         x = e.clientX;
         y = e.clientY;
 
-        node.dispatchEvent(new CustomEvent('move', {
-            detail: { x, y, dx, dy }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('move', {
+                detail: { x, y, dx, dy },
+            })
+        );
     }
 
     node.onpointerdown = start;
@@ -39,17 +46,19 @@ export function drag(node) {
 }
 
 export function resize(node) {
-    let CR
-    let ET
+    let CR;
+    let ET;
 
     const ro = new ResizeObserver((entries, observer) => {
         for (let entry of entries) {
-            CR = entry.contentRect
-            ET = entry.target
+            CR = entry.contentRect;
+            ET = entry.target;
         }
-        node.dispatchEvent(new CustomEvent('resize', {
-            detail: { CR, ET }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('resize', {
+                detail: { CR, ET },
+            })
+        );
     });
 
     ro.observe(node);
@@ -57,21 +66,22 @@ export function resize(node) {
     return {
         destroy() {
             ro.disconnect();
-        }
-    }
+        },
+    };
 }
 
 export function wheel(node) {
-    let dx = 0, dy = 0
+    let dx = 0,
+        dy = 0;
 
     function pointer(e) {
-        console.log(e)
+        console.log(e);
     }
     node.onpointerdown = pointer;
 
     function handleWheel(e) {
-        e.preventDefault()
-        if ((navigator.platform.indexOf('Win') > -1) && e.shiftKey) {
+        e.preventDefault();
+        if (navigator.platform.indexOf('Win') > -1 && e.shiftKey) {
             dx = e.deltaY;
         } else {
             dx = e.deltaX;
@@ -80,9 +90,11 @@ export function wheel(node) {
         if (dx !== 0) {
             e.preventDefault ? e.preventDefault() : (e.returnValue = false);
         }
-        node.dispatchEvent(new CustomEvent('wheels', {
-            detail: { dx, dy }
-        }));
+        node.dispatchEvent(
+            new CustomEvent('wheels', {
+                detail: { dx, dy },
+            })
+        );
     }
 
     node.addEventListener('wheel', handleWheel, { passive: false });
@@ -90,6 +102,6 @@ export function wheel(node) {
     return {
         destroy() {
             node.removeEventListener('wheel', handleWheel);
-        }
+        },
     };
-};
+}
