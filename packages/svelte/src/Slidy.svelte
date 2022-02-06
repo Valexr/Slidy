@@ -35,13 +35,13 @@
             class="slidy-ul"
             use:slidy={{
                 index,
-                vertical: options.vertical,
                 align: wrap.align,
-                duration: options.duration,
+                loop: options.loop,
+                snap: options.snap,
                 clamp: options.clamp,
                 gravity: options.gravity,
-                snap: options.snap,
-                loop: options.loop,
+                duration: options.duration,
+                vertical: options.vertical,
             }}
             on:move={(e) => {
                 index = e.detail.index;

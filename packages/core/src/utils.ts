@@ -5,6 +5,7 @@ function maxMin(max: number, min: number, val: number) {
 }
 
 function maxSize(node: HTMLElement, vertical: boolean) {
+    // console.log(node.scrollWidth - parent(node).offsetWidth)
     return vertical
         ? node.scrollHeight - parent(node).offsetHeight
         : node.scrollWidth - parent(node).offsetWidth;

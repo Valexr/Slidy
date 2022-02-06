@@ -187,7 +187,7 @@
         position = 0,
         page = randomQ(0, 90),
         limit = 15,
-        index = 7,
+        index = 0,
         vertical = false,
         clamp = false,
         align = 'middle',
@@ -197,7 +197,7 @@
         width = 'auto',
         snap = true,
         images = true,
-        loop = true,
+        loop = false,
         gap = 16;
 
     $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -216,7 +216,7 @@
 
     const mqList = window.matchMedia('(prefers-color-scheme: dark)');
     // $: console.log(mqList, dark);
-
+    $: width = !images ? '50%' : 'auto';
     // $: disabled = !loop && (!index || index > items.length - 1);
 </script>
 
