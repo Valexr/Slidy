@@ -187,7 +187,7 @@
         position = 0,
         page = randomQ(0, 90),
         limit = 15,
-        index = 0,
+        index = 7,
         vertical = false,
         clamp = false,
         align = 'middle',
