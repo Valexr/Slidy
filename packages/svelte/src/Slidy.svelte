@@ -43,10 +43,13 @@
                 duration: options.duration,
                 vertical: options.vertical,
             }}
-            on:move={(e) => {
+            on:mounted={(e) => console.log(e)}
+            on:moved={(e) => {
                 index = e.detail.index;
                 position = e.detail.position;
             }}
+            on:resized={(e) => console.log(e)}
+            on:updated={(e) => console.log(e)}
         >
             <!-- {#if init} -->
             {#each slides as item, i (key(item))}

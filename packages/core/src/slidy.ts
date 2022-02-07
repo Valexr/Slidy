@@ -111,7 +111,7 @@ export function slidy(
                 css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
             }
-            dispatch(node, 'mounted', { childs });
+            dispatch(node, 'mounted', { detail: childs });
         })
         .catch((error) => console.error(error));
 
@@ -158,7 +158,7 @@ export function slidy(
         };
         css(node, styles);
 
-        dispatch(node, 'move', { detail: { index: options.index, position } });
+        dispatch(node, 'moved', { detail: { index: options.index, position } });
     }
 
     function looping(pos: number): number {
@@ -255,7 +255,6 @@ export function slidy(
 
     function onUp(e: MouseEvent | TouchEvent): void {
         clear();
-        // track(performance.now());
 
         const { target, amplitude } = delting(position);
 
@@ -312,6 +311,7 @@ export function slidy(
     function onResize(e: CustomEvent): void {
         gap = find.gap(node, options.vertical);
         to(options.index);
+        dispatch(node, 'resized', { detail: node });
     }
 
     function onMutate(e: CustomEvent): void {
@@ -337,6 +337,7 @@ export function slidy(
             if (options[key] !== opts[key]) {
                 switch (key) {
                     case 'index':
+                        console.log(key)
                         options[key] = indexing(node, opts[key], options.loop);
                         to(options[key]);
                         break;
@@ -355,6 +356,7 @@ export function slidy(
                 }
             }
         }
+        dispatch(node, 'updated', { detail: options });
     }
 
     function destroy(): void {

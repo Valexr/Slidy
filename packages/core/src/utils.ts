@@ -1,4 +1,4 @@
-import { CssRule } from './types';
+import { CssRule, Options } from './types';
 
 function maxMin(max: number, min: number, val: number) {
     return Math.min(max, Math.max(min, val)) || 0;
@@ -52,7 +52,7 @@ const position = (node: HTMLElement, child: Element, vertical: boolean, align: s
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
 
-function closest(node: HTMLElement, target: number, vertical: boolean, align: string) {
+function closest({ node, target, vertical, align }: { node: HTMLElement; target: number; vertical: boolean; align: string; }) {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
         const pos = (child: Element) => position(node, child, vertical, align);
         // console.log(i, 'curr:', pos(curr), 'prev:', pos(prev));
@@ -70,11 +70,11 @@ const find = {
     ) =>
         child
             ? nodes(node).indexOf(child)
-            : +closest(node, target, vertical, align).dataset.index,
+            : +closest({ node, target, vertical, align }).dataset.index,
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),
     target: (node: HTMLElement, target: number, vertical: boolean, align: string) =>
-        position(node, closest(node, target, vertical, align), vertical, align),
+        position(node, closest({ node, target, vertical, align }), vertical, align),
     size: (node: HTMLElement, index: number, vertical: boolean) =>
         nodes(node)[index][size(vertical)],
     child: (node: HTMLElement, index: number) =>
@@ -125,7 +125,7 @@ function css(node: HTMLElement, styles: CssRule) {
 function dispatch(
     node: HTMLElement,
     name: string,
-    detail: { [key: string]: string | number | HTMLCollection }
+    detail: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
 ) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }

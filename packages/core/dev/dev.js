@@ -86,16 +86,16 @@ var Slidy = (() => {
   var offset = (node, child2, vertical) => node.parentElement[size(vertical)] - child2[size(vertical)];
   var position = (node, child2, vertical, align) => child2[coord(vertical)] - diff(align, offset(node, child2, vertical) * part(align));
   var distance = (node, index, vertical) => Math.abs(nodes(node)[index][coord(vertical)]);
-  function closest(node, target, vertical, align) {
+  function closest({ node, target, vertical, align }) {
     return nodes(node).reduce((prev2, curr, i) => {
       const pos = (child2) => position(node, child2, vertical, align);
       return Math.abs(pos(curr) - target) < Math.abs(pos(prev2) - target) ? curr : prev2;
     });
   }
   var find = {
-    index: (node, target, child2, vertical, align) => child2 ? nodes(node).indexOf(child2) : +closest(node, target, vertical, align).dataset.index,
+    index: (node, target, child2, vertical, align) => child2 ? nodes(node).indexOf(child2) : +closest({ node, target, vertical, align }).dataset.index,
     position: (node, index, vertical, align) => position(node, child(node, index), vertical, align),
-    target: (node, target, vertical, align) => position(node, closest(node, target, vertical, align), vertical, align),
+    target: (node, target, vertical, align) => position(node, closest({ node, target, vertical, align }), vertical, align),
     size: (node, index, vertical) => nodes(node)[index][size(vertical)],
     child: (node, index) => nodes(node).find((child2) => +child2.dataset.index === index),
     gap: (node, vertical) => {
@@ -186,7 +186,7 @@ var Slidy = (() => {
         css(PARENT, { outline: "none" });
         listen(PARENT, parentEvents);
       }
-      dispatch(node, "mounted", { childs });
+      dispatch(node, "mounted", { detail: childs });
     }).catch((error) => console.error(error));
     function move({ pos, transition = 0 }) {
       position2 += options.loop ? looping(pos) : pos;
@@ -210,7 +210,7 @@ var Slidy = (() => {
         transition: `${transition}ms`
       };
       css(node, styles);
-      dispatch(node, "move", { detail: { index: options.index, position: position2 } });
+      dispatch(node, "moved", { detail: { index: options.index, position: position2 } });
     }
     function looping(pos) {
       const delta = hip - pos;
@@ -310,6 +310,7 @@ var Slidy = (() => {
     function onResize(e) {
       gap = find.gap(node, options.vertical);
       to(options.index);
+      dispatch(node, "resized", { detail: node });
     }
     function onMutate(e) {
     }
@@ -325,6 +326,7 @@ var Slidy = (() => {
         if (options[key] !== opts[key]) {
           switch (key) {
             case "index":
+              console.log(key);
               options[key] = indexing(node, opts[key], options.loop);
               to(options[key]);
               break;
@@ -342,6 +344,7 @@ var Slidy = (() => {
           }
         }
       }
+      dispatch(node, "updated", { detail: options });
     }
     function destroy() {
       clear();
