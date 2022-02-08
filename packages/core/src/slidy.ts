@@ -125,18 +125,18 @@ export function slidy(
             options.align
         );
 
-        const direction = Math.sign(pos) // back << -1 | 1 >> forward
-        const max = maxSize(node, options.vertical) + 100
+        const direction = Math.sign(pos); // back << -1 | 1 >> forward
+        const max = maxSize(node, options.vertical) + 100;
         const active = {
             pos: find.position(node, options.index, options.vertical, options.align),
             size: find.size(node, options.index, options.vertical),
-        }
-        const aligned = direction > 0 ? 'end' : 'start'
+        };
+        const aligned = direction > 0 ? 'end' : 'start';
         // console.log('active:', active.pos, max * direction)
 
         function positioning(pos: number) {
             // position = options.loop ? pos : maxMin(maxSize(node, options.vertical) + 300, -maxSize(node, options.vertical) - 300, pos)
-            position = pos
+            position = pos;
             // if (active.pos * direction + active.size >= max * direction) console.log('check')
             // if (!options.loop) {
             //     options.align = options.index === 0
@@ -145,11 +145,13 @@ export function slidy(
             //             ? 'end'
             //             : 'middle'
             // }
-            return position
+            return position;
         }
 
         function translate(vertical: boolean): string {
-            return vertical ? `0, ${-positioning(position)}px, 0` : `${-positioning(position)}px, 0, 0`;
+            return vertical
+                ? `0, ${-positioning(position)}px, 0`
+                : `${-positioning(position)}px, 0, 0`;
         }
 
         const styles = {
@@ -191,7 +193,7 @@ export function slidy(
         //             : 'middle'
         // if (options.index === 0) options.align = 'start'
         // else if (options.index === node.children.length - 1) options.align = 'end'
-        // else 
+        // else
         // }
         // hix = loop ? hix : index
         const child = find.child(node, options.index);
@@ -213,8 +215,7 @@ export function slidy(
     function track(timestamp: number): void {
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
-            velocity =
-                (2 - options.gravity) * v + 0.2 * velocity;
+            velocity = (2 - options.gravity) * v + 0.2 * velocity;
             timestamp = time;
             frame = position;
             rak = RAF(track);
@@ -247,8 +248,7 @@ export function slidy(
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
-        const delta =
-            (reference - coordinate(e, options.vertical));
+        const delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
         move({ pos: delta });
     }
@@ -330,14 +330,14 @@ export function slidy(
         listen(window, windowEvents, false);
     }
 
-    // updater(options);
+    updater(options);
 
     function updater(opts: Options): void {
         for (const key in opts) {
             if (options[key] !== opts[key]) {
                 switch (key) {
                     case 'index':
-                        console.log(key)
+                        console.log(key);
                         options[key] = indexing(node, opts[key], options.loop);
                         to(options[key]);
                         break;

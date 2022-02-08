@@ -52,7 +52,17 @@ const position = (node: HTMLElement, child: Element, vertical: boolean, align: s
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
 
-function closest({ node, target, vertical, align }: { node: HTMLElement; target: number; vertical: boolean; align: string; }) {
+function closest({
+    node,
+    target,
+    vertical,
+    align,
+}: {
+    node: HTMLElement;
+    target: number;
+    vertical: boolean;
+    align: string;
+}) {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
         const pos = (child: Element) => position(node, child, vertical, align);
         // console.log(i, 'curr:', pos(curr), 'prev:', pos(prev));
