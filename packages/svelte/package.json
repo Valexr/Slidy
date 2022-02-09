@@ -63,7 +63,7 @@
         "@slidy/core": "workspace:*",
         "@tsconfig/svelte": "^3.0.0",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.20",
+        "esbuild": "^0.14.21",
         "esbuild-svelte": "^0.6.2",
         "sass": "^1.49.7",
         "svelte": "^3.46.4",

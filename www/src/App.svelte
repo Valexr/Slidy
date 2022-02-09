@@ -305,7 +305,7 @@
         }
     }
     /* MacOS */
-    @media not all and (min-resolution: 0.001dpcm) {
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
         img {
             width: auto;
             // will-change: transform;
