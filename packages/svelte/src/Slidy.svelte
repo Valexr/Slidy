@@ -1,385 +1,395 @@
-<svelte:options immutable={true} />
+<script context="module" lang="ts">
+    import type { SlidyOptions, ChangeSlide, Slide } from "./types";
 
-<section
-    tabindex="0"
-    aria-label="Slidy"
-    id={wrap.id}
-    class="slidy"
-    class:loaded={init}
-    class:vertical={options.vertical}
-    class:autowidth={slide.width === 'auto'}
-    class:antiloop={options.loop === false}
-    class:alignmiddle={wrap.align === 'middle'}
-    class:alignstart={wrap.align === 'start'}
-    class:alignend={wrap.align === 'end'}
-    style="
-        --wrapw: {wrap.width};
-        --wraph: {wrap.height};
-        --wrapp: {wrap.padding};
-        --slidew: {slide.width};
-        --slideh: {slide.height};
-        --slidef: {slide.objectfit};
-        --slideo: {slide.overflow};
-        --slideg: {options.vertical
-        ? `${slide.gap}px 0 0 0`
-        : `0 0 0 ${slide.gap}px`};
-        --dur: {options.duration}ms;"
->
-    {#await slidyInit(slides, timeout) then slides}
-        {#if !init}
-            <section id="loader">
-                <slot name="loader">Loading...</slot>
-            </section>
-        {/if}
-        <ul
-            class="slidy-ul"
-            use:slidy={{
-                index,
-                vertical: options.vertical,
-                align: wrap.align,
-                duration: options.duration,
-                clamp: options.clamp,
-                gravity: options.gravity,
-                snap: options.snap,
-                loop: options.loop,
-                indexer: (x) => (index = x),
-                scroller: (p) => (position = p),
-            }}
-        >
-            <!-- {#if init} -->
-            {#each slides as item, i (key(item))}
-                <li
-                    data-id={item.ix}
-                    class={slide.class}
-                    class:active={item.ix === index}
-                    style={slide.backimg === true
-                        ? `background-image: url(${item[slide.imgsrckey]})`
-                        : null}
-                >
-                    <slot {item}>
-                        {#if !slide.backimg}
-                            <img
-                                alt={item[slide.imgsrckey]}
-                                src={item[slide.imgsrckey]}
-                                width={item.width}
-                                height={item.height}
-                            />
-                        {/if}
-                    </slot>
-                </li>
-            {/each}
-            <!-- {/if} -->
-        </ul>
-
-        {#if controls.arrows && init}
-            {#if !options.loop}
-                {#if index > 0}
-                    <button class="arrow-left" on:click={() => index--}>
-                        <slot name="arrow-left">&#8592;</slot>
-                    </button>
-                {/if}
-                {#if index < slides.length - 1}
-                    <button class="arrow-right" on:click={() => index++}>
-                        <slot name="arrow-right">&#8594;</slot>
-                    </button>
-                {/if}
-            {:else}
-                <button class="arrow-left" on:click={() => index--}>
-                    <slot name="arrow-left">&#8592;</slot>
-                </button>
-                <button class="arrow-right" on:click={() => index++}>
-                    <slot name="arrow-right">&#8594;</slot>
-                </button>
-            {/if}
-        {/if}
-        {#if controls.dots && init}
-            <ul class="slidy-dots" class:pure={controls.dotspure}>
-                {#if controls.dotsarrow}
-                    {#if !options.loop}
-                        {#if index > 0}
-                            <li
-                                class="dots-arrow-left"
-                                on:click={() => index--}
-                            >
-                                <slot name="dots-arrow-left"
-                                    ><button>&#8592;</button></slot
-                                >
-                            </li>
-                        {/if}
-                    {:else}
-                        <li class="dots-arrow-left" on:click={() => index--}>
-                            <slot name="dots-arrow-left"
-                                ><button>&#8592;</button></slot
-                            >
-                        </li>
-                    {/if}
-                {/if}
-                {#each { length: slides.length } as dot, i}
-                    <li
-                        class:active={i === index}
-                        on:click|stopPropagation={() => (index = i)}
-                    >
-                        <slot name="dot" {dot}>
-                            <button
-                                >{controls.dotsnum && !controls.dotspure
-                                    ? i
-                                    : ''}</button
-                            >
-                        </slot>
-                    </li>
-                {/each}
-                {#if controls.dotsarrow}
-                    {#if !options.loop}
-                        {#if index < slides.length - 1}
-                            <li
-                                class="dots-arrow-right"
-                                on:click={() => index++}
-                            >
-                                <slot name="dots-arrow-right"
-                                    ><button>&#8594;</button></slot
-                                >
-                            </li>
-                        {/if}
-                    {:else}
-                        <li class="dots-arrow-right" on:click={() => index++}>
-                            <slot name="dots-arrow-right"
-                                ><button>&#8594;</button></slot
-                            >
-                        </li>
-                    {/if}
-                {/if}
-            </ul>
-        {/if}
-    {/await}
-</section>
+    /**
+     * Typesafe slide's `src` getter.
+     */
+    const getImgSrc = (item: Slide, imgSrcKey: string) => {
+        const value = item[imgSrcKey];
+        return (typeof value === "string")
+            ? value
+            : undefined;
+    };
+</script>
 
 <script lang="ts">
     import { slidy } from '@slidy/core';
-    import type { Options } from '@slidy/core';
 
-    export let slides: any[] = [],
-        key = (item: { [x: string]: any; id: any }) =>
-            item.id || item[slide.imgsrckey],
-        wrap = {
-            id: null,
-            width: '100%',
-            height: '50%',
-            padding: '0',
-            align: 'middle',
-            alignmargin: 0,
-        },
-        slide = {
-            gap: 0,
-            class: '',
-            width: '50%',
-            height: '100%',
-            backimg: false,
-            imgsrckey: 'src',
-            objectfit: 'cover',
-            overflow: 'hidden',
-        },
-        controls = {
-            dots: true,
-            dotsnum: true,
-            dotsarrow: true,
-            dotspure: false,
-            arrows: true,
-            keys: true,
-            drag: true,
-            wheel: true,
-        },
-        options = {
-            vertical: false,
-            loop: false,
-            duration: 375,
-            clamp: false,
-            snap: true,
-            gravity: 1.2,
-        },
-        index = 4,
-        init = true,
-        timeout = 0,
-        position = 0;
+    type $$Props = SlidyOptions;
 
-    // $: slides = slidyInit(slides);
+    export let align: $$Props["align"] = "middle";
+    export let arrows = true;
+    export let background = false;
+    export let clamp = false;
+    export let className: $$Props["className"] = undefined;    
+    export let dots = true;
+    export let duration = 450;
+    export let gravity = 1.2;
+    export let id: $$Props["id"] = undefined;
+    export let imgSrcKey = "src";
+    export let index = 0;
+    export let loop = false;
+    export let position = 0;
+    export let slides: $$Props["slides"] = [];
+    export let snap = true;
+    export let vertical = false;
 
-    $: console.log(index);
+    /**
+     * Route to the desired slide index.
+     */
+    const goto: ChangeSlide = slide => {
+        if (typeof slide === "number" && !Number.isNaN(slide)) {
+            // clamp value within valid range
+            index = Math.min(Math.max(slide, 0), slides.length - 1);
+        }
+    };
 
-    async function slidyInit(
-        slides: any[],
-        timeout = 0,
-        init: boolean = false
-    ) {
-        slides = slides.map((s, i) => ({ ix: i, ...s }));
-        timeout > 0 ? setTimeout(() => (init = true), timeout) : (init = init);
-        return slides;
-    }
+    const handleClick = (event: Event): void => {
+        const element = event.target as HTMLElement;
+        if (element.nodeName !== "BUTTON") return;
+
+        if (element.dataset.index) {
+            goto(parseInt(element.dataset.index));
+            return;
+        }
+
+        if (element.dataset.step) {
+            goto(parseInt(element.dataset.step) + index);
+            return;
+        }
+    };
 </script>
 
-<style lang="scss">
-    #loader {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-    }
-    .slidy {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        width: var(--wrapw);
-        height: var(--wraph);
-        outline: 0;
-        margin: auto;
-        ul {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            list-style: none;
-            margin: 0;
-            border: 0;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        button {
-            margin: 0;
-            border: 0;
-            padding: 0;
-            border-radius: 0;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.09);
-            cursor: pointer;
-            outline: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            &:active {
-                outline: 0;
-            }
-        }
+<section
+    aria-roledescription="carousel"
+    tabindex="0"
+    {id}
+    class={`slidy className ? ${className} : ""`}
+    class:vertical
+    on:click={handleClick}
+>
+    <slot name="counter">
+        <output class="slidy-counter">
+            {index + 1} / {slides.length}
+        </output>
+    </slot>
+    <ul
+        class="slidy-slides"
+        use:slidy={{
+            index,
+            vertical,
+            align,
+            duration,
+            clamp,
+            gravity,
+            snap,
+            loop,
+            indexer: x => index = x,
+            scroller: p => position = p,
+        }}
+    >
+        {#each slides as item, i (item.id ?? getImgSrc(item, imgSrcKey) ?? i)}
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <li
+                data-id={i}
+                class="slidy-slide"
+                class:active={i === index}
+                class:as-background={background}
+                style={background ? `--slidy-slide-bg: url(${getImgSrc(item, imgSrcKey)});` : undefined}
+            >
+                <slot {item}>
+                    {#if !background}
+                        <img src={getImgSrc(item, imgSrcKey)} {...item} />
+                    {/if}
+                </slot>
+            </li>
+        {/each}
+    </ul>
+
+    {#if arrows}
+        <button disabled={index === 0 && !loop} class="slidy-arrow left" data-step="-1">
+            <slot name="arrow-prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                </svg>
+            </slot>
+        </button>
+        <button disabled={index === slides.length && !loop} class="slidy-arrow right" data-step="1">
+            <slot name="arrow-next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                </svg>
+            </slot>
+        </button>
+    {/if}
+
+    {#if dots}
+        <fieldset class="slidy-dots">
+            <div>
+                {#each { length: slides.length } as dot, i}
+                    <slot name="dot" {dot} active={i === index}>
+                        <button
+                            data-index={i}
+                            class="slidy-dot"
+                            class:active={i === index}
+                        />
+                    </slot>
+                {/each}
+            </div>
+        </fieldset>
+    {/if}
+</section>
+
+<style>
+    /*
+        CSS Custom Properties list and their default values:
+        
+        Public:
+            --slidy-height: 100%;
+            --slidy-width: 100%;
+            --slidy-slide-gap: 1rem;
+            --slidy-slide-height: 100%;
+            --slidy-slide-width: auto;
+            --slidy-slide-object-fit: cover;
+            --slidy-dot-size: 12px;
+            --slidy-dot-color: white;
+            --slidy-arrow-size: 24px;
+        Private:
+            --slidy-slide-bg for `background-mode`;
+    */
+
+    /* globals */
+
+    .slidy * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
-    .slidy-ul {
-        width: 100%;
-        height: 100%;
-        padding: var(--wrapp);
-        position: relative;
-        touch-action: pan-y;
-        will-change: transform;
-        li {
-            flex: 1 0 auto;
-            position: relative;
-            overflow: var(--slideo);
-            opacity: 0;
-            z-index: 0;
-            transition: opacity var(--dur);
-            width: var(--slidew);
-            height: var(--slideh);
-            box-sizing: border-box;
-            background-repeat: no-repeat;
-            background-attachment: scroll;
-            background-position: center;
-            background-size: var(--slidef);
-            background-color: transparent;
-            :global(img) {
-                width: 100%;
-                height: 100%;
-                display: block;
-                pointer-events: none;
-                max-width: var(--wrapw);
-                object-fit: var(--slidef);
-            }
-        }
-    }
-    .slidy-ul > * + * {
-        margin: var(--slideg);
-    }
-    .slidy.loaded .slidy-ul li {
-        opacity: 1;
-    }
-    .slidy.vertical .slidy-ul {
-        flex-direction: column;
-    }
-    :global(.slidy.autowidth .slidy-ul li img) {
-        width: auto;
-    }
-    .slidy li.active,
-    .slidy li.active button {
-        color: red;
-    }
-    .slidy-dots {
-        position: absolute;
-        bottom: 0;
-        height: 50px;
-        padding: 0;
-        width: 100%;
-    }
-    .slidy.vertical .slidy-dots {
-        bottom: auto;
-        right: 0;
-        width: 50px;
-        height: 100%;
-        flex-direction: column;
-    }
-    .slidy-dots li {
+    button {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
+        border: 0;
+        outline: 0;
+        cursor: pointer; 
     }
-    .slidy.vertical .dots-arrow-left,
-    .slidy.vertical .dots-arrow-right {
-        transform: rotate(90deg);
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
-    .slidy-dots.pure li {
-        width: 32px;
-        height: 32px;
-        background: none;
+
+    li {
+        list-style: none;
     }
-    .slidy-dots.pure li button {
+
+    /* carousel */
+
+    .slidy {
+        position: relative;
+        display: grid;
+        grid-template: 1fr auto / auto 1fr auto;
+        grid-template-areas:
+            "prev-slide slides next-slide"
+            "dots dots dots";
+        height: var(--slidy-height, 100%);
+        width: var(--slidy-width, 100%);
+        overflow: hidden;
+        overscroll-behavior: contain;
+    }
+
+    /* slides */
+
+    .slidy-slides {
+        grid-row: 1;
+        grid-column: 1 / -1;
+
+        min-height: 0;
+
+        display: flex;
+        flex-flow: row nowrap;
+        gap: var(--slidy-slide-gap, 1rem);
+        width: var(--slidy-slide-width, auto);
+        height: var(--slidy-slide-height, 100%);
+
+        user-select: none;
+        touch-action: pan-y;
+        will-change: transform;
+        -webkit-user-select: none;
+    }
+
+    .slidy-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--slidy-slide-width, auto);
+        height: var(--slidy-slide-height, 100%);
+        transition: opacity var(--slidy-duration, 450);
+    }
+
+    .slidy-slide.as-background {
+        background-image: var(--slidy-slide-bg);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: center;
+        background-size: var(--slidy-slide-object-fit, cover);
+        background-color: transparent;
+    }
+
+    .slidy-slides :global(img) {
+        display: inline-block;        
+        width: var(--slidy-slide-width, auto);
+        height: var(--slidy-slide-height, 100%);
+        object-fit: var(--slidy-slide-object-fit, cover);
+    }
+
+    /* controls: arrows */
+
+    .slidy-arrow {
+        height: 100%;
+        width: auto;
+        padding: calc(var(--slidy-arrow-size, 16px) * 0.5);
+        z-index: 2;
+        background-color: unset;
+    }
+
+    .slidy-arrow svg {
+        height: var(--slidy-arrow-size, 24px);
+        width: var(--slidy-arrow-size, 24px);
+        fill: white;
+        pointer-events: none;
+        transition: transform 0.15s ease-in-out;
+        background-color: rgb(59 78 78 / 0.75);
         border-radius: 50%;
-        background: red;
-        color: red;
-        width: 12px;
-        height: 12px;
-        transition: color var(--dur);
     }
-    .slidy-dots li:not(.dots-arrow-left, .dots-arrow-right, .active) {
-        opacity: 0.18;
+
+    .slidy-arrow:focus svg {
+        outline: 1.5px solid rgb(216 201 201 / 0.75);
+        outline-offset: 2px;
+        border-radius: 50%;
     }
-    .slidy-dots.pure li.active button {
+
+    .slidy-arrow:active svg {
+        transform: scale(0.9);
+    }
+
+    .slidy-arrow.left {
+        grid-area: prev-slide;
+    }
+
+    .slidy-arrow.right {
+        grid-area: next-slide;
+        transform: rotate(180deg);
+    }
+
+    /* controls: dots */
+
+    .slidy-dots {
+        grid-area: dots;
+
+        z-index: 1;
+        place-self: center;
+        display: flex;
+        place-content: center;
+        backdrop-filter: blur(5px);
+        width: 100%;
+        height: 100%;
+        padding: 1em;
+    }
+
+    .slidy-dots > div {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: calc(var(--slidy-dots-size, 12px) * 0.75);
+        place-content: center;
+    }
+
+    .slidy-dot {
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background-color: var(--slidy-dot-color, white);
+        opacity: 0.5;
+        width: var(--slidy-dots-size, 12px);
+        height: var(--slidy-dots-size, 12px);
+        transition: background-color var(--slidy-duration, var(--slidy-duration-default));
+    }
+
+    .slidy-dot.active {
         opacity: 1;
     }
-    .arrow-left,
-    .dots-arrow-left {
-        left: 0;
+
+    .slidy-dot:focus {
+        outline: 1.5px solid var(--slidy-dot-color, white);
+        outline-offset: 2px;
     }
-    .arrow-right,
-    .dots-arrow-right {
-        right: 0;
-    }
-    .arrow-right,
-    .arrow-left {
+
+    /* counter */
+
+    .slidy-counter {
         position: absolute;
+        top: 1em;
+        right: 1em;
+        z-index: 3;
+        font-family: inherit;
+        background-color: rgb(59 78 78 / 0.75);
+        padding: 0.25em 0.5em;
+        border-radius: 10px;
+        user-select: none;
     }
-    .slidy-dots.pure .dots-arrow-left button,
-    .slidy-dots.pure .dots-arrow-right button {
-        background: none;
-        border: none;
+
+    /* mode::vertical */
+
+    .slidy.vertical {
+        display: grid;
+        grid-template: 25px 1fr 25px / 1fr 50px;
+        grid-template-areas:
+            "prev-slide dots"
+            "slides dots"
+            "next-slide dots";
+        height: var(--slidy-height, 100%);
+        width: var(--slidy-width, 100%);
+    }
+
+    .slidy.vertical .slidy-slides {
+        grid-row: 1 / -1;
+        grid-column: 1;
+
+        flex-flow: column nowrap;
+        width: var(--slidy-slide-width, 100%);
+        height: var(--slidy-slide-height, auto);
+    }
+
+    .slidy.vertical .slidy-dots {
         width: auto;
-        height: auto;
+        height: max-content;
     }
-    .dots-arrow-left,
-    .dots-arrow-right {
-        width: 50px;
-        height: 50px;
+
+    .slidy.vertical .slidy-dots > div {
+        flex-flow: column nowrap; 
+    }
+
+    .slidy.vertical .slidy-arrow.left svg {
+        transform: rotate(90deg);
+    }
+
+    .slidy.vertical .slidy-arrow.right svg {
+        grid-area: next-slide;
+        transform: rotate(90deg);
+    }
+
+    @media (hover: hover) {
+        /* as slides container has 'pointer-events: none', we have to use it on slidy */
+        .slidy:hover {
+            cursor: grab;
+        }
+
+        .slidy:active {
+            cursor: grabbing;
+        }
+
+        .slidy-dots {
+            cursor: auto;
+        }
     }
 </style>
