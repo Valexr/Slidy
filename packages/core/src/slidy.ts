@@ -313,10 +313,11 @@ export function slidy(
             e.shiftKey) &&
             e.preventDefault();
 
-        move({ pos: coordinate(e, options.vertical) * maxMin(2, 0, (2 - options.gravity)) });
-        console.log(Math.sign(e.deltaY))
         if (e.shiftKey) to(options.index - Math.sign(e.deltaY));
-        else if (options.snap || options.clamp)
+        else move({ pos: coordinate(e, options.vertical) * maxMin(2, 0, (2 - options.gravity)) });
+        console.log(Math.sign(e.deltaY))
+
+        if (options.snap || options.clamp)
             wheeltime = setTimeout(() => {
                 to(options.index);
                 wheeling = false;
