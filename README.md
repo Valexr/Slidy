@@ -32,7 +32,7 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 -   @slidy/react - ReactJS template
 -   @slidy/vue - VueJS template
 
-## Thanks
+## 🎉 Thanks
 
 [@ariya](https://github.com/ariya) for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles
 
