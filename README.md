@@ -34,12 +34,14 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 
 ## Thanks
 
-@ariya for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles
+[@ariya](https://github.com/ariya) for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles
 
-@rodshtein for the idea of ​​implementing the action function
+[@rodshtein](https://github.com/rodshtein) for the idea of ​​implementing the action function
 
-@EricRovell for collaboration & idea of modulating `@slidy`
+[@EricRovell](https://github.com/EricRovell) for collaboration & idea of modulating `@slidy`
 
-@AlexxNB for [esbuild starter](https://github.com/AlexxNB/svelte-esbuild-starter) based on [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server
+[@AlexxNB](https://github.com/AlexxNB) for [esbuild starter](https://github.com/AlexxNB/svelte-esbuild-starter) based on [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server
+
+[@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactivу updateы of options object
 
 MIT &copy; [Valexr](https://github.com/Valexr)
