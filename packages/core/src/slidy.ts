@@ -317,7 +317,7 @@ export function slidy(
         else move({ pos: coordinate(e, options.vertical) * maxMin(2, 0, (2 - options.gravity)) });
         console.log(Math.sign(e.deltaY))
 
-        if (options.snap || options.clamp)
+        if ((options.snap || options.clamp) && !e.shiftKey)
             wheeltime = setTimeout(() => {
                 to(options.index);
                 wheeling = false;
