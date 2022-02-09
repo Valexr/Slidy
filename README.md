@@ -32,4 +32,14 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 -   @slidy/react - ReactJS template
 -   @slidy/vue - VueJS template
 
+## Thanks
+
+@ariya for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles
+
+@rodshtein for the idea of ​​implementing the action function
+
+@EricRovell for collaboration & idea of modulating `@slidy`
+
+@AlexxNB for [esbuild starter](https://github.com/AlexxNB/svelte-esbuild-starter) based on [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server
+
 MIT &copy; [Valexr](https://github.com/Valexr)
