@@ -229,11 +229,6 @@
         gap: var(--slidy-slide-gap, 1rem);
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
-
-        user-select: none;
-        touch-action: pan-y;
-        will-change: transform;
-        -webkit-user-select: none;
     }
 
     .slidy-slide {
