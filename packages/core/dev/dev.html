@@ -13,9 +13,13 @@
             nav#dots {
                 gap: 0.5ex;
             }
+
+            ul#slidy {
+                justify-content: center;
+            }
         </style>
         <script>
-            let index = 15,
+            let index = 9,
                 scrollPos = 0,
                 slidy = null,
                 snap = true,
@@ -24,16 +28,28 @@
                 dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
                 slides = [],
                 page = randomQ(1, 69),
-                limit = 30,
+                limit = 18,
                 node = null,
                 nav = null,
-                stats = null;
+                stats = null,
+                loop = false;
+
+            let options = {
+                index: 9,
+                axis: 'x',
+                align: 'middle',
+                duration: 375,
+                snap: true,
+                gravity: 1.2,
+                clamp: false,
+                loop: false,
+            };
 
             function prev() {
-                slidy.to(index - 1);
+                slidy.to(options.index - 1);
             }
             function next() {
-                slidy.to(index + 1);
+                slidy.to(options.index + 1);
             }
             function goto(i) {
                 slidy.to(i);
@@ -44,12 +60,20 @@
 
             function activate(node, prop) {
                 node.classList.toggle('active');
-                return (prop = !prop);
+                prop = !prop;
+                console.log(prop);
+                return prop;
+                // for (const key in options) {
+                //     if (options[key] !== prop[key]) {
+                //         options[key] = prop[key]
+                //         return prop[key];
+                //     }
+                // }
             }
 
             async function getPhotos(node, page, limit) {
-                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`).then(
-                    async (res) => {
+                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
+                    .then(async (res) => {
                         const photos = await res.json();
                         node.innerHTML = photos
                             .map(
@@ -66,8 +90,10 @@
                                 (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
                             )
                             .join('');
-                    }
-                );
+                    })
+                    .then(() => {
+                        slidy = Slidy.slidy(node, options);
+                    });
             }
 
             window.onload = () => {
@@ -77,33 +103,32 @@
                 nav = document.querySelector('#dots');
                 stats = document.querySelector('#stats');
 
-                getPhotos(node, page, limit).then(() => {
-                    slidy = Slidy.slidy(node, {
-                        index,
-                        axis: 'x',
-                        align: 'middle',
-                        duration: 375,
-                        snap,
-                        gravity: 1.2,
-                        clamp: false,
-                        loop: false,
-                        indexer: (x) => indexing(x),
-                        scroller: (p) => scrolling(p),
-                    });
-                    slidy.to(index);
+                getPhotos(node, page, limit);
+
+                node.addEventListener('mounted', (e) => {
+                    // slidy.to(7);
+                });
+
+                node.addEventListener('moved', (e) => {
+                    indexing(e.detail.index);
+                    scrolling(e.detail.position);
                 });
 
                 function scrolling(p) {
                     scrollPos = p;
-                    stats.innerHTML = `index: [<b>${index}</b>], scrollPos: <b>${Math.trunc(
-                        scrollPos
-                    )}</b>px`;
+                    stats.innerHTML = `index: [<b>${
+                        options.index
+                    }</b>], scrollPos: <b>${Math.trunc(scrollPos)}</b>px`;
                 }
 
                 function indexing(x) {
-                    index = x;
+                    options.index = x;
+                    const cix = Math.floor(node.children.length / 2);
+
                     Array.from(node.children).forEach((n, i) =>
-                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                        i === (options.loop ? cix : x)
+                            ? n.classList.add('active')
+                            : n.classList.remove('active')
                     );
                     Array.from(nav.children).forEach((n, i) =>
                         i === x ? n.classList.add('active') : n.classList.remove('active')
@@ -145,33 +170,23 @@
                 <button onclick="activate(this, stend)">stend</button>
                 <button onclick="activate(this, images)">images</button>
                 <button onclick="activate(this, dark)">dark</button>
+                <p id="stats" />
             </legend>
-            <p id="stats" />
         </fieldset>
         <main>
             <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
-                <ul id="slidy" />
+                <ul id="slidy" onmoved="console.log(this.e)" />
             </section>
             <nav id="dots"></nav>
             <nav>
-                <button onclick="slidy.to(index - 1)">←</button>
+                <button onclick="slidy.to(options.index - 1)">←</button>
                 <button onclick="slidy.to(index + 1)">→</button>
-                <button onclick="getPhotos(node, randomQ(1, 69), 30)">refresh</button>
+                <button onclick="getPhotos(node, randomQ(1, 69), 15)">refresh</button>
                 <button
-                    onclick="activate(this, null), slidy.update({
-                index,
-                axis: 'x',
-                align: 'middle',
-                duration: 375,
-                gravity: 1.2,
-                snap: false,
-                clamp: false,
-                indexer: (x) => (index = x),
-                scroller: (p) => scrolling(p)
-                })"
+                    onclick="slidy.update({loop: activate(this, options.loop)})"
                     class:active="{anchored}"
                 >
-                    snap
+                    loop
                 </button>
             </nav>
         </main>

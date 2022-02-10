@@ -1,55 +1,3 @@
-<script context="module" lang="ts">
-    import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from "./types";
-</script>
-
-<script lang="ts">
-    import { slidy } from '@slidy/core';
-
-    type $$Props = SlidyOptions;
-
-    export let align: $$Props["align"] = "middle";
-    export let arrows = true;
-    export let background = false;
-    export let clamp = false;
-    export let className: $$Props["className"] = undefined;
-    export let getImgSrc: GetSrc = (item: Slide) => item.src;
-    export let dots = true;
-    export let duration = 450;
-    export let gravity = 1.2;
-    export let id: $$Props["id"] = undefined;    
-    export let index = 0;
-    export let loop = false;
-    export let position = 0;
-    export let slides: $$Props["slides"] = [];
-    export let snap = true;
-    export let vertical = false;
-
-    /**
-     * Route to the desired slide index.
-     */
-    const goto: ChangeSlide = slide => {
-        if (typeof slide === "number" && !Number.isNaN(slide)) {
-            // clamp value within valid range
-            index = Math.min(Math.max(slide, 0), slides.length - 1);
-        }
-    };
-
-    const handleClick = (event: Event): void => {
-        const element = event.target as HTMLElement;
-        if (element.nodeName !== "BUTTON") return;
-
-        if (element.dataset.index) {
-            goto(parseInt(element.dataset.index));
-            return;
-        }
-
-        if (element.dataset.step) {
-            goto(parseInt(element.dataset.step) + index);
-            return;
-        }
-    };
-</script>
-
 <section
     aria-roledescription="carousel"
     tabindex="0"
@@ -74,9 +22,10 @@
             gravity,
             snap,
             loop,
-            indexer: x => index = x,
-            scroller: p => position = p,
-        }}>
+            indexer: (x) => (index = x),
+            scroller: (p) => (position = p),
+        }}
+    >
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
             <!-- svelte-ignore a11y-missing-attribute -->
             <li
@@ -84,7 +33,9 @@
                 class="slidy-slide"
                 class:active={i === index}
                 class:as-background={background}
-                style={background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
+                style={background
+                    ? `--slidy-slide-bg: url(${getImgSrc(item)});`
+                    : undefined}
             >
                 <slot {item}>
                     {#if !background}
@@ -96,17 +47,37 @@
     </ul>
 
     {#if arrows}
-        <button disabled={index === 0 && !loop} class="slidy-arrow left" data-step="-1">
+        <button
+            disabled={index === 0 && !loop}
+            class="slidy-arrow left"
+            data-step="-1"
+        >
             <slot name="arrow-prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="slidy-arrow-icon">
-                    <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 32 32"
+                    class="slidy-arrow-icon"
+                >
+                    <path
+                        d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z"
+                    />
                 </svg>
             </slot>
         </button>
-        <button disabled={index === slides.length && !loop} class="slidy-arrow right" data-step="1">
+        <button
+            disabled={index === slides.length && !loop}
+            class="slidy-arrow right"
+            data-step="1"
+        >
             <slot name="arrow-next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="slidy-arrow-icon">
-                    <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 32 32"
+                    class="slidy-arrow-icon"
+                >
+                    <path
+                        d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z"
+                    />
                 </svg>
             </slot>
         </button>
@@ -128,6 +99,58 @@
         </fieldset>
     {/if}
 </section>
+
+<script context="module" lang="ts">
+    import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from './types';
+</script>
+
+<script lang="ts">
+    import { slidy } from '@slidy/core';
+
+    type $$Props = SlidyOptions;
+
+    export let align: $$Props['align'] = 'middle';
+    export let arrows = true;
+    export let background = false;
+    export let clamp = false;
+    export let className: $$Props['className'] = undefined;
+    export let getImgSrc: GetSrc = (item: Slide) => item.src;
+    export let dots = true;
+    export let duration = 450;
+    export let gravity = 1.2;
+    export let id: $$Props['id'] = undefined;
+    export let index = 0;
+    export let loop = false;
+    export let position = 0;
+    export let slides: $$Props['slides'] = [];
+    export let snap = true;
+    export let vertical = false;
+
+    /**
+     * Route to the desired slide index.
+     */
+    const goto: ChangeSlide = (slide) => {
+        if (typeof slide === 'number' && !Number.isNaN(slide)) {
+            // clamp value within valid range
+            index = Math.min(Math.max(slide, 0), slides.length - 1);
+        }
+    };
+
+    const handleClick = (event: Event): void => {
+        const element = event.target as HTMLElement;
+        if (element.nodeName !== 'BUTTON') return;
+
+        if (element.dataset.index) {
+            goto(parseInt(element.dataset.index));
+            return;
+        }
+
+        if (element.dataset.step) {
+            goto(parseInt(element.dataset.step) + index);
+            return;
+        }
+    };
+</script>
 
 <style>
     /*
@@ -161,7 +184,7 @@
         justify-content: center;
         border: 0;
         outline: 0;
-        cursor: pointer; 
+        cursor: pointer;
     }
 
     button:disabled {
@@ -180,8 +203,8 @@
         display: grid;
         grid-template: 1fr auto / auto 1fr auto;
         grid-template-areas:
-            "prev-slide slides next-slide"
-            "dots dots dots";
+            'prev-slide slides next-slide'
+            'dots dots dots';
         height: var(--slidy-height, 100%);
         width: var(--slidy-width, 100%);
         overflow: hidden;
@@ -227,7 +250,7 @@
     }
 
     .slidy-slides :global(img) {
-        display: inline-block;        
+        display: inline-block;
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
         object-fit: var(--slidy-slide-object-fit, cover);
@@ -301,7 +324,8 @@
         opacity: 0.5;
         width: var(--slidy-dots-size, 12px);
         height: var(--slidy-dots-size, 12px);
-        transition: background-color var(--slidy-duration, var(--slidy-duration-default));
+        transition: background-color
+            var(--slidy-duration, var(--slidy-duration-default));
     }
 
     .slidy-dot.active {
@@ -333,9 +357,9 @@
         display: grid;
         grid-template: 25px 1fr 25px / 1fr 50px;
         grid-template-areas:
-            "prev-slide dots"
-            "slides dots"
-            "next-slide dots";
+            'prev-slide dots'
+            'slides dots'
+            'next-slide dots';
         height: var(--slidy-height, 100%);
         width: var(--slidy-width, 100%);
     }
@@ -355,7 +379,7 @@
     }
 
     .slidy.vertical .slidy-dots > div {
-        flex-flow: column nowrap; 
+        flex-flow: column nowrap;
     }
 
     .slidy.vertical .slidy-arrow.left svg {

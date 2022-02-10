@@ -18,23 +18,32 @@ Simple, configurable & reusable sliding action script
 </head>
 
 <script>
-    let slidy, node
+    let slidy, node, index = 0, position, childs
 
     window.onload = () => {
         node = document.querySelector('#slidy');
+
         slidy = Slidy.slidy(node, {
-                    index: 0,
-                    axis: 'x',
+                    index,
                     align: 'middle',
                     duration: 375,
-                    snap: true,
                     gravity: 1.2,
-                    clamp: false,
+                    snap: true,
                     loop: false,
-                    indexer: (x) => indexing(x),
-                    scroller: (p) => scrolling(p),
+                    clamp: false,
+                    vertical: false,
                 });
+        
         slidy.to(5);
+
+        node.addEventListener('mounted', (e) => {
+            childs = e.detail
+        }
+
+        node.addEventListener('move', (e) => {
+            index = e.detail.index;
+            position = e.detail.position;
+        });
     }
 </script>
 

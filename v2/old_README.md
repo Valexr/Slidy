@@ -4,89 +4,89 @@
 
 # SLIDY
 
-Simple, configurable & reusable carousel  sliding action script with many tamplates
+Simple, configurable & reusable carousel sliding action script with many tamplates
 
 Since version 3.0 Slidy have separete monorepo packages structure:
-- [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core)
-- [@slidy/svelte](https://github.com/Valexr/svelte-slidy/tree/dev/packages/svelte)
 
+-   [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core)
+-   [@slidy/svelte](https://github.com/Valexr/svelte-slidy/tree/dev/packages/svelte)
 
 ## Changelog
 
-- 2.7.1 - new props `options.sensity: 0.3` – scroll sensity to go next slide
-- 2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
-  [Example](https://svelte.dev/repl/c4b8e256b4eb45a9be8487a891799076)
-- 2.6.9 - `keyExtractor()` now `key()` & by default:
-  ```js
-  key = (item) => item.id || item[slide.imgsrckey];
-  ```
-  Slides may not have `id`'s, but you must have `imgsrckey` (by default
-  `imgsrckey="src"`). Svelte needs a unique identifier for `{#each}` loop. Or
-  you can customize key() in template:
-  ```svelte
-  <Slidy key={(item)=>uid()} />
-  ```
-- 2.6.5 - add keyExtractor props as function to customize svelte loop key. The
-  default return value is item.id or will fallback to array index if there is no
-  id key.
+-   2.7.1 - new props `options.sensity: 0.3` – scroll sensity to go next slide
+-   2.7.0 - rename `slidyinit` -> `init` & now it's option `true` by default.
+    [Example](https://svelte.dev/repl/c4b8e256b4eb45a9be8487a891799076)
+-   2.6.9 - `keyExtractor()` now `key()` & by default:
+    ```js
+    key = (item) => item.id || item[slide.imgsrckey];
+    ```
+    Slides may not have `id`'s, but you must have `imgsrckey` (by default
+    `imgsrckey="src"`). Svelte needs a unique identifier for `{#each}` loop. Or
+    you can customize key() in template:
+    ```svelte
+    <Slidy key={(item) => uid()} />
+    ```
+-   2.6.5 - add keyExtractor props as function to customize svelte loop key. The
+    default return value is item.id or will fallback to array index if there is no
+    id key.
 
-  ```js
-  keyExtractor = (item, i) => item.id || i;
-  ```
+    ```js
+    keyExtractor = (item, i) => item.id || i;
+    ```
 
-  Tx @axmad386👍🏻 for [PR](https://github.com/Valexr/svelte-slidy/pull/22) &
-  @tehnolog for [issue](https://github.com/Valexr/svelte-slidy/issues/18)
+    Tx @axmad386👍🏻 for [PR](https://github.com/Valexr/svelte-slidy/pull/22) &
+    @tehnolog for [issue](https://github.com/Valexr/svelte-slidy/issues/18)
 
-  Usage example:
+    Usage example:
 
-  ```svelte
-  <Slidy keyExtractor={(item,index)=>item.id+index+uid()} />
-  ```
+    ```svelte
+    <Slidy keyExtractor={(item, index) => item.id + index + uid()} />
+    ```
 
-  or
+    or
 
-  ```svelte
-  <Slidy keyExtractor={(item)=>item.id.toString()} />
-  ```
+    ```svelte
+    <Slidy keyExtractor={(item) => item.id.toString()} />
+    ```
 
-- New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like
-  exanple time for spinner
-- Named export `import { Slidy } from 'svelte-slidy';` & esbuild bundler 👍🏻
-- Sorry, remove `<Spinner />` loader from core & now just
-  `<slot name="loader" />` (you can get Spinner
-  [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
-- Simplifyed sizes props initializion (prepare for intersection events...)
-- Move pannable.js listeners to wrap node <sections>
-- Rename resobserver.js > resize.js
-- [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- **IMPORTANT** - index = i
-- [Fully reactive Slidy for update slides in
-  runtime](https://slidy.valexr.online)
-- New block [options: { axis: 'x', loop: false, duration: 550 }](#usage) in
-  settings object
-- [New { loop: true/false } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New { objectfit: 'cover' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New { align: 'middle', alignmargin: 50 }
-  setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- **!!!New** – slot for slide (slot="slide") without name now.
-- [New external controls](#-new-external-controls)
-- [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
-- [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
-- [New props names & settings](#usage)
-- [New classNames && slots in Slidy nodes
-  tree](#-slidy-nodes-tree--slots-for-customize)
-- [New settings for preloader](#usage)
-- [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
-- Classnames on state:
-  - .loaded – on init Slidy
-  - .autowidth – on slide.width: 'auto'
-  - .axisy – on axis: 'y' direction
-- Keyboard arrowkeys navigation only Slidy in focus
-- [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#usage) –
-  [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
-- If you are using yours content in slot & slide.backimg: 'false' you need tag
-  `<img />` inside slot. By default empty slot have `<img />` tag.
-- New props rename let:slide > let:item
+-   New props - timeout: 0 `Number` - set timeout to `slidyinit: true` - like
+    exanple time for spinner
+-   Named export `import { Slidy } from 'svelte-slidy';` & esbuild bundler 👍🏻
+-   Sorry, remove `<Spinner />` loader from core & now just
+    `<slot name="loader" />` (you can get Spinner
+    [here](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd) ;)))
+-   Simplifyed sizes props initializion (prepare for intersection events...)
+-   Move pannable.js listeners to wrap node <sections>
+-   Rename resobserver.js > resize.js
+-   [New { overflow: 'hidden' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+-   **IMPORTANT** - index = i
+-   [Fully reactive Slidy for update slides in
+    runtime](https://slidy.valexr.online)
+-   New block [options: { axis: 'x', loop: false, duration: 550 }](#usage) in
+    settings object
+-   [New { loop: true/false } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+-   [New { objectfit: 'cover' } setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+-   [New { align: 'middle', alignmargin: 50 }
+    setting](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+-   **!!!New** – slot for slide (slot="slide") without name now.
+-   [New external controls](#-new-external-controls)
+-   [Make external thumbs/dots nav](https://svelte.dev/repl/5979bd8521324a9b82a584521fbca6f9)
+-   [Internal option shift + mousewheel](https://svelte.dev/repl/63eabf4de9ef40108da038cf55cba8dd)
+-   [New props names & settings](#usage)
+-   [New classNames && slots in Slidy nodes
+    tree](#-slidy-nodes-tree--slots-for-customize)
+-   [New settings for preloader](#usage)
+-   [Axis Y direction](https://svelte.dev/repl/08622ad02f884859ae8c8b4d0fa617d4)
+-   Classnames on state:
+    -   .loaded – on init Slidy
+    -   .autowidth – on slide.width: 'auto'
+    -   .axisy – on axis: 'y' direction
+-   Keyboard arrowkeys navigation only Slidy in focus
+-   [New props 'slide.backimg', 'slide.imgsrckey' & 'slide.class'](#usage) –
+    [example](https://svelte.dev/repl/8910cf8db1c947dba57faaf5711c8314)
+-   If you are using yours content in slot & slide.backimg: 'false' you need tag
+    `<img />` inside slot. By default empty slot have `<img />` tag.
+-   New props rename let:slide > let:item
 
 ## Site
 
@@ -159,7 +159,8 @@ yarn add -D svelte-slidy
     } // slidy settings for current instance
 </script>
 
-<Slidy {...slidy_default} bind:index let:item /> <!-- bind:index new prop in 2.0 for external controls & let:item new name for prop to eached elements -->
+<Slidy {...slidy_default} bind:index let:item />
+<!-- bind:index new prop in 2.0 for external controls & let:item new name for prop to eached elements -->
 ```
 
 > **!MPORTANT** – you need declared all the settings objects for each instance
@@ -192,20 +193,19 @@ You can use any tags what you want inside Slidy component for `{#each it}` by
 </script>
 
 <Slidy {...slidy_cards} let:item>
-    <div class="slide"> <!-- wrapper for new skin -->
-        <img alt="{item.header}" src="{item.src}"/>
+    <div class="slide">
+        <!-- wrapper for new skin -->
+        <img alt="{item.header}" src="{item.src}" />
         <article>
             <h2>{item.header</h2>
-            <p>
-                {item.text}
-            </p>
+            <p>{item.text}</p>
         </article>
     </div>
 </Slidy>
 
 <style>
     .slide {
-        ...yours style for slide
+        ...yours style for slide;
     }
 </style>
 ```
@@ -232,7 +232,7 @@ You can use any tags what you want inside Slidy component for `{#each it}` by
 
 <style>
     :global(#slidy_default) {
-        ... yours new styles for default
+        ... yours new styles for default;
     }
 </style>
 ```
@@ -288,9 +288,11 @@ You can controls yours Slidy instance externally from parent component:
     let index = 5 // declarate yours prop, if it not empty, onmount this number will be active slide
 </script>
 
-<button on:click="{() => index = 7}">Go to 7 slide</button> <!-- navigate to 7 slide -->
+<button on:click="{() => index = 7}">Go to 7 slide</button>
+<!-- navigate to 7 slide -->
 
-<Slidy {...slidy_unic} bind:index /> <!-- Just bind:index – dinamic prop for current active slide to yours prop -->
+<Slidy {...slidy_unic} bind:index />
+<!-- Just bind:index – dinamic prop for current active slide to yours prop -->
 ```
 
 ## Media queries (not implemented yet, but...)
@@ -319,7 +321,7 @@ yarn add -D svelte-match-media
 ```js
 /* main.js */
 
-import { setup } from "svelte-match-media"; // import setting function
+import { setup } from 'svelte-match-media'; // import setting function
 
 setup();
 ```
@@ -329,23 +331,23 @@ setup();
 ```js
 /* main.js */
 
-import { setup } from "svelte-match-media"; // import setting function
+import { setup } from 'svelte-match-media'; // import setting function
 
 setup({
-  desktop: "screen and (min-width: 769px)",
-  tablet: "screen and (max-width: 768px)",
-  mobile: "screen and (max-width: 425px)",
-  landscape: "only screen and (orientation:landscape)",
-  portrait: "only screen and (orientation:portrait)",
-  dark: "(prefers-color-scheme: dark)",
-  light: "(prefers-color-scheme: light)",
-  no_color: "(prefers-color-scheme: no-preference)",
-  standalone: "(display-mode: standalone)",
-  touchscreen: "(hover: none) and (pointer: coarse)",
-  pointerscreen: "(hover: hover) and (pointer: fine)",
-  short: "(max-height: 399px)",
-  tiny: "(orientation: portrait) and (max-height: 599px)",
-  //... & all what you want ;)
+    desktop: 'screen and (min-width: 769px)',
+    tablet: 'screen and (max-width: 768px)',
+    mobile: 'screen and (max-width: 425px)',
+    landscape: 'only screen and (orientation:landscape)',
+    portrait: 'only screen and (orientation:portrait)',
+    dark: '(prefers-color-scheme: dark)',
+    light: '(prefers-color-scheme: light)',
+    no_color: '(prefers-color-scheme: no-preference)',
+    standalone: '(display-mode: standalone)',
+    touchscreen: '(hover: none) and (pointer: coarse)',
+    pointerscreen: '(hover: hover) and (pointer: fine)',
+    short: '(max-height: 399px)',
+    tiny: '(orientation: portrait) and (max-height: 599px)',
+    //... & all what you want ;)
 });
 ```
 
@@ -386,11 +388,13 @@ setup({
     }
 </script>
 
-<Slidy {...slidy_unic}/>
+<Slidy {...slidy_unic} />
 
 <style>
     @media screen and (max-width: 425px) {
-        :global(#youunicid .svelte-slidy-ul li) {width: 100vw;}
+        :global(#youunicid .svelte-slidy-ul li) {
+            width: 100vw;
+        }
     }
 </style>
 ```

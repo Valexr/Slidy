@@ -1,42 +1,3 @@
-<script lang="ts" context="module">
-    import { getPhotos, randInt } from './scripts/api';
-    import { name, version } from '../../package.json';
-    import Slidy from '../../src/Slidy.svelte';
-
-    import type { Slide } from "./types";
-</script>
-
-<script lang="ts">
-    let slides: Slide[] = [];
-    let position = 0;
-    let page = randInt(0, 90);
-    let limit = 5;
-    let index = 0;
-    let vertical = false;
-    let clamp = true;
-    let align: "start" | "middle" | "end" = "middle";
-    let duration = 375;
-    let stend = false;
-    let gravity = 1.2;
-    let width = 'auto';
-    let snap = true;
-    let images = true;
-    let loop = false;
-    let gap = 15;
-
-    $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    $: theme = dark ? "dark" : "light";
-
-    const loadPhotos = async (limit: number, page: number) => await getPhotos({ limit, page });
-
-    function switchTheme() {
-        dark = !dark;
-        document.documentElement.setAttribute('scheme', theme);
-    }
-
-    const shuffle = () => (page = randInt(0, 90));
-</script>
-
 <fieldset>
     <legend>
         <h1>Slidy {version.replace(/\.[^.]*$/, '')}<sup>svelteJS</sup></h1>
@@ -82,10 +43,16 @@
 
 <nav>
     <button on:click={() => index--} disabled={!loop && !index}>←</button>
-    <button on:click={() => index++} disabled={!loop && index === slides.length - 1}>→</button>
+    <button
+        on:click={() => index++}
+        disabled={!loop && index === slides.length - 1}>→</button
+    >
     <button on:click={shuffle}><i class="icon icon-refresh" /></button>
-    <button on:click={() => (vertical = !vertical)} class:active={vertical}>axisY</button>
-    <button on:click={() => (clamp = !clamp)} class:active={clamp}>clamp</button>
+    <button on:click={() => (vertical = !vertical)} class:active={vertical}
+        >axisY</button
+    >
+    <button on:click={() => (clamp = !clamp)} class:active={clamp}>clamp</button
+    >
     <button on:click={() => (snap = !snap)} class:active={snap}>snap</button>
     <button on:click={() => (loop = !loop)} class:active={loop}>loop</button>
 </nav>
@@ -153,6 +120,46 @@
         </label>
     </fieldset>
 </form>
+
+<script lang="ts" context="module">
+    import { getPhotos, randInt } from './scripts/api';
+    import { name, version } from '../../package.json';
+    import Slidy from '../../src/Slidy.svelte';
+
+    import type { Slide } from './types';
+</script>
+
+<script lang="ts">
+    let slides: Slide[] = [];
+    let position = 0;
+    let page = randInt(0, 90);
+    let limit = 5;
+    let index = 0;
+    let vertical = false;
+    let clamp = true;
+    let align: 'start' | 'middle' | 'end' = 'middle';
+    let duration = 375;
+    let stend = false;
+    let gravity = 1.2;
+    let width = 'auto';
+    let snap = true;
+    let images = true;
+    let loop = false;
+    let gap = 15;
+
+    $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    $: theme = dark ? 'dark' : 'light';
+
+    const loadPhotos = async (limit: number, page: number) =>
+        await getPhotos({ limit, page });
+
+    function switchTheme() {
+        dark = !dark;
+        document.documentElement.setAttribute('scheme', theme);
+    }
+
+    const shuffle = () => (page = randInt(0, 90));
+</script>
 
 <style>
     main {

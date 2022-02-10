@@ -259,16 +259,16 @@ ul#slidy li img {
         /* will-change: transform; */
     }
     ul#slidy li:before {
-        will-change: transform;
+        /* will-change: transform; */
     }
 }
 /* MacOS */
-@media not all and (min-resolution: 0.001dpcm) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
     ul#slidy li img {
         width: auto;
         /* will-change: transform; */
     }
     ul#slidy li:before {
-        will-change: transform;
+        /* will-change: transform; */
     }
 }
