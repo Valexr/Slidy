@@ -7,3 +7,4 @@ Icon?
 .DS_Store
 *-lock.*
 *.log
+dev.js

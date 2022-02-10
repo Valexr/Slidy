@@ -7,8 +7,6 @@ export type Options = {
     loop: boolean;
     clamp: boolean;
     vertical: boolean;
-    indexer: Function;
-    scroller: Function;
 };
 
 export interface Step {
