@@ -42,6 +42,6 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 
 [@AlexxNB](https://github.com/AlexxNB) for [esbuild starter](https://github.com/AlexxNB/svelte-esbuild-starter) based on [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server
 
-[@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactivу updates of options object
+[@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactive updates of options object
 
 MIT &copy; [Valexr](https://github.com/Valexr)
