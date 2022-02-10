@@ -159,6 +159,8 @@
     }
 
     const shuffle = () => (page = randInt(0, 90));
+
+    $: width = !images ? '50%' : 'auto';
 </script>
 
 <style>

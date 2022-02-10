@@ -14,17 +14,22 @@
     <ul
         class="slidy-slides"
         use:slidy={{
-            index,
-            vertical,
             align,
-            duration,
             clamp,
+            duration,
             gravity,
-            snap,
+            index,
             loop,
-            indexer: (x) => (index = x),
-            scroller: (p) => (position = p),
+            snap,
+            vertical
         }}
+        on:mounted={(e) => console.log(e)}
+        on:moved={(e) => {
+            index = e.detail.index;
+            position = e.detail.position;
+        }}
+        on:resized={(e) => console.log(e)}
+        on:updated={(e) => console.log(e)}
     >
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
             <!-- svelte-ignore a11y-missing-attribute -->
