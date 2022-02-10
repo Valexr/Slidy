@@ -14,11 +14,10 @@ export interface SlidyOptions {
 	clamp?: boolean;
 	className?: string;	
 	dots?: boolean;
-	controlDotsOrdinal?: boolean;
 	duration?: number;
+	getImgSrc?: string;
 	gravity?: number;
 	id?: string;
-	imgSrcKey?: string;
 	index?: number;
 	loop?: boolean;
 	position?: number;
@@ -28,3 +27,5 @@ export interface SlidyOptions {
 }
 
 export type ChangeSlide = (index: number) => void;
+
+export type GetSrc = (item: Slide) => string | undefined;
