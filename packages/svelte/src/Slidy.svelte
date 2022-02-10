@@ -2,7 +2,7 @@
     aria-roledescription="carousel"
     tabindex="0"
     {id}
-    class={`slidy className ? ${className} : ""`}
+    class={`slidy ${className ? className : ""}`}
     class:vertical
     on:click={handleClick}
 >
