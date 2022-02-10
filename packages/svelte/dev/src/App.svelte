@@ -147,25 +147,21 @@
     let loop = false;
     let gap = 15;
 
+    $: width = !images ? '50%' : 'auto';
     $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    $: theme = dark ? 'dark' : 'light';
-
-    const loadPhotos = async (limit: number, page: number) =>
-        await getPhotos({ limit, page });
-
-    function switchTheme() {
-        dark = !dark;
-        document.documentElement.setAttribute('scheme', theme);
+    $: if (globalThis.window) {
+        document.documentElement.setAttribute('scheme', dark ? 'dark' : 'light');
     }
 
+    const loadPhotos = async (limit: number, page: number) => await getPhotos({ limit, page });
+    const switchTheme = () => dark = !dark;
     const shuffle = () => (page = randInt(0, 90));
-
-    $: width = !images ? '50%' : 'auto';
 </script>
 
 <style>
     main {
         --slidy-height: 450px;
+        --slidy-dot-color: red;
     }
 
     #dots {
