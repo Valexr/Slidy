@@ -1,15 +1,5 @@
 <script context="module" lang="ts">
-    import type { SlidyOptions, ChangeSlide, Slide } from "./types";
-
-    /**
-     * Typesafe slide's `src` getter.
-     */
-    const getImgSrc = (item: Slide, imgSrcKey: string) => {
-        const value = item[imgSrcKey];
-        return (typeof value === "string")
-            ? value
-            : undefined;
-    };
+    import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from "./types";
 </script>
 
 <script lang="ts">
@@ -21,12 +11,12 @@
     export let arrows = true;
     export let background = false;
     export let clamp = false;
-    export let className: $$Props["className"] = undefined;    
+    export let className: $$Props["className"] = undefined;
+    export let getImgSrc: GetSrc = (item: Slide) => item.src;
     export let dots = true;
     export let duration = 450;
     export let gravity = 1.2;
-    export let id: $$Props["id"] = undefined;
-    export let imgSrcKey = "src";
+    export let id: $$Props["id"] = undefined;    
     export let index = 0;
     export let loop = false;
     export let position = 0;
@@ -68,7 +58,7 @@
     class:vertical
     on:click={handleClick}
 >
-    <slot name="counter">
+    <slot name="counter" {index} amount={slides.length}>
         <output class="slidy-counter">
             {index + 1} / {slides.length}
         </output>
@@ -86,20 +76,19 @@
             loop,
             indexer: x => index = x,
             scroller: p => position = p,
-        }}
-    >
-        {#each slides as item, i (item.id ?? getImgSrc(item, imgSrcKey) ?? i)}
+        }}>
+        {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
             <!-- svelte-ignore a11y-missing-attribute -->
             <li
                 data-id={i}
                 class="slidy-slide"
                 class:active={i === index}
                 class:as-background={background}
-                style={background ? `--slidy-slide-bg: url(${getImgSrc(item, imgSrcKey)});` : undefined}
+                style={background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
             >
                 <slot {item}>
                     {#if !background}
-                        <img src={getImgSrc(item, imgSrcKey)} {...item} />
+                        <img src={getImgSrc(item)} {...item} />
                     {/if}
                 </slot>
             </li>
@@ -109,14 +98,14 @@
     {#if arrows}
         <button disabled={index === 0 && !loop} class="slidy-arrow left" data-step="-1">
             <slot name="arrow-prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="slidy-arrow-icon">
                     <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
                 </svg>
             </slot>
         </button>
         <button disabled={index === slides.length && !loop} class="slidy-arrow right" data-step="1">
             <slot name="arrow-next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="slidy-arrow-icon">
                     <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
                 </svg>
             </slot>
@@ -126,8 +115,8 @@
     {#if dots}
         <fieldset class="slidy-dots">
             <div>
-                {#each { length: slides.length } as dot, i}
-                    <slot name="dot" {dot} active={i === index}>
+                {#each { length: slides.length } as _, i}
+                    <slot name="dot" index={i} active={i === index}>
                         <button
                             data-index={i}
                             class="slidy-dot"
@@ -254,7 +243,7 @@
         background-color: unset;
     }
 
-    .slidy-arrow svg {
+    .slidy-arrow-icon {
         height: var(--slidy-arrow-size, 24px);
         width: var(--slidy-arrow-size, 24px);
         fill: white;
@@ -264,13 +253,13 @@
         border-radius: 50%;
     }
 
-    .slidy-arrow:focus svg {
+    .slidy-arrow:focus .slidy-arrow-icon {
         outline: 1.5px solid rgb(216 201 201 / 0.75);
         outline-offset: 2px;
         border-radius: 50%;
     }
 
-    .slidy-arrow:active svg {
+    .slidy-arrow:active .slidy-arrow-icon {
         transform: scale(0.9);
     }
 
