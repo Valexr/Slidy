@@ -112,11 +112,11 @@ Renders the `arrow` button controls for accessible slide management. Removing th
 <details>
     <summary>
         <code>
-            dots = true
+            navigation = true
         </code>
     </summary>
 
-Renders the `dots` button controls for pagination-like slide management.
+Renders the navigation controls for pagination-like slide management.
 </details>
 
 <details>
@@ -223,7 +223,7 @@ Sets the carousel into the vertical orientation.
 
 For easier style customization `Slidy` provides a set of predefined custom properties to inherit.
 
-For example, to recolor pagination controls, let the component inherit a `--slidy-dot-color` custom property from any parent:
+For example, to recolor pagination controls, let the component inherit a `--slidy-navigation-color` custom property from any parent:
 
 ```svelte
 <script>
@@ -236,7 +236,7 @@ For example, to recolor pagination controls, let the component inherit a `--slid
 
 <style>
     .parent {
-        --slidy-dot-color: red;
+        --slidy-navigation-color: red;
     }
 </style>
 ```
@@ -249,8 +249,8 @@ List of available custom properties:
 - `--slidy-slide-height: 100%;`
 - `--slidy-slide-width: auto;`
 - `--slidy-slide-object-fit: cover;`
-- `--slidy-dot-size: 12px;`
-- `--slidy-dot-color: white;`
+- `--slidy-navigation-size: 12px;`
+- `--slidy-navigation-color: white;`
 - `--slidy-arrow-size: 24px;`
 
 ## Overriding the styles
@@ -291,9 +291,9 @@ To target specific parts of the markup, use the component's internal markup clas
     <button class="slidy-arrow right">
         <!-- next slide control node -->
     </button>
-    <fieldset class="slidy-dots">
+    <fieldset class="slidy-navigation">
         <!-- slidy dot controls -->
-        <button class="slidy-dot" />
+        <button class="slidy-navigation-item" />
     </ul>
 </section>
 ```
@@ -302,7 +302,7 @@ For example, to override styles of specific section, use the classes described a
 
 ```svelte
 <style>
-    :global(.slidy .dots-arrow-left) {
+    :global(.slidy .slidy-arrow) {
         /* your custom CSS styles */
     }
 </style>
@@ -371,19 +371,19 @@ Provides a slot for custom button contents the *previous* and *next* slide contr
 <details>
     <summary>
         <code>
-            dot
+            nav-item
         </code>
     </summary>
 
 Provides a slot for custom pagination buttons.
 Slot receives optional `index` and `active` props for proper functionality.
 
-Custom `dot` should be a `<button />` and have `data-index` attribute to function. Otherwise, control the component [externally](#external-controls).
+Custom navigation item should be a `<button />` and have `data-index` attribute to function. Otherwise, control the component [externally](#external-controls).
 
 ```svelte
 <Slidy let:active let:index>
     <button
-        slot="dot"
+        slot="nav-item"
         data-index={index}
         {active}
         {index}

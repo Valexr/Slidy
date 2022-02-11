@@ -87,14 +87,14 @@
         </button>
     {/if}
 
-    {#if dots}
-        <fieldset class="slidy-dots">
+    {#if navigation}
+        <fieldset class="slidy-nav">
             <div>
                 {#each { length: slides.length } as _, i}
-                    <slot name="dot" index={i} active={i === index}>
+                    <slot name="nav-item" index={i} active={i === index}>
                         <button
                             data-index={i}
-                            class="slidy-dot"
+                            class="slidy-nav-item"
                             class:active={i === index}
                         />
                     </slot>
@@ -119,7 +119,7 @@
     export let clamp = false;
     export let className: $$Props['className'] = undefined;
     export let getImgSrc: GetSrc = (item: Slide) => item.src;
-    export let dots = true;
+    export let navigation = true;
     export let duration = 450;
     export let gravity = 1.2;
     export let id: $$Props['id'] = undefined;
@@ -167,8 +167,8 @@
             --slidy-slide-height: 100%;
             --slidy-slide-width: auto;
             --slidy-slide-object-fit: cover;
-            --slidy-dot-size: 12px;
-            --slidy-dot-color: white;
+            --slidy-nav-item-size: 12px;
+            --slidy-nav-item-color: white;
             --slidy-arrow-size: 24px;
         Private:
             --slidy-slide-bg for `background-mode`;
@@ -308,7 +308,7 @@
 
     /* controls: dots */
 
-    .slidy-dots {
+    .slidy-nav {
         grid-area: dots;
 
         z-index: 1;
@@ -321,35 +321,35 @@
         padding: 1em;
     }
 
-    .slidy-dots > div {
+    .slidy-nav > div {
         display: flex;
         flex-flow: row nowrap;
-        gap: calc(var(--slidy-dots-size, 12px) * 0.75);
+        gap: calc(var(--slidy-nav-item-size, 12px) * 0.75);
         place-content: center;
     }
 
-    .slidy-dot {
+    .slidy-nav-item {
         aspect-ratio: 1 / 1;
         border-radius: 50%;
-        background-color: var(--slidy-dot-color, white);
+        background-color: var(--slidy-nav-item-color, white);
         opacity: 0.5;
-        width: var(--slidy-dots-size, 12px);
-        height: var(--slidy-dots-size, 12px);
+        width: var(--slidy-nav-item-size, 12px);
+        height: var(--slidy-nav-item-size, 12px);
         transition: background-color
             var(--slidy-duration, var(--slidy-duration-default));
     }
 
-    .slidy-dot.active {
+    .slidy-nav-item.active {
         opacity: 1;
     }
 
-    .slidy-dot:focus {
-        outline: 1.5px solid var(--slidy-dot-color, white);
+    .slidy-nav-item:focus {
+        outline: 1.5px solid var(--slidy-nav-item-color, white);
         outline-offset: 2px;
     }
 
     @media (hover: hover) {
-        .slidy-dot:hover {
+        .slidy-nav-item:hover {
             opacity: 0.75;
         }
     }
@@ -390,12 +390,12 @@
         height: var(--slidy-slide-height, auto);
     }
 
-    .slidy.vertical .slidy-dots {
+    .slidy.vertical .slidy-nav {
         width: auto;
         height: max-content;
     }
 
-    .slidy.vertical .slidy-dots > div {
+    .slidy.vertical .slidy-nav > div {
         flex-flow: column nowrap;
     }
 
@@ -418,7 +418,7 @@
             cursor: grabbing;
         }
 
-        .slidy-dots {
+        .slidy-nav {
             cursor: auto;
         }
     }

@@ -161,7 +161,7 @@
 <style>
     main {
         --slidy-height: 450px;
-        --slidy-dot-color: red;
+        --slidy-nav-item-color: red;
     }
 
     #dots {
