@@ -137,8 +137,7 @@
     const goto: ChangeSlide = (slide) => {
         if (typeof slide === 'number' && !Number.isNaN(slide)) {
             // clamp value within valid range
-            //index = Math.min(Math.max(slide, 0), slides.length - 1);
-            index = slide;
+            index = Math.min(Math.max(slide, 0), slides.length - 1);
         }
     };
 
@@ -237,8 +236,9 @@
 
     .slidy-slide {
         display: flex;
-        justify-content: center;
+        place-content: center;
         align-items: center;
+        flex-shrink: 0;
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
         transition: opacity var(--slidy-duration, 450);
@@ -254,7 +254,7 @@
     }
 
     .slidy-slides :global(img) {
-        display: inline-block;
+        display: block;
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
         object-fit: var(--slidy-slide-object-fit, cover);
@@ -268,6 +268,12 @@
         padding: calc(var(--slidy-arrow-size, 16px) * 0.5);
         z-index: 2;
         background-color: unset;
+    }
+
+    @media (hover: hover) {
+        .slidy-arrow:hover {
+            background-color: rgb(59 78 78 / 0.33);
+        }
     }
 
     .slidy-arrow-icon {
@@ -339,6 +345,12 @@
     .slidy-dot:focus {
         outline: 1.5px solid var(--slidy-dot-color, white);
         outline-offset: 2px;
+    }
+
+    @media (hover: hover) {
+        .slidy-dot:hover {
+            opacity: 0.75;
+        }
     }
 
     /* counter */
