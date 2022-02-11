@@ -13,6 +13,7 @@
     </slot>
     <ul
         class="slidy-slides"
+        aria-live="polite"
         use:slidy={{
             align,
             clamp,
@@ -40,6 +41,10 @@
                 style={background
                     ? `--slidy-slide-bg: url(${getImgSrc(item)});`
                     : undefined}
+                aria-roledescription="slide"
+                aria-label={`${i} of ${slides.length}`}
+                role="group"
+                aria-current={i === index ? "true" : undefined}
             >
                 <slot {item}>
                     {#if !background}
@@ -55,6 +60,7 @@
             disabled={index === 0 && !loop}
             class="slidy-arrow left"
             data-step="-1"
+            aria-label="Previous slide"
         >
             <slot name="arrow-prev">
                 <svg
@@ -72,6 +78,7 @@
             disabled={index === slides.length && !loop}
             class="slidy-arrow right"
             data-step="1"
+            aria-label="Next slide"
         >
             <slot name="arrow-next">
                 <svg
