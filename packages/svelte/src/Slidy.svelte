@@ -137,7 +137,8 @@
     const goto: ChangeSlide = (slide) => {
         if (typeof slide === 'number' && !Number.isNaN(slide)) {
             // clamp value within valid range
-            index = Math.min(Math.max(slide, 0), slides.length - 1);
+            //index = Math.min(Math.max(slide, 0), slides.length - 1);
+            index = slide;
         }
     };
 
@@ -223,9 +224,12 @@
         grid-column: 1 / -1;
 
         min-height: 0;
+        position: relative;
 
         display: flex;
         flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
         gap: var(--slidy-slide-gap, 1rem);
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
