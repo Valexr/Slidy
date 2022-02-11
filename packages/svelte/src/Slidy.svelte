@@ -239,7 +239,7 @@
         ul {
             display: flex;
             align-items: center;
-            // justify-content: center;
+            justify-content: center;
             list-style: none;
             margin: 0;
             border: 0;
