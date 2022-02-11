@@ -74,10 +74,10 @@ export function slidy(
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        node.dispatchEvent(new CustomEvent('resize'));
+        dispatch(node, 'resize');
     });
     const MO = new MutationObserver(() => {
-        node.dispatchEvent(new CustomEvent('mutate'));
+        dispatch(node, 'mutate');
     });
     const moOptions = {
         childList: true,
@@ -113,7 +113,7 @@ export function slidy(
                 css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
             }
-            dispatch(node, 'mounted', { detail: childs });
+            dispatch(node, 'mount', { detail: childs });
         })
         .catch((error) => console.error(error));
 
@@ -177,7 +177,7 @@ export function slidy(
         };
         css(node, styles);
 
-        dispatch(node, 'moved', { detail: { index: options.index, position } });
+        dispatch(node, 'move', { detail: { index: options.index, position } });
     }
 
     function looping(pos: number): number {
@@ -344,7 +344,7 @@ export function slidy(
     function onResize(e: CustomEvent): void {
         gap = find.gap(node, options.vertical);
         to(options.index);
-        dispatch(node, 'resized', { detail: node });
+        dispatch(node, 'scale', { detail: node });
     }
 
     function onMutate(e: CustomEvent): void {
@@ -389,7 +389,7 @@ export function slidy(
                 }
             }
         }
-        dispatch(node, 'updated', { detail: options });
+        dispatch(node, 'update', { detail: options });
     }
 
     function destroy(): void {

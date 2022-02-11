@@ -135,7 +135,7 @@ function css(node: HTMLElement, styles: CssRule) {
 function dispatch(
     node: HTMLElement,
     name: string,
-    detail: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
+    detail?: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
 ) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }
