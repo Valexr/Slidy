@@ -350,6 +350,7 @@ export function slidy(
     function onMutate(e: CustomEvent): void {
         // gap = find.gap(node, options.vertical);
         // console.log(e)
+        // dispatch(node, 'mutate', { detail: node });
     }
 
     function clear(): void {

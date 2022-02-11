@@ -90,11 +90,13 @@ const find = {
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
     gap: (node: HTMLElement, vertical: boolean) => {
-        return (
-            distance(node, 0, vertical) -
-            distance(node, 1, vertical) -
-            nodes(node)[0][size(vertical)]
-        );
+        return (distance(node, 0, vertical) === 0)
+            ? distance(node, 1, vertical) - nodes(node)[0][size(vertical)]
+            : (
+                distance(node, 0, vertical) -
+                distance(node, 1, vertical) -
+                nodes(node)[0][size(vertical)]
+            );
     },
 };
 
