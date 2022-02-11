@@ -34,7 +34,6 @@
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
             <!-- svelte-ignore a11y-missing-attribute -->
             <li
-                data-id={i}
                 class="slidy-slide"
                 class:active={i === index}
                 class:as-background={background}
