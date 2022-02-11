@@ -241,6 +241,7 @@
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
         transition: opacity var(--slidy-duration, 450);
+        max-width: 100%;
     }
 
     .slidy-slide.as-background {
@@ -258,7 +259,6 @@
         height: var(--slidy-slide-height, 100%);
         object-fit: var(--slidy-slide-object-fit, cover);
         min-width: 100%;
-        max-width: 100%;
     }
 
     /* controls: arrows */
