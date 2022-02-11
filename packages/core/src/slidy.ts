@@ -143,31 +143,20 @@ export function slidy(
         // console.log('active:', active.pos, max * direction)
 
         function positioning(position: number) {
-            // position = options.loop ? pos : maxMin(maxSize(node, options.vertical) + 300, -maxSize(node, options.vertical) - 300, pos)
-            // position = !options.loop ? maxMin(max + 300, -max - 300, position) : position;
-
             if (!options.loop) {
-                if (Math.abs(position) > max) {
-                    pos = pos * 0.5;
-                    options.gravity = maxMin(1.6, 0, options.gravity + 0.01);
-                }
-
-                if (position >= max - active.size) {
+                if (position >= max - active.size && direction > 0) {
+                    options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     options.align = 'end';
-                } else if (position <= -max + active.size || position <= active.size) {
+                    // pos -= 10
+                } else if ((position <= -max + active.size || position <= active.size) && direction < 0) {
+                    options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     options.align = 'start';
+                    // pos += 10
                 } else {
                     options.align = 'middle';
+                    options.gravity = gravity
                 }
             }
-            // if (active.pos * direction + active.size >= max * direction) console.log('check')
-            // if (!options.loop) {
-            //     options.align = options.index === 0
-            //         ? 'start'
-            //         : options.index === node.children.length - 1
-            //             ? 'end'
-            //             : 'middle'
-            // }
             return position;
         }
 
@@ -206,7 +195,8 @@ export function slidy(
         toing = true;
         clear();
 
-        options.index = hix = indexing(node, index, options.loop);
+        options.index = indexing(node, index, options.loop);
+        // hix = options.index 
 
         if (!options.loop) {
             options.align =
@@ -271,7 +261,7 @@ export function slidy(
     function onDown(e: MouseEvent | TouchEvent): void {
         clear();
         // css(node, { pointerEvents: e.type !== 'mousedown' ? 'auto' : 'none' });
-        options.gravity = gravity;
+        // options.gravity = gravity;
 
         frame = position;
         reference = coordinate(e, options.vertical);
@@ -366,7 +356,7 @@ export function slidy(
     function clear(): void {
         // hip = position
         // frame = position
-        hix = wheeling ? hix : options.index;
+        hix = wheeling || toing ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
