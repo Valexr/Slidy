@@ -43,7 +43,8 @@ export function slidy(
         hip = position,
         hix = options.index,
         gap = 0,
-        gravity = 1.2;
+        gravity = 1.2,
+        direction = 0
 
     const PARENT = node.parentElement;
     const listen = (
@@ -74,10 +75,10 @@ export function slidy(
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        node.dispatchEvent(new CustomEvent('resize'));
+        dispatch(node, 'resize');
     });
     const MO = new MutationObserver(() => {
-        node.dispatchEvent(new CustomEvent('mutate'));
+        dispatch(node, 'mutate');
     });
     const moOptions = {
         childList: true,
@@ -86,6 +87,11 @@ export function slidy(
         // Omit (or set to false) to observe only changes to the parent node
         subtree: true,
     };
+
+    const index = {
+        first: 0,
+        last: node.children.length - 1
+    }
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
@@ -113,7 +119,7 @@ export function slidy(
                 css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
             }
-            dispatch(node, 'mounted', { detail: childs });
+            dispatch(node, 'mount', { detail: childs });
         })
         .catch((error) => console.error(error));
 
@@ -127,7 +133,7 @@ export function slidy(
             options.align
         );
 
-        const direction = Math.sign(pos); // back << -1 | 1 >> forward
+        direction = Math.sign(pos); // back << -1 | 1 >> forward
         const max = maxSize(node, options.vertical);
         const active = {
             pos: find.position(node, options.index, options.vertical, options.align),
@@ -143,12 +149,12 @@ export function slidy(
             if (!options.loop) {
                 if (Math.abs(position) > max) {
                     pos = pos * 0.5;
-                    options.gravity = maxMin(2, 0, options.gravity + 0.01);
+                    options.gravity = maxMin(1.6, 0, options.gravity + 0.01);
                 }
 
-                if (position >= max) {
+                if (position >= max - active.size) {
                     options.align = 'end';
-                } else if (position <= -max) {
+                } else if (position <= -max + active.size || position <= active.size) {
                     options.align = 'start';
                 } else {
                     options.align = 'middle';
@@ -177,7 +183,7 @@ export function slidy(
         };
         css(node, styles);
 
-        dispatch(node, 'moved', { detail: { index: options.index, position } });
+        dispatch(node, 'move', { detail: { index: options.index, position } });
     }
 
     function looping(pos: number): number {
@@ -234,6 +240,7 @@ export function slidy(
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
             velocity = maxMin(2, 0, 2 - options.gravity) * v + 0.2 * velocity;
+            velocity = maxMin(find.position(node, index.last, options.vertical, options.align), -find.position(node, index.last, options.vertical, options.align), velocity)
             timestamp = time;
             frame = position;
             rak = RAF(track);
@@ -286,8 +293,11 @@ export function slidy(
 
         const { target, amplitude } = delting(position);
 
+        // const direction = Math.sign(position);
+        console.log(direction)
         if (Math.abs(amplitude) > 10)
             Math.abs(velocity) < 100
+                || (!options.loop && ((options.index === index.first && direction < 0) || (options.index === index.last && direction > 0)))
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
@@ -344,12 +354,13 @@ export function slidy(
     function onResize(e: CustomEvent): void {
         gap = find.gap(node, options.vertical);
         to(options.index);
-        dispatch(node, 'resized', { detail: node });
+        dispatch(node, 'scale', { detail: node });
     }
 
     function onMutate(e: CustomEvent): void {
         // gap = find.gap(node, options.vertical);
         // console.log(e)
+        // dispatch(node, 'mutate', { detail: node });
     }
 
     function clear(): void {
@@ -389,7 +400,7 @@ export function slidy(
                 }
             }
         }
-        dispatch(node, 'updated', { detail: options });
+        dispatch(node, 'update', { detail: options });
     }
 
     function destroy(): void {
