@@ -257,6 +257,8 @@
         width: var(--slidy-slide-width, auto);
         height: var(--slidy-slide-height, 100%);
         object-fit: var(--slidy-slide-object-fit, cover);
+        min-width: 100%;
+        max-width: 100%;
     }
 
     /* controls: arrows */
