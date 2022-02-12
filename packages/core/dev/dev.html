@@ -1,190 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="dev.css" />
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" href="dev.css" />
+        <title>Slidy 3.0 - NativeJS</title>
 
-    <title>Slidy 3.0 - NativeJS</title>
-
-    <script defer src="dev.js"></script>
-    <style>
-        nav#dots {
-            gap: 0.5ex;
-        }
-
-        ul#slidy {
-            justify-content: center;
-        }
-    </style>
-    <script>
-        let index = 9,
-            scrollPos = 0,
-            slidy = null,
-            snap = true,
-            stend = false,
-            images = true,
-            dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-            slides = [],
-            page = randomQ(1, 69),
-            limit = 18,
-            node = null,
-            nav = null,
-            stats = null,
-            loop = false;
-
-        let options = {
-            index: 9,
-            axis: 'x',
-            align: 'middle',
-            duration: 375,
-            snap: true,
-            gravity: 1.2,
-            clamp: false,
-            loop: false,
-        };
-
-        function prev() {
-            slidy.to(options.index - 1);
-        }
-        function next() {
-            slidy.to(options.index + 1);
-        }
-        function goto(i) {
-            slidy.to(i);
-        }
-        function randomQ(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function activate(node, prop) {
-            node.classList.toggle('active');
-            prop = !prop;
-            console.log(prop);
-            return prop;
-            // for (const key in options) {
-            //     if (options[key] !== prop[key]) {
-            //         options[key] = prop[key]
-            //         return prop[key];
-            //     }
-            // }
-        }
-
-        async function getPhotos(node, page, limit) {
-            fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
-                .then(async (res) => {
-                    const photos = await res.json();
-                    node.innerHTML = photos
-                        .map(
-                            (d, i) =>
-                                `<li data-id="${i}"><img src="${d.download_url
-                                }" width="${d.width / 5}" height="${d.height / 5
-                                }" alt="${i}" loading="lazy"/></li>`
-                        )
-                        .join('');
-                    nav.innerHTML = photos
-                        .map(
-                            (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
-                        )
-                        .join('');
-                })
-                .then(() => {
-                    slidy = Slidy.slidy(node, options);
-                });
-        }
-
-        window.onload = () => {
-            console.log(window.Slidy);
-
-            node = document.querySelector('#slidy');
-            nav = document.querySelector('#dots');
-            stats = document.querySelector('#stats');
-
-            getPhotos(node, page, limit);
-
-            node.addEventListener('mount', (e) => {
-                // slidy.to(7);
-            });
-
-            node.addEventListener('move', (e) => {
-                indexing(e.detail.index);
-                scrolling(e.detail.position);
-            });
-
-            function scrolling(p) {
-                scrollPos = p;
-                stats.innerHTML = `index: [<b>${options.index
-                    }</b>], scrollPos: <b>${Math.trunc(scrollPos)}</b>px`;
+        <script defer src="dev.js"></script>
+        <style>
+            nav#dots {
+                gap: 0.5ex;
             }
 
-            function indexing(x) {
-                options.index = x;
-                const cix = Math.floor(node.children.length / 2);
-
-                Array.from(node.children).forEach((n, i) =>
-                    i === (options.loop ? cix : x)
-                        ? n.classList.add('active')
-                        : n.classList.remove('active')
-                );
-                Array.from(nav.children).forEach((n, i) =>
-                    i === x ? n.classList.add('active') : n.classList.remove('active')
-                );
+            ul#slidy {
+                justify-content: center;
             }
+        </style>
+        <script>
+            let index = 9,
+                scrollPos = 0,
+                slidy = null,
+                snap = true,
+                stend = false,
+                images = true,
+                dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
+                slides = [],
+                page = randomQ(1, 69),
+                limit = 18,
+                node = null,
+                nav = null,
+                stats = null,
+                loop = false;
 
-            const observer = new MutationObserver((mutationRecords, observer) => {
-                mutationRecords.forEach((record) => {
-                    // console.log(index, scrollPos, node.SLIDY)
-                    // console.dir(record)
-                    // console.dir(record.target.dataset.position)
-                    // slidy.update(options)
-                    // record.target.classList.toggle('active')
-                    // console.log(index, scrollPos)
-                });
-                // console.dir(mutationRecords.target.style.transform); // console.log(изменения)
-            });
-            const options = {
-                childList: true, // наблюдать за непосредственными детьми
-                subtree: true, // и более глубокими потомками
-                characterDataOldValue: true, // передавать старое значение в колбэк
-                attributes: true,
-                attributeFilter: ['style', 'data-index'],
-                characterData: true,
+            let options = {
+                index: 9,
+                axis: 'x',
+                align: 'middle',
+                duration: 375,
+                snap: true,
+                gravity: 1.2,
+                clamp: false,
+                loop: false,
             };
-            // observer.observe(node, options);
 
-            // slidy.to(15)
-            // slidy.update()
-            // slidy.destroy()
-        };
-    </script>
-</head>
+            function prev() {
+                slidy.to(options.index - 1);
+            }
+            function next() {
+                slidy.to(options.index + 1);
+            }
+            function goto(i) {
+                slidy.to(i);
+            }
+            function randomQ(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
 
-<body>
-    <fieldset>
-        <legend>
-            <h1>Slidy 3.0<sup>nativeJS</sup></h1>
-            <button onclick="activate(this, stend)">stend</button>
-            <button onclick="activate(this, images)">images</button>
-            <button onclick="activate(this, dark)">dark</button>
-            <p id="stats" />
-        </legend>
-    </fieldset>
-    <main>
-        <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
-            <ul id="slidy" onmove="console.log(this.e)" />
-        </section>
-        <nav id="dots"></nav>
-        <nav>
-            <button onclick="slidy.to(options.index - 1)">←</button>
-            <button onclick="slidy.to(index + 1)">→</button>
-            <button onclick="getPhotos(node, randomQ(1, 69), 15)">refresh</button>
-            <button onclick="slidy.update({loop: activate(this, options.loop)})" class:active="{anchored}">
-                loop
-            </button>
-        </nav>
-    </main>
-</body>
+            function activate(node, prop) {
+                node.classList.toggle('active');
+                prop = !prop;
+                console.log(prop);
+                return prop;
+                // for (const key in options) {
+                //     if (options[key] !== prop[key]) {
+                //         options[key] = prop[key]
+                //         return prop[key];
+                //     }
+                // }
+            }
 
+            async function getPhotos(node, page, limit) {
+                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
+                    .then(async (res) => {
+                        const photos = await res.json();
+                        node.innerHTML = photos
+                            .map(
+                                (d, i) =>
+                                    `<li data-id="${i}"><img src="${
+                                        d.download_url
+                                    }" width="${d.width / 5}" height="${
+                                        d.height / 5
+                                    }" alt="${i}" loading="lazy"/></li>`
+                            )
+                            .join('');
+                        nav.innerHTML = photos
+                            .map(
+                                (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
+                            )
+                            .join('');
+                    })
+                    .then(() => {
+                        slidy = Slidy.slidy(node, options);
+                    });
+            }
+
+            window.onload = () => {
+                console.log(window.Slidy);
+
+                node = document.querySelector('#slidy');
+                nav = document.querySelector('#dots');
+                stats = document.querySelector('#stats');
+
+                getPhotos(node, page, limit);
+
+                node.addEventListener('mount', (e) => {
+                    // slidy.to(7);
+                });
+
+                node.addEventListener('move', (e) => {
+                    indexing(e.detail.index);
+                    scrolling(e.detail.position);
+                });
+
+                function scrolling(p) {
+                    scrollPos = p;
+                    stats.innerHTML = `index: [<b>${
+                        options.index
+                    }</b>], scrollPos: <b>${Math.trunc(scrollPos)}</b>px`;
+                }
+
+                function indexing(x) {
+                    options.index = x;
+                    const cix = Math.floor(node.children.length / 2);
+
+                    Array.from(node.children).forEach((n, i) =>
+                        i === (options.loop ? cix : x)
+                            ? n.classList.add('active')
+                            : n.classList.remove('active')
+                    );
+                    Array.from(nav.children).forEach((n, i) =>
+                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                }
+
+                const observer = new MutationObserver((mutationRecords, observer) => {
+                    mutationRecords.forEach((record) => {
+                        // console.log(index, scrollPos, node.SLIDY)
+                        // console.dir(record)
+                        // console.dir(record.target.dataset.position)
+                        // slidy.update(options)
+                        // record.target.classList.toggle('active')
+                        // console.log(index, scrollPos)
+                    });
+                    // console.dir(mutationRecords.target.style.transform); // console.log(изменения)
+                });
+                const options = {
+                    childList: true, // наблюдать за непосредственными детьми
+                    subtree: true, // и более глубокими потомками
+                    characterDataOldValue: true, // передавать старое значение в колбэк
+                    attributes: true,
+                    attributeFilter: ['style', 'data-index'],
+                    characterData: true,
+                };
+                // observer.observe(node, options);
+
+                // slidy.to(15)
+                // slidy.update()
+                // slidy.destroy()
+            };
+        </script>
+    </head>
+
+    <body>
+        <fieldset>
+            <legend>
+                <h1>Slidy 3.0<sup>nativeJS</sup></h1>
+                <button onclick="activate(this, stend)">stend</button>
+                <button onclick="activate(this, images)">images</button>
+                <button onclick="activate(this, dark)">dark</button>
+                <p id="stats" />
+            </legend>
+        </fieldset>
+        <main>
+            <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
+                <ul id="slidy" onmove="console.log(this.e)" />
+            </section>
+            <nav id="dots"></nav>
+            <nav>
+                <button onclick="slidy.to(options.index - 1)">←</button>
+                <button onclick="slidy.to(index + 1)">→</button>
+                <button onclick="getPhotos(node, randomQ(1, 69), 15)">refresh</button>
+                <button
+                    onclick="slidy.update({loop: activate(this, options.loop)})"
+                    class:active="{anchored}"
+                >
+                    loop
+                </button>
+            </nav>
+        </main>
+    </body>
 </html>
