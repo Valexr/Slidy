@@ -44,7 +44,7 @@ export function slidy(
         hix = options.index,
         gap = 0,
         gravity = 1.2,
-        direction = 0
+        direction = 0;
 
     const PARENT = node.parentElement;
     const listen = (
@@ -75,10 +75,10 @@ export function slidy(
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        dispatch(node, 'resize');
+        dispatch(node, 'resize', { detail: node });
     });
     const MO = new MutationObserver(() => {
-        dispatch(node, 'mutate');
+        dispatch(node, 'mutate', { detail: node });
     });
     const moOptions = {
         childList: true,
@@ -90,8 +90,8 @@ export function slidy(
 
     const index = {
         first: 0,
-        last: node.children.length - 1
-    }
+        last: node.children.length - 1,
+    };
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
@@ -143,30 +143,19 @@ export function slidy(
         // console.log('active:', active.pos, max * direction)
 
         function positioning(position: number) {
-            // position = options.loop ? pos : maxMin(maxSize(node, options.vertical) + 300, -maxSize(node, options.vertical) - 300, pos)
-            // position = !options.loop ? maxMin(max + 300, -max - 300, position) : position;
-
-            if (!options.loop) {
-                if (Math.abs(position) > max) {
-                    pos = pos * 0.5;
-                    options.gravity = maxMin(1.6, 0, options.gravity + 0.01);
-                }
-
-                if (position >= max - active.size) {
-                    options.align = 'end';
-                } else if (position <= -max + active.size || position <= active.size) {
-                    options.align = 'start';
-                } else {
-                    options.align = 'middle';
-                }
-            }
-            // if (active.pos * direction + active.size >= max * direction) console.log('check')
             // if (!options.loop) {
-            //     options.align = options.index === 0
-            //         ? 'start'
-            //         : options.index === node.children.length - 1
-            //             ? 'end'
-            //             : 'middle'
+            //     if (position >= max - active.size && direction > 0) {
+            //         options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
+            //         options.align = 'end';
+            //         // pos -= 10
+            //     } else if ((position <= -max + active.size || position <= active.size) && direction < 0) {
+            //         options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
+            //         options.align = 'start';
+            //         // pos += 10
+            //     } else {
+            //         options.align = 'middle';
+            //         options.gravity = gravity
+            //     }
             // }
             return position;
         }
@@ -206,7 +195,8 @@ export function slidy(
         toing = true;
         clear();
 
-        options.index = hix = indexing(node, index, options.loop);
+        options.index = indexing(node, index, options.loop);
+        // hix = options.index
 
         if (!options.loop) {
             options.align =
@@ -240,7 +230,11 @@ export function slidy(
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
             velocity = maxMin(2, 0, 2 - options.gravity) * v + 0.2 * velocity;
-            velocity = maxMin(find.position(node, index.last, options.vertical, options.align), -find.position(node, index.last, options.vertical, options.align), velocity)
+            velocity = maxMin(
+                find.position(node, index.last, options.vertical, options.align),
+                -find.position(node, index.last, options.vertical, options.align),
+                velocity
+            );
             timestamp = time;
             frame = position;
             rak = RAF(track);
@@ -271,7 +265,7 @@ export function slidy(
     function onDown(e: MouseEvent | TouchEvent): void {
         clear();
         // css(node, { pointerEvents: e.type !== 'mousedown' ? 'auto' : 'none' });
-        options.gravity = gravity;
+        // options.gravity = gravity;
 
         frame = position;
         reference = coordinate(e, options.vertical);
@@ -294,10 +288,12 @@ export function slidy(
         const { target, amplitude } = delting(position);
 
         // const direction = Math.sign(position);
-        console.log(direction)
+        console.log(direction);
         if (Math.abs(amplitude) > 10)
-            Math.abs(velocity) < 100
-                || (!options.loop && ((options.index === index.first && direction < 0) || (options.index === index.last && direction > 0)))
+            Math.abs(velocity) < 100 ||
+                (!options.loop &&
+                    ((options.index === index.first && direction < 0) ||
+                        (options.index === index.last && direction > 0)))
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
@@ -344,9 +340,11 @@ export function slidy(
     }
 
     function onKeys(e: KeyboardEvent): void {
+        console.log(e.key)
+        const keys = ['ArrowRight', 'Enter', ' ']
         if (e.key === 'ArrowLeft') {
             to(options.index - 1);
-        } else if (e.key === 'ArrowRight') {
+        } else if (keys.includes(e.key)) {
             to(options.index + 1);
         }
     }
@@ -354,7 +352,7 @@ export function slidy(
     function onResize(e: CustomEvent): void {
         gap = find.gap(node, options.vertical);
         to(options.index);
-        dispatch(node, 'scale', { detail: node });
+        // dispatch(node, 'scale', { detail: node });
     }
 
     function onMutate(e: CustomEvent): void {
@@ -366,7 +364,7 @@ export function slidy(
     function clear(): void {
         // hip = position
         // frame = position
-        hix = wheeling ? hix : options.index;
+        // hix = wheeling || toing ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);

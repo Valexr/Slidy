@@ -105,11 +105,11 @@
 
                 getPhotos(node, page, limit);
 
-                node.addEventListener('mounted', (e) => {
+                node.addEventListener('mount', (e) => {
                     // slidy.to(7);
                 });
 
-                node.addEventListener('moved', (e) => {
+                node.addEventListener('move', (e) => {
                     indexing(e.detail.index);
                     scrolling(e.detail.position);
                 });
@@ -175,7 +175,7 @@
         </fieldset>
         <main>
             <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
-                <ul id="slidy" onmoved="console.log(this.e)" />
+                <ul id="slidy" onmove="console.log(this.e)" />
             </section>
             <nav id="dots"></nav>
             <nav>

@@ -29,7 +29,7 @@
             index = e.detail.index;
             position = e.detail.position;
         }}
-        on:scale={(e) => console.log(e)}
+        on:resize={(e) => console.log(e)}
         on:update={(e) => console.log(e)}
     >
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
