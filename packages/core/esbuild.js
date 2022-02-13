@@ -13,7 +13,7 @@ const esbuildBase = {
 };
 const derverConfig = {
     dir: 'dev',
-    index: 'dev.html',
+    index: 'index.html',
     port: 3330,
     host: '0.0.0.0',
     watch: ['dev', 'src'],
@@ -35,7 +35,7 @@ if (DEV) {
     build({
         ...esbuildBase,
         minify: false,
-        outfile: 'dev/dev.js',
+        outfile: 'dev/index.js',
         globalName: 'Slidy',
         format: 'iife',
         incremental: true,

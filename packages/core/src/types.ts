@@ -1,12 +1,11 @@
 export type Options = {
     index: number;
-    duration: number;
     gravity: number;
-    align: string;
+    duration: number;
+    vertical: boolean;
+    clamp: boolean;
     snap: boolean;
     loop: boolean;
-    clamp: boolean;
-    vertical: boolean;
 };
 
 export interface Step {

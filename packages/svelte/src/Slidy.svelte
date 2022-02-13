@@ -35,7 +35,6 @@
             class="slidy-ul"
             use:slidy={{
                 index,
-                align: wrap.align,
                 loop: options.loop,
                 snap: options.snap,
                 clamp: options.clamp,

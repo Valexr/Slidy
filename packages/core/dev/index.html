@@ -4,22 +4,22 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="icon" type="image/png" href="favicon.png" />
-        <link rel="stylesheet" href="dev.css" />
+        <link rel="stylesheet" href="index.css" />
 
         <title>Slidy 3.0 - NativeJS</title>
 
-        <script defer src="dev.js"></script>
+        <script defer src="index.js"></script>
         <style>
             nav#dots {
                 gap: 0.5ex;
             }
 
             ul#slidy {
-                justify-content: center;
+                /* justify-content: center; */
             }
         </style>
         <script>
-            let index = 9,
+            let index = 4,
                 scrollPos = 0,
                 slidy = null,
                 snap = true,
@@ -28,14 +28,14 @@
                 dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
                 slides = [],
                 page = randomQ(1, 69),
-                limit = 18,
+                limit = 9,
                 node = null,
                 nav = null,
                 stats = null,
                 loop = false;
 
             let options = {
-                index: 9,
+                index: 4,
                 axis: 'x',
                 align: 'middle',
                 duration: 375,
@@ -82,7 +82,7 @@
                                         d.download_url
                                     }" width="${d.width / 5}" height="${
                                         d.height / 5
-                                    }" alt="${i}" loading="lazy"/></li>`
+                                    }" alt="${i}"/></li>`
                             )
                             .join('');
                         nav.innerHTML = photos
@@ -175,13 +175,13 @@
         </fieldset>
         <main>
             <section style="--gap: 16px; --flow: row; --width: auto" tabindex="0">
-                <ul id="slidy" onmove="console.log(this.e)" />
+                <ul id="slidy" />
             </section>
             <nav id="dots"></nav>
             <nav>
                 <button onclick="slidy.to(options.index - 1)">←</button>
                 <button onclick="slidy.to(index + 1)">→</button>
-                <button onclick="getPhotos(node, randomQ(1, 69), 15)">refresh</button>
+                <button onclick="getPhotos(node, randomQ(1, 69), 9)">refresh</button>
                 <button
                     onclick="slidy.update({loop: activate(this, options.loop)})"
                     class:active="{anchored}"
