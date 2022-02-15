@@ -5,7 +5,6 @@ function maxMin(max: number, min: number, val: number) {
 }
 
 function maxSize(node: HTMLElement, vertical: boolean) {
-    // console.log(node.scrollWidth - parent(node).offsetWidth)
     return vertical
         ? node.scrollHeight - parent(node).offsetHeight
         : node.scrollWidth - parent(node).offsetWidth;
@@ -29,21 +28,13 @@ function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) 
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
 
-// function getTranslateXY(element: Element, axis: string) {
-//     const style = window.getComputedStyle(element);
-//     const matrix = new DOMMatrixReadOnly(style.transform);
-//     return matrix[axis === 'y' ? 'm42' : 'm41'];
-// }
-
 const cix = (node: HTMLElement) => Math.floor(node.children.length / 2);
 const parent = (node: HTMLElement) => node.parentElement;
 const nodes = (node: HTMLElement) => Array.from(node.children);
 const child = (node: HTMLElement, index: number) => node.children[index];
-// const computed = (child: Element, axis: string) =>
-//     getComputedStyle(child).transform.split(',')[axis === 'y' ? 5 : 4];
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const part = (align: string) => (align === 'middle' ? 0.5 : 1);
+const part = (align: string) => (align === 'center' ? 0.5 : 1);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
 const offset = (node: HTMLElement, child: Element, vertical: boolean) =>
     node.parentElement[size(vertical)] - child[size(vertical)];
@@ -51,6 +42,20 @@ const position = (node: HTMLElement, child: Element, vertical: boolean, align: s
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
+const align = (node: HTMLElement, vertical: boolean): string => {
+    return distance(node, 0, vertical) < maxSize(node, vertical)
+        ? 'start'
+        : distance(node, 0, vertical) >= maxSize(node, vertical) &&
+            distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
+            maxSize(node, vertical) !== 0
+            ? 'center'
+            : 'end';
+};
+const gap = (node: HTMLElement, vertical: boolean) => {
+    const last = nodes(node).length - 1
+    const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)]
+    return distance(node, last, vertical) - prev
+}
 
 function closest({
     node,
@@ -62,10 +67,9 @@ function closest({
     target: number;
     vertical: boolean;
     align: string;
-}) {
+}): Element {
     return nodes(node).reduce((prev: Element, curr: Element, i) => {
         const pos = (child: Element) => position(node, child, vertical, align);
-        // console.log(i, 'curr:', pos(curr), 'prev:', pos(prev));
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
 }
@@ -89,42 +93,11 @@ const find = {
         nodes(node)[index][size(vertical)],
     child: (node: HTMLElement, index: number) =>
         nodes(node).find((child) => +child.dataset.index === index),
-    gap: (node: HTMLElement, vertical: boolean) => {
-        return distance(node, 0, vertical) === 0
-            ? distance(node, 1, vertical) - nodes(node)[0][size(vertical)]
-            : distance(node, 0, vertical) -
-                  distance(node, 1, vertical) -
-                  nodes(node)[0][size(vertical)];
-    },
+    gap: (node: HTMLElement, vertical: boolean) => gap(node, vertical),
+    distance: (node: HTMLElement, index: number, vertical: boolean) =>
+        distance(node, index, vertical),
+    align: (node: HTMLElement, vertical: boolean) => align(node, vertical),
 };
-
-// const styling = (node: HTMLElement, undo: boolean = false) => {
-//     nodes(node).forEach((c: HTMLElement) => {
-//         c.style.position = 'absolute';
-//         // if (c.hasChildNodes()) {
-//         //     if (c.querySelector('img')) {
-//         //         c.querySelector('img').style.willChange = 'transform';
-//         //         // c.querySelector('img').style.pointerEvents = 'none';
-//         //     }
-//         // }
-//     });
-// };
-
-// const initialise = (node: HTMLElement, axis: string = 'x', gap: number = 0) => {
-//     nodes(node).forEach((c: HTMLElement, i: number) => {
-//         c.style.cssText = `--init: ${c[coord(axis)] + (i > 0 ? gap : 0)
-//             }; transform: translate3d(${c[coord(axis)] + (i > 0 ? gap : 0)}px, 0, 0)`;
-//     });
-//     // nodes(node).forEach((c, i) => {
-//     //     c.style.position = `translate3d(${c[coord(axis)] + (i > 0 ? gap : 0)}px, 0, 0)`;
-//     //     // if (c.hasChildNodes()) {
-//     //     //     if (c.querySelector('img')) {
-//     //     //         c.querySelector('img').style.willChange = 'transform';
-//     //     //         // c.querySelector('img').style.pointerEvents = 'none';
-//     //     //     }
-//     //     // }
-//     // })
-// };
 
 function css(node: HTMLElement, styles: CssRule) {
     for (const property in styles) {
@@ -139,20 +112,6 @@ function dispatch(
 ) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }
-
-// function rotateArray1(nums, k) {
-//     for (let i = 0; i < k; i++) {
-//         nums.unshift(nums.pop());
-//     }
-//     return nums;
-// }
-
-// function ordering(node: HTMLElement, nums: number[], index: number, cix: number) {
-//     node.style.justifyContent = 'center';
-//     rotate(nums, index - cix).forEach((n: number, i: number) => {
-//         node.children[n].style.order = i;
-//     });
-// }
 
 function prev(node: HTMLElement) {
     const last = node.children[node.children.length - 1];
@@ -176,9 +135,6 @@ function replace(node: HTMLElement, index: number, loop: boolean) {
 
 export {
     find,
-    // styling,
-    // initialise,
-    // computed,
     closest,
     rotate,
     replace,
@@ -190,6 +146,5 @@ export {
     maxSize,
     indexing,
     coordinate,
-    // setCss,
     uniQ,
 };

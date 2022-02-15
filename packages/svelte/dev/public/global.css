@@ -15,8 +15,8 @@ body {
     padding: 8px;
     line-height: 1.5;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-        "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 a {
@@ -144,14 +144,14 @@ legend p {
     }
 }
 
-[scheme="dark"] {
+[scheme='dark'] {
     color-scheme: dark;
     --color: white;
     --back: black;
     --accent: red;
 }
 
-[scheme="light"] {
+[scheme='light'] {
     color-scheme: light;
     --color: black;
     --back: white;
@@ -231,3 +231,4 @@ ul.slidy-ul li:before {
     background: var(--back);
     /* will-change: transform; */
 }
+

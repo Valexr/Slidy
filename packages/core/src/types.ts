@@ -1,13 +1,14 @@
-export type Options = {
+export interface Options {
     index: number;
-    duration: number;
     gravity: number;
-    align: string;
+    duration: number;
+    vertical: boolean;
+    clamp: boolean;
     snap: boolean;
     loop: boolean;
-    clamp: boolean;
-    vertical: boolean;
 };
+
+type OptionsSnap = 'auto' | 'start' | 'center' | 'end' | ''
 
 export interface Step {
     i: number;

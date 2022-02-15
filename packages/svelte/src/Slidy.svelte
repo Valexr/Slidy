@@ -312,7 +312,7 @@
         grid-area: next-slide;
         transform: rotate(180deg);
     }
-
+    
     /* controls: dots */
 
     .slidy-nav {
