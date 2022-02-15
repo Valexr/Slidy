@@ -44,8 +44,11 @@ export function slidy(
         gap = 0,
         gravity = 1.2,
         align = 'center',
-        halign = align,
-        direction = 0;
+        // halign = align,
+        direction = 0,
+        amp = {
+            max: 0, min: 0
+        }
 
     const PARENT = node.parentElement;
     const listen = (
@@ -89,10 +92,11 @@ export function slidy(
         subtree: true,
     };
 
-    const index = {
-        first: 0,
-        last: node.children.length - 1,
-    };
+    const indx = {
+        min: 0,
+        max: node.children.length - 1
+    }
+
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
@@ -106,6 +110,7 @@ export function slidy(
                 pointerEvents: 'none',
                 willChange: 'auto',
                 webkitUserSelect: 'none',
+                position: 'absolute'
                 // transitionProperty: 'transform'
             };
             css(node, styles);
@@ -114,9 +119,15 @@ export function slidy(
             replace(node, options.index, options.loop);
             to(options.index);
 
-            align = halign = find.align(node, options.vertical);
+            // align = halign = find.align(node, options.vertical);
+            // align = 'center'
             gravity = options.gravity;
-            console.log('gap:', gap, align);
+            amp = {
+                max: maxSize(node, options.vertical),
+                min: 0
+            }
+            console.log('gap:', gap, align, node.scrollWidth, maxSize(node, options.vertical));
+            childs.forEach((c, i) => console.log(i, c.offsetLeft, c.offsetWidth));
 
             if (PARENT) {
                 css(PARENT, { outline: 'none' });
@@ -131,7 +142,7 @@ export function slidy(
         options.index = find.index(node, position, undefined, options.vertical, align);
 
         direction = Math.sign(pos); // back << -1 | 1 >> forward
-        const max = maxSize(node, options.vertical);
+        // const max = maxSize(node, options.vertical);
         const active = {
             pos: find.position(node, options.index, options.vertical, align),
             size: find.size(node, options.index, options.vertical),
@@ -148,16 +159,16 @@ export function slidy(
                 //     options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                 // else options.gravity = gravity;
                 // console.log(direction);
-                if (position >= max - active.size && direction >= 0) {
+                if (position >= amp.max - active.size && direction >= 0) {
                     // options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     align = 'end';
                     // pos -= 10
-                } else if (position <= -max + active.size && direction <= 0) {
+                } else if (position <= -amp.max + active.size && direction <= 0) {
                     // options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     align = 'start';
                     // pos += 10
                 } else {
-                    align = halign;
+                    align = 'center';
                     // options.gravity = gravity
                 }
             }
@@ -209,7 +220,7 @@ export function slidy(
                     ? 'start'
                     : options.index === node.children.length - 1
                         ? 'end'
-                        : halign;
+                        : 'center';
         }
         // hix = loop ? hix : index
         const child = find.child(node, options.index);
@@ -252,7 +263,7 @@ export function slidy(
 
                 move({ pos: options.loop ? delta / 27 : -dist });
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
-                if (options.loop && Math.abs(delta) < 5) to(options.index);
+                if (options.loop && Math.abs(delta) < 100) to(options.index);
                 else if (
                     !options.loop &&
                     Math.abs(delta) < 100 &&
@@ -289,13 +300,12 @@ export function slidy(
 
         const { target, amplitude } = delting(position);
 
-        // const direction = Math.sign(position);
         console.log(direction);
-        if (Math.abs(amplitude) > 10)
+        if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
                 (!options.loop &&
-                    ((options.index === index.first && direction < 0) ||
-                        (options.index === index.last && direction > 0)))
+                    ((options.index === indx.min && direction < 0) ||
+                        (options.index === indx.max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
@@ -305,6 +315,7 @@ export function slidy(
                         duration: options.duration,
                         timestamp: performance.now(),
                     });
+        } else to(options.index)
     }
 
     function delting(position: number): Delta {
@@ -365,7 +376,7 @@ export function slidy(
     function clear(): void {
         // hip = position
         // frame = position
-        // hix = wheeling || toing ? hix : options.index;
+        hix = wheeling || toing ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);

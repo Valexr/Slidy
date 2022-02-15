@@ -238,7 +238,7 @@
         ul {
             display: flex;
             align-items: center;
-            justify-content: center;
+            // justify-content: start;
             list-style: none;
             margin: 0;
             border: 0;
@@ -274,6 +274,8 @@
         position: relative;
         touch-action: pan-y;
         will-change: transform;
+        width: auto;
+        flex-shrink: 0;
         li {
             flex: 1 0 auto;
             position: relative;
@@ -320,7 +322,7 @@
         bottom: 0;
         height: 50px;
         padding: 0;
-        width: 100%;
+        width: auto;
     }
     .slidy.vertical .slidy-dots {
         bottom: auto;

@@ -46,17 +46,16 @@ const align = (node: HTMLElement, vertical: boolean): string => {
     return distance(node, 0, vertical) < maxSize(node, vertical)
         ? 'start'
         : distance(node, 0, vertical) >= maxSize(node, vertical) &&
-          distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
-          maxSize(node, vertical) !== 0
-        ? 'center'
-        : 'end';
+            distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
+            maxSize(node, vertical) !== 0
+            ? 'center'
+            : 'end';
 };
-const gap = (node: HTMLElement, vertical: boolean) =>
-    align(node, vertical) === 'start'
-        ? distance(node, 1, vertical) - nodes(node)[0][size(vertical)]
-        : distance(node, 0, vertical) -
-          distance(node, 1, vertical) -
-          nodes(node)[0][size(vertical)];
+const gap = (node: HTMLElement, vertical: boolean) => {
+    const last = nodes(node).length - 1
+    const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)]
+    return distance(node, last, vertical) - prev
+}
 
 function closest({
     node,

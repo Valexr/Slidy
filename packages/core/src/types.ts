@@ -1,4 +1,4 @@
-export type Options = {
+export interface Options {
     index: number;
     gravity: number;
     duration: number;
@@ -7,6 +7,8 @@ export type Options = {
     snap: boolean;
     loop: boolean;
 };
+
+type OptionsSnap = 'auto' | 'start' | 'center' | 'end' | ''
 
 export interface Step {
     i: number;
