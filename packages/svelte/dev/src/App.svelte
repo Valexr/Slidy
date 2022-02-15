@@ -150,11 +150,15 @@
     $: width = !images ? '50%' : 'auto';
     $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     $: if (globalThis.window) {
-        document.documentElement.setAttribute('scheme', dark ? 'dark' : 'light');
+        document.documentElement.setAttribute(
+            'scheme',
+            dark ? 'dark' : 'light'
+        );
     }
 
-    const loadPhotos = async (limit: number, page: number) => await getPhotos({ limit, page });
-    const switchTheme = () => dark = !dark;
+    const loadPhotos = async (limit: number, page: number) =>
+        await getPhotos({ limit, page });
+    const switchTheme = () => (dark = !dark);
     const shuffle = () => (page = randInt(0, 90));
 </script>
 
