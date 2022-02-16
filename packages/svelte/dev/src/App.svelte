@@ -138,9 +138,9 @@
     let vertical = false;
     let clamp = true;
     let align: 'start' | 'middle' | 'end' = 'middle';
-    let duration = 375;
+    let duration = 450;
     let stend = false;
-    let gravity = 1.2;
+    let gravity = 1.45;
     let width = 'auto';
     let snap = true;
     let images = true;
