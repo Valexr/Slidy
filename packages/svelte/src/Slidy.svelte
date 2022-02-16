@@ -238,7 +238,7 @@
         ul {
             display: flex;
             align-items: center;
-            // justify-content: start;
+            justify-content: center;
             list-style: none;
             margin: 0;
             border: 0;
@@ -274,8 +274,6 @@
         position: relative;
         touch-action: pan-y;
         will-change: transform;
-        width: auto !important;
-        flex-shrink: 0;
         li {
             flex: 1 0 auto;
             position: relative;
