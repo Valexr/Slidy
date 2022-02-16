@@ -110,7 +110,8 @@ export function slidy(
                 pointerEvents: 'none',
                 willChange: 'auto',
                 webkitUserSelect: 'none',
-                position: 'absolute'
+                // width: '100%'
+                // position: 'absolute'
                 // transitionProperty: 'transform'
             };
             css(node, styles);

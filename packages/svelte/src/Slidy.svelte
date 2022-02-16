@@ -274,7 +274,7 @@
         position: relative;
         touch-action: pan-y;
         will-change: transform;
-        width: auto;
+        width: auto !important;
         flex-shrink: 0;
         li {
             flex: 1 0 auto;
