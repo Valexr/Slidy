@@ -133,8 +133,8 @@
     let slides: Slide[] = [];
     let position = 0;
     let page = randInt(0, 90);
-    let limit = 5;
-    let index = 0;
+    let limit = 9;
+    let index = 4;
     let vertical = false;
     let clamp = true;
     let align: 'start' | 'middle' | 'end' = 'middle';
@@ -166,6 +166,7 @@
     main {
         --slidy-height: 450px;
         --slidy-nav-item-color: red;
+        height: var(--slidy-height);
     }
 
     #dots {

@@ -213,8 +213,8 @@ export function slidy(
                 options.index === indx.min && position <= amp.min + active.size
                     ? 'start'
                     : options.index === indx.max && position >= amp.max - active.size
-                    ? 'end'
-                    : 'center';
+                        ? 'end'
+                        : 'center';
         }
         // hix = loop ? hix : index
         const child = find.child(node, options.index);
@@ -227,8 +227,8 @@ export function slidy(
                 ? find.target(node, target, options.vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, options.vertical, align);
+                ? 0
+                : find.position(node, ix, options.vertical, align);
 
         move({ pos: pos - position, transition: options.duration });
     }
@@ -237,11 +237,6 @@ export function slidy(
         RAF(function track(time: number) {
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
             velocity = maxMin(2, 0, 2 - options.gravity) * v + 0.2 * velocity;
-            // velocity = maxMin(
-            //     find.position(node, index.last, options.vertical, align),
-            //     -find.position(node, index.last, options.vertical, align),
-            //     velocity
-            // );
             timestamp = time;
             frame = position;
             rak = RAF(track);
@@ -298,22 +293,23 @@ export function slidy(
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100
                 ? // ||
-                  //     (!options.loop &&
-                  //         ((options.index === indx.min && direction < 0) ||
-                  //             (options.index === indx.max && direction > 0)))
-                  to(options.index)
+                //     (!options.loop &&
+                //         ((options.index === indx.min && direction < 0) ||
+                //             (options.index === indx.max && direction > 0)))
+                to(options.index)
                 : options.clamp
-                ? to(options.index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration: options.duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(options.index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration: options.duration,
+                        timestamp: performance.now(),
+                    });
         } else to(options.index);
     }
 
     function delting(position: number): Delta {
+        // velocity = maxMin(amp.max, amp.min, velocity);
         let amplitude = (2 - options.gravity) * velocity;
         const target = options.snap
             ? find.target(node, position + amplitude, options.vertical, align)
@@ -371,7 +367,7 @@ export function slidy(
     function clear(): void {
         // hip = position
         // frame = position
-        hix = wheeling || toing ? hix : options.index;
+        // hix = wheeling || toing ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
