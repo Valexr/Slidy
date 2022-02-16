@@ -110,7 +110,8 @@ export function slidy(
                 pointerEvents: 'none',
                 willChange: 'auto',
                 webkitUserSelect: 'none',
-                position: 'absolute'
+                // width: '100%'
+                // position: 'absolute'
                 // transitionProperty: 'transform'
             };
             css(node, styles);
@@ -183,7 +184,7 @@ export function slidy(
 
         const styles = {
             transform: `translate3d(${translate(options.vertical)})`,
-            transition: `${transition}ms`,
+            transition: `transform ${transition}ms`,
         };
 
         css(node, styles);

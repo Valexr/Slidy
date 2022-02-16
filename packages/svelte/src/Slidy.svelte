@@ -2,7 +2,7 @@
     aria-roledescription="carousel"
     tabindex="0"
     {id}
-    class={`slidy ${className ? className : ""}`}
+    class={`slidy ${className ? className : ''}`}
     class:vertical
     on:click={handleClick}
 >
@@ -22,7 +22,7 @@
             index,
             loop,
             snap,
-            vertical
+            vertical,
         }}
         on:mount={(e) => console.log(e)}
         on:move={(e) => {
@@ -44,7 +44,7 @@
                 aria-roledescription="slide"
                 aria-label={`${i} of ${slides.length}`}
                 role="group"
-                aria-current={i === index ? "true" : undefined}
+                aria-current={i === index ? 'true' : undefined}
             >
                 <slot {item}>
                     {#if !background}
@@ -312,7 +312,7 @@
         grid-area: next-slide;
         transform: rotate(180deg);
     }
-    
+
     /* controls: dots */
 
     .slidy-nav {
