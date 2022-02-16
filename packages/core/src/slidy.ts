@@ -184,7 +184,7 @@ export function slidy(
 
         const styles = {
             transform: `translate3d(${translate(options.vertical)})`,
-            transition: `${transition}ms`,
+            transition: `transform ${transition}ms`,
         };
 
         css(node, styles);
