@@ -1,30 +1,21 @@
 <div align="center">
     <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="npm package version" src="https://badgen.net/npm/v/@slidy/svelte" />
+        <img alt="npm package version" src="https://img.shields.io/npm/v/@slidy/svelte?style=flat-square" />
     </a>
     <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="types included" src="https://badgen.net/npm/types/@slidy/svelte" />
+        <img alt="types included" src="https://img.shields.io/npm/types/@slidy/svelte?style=flat-square" />
     </a>
     <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="downloads count" src="https://badgen.net/npm/dt/@slidy/svelte" />
+        <img alt="downloads count" src="https://img.shields.io/npm/dm/@slidy/svelte?style=flat-square" />
     </a>
     <a href="https://www.npmjs.com/package/@slidy/svelte">
-        <img alt="licence" src="https://badgen.net/npm/license/@slidy/svelte" />
+        <img alt="licence" src="https://img.shields.io/npm/l/@slidy/svelte?style=flat-square" />
     </a>
-</div>
-
-<div align="center">
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="minified size" src="https://badgen.net/bundlephobia/min/@slidy/svelte/" />
-    </a>
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
+    <a href="https://img.shields.io/bundlephobia/minzip/@slidy/svelte?style=flat-square">
         <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/svelte/" />
     </a>
     <a href="https://bundlephobia.com/package/@slidy/svelte">
         <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/svelte/" />
-    </a>
-    <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="tree-shaking" src="https://badgen.net/bundlephobia/tree-shaking/@slidy/svelte/" />
     </a>
 </div>
 
@@ -39,7 +30,7 @@ Try the [demo](https://valexr.github.io/Slidy).
 The package is available via [npm](https://www.npmjs.com/package/@slidy/svelte):
 
 ```
-npm i svelte-slidy
+npm i @slidy/svelte
 ```
 
 REPL is available
@@ -47,167 +38,291 @@ REPL is available
 
 ## Usage
 
-To use `Slidy` use named import. The only required props are `slides` - an array
-of objects with image related data:
+`Slidy` component is available via named import. All props are optional. The only props required to get started are `slides` - an array of objects with image related data:
 
 ```svelte
-<Slidy {slides} />
-
 <script>
     import { Slidy } from 'svelte-slidy';
 
     const slides = [
         {
             id: 1,
+            width: 800,
+            height: 1200,
             src: 'static/img/some-image.webp',
         },
     ];
 </script>
+
+<Slidy {slides} />
 ```
 
-## Options
+## API
 
-Component's behaviour can be customized with object. All settings are broken
-into 4 categories. Most of the options are self-explanatory. Each `Slidy`
-instance should have it's own options.
+<details>
+    <summary>
+        <code>
+            align = "center"
+        </code>
+    </summary>
 
-Example with all available options and their default values:
+Controls the position of the `snap` points to align the slides after the scrolling operation has completed.
+</details>
+
+<details>
+    <summary>
+        <code>
+            background = false
+        </code>
+    </summary>
+
+Instead of creating `<img />` HTML tags for slide images, uses CSS `background-image` property.
+</details>
+
+<details>
+    <summary>
+        <code>
+            clamp = false
+        </code>
+    </summary>
+
+Controls the inertia of the scrolling between the slides.
+</details>
+
+<details>
+    <summary>
+        <code>
+            className = undefined
+        </code>
+    </summary>
+
+Sets the `class` on the parent node.
+</details>
+
+<details>
+    <summary>
+        <code>
+            arrows = true
+        </code>
+    </summary>
+
+Renders the `arrow` button controls for accessible slide management. Removing the controls is not recommened for accessibility.
+</details>
+
+<details>
+    <summary>
+        <code>
+            navigation = true
+        </code>
+    </summary>
+
+Renders the navigation controls for pagination-like slide management.
+</details>
+
+<details>
+    <summary>
+        <code>
+            duration = 450
+        </code>
+    </summary>
+
+The duration value for slide transitions.
+</details>
+
+<details>
+    <summary>
+        <code>
+            gravity = 1.2
+        </code>
+    </summary>
+
+Controls the `gravity` value for more granular control over inertia of the scrolling operation.
+</details>
+
+<details>
+    <summary>
+        <code>
+            id = undefined
+        </code>
+    </summary>
+
+Sets the `id` attribute on component's parent node.
+</details>
+
+<details>
+    <summary>
+        <code>
+            getImgSrc = item => item.src
+        </code>
+    </summary>
+
+The slide's `src` attribute builder function. Useful, when the `src` is build from metadata, like an `url`.
+</details>
+
+<details>
+    <summary>
+        <code>
+            index = 0
+        </code>
+    </summary>
+
+Stores the index of the current slide. Usefull with binding for external controls. More at [External Controls](#external-controls).
+</details>
+
+<details>
+    <summary>
+        <code>
+            loop = false
+        </code>
+    </summary>
+
+Makes the slideshow continious. Not recommended for better performance.
+</details>
+
+<details>
+    <summary>
+        <code>
+            position = 0
+        </code>
+    </summary>
+
+Stores the current position value of the carousel. Usefull with binding for external controls. More at [External Controls](#external-controls).
+</details>
+
+<details>
+    <summary>
+        <code>
+            slides = []
+        </code>
+    </summary>
+
+An array of objects with slide image related metadata such as `src`, `alt`, etc.
+</details>
+
+<details>
+    <summary>
+        <code>
+            snap = true
+        </code>
+    </summary>
+
+Enforces the scroll positions that a scroll container's scrollport may end after a scrolling operation has completed.
+</details>
+
+<details>
+    <summary>
+        <code>
+            vertical = false
+        </code>
+    </summary>
+
+Sets the carousel into the vertical orientation.
+</details>
+
+## Custom Properties API
+
+For easier style customization `Slidy` provides a set of predefined custom properties to inherit.
+
+For example, to recolor pagination controls, let the component inherit a `--slidy-navigation-color` custom property from any parent:
 
 ```svelte
-<Slidy {...options} />;
-
 <script>
-    import { Slidy } from 'svelte-slidy';
-
-    const options = {
-        slides: [],
-        key: (item) => item.id || item[slide.imgsrckey],
-        wrap: {
-            id: '',
-            width: '100%',
-            height: '50%',
-            padding: '0',
-            align: 'middle',
-            alignmargin: 50,
-        },
-        slide: {
-            gap: 50,
-            class: '',
-            width: '50%',
-            height: '100%',
-            backimg: true,
-            imgsrckey: 'src',
-            objectfit: 'cover',
-            overflow: 'hidden',
-        },
-        controls: {
-            dots: true,
-            dotsnum: true,
-            dotsarrow: true,
-            dotspure: false,
-            arrows: true,
-            keys: true,
-            drag: true,
-            wheel: true,
-        },
-        options: {
-            axis: 'x',
-            loop: false,
-            duration: 550,
-        },
-    };
+    import { Slidy } from "@slidy/svelte";
 </script>
-```
 
-## Custom styling
-
-To customize default `Slidy` nodes markup styles, provide an `id` use
-`:global()` to get necessary specifity.
-
-```svelte
-<Slidy {...options} />
-
-<script>
-    import { Slidy } from 'svelte-slidy';
-
-    const options = {
-        slides: [],
-        id: 'slidy-id',
-    };
-</script>
+<div class="parent">
+    <Slidy />
+</div>
 
 <style>
-    :global(#slidy-id) {
-        /* your CSS styling */
+    .parent {
+        --slidy-navigation-color: red;
     }
 </style>
 ```
 
-`Slidy`'s markup structure with it's classes:
+List of available custom properties:
+
+- `--slidy-height: 100%;`
+- `--slidy-width: 100%;`
+- `--slidy-slide-gap: 1rem;`
+- `--slidy-slide-height: 100%;`
+- `--slidy-slide-width: auto;`
+- `--slidy-slide-object-fit: cover;`
+- `--slidy-navigation-size: 12px;`
+- `--slidy-navigation-color: white;`
+- `--slidy-arrow-size: 24px;`
+
+## Overriding the styles
+
+In cases where the custom properties are not enough, Svelte provides a `:global()` modifier. To customize default `Slidy`  markup styles, provide an `id` or `className`  attribute and use `:global()` modifier to get necessary specifity.
 
 ```svelte
-<section id="yours custom #id" class="slidy">
-    <ul class="slidy-ul">
-        <!-- slides node -->
+<script>
+    import { Slidy } from 'svelte-slidy';
+
+    export let id = "unique-id";
+</script>
+
+<Slidy {id} />
+
+<style>
+    :global(#unique-id) {
+        /* your CSS styles */
+    }
+</style>
+```
+
+To target specific parts of the markup, use the component's internal markup classes:
+
+```html
+<section class="slidy">
+    <output class="slidy-counter">
+        <!-- slide counter -->
+    </output>
+    <ul class="slidy-slides">
+        <li class="slidy-slide">
+            <!-- slide -->
+        </li>
     </ul>
-    <button class="arrow-left">
+    <button class="slidy-arrow left">
         <!-- previous slide control node -->
     </button>
-    <button class="arrow-right">
+    <button class="slidy-arrow right">
         <!-- next slide control node -->
     </button>
-    <ul class="slidy-dots">
-        <li class="dots-arrow-left">
-            <!-- next slide dots control node -->
-        </li>
-        <li>
-            <!-- dots node -->
-        </li>
-        <li class="dots-arrow-left">
-            <!-- previous slide dots control node -->
-        </li>
+    <fieldset class="slidy-navigation">
+        <!-- slidy dot controls -->
+        <button class="slidy-navigation-item" />
     </ul>
 </section>
 ```
 
-For example, to override styles of specific section, use the classes described
-above:
+For example, to override styles of specific section, use the classes described above:
 
 ```svelte
 <style>
-    :global('slidy-instance-id' .dots-arrow-left) {
+    :global(.slidy .slidy-arrow) {
         /* your custom CSS styles */
     }
 </style>
 ```
 
-## External controls
+## Slots
 
-It is possible to control `Slidy` instance from parent component. Declare the
-variable to hold the index and bind it to the `Slidy` instance to control the
-slides navigation.
+Available `slot` names:
 
-```svelte
-<button on:click={() => (index += 1)}> Next slide </button>
+<details>
+    <summary>
+        <code>
+            default
+        </code>
+    </summary>
 
-<Slidy bind:index slides />
-
-<script>
-    import { Slidy } from 'svelte-slidy';
-
-    const slides = [];
-
-    let index = 0;
-</script>
-```
-
-## Custom slides
-
-Sometimes the default markup is not enough. For custom slides markup use
-`let:item` directive:
+Usually the default markup is not enough. The `default` slot solves this problem. To use custom slide markup slot expose each `slides` prop item as `let:item` directive.
 
 ```svelte
-<Slidy slides let:item>
+<Slidy let:item>
     <figure>
         <img src={item.src} alt={item.figcaption} />
         <figcaption>
@@ -215,68 +330,94 @@ Sometimes the default markup is not enough. For custom slides markup use
         </figcaption>
     </figure>
 </Slidy>
-
-<script>
-    import { Slidy } from 'svelte-slidy';
-
-    const slides = [
-        {
-            id: 1,
-            src: '/img.webp',
-            figcaption: 'Some text here',
-        },
-    ];
-</script>
 ```
+</details>
 
-## Custom nodes
+<details>
+    <summary>
+        <code>
+            counter
+        </code>
+    </summary>
 
-`Slidy` supports customization of it's nodes via slots:
-
--   `<slot />` for slides;
--   `<slot name="loader" />` for loading indicator;
--   `<slot name="arrow-left">` for the previous slide control;
--   `<slot name="arrow-right">` for the next slide control;
--   `<slot name="dots-arrow-left">` for previous slide control at dots;
--   `<slot name="dots-arrow-right">` for next slide control at dots;
--   `<slot name="dots">` for custom dots controls.
-
-Example:
+Custom counter slot. To indicate the progress, component provide `index` and `amount` props:
 
 ```svelte
-<Slidy slides>
-    <!-- custom dots indicators -->
-    <button slot="dot" />
+<Slidy let:index let:amount>
+    <output slot="counter">
+        {index / amount}%
+    </output>
 </Slidy>
-
-<script>
-    import { Slidy } from 'svelte-slidy';
-
-    const slides = [];
-</script>
 ```
+</details>
 
-### SvelteKit
+<details>
+    <summary>
+        <code>
+            arrow-prev (arrow-next)
+        </code>
+    </summary>
 
-> Important note: slots are [not SSR compatible](https://github.com/Valexr/slidy/issues/21) yet.
-> Check if the code runs in the browser before render.
-
-Example for `svelte\kit` users:
+Provides a slot for custom button contents the *previous* and *next* slide controls, like icons for example.
 
 ```svelte
-{#if browser}
-    <Slidy slides>
-        <!-- custom dots indicators -->
-        <button slot="dot" />
-    </Slidy>
-{/if}
+<Slidy>
+    <svg slot="arrow-prev" />
+    <svg slot="arrow-next" />
+</Slidy>
+```
+</details>
 
+<details>
+    <summary>
+        <code>
+            nav-item
+        </code>
+    </summary>
+
+Provides a slot for custom pagination buttons.
+Slot receives optional `index` and `active` props for proper functionality.
+
+Custom navigation item should be a `<button />` and have `data-index` attribute to function. Otherwise, control the component [externally](#external-controls).
+
+```svelte
+<Slidy let:active let:index>
+    <button
+        slot="nav-item"
+        data-index={index}
+        {active}
+        {index}
+    />
+</Slidy>
+```
+</details>
+
+## External controls
+
+It is possible to control the navigation of the `Slidy` instance from the parent component via binding.
+
+There are two variables available to control the component externally: `index` and `position`. Declare the variables to hold the values and bind them to the instance for the carousel control.
+
+```svelte
 <script>
     import { Slidy } from 'svelte-slidy';
-    import { browser } from '$app/env';
 
-    const slides = [];
+    let index = 0;
+    let position = 0;
 </script>
+
+<button on:click={() => index += 1}>
+    Next slide
+</button>
+
+<button on:click={() => position += 50}>
+    Move
+</button>
+
+<Slidy
+    bind:index
+    bind:position
+/>
 ```
 
 ## License
