@@ -47,8 +47,9 @@ export function slidy(
         // halign = align,
         direction = 0,
         amp = {
-            max: 0, min: 0
-        }
+            max: 0,
+            min: 0,
+        };
 
     const PARENT = node.parentElement;
     const listen = (
@@ -94,9 +95,8 @@ export function slidy(
 
     const indx = {
         min: 0,
-        max: node.children.length - 1
-    }
-
+        max: node.children.length - 1,
+    };
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
@@ -125,9 +125,15 @@ export function slidy(
             gravity = options.gravity;
             amp = {
                 max: maxSize(node, options.vertical),
-                min: 0
-            }
-            console.log('gap:', gap, align, node.scrollWidth, maxSize(node, options.vertical));
+                min: 0,
+            };
+            console.log(
+                'gap:',
+                gap,
+                align,
+                node.scrollWidth,
+                maxSize(node, options.vertical)
+            );
             childs.forEach((c, i) => console.log(i, c.offsetLeft, c.offsetWidth));
 
             if (PARENT) {
@@ -220,8 +226,8 @@ export function slidy(
                 options.index === 0
                     ? 'start'
                     : options.index === node.children.length - 1
-                        ? 'end'
-                        : 'center';
+                    ? 'end'
+                    : 'center';
         }
         // hix = loop ? hix : index
         const child = find.child(node, options.index);
@@ -234,8 +240,8 @@ export function slidy(
                 ? find.target(node, target, options.vertical, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, options.vertical, align);
+            ? 0
+            : find.position(node, ix, options.vertical, align);
 
         move({ pos: pos - position, transition: options.duration });
     }
@@ -304,19 +310,19 @@ export function slidy(
         console.log(direction);
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-                (!options.loop &&
-                    ((options.index === indx.min && direction < 0) ||
-                        (options.index === indx.max && direction > 0)))
+            (!options.loop &&
+                ((options.index === indx.min && direction < 0) ||
+                    (options.index === indx.max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                    ? to(options.index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration: options.duration,
-                        timestamp: performance.now(),
-                    });
-        } else to(options.index)
+                ? to(options.index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration: options.duration,
+                      timestamp: performance.now(),
+                  });
+        } else to(options.index);
     }
 
     function delting(position: number): Delta {

@@ -41,6 +41,8 @@ REPL is available
 `Slidy` component is available via named import. All props are optional. The only props required to get started are `slides` - an array of objects with image related data:
 
 ```svelte
+<Slidy {slides} />
+
 <script>
     import { Slidy } from 'svelte-slidy';
 
@@ -53,8 +55,6 @@ REPL is available
         },
     ];
 </script>
-
-<Slidy {slides} />
 ```
 
 ## API
@@ -67,6 +67,7 @@ REPL is available
     </summary>
 
 Controls the position of the `snap` points to align the slides after the scrolling operation has completed.
+
 </details>
 
 <details>
@@ -77,6 +78,7 @@ Controls the position of the `snap` points to align the slides after the scrolli
     </summary>
 
 Instead of creating `<img />` HTML tags for slide images, uses CSS `background-image` property.
+
 </details>
 
 <details>
@@ -87,6 +89,7 @@ Instead of creating `<img />` HTML tags for slide images, uses CSS `background-i
     </summary>
 
 Controls the inertia of the scrolling between the slides.
+
 </details>
 
 <details>
@@ -97,6 +100,7 @@ Controls the inertia of the scrolling between the slides.
     </summary>
 
 Sets the `class` on the parent node.
+
 </details>
 
 <details>
@@ -107,6 +111,7 @@ Sets the `class` on the parent node.
     </summary>
 
 Renders the `arrow` button controls for accessible slide management. Removing the controls is not recommened for accessibility.
+
 </details>
 
 <details>
@@ -117,6 +122,7 @@ Renders the `arrow` button controls for accessible slide management. Removing th
     </summary>
 
 Renders the navigation controls for pagination-like slide management.
+
 </details>
 
 <details>
@@ -127,6 +133,7 @@ Renders the navigation controls for pagination-like slide management.
     </summary>
 
 The duration value for slide transitions.
+
 </details>
 
 <details>
@@ -137,6 +144,7 @@ The duration value for slide transitions.
     </summary>
 
 Controls the `gravity` value for more granular control over inertia of the scrolling operation.
+
 </details>
 
 <details>
@@ -147,6 +155,7 @@ Controls the `gravity` value for more granular control over inertia of the scrol
     </summary>
 
 Sets the `id` attribute on component's parent node.
+
 </details>
 
 <details>
@@ -157,6 +166,7 @@ Sets the `id` attribute on component's parent node.
     </summary>
 
 The slide's `src` attribute builder function. Useful, when the `src` is build from metadata, like an `url`.
+
 </details>
 
 <details>
@@ -167,6 +177,7 @@ The slide's `src` attribute builder function. Useful, when the `src` is build fr
     </summary>
 
 Stores the index of the current slide. Usefull with binding for external controls. More at [External Controls](#external-controls).
+
 </details>
 
 <details>
@@ -177,6 +188,7 @@ Stores the index of the current slide. Usefull with binding for external control
     </summary>
 
 Makes the slideshow continious. Not recommended for better performance.
+
 </details>
 
 <details>
@@ -187,6 +199,7 @@ Makes the slideshow continious. Not recommended for better performance.
     </summary>
 
 Stores the current position value of the carousel. Usefull with binding for external controls. More at [External Controls](#external-controls).
+
 </details>
 
 <details>
@@ -197,6 +210,7 @@ Stores the current position value of the carousel. Usefull with binding for exte
     </summary>
 
 An array of objects with slide image related metadata such as `src`, `alt`, etc.
+
 </details>
 
 <details>
@@ -207,6 +221,7 @@ An array of objects with slide image related metadata such as `src`, `alt`, etc.
     </summary>
 
 Enforces the scroll positions that a scroll container's scrollport may end after a scrolling operation has completed.
+
 </details>
 
 <details>
@@ -217,6 +232,7 @@ Enforces the scroll positions that a scroll container's scrollport may end after
     </summary>
 
 Sets the carousel into the vertical orientation.
+
 </details>
 
 ## Custom Properties API
@@ -226,13 +242,13 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 For example, to recolor pagination controls, let the component inherit a `--slidy-navigation-color` custom property from any parent:
 
 ```svelte
-<script>
-    import { Slidy } from "@slidy/svelte";
-</script>
-
 <div class="parent">
     <Slidy />
 </div>
+
+<script>
+    import { Slidy } from '@slidy/svelte';
+</script>
 
 <style>
     .parent {
@@ -243,28 +259,28 @@ For example, to recolor pagination controls, let the component inherit a `--slid
 
 List of available custom properties:
 
-- `--slidy-height: 100%;`
-- `--slidy-width: 100%;`
-- `--slidy-slide-gap: 1rem;`
-- `--slidy-slide-height: 100%;`
-- `--slidy-slide-width: auto;`
-- `--slidy-slide-object-fit: cover;`
-- `--slidy-navigation-size: 12px;`
-- `--slidy-navigation-color: white;`
-- `--slidy-arrow-size: 24px;`
+-   `--slidy-height: 100%;`
+-   `--slidy-width: 100%;`
+-   `--slidy-slide-gap: 1rem;`
+-   `--slidy-slide-height: 100%;`
+-   `--slidy-slide-width: auto;`
+-   `--slidy-slide-object-fit: cover;`
+-   `--slidy-navigation-size: 12px;`
+-   `--slidy-navigation-color: white;`
+-   `--slidy-arrow-size: 24px;`
 
 ## Overriding the styles
 
-In cases where the custom properties are not enough, Svelte provides a `:global()` modifier. To customize default `Slidy`  markup styles, provide an `id` or `className`  attribute and use `:global()` modifier to get necessary specifity.
+In cases where the custom properties are not enough, Svelte provides a `:global()` modifier. To customize default `Slidy` markup styles, provide an `id` or `className` attribute and use `:global()` modifier to get necessary specifity.
 
 ```svelte
+<Slidy {id} />
+
 <script>
     import { Slidy } from 'svelte-slidy';
 
-    export let id = "unique-id";
+    export let id = 'unique-id';
 </script>
-
-<Slidy {id} />
 
 <style>
     :global(#unique-id) {
@@ -331,6 +347,7 @@ Usually the default markup is not enough. The `default` slot solves this problem
     </figure>
 </Slidy>
 ```
+
 </details>
 
 <details>
@@ -349,6 +366,7 @@ Custom counter slot. To indicate the progress, component provide `index` and `am
     </output>
 </Slidy>
 ```
+
 </details>
 
 <details>
@@ -358,7 +376,7 @@ Custom counter slot. To indicate the progress, component provide `index` and `am
         </code>
     </summary>
 
-Provides a slot for custom button contents the *previous* and *next* slide controls, like icons for example.
+Provides a slot for custom button contents the _previous_ and _next_ slide controls, like icons for example.
 
 ```svelte
 <Slidy>
@@ -366,6 +384,7 @@ Provides a slot for custom button contents the *previous* and *next* slide contr
     <svg slot="arrow-next" />
 </Slidy>
 ```
+
 </details>
 
 <details>
@@ -382,14 +401,10 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 
 ```svelte
 <Slidy let:active let:index>
-    <button
-        slot="nav-item"
-        data-index={index}
-        {active}
-        {index}
-    />
+    <button slot="nav-item" data-index={index} {active} {index} />
 </Slidy>
 ```
+
 </details>
 
 ## External controls
@@ -399,25 +414,18 @@ It is possible to control the navigation of the `Slidy` instance from the parent
 There are two variables available to control the component externally: `index` and `position`. Declare the variables to hold the values and bind them to the instance for the carousel control.
 
 ```svelte
+<button on:click={() => (index += 1)}> Next slide </button>
+
+<button on:click={() => (position += 50)}> Move </button>
+
+<Slidy bind:index bind:position />
+
 <script>
     import { Slidy } from 'svelte-slidy';
 
     let index = 0;
     let position = 0;
 </script>
-
-<button on:click={() => index += 1}>
-    Next slide
-</button>
-
-<button on:click={() => position += 50}>
-    Move
-</button>
-
-<Slidy
-    bind:index
-    bind:position
-/>
 ```
 
 ## License

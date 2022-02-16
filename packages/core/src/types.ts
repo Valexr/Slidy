@@ -6,9 +6,9 @@ export interface Options {
     clamp: boolean;
     snap: boolean;
     loop: boolean;
-};
+}
 
-type OptionsSnap = 'auto' | 'start' | 'center' | 'end' | ''
+type OptionsSnap = 'auto' | 'start' | 'center' | 'end' | '';
 
 export interface Step {
     i: number;
