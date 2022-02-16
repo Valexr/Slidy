@@ -3,14 +3,12 @@ import type { Delta, Options, Scroll } from './types';
 import {
     find,
     indexing,
-    // rotate,
     replace,
     prev,
     next,
     maxMin,
     css,
     dispatch,
-    // maxSize,
     coordinate,
     maxSize,
 } from './utils';
@@ -97,6 +95,10 @@ export function slidy(
         min: 0,
         max: node.children.length - 1,
     };
+    let active = {
+        pos: find.position(node, options.index, options.vertical, align),
+        size: find.size(node, options.index, options.vertical),
+    };
 
     onMounted(node)
         .then((childs: HTMLCollection) => {
@@ -120,21 +122,16 @@ export function slidy(
             replace(node, options.index, options.loop);
             to(options.index);
 
-            // align = halign = find.align(node, options.vertical);
-            // align = 'center'
             gravity = options.gravity;
             amp = {
-                max: maxSize(node, options.vertical),
-                min: 0,
+                max: find.position(node, indx.max, options.vertical, 'end'),
+                min: find.position(node, indx.min, options.vertical, 'start'),
             };
-            console.log(
-                'gap:',
-                gap,
-                align,
-                node.scrollWidth,
-                maxSize(node, options.vertical)
+
+            console.info('gap:', gap, align, amp);
+            Array.from(childs).forEach((c, i) =>
+                console.log(i, c.offsetLeft, c.offsetWidth)
             );
-            childs.forEach((c, i) => console.log(i, c.offsetLeft, c.offsetWidth));
 
             if (PARENT) {
                 css(PARENT, { outline: 'none' });
@@ -149,28 +146,18 @@ export function slidy(
         options.index = find.index(node, position, undefined, options.vertical, align);
 
         direction = Math.sign(pos); // back << -1 | 1 >> forward
-        // const max = maxSize(node, options.vertical);
-        const active = {
+        active = {
             pos: find.position(node, options.index, options.vertical, align),
             size: find.size(node, options.index, options.vertical),
         };
-        const aligned = direction > 0 ? 'end' : 'start';
-        // console.log('active:', active.pos, max * direction)
 
         function positioning(position: number) {
             if (!options.loop) {
-                // if (
-                //     (options.index === 0 && direction < 0) ||
-                //     (options.index === node.children.length - 1 && direction > 0)
-                // )
-                //     options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
-                // else options.gravity = gravity;
-                // console.log(direction);
                 if (position >= amp.max - active.size && direction >= 0) {
                     // options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     align = 'end';
                     // pos -= 10
-                } else if (position <= -amp.max + active.size && direction <= 0) {
+                } else if (position <= amp.min + active.size && direction <= 0) {
                     // options.gravity = maxMin(1.8, 0, options.gravity + 0.05);
                     align = 'start';
                     // pos += 10
@@ -223,9 +210,9 @@ export function slidy(
 
         if (!options.loop) {
             align =
-                options.index === 0
+                options.index === indx.min && position <= amp.min + active.size
                     ? 'start'
-                    : options.index === node.children.length - 1
+                    : options.index === indx.max && position >= amp.max - active.size
                     ? 'end'
                     : 'center';
         }
@@ -309,11 +296,12 @@ export function slidy(
 
         console.log(direction);
         if (Math.abs(amplitude) > 10) {
-            Math.abs(velocity) < 100 ||
-            (!options.loop &&
-                ((options.index === indx.min && direction < 0) ||
-                    (options.index === indx.max && direction > 0)))
-                ? to(options.index)
+            Math.abs(velocity) < 100
+                ? // ||
+                  //     (!options.loop &&
+                  //         ((options.index === indx.min && direction < 0) ||
+                  //             (options.index === indx.max && direction > 0)))
+                  to(options.index)
                 : options.clamp
                 ? to(options.index, target)
                 : scroll({
@@ -393,7 +381,7 @@ export function slidy(
 
     // updater(options);
 
-    function updater(opts: Options): void {
+    function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
                 console.log(key);
@@ -427,7 +415,7 @@ export function slidy(
         listen(PARENT, parentEvents, false);
     }
     return {
-        update: (option) => updater({ ...options, ...option }),
+        update,
         destroy,
         to,
     };

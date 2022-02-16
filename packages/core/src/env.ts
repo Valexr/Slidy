@@ -13,7 +13,7 @@ function onMounted(node: HTMLElement): Promise<HTMLCollection> {
                 Array.from(node.children).forEach((c, i) => {
                     c.dataset.index = i;
                 });
-                resolve(node.childNodes);
+                resolve(node.children);
             } else if (count >= 69) {
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
