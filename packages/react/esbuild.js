@@ -2,20 +2,20 @@ import { build } from 'esbuild';
 import { derver } from 'derver';
 
 const DEV = process.argv.includes('--dev');
-const CORE = process.argv.includes('--core');
+const REACT = process.argv.includes('--react');
 
 const esbuildBase = {
     bundle: true,
     minify: true,
     sourcemap: false,
     legalComments: 'none',
-    entryPoints: ['src/slidy.ts'],
+    entryPoints: ['src/slidy.tsx'],
 };
 const derverConfig = {
-    dir: 'dev',
-    port: 3330,
+    dir: 'dev/public',
+    port: 3332,
     host: '0.0.0.0',
-    watch: ['dev', 'src'],
+    watch: ['dev/public', 'dev/src/', 'src', '../core/dist'],
 };
 
 if (DEV) {
@@ -28,21 +28,22 @@ if (DEV) {
         incremental: true,
         watch: true,
     }).then((bundle) => {
-        console.log('watching @slidy/core...');
+        console.log('watching @slidy/react...');
     });
-} else if (CORE) {
+} else if (REACT) {
     build({
-        ...esbuildBase,
+        entryPoints: ['dev/src/app.tsx'],
+        outfile: 'dev/public/build/bundle.js',
+        bundle: true,
         minify: false,
-        outfile: 'dev/dev.js',
-        globalName: 'Slidy',
-        format: 'iife',
+        sourcemap: 'inline',
         incremental: true,
+        legalComments: 'none',
     }).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev') {
+                if (item !== 'dev/public') {
                     lr.prevent();
                     bundle
                         .rebuild()

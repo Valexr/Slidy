@@ -1,0 +1,47 @@
+{
+    "name": "@slidy/react",
+    "version": "1.0.0",
+    "description": "Simple, configurable & reusable carousel component built with ReactJS",
+    "main": "dist/slidy.cjs",
+    "module": "dist/slidy.mjs",
+    "browser": "dist/slidy.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "dist/*"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/slidy.mjs",
+            "module": "./dist/slidy.mjs",
+            "require": "./dist/slidy.cjs",
+            "browser": "./dist/slidy.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "dev": "node esbuild --dev",
+        "dev:react": "node esbuild --react",
+        "dev:local": "pnpm dev:react --parallel --filter=@slidy/react...",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "build:local": "pnpm build -r --filter=@slidy/react...",
+        "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public"
+    },
+    "keywords": [
+        "React",
+        "ReactJs",
+        "Carousel",
+        "React-plugin"
+    ],
+    "author": "EricRovell",
+    "license": "MIT",
+    "devDependencies": {
+        "@slidy/core": "workspace:*",
+        "@types/react": "^17.0.39",
+        "@types/react-dom": "^17.0.11",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "typescript": "^4.5.5"
+    }
+}

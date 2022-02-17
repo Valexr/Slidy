@@ -210,9 +210,9 @@ export function slidy(
 
         if (!options.loop) {
             align =
-                options.index === indx.min && position <= amp.min + active.size
+                options.index === indx.min
                     ? 'start'
-                    : options.index === indx.max && position >= amp.max - active.size
+                    : options.index === indx.max
                         ? 'end'
                         : 'center';
         }
@@ -367,7 +367,7 @@ export function slidy(
     function clear(): void {
         // hip = position
         // frame = position
-        // hix = wheeling || toing ? hix : options.index;
+        hix = wheeling || toing ? hix : options.index;
         // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);

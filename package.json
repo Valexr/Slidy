@@ -9,10 +9,12 @@
         "dev:www": "pnpm dev --parallel --filter=slidy...",
         "dev:core": "pnpm dev:core --parallel",
         "dev:svelte": "pnpm dev:svelte --parallel",
+        "dev:react": "pnpm dev:react --parallel",
         "build": "node esbuild",
         "build:www": "pnpm build -r",
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
+        "build:react": "pnpm build --filter=@slidy/react",
         "format": "prettier --ignore-path .gitignore --write '**/*.{js,ts,md,json,html,css}'",
         "start": "npx derver --production --port=5555 www/public",
         "deploy": "pnpm build:www && gh-pages -d www/public",
@@ -57,7 +59,7 @@
     "devDependencies": {
         "@slidy/svelte": "workspace:*",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.21",
+        "esbuild": "^0.14.22",
         "esbuild-svelte": "^0.6.2",
         "gh-pages": "^3.2.3",
         "prettier": "^2.5.1",
@@ -65,6 +67,7 @@
         "sass": "^1.49.7",
         "svelte": "^3.46.4",
         "svelte-preprocess": "^4.10.3",
+        "tslib": "^2.3.1",
         "typescript": "^4.5.5"
     }
 }
