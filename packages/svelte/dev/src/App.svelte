@@ -2,9 +2,6 @@
     <legend>
         <img alt="Slidy" width="50" height="50" src="favicon.png" />
         <h1>Slidy {version.replace(/\.[^.]*$/, '')}<sup>svelteJS</sup></h1>
-        <button on:click={() => (stend = !stend)} class:active={stend}>
-            stend
-        </button>
         <button on:click={() => (images = !images)} class:active={images}>
             images
         </button>
@@ -140,7 +137,6 @@
     let clamp = true;
     let align: 'start' | 'middle' | 'end' = 'middle';
     let duration = 450;
-    let stend = false;
     let gravity = 1.45;
     let width = 'auto';
     let snap = true;
