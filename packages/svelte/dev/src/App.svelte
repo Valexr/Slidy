@@ -7,7 +7,7 @@
         <button on:click={() => (images = !images)} class:active={images}>
             images
         </button>
-        <button on:click={switchTheme} class:active={dark}>dark</button>
+        <button on:click={() => darkTheme.switch()} class:active={$darkTheme}>dark</button>
         <p>
             index: [<b>{index}</b>], position: <b>{Math.trunc(position)}</b>px
         </p>
@@ -15,13 +15,13 @@
 </fieldset>
 
 <main>
-    {#await loadPhotos(limit, page)}
+    {#await slidesPromise}
         loading...
-    {:then slides}
+    {:then}
         <Slidy
             bind:index
             bind:position
-            {slides}
+            slides={$slides}
             {clamp}
             {align}
             {duration}
@@ -33,21 +33,21 @@
     {/await}
 </main>
 
-<nav id="dots">
-    {#each { length: slides.length } as dot, i}
-        <button on:click={() => (index = i)} class:active={i === index}>
-            {i}
-        </button>&nbsp;
-    {/each}
-</nav>
+<fieldset class="controls-slides">
+    <legend>Slides</legend>
+    <button on:click={() => slides.remove()}>-</button>
+    <input type="number" bind:value={limit} min={1} max={15} />
+    <button on:click={() => slides.add()}>+</button>
+    <button on:click={() => slidesPromise = slides.init(limit)}>reset</button>
+</fieldset>
 
-<nav>
+<fieldset class="controls-modes">
     <button on:click={() => index--} disabled={!loop && !index}>←</button>
-    <button
+    <!-- <button
         on:click={() => index++}
         disabled={!loop && index === slides.length - 1}>→</button
-    >
-    <button on:click={shuffle}><i class="icon icon-refresh" /></button>
+    > -->
+    <!-- <button on:click={shuffle}><i class="icon icon-refresh" /></button> -->
     <button on:click={() => (vertical = !vertical)} class:active={vertical}
         >axisY</button
     >
@@ -55,10 +55,10 @@
     >
     <button on:click={() => (snap = !snap)} class:active={snap}>snap</button>
     <button on:click={() => (loop = !loop)} class:active={loop}>loop</button>
-</nav>
+</fieldset>
 
 <form>
-    <fieldset>
+    <fieldset class="controls-params">
         <label>
             width
             <input bind:value={width} size="5" width="auto" />
@@ -122,17 +122,15 @@
 </form>
 
 <script lang="ts" context="module">
-    import { getPhotos, randInt } from './scripts/api';
     import { name, version } from '../../package.json';
     import Slidy from '../../src/Slidy.svelte';
-
-    import type { Slide } from './types';
+    import { createSlidesStore } from "./scripts/slide-store";
 </script>
 
 <script lang="ts">
-    let slides: Slide[] = [];
+    import { darkTheme } from "./scripts/theme-store";
+
     let position = 0;
-    let page = randInt(0, 90);
     let limit = 9;
     let index = 4;
     let vertical = false;
@@ -147,19 +145,10 @@
     let loop = false;
     let gap = 15;
 
-    $: width = !images ? '50%' : 'auto';
-    $: dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    $: if (globalThis.window) {
-        document.documentElement.setAttribute(
-            'scheme',
-            dark ? 'dark' : 'light'
-        );
-    }
+    const slides = createSlidesStore();
+    let slidesPromise = slides.init(limit);
 
-    const loadPhotos = async (limit: number, page: number) =>
-        await getPhotos({ limit, page });
-    const switchTheme = () => (dark = !dark);
-    const shuffle = () => (page = randInt(0, 90));
+    $: width = !images ? '50%' : 'auto';
 </script>
 
 <style>
@@ -167,11 +156,6 @@
         --slidy-height: 450px;
         --slidy-nav-item-color: red;
         height: var(--slidy-height);
-    }
-
-    #dots {
-        display: flex;
-        overflow-x: scroll;
     }
 
     select {
@@ -195,48 +179,5 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
-    }
-
-    .icon::after,
-    .icon::before {
-        content: '';
-        display: block;
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .icon-refresh::after {
-        border: 0.2em solid currentColor;
-        border-top-color: currentcolor;
-        border-left-color: currentcolor;
-        border-left-color: transparent;
-        border-top-color: transparent;
-        height: 0;
-        left: 80%;
-        top: -0.25em;
-        width: 0;
-    }
-
-    .icon-refresh::before {
-        border: 0.12rem solid currentColor;
-        border-right-color: currentcolor;
-        border-radius: 50%;
-        border-right-color: transparent;
-        height: 0.75em;
-        width: 0.75em;
-    }
-
-    .icon {
-        box-sizing: border-box;
-        display: inline-block;
-        font-size: inherit;
-        font-style: normal;
-        height: auto;
-        position: relative;
-        text-indent: -9999px;
-        vertical-align: super;
-        width: 1em;
     }
 </style>
