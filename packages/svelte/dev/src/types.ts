@@ -4,7 +4,7 @@ export type { Slide } from '../../src/types';
 /**
  * Defines the `GetPhoto` params.
  */
-interface SlideParams {
+export interface SlideParams {
     limit?: number;
     page?: number;
     width?: number;
