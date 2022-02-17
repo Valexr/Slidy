@@ -75,7 +75,7 @@
             </slot>
         </button>
         <button
-            disabled={index === slides.length && !loop}
+            disabled={index === slides.length - 1 && !loop}
             class="slidy-arrow right"
             data-step="1"
             aria-label="Next slide"
