@@ -407,6 +407,81 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 
 </details>
 
+## Events
+
+The component forwards custom events:
+
+<details>
+    <summary>
+        <code>
+            mount
+        </code>
+    </summary>
+
+Fires a `mount` event when component is mounted to the DOM.
+
+```svelte
+<Slidy
+    on:mount={event => console.log(event)}
+/>
+```
+
+</details>
+
+<details>
+    <summary>
+        <code>
+            move
+        </code>
+    </summary>
+
+Fires a `move` event when on user navigation. Retuns the `index` and `position` values within `details` object.
+
+```svelte
+<Slidy
+    on:mount={event => {
+        const { index, position } = event.details;
+        console.log({ index, position });
+    }}
+/>
+```
+
+</details>
+
+<details>
+    <summary>
+        <code>
+            resize
+        </code>
+    </summary>
+
+Fires a `resize` event when the size of the component changes.
+
+```svelte
+<Slidy
+    on:resize={event => console.log(event)}}
+/>
+```
+
+</details>
+
+<details>
+    <summary>
+        <code>
+            update
+        </code>
+    </summary>
+
+Fires a `update` event when the properties of the component changes.
+
+```svelte
+<Slidy
+    on:update={event => console.log(event)}}
+/>
+```
+
+</details>
+
 ## External controls
 
 It is possible to control the navigation of the `Slidy` instance from the parent component via binding.
