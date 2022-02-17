@@ -2,14 +2,10 @@
 [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
-# SLIDY
+# svelte-slidy v2
 
-Simple, configurable & reusable carousel sliding action script with many tamplates
+Simple, configurable & reusable carousel component built with SvelteJS
 
-Since version 3.0 Slidy have separete monorepo packages structure:
-
--   [@slidy/core](https://github.com/Valexr/svelte-slidy/tree/dev/packages/core)
--   [@slidy/svelte](https://github.com/Valexr/svelte-slidy/tree/dev/packages/svelte)
 
 ## Changelog
 
