@@ -2,7 +2,7 @@
 [![NPM downloads](https://img.shields.io/npm/dm/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/svelte-slidy.svg)](https://www.npmjs.com/package/svelte-slidy)
 
-# SLIDY
+# svelte-slidy v2
 
 Simple, configurable & reusable carousel sliding action script with many tamplates
 
