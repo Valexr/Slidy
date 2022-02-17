@@ -1,5 +1,6 @@
 <fieldset>
     <legend>
+        <img alt="Slidy" width="50" height="50" src="favicon.png" />
         <h1>Slidy {version.replace(/\.[^.]*$/, '')}<sup>svelteJS</sup></h1>
         <button on:click={() => (stend = !stend)} class:active={stend}>
             stend
