@@ -236,8 +236,9 @@
         align-items: center;
         justify-content: center;
         gap: var(--slidy-slide-gap, 1rem);
-        width: var(--slidy-slide-width, auto);
-        height: var(--slidy-slide-height, 100%);
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
     }
 
     .slidy-slide {
