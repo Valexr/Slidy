@@ -29,8 +29,6 @@
             index = e.detail.index;
             position = e.detail.position;
         }}
-        on:resize={(e) => console.log(e)}
-        on:update={(e) => console.log(e)}
     >
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
             <!-- svelte-ignore a11y-missing-attribute -->

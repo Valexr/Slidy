@@ -5,7 +5,9 @@
         <button on:click={() => (images = !images)} class:active={images}>
             images
         </button>
-        <button on:click={() => darkTheme.switch()} class:active={$darkTheme}>dark</button>
+        <button on:click={() => darkTheme.switch()} class:active={$darkTheme}
+            >dark</button
+        >
         <p>
             index: [<b>{index}</b>], position: <b>{Math.trunc(position)}</b>px
         </p>
@@ -33,8 +35,8 @@
 
 <fieldset class="controls-slide">
     {#each $slides as _, i}
-        <button on:click={() => index = i} class:active={i === index}>
-            {i + 1}
+        <button on:click={() => (index = i)} class:active={i === index}>
+            {i}
         </button>
     {/each}
 </fieldset>
@@ -44,7 +46,7 @@
     <button on:click={() => slides.remove()}>-</button>
     <input type="number" bind:value={limit} min={1} max={15} />
     <button on:click={() => slides.add()}>+</button>
-    <button on:click={() => slidesPromise = slides.init(limit)}>reset</button>
+    <button on:click={() => (slidesPromise = slides.init(limit))}>reset</button>
 </fieldset>
 
 <fieldset class="controls-modes">
@@ -130,11 +132,11 @@
 <script lang="ts" context="module">
     import { name, version } from '../../package.json';
     import Slidy from '../../src/Slidy.svelte';
-    import { createSlidesStore } from "./scripts/slide-store";
+    import { createSlidesStore } from './scripts/slide-store';
 </script>
 
 <script lang="ts">
-    import { darkTheme } from "./scripts/theme-store";
+    import { darkTheme } from './scripts/theme-store';
 
     let position = 0;
     let limit = 9;

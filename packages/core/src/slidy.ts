@@ -103,8 +103,7 @@ export function slidy(
     onMounted(node)
         .then((childs: HTMLCollection) => {
             console.log('mounted');
-            RO.observe(node);
-            MO.observe(node, moOptions);
+            // MO.observe(node, moOptions);
 
             const styles = {
                 userSelect: 'none',
@@ -136,6 +135,7 @@ export function slidy(
             if (PARENT) {
                 css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
+                RO.observe(PARENT);
             }
             dispatch(node, 'mount', { detail: childs });
         })
