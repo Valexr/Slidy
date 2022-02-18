@@ -1,5 +1,6 @@
 export interface Options {
     index: number;
+    length: number;
     gravity: number;
     duration: number;
     vertical: boolean;

@@ -51,10 +51,10 @@
 
 <fieldset class="controls-modes">
     <button on:click={() => index--} disabled={!loop && !index}>←</button>
-    <!-- <button
+    <button
         on:click={() => index++}
-        disabled={!loop && index === slides.length - 1}>→</button
-    > -->
+        disabled={!loop && index === $slides.length - 1}>→</button
+    >
     <!-- <button on:click={shuffle}><i class="icon icon-refresh" /></button> -->
     <button on:click={() => (vertical = !vertical)} class:active={vertical}
         >axisY</button

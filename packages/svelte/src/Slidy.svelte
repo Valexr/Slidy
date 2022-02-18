@@ -15,14 +15,14 @@
         class="slidy-slides"
         aria-live="polite"
         use:slidy={{
-            align,
-            clamp,
+            length: slides.length,
+            vertical,
             duration,
             gravity,
             index,
-            loop,
+            clamp,
             snap,
-            vertical,
+            loop,
         }}
         on:mount={(e) => console.log(e)}
         on:move={(e) => {
@@ -118,7 +118,7 @@
 
     type $$Props = SlidyOptions;
 
-    export let align: $$Props['align'] = 'middle';
+    // export let align: $$Props['align'] = 'middle';
     export let arrows = true;
     export let background = false;
     export let clamp = false;

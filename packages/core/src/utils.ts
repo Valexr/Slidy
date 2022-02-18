@@ -42,15 +42,15 @@ const position = (node: HTMLElement, child: Element, vertical: boolean, align: s
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
-const align = (node: HTMLElement, vertical: boolean): string => {
-    return distance(node, 0, vertical) < maxSize(node, vertical)
-        ? 'start'
-        : distance(node, 0, vertical) >= maxSize(node, vertical) &&
-          distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
-          maxSize(node, vertical) !== 0
-        ? 'center'
-        : 'end';
-};
+// const align = (node: HTMLElement, vertical: boolean): string => {
+//     return distance(node, 0, vertical) < maxSize(node, vertical)
+//         ? 'start'
+//         : distance(node, 0, vertical) >= maxSize(node, vertical) &&
+//           distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
+//           maxSize(node, vertical) !== 0
+//         ? 'center'
+//         : 'end';
+// };
 const gap = (node: HTMLElement, vertical: boolean) => {
     const last = nodes(node).length - 1;
     const prev =
@@ -74,7 +74,7 @@ function closest({
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
 }
-
+let current, indexes;
 const find = {
     index: (
         node: HTMLElement,
@@ -82,10 +82,18 @@ const find = {
         child: Element | undefined,
         vertical: boolean,
         align: string
-    ) =>
-        child
+    ) => {
+        // current = nodes(node).indexOf(closest({ node, target, vertical, align }));
+        // indexes = [...Array(nodes(node).length).keys()];
+        // console.info(
+        //     rotate(indexes, current - cix(node)),
+        //     rotate(indexes, current - cix(node))[cix(node)],
+        //     current
+        // );
+        return child
             ? nodes(node).indexOf(child)
-            : +closest({ node, target, vertical, align }).dataset.index,
+            : +closest({ node, target, vertical, align }).dataset.index;
+    },
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),
     target: (node: HTMLElement, target: number, vertical: boolean, align: string) =>
@@ -123,7 +131,7 @@ function next(node: HTMLElement) {
     node.append(first);
 }
 
-const rotate = (array: Array<Element>, key: number) =>
+const rotate = (array: Array<Element | number>, key: number) =>
     array.slice(key).concat(array.slice(0, key));
 
 function replace(node: HTMLElement, index: number, loop: boolean) {

@@ -1,4 +1,4 @@
-function onMounted(node: HTMLElement): Promise<HTMLCollection> {
+function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection> {
     return new Promise((resolve, reject) => {
         let mounting: NodeJS.Timer,
             count: number = 0;
@@ -7,8 +7,8 @@ function onMounted(node: HTMLElement): Promise<HTMLCollection> {
 
         mounting = setInterval(() => {
             count++;
-            console.log(count, node.children.length);
-            if (node.children.length > 2) {
+            console.log(count, node.children.length, length);
+            if (node.children.length >= length) {
                 clearInterval(mounting);
                 Array.from(node.children).forEach((c, i) => {
                     c.dataset.index = i;
@@ -62,7 +62,7 @@ function onResize(this: GlobalEventHandlers, ev: UIEvent, node: HTMLElement) {
     };
 }
 
-export { onMounted, onResize, getFPS };
+export { onMount, onResize, getFPS };
 
 // parent.id = 'slidy';
 // const style = document.head.appendChild(document.createElement("style"));
