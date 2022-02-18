@@ -31,6 +31,14 @@
     {/await}
 </main>
 
+<fieldset class="controls-slide">
+    {#each $slides as _, i}
+        <button on:click={() => index = i} class:active={i === index}>
+            {i + 1}
+        </button>
+    {/each}
+</fieldset>
+
 <fieldset class="controls-slides">
     <legend>Slides</legend>
     <button on:click={() => slides.remove()}>-</button>
