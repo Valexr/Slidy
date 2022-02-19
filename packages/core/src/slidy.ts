@@ -77,8 +77,8 @@ export function slidy(
     const RO = new ResizeObserver(() => {
         dispatch(node, 'resize', { detail: node });
     });
-    const MO = new MutationObserver(() => {
-        dispatch(node, 'mutate', { detail: node });
+    const MO = new MutationObserver((mutationsList, observer) => {
+        dispatch(node, 'mutate', { detail: mutationsList });
     });
     const moOptions = {
         childList: true,
@@ -110,7 +110,7 @@ export function slidy(
     onMount(node, options.length)
         .then((childs: HTMLCollection) => {
             console.log('mounted');
-            // MO.observe(node, moOptions);
+            MO.observe(node, moOptions);
 
             const styles = {
                 userSelect: 'none',
@@ -352,14 +352,22 @@ export function slidy(
     }
 
     function onResize(e: CustomEvent): void {
-        gap = find.gap(node, options.vertical);
+        // gap = find.gap(node, options.vertical);
         to(options.index);
         // dispatch(node, 'scale', { detail: node });
     }
 
     function onMutate(e: CustomEvent): void {
         // gap = find.gap(node, options.vertical);
-        // console.log(e)
+        // console.log(e.detail)
+        // for (const mutation of e.detail) {
+        //     if (mutation.type === 'childList') {
+        //         console.log('A child node has been added or removed.', mutation);
+        //     }
+        //     else if (mutation.type === 'attributes') {
+        //         console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        //     }
+        // }
         // dispatch(node, 'mutate', { detail: node });
     }
 

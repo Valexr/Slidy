@@ -106,6 +106,7 @@ if (DEV) {
         });
         await preprocess(source, transpilator, 'Slidy.svelte').then(
             ({ code }) => {
+                console.log(code)
                 const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
                 writeFileSync('./dist/Slidy.svelte', transpiled);
             }
@@ -120,6 +121,7 @@ const transpilator = [
         typescript({ content }) {
             const { code, map } = transformSync(content, {
                 loader: 'ts',
+                treeShaking: false,
                 banner: `import { slidy } from "@slidy/core"`,
             });
             return { code, map };
