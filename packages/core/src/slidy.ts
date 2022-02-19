@@ -17,7 +17,7 @@ export function slidy(
     node: HTMLElement,
     options: Options = {
         index: 0,
-        length: 0,
+        length: node.children.length,
         gravity: 1.2,
         duration: 375,
         vertical: false,
@@ -186,8 +186,8 @@ export function slidy(
 
     function looping(pos: number): number {
         const delta = hip - pos;
-        const first = find.size(node, 0, options.vertical);
-        const last = find.size(node, node.children.length - 1, options.vertical);
+        const first = find.size(node, indx(node).min, options.vertical);
+        const last = find.size(node, indx(node).max, options.vertical);
         const history = (size: number) => (size + gap) * Math.sign(-pos);
 
         if (hix !== options.index) {
@@ -255,7 +255,7 @@ export function slidy(
                 else if (
                     !options.loop &&
                     Math.abs(delta) < 100 &&
-                    (options.index === 0 || options.index === node.children.length - 1)
+                    (options.index === indx(node).min || options.index === indx(node).max)
                 ) {
                     to(options.index);
                 }
