@@ -70,23 +70,23 @@ export function slidy(
         ['keydown', onKeys],
         ['wheel', onWheel],
         ['resize', onResize],
-        ['mutate', onMutate],
+        // ['mutate', onMutate],
     ];
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
         dispatch(node, 'resize', { detail: node });
     });
-    const MO = new MutationObserver((mutationsList, observer) => {
-        dispatch(node, 'mutate', { detail: mutationsList });
-    });
-    const moOptions = {
-        childList: true,
-        attributes: true,
+    // const MO = new MutationObserver((mutationsList, observer) => {
+    //     dispatch(node, 'mutate', { detail: mutationsList });
+    // });
+    // const moOptions = {
+    //     childList: true,
+    //     attributes: true,
 
-        // Omit (or set to false) to observe only changes to the parent node
-        subtree: true,
-    };
+    //     // Omit (or set to false) to observe only changes to the parent node
+    //     subtree: true,
+    // };
 
     const indx = (node: HTMLElement) => {
         return {
@@ -110,7 +110,7 @@ export function slidy(
     onMount(node, options.length)
         .then((childs: HTMLCollection) => {
             console.log('mounted');
-            MO.observe(node, moOptions);
+            // MO.observe(node, moOptions);
 
             const styles = {
                 userSelect: 'none',
@@ -130,10 +130,10 @@ export function slidy(
 
             gravity = options.gravity;
 
-            console.info('gap:', gap, align, amp);
-            Array.from(childs).forEach((c, i) =>
-                console.log(i, c.offsetLeft, c.offsetWidth)
-            );
+            console.info('gap:', gap, align, amp(node));
+            // Array.from(childs).forEach((c, i) =>
+            //     console.log(i, c.offsetLeft, c.offsetWidth)
+            // );
 
             if (PARENT) {
                 css(PARENT, { outline: 'none' });
@@ -292,7 +292,7 @@ export function slidy(
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100
                 ||
-                (!options.loop &&
+                (!options.loop && options.snap &&
                     ((options.index === indx(node).min && direction < 0) ||
                         (options.index === indx(node).max && direction > 0)))
                 ? to(options.index)
@@ -422,7 +422,7 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        MO.disconnect();
+        // MO.disconnect();
         listen(PARENT, parentEvents, false);
     }
     return {

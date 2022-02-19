@@ -34,7 +34,7 @@ if (DEV) {
     build({
         ...esbuildBase,
         minify: false,
-        outfile: 'dev/dev.js',
+        outfile: 'dev/slidy.js',
         globalName: 'Slidy',
         format: 'iife',
         incremental: true,
