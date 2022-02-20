@@ -8,7 +8,7 @@ function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection>
         mounting = setInterval(() => {
             count++;
             console.log(count, node.children.length, length);
-            if (node.children.length >= length) {
+            if (length && node.children.length >= length) {
                 clearInterval(mounting);
                 Array.from(node.children).forEach((c, i) => {
                     c.dataset.index = i;
@@ -36,44 +36,5 @@ function getFPS() {
 //     console.log(fps, interval);
 // });
 
-function onResize(this: GlobalEventHandlers, ev: UIEvent, node: HTMLElement) {
-    console.log(ev);
-    let CR;
-    let ET;
 
-    const ro = new ResizeObserver((entries, observer) => {
-        for (let entry of entries) {
-            CR = entry.contentRect;
-            ET = entry.target;
-        }
-        node.dispatchEvent(
-            new CustomEvent('resize', {
-                detail: { CR, ET },
-            })
-        );
-    });
-
-    ro.observe(node);
-
-    return {
-        destroy() {
-            ro.disconnect();
-        },
-    };
-}
-
-export { onMount, onResize, getFPS };
-
-// parent.id = 'slidy';
-// const style = document.head.appendChild(document.createElement("style"));
-// style.innerHTML = `#slidy::after {
-//     content: 'slidy';
-//     display: block;
-//     width: 2rem;
-//     height: 1rem;
-//     background: red;
-//     position: absolute;
-//     left: ${parent.offsetWidth}px;
-// }`;
-
-// if (!node.SLIDY) node.SLIDY = {}; // ???? extend default NodeType
+export { onMount, getFPS };

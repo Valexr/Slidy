@@ -1,30 +1,29 @@
 import { onMount } from './env';
 import type { Delta, Options, Scroll } from './types';
 import {
+    css,
     find,
-    indexing,
-    replace,
     prev,
     next,
     maxMin,
-    css,
-    dispatch,
     listen,
-    coordinate,
-    maxSize,
+    replace,
+    dispatch,
+    indexing,
+    coordinate
 } from './utils';
 
 export function slidy(
     node: HTMLElement,
     options: Options = {
         index: 0,
-        length: node.children.length,
+        length: 0,
         gravity: 1.2,
         duration: 375,
-        vertical: false,
-        clamp: false,
         loop: false,
         snap: false,
+        clamp: false,
+        vertical: false,
     }
 ): {
     update: (options: Options) => void;
@@ -130,6 +129,8 @@ export function slidy(
             align = max.pos ? 'end' : min.pos ? 'start' : 'center';
             options.gravity =
                 max.idx || min.idx ? maxMin(1.8, 0, options.gravity + 0.015) : gravity;
+
+            console.log(options.gravity, gravity)
         }
 
         function translate(vertical: boolean): string {
@@ -177,7 +178,6 @@ export function slidy(
                         ? 'end'
                         : 'center';
         }
-        // hix = loop ? hix : index
         const child = find.child(node, options.index);
         const ix = options.loop
             ? find.index(node, position, child, options.vertical, align)
@@ -236,8 +236,7 @@ export function slidy(
 
     function onMove(e: MouseEvent | TouchEvent): void {
         const delta =
-            (reference - coordinate(e, options.vertical)) *
-            maxMin(2, 0, 2 - options.gravity);
+            (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
         reference = coordinate(e, options.vertical);
         move({ pos: delta });
     }
@@ -322,8 +321,6 @@ export function slidy(
         listen(window, windowEvents, false);
     }
 
-    // updater(options);
-
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
@@ -340,6 +337,7 @@ export function slidy(
                         break;
                     case 'gravity':
                         options[key] = maxMin(2, 0, opts[key]);
+                        gravity = options[key]
                         break;
                     case 'length':
                         options[key] = opts[key];
