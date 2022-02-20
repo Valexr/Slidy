@@ -80,7 +80,7 @@ nav {
 }
 
 b {
-    color: red;
+    color: var(--accent);
 }
 nav#dots {
     display: flex;
@@ -126,33 +126,50 @@ h1 {
     position: relative;
 }
 
+h1 sub,
 h1 sup {
     position: absolute;
     right: 0;
-    bottom: -0.5rem;
+    bottom: -0.75rem;
     font-size: small;
     font-weight: 300;
     display: inline;
 }
-legend h1,
-legend p {
+h1 sup {
+    right: auto;
+    left: 0;
+}
+header h1,
+header p {
     margin: 0;
     display: inline;
     padding: 0;
 }
+header p {
+    font-size: 1;
+}
+header,
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
 
 :root {
-    --color: black;
+    --color: #0a0a0a;
     --back: white;
     --accent: red;
+    --shadow: whitesmoke;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
         color-scheme: light;
-        --color: black;
+        --color: #0a0a0a;
         --back: white;
         --accent: red;
+        --shadow: whitesmoke;
     }
 }
 
@@ -160,23 +177,26 @@ legend p {
     :root {
         color-scheme: dark;
         --color: white;
-        --back: black;
+        --back: #0a0a0a;
         --accent: red;
+        --shadow: #131313;
     }
 }
 
 [scheme="dark"] {
     color-scheme: dark;
     --color: white;
-    --back: black;
+    --back: #0a0a0a;
     --accent: red;
+    --shadow: #131313;
 }
 
 [scheme="light"] {
     color-scheme: light;
-    --color: black;
+    --color: #0a0a0a;
     --back: white;
     --accent: red;
+    --shadow: whitesmoke;
 }
 
 .active,
@@ -233,7 +253,7 @@ ul#slidy {
 }
 
 ul#slidy li {
-    --shadow: var(--color);
+    /* --shadow: whitesmoke; */
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -241,7 +261,8 @@ ul#slidy li {
     max-height: 100%;
     box-sizing: border-box;
     position: relative;
-    box-shadow: inset 0px 0px 1px 1px var(--shadow);
+    background: var(--shadow);
+    /* box-shadow: inset 0px 0px 1px 1px var(--shadow); */
     /* will-change: transform; */
 }
 ul#slidy li.active {

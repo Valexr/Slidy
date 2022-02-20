@@ -120,17 +120,15 @@ export function slidy(
         if (!options.loop) {
             const max = {
                 pos: position >= amp().max - active().size && direction >= 0,
-                idx: options.index === indx().max && direction >= 0,
+                idx: options.index === indx().max && direction > 0,
             };
             const min = {
                 pos: position <= amp().min + active().size && direction <= 0,
-                idx: options.index === indx().min && direction <= 0,
+                idx: options.index === indx().min && direction < 0,
             };
             align = max.pos ? 'end' : min.pos ? 'start' : 'center';
             options.gravity =
                 max.idx || min.idx ? maxMin(1.8, 0, options.gravity + 0.015) : gravity;
-
-            console.log(options.gravity, gravity)
         }
 
         function translate(vertical: boolean): string {
@@ -190,7 +188,6 @@ export function slidy(
             : target === 0
                 ? 0
                 : find.position(node, ix, options.vertical, align);
-
         move({ pos: pos - position, transition: options.duration });
     }
 
@@ -245,7 +242,7 @@ export function slidy(
         clear();
 
         const { target, amplitude } = delting(position);
-
+        // console.info(target, amplitude)
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
                 (!options.loop &&
@@ -324,6 +321,7 @@ export function slidy(
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
+                // console.log(key)
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key], options.loop);
