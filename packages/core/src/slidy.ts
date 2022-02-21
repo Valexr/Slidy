@@ -96,11 +96,10 @@ export function slidy(
             };
             css(node, styles);
 
+            gravity = options.gravity;
             gap = find.gap(node, options.vertical);
             replace(node, options.index, options.loop);
             to(options.index);
-
-            gravity = options.gravity;
 
             if (PARENT) {
                 css(PARENT, { outline: 'none' });

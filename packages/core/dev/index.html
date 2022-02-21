@@ -14,7 +14,7 @@
 
 <body>
     <header>
-        <img alt="Slidy" width="50" height="50" src="favicon.png" style="vertical-align: bottom" />
+        <img alt="Slidy" width="50" height="50" src="favicon.png" />
         <h1>Slidy 3.0<sub>nativeJS</sub>
             <sup id="stats" />
         </h1>
@@ -28,7 +28,6 @@
         </section>
     </main>
     <footer>
-        <nav id="dots"></nav>
         <nav id="buttons">
             <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
             <button id="reload" onclick="getPhotos(node, randomQ(1, 69), 9)">
@@ -48,6 +47,9 @@
                 vertical
             </button>
         </nav>
+
+        <nav id="dots"></nav>
+
         <form>
             <fieldset>
                 <!-- <label>

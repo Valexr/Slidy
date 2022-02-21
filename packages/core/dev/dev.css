@@ -39,14 +39,12 @@ select,
 textarea {
     font-family: inherit;
     font-size: inherit;
-    -webkit-padding: 0.4em 0;
     padding: 0.4em;
-    /* margin: 0 0 0.5em 0; */
     box-sizing: border-box;
-    border: 1px solid var(--color);
-    border-radius: 0;
     color: var(--color);
     background-color: var(--back);
+    border: 1px solid var(--color);
+    border-radius: 0;
     accent-color: var(--accent);
 }
 
@@ -107,8 +105,8 @@ form {
 
 form > * {
     flex: 0 auto;
-    gap: 1rem;
-    padding: 0.5rem;
+    /* gap: 1rem; */
+    /* padding: 0.5rem; */
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -179,7 +177,7 @@ footer {
         --color: white;
         --back: #0a0a0a;
         --accent: red;
-        --shadow: #131313;
+        --shadow: #181818;
     }
 }
 
@@ -188,7 +186,7 @@ footer {
     --color: white;
     --back: #0a0a0a;
     --accent: red;
-    --shadow: #131313;
+    --shadow: #181818;
 }
 
 [scheme="light"] {

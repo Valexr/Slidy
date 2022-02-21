@@ -3,11 +3,11 @@ function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection>
         let mounting: NodeJS.Timer,
             count: number = 0;
 
-        clearInterval(mounting);
+        // clearInterval(mounting);
 
         mounting = setInterval(() => {
             count++;
-            console.log(count, node.children.length, length);
+            // console.log(count, node.children.length, length);
             if (length && node.children.length >= length) {
                 clearInterval(mounting);
                 Array.from(node.children).forEach((c, i) => {
