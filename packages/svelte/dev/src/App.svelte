@@ -43,18 +43,6 @@
     {/await}
 </main>
 
-<aside class="slide-controls">
-    <Pagination
-        bind:current={index}
-        pages={$slides.length}
-    />
-    <fieldset>
-        <button on:click={() => slides.remove()}>-</button>
-        <input type="number" bind:value={limit} min={1} max={15} />
-        <button on:click={() => slides.add()}>+</button>
-    </fieldset>
-</aside>
-
 <Sidemenu id="side-menu">
     <ControlPanel
         bind:vertical
@@ -68,21 +56,11 @@
     />
 </Sidemenu>
 
-<aside class="status-position">
-    <p>
-        Index: <output>{index}</output>
-    </p>
-    <p>
-        Position: <output>{Math.trunc(position)}px</output>
-    </p>
-</aside>
-
 <script lang="ts" context="module">
     import { version } from "../../package.json";
     import Slidy from "../../src/Slidy.svelte";
     import Sidemenu from "./components/Sidemenu.svelte";
     import ControlPanel from "./components/ControlPanel.svelte";
-    import Pagination from "./components/Pagination.svelte";
     import { createSlidesStore } from "./scripts/slide-store";
 </script>
 
@@ -153,27 +131,6 @@
     #side-menu-button:active svg,
     #side-menu-button:hover svg {
         transform: rotate(25deg);
-    }
-
-    .slide-controls {
-        justify-self: center;
-        align-self: center;
-
-        display: flex;
-        flex-flow: column nowrap;
-        gap: var(--space-m);
-        padding: var(--space-xl);
-    }
-
-    .status-position {
-        position: fixed;
-        bottom: var(--space-s);
-        left: var(--space-s);
-        padding: var(--space-s);
-        border-radius: 0.5rem;
-        background-color: rgb(121 121 121 / 0.5);
-        pointer-events: none;
-        font-weight: 300;
     }
 
     .status-position output {
