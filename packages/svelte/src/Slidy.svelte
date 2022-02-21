@@ -109,11 +109,8 @@
     {/if}
 </section>
 
-<script context="module" lang="ts">
-    import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from './types';
-</script>
-
 <script lang="ts">
+    import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from './types';
     import { slidy } from '@slidy/core';
 
     type $$Props = SlidyOptions;

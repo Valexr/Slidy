@@ -421,9 +421,7 @@ The component forwards custom events:
 Fires a `mount` event when component is mounted to the DOM.
 
 ```svelte
-<Slidy
-    on:mount={event => console.log(event)}
-/>
+<Slidy on:mount={(event) => console.log(event)} />
 ```
 
 </details>
@@ -439,7 +437,7 @@ Fires a `move` event when on user navigation. Retuns the `index` and `position` 
 
 ```svelte
 <Slidy
-    on:mount={event => {
+    on:mount={(event) => {
         const { index, position } = event.details;
         console.log({ index, position });
     }}

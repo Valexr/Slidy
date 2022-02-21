@@ -108,20 +108,6 @@ const find = {
     align: (node: HTMLElement, vertical: boolean) => align(node, vertical),
 };
 
-function css(node: HTMLElement, styles: CssRule) {
-    for (const property in styles) {
-        node.style[property] = styles[property];
-    }
-}
-
-function dispatch(
-    node: HTMLElement,
-    name: string,
-    detail?: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
-) {
-    node.dispatchEvent(new CustomEvent(name, { ...detail }));
-}
-
 function prev(node: HTMLElement) {
     const last = node.children[node.children.length - 1];
     node.prepend(last);
@@ -142,6 +128,31 @@ function replace(node: HTMLElement, index: number, loop: boolean) {
     replace(elements);
 }
 
+function css(node: HTMLElement, styles: CssRule) {
+    for (const property in styles) {
+        node.style[property] = styles[property];
+    }
+}
+
+function dispatch(
+    node: HTMLElement,
+    name: string,
+    detail?: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
+) {
+    node.dispatchEvent(new CustomEvent(name, { ...detail }));
+}
+
+const listen = (
+    node: Window | HTMLElement | null,
+    events: [keyof HTMLElementEventMap, EventListener][],
+    on: boolean = true
+) =>
+    events.forEach(([event, handle]) =>
+        on
+            ? node?.addEventListener(event, handle, true)
+            : node?.removeEventListener(event, handle, true)
+    );
+
 export {
     find,
     closest,
@@ -151,6 +162,7 @@ export {
     next,
     css,
     dispatch,
+    listen,
     maxMin,
     maxSize,
     indexing,
