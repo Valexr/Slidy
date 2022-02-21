@@ -1,0 +1,52 @@
+:root {
+	--space-xs: calc(0.25 * 1rem);
+	--space-s: calc(0.5 * 1rem);
+	--space-m: calc(1 * 1rem);
+	--space-l: calc(1.5 * 1rem);
+	--space-xl: calc(2 * 1rem);
+	--space-xxl: calc(4 * 1rem);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		color-scheme: light;
+		--surface-1: #FFC8B8;
+		--surface-2: rgb(27 27 27);
+		--surface-3: rgb(59 59 59);
+		--color: black;
+		--back: white;
+		--accent: red;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+		--surface-1: rgb(13 13 13);
+		--surface-2: rgb(27 27 27);
+		--surface-3: rgb(59 59 59);
+		--color: white;
+		--back: black;
+		--accent: #B85345;
+	}
+}
+
+[scheme="dark"] {
+	color-scheme: dark;
+	--surface-1: rgb(13 13 13);
+	--surface-2: rgb(27 27 27);
+	--surface-3: rgb(59 59 59);
+	--color: white;
+	--back: black;
+	--accent: #B85345;
+}
+
+[scheme="light"] {
+	color-scheme: light;
+	--surface-1: #FFC8B8;
+	--surface-2: #FFA48C;
+	--surface-3: #F78368;
+	--color: black;
+	--back: white;
+	--accent: red;
+}
