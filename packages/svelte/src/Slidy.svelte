@@ -96,6 +96,7 @@
         <Pagination
             current={index}
             pages={slides.length}
+            {vertical}
         />
     {/if}
 </section>
@@ -340,10 +341,6 @@
     .slidy.vertical .slidy-nav {
         width: auto;
         height: max-content;
-    }
-
-    .slidy.vertical .slidy-nav > div {
-        flex-flow: column nowrap;
     }
 
     .slidy.vertical .slidy-arrow.left svg {

@@ -1,4 +1,4 @@
-<nav class="slidy-pagination">
+<nav class="slidy-pagination" class:vertical>
 	{#each { length: pages } as _, i}
 			<slot name="pagination-item" index={i} active={i === current}>
 				<button
@@ -18,6 +18,7 @@
 	export let current: number;
 	export let pages: number;
 	export let ordinal = false;
+	export let vertical = false;
 	//export let max: number = pages;
 </script>
 
@@ -71,6 +72,12 @@
 		font-weight: 600;
 		line-height: 1em;
 	}
+
+	/* vertical mode */
+
+	.slidy-pagination.vertical {
+    flex-flow: column nowrap;
+  }
 
 	@media (hover: hover) {
 		.slidy-pagination-item:hover {
