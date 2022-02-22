@@ -265,8 +265,9 @@ List of available custom properties:
 -   `--slidy-slide-height: 100%;`
 -   `--slidy-slide-width: auto;`
 -   `--slidy-slide-object-fit: cover;`
--   `--slidy-navigation-size: 12px;`
--   `--slidy-navigation-color: white;`
+-   `--slidy-nav-item-size: 16px;`
+-   `--slidy-nav-item-radius: 50%;`
+-   `--slidy-nav-item-color: white;`
 -   `--slidy-arrow-size: 24px;`
 
 ## Overriding the styles
