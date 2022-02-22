@@ -1,42 +1,25 @@
-<!--
-	TODO:
-	Prevent stacking multiple entries into the browser history
--->
-<aside class="side-menu" {id}>
-	<!-- svelte-ignore a11y-missing-content -->
-	<a
+<aside class="side-menu" class:open>
+	<div
 		class="backdrop"
-		href="/#"
-		id={`${id}-close`}
 		title="Close sidebar"
 		aria-label="Close sidebar"
+		on:click={close}
+		tabindex="0"
 	/>
-	<slot />
+	<section class="contents">
+		<slot />
+	</section>
 </aside>
 
 <svelte:window
 	on:keydown={handleKeydown}
-	on:transitionend={handleFocus}
 />
 
 <script lang="ts">
-	/**
-	 * side-menu ID for `:target`
-	 */
-	export let id: string;
+	export let open = false;
 
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.code === "Escape") {
-			document.location.hash = "";
-		}
-	};
-
-	const handleFocus = () => {
-		const open = document.location.hash === `#${id}`;
-		open
-			? document.querySelector<HTMLAnchorElement>(`#${id}-close`)?.focus()
-			: document.querySelector<HTMLButtonElement>(`#${id}-button`)?.focus();
-	};
+	const close = () => open = !open;
+	const handleKeydown = (event: KeyboardEvent) => event.code === "Escape" && close();
 </script>
 
 <style>
@@ -53,24 +36,39 @@
 		height: 100vh;
 		overflow-y: auto;
 		overscroll-behavior-y: contain;
-		z-index: 10;		
+		z-index: 10;
 		
 		visibility: hidden;
 		will-change: transform;
 		transform: translateX(110vw);
-		transition: 
+		transition:
 			transform var(--side-menu-duration) ease-in-out,
 			visibility var(--side-menu-duration) linear;
 	}
 
-	.side-menu:target {
+	.side-menu.open {
 		visibility: visible;
 		transform: translateX(0);
 	}
 
 	.backdrop {
-		height: 100%;
-		width: 100%;
+		height: 100vh;
+		width: auto;
+		flex-grow: 1;
+		transition: background-color var(--side-menu-duration) linear var(--side-menu-duration);
+		z-index: 9;
+	}
+
+	.side-menu.open .backdrop {
+		background-color: rgb(0 0 0 / 0.75);
+	}
+
+	.contents {
+		width: max-content;
+		margin-left: auto;
+		overflow-y: auto;
+		overscroll-behavior-y: contain;
+		z-index: 11;		
 	}
 
 	@media (prefers-reduced-motion: reduce) {
