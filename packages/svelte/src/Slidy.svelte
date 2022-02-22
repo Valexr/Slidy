@@ -93,25 +93,17 @@
     {/if}
 
     {#if navigation}
-        <fieldset class="slidy-nav">
-            <div>
-                {#each { length: slides.length } as _, i}
-                    <slot name="nav-item" index={i} active={i === index}>
-                        <button
-                            data-index={i}
-                            class="slidy-nav-item"
-                            class:active={i === index}
-                        />
-                    </slot>
-                {/each}
-            </div>
-        </fieldset>
+        <Pagination
+            current={index}
+            pages={slides.length}
+        />
     {/if}
 </section>
 
 <script lang="ts">
     import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from './types';
     import { slidy } from '@slidy/core';
+    import { Pagination } from "./components";
 
     type $$Props = SlidyOptions;
 
@@ -307,54 +299,6 @@
     .slidy-arrow.right {
         grid-area: next-slide;
         transform: rotate(180deg);
-    }
-
-    /* controls: dots */
-
-    .slidy-nav {
-        grid-area: dots;
-
-        z-index: 1;
-        place-self: center;
-        display: flex;
-        place-content: center;
-        backdrop-filter: blur(5px);
-        width: 100%;
-        height: 100%;
-        padding: 1em;
-    }
-
-    .slidy-nav > div {
-        display: flex;
-        flex-flow: row nowrap;
-        gap: calc(var(--slidy-nav-item-size, 12px) * 0.75);
-        place-content: center;
-    }
-
-    .slidy-nav-item {
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        background-color: var(--slidy-nav-item-color, white);
-        opacity: 0.5;
-        width: var(--slidy-nav-item-size, 12px);
-        height: var(--slidy-nav-item-size, 12px);
-        transition: background-color
-            var(--slidy-duration, var(--slidy-duration-default));
-    }
-
-    .slidy-nav-item.active {
-        opacity: 1;
-    }
-
-    .slidy-nav-item:focus {
-        outline: 1.5px solid var(--slidy-nav-item-color, white);
-        outline-offset: 2px;
-    }
-
-    @media (hover: hover) {
-        .slidy-nav-item:hover {
-            opacity: 0.75;
-        }
     }
 
     /* counter */
