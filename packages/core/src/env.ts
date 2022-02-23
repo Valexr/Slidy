@@ -1,9 +1,12 @@
+import type { Child } from './types'
+import { init } from './utils'
+
 function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection> {
     return new Promise((resolve, reject) => {
         let mounting: NodeJS.Timer,
             count: number = 0;
 
-        // clearInterval(mounting);
+        clearInterval(mounting);
 
         mounting = setInterval(() => {
             count++;

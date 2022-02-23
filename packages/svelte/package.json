@@ -66,7 +66,7 @@
         "sass": "^1.49.8",
         "svelte": "^3.46.4",
         "svelte-check": "^2.4.5",
-        "svelte-preprocess": "^4.10.3",
+        "svelte-preprocess": "^4.10.4",
         "svelte2tsx": "^0.5.5"
     },
     "peerDependencies": {

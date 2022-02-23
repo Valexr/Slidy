@@ -1,7 +1,8 @@
 import { onMount } from './env';
-import type { Delta, Options, Scroll } from './types';
+import type { Child, Delta, Options, Scroll } from './types';
 import {
     css,
+    init,
     find,
     prev,
     next,
@@ -36,13 +37,15 @@ export function slidy(
         reference = 0,
         position = 0,
         frame = 0,
+        dragtime: NodeJS.Timer,
         wheeltime: NodeJS.Timeout,
         hip = position,
         hix = options.index,
         gap = 0,
         gravity = 1.2,
         align = 'center',
-        direction = 0;
+        direction = 0,
+        children = init(node)
 
     const PARENT = node.parentElement;
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
@@ -85,8 +88,8 @@ export function slidy(
     };
 
     onMount(node, options.length)
-        .then((childs: HTMLCollection) => {
-
+        .then((childs: HTMLCollection | Child[]) => {
+            console.log(children, init(node))
             const styles = {
                 userSelect: 'none',
                 willChange: 'auto',
@@ -106,12 +109,12 @@ export function slidy(
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT);
             }
-            dispatch(node, 'mount', { detail: childs });
+            dispatch(node, 'mount', { detail: children });
         })
         .catch((error) => console.error(error));
 
     function move({ pos, transition = 0 }: { pos: number; transition?: number }): void {
-        position += options.loop ? looping(pos) : pos;
+        position += options.loop ? looping(pos) : Math.trunc(pos);
         options.index = find.index(node, position, undefined, options.vertical, align);
 
         direction = Math.sign(pos); // prev << -1 | 1 >> next
@@ -190,8 +193,10 @@ export function slidy(
         move({ pos: pos - position, transition: options.duration });
     }
 
+    let timestamp = 0
     function track(timestamp: number): void {
         RAF(function track(time: number) {
+            // const time = performance.now()
             const v = (1000 * (position - frame)) / (1 + (time - timestamp));
             velocity = (2 - options.gravity) * v + 0.2 * velocity;
             timestamp = time;
@@ -226,8 +231,13 @@ export function slidy(
         frame = position;
         reference = coordinate(e, options.vertical);
         track(performance.now());
+        // timestamp = performance.now()
+        // dragtime = setInterval(() => track(), 100)
 
         listen(window, windowEvents);
+        e.preventDefault();
+        e.stopPropagation();
+        return;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
@@ -235,6 +245,9 @@ export function slidy(
             (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
         reference = coordinate(e, options.vertical);
         move({ pos: delta });
+        e.preventDefault();
+        e.stopPropagation();
+        return
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
@@ -258,6 +271,10 @@ export function slidy(
                         timestamp: performance.now(),
                     });
         } else to(options.index);
+
+        e.preventDefault();
+        e.stopPropagation();
+        return
     }
 
     function delting(position: number): Delta {
@@ -311,6 +328,7 @@ export function slidy(
 
     function clear(): void {
         hix = wheeling || toing ? hix : options.index;
+        clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);

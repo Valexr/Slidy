@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="dev.css" />
 
@@ -29,11 +32,6 @@
     </main>
     <footer>
         <nav id="buttons">
-            <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
-            <button id="reload" onclick="getPhotos(node, randomQ(1, 69), 9)">
-                <i class="icon icon-refresh"></i>
-            </button>
-            <button id="next" onclick="slidy.to(options.index + 1)">→</button>
             <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">
                 clamp
             </button>
@@ -48,27 +46,34 @@
             </button>
         </nav>
 
+        <nav>
+            <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
+            <button id="reload" onclick="getPhotos(node, randomQ(1, 69), limit)">
+                <i class="icon icon-refresh"></i>
+            </button>
+            <button id="next" onclick="slidy.to(options.index + 1)">→</button>
+        </nav>
+
         <nav id="dots"></nav>
 
         <form>
             <fieldset>
-                <!-- <label>
-                limit
-                <input name="limit" type="number" value="options.limit" size="5" step="1" min="1" max="100" />
-            </label> -->
+                <label title="limit">
+                    <input onchange="setLimit()" name="limit" type="number" size="4" step="1" min="1" max="100" />
+                </label>
                 <label title="width">
-                    <input onchange="setVar(section, this.name, this.value)" name="width" size="5" />
+                    <input onchange="setVar(section, this.name, this.value)" name="width" size="4" />
                 </label>
                 <label title="gap">
-                    <input onchange="setVar(section, this.name, this.value)" name="gap" size="5" step="1" min="0"
+                    <input onchange="setVar(section, this.name, this.value)" name="gap" size="4" step="1" min="0"
                         max="100" />
                 </label>
                 <label title="duration">
-                    <input onchange="changeValue()" name="duration" type="number" size="5" step="1" min="100"
+                    <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100"
                         max="1000" />
                 </label>
                 <label title="gravity">
-                    <input onchange="changeValue()" name="gravity" type="number" size="5" step="0.1" min="0.1"
+                    <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1"
                         max="2" />
                 </label>
                 <!-- <label>
@@ -121,6 +126,7 @@
                 else if (input.name === 'width')
                     input.value = getVar(section, '--width');
                 else if (input.name === 'gap') input.value = getVar(section, '--gap');
+                else if (input.name === 'limit') input.value = limit;
             }
 
             node.addEventListener('mount', (e) => {
@@ -130,6 +136,7 @@
             node.addEventListener('move', (e) => {
                 indexing(e.detail.index);
                 scrolling(e.detail.position);
+                // console.log(options.gravity)
             });
 
             node.addEventListener('resize', (e) => {
@@ -199,6 +206,12 @@
             return node.style.setProperty(`--${name}`, value);
         }
 
+        function setLimit() {
+            // console.info(event.target.value)
+            limit = event.target.value
+            getPhotos(node, page, limit)
+        }
+
         async function getPhotos(node, page, limit) {
             node.innerHTML = `<li style="display: grid; place-items: center">Loading...</li>`;
             fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
@@ -220,7 +233,8 @@
                 .then(() => {
                     slidy?.destroy();
                     slidy = Slidy.slidy(node, options);
-                });
+                })
+                .catch(e => console.error(e));
         }
     </script>
 </body>

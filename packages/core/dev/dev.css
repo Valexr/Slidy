@@ -85,6 +85,16 @@ nav#dots {
     overflow-x: scroll;
     gap: 0.5ex;
 }
+/* Hide scrollbar for Chrome, Safari and Opera */
+nav#dots::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+nav#dots {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
 
 fieldset {
     border: 0;

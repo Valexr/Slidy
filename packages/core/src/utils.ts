@@ -1,4 +1,4 @@
-import { CssRule, Options } from './types';
+import { Child, CssRule, Options } from './types';
 
 function maxMin(max: number, min: number, val: number) {
     return Math.min(max, Math.max(min, val)) || 0;
@@ -153,7 +153,20 @@ const listen = (
             : node?.removeEventListener(event, handle, true)
     );
 
+function init(node: HTMLElement): Child[] {
+    return nodes(node).map((n, i): Child => {
+        return {
+            index: i,
+            offsetTop: n.offsetTop,
+            offsetLeft: n.offsetLeft,
+            offsetWidth: n.offsetWidth,
+            offsetHeight: n.offsetHeight
+        }
+    })
+}
+
 export {
+    init,
     find,
     closest,
     rotate,
