@@ -160,9 +160,9 @@ function init(node: HTMLElement): Child[] {
             offsetTop: n.offsetTop,
             offsetLeft: n.offsetLeft,
             offsetWidth: n.offsetWidth,
-            offsetHeight: n.offsetHeight
-        }
-    })
+            offsetHeight: n.offsetHeight,
+        };
+    });
 }
 
 export {

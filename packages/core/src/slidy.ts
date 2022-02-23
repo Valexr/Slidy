@@ -11,7 +11,7 @@ import {
     replace,
     dispatch,
     indexing,
-    coordinate
+    coordinate,
 } from './utils';
 
 export function slidy(
@@ -44,15 +44,15 @@ export function slidy(
         gap = 0,
         gravity = 1.2,
         align = 'center',
-        direction = 0,
-        children = init(node)
+        direction = 0
+    // children = init(node);
 
     const PARENT = node.parentElement;
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
         ['touchend', onUp],
-        ['mouseup', onUp]
+        ['mouseup', onUp],
     ];
     const parentEvents: [keyof HTMLElementEventMap | string, () => void][] = [
         ['contextmenu', clear],
@@ -60,7 +60,7 @@ export function slidy(
         ['mousedown', onDown],
         ['keydown', onKeys],
         ['wheel', onWheel],
-        ['resize', onResize]
+        ['resize', onResize],
     ];
 
     const RAF = requestAnimationFrame;
@@ -89,7 +89,7 @@ export function slidy(
 
     onMount(node, options.length)
         .then((childs: HTMLCollection | Child[]) => {
-            console.log(children, init(node))
+            // console.log(children, init(node));
             const styles = {
                 userSelect: 'none',
                 willChange: 'auto',
@@ -109,7 +109,7 @@ export function slidy(
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT);
             }
-            dispatch(node, 'mount', { detail: children });
+            dispatch(node, 'mount', { detail: childs });
         })
         .catch((error) => console.error(error));
 
@@ -193,7 +193,7 @@ export function slidy(
         move({ pos: pos - position, transition: options.duration });
     }
 
-    let timestamp = 0
+    let timestamp = 0;
     function track(timestamp: number): void {
         RAF(function track(time: number) {
             // const time = performance.now()
@@ -235,9 +235,9 @@ export function slidy(
         // dragtime = setInterval(() => track(), 100)
 
         listen(window, windowEvents);
-        e.preventDefault();
-        e.stopPropagation();
-        return;
+        // e.preventDefault();
+        // e.stopPropagation();
+        // return;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
@@ -245,9 +245,9 @@ export function slidy(
             (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
         reference = coordinate(e, options.vertical);
         move({ pos: delta });
-        e.preventDefault();
-        e.stopPropagation();
-        return
+        // e.preventDefault();
+        // e.stopPropagation();
+        // return
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
@@ -272,9 +272,9 @@ export function slidy(
                     });
         } else to(options.index);
 
-        e.preventDefault();
-        e.stopPropagation();
-        return
+        // e.preventDefault();
+        // e.stopPropagation();
+        // return
     }
 
     function delting(position: number): Delta {
@@ -328,7 +328,7 @@ export function slidy(
 
     function clear(): void {
         hix = wheeling || toing ? hix : options.index;
-        clearInterval(dragtime);
+        // clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);
@@ -352,7 +352,7 @@ export function slidy(
                         break;
                     case 'gravity':
                         options[key] = maxMin(2, 0, opts[key]);
-                        gravity = options[key]
+                        gravity = options[key];
                         break;
                     case 'length':
                         options[key] = opts[key];
@@ -374,7 +374,6 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        // MO.disconnect();
         listen(PARENT, parentEvents, false);
     }
     return {

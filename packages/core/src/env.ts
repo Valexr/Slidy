@@ -1,5 +1,5 @@
-import type { Child } from './types'
-import { init } from './utils'
+import type { Child } from './types';
+import { init } from './utils';
 
 function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection> {
     return new Promise((resolve, reject) => {
@@ -38,6 +38,5 @@ function getFPS() {
 //     let interval = 1000 / fps;
 //     console.log(fps, interval);
 // });
-
 
 export { onMount, getFPS };
