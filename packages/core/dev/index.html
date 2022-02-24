@@ -1,82 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="dev.css" />
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" href="dev.css" />
+        <title>Slidy 3.0 - NativeJS</title>
 
-    <title>Slidy 3.0 - NativeJS</title>
+        <script defer src="dev.js"></script>
+    </head>
 
-    <script defer src="dev.js"></script>
-</head>
+    <body>
+        <header>
+            <img alt="Slidy" width="50" height="50" src="favicon.png" />
+            <h1>
+                Slidy 3.0<sub>nativeJS</sub>
+                <sup id="stats" />
+            </h1>
+            <button id="dark" onclick="activate(this, dark)">dark</button>
+        </header>
+        <main>
+            <section style="--gap: 1em; --flow: row; --width: auto" tabindex="0">
+                <ul id="slidy">
+                    <li style="display: grid; place-items: center">Loading...</li>
+                </ul>
+            </section>
+        </main>
+        <footer>
+            <nav id="buttons">
+                <button
+                    id="clamp"
+                    onclick="slidy.update({clamp: activate(this, options.clamp)})"
+                >
+                    clamp
+                </button>
+                <button
+                    id="snap"
+                    onclick="slidy.update({snap: activate(this, options.snap)})"
+                >
+                    snap
+                </button>
+                <button
+                    id="loop"
+                    onclick="slidy.update({loop: activate(this, options.loop)})"
+                >
+                    loop
+                </button>
+                <button
+                    id="vertical"
+                    onclick="slidy.update({vertical: activate(this, options.vertical)})"
+                >
+                    vertical
+                </button>
+            </nav>
 
-<body>
-    <header>
-        <img alt="Slidy" width="50" height="50" src="favicon.png" />
-        <h1>
-            Slidy 3.0<sub>nativeJS</sub>
-            <sup id="stats" />
-        </h1>
-        <button id="dark" onclick="activate(this, dark)">dark</button>
-    </header>
-    <main>
-        <section style="--gap: 1em; --flow: row; --width: auto" tabindex="0">
-            <ul id="slidy">
-                <li style="display: grid; place-items: center">Loading...</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <nav id="buttons">
-            <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">
-                clamp
-            </button>
-            <button id="snap" onclick="slidy.update({snap: activate(this, options.snap)})">
-                snap
-            </button>
-            <button id="loop" onclick="slidy.update({loop: activate(this, options.loop)})">
-                loop
-            </button>
-            <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">
-                vertical
-            </button>
-        </nav>
+            <nav>
+                <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
+                <button id="reload" onclick="getPhotos(node, randomQ(1, 69), limit)">
+                    <i class="icon icon-refresh"></i>
+                </button>
+                <button id="next" onclick="slidy.to(options.index + 1)">→</button>
+            </nav>
 
-        <nav>
-            <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
-            <button id="reload" onclick="getPhotos(node, randomQ(1, 69), limit)">
-                <i class="icon icon-refresh"></i>
-            </button>
-            <button id="next" onclick="slidy.to(options.index + 1)">→</button>
-        </nav>
+            <nav id="dots"></nav>
 
-        <nav id="dots"></nav>
-
-        <form>
-            <fieldset>
-                <label title="limit">
-                    <input onchange="setLimit()" name="limit" type="number" size="1" step="1" min="1" max="100" />
-                </label>
-                <label title="width">
-                    <input onchange="setVar(section, this.name, this.value)" name="width" size="4" />
-                </label>
-                <label title="gap">
-                    <input onchange="setVar(section, this.name, this.value)" name="gap" size="3" />
-                </label>
-                <label title="duration">
-                    <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100"
-                        max="1000" />
-                </label>
-                <label title="gravity">
-                    <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1"
-                        max="2" />
-                </label>
-                <!-- <label>
+            <form>
+                <fieldset>
+                    <label title="limit">
+                        <input
+                            onchange="setLimit()"
+                            name="limit"
+                            type="number"
+                            size="1"
+                            step="1"
+                            min="1"
+                            max="100"
+                        />
+                    </label>
+                    <label title="width">
+                        <input
+                            onchange="setVar(section, this.name, this.value)"
+                            name="width"
+                            size="4"
+                        />
+                    </label>
+                    <label title="gap">
+                        <input
+                            onchange="setVar(section, this.name, this.value)"
+                            name="gap"
+                            size="3"
+                        />
+                    </label>
+                    <label title="duration">
+                        <input
+                            onchange="changeValue()"
+                            name="duration"
+                            type="number"
+                            size="4"
+                            step="1"
+                            min="100"
+                            max="1000"
+                        />
+                    </label>
+                    <label title="gravity">
+                        <input
+                            onchange="changeValue()"
+                            name="gravity"
+                            type="number"
+                            size="4"
+                            step="0.1"
+                            min="0.1"
+                            max="2"
+                        />
+                    </label>
+                    <!-- <label>
                 align
                 <select bind:value={align}>
                     <option value="start">← start</option>
@@ -84,200 +125,207 @@
                     <option value="end">end →</option>
                 </select>
             </label> -->
-            </fieldset>
-        </form>
-    </footer>
+                </fieldset>
+            </form>
+        </footer>
 
-    <article>
-        <h1>HTML Ipsum Presents</h1>
+        <article>
+            <h1>HTML Ipsum Presents</h1>
 
-        <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis
-            egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero
-            sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo.
-            Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed,
-            <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum,
-            eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis
-            pulvinar facilisis. Ut felis.
-        </p>
+            <p>
+                <strong>Pellentesque habitant morbi tristique</strong> senectus et netus
+                et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+                vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet
+                quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris
+                placerat eleifend leo. Quisque sit amet est et sapien ullamcorper
+                pharetra. Vestibulum erat wisi, condimentum sed,
+                <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit
+                eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus
+                enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis.
+                Ut felis.
+            </p>
 
-        <h2>Header Level 2</h2>
+            <h2>Header Level 2</h2>
 
-        <ol>
-            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            <li>Aliquam tincidunt mauris eu risus.</li>
-        </ol>
+            <ol>
+                <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+                <li>Aliquam tincidunt mauris eu risus.</li>
+            </ol>
 
-        <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet
-                congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis
-                mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare
-                est.</p>
-        </blockquote>
+            <blockquote>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                    magna. Cras in mi at felis aliquet congue. Ut a est eget ligula
+                    molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis
+                    mollis, tellus est malesuada tellus, at luctus turpis elit sit amet
+                    quam. Vivamus pretium ornare est.
+                </p>
+            </blockquote>
 
-        <h3>Header Level 3</h3>
+            <h3>Header Level 3</h3>
 
-        <ul>
-            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            <li>Aliquam tincidunt mauris eu risus.</li>
-        </ul>
+            <ul>
+                <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+                <li>Aliquam tincidunt mauris eu risus.</li>
+            </ul>
 
-        <pre><code>
+            <pre><code>
             #header h1 a {
               display: block;
               width: 300px;
               height: 80px;
             }
             </code></pre>
-    </article>
+        </article>
 
-    <script>
-        let position = 0,
-            slidy = null,
-            dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-            page = randomQ(1, 69),
-            limit = 9;
+        <script>
+            let position = 0,
+                slidy = null,
+                dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
+                page = randomQ(1, 69),
+                limit = 9;
 
-        let options = {
-            index: 4,
-            length: limit,
-            snap: true,
-            loop: false,
-            clamp: false,
-            gravity: 1.2,
-            duration: 375,
-            vertical: false,
-        };
+            let options = {
+                index: 4,
+                length: limit,
+                snap: true,
+                loop: false,
+                clamp: false,
+                gravity: 1.2,
+                duration: 375,
+                vertical: false,
+            };
 
-        const section = document.querySelector('section'),
-            node = document.querySelector('#slidy'),
-            nav = document.querySelector('#dots'),
-            stats = document.querySelector('#stats'),
-            buttons = document.querySelectorAll('button'),
-            inputs = document.querySelectorAll('input');
+            const section = document.querySelector('section'),
+                node = document.querySelector('#slidy'),
+                nav = document.querySelector('#dots'),
+                stats = document.querySelector('#stats'),
+                buttons = document.querySelectorAll('button'),
+                inputs = document.querySelectorAll('input');
 
-        window.onload = () => {
-            getPhotos(node, page, limit);
+            window.onload = () => {
+                getPhotos(node, page, limit);
 
-            for (const button of buttons) {
-                if (options[button.id] || (button.id === 'dark' && dark))
-                    button.classList.add('active');
-            }
-            for (const input of inputs) {
-                if (input.name in options) input.value = options[input.name];
-                else if (input.name === 'width')
-                    input.value = getVar(section, '--width');
-                else if (input.name === 'gap') input.value = getVar(section, '--gap');
-                else if (input.name === 'limit') input.value = limit;
-            }
+                for (const button of buttons) {
+                    if (options[button.id] || (button.id === 'dark' && dark))
+                        button.classList.add('active');
+                }
+                for (const input of inputs) {
+                    if (input.name in options) input.value = options[input.name];
+                    else if (input.name === 'width')
+                        input.value = getVar(section, '--width');
+                    else if (input.name === 'gap') input.value = getVar(section, '--gap');
+                    else if (input.name === 'limit') input.value = limit;
+                }
 
-            node.addEventListener('mount', (e) => {
-                // console.log(e, options, buttons, inputs);
-            });
+                node.addEventListener('mount', (e) => {
+                    // console.log(e, options, buttons, inputs);
+                });
 
-            node.addEventListener('move', (e) => {
-                indexing(e.detail.index);
-                scrolling(e.detail.position);
-                // console.log(options.gravity)
-            });
+                node.addEventListener('move', (e) => {
+                    indexing(e.detail.index);
+                    scrolling(e.detail.position);
+                    // console.log(options.gravity)
+                });
 
-            node.addEventListener('resize', (e) => {
-                // console.log(e)
-            });
+                node.addEventListener('resize', (e) => {
+                    // console.log(e)
+                });
 
-            node.addEventListener('update', (e) => {
-                // console.log(e)
-            });
+                node.addEventListener('update', (e) => {
+                    // console.log(e)
+                });
 
-            function scrolling(p) {
-                position = p;
-                stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(
-                    position
-                )}</b>px`;
-            }
+                function scrolling(p) {
+                    position = p;
+                    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(
+                        position
+                    )}</b>px`;
+                }
 
-            function indexing(x) {
-                options.index = x;
-                const cix = Math.floor(node.children.length / 2);
+                function indexing(x) {
+                    options.index = x;
+                    const cix = Math.floor(node.children.length / 2);
 
-                Array.from(node.children).forEach((n, i) =>
-                    i === (options.loop ? cix : x)
-                        ? n.classList.add('active')
-                        : n.classList.remove('active')
-                );
-                Array.from(nav.children).forEach((n, i) =>
-                    i === x ? n.classList.add('active') : n.classList.remove('active')
-                );
-            }
-        };
-
-        function randomQ(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function activate(node, prop) {
-            node.classList.toggle('active');
-            switch (event.target.id) {
-                case 'dark':
-                    document.documentElement.setAttribute(
-                        'scheme',
-                        !dark ? 'dark' : 'light'
+                    Array.from(node.children).forEach((n, i) =>
+                        i === (options.loop ? cix : x)
+                            ? n.classList.add('active')
+                            : n.classList.remove('active')
                     );
-                    dark = !dark;
-                    break;
-                case 'vertical':
-                    setVar(section, 'flow', vertical ? 'column' : 'row');
-                    vertical = !vertical;
-                    break;
+                    Array.from(nav.children).forEach((n, i) =>
+                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                }
+            };
 
-                default:
-                    break;
+            function randomQ(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
             }
-            prop = !prop;
-            return prop;
-        }
 
-        function changeValue() {
-            slidy.update({ [event.target.name]: +event.target.value });
-            options[event.target.name] = +event.target.value;
-        }
-        function getVar(node, name) {
-            return getComputedStyle(node).getPropertyValue(name);
-        }
-        function setVar(node, name, value) {
-            return node.style.setProperty(`--${name}`, value);
-        }
+            function activate(node, prop) {
+                node.classList.toggle('active');
+                switch (event.target.id) {
+                    case 'dark':
+                        document.documentElement.setAttribute(
+                            'scheme',
+                            !dark ? 'dark' : 'light'
+                        );
+                        dark = !dark;
+                        break;
+                    case 'vertical':
+                        setVar(section, 'flow', vertical ? 'column' : 'row');
+                        vertical = !vertical;
+                        break;
 
-        function setLimit() {
-            // console.info(event.target.value)
-            limit = event.target.value;
-            getPhotos(node, page, limit);
-        }
+                    default:
+                        break;
+                }
+                prop = !prop;
+                return prop;
+            }
 
-        async function getPhotos(node, page, limit) {
-            node.innerHTML = `<li style="display: grid; place-items: center">Loading...</li>`;
-            fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
-                .then(async (res) => {
-                    const photos = await res.json();
-                    node.innerHTML = photos
-                        .map(
-                            (d, i) =>
-                                `<li><img src="${d.download_url}" width="${d.width / 5
-                                }" height="${d.height / 5}" alt="${i}"/></li>`
-                        )
-                        .join('');
-                    nav.innerHTML = photos
-                        .map(
-                            (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
-                        )
-                        .join('');
-                })
-                .then(() => {
-                    slidy?.destroy();
-                    slidy = Slidy.slidy(node, options);
-                })
-                .catch((e) => console.error(e));
-        }
-    </script>
-</body>
+            function changeValue() {
+                slidy.update({ [event.target.name]: +event.target.value });
+                options[event.target.name] = +event.target.value;
+            }
+            function getVar(node, name) {
+                return getComputedStyle(node).getPropertyValue(name);
+            }
+            function setVar(node, name, value) {
+                return node.style.setProperty(`--${name}`, value);
+            }
 
+            function setLimit() {
+                // console.info(event.target.value)
+                limit = event.target.value;
+                getPhotos(node, page, limit);
+            }
+
+            async function getPhotos(node, page, limit) {
+                node.innerHTML = `<li style="display: grid; place-items: center">Loading...</li>`;
+                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
+                    .then(async (res) => {
+                        const photos = await res.json();
+                        node.innerHTML = photos
+                            .map(
+                                (d, i) =>
+                                    `<li><img src="${d.download_url}" width="${
+                                        d.width / 5
+                                    }" height="${d.height / 5}" alt="${i}"/></li>`
+                            )
+                            .join('');
+                        nav.innerHTML = photos
+                            .map(
+                                (d, i) => `<button onclick="slidy.to(${i})">${i}</button>`
+                            )
+                            .join('');
+                    })
+                    .then(() => {
+                        slidy?.destroy();
+                        slidy = Slidy.slidy(node, options);
+                    })
+                    .catch((e) => console.error(e));
+            }
+        </script>
+    </body>
 </html>
