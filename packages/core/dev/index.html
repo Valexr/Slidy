@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" /> -->
+    <meta http-equiv="Expires" content="0" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="dev.css" />
 
@@ -60,14 +60,13 @@
         <form>
             <fieldset>
                 <label title="limit">
-                    <input onchange="setLimit()" name="limit" type="number" size="4" step="1" min="1" max="100" />
+                    <input onchange="setLimit()" name="limit" type="number" size="1" step="1" min="1" max="100" />
                 </label>
                 <label title="width">
                     <input onchange="setVar(section, this.name, this.value)" name="width" size="4" />
                 </label>
                 <label title="gap">
-                    <input onchange="setVar(section, this.name, this.value)" name="gap" size="4" step="1" min="0"
-                        max="100" />
+                    <input onchange="setVar(section, this.name, this.value)" name="gap" size="3" />
                 </label>
                 <label title="duration">
                     <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100"

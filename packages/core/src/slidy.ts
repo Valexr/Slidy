@@ -44,7 +44,8 @@ export function slidy(
         gap = 0,
         gravity = 1.2,
         align = 'center',
-        direction = 0
+        direction = 0,
+        pressed = false;
     // children = init(node);
 
     const PARENT = node.parentElement;
@@ -92,7 +93,7 @@ export function slidy(
             // console.log(children, init(node));
             const styles = {
                 userSelect: 'none',
-                // willChange: 'auto',
+                willChange: 'transform',
                 touchAction: 'pan-y',
                 webkitUserSelect: 'none',
                 pointerEvents: matchMedia('(hover:hover)').matches ? 'none' : 'auto',
@@ -194,15 +195,28 @@ export function slidy(
     }
 
     let timestamp = 0;
-    function track(timestamp: number): void {
-        RAF(function track(time: number) {
-            // const time = performance.now()
-            const v = (1000 * (position - frame)) / (1 + (time - timestamp));
-            velocity = (2 - options.gravity) * v + 0.2 * velocity;
-            timestamp = time;
-            frame = position;
-            rak = RAF(track);
-        });
+    function track(): void {
+        let now, elapsed, delta, v, g;
+
+        now = performance.now()
+        elapsed = now - timestamp;
+        timestamp = now;
+        delta = position - frame;
+        frame = position;
+        g = 2 - options.gravity
+
+        v = 1000 * delta / (1 + elapsed);
+        velocity = g * v + 0.2 * velocity;
+        // RAF(function track(time: number) {
+        // const time = performance.now()
+        // const diff = position - frame
+        // const elapsed = time - timestamp
+        // timestamp = time;
+        // frame = position;
+        // const v = (1000 * diff) / (1 + elapsed);
+        // velocity = gravity * v + 0.2 * velocity;
+        // rak = RAF(track);
+        // });
     }
 
     function scroll({ target, amplitude, duration, timestamp }: Scroll): void {
@@ -227,27 +241,33 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent): void {
-        clear();
-        frame = position;
+        pressed = true;
         reference = coordinate(e, options.vertical);
-        track(performance.now());
-
+        // track(performance.now());
+        velocity = 0;
+        frame = position;
+        timestamp = performance.now()
+        clear();
+        dragtime = setInterval(track, 100)
         listen(window, windowEvents);
-
-        e.preventDefault();
+        console.log(e)
+        if (e.type === 'mousedown') e.preventDefault();
         e.stopPropagation();
-        return;
+        return false;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
-        const delta =
-            (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
+        let delta, pos, g = 2 - options.gravity
+        if (pressed) {
+            pos = coordinate(e, options.vertical)
+        }
+        delta = reference - pos
         reference = coordinate(e, options.vertical);
-        move({ pos: delta });
+        move({ pos: delta * g });
 
         e.preventDefault();
         e.stopPropagation();
-        return
+        return false
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
@@ -274,7 +294,7 @@ export function slidy(
 
         e.preventDefault();
         e.stopPropagation();
-        return
+        return false
     }
 
     function delting(position: number): Delta {
@@ -325,7 +345,7 @@ export function slidy(
 
     function clear(): void {
         hix = wheeling || toing ? hix : options.index;
-        // clearInterval(dragtime);
+        clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);

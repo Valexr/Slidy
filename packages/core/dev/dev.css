@@ -72,8 +72,9 @@ button:focus {
     border-color: var(--accent);
 }
 
-nav {
-    margin: 1rem 0;
+nav,
+form {
+    /* margin: 1rem 0; */
     /* will-change: transform, border-color, color; */
 }
 
@@ -100,6 +101,7 @@ fieldset {
     border: 0;
     margin: 0;
     padding: 0;
+    flex-flow: row wrap;
 }
 legend {
     display: flex;
@@ -114,12 +116,12 @@ form {
 }
 
 form > * {
-    flex: 0 auto;
+    /* flex: 0 auto; */
     /* gap: 1rem; */
     /* padding: 0.5rem; */
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    /* align-items: center; */
+    /* justify-content: space-around; */
 }
 
 label {
@@ -138,7 +140,7 @@ h1 sub,
 h1 sup {
     position: absolute;
     right: 0;
-    bottom: -0.75rem;
+    bottom: -1rem;
     font-size: small;
     font-weight: 300;
     display: inline;
@@ -152,6 +154,7 @@ header p {
     margin: 0;
     display: inline;
     padding: 0;
+    bottom: 9px;
 }
 header p {
     font-size: 1;
@@ -162,6 +165,10 @@ footer {
     align-items: center;
     justify-content: space-between;
     flex-flow: row wrap;
+}
+footer {
+    gap: 1rem;
+    padding: 1rem 0;
 }
 
 :root {
