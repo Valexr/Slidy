@@ -22,6 +22,7 @@ function indexing(node: HTMLElement, index: number, loop: boolean) {
 
 function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) {
     if (e.type === 'wheel') {
+        if (!vertical && Math.abs(e.deltaY) < 2) e.preventDefault()
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }

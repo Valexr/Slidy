@@ -92,7 +92,7 @@ export function slidy(
             // console.log(children, init(node));
             const styles = {
                 userSelect: 'none',
-                willChange: 'auto',
+                // willChange: 'auto',
                 touchAction: 'pan-y',
                 webkitUserSelect: 'none',
                 pointerEvents: matchMedia('(hover:hover)').matches ? 'none' : 'auto',
@@ -132,7 +132,7 @@ export function slidy(
             options.gravity =
                 max.idx || min.idx ? maxMin(1.8, 0, options.gravity + 0.015) : gravity;
         }
-
+        // console.log(gravity, options.gravity)
         function translate(vertical: boolean): string {
             return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
         }
@@ -231,13 +231,12 @@ export function slidy(
         frame = position;
         reference = coordinate(e, options.vertical);
         track(performance.now());
-        // timestamp = performance.now()
-        // dragtime = setInterval(() => track(), 100)
 
         listen(window, windowEvents);
-        // e.preventDefault();
-        // e.stopPropagation();
-        // return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        return;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
@@ -245,9 +244,10 @@ export function slidy(
             (reference - coordinate(e, options.vertical)) * (2 - options.gravity);
         reference = coordinate(e, options.vertical);
         move({ pos: delta });
-        // e.preventDefault();
-        // e.stopPropagation();
-        // return
+
+        e.preventDefault();
+        e.stopPropagation();
+        return
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
@@ -272,9 +272,9 @@ export function slidy(
                     });
         } else to(options.index);
 
-        // e.preventDefault();
-        // e.stopPropagation();
-        // return
+        e.preventDefault();
+        e.stopPropagation();
+        return
     }
 
     function delting(position: number): Delta {
@@ -292,25 +292,22 @@ export function slidy(
         clear();
         wheeling = true;
 
-        if (
-            (Math.abs(coordinate(e, options.vertical)) &&
-                Math.abs(coordinate(e, options.vertical)) < 15) ||
-            e.shiftKey
-        )
+        if (e.shiftKey) {
             e.preventDefault();
-
-        if (e.shiftKey) to(options.index - Math.sign(e.deltaY));
-        else
+            to(options.index - Math.sign(e.deltaY));
+        } else {
             move({
                 pos: coordinate(e, options.vertical) * (2 - options.gravity),
             });
+        }
 
-        if ((options.snap || options.clamp) && !e.shiftKey)
+        if ((options.snap || options.clamp) && !e.shiftKey) {
             wheeltime = setTimeout(() => {
                 to(options.index);
                 wheeling = false;
                 options.gravity = gravity;
             }, 100);
+        }
     }
 
     function onKeys(e: KeyboardEvent): void {

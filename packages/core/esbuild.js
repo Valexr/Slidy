@@ -37,6 +37,7 @@ if (DEV) {
         outfile: 'dev/dev.js',
         globalName: 'Slidy',
         format: 'iife',
+        sourcemap: 'inline',
         incremental: true,
     }).then((bundle) => {
         derver({
