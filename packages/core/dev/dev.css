@@ -311,6 +311,7 @@ ul#slidy li img {
     ul#slidy li img {
         /* width: auto; */
         /* will-change: transform; */
+        /* pointer-events: auto; */
     }
     ul#slidy li:before {
         /* will-change: transform; */
