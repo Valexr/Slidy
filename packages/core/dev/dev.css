@@ -268,7 +268,6 @@ ul#slidy {
 }
 
 ul#slidy li {
-    /* --shadow: whitesmoke; */
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -277,6 +276,8 @@ ul#slidy li {
     box-sizing: border-box;
     position: relative;
     background: var(--shadow);
+    /* border-radius: 0.25rem; */
+    /* overflow: hidden; */
     /* box-shadow: inset 0px 0px 1px 1px var(--shadow); */
     /* will-change: transform; */
 }

@@ -107,7 +107,7 @@ export function slidy(
             to(options.index);
 
             if (PARENT) {
-                // css(PARENT, { outline: 'none' });
+                css(PARENT, { outline: 'none' });
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT);
             }
@@ -195,11 +195,10 @@ export function slidy(
         move({ pos: pos - position, transition: options.duration });
     }
 
-    let timestamp = 0, constTime = 60
+    let timestamp = 0, consttime = 100
     function track(): void {
-        let now, elapsed, delta, v, g;
+        let now, elapsed, delta, v, g = 2 - options.gravity;
 
-        g = 2 - options.gravity
         now = performance.now()
         elapsed = now - timestamp;
         delta = position - frame;
@@ -207,19 +206,9 @@ export function slidy(
         v = 1000 * delta / (1 + elapsed);
         velocity = g * v + 0.2 * velocity;
 
-        if (elapsed < constTime) return
+        if (elapsed < consttime) return
         timestamp = now;
         frame = position;
-        // RAF(function track(time: number) {
-        // const time = performance.now()
-        // const diff = position - frame
-        // const elapsed = time - timestamp
-        // timestamp = time;
-        // frame = position;
-        // const v = (1000 * diff) / (1 + elapsed);
-        // velocity = gravity * v + 0.2 * velocity;
-        // rak = RAF(track);
-        // });
     }
 
     function scroll({ target, amplitude, duration, timestamp }: Scroll): void {
@@ -246,10 +235,9 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent): void {
-        // pressed = true;
+        pressed = true;
         clear();
         reference = coordinate(e, options.vertical);
-        // track(performance.now());
         velocity = 0;
         timestamp = performance.now()
         frame = position;
@@ -257,30 +245,29 @@ export function slidy(
         listen(window, windowEvents);
         // console.log(e)
         // if (e.type === 'mousedown') e.preventDefault();
-        // e.stopPropagation();
-        // return false;
+        e.stopPropagation();
+        return false;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
-        let delta, pos, g
-        g = 2 - options.gravity
-        // if (pressed) {
-        pos = coordinate(e, options.vertical)
-        delta = reference - pos
-        track()
-        // if (delta > 2 || delta < -2) {
-        reference = pos;
-        move({ pos: delta * g });
-        // }
-        // }
+        let delta, pos, g = 2 - options.gravity
+        if (pressed) {
+            pos = coordinate(e, options.vertical)
+            delta = reference - pos
+            track()
+            if (delta > 2 || delta < -2) {
+                reference = pos;
+                move({ pos: delta * g });
+            }
+        }
 
-        // e.preventDefault();
-        // e.stopPropagation();
-        // return false
+        e.preventDefault();
+        e.stopPropagation();
+        return false
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
-        // pressed = false;
+        pressed = false;
         track()
         clear();
         const { target, amplitude } = delting(position);
@@ -303,13 +290,13 @@ export function slidy(
                     });
         } else to(options.index);
 
-        // e.preventDefault();
-        // e.stopPropagation();
-        // return false
+        e.preventDefault();
+        e.stopPropagation();
+        return false
     }
 
     function delting(position: number): Delta {
-        // velocity = maxMin(amp().max, -amp().max, velocity);
+        velocity = maxMin(amp().max, -amp().max, velocity);
         let amplitude, g = 2 - options.gravity
         amplitude = g * velocity;
         const target = options.snap
