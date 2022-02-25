@@ -24,7 +24,8 @@ function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) 
     if (e.type === 'wheel') {
         if (!vertical && Math.abs(e.deltaY) < 2) e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-    } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
+        // } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
+    } else return vertical ? e.clientY : e.clientX;
 }
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
@@ -150,8 +151,8 @@ const listen = (
 ) =>
     events.forEach(([event, handle]) =>
         on
-            ? node?.addEventListener(event, handle, true)
-            : node?.removeEventListener(event, handle, true)
+            ? node?.addEventListener(event, handle, false)
+            : node?.removeEventListener(event, handle, false)
     );
 
 function init(node: HTMLElement): Child[] {
