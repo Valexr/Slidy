@@ -94,8 +94,9 @@
 
     {#if navigation}
         <Pagination
-            current={index}
-            pages={slides.length}
+            current={index + 1}
+            start={1}
+            end={slides.length}
             {vertical}
         />
     {/if}
