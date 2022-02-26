@@ -24,8 +24,8 @@ function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) 
     if (e.type === 'wheel') {
         if (!vertical && Math.abs(e.deltaY) < 2) e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-        // } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
-    } else return vertical ? e.clientY : e.clientX;
+    } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
+    // } else return vertical ? e.clientY : e.clientX;
 }
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
@@ -44,15 +44,7 @@ const position = (node: HTMLElement, child: Element, vertical: boolean, align: s
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
-// const align = (node: HTMLElement, vertical: boolean): string => {
-//     return distance(node, 0, vertical) < maxSize(node, vertical)
-//         ? 'start'
-//         : distance(node, 0, vertical) >= maxSize(node, vertical) &&
-//           distance(node, nodes(node).length - 1, vertical) > maxSize(node, vertical) &&
-//           maxSize(node, vertical) !== 0
-//         ? 'center'
-//         : 'end';
-// };
+
 const gap = (node: HTMLElement, vertical: boolean) => {
     const last = nodes(node).length - 1;
     const prev =
@@ -76,26 +68,18 @@ function closest({
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
 }
-let current, indexes;
+
 const find = {
     index: (
         node: HTMLElement,
         target: number,
-        child: Element | undefined,
+        child: Element,
         vertical: boolean,
         align: string
-    ) => {
-        // current = nodes(node).indexOf(closest({ node, target, vertical, align }));
-        // indexes = [...Array(nodes(node).length).keys()];
-        // console.info(
-        //     rotate(indexes, current - cix(node)),
-        //     rotate(indexes, current - cix(node))[cix(node)],
-        //     current
-        // );
-        return child
+    ) =>
+        child
             ? nodes(node).indexOf(child)
-            : +closest({ node, target, vertical, align }).dataset.index;
-    },
+            : +closest({ node, target, vertical, align }).dataset.index,
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),
     target: (node: HTMLElement, target: number, vertical: boolean, align: string) =>

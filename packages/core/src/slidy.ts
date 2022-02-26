@@ -2,7 +2,6 @@ import { onMount } from './env';
 import type { Child, Delta, Options, Scroll } from './types';
 import {
     css,
-    init,
     find,
     prev,
     next,
@@ -42,29 +41,25 @@ export function slidy(
         hip = position,
         hix = options.index,
         gap = 0,
-        gravity = 1.2,
+        gravity = options.gravity,
         align = 'center',
         direction = 0,
         pressed = false,
         timestamp = 0,
         consttime = 100;
-    // children = init(node);
 
     const PARENT = node.parentElement;
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
-        // ['touchmove', onMove],
-        // ['mousemove', onMove],
-        // ['touchend', onUp],
-        // ['mouseup', onUp],
-        ['pointermove', onMove],
-        ['pointerup', onUp],
+        ['touchmove', onMove],
+        ['mousemove', onMove],
+        ['touchend', onUp],
+        ['mouseup', onUp],
         ['scroll', onScroll],
     ];
     const parentEvents: [keyof HTMLElementEventMap | string, () => void][] = [
         ['contextmenu', clear],
-        // ['touchstart', onDown],
-        // ['mousedown', onDown],
-        ['pointerdown', onDown],
+        ['touchstart', onDown],
+        ['mousedown', onDown],
         ['keydown', onKeys],
         ['wheel', onWheel],
         ['resize', onResize],
@@ -96,18 +91,15 @@ export function slidy(
 
     onMount(node, options.length)
         .then((childs: HTMLCollection | Child[]) => {
-            // console.log(children, init(node));
             const styles = {
                 userSelect: 'none',
                 willChange: 'auto',
                 touchAction: 'pan-y',
                 webkitUserSelect: 'none',
-                // pointerEvents: matchMedia('(hover:hover)').matches ? 'none' : 'auto',
                 pointerEvents: 'none',
             };
             css(node, styles);
 
-            gravity = options.gravity;
             gap = find.gap(node, options.vertical);
             replace(node, options.index, options.loop);
             to(options.index);
@@ -140,7 +132,7 @@ export function slidy(
             options.gravity =
                 max.idx || min.idx ? maxMin(1.8, 0, options.gravity + 0.015) : gravity;
         }
-        // console.log(gravity, options.gravity)
+
         function translate(vertical: boolean): string {
             return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
         }
@@ -176,15 +168,14 @@ export function slidy(
         clear();
 
         options.index = indexing(node, index, options.loop);
-        // hix = options.index
 
         if (!options.loop) {
             align =
                 options.index === indx().min
                     ? 'start'
                     : options.index === indx().max
-                        ? 'end'
-                        : 'center';
+                    ? 'end'
+                    : 'center';
         }
         const child = find.child(node, options.index);
         const ix = options.loop
@@ -196,8 +187,8 @@ export function slidy(
                 ? find.target(node, target, options.vertical, align)
                 : target
             : target === 0
-                ? 0
-                : find.position(node, ix, options.vertical, align);
+            ? 0
+            : find.position(node, ix, options.vertical, align);
         move({ pos: pos - position, transition: options.duration });
     }
 
@@ -244,31 +235,22 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent): void {
-        if (e.pointerType === 'touch') {
-            css(PARENT, { touchAction: 'auto' });
-        }
-        PARENT.setPointerCapture(e.pointerId);
         pressed = true;
         clear();
+
         reference = coordinate(e, options.vertical);
         velocity = 0;
         timestamp = performance.now();
         frame = position;
-        // dragtime = setInterval(track, 100)
+
         listen(window, windowEvents);
-        // console.log(e)
-        // if (e.type === 'mousedown') e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
-        if (e.pointerType === 'touch') {
-            css(PARENT, { touchAction: 'none' });
-        }
         let delta,
             pos,
             g = 2 - options.gravity;
+
         if (pressed) {
             pos = coordinate(e, options.vertical);
             delta = reference - pos;
@@ -278,56 +260,46 @@ export function slidy(
             move({ pos: delta * g });
             // }
         }
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 
     function onUp(e: MouseEvent | TouchEvent): void {
-        // if (e.pointerType === 'touch') {
-        //     css(PARENT, { touchAction: 'auto' })
-        // }
-        PARENT.releasePointerCapture(e.pointerId);
-
         pressed = false;
-        // track();
+        track();
         clear();
+
         const { target, amplitude } = delting(position);
-        // console.info(target, amplitude)
+
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100
                 ? //  ||
-                //     (!options.loop &&
-                //         options.snap &&
-                //         ((options.index === indx().min && direction < 0) ||
-                //             (options.index === indx().max && direction > 0)))
-                to(options.index)
+                  //     (!options.loop &&
+                  //         options.snap &&
+                  //         ((options.index === indx().min && direction < 0) ||
+                  //             (options.index === indx().max && direction > 0)))
+                  to(options.index)
                 : options.clamp
-                    ? to(options.index, target)
-                    : scroll({
-                        target,
-                        amplitude,
-                        duration: options.duration,
-                        timestamp: performance.now(),
-                    });
+                ? to(options.index, target)
+                : scroll({
+                      target,
+                      amplitude,
+                      duration: options.duration,
+                      timestamp: performance.now(),
+                  });
         } else to(options.index);
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 
     function delting(position: number): Delta {
         velocity = maxMin(amp().max, -amp().max, velocity);
         let amplitude,
+            target,
             g = 2 - options.gravity;
+
         amplitude = g * velocity;
-        const target = options.snap
+        target = options.snap
             ? find.target(node, position + amplitude, options.vertical, align)
             : position + amplitude;
+
         amplitude = target - position;
-        console.log(velocity, target, amplitude);
         return { target, amplitude };
     }
 
@@ -363,13 +335,8 @@ export function slidy(
         }
     }
 
-    function onPointer(e: PointerEvent) {
+    function onScroll(e: Scroll) {
         console.info(e);
-    }
-    function onScroll(e: PointerEvent) {
-        console.info(e);
-        css(PARENT, { touchAction: 'auto' });
-        to(options.index);
     }
 
     function onResize(e: CustomEvent): void {
@@ -388,7 +355,6 @@ export function slidy(
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
-                // console.log(key)
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key], options.loop);
