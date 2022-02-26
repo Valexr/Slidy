@@ -48,15 +48,15 @@ export function slidy(
         timestamp = 0,
         consttime = 100;
 
-    const PARENT = node.parentElement;
+    const PARENT: Element | ParentNode | null = node.parentNode;
     const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
         ['touchend', onUp],
         ['mouseup', onUp],
-        ['scroll', onScroll],
+        // ['scroll', onScroll],
     ];
-    const parentEvents: [keyof HTMLElementEventMap | string, () => void][] = [
+    const parentEvents: [keyof HTMLElementEventMap, EventListener][] = [
         ['contextmenu', clear],
         ['touchstart', onDown],
         ['mousedown', onDown],
@@ -70,27 +70,21 @@ export function slidy(
         dispatch(node, 'resize', { detail: node });
     });
 
-    const indx = () => {
-        return {
-            min: 0,
-            max: node.children.length - 1,
-        };
-    };
-    const amp = () => {
-        return {
-            max: find.position(node, indx().max, options.vertical, 'end'),
-            min: find.position(node, indx().min, options.vertical, 'start'),
-        };
-    };
-    const active = () => {
-        return {
-            pos: find.position(node, options.index, options.vertical, align),
-            size: find.size(node, options.index, options.vertical),
-        };
-    };
+    const indx = () => ({
+        min: 0,
+        max: node.childNodes.length - 1,
+    })
+    const amp = () => ({
+        max: find.position(node, indx().max, options.vertical, 'end'),
+        min: find.position(node, indx().min, options.vertical, 'start'),
+    })
+    const active = () => ({
+        pos: find.position(node, options.index, options.vertical, align),
+        size: find.size(node, options.index, options.vertical),
+    })
 
     onMount(node, options.length)
-        .then((childs: HTMLCollection | Child[]) => {
+        .then((childs: NodeList) => {
             const styles = {
                 userSelect: 'none',
                 willChange: 'auto',
@@ -114,7 +108,7 @@ export function slidy(
         .catch((error) => console.error(error));
 
     function move({ pos, transition = 0 }: { pos: number; transition?: number }): void {
-        position += options.loop ? looping(pos) : pos;
+        position += options.loop ? looping(pos) : Math.trunc(pos);
         options.index = find.index(node, position, undefined, options.vertical, align);
 
         direction = Math.sign(pos); // prev << -1 | 1 >> next
@@ -164,8 +158,8 @@ export function slidy(
 
     let toing = false;
     function to(index: number, target: number | null = null): void {
-        toing = true;
         clear();
+        toing = true;
 
         options.index = indexing(node, index, options.loop);
 
@@ -174,8 +168,8 @@ export function slidy(
                 options.index === indx().min
                     ? 'start'
                     : options.index === indx().max
-                    ? 'end'
-                    : 'center';
+                        ? 'end'
+                        : 'center';
         }
         const child = find.child(node, options.index);
         const ix = options.loop
@@ -187,8 +181,8 @@ export function slidy(
                 ? find.target(node, target, options.vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, options.vertical, align);
+                ? 0
+                : find.position(node, ix, options.vertical, align);
         move({ pos: pos - position, transition: options.duration });
     }
 
@@ -212,16 +206,20 @@ export function slidy(
     }
 
     function scroll({ target, amplitude, duration, timestamp }: Scroll): void {
-        timestamp = performance.now();
         if (amplitude) {
+            timestamp = performance.now();
+
             RAF(function scroll(time: number) {
                 let elapsed, delta, dist, pos;
+
                 elapsed = (time - timestamp) / duration;
                 delta = amplitude * Math.exp(-elapsed);
                 dist = position - (target - delta);
                 pos = options.loop ? delta / 27 : -dist;
+
                 move({ pos });
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
+
                 if (options.loop && Math.abs(delta) < 100) to(options.index);
                 else if (
                     !options.loop &&
@@ -235,11 +233,9 @@ export function slidy(
     }
 
     function onDown(e: MouseEvent | TouchEvent): void {
-        pressed = true;
         clear();
 
         reference = coordinate(e, options.vertical);
-        velocity = 0;
         timestamp = performance.now();
         frame = position;
 
@@ -251,49 +247,43 @@ export function slidy(
             pos,
             g = 2 - options.gravity;
 
-        if (pressed) {
-            pos = coordinate(e, options.vertical);
-            delta = reference - pos;
-            track();
-            // if (delta > 2 || delta < -2) {
-            reference = pos;
-            move({ pos: delta * g });
-            // }
-        }
+        pos = coordinate(e, options.vertical);
+        delta = reference - pos;
+        reference = pos;
+
+        move({ pos: delta * g });
+        track();
     }
 
-    function onUp(e: MouseEvent | TouchEvent): void {
-        pressed = false;
-        track();
+    function onUp(): void {
         clear();
 
         const { target, amplitude } = delting(position);
 
         if (Math.abs(amplitude) > 10) {
-            Math.abs(velocity) < 100
-                ? //  ||
-                  //     (!options.loop &&
-                  //         options.snap &&
-                  //         ((options.index === indx().min && direction < 0) ||
-                  //             (options.index === indx().max && direction > 0)))
-                  to(options.index)
+            Math.abs(velocity) < 100 ||
+                (!options.loop &&
+                    options.snap &&
+                    ((options.index === indx().min && direction < 0) ||
+                        (options.index === indx().max && direction > 0)))
+                ? to(options.index)
                 : options.clamp
-                ? to(options.index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration: options.duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(options.index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration: options.duration,
+                        timestamp: performance.now(),
+                    });
         } else to(options.index);
     }
 
     function delting(position: number): Delta {
-        velocity = maxMin(amp().max, -amp().max, velocity);
         let amplitude,
             target,
             g = 2 - options.gravity;
 
+        velocity = maxMin(amp().max, -amp().max, velocity);
         amplitude = g * velocity;
         target = options.snap
             ? find.target(node, position + amplitude, options.vertical, align)
@@ -307,6 +297,8 @@ export function slidy(
     function onWheel(e: WheelEvent): void {
         clear();
         wheeling = true;
+
+        window.onscroll = (e) => options.gravity = 2
 
         if (e.shiftKey) {
             e.preventDefault();
@@ -335,9 +327,10 @@ export function slidy(
         }
     }
 
-    function onScroll(e: Scroll) {
-        console.info(e);
-    }
+    // function onScroll(e: Scroll): void {
+    //     console.info(e);
+    //     // clear()
+    // }
 
     function onResize(e: CustomEvent): void {
         to(options.index);
@@ -372,7 +365,7 @@ export function slidy(
                         break;
                     case 'length':
                         options[key] = opts[key];
-                        Array.from(node.children).forEach((c, i) => {
+                        Array.from(node.childNodes).forEach((c, i) => {
                             c.dataset.index = i;
                         });
                         to(options.index);

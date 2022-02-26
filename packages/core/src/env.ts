@@ -1,7 +1,7 @@
 import type { Child } from './types';
 import { init } from './utils';
 
-function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection> {
+function onMount(node: HTMLElement, length: number = 2): Promise<NodeList> {
     return new Promise((resolve, reject) => {
         let mounting: NodeJS.Timer,
             count: number = 0;
@@ -13,10 +13,10 @@ function onMount(node: HTMLElement, length: number = 2): Promise<HTMLCollection>
             // console.log(count, node.children.length, length);
             if (length && node.children.length >= length) {
                 clearInterval(mounting);
-                Array.from(node.children).forEach((c, i) => {
+                Array.from(node.childNodes).forEach((c, i) => {
                     c.dataset.index = i;
                 });
-                resolve(node.children);
+                resolve(node.childNodes);
             } else if (count >= 69) {
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);

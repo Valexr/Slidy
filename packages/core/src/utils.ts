@@ -30,17 +30,17 @@ function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) 
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
 
-const cix = (node: HTMLElement) => Math.floor(node.children.length / 2);
-const parent = (node: HTMLElement) => node.parentElement;
-const nodes = (node: HTMLElement) => Array.from(node.children);
-const child = (node: HTMLElement, index: number) => node.children[index];
+const cix = (node: HTMLElement) => Math.floor(node.childNodes.length / 2);
+const parent = (node: HTMLElement) => node.parentNode;
+const nodes = (node: HTMLElement) => Array.from(node.childNodes);
+const child = (node: HTMLElement, index: number) => node.childNodes[index];
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
 const part = (align: string) => (align === 'center' ? 0.5 : 1);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
-const offset = (node: HTMLElement, child: Element, vertical: boolean) =>
-    node.parentElement[size(vertical)] - child[size(vertical)];
-const position = (node: HTMLElement, child: Element, vertical: boolean, align: string) =>
+const offset = (node: HTMLElement, child: ChildNode, vertical: boolean) =>
+    node.parentNode[size(vertical)] - child[size(vertical)];
+const position = (node: HTMLElement, child: ChildNode, vertical: boolean, align: string) =>
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
@@ -62,9 +62,9 @@ function closest({
     target: number;
     vertical: boolean;
     align: string;
-}): Element {
-    return nodes(node).reduce((prev: Element, curr: Element, i) => {
-        const pos = (child: Element) => position(node, child, vertical, align);
+}): ChildNode {
+    return nodes(node).reduce((prev: ChildNode, curr: ChildNode, i) => {
+        const pos = (child: ChildNode) => position(node, child, vertical, align);
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
 }
@@ -73,10 +73,10 @@ const find = {
     index: (
         node: HTMLElement,
         target: number,
-        child: Element,
+        child: ChildNode | undefined,
         vertical: boolean,
         align: string
-    ) =>
+    ): number =>
         child
             ? nodes(node).indexOf(child)
             : +closest({ node, target, vertical, align }).dataset.index,
@@ -90,31 +90,30 @@ const find = {
         nodes(node).find((child) => +child.dataset.index === index),
     gap: (node: HTMLElement, vertical: boolean) => gap(node, vertical),
     distance: (node: HTMLElement, index: number, vertical: boolean) =>
-        distance(node, index, vertical),
-    align: (node: HTMLElement, vertical: boolean) => align(node, vertical),
+        distance(node, index, vertical)
 };
 
 function prev(node: HTMLElement) {
-    const last = node.children[node.children.length - 1];
+    const last = node.childNodes[node.childNodes.length - 1];
     node.prepend(last);
 }
 function next(node: HTMLElement) {
-    const first = node.children[0];
+    const first = node.childNodes[0];
     node.append(first);
 }
 
-const rotate = (array: Array<Element | number>, key: number) =>
+const rotate = (array: Array<ChildNode | number>, key: number) =>
     array.slice(key).concat(array.slice(0, key));
 
 function replace(node: HTMLElement, index: number, loop: boolean) {
-    const replace = (nodes: Element[]) => node.replaceChildren(...nodes);
+    const replace = (nodes: NodeList) => node.replaceChildren(...nodes);
     const elements = loop
         ? rotate(nodes(node), index - cix(node))
         : nodes(node).sort((a, b) => a.dataset.index - b.dataset.index);
     replace(elements);
 }
 
-function css(node: HTMLElement, styles: CssRule) {
+function css(node: HTMLElement | ParentNode, styles: CssRule) {
     for (const property in styles) {
         node.style[property] = styles[property];
     }
@@ -123,20 +122,20 @@ function css(node: HTMLElement, styles: CssRule) {
 function dispatch(
     node: HTMLElement,
     name: string,
-    detail?: { [key: string]: string | number | HTMLCollection | HTMLElement | Options }
+    detail?: { [key: string]: string | number | NodeList | HTMLElement | Options }
 ) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }
 
 const listen = (
-    node: Window | HTMLElement | null,
+    node: Window | HTMLElement | ParentNode | null,
     events: [keyof HTMLElementEventMap, EventListener][],
     on: boolean = true
 ) =>
     events.forEach(([event, handle]) =>
         on
-            ? node?.addEventListener(event, handle, false)
-            : node?.removeEventListener(event, handle, false)
+            ? node?.addEventListener(event, handle, true)
+            : node?.removeEventListener(event, handle, true)
     );
 
 function init(node: HTMLElement): Child[] {
