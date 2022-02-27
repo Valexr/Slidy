@@ -373,17 +373,37 @@ Custom counter slot. To indicate the progress, component provide `index` and `am
 <details>
     <summary>
         <code>
-            arrow-prev (arrow-next)
+            arrows
         </code>
     </summary>
 
-Provides a slot for custom button contents the _previous_ and _next_ slide controls, like icons for example.
+Provides a slot for custom arrow buttons.
+
+If the nodes are `<button /> ` and  the `data-step` attribute is present, the event listener is not needed. Just provide the values `-1` and `1` for `data-step` on custom buttons.
+
+Also, there are `grid-area` is present in the layout for this custom controls: `prev-slide` and `next-slide` respectively.
 
 ```svelte
 <Slidy>
-    <svg slot="arrow-prev" />
-    <svg slot="arrow-next" />
+    <svelte:fragment slot="arrows">
+        <button data-step="-1">
+            Show the previous slide
+        </button>
+        <button data-step="1">
+            Show the next slide
+        </button>
+    </svelte:fragment>
 </Slidy>
+
+<style>
+    button:first-of-type {
+        grid-area: prev-slide;
+    }
+
+    button:last-of-type {
+        grid-area: next-slide;
+    }
+</style>
 ```
 
 </details>
