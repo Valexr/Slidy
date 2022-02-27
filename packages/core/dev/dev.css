@@ -168,7 +168,6 @@ footer {
 }
 footer {
     gap: 1rem;
-    padding: 1rem 0;
 }
 
 :root {
@@ -234,11 +233,10 @@ footer {
 
 main {
     height: 350px;
+    margin: var(--gap) auto;
 }
 
 section {
-    overflow: hidden;
-    margin: var(--gap) auto;
     height: 100%;
     width: 100%;
     position: relative;

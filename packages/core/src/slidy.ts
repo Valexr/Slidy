@@ -98,7 +98,7 @@ export function slidy(
             to(options.index);
 
             if (PARENT) {
-                css(PARENT, { outline: 'none' });
+                css(PARENT, { outline: 'none', overflow: 'hidden' });
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT);
             }

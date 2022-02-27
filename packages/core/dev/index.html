@@ -23,8 +23,8 @@
             </h1>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
-        <main>
-            <section style="--gap: 1em; --flow: row; --width: auto" tabindex="0">
+        <main style="--gap: 1em; --flow: row; --width: auto">
+            <section tabindex="0">
                 <ul id="slidy">
                     <li style="display: grid; place-items: center">Loading...</li>
                 </ul>
@@ -83,14 +83,14 @@
                     </label>
                     <label title="width">
                         <input
-                            onchange="setVar(section, this.name, this.value)"
+                            onchange="setVar(main, this.name, this.value)"
                             name="width"
                             size="4"
                         />
                     </label>
                     <label title="gap">
                         <input
-                            onchange="setVar(section, this.name, this.value)"
+                            onchange="setVar(main, this.name, this.value)"
                             name="gap"
                             size="3"
                         />
@@ -196,7 +196,7 @@
                 vertical: false,
             };
 
-            const section = document.querySelector('section'),
+            const main = document.querySelector('main'),
                 node = document.querySelector('#slidy'),
                 nav = document.querySelector('#dots'),
                 stats = document.querySelector('#stats'),
@@ -213,8 +213,8 @@
                 for (const input of inputs) {
                     if (input.name in options) input.value = options[input.name];
                     else if (input.name === 'width')
-                        input.value = getVar(section, '--width');
-                    else if (input.name === 'gap') input.value = getVar(section, '--gap');
+                        input.value = getVar(main, '--width');
+                    else if (input.name === 'gap') input.value = getVar(main, '--gap');
                     else if (input.name === 'limit') input.value = limit;
                 }
 
@@ -269,7 +269,7 @@
                         dark = !dark;
                         break;
                     case 'vertical':
-                        setVar(section, 'flow', vertical ? 'column' : 'row');
+                        setVar(main, 'flow', vertical ? 'column' : 'row');
                         vertical = !vertical;
                         break;
 
