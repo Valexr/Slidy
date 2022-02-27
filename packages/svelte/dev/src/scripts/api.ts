@@ -1,11 +1,16 @@
 import type { ImageSchema, GetPhotos, Size, Slide } from '../types';
 
-export const getPhotos: GetPhotos = async ({ limit = 5, page = 1, width = 1280, height = 800 }): Promise<Slide[]> => {
+export const getPhotos: GetPhotos = async ({
+    limit = 5,
+    page = 1,
+    width = 1280,
+    height = 800,
+}): Promise<Slide[]> => {
     const url = `https://picsum.photos/v2/list?limit=${limit}&page=${page}`;
     const response = await fetch(url, { mode: 'cors' });
     const data: ImageSchema[] = await response.json();
 
-    return data.map(item => {
+    return data.map((item) => {
         let size = applyRatio(
             { width: item.width, height: item.height },
             { width, height }
@@ -24,7 +29,7 @@ const applyRatio = (src: Size, size: Size): Size => {
     const ratio = Math.min(size.width / src.width, size.height, src.height);
     return {
         width: Math.round(src.width * ratio),
-        height: Math.round(src.height * ratio)
+        height: Math.round(src.height * ratio),
     };
 };
 

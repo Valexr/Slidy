@@ -23,6 +23,14 @@ const svelteOptions = {
     ],
 };
 
+const cssmodulesOptions = {
+    transformClassName: ({ path, content, node }) => {
+        // node - https://github.com/csstree/csstree/blob/bf05b963f85a08541c2991fa369f5bb613096db2/docs/ast.md
+        console.info({ path, content, node });
+        return `${node.name}`;
+    },
+};
+
 const esbuildBase = {
     entryPoints: ['src/index.ts'],
     bundle: true,
@@ -30,7 +38,7 @@ const esbuildBase = {
     sourcemap: false,
     legalComments: 'none',
     external: ['svelte', 'svelte/*'],
-    plugins: [sveltePlugin(svelteOptions)],
+    plugins: [sveltePlugin(svelteOptions), cssmodules(cssmodulesOptions)],
 };
 
 const derverConfig = {
@@ -61,7 +69,7 @@ if (DEV) {
         sourcemap: 'inline',
         incremental: true,
         legalComments: 'none',
-        plugins: [sveltePlugin(svelteOptions), cssmodules()],
+        plugins: [sveltePlugin(svelteOptions), cssmodules(cssmodulesOptions)],
     }).then((bundle) => {
         derver({
             ...derverConfig,
@@ -97,7 +105,7 @@ if (DEV) {
         });
         await preprocess(source, transpilator, 'Slidy.svelte').then(
             ({ code }) => {
-                console.log(code)
+                // console.log(code)
                 const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
                 writeFileSync('./dist/Slidy.svelte', transpiled);
             }

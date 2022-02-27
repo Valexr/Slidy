@@ -1,6 +1,6 @@
-import * as Path from "path";
-import * as csstree from "css-tree";
-import { readFile, readFileSync } from "fs";
+import * as Path from 'path';
+import * as csstree from 'css-tree';
+import { readFile, readFileSync } from 'fs';
 
 /**
  * @param options - an object like `Options` (explained below)
@@ -13,7 +13,7 @@ import { readFile, readFileSync } from "fs";
  *
  */
 export default (options = {}) => ({
-    name: "simple-css-modules",
+    name: 'simple-css-modules',
     async setup(build) {
         const transform = async (path) => {
             const content = readFileSync(path).toString();
@@ -21,15 +21,15 @@ export default (options = {}) => ({
             const styles = {};
 
             const namespace = Path.relative(process.cwd(), path)
-                .replace(/\//g, "__")
-                .replace(/\./g, "_");
+                .replace(/\//g, '__')
+                .replace(/\./g, '_');
 
-            const transformClassName =
-                options.transformClassName?.({ path, content }) ??
+            const transformClassName = (node) =>
+                options.transformClassName?.({ path, content, node }) ??
                 ((node) => `${node.name}`);
 
             csstree.walk(ast, {
-                visit: "ClassSelector",
+                visit: 'ClassSelector',
                 enter(node) {
                     styles[node.name] = transformClassName(node);
                     node.name = styles[node.name];
@@ -55,21 +55,21 @@ export default (options = {}) => ({
             cssContents.set(importPath, css);
 
             return {
-                contents: `import "${importPath}";
-export default ${JSON.stringify(styles)}
-`,
+                contents: `import "${importPath}"; export default ${JSON.stringify(
+                    styles
+                )}`,
             };
         });
 
         build.onResolve({ filter: /^css-module:\/\// }, (args) => ({
             path: args.path,
-            namespace: "css-module",
+            namespace: 'css-module',
         }));
 
-        build.onLoad({ filter: /.*/, namespace: "css-module" }, (args) => {
+        build.onLoad({ filter: /.*/, namespace: 'css-module' }, (args) => {
             const css = cssContents.get(args.path);
 
-            return { contents: css, loader: "css" };
+            return { contents: css, loader: 'css' };
         });
     },
 });

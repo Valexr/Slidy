@@ -55,14 +55,8 @@
 
     {#if arrows}
         <slot name="arrows">
-            {#each [ -1, 1 ] as type}
-                <Arrow
-                    {type}
-                    {index}
-                    items={slides.length}
-                    {loop}
-                    {vertical}
-                />
+            {#each [-1, 1] as type}
+                <Arrow {type} {index} items={slides.length} {loop} {vertical} />
             {/each}
         </slot>
     {/if}
@@ -83,7 +77,7 @@
 
 <script lang="ts">
     import { slidy } from '@slidy/core';
-    import { Arrow, Pagination } from "./components";
+    import { Arrow, Pagination } from './components';
 
     type $$Props = SlidyOptions;
 
