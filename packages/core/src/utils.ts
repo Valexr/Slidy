@@ -22,10 +22,10 @@ function indexing(node: HTMLElement, index: number, loop: boolean) {
 
 function coordinate(e: MouseEvent | TouchEvent | WheelEvent, vertical: boolean) {
     if (e.type === 'wheel') {
-        if (!vertical && Math.abs(e.deltaY) < 2) e.preventDefault();
+        console.log(e.deltaY);
+        if (!vertical && Math.abs(e.deltaX)) e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
-    // } else return vertical ? e.clientY : e.clientX;
 }
 
 const uniQ = (e: MouseEvent | TouchEvent) => (e.changedTouches ? e.changedTouches[0] : e);
@@ -40,8 +40,12 @@ const part = (align: string) => (align === 'center' ? 0.5 : 1);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
 const offset = (node: HTMLElement, child: ChildNode, vertical: boolean) =>
     node.parentNode[size(vertical)] - child[size(vertical)];
-const position = (node: HTMLElement, child: ChildNode, vertical: boolean, align: string) =>
-    child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
+const position = (
+    node: HTMLElement,
+    child: ChildNode,
+    vertical: boolean,
+    align: string
+) => child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: HTMLElement, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
 
@@ -90,27 +94,24 @@ const find = {
         nodes(node).find((child) => +child.dataset.index === index),
     gap: (node: HTMLElement, vertical: boolean) => gap(node, vertical),
     distance: (node: HTMLElement, index: number, vertical: boolean) =>
-        distance(node, index, vertical)
+        distance(node, index, vertical),
 };
 
 function prev(node: HTMLElement) {
-    const last = node.childNodes[node.childNodes.length - 1];
-    node.prepend(last);
+    node.prepend(node.childNodes[node.childNodes.length - 1]);
 }
 function next(node: HTMLElement) {
-    const first = node.childNodes[0];
-    node.append(first);
+    node.append(node.childNodes[0]);
 }
 
-const rotate = (array: Array<ChildNode | number>, key: number) =>
+const rotate = (array: Array<Node | string>, key: number) =>
     array.slice(key).concat(array.slice(0, key));
 
 function replace(node: HTMLElement, index: number, loop: boolean) {
-    const replace = (nodes: NodeList) => node.replaceChildren(...nodes);
     const elements = loop
         ? rotate(nodes(node), index - cix(node))
         : nodes(node).sort((a, b) => a.dataset.index - b.dataset.index);
-    replace(elements);
+    node.replaceChildren(...elements);
 }
 
 function css(node: HTMLElement | ParentNode, styles: CssRule) {
@@ -128,15 +129,16 @@ function dispatch(
 }
 
 const listen = (
-    node: Window | HTMLElement | ParentNode | null,
+    node: Window | Element | ParentNode,
     events: [keyof HTMLElementEventMap, EventListener][],
     on: boolean = true
-) =>
-    events.forEach(([event, handle]) =>
+) => {
+    for (const [event, handle] of events) {
         on
-            ? node?.addEventListener(event, handle, true)
-            : node?.removeEventListener(event, handle, true)
-    );
+            ? node.addEventListener(event, handle, false)
+            : node.removeEventListener(event, handle, false);
+    }
+};
 
 function init(node: HTMLElement): Child[] {
     return nodes(node).map((n, i): Child => {

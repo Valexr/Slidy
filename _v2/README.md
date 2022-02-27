@@ -6,7 +6,6 @@
 
 Simple, configurable & reusable carousel component built with SvelteJS
 
-
 ## Changelog
 
 -   2.7.1 - new props `options.sensity: 0.3` – scroll sensity to go next slide

@@ -47,7 +47,9 @@ if (DEV) {
                     lr.prevent();
                     bundle
                         .rebuild()
-                        .catch((err) => lr.error(err.message, 'TS compile error'));
+                        .catch((err) =>
+                            lr.error(err.message, 'TS compile error')
+                        );
                 }
             },
         });
