@@ -33,7 +33,7 @@ const svelteOptions = {
         }),
     ],
 };
-const esbuidBase = {
+const esbuildBase = {
     entryPoints: ['src/index.ts'],
     bundle: true,
     minify: true,
@@ -51,7 +51,7 @@ const derverConfig = {
 
 if (DEV) {
     build({
-        ...esbuidBase,
+        ...esbuildBase,
         outfile: 'dist/slidy.mjs',
         format: 'esm',
         sourcemap: 'inline',
@@ -89,17 +89,17 @@ if (DEV) {
 } else {
     (async () => {
         await build({
-            ...esbuidBase,
+            ...esbuildBase,
             outfile: 'dist/slidy.cjs',
             format: 'cjs',
         });
         await build({
-            ...esbuidBase,
+            ...esbuildBase,
             outfile: 'dist/slidy.mjs',
             format: 'esm',
         });
         await build({
-            ...esbuidBase,
+            ...esbuildBase,
             outfile: 'dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',
