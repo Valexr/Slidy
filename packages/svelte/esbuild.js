@@ -1,21 +1,9 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { build, transformSync } from 'esbuild';
 import { preprocess } from 'svelte/compiler';
-// import * as register from 'svelte/register'
 import { derver } from 'derver';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
-
-// require('svelte/register');
-// const pkg = JSON.parse(
-//     readFileSync(new URL('package.json', import.meta.url), 'utf8')
-// );
-// console.log(pkg);
-// const App = require('./src/Slidy.svelte').default;
-// import Comp from './src/index.js'
-
-// const { html, css, head } = App.render({ answer: 42 });
-// console.log(Comp)
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
@@ -33,6 +21,7 @@ const svelteOptions = {
         }),
     ],
 };
+
 const esbuildBase = {
     entryPoints: ['src/index.ts'],
     bundle: true,
@@ -42,6 +31,7 @@ const esbuildBase = {
     external: ['svelte', 'svelte/*'],
     plugins: [sveltePlugin(svelteOptions)],
 };
+
 const derverConfig = {
     dir: 'dev/public',
     port: 3331,
