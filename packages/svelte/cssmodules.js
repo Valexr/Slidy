@@ -55,9 +55,10 @@ export default (options = {}) => ({
             cssContents.set(importPath, css);
 
             return {
-                contents: `import "${importPath}"; export default ${JSON.stringify(
-                    styles
-                )}`,
+                contents: `
+                import "${importPath}"; 
+                export default ${JSON.stringify(styles)}
+                `,
             };
         });
 

@@ -27,7 +27,7 @@
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
         "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
         "build:local": "pnpm build -r --filter=@slidy/svelte...",
-        "format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
+        "format": "prettier --write '**/*.{ts,js,md,svelte,json,html,css}'",
         "check": "svelte-check --tsconfig ./tsconfig.json",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
     },
