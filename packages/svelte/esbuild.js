@@ -4,6 +4,7 @@ import { preprocess } from 'svelte/compiler';
 import { derver } from 'derver';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
+import cssmodules from './cssmodules.js';
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
@@ -60,7 +61,7 @@ if (DEV) {
         sourcemap: 'inline',
         incremental: true,
         legalComments: 'none',
-        plugins: [sveltePlugin(svelteOptions)],
+        plugins: [sveltePlugin(svelteOptions), cssmodules()],
     }).then((bundle) => {
         derver({
             ...derverConfig,
