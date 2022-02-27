@@ -54,42 +54,17 @@
     </ul>
 
     {#if arrows}
-        <button
-            disabled={index === 0 && !loop}
-            class="slidy-arrow left"
-            data-step="-1"
-            aria-label="Previous slide"
-        >
-            <slot name="arrow-prev">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 32 32"
-                    class="slidy-arrow-icon"
-                >
-                    <path
-                        d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z"
-                    />
-                </svg>
-            </slot>
-        </button>
-        <button
-            disabled={index === slides.length - 1 && !loop}
-            class="slidy-arrow right"
-            data-step="1"
-            aria-label="Next slide"
-        >
-            <slot name="arrow-next">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 32 32"
-                    class="slidy-arrow-icon"
-                >
-                    <path
-                        d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z"
-                    />
-                </svg>
-            </slot>
-        </button>
+        <slot name="arrows">
+            {#each [ -1, 1 ] as type}
+                <Arrow
+                    {type}
+                    {index}
+                    items={slides.length}
+                    {loop}
+                    {vertical}
+                />
+            {/each}
+        </slot>
     {/if}
 
     {#if navigation}
@@ -102,10 +77,13 @@
     {/if}
 </section>
 
-<script lang="ts">
+<script lang="ts" context="module">
     import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from './types';
+</script>
+
+<script lang="ts">
     import { slidy } from '@slidy/core';
-    import { Pagination } from "./components";
+    import { Arrow, Pagination } from "./components";
 
     type $$Props = SlidyOptions;
 
@@ -178,20 +156,6 @@
         box-sizing: border-box;
     }
 
-    button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 0;
-        outline: 0;
-        cursor: pointer;
-    }
-
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
     li {
         list-style: none;
     }
@@ -258,51 +222,6 @@
         min-width: 100%;
     }
 
-    /* controls: arrows */
-
-    .slidy-arrow {
-        height: 100%;
-        width: auto;
-        padding: calc(var(--slidy-arrow-size, 16px) * 0.5);
-        z-index: 2;
-        background-color: unset;
-    }
-
-    @media (hover: hover) {
-        .slidy-arrow:hover {
-            background-color: rgb(59 78 78 / 0.33);
-        }
-    }
-
-    .slidy-arrow-icon {
-        height: var(--slidy-arrow-size, 24px);
-        width: var(--slidy-arrow-size, 24px);
-        fill: white;
-        pointer-events: none;
-        transition: transform 0.15s ease-in-out;
-        background-color: rgb(59 78 78 / 0.75);
-        border-radius: 50%;
-    }
-
-    .slidy-arrow:focus .slidy-arrow-icon {
-        outline: 1.5px solid rgb(216 201 201 / 0.75);
-        outline-offset: 2px;
-        border-radius: 50%;
-    }
-
-    .slidy-arrow:active .slidy-arrow-icon {
-        transform: scale(0.9);
-    }
-
-    .slidy-arrow.left {
-        grid-area: prev-slide;
-    }
-
-    .slidy-arrow.right {
-        grid-area: next-slide;
-        transform: rotate(180deg);
-    }
-
     /* counter */
 
     .slidy-counter {
@@ -321,7 +240,7 @@
 
     .slidy.vertical {
         display: grid;
-        grid-template: 25px 1fr 25px / 1fr 50px;
+        grid-template: auto minmax(0, 1fr) auto / minmax(0, 1fr) auto;
         grid-template-areas:
             'prev-slide dots'
             'slides dots'
@@ -342,15 +261,6 @@
     .slidy.vertical .slidy-nav {
         width: auto;
         height: max-content;
-    }
-
-    .slidy.vertical .slidy-arrow.left svg {
-        transform: rotate(90deg);
-    }
-
-    .slidy.vertical .slidy-arrow.right svg {
-        grid-area: next-slide;
-        transform: rotate(90deg);
     }
 
     @media (hover: hover) {
