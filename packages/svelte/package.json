@@ -5,6 +5,7 @@
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
+    "svelte": "dist/Slidy.svelte",
     "types": "dist/index.d.ts",
     "style": "dist/slidy.css",
     "type": "module",
@@ -20,6 +21,7 @@
             "svelte": "./dist/Slidy.svelte",
             "style": "./dist/slidy.css"
         },
+        "./dist/Slidy.svelte": "./dist/Slidy.svelte",
         "./dist/slidy.css": "./dist/slidy.css",
         "./package.json": "./package.json"
     },
