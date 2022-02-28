@@ -1,0 +1,48 @@
+.controls {
+    display: grid;
+    grid-auto-rows: min-content;
+    gap: 0.75rem;
+    padding: var(--space-xl) var(--space-l) var(--space-xxl) var(--space-l);
+    background-color: var(--surface-2);
+    min-width: 300px;
+    width: auto;
+    min-height: 100%;
+    height: max-content;
+}
+
+.controls h2 {
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.controls h3 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.controls section {
+    display: grid;
+    grid-auto-rows: auto;
+    gap: var(--space-s);
+}
+
+.controls fieldset {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: var(--space-m);
+    border: none;
+    background-color: var(--surface-3);
+    border-radius: 1rem;
+    padding: var(--space-l);
+}
+
+.controls label {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.35rem;
+}
+
+.controls .flex-horizontal label {
+    flex-direction: row;
+    align-items: center;
+}

@@ -1,11 +1,11 @@
-<header class={styles.header}>
+<header class="header">
     <picture aria-hidden="true">
         <img alt="Slidy" width="35" height="35" src="assets/logo.svg" />
     </picture>
     <h1>
         Slidy <small>v.{version}</small>
     </h1>
-    <fieldset class={styles['nav-controls']}>
+    <fieldset class="nav-controls">
         <button
             on:click={() => (slidesPromise = slides.init(limit))}
             title="Shuffle slides"
@@ -40,7 +40,7 @@
     </fieldset>
 </header>
 
-<main class={styles.main}>
+<main>
     {#await slidesPromise}
         loading...
     {:then}
@@ -55,6 +55,7 @@
             {snap}
             {loop}
             {vertical}
+            className="className"
         />
     {/await}
 </main>
@@ -75,6 +76,7 @@
 <script lang="ts" context="module">
     import { version } from '../../package.json';
     import Slidy from '../../src/Slidy.svelte';
+    // import { Slidy } from '@slidy/svelte';
     import Sidemenu from './components/Sidemenu.svelte';
     import ControlPanel from './components/ControlPanel.svelte';
     import { createSlidesStore } from './scripts/slide-store';
@@ -82,7 +84,8 @@
 
 <script lang="ts">
     import { darkTheme } from './scripts/theme-store';
-    import styles from './app.module.css';
+    import './app.module.css';
+    // import '@slidy/svelte/dist/slidy.css';
 
     let position = 0;
     let limit = 9;
@@ -104,41 +107,5 @@
 </script>
 
 <style>
-    /* main {
-        --slidy-nav-item-color: var(--accent);
-        max-width: 100%;
-    } */
-
-    /* .header {
-        display: flex;
-        padding: var(--space-s);
-        align-items: center;
-
-        font-size: 0.8rem;
-    }
-
-    .header > :last-child {
-        margin-left: auto;
-    }
-
-    .header small {
-        font-size: 1rem;
-        font-weight: 400;
-    }
-
-    .nav-controls {
-        display: flex;
-        gap: var(--space-s);
-    }
-
-    .nav-controls > * {
-        background-color: var(--surface-2);
-        padding: 4px;
-        width: 30px;
-        height: 30px;
-    }
-
-    .nav-controls svg {
-        fill: var(--accent);
-    } */
+    /* @import '@slidy/svelte/dist/slidy.css'; */
 </style>

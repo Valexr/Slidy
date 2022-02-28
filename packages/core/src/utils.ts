@@ -82,7 +82,7 @@ const find = {
         align: string
     ): number => {
         const child = nodes(node).find((child) => child.index === index)
-        return index ? nodes(node).indexOf(child) : closest({ node, target, vertical, align }).index || 0
+        return index && child ? nodes(node).indexOf(child) : closest({ node, target, vertical, align }).index || 0
     },
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),

@@ -26,7 +26,7 @@ export default (options = {}) => ({
 
             const transformClassName = (node) =>
                 options.transformClassName?.({ path, content, node }) ??
-                ((node) => `${node.name}`);
+                `${node.name}`;
 
             csstree.walk(ast, {
                 visit: 'ClassSelector',

@@ -11,7 +11,7 @@ const SVELTE = process.argv.includes('--svelte');
 
 const svelteOptions = {
     compilerOptions: {
-        dev: DEV,
+        dev: DEV || SVELTE,
         css: !SVELTE,
         immutable: true,
     },
@@ -26,7 +26,7 @@ const svelteOptions = {
 const cssmodulesOptions = {
     transformClassName: ({ path, content, node }) => {
         // node - https://github.com/csstree/csstree/blob/bf05b963f85a08541c2991fa369f5bb613096db2/docs/ast.md
-        console.info({ path, content, node });
+        // console.info({ path, content, node });
         return `${node.name}`;
     },
 };
@@ -38,6 +38,9 @@ const esbuildBase = {
     sourcemap: false,
     legalComments: 'none',
     external: ['svelte', 'svelte/*'],
+    // loader: {
+    //     ['.css']: 'css'
+    // },
     plugins: [sveltePlugin(svelteOptions), cssmodules(cssmodulesOptions)],
 };
 
