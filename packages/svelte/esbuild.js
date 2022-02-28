@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, readdir, promises, existsSync, mkdirSync } from 'fs';
 import { build, transformSync } from 'esbuild';
 import { preprocess } from 'svelte/compiler';
 import { derver } from 'derver';
@@ -106,17 +106,24 @@ if (DEV) {
             globalName: 'Slidy',
             format: 'iife',
         });
-        await preprocess(source, transpilator, 'Slidy.svelte').then(
-            ({ code }) => {
-                // console.log(code)
-                const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
-                writeFileSync('./dist/Slidy.svelte', transpiled);
+
+        getFiles('./src/', '.svelte').then(async files => {
+            for (const file of files) {
+                const source = readFileSync(file.path).toString();
+                await preprocess(source, transpilator, file.name).then(
+                    ({ code }) => {
+                        const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
+                        const path = file.path.replace('src', 'dist')
+                        if (file.folder && !existsSync(`./dist/${file.folder}`)) {
+                            mkdirSync(`./dist/${file.folder}`);
+                        }
+                        writeFileSync(path, transpiled);
+                    }
+                );
             }
-        );
+        })
     })();
 }
-
-const source = readFileSync('./src/Slidy.svelte').toString();
 
 const transpilator = [
     sveltePreprocess({
@@ -130,3 +137,21 @@ const transpilator = [
         },
     }),
 ];
+
+async function getFiles(path = "./", ext = '') {
+    const entries = await promises.readdir(path, { withFileTypes: true });
+
+    const files = entries
+        .filter(file => !file.isDirectory() && file.name.includes(ext))
+        .map(file => ({ ...file, path: path + file.name }));
+
+    // Get folders within the current directory
+    const folders = entries.filter(folder => folder.isDirectory());
+
+    for (const folder of folders) {
+        let filesInFolder = await getFiles(`${path}${folder.name}/`, ext).then(files => files.map(f => ({ ...f, folder: folder.name })))
+        files.push(...filesInFolder)
+    }
+
+    return files;
+}
