@@ -48,20 +48,20 @@ export function slidy(
         consttime = 100;
 
     const PARENT = node.parentNode;
-    const windowEvents: [keyof HTMLElementEventMap, EventListener][] = [
+    const windowEvents: [string, (e: MouseEvent | TouchEvent) => void][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
         ['touchend', onUp],
         ['mouseup', onUp],
         // ['scroll', onScroll],
     ];
-    const parentEvents: [keyof HTMLElementEventMap, EventListener][] = [
+    const parentEvents: [string, Function | (() => void), boolean?][] = [
         ['contextmenu', clear],
         ['touchstart', onDown],
         ['mousedown', onDown],
         ['keydown', onKeys],
         ['wheel', onWheel],
-        ['resize', onResize],
+        ['resize', onResize, true],
     ];
 
     const RAF = requestAnimationFrame;
@@ -108,7 +108,7 @@ export function slidy(
 
     function move(pos: number, transition: number = 0): void {
         position += options.loop ? looping(pos) : pos;
-        options.index = find.index(node, position, undefined, options.vertical, align);
+        options.index = find.index(node, position, 0, options.vertical, align);
 
         direction = Math.sign(pos); // prev << -1 | 1 >> next
         if (!options.loop) {
@@ -166,12 +166,12 @@ export function slidy(
                 options.index === indx().min
                     ? 'start'
                     : options.index === indx().max
-                    ? 'end'
-                    : 'center';
+                        ? 'end'
+                        : 'center';
         }
-        const child = find.child(node, options.index);
+
         const ix = options.loop
-            ? find.index(node, position, child, options.vertical, align)
+            ? find.index(node, position, options.index, options.vertical, align)
             : options.index;
 
         let pos = target
@@ -179,8 +179,8 @@ export function slidy(
                 ? find.target(node, target, options.vertical, align)
                 : target
             : target === 0
-            ? 0
-            : find.position(node, ix, options.vertical, align);
+                ? 0
+                : find.position(node, ix, options.vertical, align);
         move(pos - position, options.duration);
     }
 
@@ -254,19 +254,19 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-            (!options.loop &&
-                options.snap &&
-                ((options.index === indx().min && direction < 0) ||
-                    (options.index === indx().max && direction > 0)))
+                (!options.loop &&
+                    options.snap &&
+                    ((options.index === indx().min && direction < 0) ||
+                        (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                ? to(options.index, target)
-                : scroll({
-                      target,
-                      amplitude,
-                      duration: options.duration,
-                      timestamp: performance.now(),
-                  });
+                    ? to(options.index, target)
+                    : scroll({
+                        target,
+                        amplitude,
+                        duration: options.duration,
+                        timestamp: performance.now(),
+                    });
         } else to(options.index);
     }
 
@@ -318,7 +318,7 @@ export function slidy(
     //     // clear()
     // }
 
-    function onResize(e: CustomEvent): void {
+    function onResize(): void {
         to(options.index);
     }
 
@@ -353,7 +353,7 @@ export function slidy(
                     case 'length':
                         options[key] = opts[key];
                         Array.from(node.childNodes).forEach((c, i) => {
-                            c.dataset.index = i;
+                            c.index = i;
                         });
                         to(options.index);
                         break;

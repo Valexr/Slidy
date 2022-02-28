@@ -67,7 +67,7 @@ function closest({
     vertical: boolean;
     align: string;
 }): ChildNode {
-    return nodes(node).reduce((prev: ChildNode, curr: ChildNode, i) => {
+    return nodes(node).reduce((prev: ChildNode, curr: ChildNode) => {
         const pos = (child: ChildNode) => position(node, child, vertical, align);
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
     });
@@ -77,24 +77,24 @@ const find = {
     index: (
         node: HTMLElement,
         target: number,
-        child: ChildNode | undefined,
+        index: number,
         vertical: boolean,
         align: string
-    ): number =>
-        child
-            ? nodes(node).indexOf(child)
-            : +closest({ node, target, vertical, align }).dataset.index,
+    ): number => {
+        const child = nodes(node).find((child) => child.index === index)
+        return index ? nodes(node).indexOf(child) : closest({ node, target, vertical, align }).index || 0
+    },
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),
     target: (node: HTMLElement, target: number, vertical: boolean, align: string) =>
         position(node, closest({ node, target, vertical, align }), vertical, align),
     size: (node: HTMLElement, index: number, vertical: boolean) =>
         nodes(node)[index][size(vertical)],
-    child: (node: HTMLElement, index: number) =>
-        nodes(node).find((child) => +child.dataset.index === index),
     gap: (node: HTMLElement, vertical: boolean) => gap(node, vertical),
-    distance: (node: HTMLElement, index: number, vertical: boolean) =>
-        distance(node, index, vertical),
+    // child: (node: HTMLElement, index: number) =>
+    //     nodes(node).find((child) => child.index === index),
+    // distance: (node: HTMLElement, index: number, vertical: boolean) =>
+    //     distance(node, index, vertical),
 };
 
 function prev(node: HTMLElement) {
@@ -110,7 +110,7 @@ const rotate = (array: Array<Node | string>, key: number) =>
 function replace(node: HTMLElement, index: number, loop: boolean) {
     const elements = loop
         ? rotate(nodes(node), index - cix(node))
-        : nodes(node).sort((a, b) => a.dataset.index - b.dataset.index);
+        : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
 }
 
@@ -130,13 +130,13 @@ function dispatch(
 
 const listen = (
     node: Window | Element | ParentNode,
-    events: [keyof HTMLElementEventMap, EventListener][],
+    events: [string, EventListenerOrEventListenerObject, boolean | EventListenerOptions | undefined][],
     on: boolean = true
 ) => {
-    for (const [event, handle] of events) {
+    for (const [event, handle, options] of events) {
         on
-            ? node.addEventListener(event, handle, false)
-            : node.removeEventListener(event, handle, false);
+            ? node.addEventListener(event, handle, options)
+            : node.removeEventListener(event, handle, options);
     }
 };
 
