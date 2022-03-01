@@ -21,7 +21,7 @@ export default (options = {}) => ({
             const styles = {};
 
             const namespace = Path.relative(process.cwd(), path)
-                .replace(/\//g, '__')
+                .replace(/(\/|\\)/g, '__')
                 .replace(/\./g, '_');
 
             const transformClassName = (node) =>

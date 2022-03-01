@@ -81,8 +81,10 @@ const find = {
         vertical: boolean,
         align: string
     ): number => {
-        const child = nodes(node).find((child) => child.index === index)
-        return index && child ? nodes(node).indexOf(child) : closest({ node, target, vertical, align }).index || 0
+        const child = nodes(node).find((child) => child.index === index);
+        return index && child
+            ? nodes(node).indexOf(child)
+            : closest({ node, target, vertical, align }).index || 0;
     },
     position: (node: HTMLElement, index: number, vertical: boolean, align: string) =>
         position(node, child(node, index), vertical, align),
@@ -130,7 +132,11 @@ function dispatch(
 
 const listen = (
     node: Window | Element | ParentNode,
-    events: [string, EventListenerOrEventListenerObject, boolean | EventListenerOptions | undefined][],
+    events: [
+        string,
+        EventListenerOrEventListenerObject,
+        boolean | EventListenerOptions | undefined
+    ][],
     on: boolean = true
 ) => {
     for (const [event, handle, options] of events) {

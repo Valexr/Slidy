@@ -60,7 +60,7 @@
         "@slidy/svelte": "workspace:*",
         "derver": "^0.5.3",
         "esbuild": "^0.14.23",
-        "esbuild-svelte": "^0.6.2",
+        "esbuild-svelte": "^0.6.3",
         "gh-pages": "^3.2.3",
         "prettier": "^2.5.1",
         "prettier-plugin-svelte": "^2.6.0",
@@ -68,6 +68,6 @@
         "svelte": "^3.46.4",
         "svelte-preprocess": "^4.10.4",
         "tslib": "^2.3.1",
-        "typescript": "^4.5.5"
+        "typescript": "^4.6.2"
     }
 }

@@ -174,7 +174,7 @@ export function slidy(
             ? find.index(node, position, options.index, options.vertical, align)
             : options.index;
 
-        let pos = target
+        const pos = target
             ? options.snap
                 ? find.target(node, target, options.vertical, align)
                 : target
@@ -237,11 +237,8 @@ export function slidy(
     }
 
     function onMove(e: MouseEvent | TouchEvent): void {
-        let delta, pos;
-
-        pos = coordinate(e, options.vertical);
-        delta = reference - pos;
-        reference = pos;
+        let delta = reference - coordinate(e, options.vertical);
+        reference = coordinate(e, options.vertical);
 
         move(delta * (2 - gravity));
         track();
@@ -271,11 +268,10 @@ export function slidy(
     }
 
     function delting(position: number): Delta {
-        let amplitude, target;
-
         velocity = maxMin(amp().max, -amp().max, velocity);
-        amplitude = velocity * (2 - gravity);
-        target = options.snap
+
+        let amplitude = velocity * (2 - gravity);
+        let target = options.snap
             ? find.target(node, position + amplitude, options.vertical, align)
             : position + amplitude;
 
@@ -323,7 +319,7 @@ export function slidy(
     }
 
     function clear(): void {
-        hix = wheeling || toing ? hix : options.index;
+        // hix = wheeling || toing ? hix : options.index;
         clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);

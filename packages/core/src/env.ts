@@ -12,16 +12,16 @@ function onMount(node: HTMLElement, length: number = 2): Promise<NodeList> {
             count++;
             console.log(count, node.children.length, length);
             if (count >= 69) {
-                count = 0
+                count = 0;
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
             } else if (length && node.children.length >= length) {
                 Array.from(node.childNodes).forEach((c, i) => {
                     c.index = i;
                 });
-                count = 0
+                count = 0;
                 clearInterval(mounting);
-                resolve(node.childNodes)
+                resolve(node.childNodes);
                 // setTimeout(() => resolve(node.childNodes), 100);
                 // setImmediate(() => resolve(node.childNodes));
                 // process.nextTick(() => resolve(node.childNodes))
