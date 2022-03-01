@@ -6,7 +6,7 @@
 
 # @Slidy
 
-<img align="right" width="100" height="100" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates.
+<img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates.
 
 Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
 
