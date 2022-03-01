@@ -21,30 +21,29 @@
 
 # @slidy/svelte
 
-Simple, configurable & reusable carousel component built with SvelteJS based on [`@slidy/core`](https://github.com/Valexr/slidy/tree/master/packages/core).
+Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core][core-package].
 
-Try the [demo](https://valexr.github.io/Slidy).
+Try the [demo][].
 
 ## Getting started
 
-The package is available via [npm](https://www.npmjs.com/package/@slidy/svelte):
+The package is available via [npm][]:
 
 ```
 npm i @slidy/svelte
 ```
 
-REPL is available
-[here](https://svelte.dev/repl/de699aa1f8c04874b0402352ac93df96).
+REPL is available [here](REPL).
 
 ## Usage
 
-`Slidy` component is available via named import. All props are optional. The only props required to get started are `slides` - an array of objects with image related data:
+`Slidy` component is available via named import. All props are optional. The only preperty to get started is `slides` - an array of objects with image related data:
 
 ```svelte
 <Slidy {slides} />
 
 <script>
-    import { Slidy } from 'svelte-slidy';
+    import { Slidy } from '@slidy/svelte';
 
     const slides = [
         {
@@ -52,10 +51,12 @@ REPL is available
             width: 800,
             height: 1200,
             src: 'static/img/some-image.webp',
-        },
+        }
     ];
 </script>
 ```
+
+By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are *required*.
 
 ## API
 
@@ -77,7 +78,7 @@ Controls the position of the `snap` points to align the slides after the scrolli
         </code>
     </summary>
 
-Instead of creating `<img />` HTML tags for slide images, uses CSS `background-image` property.
+Instead of creating `<img />` elements as contents, `background-image` property used to display images. Not recommended for SEO and should be used only for presentational content.
 
 </details>
 
@@ -88,7 +89,7 @@ Instead of creating `<img />` HTML tags for slide images, uses CSS `background-i
         </code>
     </summary>
 
-Controls the inertia of the scrolling between the slides.
+Controls the inertia while scrolling the slides.
 
 </details>
 
@@ -187,7 +188,7 @@ Stores the index of the current slide. Usefull with binding for external control
         </code>
     </summary>
 
-Makes the slideshow continious. Not recommended for better performance.
+Makes the slideshow continious. Not recommended for better performance and considered as bad practice.
 
 </details>
 
@@ -209,7 +210,7 @@ Stores the current position value of the carousel. Usefull with binding for exte
         </code>
     </summary>
 
-An array of objects with slide image related metadata such as `src`, `alt`, etc.
+An array of objects with image related metadata such as `src`, `alt`, etc.
 
 </details>
 
@@ -231,24 +232,52 @@ Enforces the scroll positions that a scroll container's scrollport may end after
         </code>
     </summary>
 
-Sets the carousel into the vertical orientation.
+Sets the component into the vertical orientation.
 
 </details>
 
 ## Custom Properties API
 
-For easier style customization `Slidy` provides a set of predefined custom properties to inherit.
+For easier style customization `Slidy` provides a set of predefined custom properties to inherit:
 
-For example, to recolor pagination controls, let the component inherit a `--slidy-navigation-color` custom property from any parent:
+List of available public custom properties:
+
+| Property                     | Default   | Type       | Description                                          |
+|:-----------------------------|:---------:|:----------:|:-----------------------------------------------------|
+| `--slidy-height`             | 100%      | `<length>` | The height of the component's node.                  |
+| `--slidy-width`              | 100%      | `<length>` | The width of the component's node.                   |
+| `--slidy-slide-gap`          | 1rem      | `<length>` | The gap between items in carousel.                   |
+| `--slidy-slide-height`       | 100%      | `<length>` | The carousel items height.                           |
+| `--slidy-slide-width`        | auto      | `<length>` | The carousel items width.                            |
+| `--slidy-slide-object-fit`   | cover     | -          | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-bg-color`     | darkgray  | `<color>`  | The placeholder background color for loading images. |
+| `--slidy-nav-item-size`      | 16px      | `<length>` | The navigation elements size.                        |
+| `--slidy-nav-item-radius`    | 50%       | `<length>` | The navigation elements border radius.               |
+| `--slidy-nav-item-color`     | white     | `<color>`  | The navigation elements color.                       |
+| `--slidy-arrow-size`         | 24px      | `<length>` | The arrow controls size.                             |
+
+There are two options:
+
+### --style-props
+
+Svelte supports passing down custom properties to component via [`--style-props`][svelte-custom-props]:
+
+```svelte
+<Slidy
+    --slidy-slide-gap="1rem"
+/>
+```
+
+Bear in mind that this way Svelte wraps the component in extra `<div />` with `display: contents`.
+
+### Inherited custom properties
+
+More optimal way is to use cascade. All supported custom properties starts with `--slidy-`. For example, to recolor navigation controls, let the component inherit a `--slidy-nav-item-color` custom property from any parent:
 
 ```svelte
 <div class="parent">
     <Slidy />
 </div>
-
-<script>
-    import { Slidy } from '@slidy/svelte';
-</script>
 
 <style>
     .parent {
@@ -257,18 +286,18 @@ For example, to recolor pagination controls, let the component inherit a `--slid
 </style>
 ```
 
-List of available custom properties:
+Or just pass a class with a set of custom properties:
 
--   `--slidy-height: 100%;`
--   `--slidy-width: 100%;`
--   `--slidy-slide-gap: 1rem;`
--   `--slidy-slide-height: 100%;`
--   `--slidy-slide-width: auto;`
--   `--slidy-slide-object-fit: cover;`
--   `--slidy-nav-item-size: 16px;`
--   `--slidy-nav-item-radius: 50%;`
--   `--slidy-nav-item-color: white;`
--   `--slidy-arrow-size: 24px;`
+```svelte
+<Slidy className="some-class" />
+
+<style>
+    .some-class {
+        --slidy-navigation-color: red;
+        --slidy-nav-item-size: 1rem;
+    }
+</style>
+```
 
 ## Overriding the styles
 
@@ -521,3 +550,9 @@ There are two variables available to control the component externally: `index` a
 ## License
 
 MIT &copy; [Valexr](https://github.com/Valexr)
+
+[core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
+[demo]: https://valexr.github.io/Slidy
+[npm]: https://www.npmjs.com/package/@slidy/svelte
+[REPL]: https://svelte.dev/repl/de699aa1f8c04874b0402352ac93df96
+[svelte-custom-props]: https://svelte.dev/docs#template-syntax-component-directives---style-props
