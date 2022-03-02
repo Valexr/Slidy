@@ -1,9 +1,9 @@
 <section
     aria-roledescription="carousel"
-    tabindex="0"
-    {id}
-    class="slidy {className ? className : ''}"
+    class="slidy {className}"
     class:vertical
+    {id}    
+    tabindex="0"
     on:click={handleClick}
 >
     <slot name="counter" {index} amount={slides.length}>
@@ -22,7 +22,7 @@
             index,
             clamp,
             snap,
-            loop,
+            loop
         }}
         on:mount={(e) => console.log(e)}
         on:move={(e) => {
@@ -31,22 +31,21 @@
         }}
     >
         {#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-            <!-- svelte-ignore a11y-missing-attribute -->
             <li
+                aria-current={i === index ? 'true' : undefined}
+                aria-label={`${i} of ${slides.length}`}
+                aria-roledescription="slide"
                 class="slidy-slide"
                 class:active={i === index}
-                class:as-background={background}
+                class:background={background}
                 style={background
                     ? `--slidy-slide-bg: url(${getImgSrc(item)});`
                     : undefined}
-                aria-roledescription="slide"
-                aria-label={`${i} of ${slides.length}`}
                 role="group"
-                aria-current={i === index ? 'true' : undefined}
             >
                 <slot {item}>
                     {#if !background}
-                        <img src={getImgSrc(item)} {...item} />
+                        <Image src={getImgSrc(item)} {...item} />
                     {/if}
                 </slot>
             </li>
@@ -77,7 +76,7 @@
 
 <script lang="ts">
     import { slidy } from '@slidy/core';
-    import { Arrow, Pagination } from './components';
+    import { Arrow, Image, Pagination } from './components';
     import './slidy.module.css';
 
     type $$Props = SlidyOptions;
@@ -86,8 +85,8 @@
     export let arrows = true;
     export let background = false;
     export let clamp = false;
-    export let className: $$Props['className'] = undefined;
-    export let getImgSrc: GetSrc = (item: Slide) => item.src;
+    export let className: $$Props['className'] = "";
+    export let getImgSrc: GetSrc = (item: Slide) => item.src ?? "";
     export let navigation = true;
     export let duration = 450;
     export let gravity = 1.2;
