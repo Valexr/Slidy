@@ -28,7 +28,7 @@ export interface SlidyOptions {
 
 export type ChangeSlide = (index: number) => void;
 
-export type GetSrc = (item: Slide) => string | undefined;
+export type GetSrc = (item: Slide) => string;
 
 /**
  * Pagination indexer parameters.
