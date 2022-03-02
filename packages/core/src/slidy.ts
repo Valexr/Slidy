@@ -108,7 +108,7 @@ export function slidy(
 
     function move(pos: number, transition: number = 0): void {
         position += options.loop ? looping(pos) : pos;
-        options.index = find.index(node, position, 0, options.vertical, align);
+        options.index = find.index(node, position, null, options.vertical, align);
 
         direction = Math.sign(pos); // prev << -1 | 1 >> next
         if (!options.loop) {
@@ -160,7 +160,6 @@ export function slidy(
         toing = true;
 
         options.index = indexing(node, index, options.loop);
-
         if (!options.loop) {
             align =
                 options.index === indx().min
@@ -174,6 +173,7 @@ export function slidy(
             ? find.index(node, position, options.index, options.vertical, align)
             : options.index;
 
+        console.log(index, options.index, ix)
         const pos = target
             ? options.snap
                 ? find.target(node, target, options.vertical, align)
@@ -284,6 +284,8 @@ export function slidy(
         clear();
         wheeling = true;
 
+        window.onscroll = (e) => gravity = 2
+
         if (e.shiftKey) {
             e.preventDefault();
             to(options.index - Math.sign(e.deltaY));
@@ -319,7 +321,7 @@ export function slidy(
     }
 
     function clear(): void {
-        // hix = wheeling || toing ? hix : options.index;
+        // hix = (wheeling || toing) ? hix : options.index;
         clearInterval(dragtime);
         clearTimeout(wheeltime);
         cancelAnimationFrame(raf);

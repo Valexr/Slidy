@@ -19,7 +19,23 @@ export interface Step {
     h: number;
 }
 
-export interface Child {
+export interface Parent extends ParentNode {
+    style: CSSRuleList;
+    offsetTop: number;
+    offsetLeft: number;
+    offsetWidth: number;
+    offsetHeight: number;
+}
+
+export interface Slidy extends Node {
+    parentNode: ParentNode;
+    offsetTop: number;
+    offsetLeft: number;
+    offsetWidth: number;
+    offsetHeight: number;
+}
+
+export interface Child extends ChildNode {
     index: number;
     offsetTop: number;
     offsetLeft: number;
@@ -36,6 +52,14 @@ export interface SLIDY extends HTMLElement {
         index?: number;
         position?: number;
     };
+}
+
+export interface Slide extends ChildNode {
+    index?: number;
+    offsetTop: number;
+    offsetLeft: number;
+    offsetWidth: number;
+    offsetHeight: number;
 }
 
 export interface Delta {
