@@ -13,7 +13,7 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
             } else if (length && node.childNodes.length >= length) {
-                const childs = node.childNodes as NodeListOf<Child>
+                const childs = node.childNodes as NodeListOf<Child>;
                 for (let index = 0; index < childs.length; index++) {
                     const child = node.childNodes[index] as Child;
                     child.index = index;

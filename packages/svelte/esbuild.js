@@ -5,6 +5,8 @@ import { derver } from 'derver';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 import cssmodules from './cssmodules.js';
+import pkg from './package.json' assert {type: 'json'};
+import tsconfig from './tsconfig.json' assert {type: 'json'};
 
 const DEV = process.argv.includes('--dev');
 const SVELTE = process.argv.includes('--svelte');
@@ -54,7 +56,7 @@ const derverConfig = {
 if (DEV) {
     build({
         ...esbuildBase,
-        outfile: 'dist/slidy.mjs',
+        outfile: pkg.module,
         format: 'esm',
         sourcemap: 'inline',
         minify: false,
@@ -92,17 +94,17 @@ if (DEV) {
     (async () => {
         await build({
             ...esbuildBase,
-            outfile: 'dist/slidy.cjs',
+            outfile: pkg.main,
             format: 'cjs',
         });
         await build({
             ...esbuildBase,
-            outfile: 'dist/slidy.mjs',
+            outfile: pkg.module,
             format: 'esm',
         });
         await build({
             ...esbuildBase,
-            outfile: 'dist/slidy.js',
+            outfile: pkg.browser,
             globalName: 'Slidy',
             format: 'iife',
         });
@@ -130,8 +132,6 @@ if (DEV) {
     })();
 }
 
-import tsconfig from './tsconfig.json' assert {type: "json"};
-console.log(tsconfig)
 const transpilator = [
     sveltePreprocess({
         typescript({ content }) {

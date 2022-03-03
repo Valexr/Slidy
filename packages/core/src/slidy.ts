@@ -1,5 +1,14 @@
 import { onMount } from './env';
-import type { Child, CssRules, Delta, Options, Parent, Scroll, Slidy, UniqEvent } from './types';
+import type {
+    Child,
+    CssRules,
+    Delta,
+    Options,
+    Parent,
+    Scroll,
+    Slidy,
+    UniqEvent,
+} from './types';
 import {
     css,
     find,
@@ -173,7 +182,7 @@ export function slidy(
             ? find.index(node, position, options.index, options.vertical, align)
             : options.index;
 
-        console.log(index, options.index, ix)
+        console.log(index, options.index, ix);
         const pos = target
             ? options.snap
                 ? find.target(node, target, options.vertical, align)
@@ -284,7 +293,7 @@ export function slidy(
         clear();
         wheeling = true;
 
-        window.onscroll = (e) => gravity = 2
+        window.onscroll = (e) => (gravity = 2);
 
         if (e.shiftKey) {
             e.preventDefault();
@@ -350,9 +359,11 @@ export function slidy(
                         break;
                     case 'length':
                         options[key] = opts[key];
-                        Array.from(node.childNodes as NodeListOf<Child>).forEach((c, i) => {
-                            c.index = i;
-                        });
+                        Array.from(node.childNodes as NodeListOf<Child>).forEach(
+                            (c, i) => {
+                                c.index = i;
+                            }
+                        );
                         to(options.index);
                         break;
 

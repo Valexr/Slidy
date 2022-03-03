@@ -1,8 +1,6 @@
 export function scrolling(p, cb) {
     position = p;
-    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(
-        position
-    )}</b>px`;
+    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
 }
 
 export function getVar(node, name) {

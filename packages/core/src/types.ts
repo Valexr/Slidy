@@ -44,7 +44,6 @@ export interface CssRules {
     [key: string]: string;
 }
 
-
 export interface Delta {
     target: number;
     amplitude: number;

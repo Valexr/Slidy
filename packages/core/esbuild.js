@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
+import pkg from './package.json' assert { type: 'json' };
 
 const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
@@ -21,7 +22,7 @@ const derverConfig = {
 if (DEV) {
     build({
         ...esbuildBase,
-        outfile: 'dist/slidy.mjs',
+        outfile: pkg.module,
         format: 'esm',
         sourcemap: 'inline',
         minify: false,
@@ -55,17 +56,17 @@ if (DEV) {
 } else {
     (async () => {
         await build({
-            outfile: 'dist/slidy.cjs',
+            outfile: pkg.main,
             format: 'cjs',
             ...esbuildBase,
         });
         await build({
-            outfile: 'dist/slidy.mjs',
+            outfile: pkg.module,
             format: 'esm',
             ...esbuildBase,
         });
         await build({
-            outfile: 'dist/slidy.js',
+            outfile: pkg.browser,
             globalName: 'Slidy',
             format: 'iife',
             ...esbuildBase,

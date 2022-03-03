@@ -5,7 +5,7 @@ function maxMin(max: number, min: number, val: number) {
 }
 
 function maxSize(node: Slidy, vertical: boolean) {
-    return node[scroll(vertical)] - parent(node)[size(vertical)]
+    return node[scroll(vertical)] - parent(node)[size(vertical)];
 }
 
 function indexing(node: Slidy, index: number, loop: boolean) {
@@ -20,12 +20,14 @@ function indexing(node: Slidy, index: number, loop: boolean) {
 
 function coordinate(e: UniqEvent, vertical: boolean) {
     if (e.type === 'wheel') {
-        if (!vertical && Math.abs(e.deltaX) && Math.abs(e.deltaY) < 15) e.preventDefault();
+        if (!vertical && Math.abs(e.deltaX) && Math.abs(e.deltaY) < 15)
+            e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
-const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } => (e.changedTouches ? e.changedTouches[0] : e);
+const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
+    e.changedTouches ? e.changedTouches[0] : e;
 
 const cix = (node: Slidy) => Math.floor(node.childNodes.length / 2);
 const parent = (node: Slidy): Parent => node.parentNode as Parent;
@@ -38,13 +40,9 @@ const part = (align: string) => (align === 'center' ? 0.5 : 1);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) => {
     return parent(node)[size(vertical)] - child[size(vertical)] || 0;
-}
-const position = (
-    node: Slidy,
-    child: Child,
-    vertical: boolean,
-    align: string
-) => child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
+};
+const position = (node: Slidy, child: Child, vertical: boolean, align: string) =>
+    child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: Slidy, index: number, vertical: boolean) =>
     Math.abs(nodes(node)[index][coord(vertical)]);
 
@@ -80,7 +78,9 @@ const find = {
         vertical: boolean,
         align: string
     ): number => {
-        const child: Child | undefined = nodes(node).find((child: Child) => child.index === index);
+        const child: Child | undefined = nodes(node).find(
+            (child: Child) => child.index === index
+        );
         return child
             ? nodes(node).indexOf(child)
             : closest({ node, target, vertical, align }).index || 0;
@@ -91,7 +91,7 @@ const find = {
         position(node, closest({ node, target, vertical, align }), vertical, align),
     size: (node: Slidy, index: number, vertical: boolean) =>
         nodes(node)[index][size(vertical)],
-    gap: (node: Slidy, vertical: boolean) => gap(node, vertical)
+    gap: (node: Slidy, vertical: boolean) => gap(node, vertical),
 };
 
 function prev(node: Slidy) {
@@ -117,21 +117,13 @@ function css(node: Slidy | Parent | Element, styles: CssRules) {
     }
 }
 
-function dispatch(
-    node: Slidy,
-    name: string,
-    detail?: { [key: string]: any }
-) {
+function dispatch(node: Slidy, name: string, detail?: { [key: string]: any }) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }
 
 const listen = (
     node: Window | Element | ParentNode | Slidy,
-    events: [
-        string,
-        EventListenerOrEventListenerObject,
-        boolean?
-    ][],
+    events: [string, EventListenerOrEventListenerObject, boolean?][],
     on: boolean = true
 ) => {
     for (const [event, handle, options] of events) {
