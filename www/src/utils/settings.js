@@ -37,12 +37,8 @@ let settingX = {
     },
 };
 
-export const settings = writable(
-    JSON.parse(sessionStorage.getItem('slidySettings')) || settingX
-);
-settings.subscribe((val) =>
-    sessionStorage.setItem('slidySettings', JSON.stringify(val))
-);
+export const settings = writable(JSON.parse(sessionStorage.getItem('slidySettings')) || settingX);
+settings.subscribe((val) => sessionStorage.setItem('slidySettings', JSON.stringify(val)));
 
 export const set = writable({
     open: false,

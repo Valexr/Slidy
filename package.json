@@ -47,6 +47,7 @@
     "prettier": {
         "tabWidth": 4,
         "semi": true,
+        "printWidth": 200,
         "singleQuote": true,
         "svelteSortOrder": "options-scripts-markup-styles",
         "svelteStrictMode": false,

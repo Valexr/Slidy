@@ -7,7 +7,7 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
 
         mounting = setInterval(() => {
             count++;
-            console.log(count, node.childNodes.length, length);
+            // console.log(count, node.childNodes.length, length);
             if (count >= 69) {
                 count = 0;
                 clearInterval(mounting);

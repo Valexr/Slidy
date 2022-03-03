@@ -1,15 +1,13 @@
 @font-face {
     font-family: 'Sans';
-    src: local('ProductSans'), local('ProductSans-Regular'),
-        url('ProductSans-Regular.woff') format('woff2');
+    src: local('ProductSans'), local('ProductSans-Regular'), url('ProductSans-Regular.woff') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Sans';
-    src: local('ProductSans'), local('ProductSans-Bold'),
-        url('ProductSans-Bold.woff') format('woff2');
+    src: local('ProductSans'), local('ProductSans-Bold'), url('ProductSans-Bold.woff') format('woff2');
     font-weight: bold;
     font-style: normal;
 }

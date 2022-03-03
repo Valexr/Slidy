@@ -1,23 +1,6 @@
 import { spring, tweened } from 'svelte/motion';
-import {
-    cubicOut,
-    cubicIn,
-    expoInOut,
-    sineInOut,
-    quintOut,
-    expoOut,
-} from 'svelte/easing';
-import {
-    arr,
-    dots,
-    nodes,
-    element,
-    leftW,
-    translateX,
-    send,
-    receive,
-    duration,
-} from './stores/slidy.js';
+import { cubicOut, cubicIn, expoInOut, sineInOut, quintOut, expoOut } from 'svelte/easing';
+import { arr, dots, nodes, element, leftW, translateX, send, receive, duration } from './stores/slidy.js';
 import { get } from 'svelte/store';
 import { setOpen } from './stores/settings.js';
 
@@ -122,8 +105,7 @@ export function wheeling(e) {
         lastN = 0;
         sly = 0;
         trans = 0;
-        translateX.set(0, { duration: get(duration) / 2, easing: cubicOut }),
-            leftW.set(0, { duration: get(duration) / 2, easing: cubicOut });
+        translateX.set(0, { duration: get(duration) / 2, easing: cubicOut }), leftW.set(0, { duration: get(duration) / 2, easing: cubicOut });
     }, get(duration));
 }
 
@@ -158,14 +140,8 @@ export function dragSlide(e) {
         itemsCount = Math.round(posXDiffrence / trans);
         translateX.set(posXDiffrence, { duration: 0 });
 
-        e.target.style.setProperty(
-            'user-select',
-            get(coords).x !== 0 ? 'none' : null
-        );
-        e.target.style.setProperty(
-            'pointer-events',
-            get(coords).x !== 0 ? 'none' : null
-        );
+        e.target.style.setProperty('user-select', get(coords).x !== 0 ? 'none' : null);
+        e.target.style.setProperty('pointer-events', get(coords).x !== 0 ? 'none' : null);
         slidy();
         let time = get(duration);
         tracker = setInterval(function () {
@@ -189,18 +165,10 @@ export function dragStop(e) {
     } else if (speedDrag > 0.025) {
         nextious(get(duration)), (speedDrag = 0), clearInterval(tracker);
     } else {
-        translateX.set(0, { duration: get(duration) / 2 }),
-            leftW.set(0, { duration: get(duration) / 2 }),
-            clearInterval(tracker);
+        translateX.set(0, { duration: get(duration) / 2 }), leftW.set(0, { duration: get(duration) / 2 }), clearInterval(tracker);
     }
-    e.target.style.setProperty(
-        'user-select',
-        get(coords).x !== 0 ? 'inherit' : null
-    );
-    e.target.style.setProperty(
-        'pointer-events',
-        get(coords).x !== 0 ? 'inherit' : null
-    );
+    e.target.style.setProperty('user-select', get(coords).x !== 0 ? 'inherit' : null);
+    e.target.style.setProperty('pointer-events', get(coords).x !== 0 ? 'inherit' : null);
 }
 
 // ANIMATE --------------------------------------------

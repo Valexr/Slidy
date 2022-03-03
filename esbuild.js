@@ -34,20 +34,11 @@ build({
             dir: 'www/public',
             port: 3339,
             host: '0.0.0.0',
-            watch: [
-                'www/public',
-                'www/src',
-                'packages/svelte/dist',
-                'packages/core/dist',
-            ],
+            watch: ['www/public', 'www/src', 'packages/svelte/dist', 'packages/core/dist'],
             onwatch: async (lr, item) => {
                 if (item !== 'www/public') {
                     lr.prevent();
-                    bundle
-                        .rebuild()
-                        .catch((err) =>
-                            lr.error(err.message, 'Svelte compile error')
-                        );
+                    bundle.rebuild().catch((err) => lr.error(err.message, 'Svelte compile error'));
                 }
             },
         });

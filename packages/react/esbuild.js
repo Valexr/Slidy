@@ -1,6 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
-import pkg from './package.json' assert {type: 'json'};
+import pkg from './package.json' assert { type: 'json' };
 
 const DEV = process.argv.includes('--dev');
 const REACT = process.argv.includes('--react');

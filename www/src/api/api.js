@@ -6,9 +6,7 @@ import { aspectQ } from '../utils/utils.js';
 // }
 
 export async function getPhotos(limit, page, width = 2560, height = 1600) {
-    const res = await fetch(
-        `https://picsum.photos/v2/list?limit=${limit}&page=${page}`
-    );
+    const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`);
     let it = await res.json();
     let dat = it.map((item) => {
         let aspect = aspectQ(item.width, item.height, width, height);
