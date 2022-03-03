@@ -41,8 +41,9 @@
     },
     "homepage": "https://valexr.github.io/slidy",
     "prettier": {
-        "tabWidth": 4,
         "semi": true,
+        "tabWidth": 4,
+        "printWidth": 200,
         "singleQuote": true,
         "svelteSortOrder": "options-markup-scripts-styles",
         "svelteStrictMode": false,

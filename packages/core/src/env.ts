@@ -28,11 +28,7 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
 }
 
 function getFPS() {
-    return new Promise((resolve) =>
-        requestAnimationFrame((t1: number) =>
-            requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))
-        )
-    );
+    return new Promise((resolve) => requestAnimationFrame((t1: number) => requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))));
 }
 
 // USE

@@ -50,7 +50,7 @@
     "prettier": {
         "tabWidth": 4,
         "semi": true,
-        "printWidth": 90,
+        "printWidth": 200,
         "singleQuote": true,
         "svelteSortOrder": "options-markup-scripts-styles",
         "svelteStrictMode": false,
