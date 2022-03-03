@@ -16,7 +16,7 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
             } else if (length && node.childNodes.length >= length) {
                 count = 0;
                 clearInterval(mounting);
-                resolve(init(node.childNodes as NodeListOf<Child>));
+                resolve(init(node));
                 // setTimeout(() => resolve(node.childNodes));
             }
         }, 16);
