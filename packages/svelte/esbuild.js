@@ -112,11 +112,16 @@ if (DEV) {
                 const source = readFileSync(file.path).toString();
                 await preprocess(source, transpilator, file.name).then(
                     ({ code }) => {
-                        const transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
-                        const path = file.path.replace('src', 'dist')
                         if (file.folder && !existsSync(`./dist/${file.folder}`)) {
                             mkdirSync(`./dist/${file.folder}`);
                         }
+                        let transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
+                        const path = file.path.replace('src', 'dist')
+                        const searchValue = '<script context="module"></script>'
+                        const replaceValue = `<script context="module">import { slidy } from '@slidy/core'; import { Arrow, Image, Pagination } from './components';</script>`
+                        transpiled = (file.name === 'Slidy.svelte')
+                            ? transpiled.replace(searchValue, replaceValue)
+                            : transpiled
                         writeFileSync(path, transpiled);
                     }
                 );
@@ -125,14 +130,21 @@ if (DEV) {
     })();
 }
 
+import tsconfig from './tsconfig.json' assert {type: "json"};
+console.log(tsconfig)
 const transpilator = [
     sveltePreprocess({
         typescript({ content }) {
             const { code, map } = transformSync(content, {
                 loader: 'ts',
                 treeShaking: false,
-                banner: `import { slidy } from "@slidy/core"`,
+                ignoreAnnotations: true,
+                tsconfigRaw: `${JSON.stringify(tsconfig)}`,
+                // format: 'cjs'
+                // mainFields: ['module'],
+                // banner: `import { slidy } from '@slidy/core'; import { Arrow, Image, Pagination } from './components';`,
             });
+            // console.log(content, code)
             return { code, map };
         },
     }),
@@ -145,9 +157,7 @@ async function getFiles(path = "./", ext = '') {
         .filter(file => !file.isDirectory() && file.name.includes(ext))
         .map(file => ({ ...file, path: path + file.name }));
 
-    // Get folders within the current directory
     const folders = entries.filter(folder => folder.isDirectory());
-
     for (const folder of folders) {
         let filesInFolder = await getFiles(`${path}${folder.name}/`, ext).then(files => files.map(f => ({ ...f, folder: folder.name })))
         files.push(...filesInFolder)

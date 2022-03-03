@@ -2,7 +2,7 @@
     aria-roledescription="carousel"
     class="slidy {className}"
     class:vertical
-    {id}    
+    {id}
     tabindex="0"
     on:click={handleClick}
 >
@@ -22,7 +22,7 @@
             index,
             clamp,
             snap,
-            loop
+            loop,
         }}
         on:mount={(e) => console.log(e)}
         on:move={(e) => {
@@ -37,7 +37,7 @@
                 aria-roledescription="slide"
                 class="slidy-slide"
                 class:active={i === index}
-                class:background={background}
+                class:background
                 style={background
                     ? `--slidy-slide-bg: url(${getImgSrc(item)});`
                     : undefined}
@@ -85,8 +85,8 @@
     export let arrows = true;
     export let background = false;
     export let clamp = false;
-    export let className: $$Props['className'] = "";
-    export let getImgSrc: GetSrc = (item: Slide) => item.src ?? "";
+    export let className: $$Props['className'] = '';
+    export let getImgSrc: GetSrc = (item: Slide) => item.src ?? '';
     export let navigation = true;
     export let duration = 450;
     export let gravity = 1.2;

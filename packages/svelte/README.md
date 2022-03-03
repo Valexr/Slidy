@@ -51,12 +51,12 @@ REPL is available [here](REPL).
             width: 800,
             height: 1200,
             src: 'static/img/some-image.webp',
-        }
+        },
     ];
 </script>
 ```
 
-By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are *required*.
+By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are _required_.
 
 ## API
 
@@ -242,19 +242,19 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                     | Default   | Type       | Description                                          |
-|:-----------------------------|:---------:|:----------:|:-----------------------------------------------------|
-| `--slidy-height`             | 100%      | `<length>` | The height of the component's node.                  |
-| `--slidy-width`              | 100%      | `<length>` | The width of the component's node.                   |
-| `--slidy-slide-gap`          | 1rem      | `<length>` | The gap between items in carousel.                   |
-| `--slidy-slide-height`       | 100%      | `<length>` | The carousel items height.                           |
-| `--slidy-slide-width`        | auto      | `<length>` | The carousel items width.                            |
-| `--slidy-slide-object-fit`   | cover     | -          | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-bg-color`     | darkgray  | `<color>`  | The placeholder background color for loading images. |
-| `--slidy-nav-item-size`      | 16px      | `<length>` | The navigation elements size.                        |
-| `--slidy-nav-item-radius`    | 50%       | `<length>` | The navigation elements border radius.               |
-| `--slidy-nav-item-color`     | white     | `<color>`  | The navigation elements color.                       |
-| `--slidy-arrow-size`         | 24px      | `<length>` | The arrow controls size.                             |
+| Property                   | Default  |    Type    | Description                                          |
+| :------------------------- | :------: | :--------: | :--------------------------------------------------- |
+| `--slidy-height`           |   100%   | `<length>` | The height of the component's node.                  |
+| `--slidy-width`            |   100%   | `<length>` | The width of the component's node.                   |
+| `--slidy-slide-gap`        |   1rem   | `<length>` | The gap between items in carousel.                   |
+| `--slidy-slide-height`     |   100%   | `<length>` | The carousel items height.                           |
+| `--slidy-slide-width`      |   auto   | `<length>` | The carousel items width.                            |
+| `--slidy-slide-object-fit` |  cover   |     -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-bg-color`   | darkgray | `<color>`  | The placeholder background color for loading images. |
+| `--slidy-nav-item-size`    |   16px   | `<length>` | The navigation elements size.                        |
+| `--slidy-nav-item-radius`  |   50%    | `<length>` | The navigation elements border radius.               |
+| `--slidy-nav-item-color`   |  white   | `<color>`  | The navigation elements color.                       |
+| `--slidy-arrow-size`       |   24px   | `<length>` | The arrow controls size.                             |
 
 There are two options:
 
@@ -263,9 +263,7 @@ There are two options:
 Svelte supports passing down custom properties to component via [`--style-props`][svelte-custom-props]:
 
 ```svelte
-<Slidy
-    --slidy-slide-gap="1rem"
-/>
+<Slidy --slidy-slide-gap="1rem" />
 ```
 
 Bear in mind that this way Svelte wraps the component in extra `<div />` with `display: contents`.
@@ -554,5 +552,5 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 [core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
 [demo]: https://valexr.github.io/Slidy
 [npm]: https://www.npmjs.com/package/@slidy/svelte
-[REPL]: https://svelte.dev/repl/de699aa1f8c04874b0402352ac93df96
+[repl]: https://svelte.dev/repl/de699aa1f8c04874b0402352ac93df96
 [svelte-custom-props]: https://svelte.dev/docs#template-syntax-component-directives---style-props
