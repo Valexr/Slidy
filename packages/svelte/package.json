@@ -29,7 +29,7 @@
         "dev": "node esbuild --dev",
         "dev:svelte": "node esbuild --svelte",
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
         "build:local": "pnpm build -r --filter=@slidy/svelte...",
         "format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
         "check": "svelte-check --tsconfig ./tsconfig.json",
@@ -54,10 +54,10 @@
     "prettier": {
         "semi": true,
         "tabWidth": 4,
-        "printWidth": 200,
+        "printWidth": 120,
         "singleQuote": true,
         "svelteSortOrder": "options-markup-scripts-styles",
-        "svelteStrictMode": false,
+        "svelteStrictMode": true,
         "svelteAllowShorthand": true,
         "svelteIndentScriptAndStyle": true,
         "plugins": [

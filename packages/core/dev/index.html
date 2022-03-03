@@ -35,7 +35,9 @@
                 <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
                 <button id="snap" onclick="slidy.update({snap: activate(this, options.snap)})">snap</button>
                 <button id="loop" onclick="slidy.update({loop: activate(this, options.loop)})">loop</button>
-                <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">vertical</button>
+                <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">
+                    vertical
+                </button>
             </nav>
 
             <nav>
@@ -63,10 +65,26 @@
                         <input onchange="setVar(main, this.name, this.value)" name="gap" size="3" />
                     </label>
                     <label title="duration">
-                        <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100" max="1000" />
+                        <input
+                            onchange="changeValue()"
+                            name="duration"
+                            type="number"
+                            size="4"
+                            step="1"
+                            min="100"
+                            max="1000"
+                        />
                     </label>
                     <label title="gravity">
-                        <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1" max="2" />
+                        <input
+                            onchange="changeValue()"
+                            name="gravity"
+                            type="number"
+                            size="4"
+                            step="0.1"
+                            min="0.1"
+                            max="2"
+                        />
                     </label>
                     <!-- <label>
                 align
@@ -84,10 +102,13 @@
             <h1>HTML Ipsum Presents</h1>
 
             <p>
-                <strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet,
-                ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
-                Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus
-                lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.
+                <strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis
+                egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero
+                sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo.
+                Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed,
+                <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum,
+                eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis
+                pulvinar facilisis. Ut felis.
             </p>
 
             <h2>Header Level 2</h2>
@@ -99,8 +120,10 @@
 
             <blockquote>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend,
-                    libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet
+                    congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis
+                    mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare
+                    est.
                 </p>
             </blockquote>
 
@@ -186,8 +209,12 @@
                     options.index = x;
                     const cix = Math.floor(node.children.length / 2);
 
-                    Array.from(node.children).forEach((n, i) => (i === (options.loop ? cix : x) ? n.classList.add('active') : n.classList.remove('active')));
-                    Array.from(nav.children).forEach((n, i) => (i === x ? n.classList.add('active') : n.classList.remove('active')));
+                    Array.from(node.children).forEach((n, i) =>
+                        i === (options.loop ? cix : x) ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                    Array.from(nav.children).forEach((n, i) =>
+                        i === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
                 }
             };
 
@@ -238,12 +265,16 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${
-                                        aspect.width
-                                    }" height="${aspect.height}" alt="${p.author}"/></li>`;
+                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${
+                                        aspect.width * window.devicePixelRatio
+                                    }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${
+                                        aspect.height
+                                    }" alt="${p.author}"/></li>`;
                                 })
                                 .join('');
-                            nav.innerHTML = photos.map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`).join('');
+                            nav.innerHTML = photos
+                                .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
+                                .join('');
                         } else {
                             options.index = 0;
                             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;

@@ -24,7 +24,7 @@
         "dev:core": "node esbuild --core",
         "dev:svelte": "node esbuild --dev",
         "dev:react": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public",
         "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,json,html,css}'"
     },
@@ -47,17 +47,10 @@
         "url": "https://github.com/Valexr/slidy/issues"
     },
     "homepage": "https://valexr.github.io/slidy",
-    "prettier": {
-        "tabWidth": 4,
-        "semi": true,
-        "printWidth": 200,
-        "singleQuote": true,
-        "svelteSortOrder": "options-markup-scripts-styles",
-        "svelteStrictMode": false,
-        "svelteAllowShorthand": true,
-        "svelteIndentScriptAndStyle": true,
-        "plugins": [
-            "prettier-plugin-svelte"
-        ]
+    "devDependencies": {
+        "derver": "^0.5.3",
+        "esbuild": "^0.14.24",
+        "tslib": "^2.3.1",
+        "typescript": "^4.6.2"
     }
 }

@@ -39,7 +39,8 @@ const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) => {
     return parent(node)[size(vertical)] - child[size(vertical)] || 0;
 };
-const position = (node: Slidy, child: Child, vertical: boolean, align: string) => child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
+const position = (node: Slidy, child: Child, vertical: boolean, align: string) =>
+    child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: Slidy, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)]);
 
 const gap = (node: Slidy, vertical: boolean) => {
@@ -48,7 +49,17 @@ const gap = (node: Slidy, vertical: boolean) => {
     return distance(node, last, vertical) - prev;
 };
 
-function closest({ node, target, vertical, align }: { node: Slidy; target: number; vertical: boolean; align: string }): Child {
+function closest({
+    node,
+    target,
+    vertical,
+    align,
+}: {
+    node: Slidy;
+    target: number;
+    vertical: boolean;
+    align: string;
+}): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
         const pos = (child: Child) => position(node, child, vertical, align);
         return Math.abs(pos(curr) - target) < Math.abs(pos(prev) - target) ? curr : prev;
@@ -60,8 +71,10 @@ const find = {
         const child: Child | undefined = nodes(node).find((child: Child) => child.index === index);
         return child ? nodes(node).indexOf(child) : closest({ node, target, vertical, align }).index || 0;
     },
-    position: (node: Slidy, index: number, vertical: boolean, align: string) => position(node, child(node, index), vertical, align),
-    target: (node: Slidy, target: number, vertical: boolean, align: string) => position(node, closest({ node, target, vertical, align }), vertical, align),
+    position: (node: Slidy, index: number, vertical: boolean, align: string) =>
+        position(node, child(node, index), vertical, align),
+    target: (node: Slidy, target: number, vertical: boolean, align: string) =>
+        position(node, closest({ node, target, vertical, align }), vertical, align),
     size: (node: Slidy, index: number, vertical: boolean) => nodes(node)[index][size(vertical)],
     gap: (node: Slidy, vertical: boolean) => gap(node, vertical),
 };
@@ -90,26 +103,25 @@ function dispatch(node: Slidy, name: string, detail?: { [key: string]: any }) {
     node.dispatchEvent(new CustomEvent(name, { ...detail }));
 }
 
-const listen = (node: Window | Element | ParentNode | Slidy, events: [string, EventListenerOrEventListenerObject, boolean?][], on: boolean = true) => {
+const listen = (
+    node: Window | Element | ParentNode | Slidy,
+    events: [string, EventListenerOrEventListenerObject, boolean?][],
+    on: boolean = true
+) => {
     for (const [event, handle, options] of events) {
         on ? node.addEventListener(event, handle, options) : node.removeEventListener(event, handle, options);
     }
 };
 
-// function init(node: HTMLElement): Child[] {
-//     return nodes(node).map((n, i): Child => {
-//         return {
-//             index: i,
-//             offsetTop: n.offsetTop,
-//             offsetLeft: n.offsetLeft,
-//             offsetWidth: n.offsetWidth,
-//             offsetHeight: n.offsetHeight,
-//         };
-//     });
-// }
+function init(childs: NodeListOf<Child>) {
+    for (let index = 0; index < childs.length; index++) {
+        childs[index].index = index;
+    }
+    return childs;
+}
 
 export {
-    // init,
+    init,
     find,
     closest,
     rotate,

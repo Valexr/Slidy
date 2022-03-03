@@ -1,9 +1,7 @@
 import { writable } from 'svelte/store';
 
 function themeStore() {
-    const dark =
-        globalThis.window &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = globalThis.window && window.matchMedia('(prefers-color-scheme: dark)').matches;
     const { subscribe, update } = writable<boolean>(dark);
 
     return {

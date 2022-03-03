@@ -1,7 +1,7 @@
 {
     "name": "slidy",
-    "version": "3.0.4",
-    "description": "Simple, configurable & reusable carousel component",
+    "version": "3.0.5",
+    "description": "Simple, configurable & reusable carousel",
     "private": true,
     "type": "module",
     "scripts": {
@@ -47,10 +47,10 @@
     "prettier": {
         "semi": true,
         "tabWidth": 4,
-        "printWidth": 200,
+        "printWidth": 120,
         "singleQuote": true,
-        "svelteSortOrder": "options-scripts-markup-styles",
-        "svelteStrictMode": false,
+        "svelteSortOrder": "options-markup-scripts-styles",
+        "svelteStrictMode": true,
         "svelteAllowShorthand": true,
         "svelteIndentScriptAndStyle": true,
         "plugins": [

@@ -26,9 +26,7 @@ export function createSlidesStore() {
     }
 
     function remove(amount = 1) {
-        update((value) =>
-            value.slice(0, clamp(value.length - amount, 0, value.length))
-        );
+        update((value) => value.slice(0, clamp(value.length - amount, 0, value.length)));
     }
 
     return {

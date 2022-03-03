@@ -1,6 +1,6 @@
 import { onMount } from './env';
 import type { Child, CssRules, Delta, Options, Parent, Scroll, Slidy, UniqEvent } from './types';
-import { css, find, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
+import { css, find, init, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
 
 export function slidy(
     node: Slidy,
@@ -82,6 +82,11 @@ export function slidy(
             };
             css(node, styles);
 
+            const children = node.childNodes as NodeListOf<Child>;
+            for (let entry of children.values()) {
+                console.log(entry);
+            }
+
             gap = find.gap(node, options.vertical);
             replace(node, options.index, options.loop);
             to(options.index);
@@ -155,7 +160,13 @@ export function slidy(
         const ix = options.loop ? find.index(node, position, options.index, options.vertical, align) : options.index;
 
         console.log(index, options.index, ix);
-        const pos = target ? (options.snap ? find.target(node, target, options.vertical, align) : target) : target === 0 ? 0 : find.position(node, ix, options.vertical, align);
+        const pos = target
+            ? options.snap
+                ? find.target(node, target, options.vertical, align)
+                : target
+            : target === 0
+            ? 0
+            : find.position(node, ix, options.vertical, align);
         move(pos - position, options.duration);
     }
 
@@ -189,7 +200,11 @@ export function slidy(
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
 
                 if (options.loop && Math.abs(delta) < 100) to(options.index);
-                else if (!options.loop && Math.abs(delta) < 100 && (options.index === indx().min || options.index === indx().max)) {
+                else if (
+                    !options.loop &&
+                    Math.abs(delta) < 100 &&
+                    (options.index === indx().min || options.index === indx().max)
+                ) {
                     to(options.index);
                 }
             });
@@ -221,7 +236,10 @@ export function slidy(
         const { target, amplitude } = delting(position);
 
         if (Math.abs(amplitude) > 10) {
-            Math.abs(velocity) < 100 || (!options.loop && options.snap && ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
+            Math.abs(velocity) < 100 ||
+            (!options.loop &&
+                options.snap &&
+                ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
                 ? to(options.index, target)
@@ -238,7 +256,9 @@ export function slidy(
         velocity = maxMin(amp().max, -amp().max, velocity);
 
         let amplitude = velocity * (2 - gravity);
-        let target = options.snap ? find.target(node, position + amplitude, options.vertical, align) : position + amplitude;
+        let target = options.snap
+            ? find.target(node, position + amplitude, options.vertical, align)
+            : position + amplitude;
 
         amplitude = target - position;
         return { target, amplitude };
@@ -315,9 +335,7 @@ export function slidy(
                         break;
                     case 'length':
                         options[key] = opts[key];
-                        Array.from(node.childNodes as NodeListOf<Child>).forEach((c, i) => {
-                            c.index = i;
-                        });
+                        init(node.childNodes as NodeListOf<Child>);
                         to(options.index);
                         break;
 
@@ -335,9 +353,5 @@ export function slidy(
         RO.disconnect();
         listen(PARENT, parentEvents, false);
     }
-    return {
-        update,
-        destroy,
-        to,
-    };
+    return { update, destroy, to };
 }

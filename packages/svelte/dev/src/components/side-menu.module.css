@@ -16,8 +16,7 @@
     visibility: hidden;
     will-change: transform;
     transform: translateX(110vw);
-    transition: transform var(--side-menu-duration) ease-in-out,
-        visibility var(--side-menu-duration) linear;
+    transition: transform var(--side-menu-duration) ease-in-out, visibility var(--side-menu-duration) linear;
 }
 
 .side-menu.open {
@@ -29,8 +28,7 @@
     height: 100vh;
     width: auto;
     flex-grow: 1;
-    transition: background-color var(--side-menu-duration) linear
-        var(--side-menu-duration);
+    transition: background-color var(--side-menu-duration) linear var(--side-menu-duration);
     z-index: 9;
 }
 

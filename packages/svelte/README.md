@@ -40,8 +40,6 @@ REPL is available [here](REPL).
 `Slidy` component is available via named import. All props are optional. The only preperty to get started is `slides` - an array of objects with image related data:
 
 ```svelte
-<Slidy {slides} />
-
 <script>
     import { Slidy } from '@slidy/svelte';
 
@@ -54,6 +52,8 @@ REPL is available [here](REPL).
         },
     ];
 </script>
+
+<Slidy slides="{slides}" />
 ```
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are _required_.
@@ -302,13 +302,13 @@ Or just pass a class with a set of custom properties:
 In cases where the custom properties are not enough, Svelte provides a `:global()` modifier. To customize default `Slidy` markup styles, provide an `id` or `className` attribute and use `:global()` modifier to get necessary specifity.
 
 ```svelte
-<Slidy {id} />
-
 <script>
     import { Slidy } from 'svelte-slidy';
 
     export let id = 'unique-id';
 </script>
+
+<Slidy id="{id}" />
 
 <style>
     :global(#unique-id) {
@@ -368,7 +368,7 @@ Usually the default markup is not enough. The `default` slot solves this problem
 ```svelte
 <Slidy let:item>
     <figure>
-        <img src={item.src} alt={item.figcaption} />
+        <img src="{item.src}" alt="{item.figcaption}" />
         <figcaption>
             {item.figcaption}
         </figcaption>
@@ -445,7 +445,7 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 
 ```svelte
 <Slidy let:active let:index>
-    <button slot="nav-item" data-index={index} {active} {index} />
+    <button slot="nav-item" data-index="{index}" active="{active}" index="{index}"></button>
 </Slidy>
 ```
 
@@ -465,7 +465,7 @@ The component forwards custom events:
 Fires a `mount` event when component is mounted to the DOM.
 
 ```svelte
-<Slidy on:mount={(event) => console.log(event)} />
+<Slidy on:mount="{(event) => console.log(event)}" />
 ```
 
 </details>
@@ -481,10 +481,10 @@ Fires a `move` event when on user navigation. Retuns the `index` and `position` 
 
 ```svelte
 <Slidy
-    on:mount={(event) => {
+    on:mount="{(event) => {
         const { index, position } = event.details;
         console.log({ index, position });
-    }}
+    }}"
 />
 ```
 
@@ -531,18 +531,18 @@ It is possible to control the navigation of the `Slidy` instance from the parent
 There are two variables available to control the component externally: `index` and `position`. Declare the variables to hold the values and bind them to the instance for the carousel control.
 
 ```svelte
-<button on:click={() => (index += 1)}> Next slide </button>
-
-<button on:click={() => (position += 50)}> Move </button>
-
-<Slidy bind:index bind:position />
-
 <script>
     import { Slidy } from 'svelte-slidy';
 
     let index = 0;
     let position = 0;
 </script>
+
+<button on:click="{() => (index += 1)}"> Next slide </button>
+
+<button on:click="{() => (position += 50)}"> Move </button>
+
+<Slidy bind:index bind:position />
 ```
 
 ## License

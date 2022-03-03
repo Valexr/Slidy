@@ -23,7 +23,7 @@
         "dev": "node esbuild --dev",
         "dev:react": "node esbuild --react",
         "dev:local": "pnpm dev:react --parallel --filter=@slidy/react...",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || pnpm format",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist",
         "build:local": "pnpm build -r --filter=@slidy/react...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
@@ -40,19 +40,6 @@
         "url": "https://github.com/Valexr/slidy/issues"
     },
     "homepage": "https://valexr.github.io/slidy",
-    "prettier": {
-        "semi": true,
-        "tabWidth": 4,
-        "printWidth": 200,
-        "singleQuote": true,
-        "svelteSortOrder": "options-markup-scripts-styles",
-        "svelteStrictMode": false,
-        "svelteAllowShorthand": true,
-        "svelteIndentScriptAndStyle": true,
-        "plugins": [
-            "prettier-plugin-svelte"
-        ]
-    },
     "devDependencies": {
         "@slidy/core": "workspace:*",
         "@types/react": "^17.0.39",

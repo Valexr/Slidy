@@ -105,7 +105,8 @@ export function wheeling(e) {
         lastN = 0;
         sly = 0;
         trans = 0;
-        translateX.set(0, { duration: get(duration) / 2, easing: cubicOut }), leftW.set(0, { duration: get(duration) / 2, easing: cubicOut });
+        translateX.set(0, { duration: get(duration) / 2, easing: cubicOut }),
+            leftW.set(0, { duration: get(duration) / 2, easing: cubicOut });
     }, get(duration));
 }
 
@@ -165,7 +166,9 @@ export function dragStop(e) {
     } else if (speedDrag > 0.025) {
         nextious(get(duration)), (speedDrag = 0), clearInterval(tracker);
     } else {
-        translateX.set(0, { duration: get(duration) / 2 }), leftW.set(0, { duration: get(duration) / 2 }), clearInterval(tracker);
+        translateX.set(0, { duration: get(duration) / 2 }),
+            leftW.set(0, { duration: get(duration) / 2 }),
+            clearInterval(tracker);
     }
     e.target.style.setProperty('user-select', get(coords).x !== 0 ? 'inherit' : null);
     e.target.style.setProperty('pointer-events', get(coords).x !== 0 ? 'inherit' : null);

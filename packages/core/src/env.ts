@@ -1,4 +1,5 @@
 import type { Child, Slidy } from './types';
+import { init } from './utils';
 
 function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
     return new Promise((resolve, reject) => {
@@ -13,14 +14,9 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
             } else if (length && node.childNodes.length >= length) {
-                const childs = node.childNodes as NodeListOf<Child>;
-                for (let index = 0; index < childs.length; index++) {
-                    const child = node.childNodes[index] as Child;
-                    child.index = index;
-                }
                 count = 0;
                 clearInterval(mounting);
-                resolve(node.childNodes);
+                resolve(init(node.childNodes as NodeListOf<Child>));
                 // setTimeout(() => resolve(node.childNodes));
             }
         }, 16);
@@ -28,7 +24,9 @@ function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
 }
 
 function getFPS() {
-    return new Promise((resolve) => requestAnimationFrame((t1: number) => requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))));
+    return new Promise((resolve) =>
+        requestAnimationFrame((t1: number) => requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1))))
+    );
 }
 
 // USE

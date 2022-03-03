@@ -46,11 +46,7 @@ if (DEV) {
             onwatch: async (lr, item) => {
                 if (item !== 'dev/public') {
                     lr.prevent();
-                    bundle
-                        .rebuild()
-                        .catch((err) =>
-                            lr.error(err.message, 'TS compile error')
-                        );
+                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                 }
             },
         });

@@ -35,7 +35,7 @@ Slides may not have `id`'s, but you must have `imgsrckey` (by default
 You can customize key() in template instead:
 
 ```svelte
-<Slidy key={(item) => uid()} />
+<Slidy key="{(item) => uid()}" />
 ```
 
 ## 2.6.5
@@ -53,13 +53,13 @@ Tx @axmad386👍🏻 for [PR](https://github.com/Valexr/svelte-slidy/pull/22) &
 Usage example:
 
 ```svelte
-<Slidy keyExtractor={(item, index) => item.id + index + uid()} />
+<Slidy keyExtractor="{(item, index) => item.id + index + uid()}" />
 ```
 
 or
 
 ```svelte
-<Slidy keyExtractor={(item) => item.id.toString()} />
+<Slidy keyExtractor="{(item) => item.id.toString()}" />
 ```
 
 ## Previous changes (Pre 2.6.5)
