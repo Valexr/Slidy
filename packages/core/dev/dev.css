@@ -168,6 +168,7 @@ footer {
 }
 footer {
     gap: 1rem;
+    justify-content: flex-start;
 }
 
 :root {

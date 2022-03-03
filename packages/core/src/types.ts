@@ -9,16 +9,6 @@ export interface Options {
     loop: boolean;
 }
 
-type OptionsSnap = 'auto' | 'start' | 'center' | 'end' | '';
-
-export interface Step {
-    i: number;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-}
-
 export interface Parent extends ParentNode {
     style: CSSRuleList;
     offsetTop: number;
@@ -29,10 +19,17 @@ export interface Parent extends ParentNode {
 
 export interface Slidy extends Node {
     parentNode: ParentNode;
+    children: NodeListOf<Child>;
+    style: CSSRuleList;
     offsetTop: number;
     offsetLeft: number;
     offsetWidth: number;
     offsetHeight: number;
+    scrollWidth: number;
+    scrollHeight: number;
+    replaceChildren: Function;
+    append: Function;
+    prepend: Function;
 }
 
 export interface Child extends ChildNode {
@@ -43,24 +40,10 @@ export interface Child extends ChildNode {
     offsetHeight: number;
 }
 
-export interface CssRule {
+export interface CssRules {
     [key: string]: string;
 }
 
-export interface SLIDY extends HTMLElement {
-    SLIDY?: {
-        index?: number;
-        position?: number;
-    };
-}
-
-export interface Slide extends ChildNode {
-    index?: number;
-    offsetTop: number;
-    offsetLeft: number;
-    offsetWidth: number;
-    offsetHeight: number;
-}
 
 export interface Delta {
     target: number;
@@ -72,4 +55,13 @@ export interface Scroll {
     amplitude: number;
     duration: number;
     timestamp: number;
+}
+
+export interface UniqEvent extends Event {
+    changedTouches: Array<{ [key: string]: number }>;
+    deltaX: number;
+    deltaY: number;
+    clientX: number;
+    clientY: number;
+    shiftKey: boolean;
 }

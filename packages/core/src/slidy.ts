@@ -1,5 +1,5 @@
 import { onMount } from './env';
-import type { Child, Delta, Options, Scroll } from './types';
+import type { Child, CssRules, Delta, Options, Parent, Scroll, Slidy, UniqEvent } from './types';
 import {
     css,
     find,
@@ -14,7 +14,7 @@ import {
 } from './utils';
 
 export function slidy(
-    node: HTMLElement,
+    node: Slidy,
     options: Options = {
         index: 0,
         length: 0,
@@ -47,15 +47,15 @@ export function slidy(
         timestamp = 0,
         consttime = 100;
 
-    const PARENT = node.parentNode;
-    const windowEvents: [string, (e: MouseEvent | TouchEvent) => void][] = [
+    const PARENT = node.parentNode as Parent | Element;
+    const windowEvents: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
         ['touchend', onUp],
         ['mouseup', onUp],
         // ['scroll', onScroll],
     ];
-    const parentEvents: [string, Function | (() => void), boolean?][] = [
+    const parentEvents: [string, EventListenerOrEventListenerObject, boolean?][] = [
         ['contextmenu', clear],
         ['touchstart', onDown],
         ['mousedown', onDown],
@@ -84,7 +84,7 @@ export function slidy(
 
     onMount(node, options.length)
         .then((childs: NodeList) => {
-            const styles = {
+            const styles: CssRules = {
                 userSelect: 'none',
                 // willChange: 'auto',
                 // touchAction: 'auto',
@@ -100,7 +100,7 @@ export function slidy(
             if (PARENT) {
                 css(PARENT, { outline: 'none', overflow: 'hidden' });
                 listen(PARENT, parentEvents);
-                RO.observe(PARENT);
+                RO.observe(PARENT as Element);
             }
             dispatch(node, 'mount', { detail: childs });
         })
@@ -225,7 +225,7 @@ export function slidy(
         }
     }
 
-    function onDown(e: MouseEvent | TouchEvent): void {
+    function onDown(e: UniqEvent): void {
         clear();
 
         reference = coordinate(e, options.vertical);
@@ -236,7 +236,7 @@ export function slidy(
         listen(window, windowEvents);
     }
 
-    function onMove(e: MouseEvent | TouchEvent): void {
+    function onMove(e: UniqEvent): void {
         let delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
 
@@ -280,7 +280,7 @@ export function slidy(
     }
 
     let wheeling = false;
-    function onWheel(e: WheelEvent): void {
+    function onWheel(e: UniqEvent): void {
         clear();
         wheeling = true;
 
@@ -350,7 +350,7 @@ export function slidy(
                         break;
                     case 'length':
                         options[key] = opts[key];
-                        Array.from(node.childNodes).forEach((c, i) => {
+                        Array.from(node.childNodes as NodeListOf<Child>).forEach((c, i) => {
                             c.index = i;
                         });
                         to(options.index);
