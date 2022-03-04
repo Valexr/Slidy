@@ -1,12 +1,11 @@
 import type { Child, Slidy } from './types';
 import { init } from './utils';
 
-function onMount(node: Slidy, length: number = 2): Promise<NodeList> {
+function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
     return new Promise((resolve, reject) => {
-        let mounting: NodeJS.Timer,
-            count: number = 0;
+        let count = 0;
 
-        mounting = setInterval(() => {
+        const mounting = setInterval(() => {
             count++;
             // console.log(count, node.childNodes.length, length);
             if (count >= 69) {

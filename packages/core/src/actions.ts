@@ -111,8 +111,8 @@ export function resize(node: HTMLElement) {
     let CR: DOMRectReadOnly;
     let ET: Element;
 
-    const ro = new ResizeObserver((entries, observer) => {
-        for (let entry of entries) {
+    const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
             CR = entry.contentRect;
             ET = entry.target;
         }

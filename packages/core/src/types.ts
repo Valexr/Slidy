@@ -27,9 +27,9 @@ export interface Slidy extends Node {
     offsetHeight: number;
     scrollWidth: number;
     scrollHeight: number;
-    replaceChildren: Function;
-    append: Function;
-    prepend: Function;
+    replaceChildren: (...nodes: (string | Node)[]) => void;
+    append: (...nodes: (string | Node)[]) => void;
+    prepend: (...nodes: (string | Node)[]) => void;
 }
 
 export interface Child extends ChildNode {
