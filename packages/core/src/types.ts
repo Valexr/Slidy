@@ -10,7 +10,7 @@ export interface Options {
 }
 
 export interface Parent extends ParentNode {
-    style: CSSRuleList;
+    style: CssRules;
     offsetTop: number;
     offsetLeft: number;
     offsetWidth: number;
@@ -19,8 +19,8 @@ export interface Parent extends ParentNode {
 
 export interface Slidy extends Node {
     parentNode: ParentNode;
-    children: NodeListOf<Child>;
-    style: CSSRuleList;
+    childNodes: NodeListOf<Child>;
+    style: CssRules;
     offsetTop: number;
     offsetLeft: number;
     offsetWidth: number;
@@ -41,7 +41,13 @@ export interface Child extends ChildNode {
 }
 
 export interface CssRules {
-    [key: string]: string;
+    userSelect?: string;
+    webkitUserSelect?: string;
+    pointerEvents?: string;
+    outline?: string;
+    overflow?: string;
+    transform?: string;
+    transition?: string;
 }
 
 export interface Delta {

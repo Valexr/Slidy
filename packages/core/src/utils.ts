@@ -87,8 +87,9 @@ function replace(node: Slidy, index: number, loop: boolean) {
     node.replaceChildren(...elements);
 }
 
-function css(node: Slidy | Parent | Element, styles: CssRules) {
-    for (const property in styles) {
+function css(node: Slidy | Parent, styles: CssRules) {
+    let property: keyof CssRules
+    for (property in styles) {
         node.style[property] = styles[property];
     }
 }
@@ -113,7 +114,6 @@ function init(node: Slidy, childs?: NodeListOf<Child>) {
     // for (let index = 0; index < childs.length; index++) {
     //     childs[index].index = index;
     // }
-    // return childs;
     for (const key of childs.keys()) {
         childs[key].index = key;
     }

@@ -1,5 +1,5 @@
 import { onMount } from './env';
-import type { Child, Delta, Options, CssRules, Parent, Slidy, UniqEvent } from './types';
+import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 import { css, find, init, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
 
 export function slidy(
@@ -34,9 +34,8 @@ export function slidy(
         direction = 0,
         timestamp = 0;
 
-    const consttime = 100,
-        hip = position;
-    const PARENT = node.parentNode as Parent | Element;
+    const consttime = 100, hip = position;
+    const PARENT = node.parentNode;
     const windowEvents: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
@@ -87,7 +86,7 @@ export function slidy(
             to(options.index);
 
             if (PARENT) {
-                css(PARENT, { outline: 'none', overflow: 'hidden' });
+                css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT as Element);
             }
