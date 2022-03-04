@@ -13,7 +13,7 @@ const esbuildBase = {
     sourcemap: false,
     target: 'es2020',
     legalComments: 'none',
-    // plugins: [eslintPlugin()],
+    plugins: [eslintPlugin()],
     entryPoints: ['src/slidy.ts'],
 };
 const derverConfig = {

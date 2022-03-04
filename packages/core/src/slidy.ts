@@ -1,5 +1,5 @@
 import { onMount } from './env';
-import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
+import type { Child, Delta, Options, CssRules, Parent, Slidy, UniqEvent } from './types';
 import { css, find, init, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
 
 export function slidy(
@@ -160,8 +160,8 @@ export function slidy(
                 ? find(node, options.vertical).target(target, align)
                 : target
             : target === 0
-            ? 0
-            : find(node, options.vertical).position(ix, align);
+                ? 0
+                : find(node, options.vertical).position(ix, align);
         move(pos - position, options.duration);
     }
 
@@ -232,13 +232,13 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-            (!options.loop &&
-                options.snap &&
-                ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
+                (!options.loop &&
+                    options.snap &&
+                    ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                ? to(options.index, target)
-                : scroll(target, amplitude, options.duration, performance.now());
+                    ? to(options.index, target)
+                    : scroll(target, amplitude, options.duration, performance.now());
         } else to(options.index);
     }
 

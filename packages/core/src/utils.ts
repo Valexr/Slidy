@@ -43,9 +43,15 @@ const position = (node: Slidy, child: Child, vertical: boolean, align: string) =
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: Slidy, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)]);
 
-function closest(node: Slidy, target: number, vertical: boolean, align: string): Child {
+
+function closest(
+    node: Slidy,
+    target: number,
+    vertical: boolean,
+    align: string,
+): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
-        const dist = (child: Child) => Math.abs(position(node, child, vertical, align) - target);
+        const dist = (child: Child) => Math.abs(position(node, child, vertical, align) - target)
         return dist(curr) < dist(prev) ? curr : prev;
     });
 }
@@ -55,8 +61,10 @@ const find = (node: Slidy, vertical: boolean) => ({
         const child: Child | undefined = nodes(node).find((child: Child) => child.index === index);
         return child ? nodes(node).indexOf(child) : closest(node, target, vertical, align).index || 0;
     },
-    position: (index: number, align: string) => position(node, child(node, index), vertical, align),
-    target: (target: number, align: string) => position(node, closest(node, target, vertical, align), vertical, align),
+    position: (index: number, align: string) =>
+        position(node, child(node, index), vertical, align),
+    target: (target: number, align: string) =>
+        position(node, closest(node, target, vertical, align), vertical, align),
     size: (index: number) => nodes(node)[index][size(vertical)],
     gap: () => {
         const last = nodes(node).length - 1;
@@ -95,13 +103,13 @@ function listen(
     on = true
 ) {
     for (const [event, handle, options] of events) {
-        const listen = on ? 'addEventListener' : 'removeEventListener';
-        node[listen](event, handle, options);
+        const listen = on ? 'addEventListener' : 'removeEventListener'
+        node[listen](event, handle, options)
     }
 }
 
 function init(node: Slidy, childs?: NodeListOf<Child>) {
-    childs = node.childNodes as NodeListOf<Child>;
+    childs = node.childNodes as NodeListOf<Child>
     // for (let index = 0; index < childs.length; index++) {
     //     childs[index].index = index;
     // }
@@ -109,7 +117,7 @@ function init(node: Slidy, childs?: NodeListOf<Child>) {
     for (const key of childs.keys()) {
         childs[key].index = key;
     }
-    return childs;
+    return childs
 }
 
 export {
