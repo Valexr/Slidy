@@ -7,10 +7,20 @@
         "declarationDir": "dist/",
         "strict": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node"
-        // "types": ["@slidy/core"]
+        "moduleResolution": "Node",
+        "types": [
+            "@slidy/core"
+        ]
     },
-    "include": ["src/*"],
-    "exclude": ["node_modules/*", "dist/*", "dev/*"],
-    "files": ["./src/index.ts"]
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "dist/*",
+        "dev/*"
+    ],
+    "files": [
+        "./src/index.ts"
+    ]
 }

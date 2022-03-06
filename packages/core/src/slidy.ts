@@ -1,6 +1,6 @@
-import { onMount } from './env';
+import { css, dispatch, init, listen, onMount } from './env';
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
-import { css, find, init, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
+import { find, go, maxMin, replace, indexing, coordinate } from './utils';
 
 export function slidy(
     node: Slidy,
@@ -133,7 +133,7 @@ export function slidy(
         const history = (size: number) => (size + gap) * Math.sign(-pos);
 
         if (hix !== options.index) {
-            pos > 0 ? next(node) : prev(node);
+            pos > 0 ? go(node).next() : go(node).prev();
             pos += history(pos > 0 ? first : last);
             frame = position + pos + delta;
         }
@@ -294,8 +294,8 @@ export function slidy(
 
     function clear(): void {
         // hix = (wheeling || toing) ? hix : options.index;
-        clearInterval(dragtime);
-        clearTimeout(wheeltime);
+        clearInterval(dragtime as NodeJS.Timer);
+        clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);
         listen(window, windowEvents, false);
@@ -304,7 +304,7 @@ export function slidy(
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
-                console.log(key);
+                // console.log(key);
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key], options.loop);
@@ -327,7 +327,7 @@ export function slidy(
                         break;
 
                     default:
-                        options[key as keyof Options] = opts[key as keyof Options];
+                        options[key as keyof Options] = opts[key as keyof Options] as never;
                         break;
                 }
             }

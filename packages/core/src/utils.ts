@@ -1,12 +1,12 @@
-import { Parent, Child, CssRules, Options, Slidy, UniqEvent } from './types';
+import { Parent, Child, Slidy, UniqEvent } from './types';
 
 function maxMin(max: number, min: number, val: number) {
     return Math.min(max, Math.max(min, val)) || 0;
 }
 
-function maxSize(node: Slidy, vertical: boolean) {
-    return node[scroll(vertical)] - parent(node)[size(vertical)];
-}
+// function maxSize(node: Slidy, vertical: boolean) {
+//     return node[scroll(vertical)] - parent(node)[size(vertical)];
+// }
 
 function indexing(node: Slidy, index: number, loop: boolean) {
     if (loop) {
@@ -73,12 +73,10 @@ const find = (node: Slidy, vertical: boolean) => ({
     },
 });
 
-function prev(node: Slidy) {
-    node.prepend(node.childNodes[node.childNodes.length - 1]);
-}
-function next(node: Slidy) {
-    node.append(node.childNodes[0]);
-}
+const go = (node: Slidy) => ({
+    prev: () => node.prepend(node.childNodes[node.childNodes.length - 1]),
+    next: () => node.append(node.childNodes[0])
+})
 
 const rotate = (array: Array<Node | string>, key: number) => array.slice(key).concat(array.slice(0, key));
 
@@ -87,53 +85,4 @@ function replace(node: Slidy, index: number, loop: boolean) {
     node.replaceChildren(...elements);
 }
 
-function css(node: Slidy | Parent, styles: CssRules) {
-    let property: keyof CssRules
-    for (property in styles) {
-        node.style[property] = styles[property];
-    }
-}
-
-function dispatch(node: Slidy, name: string, detail?: { [key: string]: Options | Slidy | NodeListOf<Child> | number }) {
-    node.dispatchEvent(new CustomEvent(name, { detail }));
-}
-
-function listen(
-    node: Window | Element | ParentNode | Slidy,
-    events: [string, EventListenerOrEventListenerObject, boolean?][],
-    on = true
-) {
-    for (const [event, handle, options] of events) {
-        const listen = on ? 'addEventListener' : 'removeEventListener'
-        node[listen](event, handle, options)
-    }
-}
-
-function init(node: Slidy, childs?: NodeListOf<Child>) {
-    childs = node.childNodes as NodeListOf<Child>
-    // for (let index = 0; index < childs.length; index++) {
-    //     childs[index].index = index;
-    // }
-    for (const key of childs.keys()) {
-        childs[key].index = key;
-    }
-    return childs
-}
-
-export {
-    init,
-    find,
-    closest,
-    rotate,
-    replace,
-    prev,
-    next,
-    css,
-    dispatch,
-    listen,
-    maxMin,
-    maxSize,
-    indexing,
-    coordinate,
-    uniQ,
-};
+export { find, go, maxMin, replace, indexing, coordinate };

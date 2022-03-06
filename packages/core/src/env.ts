@@ -1,5 +1,4 @@
-import type { Child, Slidy } from './types';
-import { init } from './utils';
+import type { Child, CssRules, Options, Parent, Slidy } from './types';
 
 function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -28,10 +27,37 @@ function getFPS() {
     );
 }
 
-// USE
-// getFPS().then((fps: number) => {
-//     let interval = 1000 / fps;
-//     console.log(fps, interval);
-// });
+function dispatch(node: Slidy, name: string, detail?: { [key: string]: Options | Slidy | NodeListOf<Child> | number }) {
+    node.dispatchEvent(new CustomEvent(name, { detail }));
+}
 
-export { onMount, getFPS };
+function listen(
+    node: Window | Element | ParentNode | Slidy,
+    events: [string, EventListenerOrEventListenerObject, boolean?][],
+    on = true
+) {
+    for (const [event, handle, options] of events) {
+        const listen = on ? 'addEventListener' : 'removeEventListener'
+        node[listen](event, handle, options)
+    }
+}
+
+function init(node: Slidy, childs?: NodeListOf<Child>) {
+    childs = node.childNodes as NodeListOf<Child>
+    // for (let index = 0; index < childs.length; index++) {
+    //     childs[index].index = index;
+    // }
+    for (const key of childs.keys()) {
+        childs[key].index = key;
+    }
+    return childs
+}
+
+function css(node: Slidy | Parent, styles: CssRules) {
+    let property: keyof CssRules
+    for (property in styles) {
+        node.style[property] = styles[property];
+    }
+}
+
+export { css, dispatch, init, listen, onMount, getFPS };
