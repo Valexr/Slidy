@@ -25,8 +25,8 @@ export function slidy(
         reference = 0,
         position = 0,
         frame = 0,
-        dragtime: NodeJS.Timer,
-        wheeltime: NodeJS.Timeout,
+        dragtime: NodeJS.Timer | null,
+        wheeltime: NodeJS.Timeout | null,
         hix = options.index,
         gap = 0,
         gravity = options.gravity,
@@ -257,22 +257,20 @@ export function slidy(
     function onWheel(e: UniqEvent): void {
         clear();
         // wheeling = true;
+        const coord = coordinate(e, options.vertical) * (2 - gravity)
 
-        window.onscroll = () => (gravity = 2);
+        // window.onscroll = () => (gravity = 2);
 
         if (e.shiftKey) {
             e.preventDefault();
             to(options.index - Math.sign(e.deltaY));
         } else {
-            move(coordinate(e, options.vertical) * (2 - gravity));
-        }
-
-        if ((options.snap || options.clamp) && !e.shiftKey) {
-            wheeltime = setTimeout(() => {
+            move(coord);
+            wheeltime = options.snap ? setTimeout(() => {
                 to(options.index);
                 // wheeling = false;
                 gravity = options.gravity;
-            }, 100);
+            }, 100) : null
         }
     }
 
