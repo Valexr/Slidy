@@ -44,7 +44,7 @@
 		"carousel",
 		"component",
 		"svelte",
-		"sveltejs",        
+		"sveltejs",
 		"svelte-plugin"
 	],
 	"author": "Valexr",
@@ -69,6 +69,7 @@
 	"devDependencies": {
 		"@slidy/core": "workspace:*",
 		"@tsconfig/svelte": "^3.0.0",
+		"@types/node": "^17.0.21",
 		"@typescript-eslint/eslint-plugin": "^5.13.0",
 		"@typescript-eslint/parser": "^5.13.0",
 		"css-tree": "^2.1.0",
