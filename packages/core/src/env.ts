@@ -37,24 +37,24 @@ function listen(
     on = true
 ) {
     for (const [event, handle, options] of events) {
-        const listen = on ? 'addEventListener' : 'removeEventListener'
-        node[listen](event, handle, options)
+        const listen = on ? 'addEventListener' : 'removeEventListener';
+        node[listen](event, handle, options);
     }
 }
 
 function init(node: Slidy, childs?: NodeListOf<Child>) {
-    childs = node.childNodes as NodeListOf<Child>
+    childs = node.childNodes as NodeListOf<Child>;
     // for (let index = 0; index < childs.length; index++) {
     //     childs[index].index = index;
     // }
     for (const key of childs.keys()) {
         childs[key].index = key;
     }
-    return childs
+    return childs;
 }
 
 function css(node: Slidy | Parent, styles: CssRules) {
-    let property: keyof CssRules
+    let property: keyof CssRules;
     for (property in styles) {
         node.style[property] = styles[property];
     }

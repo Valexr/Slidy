@@ -34,8 +34,11 @@ export function slidy(
         direction = 0,
         timestamp = 0;
 
-    const consttime = 100, hip = position;
+    const consttime = 100;
+    const hip = position;
+
     const PARENT = node.parentNode;
+
     const windowEvents: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
@@ -66,7 +69,7 @@ export function slidy(
         min: find(node, options.vertical).position(indx().min, 'start'),
     });
     const active = () => ({
-        pos: find(node, options.vertical).position(options.index, align),
+        // pos: find(node, options.vertical).position(options.index, align),
         size: find(node, options.vertical).size(options.index),
     });
 
@@ -159,8 +162,8 @@ export function slidy(
                 ? find(node, options.vertical).target(target, align)
                 : target
             : target === 0
-                ? 0
-                : find(node, options.vertical).position(ix, align);
+            ? 0
+            : find(node, options.vertical).position(ix, align);
         move(pos - position, options.duration);
     }
 
@@ -231,13 +234,13 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-                (!options.loop &&
-                    options.snap &&
-                    ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
+            (!options.loop &&
+                options.snap &&
+                ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                    ? to(options.index, target)
-                    : scroll(target, amplitude, options.duration, performance.now());
+                ? to(options.index, target)
+                : scroll(target, amplitude, options.duration, performance.now());
         } else to(options.index);
     }
 
@@ -257,7 +260,7 @@ export function slidy(
     function onWheel(e: UniqEvent): void {
         clear();
         // wheeling = true;
-        const coord = coordinate(e, options.vertical) * (2 - gravity)
+        const coord = coordinate(e, options.vertical) * (2 - gravity);
 
         // window.onscroll = () => (gravity = 2);
 
@@ -266,11 +269,13 @@ export function slidy(
             to(options.index - Math.sign(e.deltaY));
         } else {
             move(coord);
-            wheeltime = options.snap ? setTimeout(() => {
-                to(options.index);
-                // wheeling = false;
-                gravity = options.gravity;
-            }, 100) : null
+            wheeltime = options.snap
+                ? setTimeout(() => {
+                      to(options.index);
+                      // wheeling = false;
+                      gravity = options.gravity;
+                  }, 100)
+                : null;
         }
     }
 

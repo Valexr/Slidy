@@ -31,7 +31,7 @@ const cix = (node: Slidy) => Math.floor(node.childNodes.length / 2);
 const parent = (node: Slidy): Parent => node.parentNode as Parent;
 const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf<Child>);
 const child = (node: Slidy, index: number) => node.childNodes[index] as Child;
-const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
+// const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
 const part = (align: string) => (align === 'center' ? 0.5 : 1);
@@ -43,15 +43,9 @@ const position = (node: Slidy, child: Child, vertical: boolean, align: string) =
     child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
 const distance = (node: Slidy, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)]);
 
-
-function closest(
-    node: Slidy,
-    target: number,
-    vertical: boolean,
-    align: string,
-): Child {
+function closest(node: Slidy, target: number, vertical: boolean, align: string): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
-        const dist = (child: Child) => Math.abs(position(node, child, vertical, align) - target)
+        const dist = (child: Child) => Math.abs(position(node, child, vertical, align) - target);
         return dist(curr) < dist(prev) ? curr : prev;
     });
 }
@@ -61,10 +55,8 @@ const find = (node: Slidy, vertical: boolean) => ({
         const child: Child | undefined = nodes(node).find((child: Child) => child.index === index);
         return child ? nodes(node).indexOf(child) : closest(node, target, vertical, align).index || 0;
     },
-    position: (index: number, align: string) =>
-        position(node, child(node, index), vertical, align),
-    target: (target: number, align: string) =>
-        position(node, closest(node, target, vertical, align), vertical, align),
+    position: (index: number, align: string) => position(node, child(node, index), vertical, align),
+    target: (target: number, align: string) => position(node, closest(node, target, vertical, align), vertical, align),
     size: (index: number) => nodes(node)[index][size(vertical)],
     gap: () => {
         const last = nodes(node).length - 1;
@@ -75,8 +67,8 @@ const find = (node: Slidy, vertical: boolean) => ({
 
 const go = (node: Slidy) => ({
     prev: () => node.prepend(node.childNodes[node.childNodes.length - 1]),
-    next: () => node.append(node.childNodes[0])
-})
+    next: () => node.append(node.childNodes[0]),
+});
 
 const rotate = (array: Array<Node | string>, key: number) => array.slice(key).concat(array.slice(0, key));
 

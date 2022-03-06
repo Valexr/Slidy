@@ -29,7 +29,7 @@
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public",
-        "format": "prettier --ignore-path ../../.gitignore --write '**/*.{js,ts,md,json,html,css}'"
+        "format": "prettier --ignore-path ../../.gitignore --write './**/*.{js,ts,md,json,html,css}'"
     },
     "eslintConfig": {
         "extends": [
