@@ -29,7 +29,7 @@
         "dev": "node esbuild --dev",
         "dev:svelte": "node esbuild --svelte",
         "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist || prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
+        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist && prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
         "build:local": "pnpm build -r --filter=@slidy/svelte...",
         "format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
         "check": "svelte-check --tsconfig ./tsconfig.json",

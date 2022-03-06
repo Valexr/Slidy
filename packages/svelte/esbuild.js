@@ -115,19 +115,26 @@ if (DEV) {
         let root = './src/component/'
 
         getFiles(root, '.svelte').then(async (files) => {
+            const dist = root.replace('src', 'dist')
+
             for (const file of files) {
                 const source = readFileSync(file.path).toString();
+
                 await preprocess(source, transpilator, file.name).then(({ code }) => {
-                    const distFolder = root.replace('src', 'dist')
-                    if (!existsSync(distFolder)) mkdirSync(distFolder);
-                    if (file.folder && !existsSync(distFolder + file.folder)) {
-                        mkdirSync(distFolder + file.folder);
+                    if (!existsSync(dist) || !existsSync(dist + file.folder)) {
+                        const folder = file.folder ? dist + file.folder : dist
+                        mkdirSync(folder);
                     }
                     let transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
+
                     const path = file.path.replace('src', 'dist');
                     const searchValue = '<script context="module"></script>';
                     const replaceValue = `<script context="module">import { slidy } from '@slidy/core'; import { Arrow, Image, Pagination } from './components';</script>`;
-                    transpiled = file.name === 'Slidy.svelte' ? transpiled.replace(searchValue, replaceValue) : transpiled;
+
+                    transpiled = file.name === 'Slidy.svelte'
+                        ? transpiled.replace(searchValue, replaceValue)
+                        : transpiled;
+
                     writeFileSync(path, transpiled);
                 });
             }
