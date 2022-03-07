@@ -9,8 +9,8 @@
 	{#each { length: pages } as _, i}
 		<button
 			class="pagination-item"
-			on:click={() => (current = i)}
 			class:active={i === current}
+			on:click={() => (current = i)}			
 		>
 			{i}
 		</button>

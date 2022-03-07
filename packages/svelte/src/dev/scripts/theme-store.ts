@@ -10,6 +10,9 @@ function themeStore() {
 	};
 }
 
+/**
+ * Theme store singleton instance.
+ */
 export const darkTheme = themeStore();
 
 darkTheme.subscribe((value) => {
