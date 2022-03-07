@@ -30,19 +30,6 @@ export type ChangeSlide = (index: number) => void;
 
 export type GetSrc = (item: Slide) => string;
 
-/**
- * Pagination indexer parameters.
- */
-export interface IndexGeneratorParams {
-    current: number;
-    start: number;
-    end: number;
-    limit: number;
-    siblings: number;
-}
-
-export type IndexGenerator = (params: IndexGeneratorParams) => number[];
-
 export interface Size {
     width: number;
     height: number;
