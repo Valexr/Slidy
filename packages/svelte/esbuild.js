@@ -130,13 +130,10 @@ if (DEV) {
                 } else if (file.name.includes('.svelte')) {
 
                     await preprocess(source, transpilator, file.name).then(({ code }) => {
-                        const replaced = code.split(/\n/).map(s => {
-                            if (s.includes('module.css'))
-                                return s.includes('slidy.')
-                                    ? s.replace('./slidy.module.css', '../slidy.css')
-                                    : s.includes('<script') ? s.replace(s, '<script lang="ts">') : s.replace(s, '')
-                            else return s
-                        }).join('\n')
+                        const matched = code.match(/import "(.*?);/gi)[0]
+                        const replaced = matched.includes('slidy.')
+                            ? code.replace('./slidy.module.css', '../slidy.css')
+                            : code.replace(matched, '')
 
                         let transpiled = replaced.replace(/ lang=\"(scss|ts)\"/g, "")
 
