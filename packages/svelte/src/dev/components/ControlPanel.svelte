@@ -1,3 +1,18 @@
+<script lang="ts">
+	import "./control-panel.module.css";
+
+	//export let limit = 9;
+	export let vertical = false;
+	export let clamp = true;
+	export let align: "start" | "middle" | "end" = "middle";
+	export let duration = 450;
+	export let gravity = 1.45;
+	export let width = "auto";
+	export let snap = true;
+	export let loop = false;
+	export let gap = 15;
+</script>
+
 <form class="controls">
 	<header>
 		<h2>Control Panel</h2>
@@ -95,18 +110,3 @@
 		</fieldset>
 	</section>
 </form>
-
-<script lang="ts">
-	import "./control-panel.module.css";
-
-	//export let limit = 9;
-	export let vertical = false;
-	export let clamp = true;
-	export let align: "start" | "middle" | "end" = "middle";
-	export let duration = 450;
-	export let gravity = 1.45;
-	export let width = "auto";
-	export let snap = true;
-	export let loop = false;
-	export let gap = 15;
-</script>

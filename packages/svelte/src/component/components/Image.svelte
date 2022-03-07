@@ -1,14 +1,3 @@
-<img
-	{alt}
-	class="slidy-image {className}"
-	loading={lazy ? "lazy" : undefined}
-	{src}
-	{width}
-	{height}
-	{style}
-	{...$$restProps}
-/>
-
 <script lang="ts">
 	export let src = "";
 	export let width: number | string | undefined = undefined;
@@ -20,3 +9,14 @@
 
 	import "./image.module.css";
 </script>
+
+<img
+	{alt}
+	class="slidy-image {className}"
+	loading={lazy ? "lazy" : undefined}
+	{src}
+	{width}
+	{height}
+	{style}
+	{...$$restProps}
+/>

@@ -1,3 +1,16 @@
+<svelte:window on:keydown={handleKeydown} />
+
+<script lang="ts">
+	import "./side-menu.module.css";
+
+	export let open = false;
+
+	const close = () => (open = !open);
+	const handleKeydown = (event: KeyboardEvent) => {
+		return event.code === "Escape" && close();
+	};
+</script>
+
 <aside class="side-menu" class:open>
 	<div
 		class="backdrop"
@@ -10,15 +23,3 @@
 		<slot />
 	</section>
 </aside>
-
-<svelte:window on:keydown={handleKeydown} />
-
-<script lang="ts">
-	import "./side-menu.module.css";
-
-	export let open = false;
-
-	const close = () => (open = !open);
-	const handleKeydown = (event: KeyboardEvent) =>
-		event.code === "Escape" && close();
-</script>

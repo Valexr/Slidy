@@ -1,3 +1,10 @@
+<script lang="ts">
+	import "./pagination.module.css";
+
+	export let current: number;
+	export let pages: number;
+</script>
+
 <nav class="pagination">
 	{#each { length: pages } as _, i}
 		<button
@@ -9,10 +16,3 @@
 		</button>
 	{/each}
 </nav>
-
-<script lang="ts">
-	import "./pagination.module.css";
-
-	export let current: number;
-	export let pages: number;
-</script>

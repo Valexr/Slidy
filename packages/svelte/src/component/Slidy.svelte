@@ -1,73 +1,3 @@
-<section
-	aria-roledescription="carousel"
-	class="slidy {className}"
-	class:vertical
-	{id}
-	tabindex="0"
-	on:click={handleClick}
->
-	<slot name="counter" {index} amount={length}>
-		<output class="slidy-counter">
-			{index + 1} / {length}
-		</output>
-	</slot>
-	<ul
-		class="slidy-slides"
-		aria-live="polite"
-		use:slidy={{
-			length: length,
-			vertical,
-				duration,
-				gravity,
-				index,
-				clamp,
-				snap,
-				loop,
-			}}
-			on:mount={e => console.log(e)}
-			on:move={e => {
-				index = e.detail.index;
-				position = e.detail.position;
-			}}
-		>
-			{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-				<li
-					aria-current={i === index ? "true" : undefined}
-					aria-label={`${i} of ${length}`}
-					aria-roledescription="slide"
-					class="slidy-slide"
-					class:active={i === index}
-					class:background
-					style={background	? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
-					role="group"
-				>
-					<slot {item}>
-						{#if !background}
-							<Image src={getImgSrc(item)} {...item} />
-						{/if}
-					</slot>
-				</li>
-			{/each}
-	</ul>
-
-	{#if arrows}
-		<slot name="arrows">
-			{#each [-1, 1] as type}
-				<Arrow {type} {index} items={length} {loop} {vertical} />
-			{/each}
-		</slot>
-	{/if}
-
-	{#if navigation}
-		<Pagination
-			current={index + 1}
-			start={1}
-			end={length}
-			{vertical}
-		/>
-	{/if}
-</section>
-
 <script lang="ts" context="module">
 	import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from "../types";
 </script>
@@ -123,3 +53,73 @@
 		}
 	};
 </script>
+
+<section
+	aria-roledescription="carousel"
+	class="slidy {className}"
+	class:vertical
+	{id}
+	tabindex="0"
+	on:click={handleClick}
+>
+	<slot name="counter" {index} amount={length}>
+		<output class="slidy-counter">
+			{index + 1} / {length}
+		</output>
+	</slot>
+	<ul
+		class="slidy-slides"
+		aria-live="polite"
+		use:slidy={{
+			length: length,
+			vertical,
+				duration,
+				gravity,
+				index,
+				clamp,
+				snap,
+				loop,
+			}}
+			on:mount={e => console.log(e)}
+			on:move={e => {
+				index = e.detail.index;
+				position = e.detail.position;
+			}}
+		>
+			{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
+				<li
+					aria-current={i === index ? "true" : undefined}
+					aria-label={`${i} of ${length}`}
+					aria-roledescription="slide"
+					class="slidy-slide"
+					class:active={i === index}
+					class:background
+					style={background	? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
+					role="group"
+				>
+					<slot {item}>
+						{#if !background}
+							<Image src={getImgSrc(item)} {...item} />
+						{/if}
+					</slot>
+				</li>
+			{/each}
+	</ul>
+
+	{#if arrows}
+		<slot name="arrows">
+			{#each [ -1, 1 ] as type}
+				<Arrow {type} {index} items={length} {loop} {vertical} />
+			{/each}
+		</slot>
+	{/if}
+
+	{#if navigation}
+		<Pagination
+			current={index + 1}
+			start={1}
+			end={length}
+			{vertical}
+		/>
+	{/if}
+</section>
