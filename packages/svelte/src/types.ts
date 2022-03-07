@@ -9,7 +9,7 @@ export interface Slide {
 
 export interface SlidyOptions {
     arrows?: boolean;
-    align?: 'start' | 'middle' | 'end';
+    align?: "start" | "middle" | "end";
     background?: boolean;
     clamp?: boolean;
     className?: string;
