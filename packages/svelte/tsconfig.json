@@ -1,19 +1,23 @@
 {
-	"compilerOptions": {
-		"module": "ES2020",
-		"target": "ESNext",
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"declarationDir": "dist/",
-		"strict": true,
-		"esModuleInterop": true,
-		"moduleResolution": "Node"
-	},
-	"extends": "@tsconfig/svelte/tsconfig.json",
-	"include": [ "src/**/*" ],
-	"exclude": [
-		"node_modules/*",
-		"dist/*",
-		"public/*"
-	]
+    "compilerOptions": {
+        "module": "ES2020",
+        "target": "ESNext",
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationDir": "dist/",
+        "strict": true,
+        "esModuleInterop": true,
+        "moduleResolution": "Node"
+    },
+    "extends": "@tsconfig/svelte/tsconfig.json",
+    "include": [
+        "src/types.ts"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "dist/*",
+        "public/*",
+        "src/dev/*",
+        // "src/**/*.ts"
+    ]
 }
