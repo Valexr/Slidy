@@ -12,7 +12,15 @@
         //     "src/types.ts"
         // ]
     },
-    "include": ["src/*"],
-    "exclude": ["node_modules/*", "dist/*", "dev/*"],
-    "files": ["./src/index.ts"]
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "dist/*",
+        "dev/*"
+    ],
+    "files": [
+        "./src/index.ts"
+    ]
 }

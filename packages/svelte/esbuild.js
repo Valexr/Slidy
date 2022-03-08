@@ -114,12 +114,9 @@ if (DEV) {
             input: "./src/",
             output: "./dist/",
             ext: [".svelte", ".ts"],
-            exclude: ["dev", "types.ts", "images-api"],
-            esbuild: {
-                loader: "ts",
-                treeShaking: false,
-                ignoreAnnotations: true,
-            }
+            exclude: ["dev", "types.ts", "images-api.ts"],
+            replace: [["./slidy.module.css", "../slidy.css"]],
+            remove: ["images-api", "module.css"]
         })
     })();
 }

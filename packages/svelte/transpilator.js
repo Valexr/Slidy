@@ -8,9 +8,22 @@ const esbuild = {
     loader: "ts",
     treeShaking: false,
     ignoreAnnotations: true,
+    tsconfigRaw: `{
+        "compilerOptions": {
+          "useDefineForClassFields": true,
+          "preserveValueImports":true
+        },
+    }`,
 }
 
-export default async function ({ input = "./", ext = [""], exclude = [""], output = "./dist/", esbuild = esbuild }) {
+export default async function ({
+    input = "./",
+    output = "./dist/",
+    ext = [""],
+    exclude = [""],
+    replace = [],
+    remove = []
+}) {
     const files = await getFiles(input, ext, exclude)
 
     for (const file of files) {
@@ -23,29 +36,29 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
         if (file.name.includes(".svelte")) {
 
             await preprocess(source.toString(), transformer, file.name).then(({ code }) => {
-                const matched = code.match(/import ("|')(.*?).css("|');/gi)[0];
-                const replaced = matched.includes("slidy.")
-                    ? code.replace("./slidy.module.css", "../slidy.css")
-                    : code.replace(matched, "");
 
-                let transpiled = replaced.replace(/ lang="(scss|ts)"/g, "");
+                replace.forEach(([search, replace]) => code = code.replace(search, replace))
 
-                const search = "<script context=\"module\"></script>";
-                const replace = "<script context=\"module\">import { slidy } from \"@slidy/core\"; import { Arrow, Image, Pagination } from \"./components\";</script>";
+                const match = remove.find(exc => code.includes(exc))
+                const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, 'gi')
+                const removed = code.replace(regex, '')
 
-                transpiled = transpiled.replace(search, file.name === "Slidy.svelte" ? replace : '')
+                const cleaned = removed.replace(/ lang="(scss|ts)"/g, "")
+                    .replace("<script context=\"module\"></script>", '');
 
-                writeFileSync(filepath, transpiled);
+                writeFileSync(filepath, cleaned);
             });
 
         } else {
-            const { code } = await transform(source.toString(), esbuild);
+            let { code } = await transform(source.toString(), esbuild);
 
-            const match = exclude.find(exc => code.includes(exc))
-            const regex = new RegExp(`(.*?)${match}(.*?);`, 'gi')
-            const replaced = code.replace(regex, '')
+            replace.forEach(([search, replace]) => code = code.replace(search, replace))
 
-            writeFileSync(filepath, replaced);
+            const match = remove.find(exc => code.includes(exc))
+            const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, 'gi')
+            const removed = code.replace(regex, '')
+
+            writeFileSync(filepath, removed);
         }
     }
 }
@@ -53,7 +66,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
 const transformer = [
     sveltePreprocess({
         typescript({ content }) {
-            return transform(content, esbuild);
+            return transform(content, esbuild)
         },
     }),
 ];

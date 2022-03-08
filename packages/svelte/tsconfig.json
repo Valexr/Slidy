@@ -1,17 +1,27 @@
 {
     "compilerOptions": {
-        "module": "ES2020",
+        "lib": [
+            "ESNext"
+        ],
+        "module": "ESNext",
         "target": "ESNext",
         "declaration": true,
         "emitDeclarationOnly": true,
         "declarationDir": "dist/",
         "strict": true,
+        "skipLibCheck": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "preserveValueImports": true,
+        "types": [
+            "svelte",
+            "node",
+            "@slidy/core"
+        ]
     },
     "extends": "@tsconfig/svelte/tsconfig.json",
     "include": [
-        "src/types.ts"
+        "src/*"
     ],
     "exclude": [
         "node_modules/*",
