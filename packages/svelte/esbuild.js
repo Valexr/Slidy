@@ -110,7 +110,12 @@ if (DEV) {
             globalName: "slidy",
             format: "iife",
         });
-        await transpile({ root: "./src/", ext: [".svelte", ".ts"], exclude: ["dev"] })
+        await transpile({
+            input: "./src/",
+            output: "./dist/",
+            ext: [".svelte", ".ts"],
+            exclude: ["dev", "types.ts", "images-api"]
+        })
     })();
 }
 
