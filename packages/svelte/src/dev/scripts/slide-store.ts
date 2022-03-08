@@ -1,6 +1,5 @@
 import { writable } from "svelte/store";
-import { getPhotos } from "../../helpers/images-api";
-import { randInt, clamp } from "../../helpers/utils";
+import { getPhotos, randInt, clamp } from "../../helpers";
 import type { Slide } from "../../types";
 
 /**
