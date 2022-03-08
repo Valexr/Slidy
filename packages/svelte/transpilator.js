@@ -32,9 +32,7 @@ export default async function ({ root = "./", ext = [""], exclude = ["dev"] }) {
                 const searchValue = "<script context=\"module\"></script>";
                 const replaceValue = "<script context=\"module\">import { slidy } from \"@slidy/core\"; import { Arrow, Image, Pagination } from \"./components\";</script>";
 
-                transpiled = file.name === "Slidy.svelte"
-                    ? transpiled.replace(searchValue, replaceValue)
-                    : transpiled;
+                transpiled = transpiled.replace(searchValue, file.name === "Slidy.svelte" ? replaceValue : '')
 
                 writeFileSync(filepath, transpiled);
             });
