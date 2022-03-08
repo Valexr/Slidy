@@ -1,4 +1,5 @@
-import { writeFileSync, promises, existsSync, mkdirSync } from "fs";
+import { constants } from "fs";
+import { access, mkdir, readdir, readFile, writeFile } from 'fs/promises'
 import { dirname } from "path";
 import { transform } from "esbuild";
 import { preprocess } from "svelte/compiler";
@@ -27,11 +28,17 @@ export default async function ({
     const files = await getFiles(input, ext, exclude)
 
     for (const file of files) {
-        const source = await promises.readFile(file.path);
+        const source = await readFile(file.path);
         const dirpath = dirname(file.path).replace(input, output)
         const filepath = file.path.replace(input, output).replace(".ts", ".js");
 
-        if (!existsSync(dirpath)) mkdirSync(dirpath);
+        try {
+            await access(dirpath, constants.R_OK | constants.W_OK);
+            console.log('can access');
+        } catch {
+            mkdir(dirpath)
+            console.error('cannot access');
+        }
 
         if (file.name.includes(".svelte")) {
 
@@ -46,7 +53,7 @@ export default async function ({
                 const cleaned = removed.replace(/ lang="(scss|ts)"/g, "")
                     .replace("<script context=\"module\"></script>", '');
 
-                writeFileSync(filepath, cleaned);
+                writeFile(filepath, cleaned);
             });
 
         } else {
@@ -58,7 +65,7 @@ export default async function ({
             const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, 'gi')
             const removed = code.replace(regex, '')
 
-            writeFileSync(filepath, removed);
+            writeFile(filepath, removed);
         }
     }
 }
@@ -73,7 +80,7 @@ const transformer = [
 
 async function getFiles(input = "./", ext = [""], exclude = [""]) {
 
-    const entries = await promises.readdir(input, { withFileTypes: true });
+    const entries = await readdir(input, { withFileTypes: true });
 
     const files = entries
         .filter((file) => {
