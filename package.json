@@ -15,7 +15,7 @@
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
         "build:react": "pnpm build --filter=@slidy/react",
-        "format": "prettier --ignore-path .gitignore --write '**/*.{js,ts,md,json,html,css}'",
+        "format": "prettier --ignore-path .gitignore packages/svelte --write '**/*.{js,ts,md,json,html,css}'",
         "start": "npx derver --production --port=5555 www/public",
         "deploy": "pnpm build:www && gh-pages -d www/public",
         "pub": "pnpm pub -r"

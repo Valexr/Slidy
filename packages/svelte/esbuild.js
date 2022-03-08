@@ -1,87 +1,93 @@
-import { readFileSync, writeFileSync, readdir, promises, existsSync, mkdirSync } from 'fs';
-import { build, transformSync } from 'esbuild';
-import { preprocess } from 'svelte/compiler';
-import { derver } from 'derver';
-import sveltePlugin from 'esbuild-svelte';
-import sveltePreprocess from 'svelte-preprocess';
-import cssmodules from './cssmodules.js';
-import pkg from './package.json' assert { type: 'json' };
-import tsconfig from './tsconfig.json' assert { type: 'json' };
+import { build } from "esbuild";
+import { derver } from "derver";
+import sveltePlugin from "esbuild-svelte";
+import sveltePreprocess from "svelte-preprocess";
+import cssmodules from "./cssmodules.js";
+import transpile from "./transpilator.js";
 
-const DEV = process.argv.includes('--dev');
-const SVELTE = process.argv.includes('--svelte');
+const DEV = process.argv.includes("--dev");
+const SVELTE = process.argv.includes("--svelte");
 
 const svelteOptions = {
     compilerOptions: {
         dev: DEV || SVELTE,
         css: !SVELTE,
-        immutable: true,
+        immutable: true
     },
     preprocess: [
         sveltePreprocess({
             sourceMap: DEV || SVELTE,
-            typescript: true,
-        }),
-    ],
+            typescript: true
+        })
+    ]
 };
 
-const cssmodulesOptions = {
+const cssModulesOptions = {
     transformClassName: ({ path, content, node }) => {
         // node - https://github.com/csstree/csstree/blob/bf05b963f85a08541c2991fa369f5bb613096db2/docs/ast.md
-        // console.info({ path, content, node });
         return `${node.name}`;
-    },
+    }
 };
 
 const esbuildBase = {
-    entryPoints: ['src/index.ts'],
+    entryPoints: ["src/component/index.ts"],
     bundle: true,
     minify: true,
     sourcemap: false,
-    legalComments: 'none',
-    external: ['svelte', 'svelte/*'],
-    // loader: {
-    //     ['.css']: 'css'
-    // },
-    plugins: [sveltePlugin(svelteOptions), cssmodules(cssmodulesOptions)],
+    legalComments: "none",
+    external: [
+        "svelte",
+        "svelte/*"
+    ],
+    plugins: [
+        sveltePlugin(svelteOptions),
+        cssmodules(cssModulesOptions)
+    ]
 };
 
 const derverConfig = {
-    dir: 'dev/public',
+    dir: "public",
     port: 3331,
-    host: '0.0.0.0',
-    watch: ['dev/public', 'dev/src/', 'src', '../core/dist'],
+    host: "0.0.0.0",
+    watch: [
+        "public",
+        "src",
+        "dist"
+    ]
 };
 
 if (DEV) {
     build({
         ...esbuildBase,
-        outfile: pkg.module,
-        format: 'esm',
-        sourcemap: 'inline',
+        outfile: "./dist/slidy.mjs",
+        format: "esm",
+        sourcemap: "inline",
         minify: false,
         incremental: true,
         watch: true,
-    }).then((bundle) => {
-        console.log('watching @slidy/svelte...');
+    }).then(bundle => {
+        console.log("Watching @slidy/svelte...");
     });
 } else if (SVELTE) {
     build({
-        entryPoints: ['dev/src/main.ts'],
-        outfile: 'dev/public/build/bundle.js',
-        platform: 'browser',
+        entryPoints: ["src/dev/main.ts"],
+        outfile: "public/build/bundle.js",
+        platform: "browser",
         bundle: true,
-        sourcemap: 'inline',
+        sourcemap: "inline",
         incremental: true,
-        legalComments: 'none',
-        plugins: [sveltePlugin(svelteOptions), cssmodules(cssmodulesOptions)],
+        legalComments: "none",
+        plugins: [
+            sveltePlugin(svelteOptions),
+            cssmodules(cssModulesOptions)
+        ],
     }).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev/public') {
+                if (item !== "public") {
                     lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'Svelte compile error'));
+                    bundle.rebuild().catch(err => lr.error(err.message, "Svelte compile error"));
                 }
             },
         });
@@ -90,73 +96,22 @@ if (DEV) {
     (async () => {
         await build({
             ...esbuildBase,
-            outfile: pkg.main,
-            format: 'cjs',
+            outfile: "dist/slidy.cjs",
+            format: "cjs",
         });
         await build({
             ...esbuildBase,
-            outfile: pkg.module,
-            format: 'esm',
+            outfile: "dist/slidy.mjs",
+            format: "esm",
         });
         await build({
             ...esbuildBase,
-            outfile: pkg.browser,
-            globalName: 'Slidy',
-            format: 'iife',
+            outfile: "dist/slidy.js",
+            globalName: "slidy",
+            format: "iife",
         });
-
-        getFiles('./src/', '.svelte').then(async (files) => {
-            for (const file of files) {
-                const source = readFileSync(file.path).toString();
-                await preprocess(source, transpilator, file.name).then(({ code }) => {
-                    if (file.folder && !existsSync(`./dist/${file.folder}`)) {
-                        mkdirSync(`./dist/${file.folder}`);
-                    }
-                    let transpiled = code.replace(/ lang=\"(scss|ts)\"/g, '');
-                    const path = file.path.replace('src', 'dist');
-                    const searchValue = '<script context="module"></script>';
-                    const replaceValue = `<script context="module">import { slidy } from '@slidy/core'; import { Arrow, Image, Pagination } from './components';</script>`;
-                    transpiled =
-                        file.name === 'Slidy.svelte' ? transpiled.replace(searchValue, replaceValue) : transpiled;
-                    writeFileSync(path, transpiled);
-                });
-            }
-        });
+        await transpile({ root: "./src/", ext: [".svelte", ".ts"], exclude: ["dev"] })
     })();
 }
 
-const transpilator = [
-    sveltePreprocess({
-        typescript({ content }) {
-            const { code, map } = transformSync(content, {
-                loader: 'ts',
-                treeShaking: false,
-                ignoreAnnotations: true,
-                tsconfigRaw: `${JSON.stringify(tsconfig)}`,
-                // format: 'cjs'
-                // mainFields: ['module'],
-                // banner: `import { slidy } from '@slidy/core'; import { Arrow, Image, Pagination } from './components';`,
-            });
-            // console.log(content, code)
-            return { code, map };
-        },
-    }),
-];
 
-async function getFiles(path = './', ext = '') {
-    const entries = await promises.readdir(path, { withFileTypes: true });
-
-    const files = entries
-        .filter((file) => !file.isDirectory() && file.name.includes(ext))
-        .map((file) => ({ ...file, path: path + file.name }));
-
-    const folders = entries.filter((folder) => folder.isDirectory());
-    for (const folder of folders) {
-        let filesInFolder = await getFiles(`${path}${folder.name}/`, ext).then((files) =>
-            files.map((f) => ({ ...f, folder: folder.name }))
-        );
-        files.push(...filesInFolder);
-    }
-
-    return files;
-}
