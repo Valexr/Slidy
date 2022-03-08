@@ -1,58 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1"
-        />
-        <meta
-            http-equiv="Cache-Control"
-            content="no-cache, no-store, must-revalidate"
-        />
-        <meta
-            http-equiv="Pragma"
-            content="no-cache"
-        />
-        <meta
-            http-equiv="Expires"
-            content="0"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            href="favicon.png"
-        />
-        <link
-            rel="stylesheet"
-            href="dev.css"
-        />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="dev.css" />
 
         <title>Slidy 3.0 - NativeJS</title>
 
-        <script
-            defer
-            src="dev.js"
-        ></script>
+        <script defer src="dev.js"></script>
     </head>
 
     <body>
         <header>
-            <img
-                alt="Slidy"
-                width="50"
-                height="50"
-                src="favicon.png"
-            />
+            <img alt="Slidy" width="50" height="50" src="favicon.png" />
             <h1>
                 Slidy 3.0<sub>nativeJS</sub>
                 <sup id="stats" />
             </h1>
-            <button
-                id="dark"
-                onclick="activate(this, dark)"
-            >dark</button>
+            <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
         <main style="--gap: 1em; --flow: row; --width: auto; --height: 350px">
             <section tabindex="0">
@@ -63,41 +32,20 @@
         </main>
         <footer>
             <nav id="buttons">
-                <button
-                    id="clamp"
-                    onclick="slidy.update({clamp: activate(this, options.clamp)})"
-                >clamp</button>
-                <button
-                    id="snap"
-                    onclick="slidy.update({snap: activate(this, options.snap)})"
-                >snap</button>
-                <button
-                    id="loop"
-                    onclick="slidy.update({loop: activate(this, options.loop)})"
-                >loop</button>
-                <button
-                    id="vertical"
-                    onclick="slidy.update({vertical: activate(this, options.vertical)})"
-                >
+                <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
+                <button id="snap" onclick="slidy.update({snap: activate(this, options.snap)})">snap</button>
+                <button id="loop" onclick="slidy.update({loop: activate(this, options.loop)})">loop</button>
+                <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">
                     vertical
                 </button>
             </nav>
 
             <nav>
-                <button
-                    id="prev"
-                    onclick="slidy.to(options.index - 1)"
-                >←</button>
-                <button
-                    id="reload"
-                    onclick="getPhotos(node, randomQ(1, 69), limit)"
-                >
+                <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
+                <button id="reload" onclick="getPhotos(node, randomQ(1, 69), limit)">
                     <i class="icon icon-refresh"></i>
                 </button>
-                <button
-                    id="next"
-                    onclick="slidy.to(options.index + 1)"
-                >→</button>
+                <button id="next" onclick="slidy.to(options.index + 1)">→</button>
             </nav>
 
             <nav id="dots"></nav>
@@ -105,36 +53,16 @@
             <form>
                 <fieldset>
                     <label title="limit">
-                        <input
-                            onchange="setLimit()"
-                            name="limit"
-                            type="number"
-                            size="1"
-                            step="1"
-                            min="1"
-                            max="100"
-                        />
+                        <input onchange="setLimit()" name="limit" type="number" size="1" step="1" min="1" max="100" />
                     </label>
                     <label title="width">
-                        <input
-                            onchange="setVar(main, this.name, this.value)"
-                            name="width"
-                            size="5"
-                        />
+                        <input onchange="setVar(main, this.name, this.value)" name="width" size="5" />
                     </label>
                     <label title="height">
-                        <input
-                            onchange="setVar(main, this.name, this.value)"
-                            name="height"
-                            size="5"
-                        />
+                        <input onchange="setVar(main, this.name, this.value)" name="height" size="5" />
                     </label>
                     <label title="gap">
-                        <input
-                            onchange="setVar(main, this.name, this.value)"
-                            name="gap"
-                            size="3"
-                        />
+                        <input onchange="setVar(main, this.name, this.value)" name="gap" size="3" />
                     </label>
                     <label title="duration">
                         <input
@@ -223,7 +151,7 @@
                 limit = 16;
 
             let options = {
-                index: 4,
+                index: 8,
                 length: limit,
                 snap: true,
                 loop: false,
@@ -259,7 +187,6 @@
                 });
 
                 node.addEventListener('move', (e) => {
-                    console.log(e)
                     indexing(e.detail.index);
                     scrolling(e.detail.position);
                 });
@@ -337,16 +264,18 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio
-                                        }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height
-                                        }" alt="${p.author}"/></li>`;
+                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${
+                                        aspect.width * window.devicePixelRatio
+                                    }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${
+                                        aspect.height
+                                    }" alt="${p.author}"/></li>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
                                 .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
                                 .join('');
                         } else {
-                            options.index = 0;
+                            slidy?.to(0);
                             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
                         }
                     })
@@ -373,5 +302,4 @@
             }
         </script>
     </body>
-
 </html>

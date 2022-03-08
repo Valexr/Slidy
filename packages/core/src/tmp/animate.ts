@@ -65,11 +65,11 @@ export function animate({
         p;
     },
     duration = 0,
-    stop = false,
+    // stop = false,
 }) {
-    let elapsed: number,
-        start = performance.now(),
-        raf = null;
+    // let elapsed: number
+    const start = performance.now();
+    // const raf = null;
     // progress = 1;
 
     // global var for kill animation

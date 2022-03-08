@@ -1,5 +1,7 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
+import { eslintPlugin } from 'esbuild-plugin-eslinter';
+
 // import pkg from './package.json' assert { type: 'json' };
 
 const DEV = process.argv.includes('--dev');
@@ -9,7 +11,9 @@ const esbuildBase = {
     bundle: true,
     minify: true,
     sourcemap: false,
+    target: 'es2020',
     legalComments: 'none',
+    plugins: [eslintPlugin()],
     entryPoints: ['src/slidy.ts'],
 };
 const derverConfig = {

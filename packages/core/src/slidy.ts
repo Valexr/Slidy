@@ -1,6 +1,6 @@
-import { onMount } from './env';
-import type { Child, CssRules, Delta, Options, Parent, Scroll, Slidy, UniqEvent } from './types';
-import { css, find, init, prev, next, maxMin, listen, replace, dispatch, indexing, coordinate } from './utils';
+import { css, dispatch, init, listen, onMount } from './env';
+import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
+import { find, go, maxMin, replace, indexing, coordinate } from './utils';
 
 export function slidy(
     node: Slidy,
@@ -25,18 +25,20 @@ export function slidy(
         reference = 0,
         position = 0,
         frame = 0,
-        dragtime: NodeJS.Timer,
-        wheeltime: NodeJS.Timeout,
-        hip = position,
+        dragtime: NodeJS.Timer | null,
+        wheeltime: NodeJS.Timeout | null,
         hix = options.index,
         gap = 0,
         gravity = options.gravity,
         align = 'center',
         direction = 0,
-        timestamp = 0,
-        consttime = 100;
+        timestamp = 0;
 
-    const PARENT = node.parentNode as Parent | Element;
+    const consttime = 100;
+    const hip = position;
+
+    const PARENT = node.parentNode;
+
     const windowEvents: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove],
         ['mousemove', onMove],
@@ -67,12 +69,12 @@ export function slidy(
         min: find(node, options.vertical).position(indx().min, 'start'),
     });
     const active = () => ({
-        pos: find(node, options.vertical).position(options.index, align),
+        // pos: find(node, options.vertical).position(options.index, align),
         size: find(node, options.vertical).size(options.index),
     });
 
     onMount(node, options.length)
-        .then((childs: NodeList) => {
+        .then((childs: NodeListOf<Child>) => {
             const styles = {
                 userSelect: 'none',
                 // willChange: 'auto',
@@ -87,7 +89,7 @@ export function slidy(
             to(options.index);
 
             if (PARENT) {
-                css(PARENT, { outline: 'none', overflow: 'hidden' });
+                css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
                 listen(PARENT, parentEvents);
                 RO.observe(PARENT as Element);
             }
@@ -95,7 +97,7 @@ export function slidy(
         })
         .catch((error) => console.error(error));
 
-    function move(pos: number, transition: number = 0): void {
+    function move(pos: number, transition = 0): void {
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options.vertical).index(position, null, align);
 
@@ -134,7 +136,7 @@ export function slidy(
         const history = (size: number) => (size + gap) * Math.sign(-pos);
 
         if (hix !== options.index) {
-            pos > 0 ? next(node) : prev(node);
+            pos > 0 ? go(node).next() : go(node).prev();
             pos += history(pos > 0 ? first : last);
             frame = position + pos + delta;
         }
@@ -142,10 +144,10 @@ export function slidy(
         return pos;
     }
 
-    let toing = false;
+    // let toing = false;
     function to(index: number, target: number | null = null): void {
         clear();
-        toing = true;
+        // toing = true;
 
         options.index = indexing(node, index, options.loop);
         if (!options.loop) {
@@ -160,19 +162,19 @@ export function slidy(
                 ? find(node, options.vertical).target(target, align)
                 : target
             : target === 0
-                ? 0
-                : find(node, options.vertical).position(ix, align);
+            ? 0
+            : find(node, options.vertical).position(ix, align);
         move(pos - position, options.duration);
     }
 
     function track(): void {
-        let now, elapsed, delta, speed;
+        // let now, elapsed, delta, speed;
 
-        now = performance.now();
-        elapsed = now - timestamp;
-        delta = position - frame;
+        const now = performance.now();
+        const elapsed = now - timestamp;
+        const delta = position - frame;
 
-        speed = (1000 * delta) / (1 + elapsed);
+        const speed = (1000 * delta) / (1 + elapsed);
         velocity = (2 - gravity) * speed + 0.2 * velocity;
 
         if (elapsed < consttime) return;
@@ -218,7 +220,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        let delta = reference - coordinate(e, options.vertical);
+        const delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
 
         move(delta * (2 - gravity));
@@ -232,13 +234,13 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-                (!options.loop &&
-                    options.snap &&
-                    ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
+            (!options.loop &&
+                options.snap &&
+                ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                    ? to(options.index, target)
-                    : scroll(target, amplitude, options.duration, performance.now());
+                ? to(options.index, target)
+                : scroll(target, amplitude, options.duration, performance.now());
         } else to(options.index);
     }
 
@@ -246,7 +248,7 @@ export function slidy(
         velocity = maxMin(amp().max, -amp().max, velocity);
 
         let amplitude = velocity * (2 - gravity);
-        let target = options.snap
+        const target = options.snap
             ? find(node, options.vertical).target(position + amplitude, align)
             : position + amplitude;
 
@@ -254,26 +256,26 @@ export function slidy(
         return { target, amplitude };
     }
 
-    let wheeling = false;
+    // let wheeling = false;
     function onWheel(e: UniqEvent): void {
         clear();
-        wheeling = true;
+        // wheeling = true;
+        const coord = coordinate(e, options.vertical) * (2 - gravity);
 
-        window.onscroll = (e) => (gravity = 2);
+        // window.onscroll = () => (gravity = 2);
 
         if (e.shiftKey) {
             e.preventDefault();
             to(options.index - Math.sign(e.deltaY));
         } else {
-            move(coordinate(e, options.vertical) * (2 - gravity));
-        }
-
-        if ((options.snap || options.clamp) && !e.shiftKey) {
-            wheeltime = setTimeout(() => {
-                to(options.index);
-                wheeling = false;
-                gravity = options.gravity;
-            }, 100);
+            move(coord);
+            wheeltime = options.snap
+                ? setTimeout(() => {
+                      to(options.index);
+                      // wheeling = false;
+                      gravity = options.gravity;
+                  }, 100)
+                : null;
         }
     }
 
@@ -297,8 +299,8 @@ export function slidy(
 
     function clear(): void {
         // hix = (wheeling || toing) ? hix : options.index;
-        clearInterval(dragtime);
-        clearTimeout(wheeltime);
+        clearInterval(dragtime as NodeJS.Timer);
+        clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);
         listen(window, windowEvents, false);
@@ -307,7 +309,7 @@ export function slidy(
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
-                console.log(key);
+                // console.log(key);
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key], options.loop);
@@ -330,7 +332,7 @@ export function slidy(
                         break;
 
                     default:
-                        options[key as keyof Options] = opts[key as keyof Options];
+                        options[key as keyof Options] = opts[key as keyof Options] as never;
                         break;
                 }
             }

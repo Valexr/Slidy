@@ -8,7 +8,9 @@
         "strict": true,
         "esModuleInterop": true,
         "moduleResolution": "Node"
-        // "types": ["@slidy/core"]
+        // "types": [
+        //     "src/types.ts"
+        // ]
     },
     "include": ["src/*"],
     "exclude": ["node_modules/*", "dist/*", "dev/*"],

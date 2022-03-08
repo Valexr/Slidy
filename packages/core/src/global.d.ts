@@ -1,26 +1,38 @@
-export type Options = {
+export interface Options {
     index: number;
-    duration: number;
+    length: number;
     gravity: number;
-    indexer: Function;
-    scroller: Function;
-    align: string;
-    axis: string;
+    duration: number;
+    vertical: boolean;
     clamp: boolean;
     snap: boolean;
     loop: boolean;
-    gap: number;
-};
-
-export interface Step {
-    i: number;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
 }
 
-export interface Child {
+export interface Parent extends ParentNode {
+    style: CssRules;
+    offsetTop: number;
+    offsetLeft: number;
+    offsetWidth: number;
+    offsetHeight: number;
+}
+
+export interface Slidy extends Node {
+    parentNode: ParentNode;
+    childNodes: NodeListOf<Child>;
+    style: CssRules;
+    offsetTop: number;
+    offsetLeft: number;
+    offsetWidth: number;
+    offsetHeight: number;
+    scrollWidth: number;
+    scrollHeight: number;
+    replaceChildren: (...nodes: (string | Node)[]) => void;
+    append: (...nodes: (string | Node)[]) => void;
+    prepend: (...nodes: (string | Node)[]) => void;
+}
+
+export interface Child extends ChildNode {
     index: number;
     offsetTop: number;
     offsetLeft: number;
@@ -28,18 +40,33 @@ export interface Child {
     offsetHeight: number;
 }
 
-export interface CssRule {
-    [key: string]: string;
-}
-
-export interface SLIDY extends HTMLElement {
-    SLIDY?: {
-        index?: number;
-        position?: number;
-    };
+export interface CssRules {
+    userSelect?: string;
+    webkitUserSelect?: string;
+    pointerEvents?: string;
+    outline?: string;
+    overflow?: string;
+    transform?: string;
+    transition?: string;
 }
 
 export interface Delta {
     target: number;
     amplitude: number;
+}
+
+export interface Scroll {
+    target: number;
+    amplitude: number;
+    duration: number;
+    timestamp: number;
+}
+
+export interface UniqEvent extends Event {
+    changedTouches: Array<{ [key: string]: number }>;
+    deltaX: number;
+    deltaY: number;
+    clientX: number;
+    clientY: number;
+    shiftKey: boolean;
 }
