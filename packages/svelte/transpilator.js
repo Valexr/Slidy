@@ -1,6 +1,6 @@
-import { readFileSync, writeFileSync, promises, existsSync, mkdirSync } from "fs";
+import { writeFileSync, promises, existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
-import { transformSync, transform } from "esbuild";
+import { transform } from "esbuild";
 import { preprocess } from "svelte/compiler";
 import sveltePreprocess from "svelte-preprocess";
 
@@ -14,7 +14,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
     const files = await getFiles(input, ext, exclude)
 
     for (const file of files) {
-        const source = readFileSync(file.path).toString();
+        const source = await promises.readFile(file.path);
         const dirpath = dirname(file.path).replace(input, output)
         const filepath = file.path.replace(input, output).replace(".ts", ".js");
 
@@ -22,7 +22,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
 
         if (file.name.includes(".svelte")) {
 
-            await preprocess(source, transformer, file.name).then(({ code }) => {
+            await preprocess(source.toString(), transformer, file.name).then(({ code }) => {
                 const matched = code.match(/import ("|')(.*?).css("|');/gi)[0];
                 const replaced = matched.includes("slidy.")
                     ? code.replace("./slidy.module.css", "../slidy.css")
@@ -39,7 +39,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
             });
 
         } else {
-            const { code } = await transform(source, transformOptions);
+            const { code } = await transform(source.toString(), transformOptions);
 
             const match = exclude.find(exc => code.includes(exc))
             const regex = new RegExp(`(.*?)${match}(.*?);`, 'gi')
