@@ -4,13 +4,13 @@ import { transform } from "esbuild";
 import { preprocess } from "svelte/compiler";
 import sveltePreprocess from "svelte-preprocess";
 
-const transformOptions = {
+const esbuild = {
     loader: "ts",
     treeShaking: false,
     ignoreAnnotations: true,
 }
 
-export default async function ({ input = "./", ext = [""], exclude = [""], output = "./dist/" }) {
+export default async function ({ input = "./", ext = [""], exclude = [""], output = "./dist/", esbuild = esbuild }) {
     const files = await getFiles(input, ext, exclude)
 
     for (const file of files) {
@@ -39,7 +39,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
             });
 
         } else {
-            const { code } = await transform(source.toString(), transformOptions);
+            const { code } = await transform(source.toString(), esbuild);
 
             const match = exclude.find(exc => code.includes(exc))
             const regex = new RegExp(`(.*?)${match}(.*?);`, 'gi')
@@ -53,7 +53,7 @@ export default async function ({ input = "./", ext = [""], exclude = [""], outpu
 const transformer = [
     sveltePreprocess({
         typescript({ content }) {
-            return transform(content, transformOptions);
+            return transform(content, esbuild);
         },
     }),
 ];

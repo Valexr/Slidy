@@ -114,7 +114,12 @@ if (DEV) {
             input: "./src/",
             output: "./dist/",
             ext: [".svelte", ".ts"],
-            exclude: ["dev", "types.ts", "images-api"]
+            exclude: ["dev", "types.ts", "images-api"],
+            esbuild: {
+                loader: "ts",
+                treeShaking: false,
+                ignoreAnnotations: true,
+            }
         })
     })();
 }
