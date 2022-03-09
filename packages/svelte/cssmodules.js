@@ -31,15 +31,15 @@ export default (options = {}) => ({
 				enter(node) {
 					styles[node.name] = transformClassName(node);
 					node.name = styles[node.name];
-					},
+				},
 			});
 
 			const css = csstree.generate(ast);
 
 			return {
-					namespace,
-					styles,
-					css,
+				namespace,
+				styles,
+				css,
 			};
 		};
 
