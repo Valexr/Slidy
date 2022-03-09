@@ -32,25 +32,25 @@
    * Route to the desired slide index.
    */
   const goto: ChangeSlide = (slide) => {
-    if (typeof slide === "number" && !Number.isNaN(slide)) {
-      index = clampValue(slide, 0, length - 1);
-    }
+  	if (typeof slide === "number" && !Number.isNaN(slide)) {
+  		index = clampValue(slide, 0, length - 1);
+  	}
   };
 
   const handleClick = (event: Event): void => {
-    const element = event.target as HTMLElement;
+  	const element = event.target as HTMLElement;
 
-    if (element.nodeName !== "BUTTON") return;
+  	if (element.nodeName !== "BUTTON") return;
 
-    if (element.dataset.index) {
-      goto(parseInt(element.dataset.index));
-      return;
-    }
+  	if (element.dataset.index) {
+  		goto(parseInt(element.dataset.index));
+  		return;
+  	}
 
-    if (element.dataset.step) {
-      goto(parseInt(element.dataset.step) + index);
-      return;
-    }
+  	if (element.dataset.step) {
+  		goto(parseInt(element.dataset.step) + index);
+  		return;
+  	}
   };
 </script>
 
@@ -101,7 +101,7 @@
 
   {#if arrows}
     <slot name="arrows">
-      {#each [-1, 1] as type}
+      {#each [ -1, 1 ] as type}
         <Arrow {type} {index} items={length} {loop} {vertical} />
       {/each}
     </slot>
