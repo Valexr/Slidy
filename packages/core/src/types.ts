@@ -19,7 +19,7 @@ export interface Parent extends ParentNode {
 
 export interface Slidy extends HTMLElement {
     parentNode: ParentNode | null;
-    childNodes: NodeListOf<Child>;
+    childNodes: NodeListOf<ChildNode> | NodeListOf<Child>;
     style: CSSStyleDeclaration;
     offsetTop: number;
     offsetLeft: number;

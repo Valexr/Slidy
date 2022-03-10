@@ -32,24 +32,24 @@ function dispatch(node: Slidy, name: string, detail?: { [key: string]: Options |
 }
 
 function listen(
-    node: Window | Element | ParentNode | Slidy,
+    node: Window | Element | ParentNode | Slidy | null,
     events: [string, EventListenerOrEventListenerObject, boolean?][],
     on = true
 ) {
     for (const [event, handle, options] of events) {
         const listen = on ? 'addEventListener' : 'removeEventListener';
-        node[listen](event, handle, options);
+        if (node) node[listen](event, handle, options);
     }
 }
 
 function init(node: Slidy, childs?: NodeListOf<Child>) {
     childs = node.childNodes as NodeListOf<Child>;
-    // for (let index = 0; index < childs.length; index++) {
-    //     childs[index].index = index;
-    // }
-    for (const key of childs.keys()) {
-        childs[key].index = key;
+    for (let index = 0; index < childs.length; index++) {
+        childs[index].index = index;
     }
+    // for (const key of childs.keys()) {
+    //     childs[key].index = key;
+    // }
     return childs;
 }
 

@@ -1,6 +1,6 @@
 import { css, dispatch, init, listen, onMount } from './env';
-import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 import { find, go, maxMin, replace, indexing, coordinate } from './utils';
+import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 
 export function slidy(
     node: Slidy,
@@ -90,7 +90,7 @@ export function slidy(
 
             if (PARENT) {
                 css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
-                listen(PARENT, parentEvents);
+                listen(PARENT as Parent, parentEvents);
                 RO.observe(PARENT as Element);
             }
             dispatch(node, 'mount', { childs });
@@ -162,8 +162,8 @@ export function slidy(
                 ? find(node, options.vertical).target(target, align)
                 : target
             : target === 0
-            ? 0
-            : find(node, options.vertical).position(ix, align);
+                ? 0
+                : find(node, options.vertical).position(ix, align);
         move(pos - position, options.duration);
     }
 
@@ -234,13 +234,13 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100 ||
-            (!options.loop &&
-                options.snap &&
-                ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
+                (!options.loop &&
+                    options.snap &&
+                    ((options.index === indx().min && direction < 0) || (options.index === indx().max && direction > 0)))
                 ? to(options.index)
                 : options.clamp
-                ? to(options.index, target)
-                : scroll(target, amplitude, options.duration, performance.now());
+                    ? to(options.index, target)
+                    : scroll(target, amplitude, options.duration, performance.now());
         } else to(options.index);
     }
 
@@ -271,10 +271,10 @@ export function slidy(
             move(coord);
             wheeltime = options.snap
                 ? setTimeout(() => {
-                      to(options.index);
-                      // wheeling = false;
-                      gravity = options.gravity;
-                  }, 100)
+                    to(options.index);
+                    // wheeling = false;
+                    gravity = options.gravity;
+                }, 100)
                 : null;
         }
     }

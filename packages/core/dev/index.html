@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -18,8 +19,7 @@
         <header>
             <img alt="Slidy" width="50" height="50" src="favicon.png" />
             <h1>
-                Slidy 3.0<sub>nativeJS</sub>
-                <sup id="stats" />
+                Slidy <span>3.0</span><sub>nativeJS</sub><sub id="stats" />
             </h1>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
@@ -65,26 +65,12 @@
                         <input onchange="setVar(main, this.name, this.value)" name="gap" size="3" />
                     </label>
                     <label title="duration">
-                        <input
-                            onchange="changeValue()"
-                            name="duration"
-                            type="number"
-                            size="4"
-                            step="1"
-                            min="100"
-                            max="1000"
-                        />
+                        <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100"
+                            max="1000" />
                     </label>
                     <label title="gravity">
-                        <input
-                            onchange="changeValue()"
-                            name="gravity"
-                            type="number"
-                            size="4"
-                            step="0.1"
-                            min="0.1"
-                            max="2"
-                        />
+                        <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1"
+                            max="2" />
                     </label>
                     <!-- <label>
                 align
@@ -264,11 +250,9 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${
-                                        aspect.width * window.devicePixelRatio
-                                    }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${
-                                        aspect.height
-                                    }" alt="${p.author}"/></li>`;
+                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio
+                                        }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height
+                                        }" alt="${p.author}"/></li>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
@@ -302,4 +286,5 @@
             }
         </script>
     </body>
+
 </html>

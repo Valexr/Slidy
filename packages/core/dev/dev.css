@@ -134,10 +134,12 @@ select {
 }
 h1 {
     position: relative;
+    /* color: #FFC300; */
 }
-
-h1 sub,
-h1 sup {
+h1 span {
+    /* color: #8759F2; */
+}
+h1 sub {
     position: absolute;
     right: 0;
     bottom: -1rem;
@@ -145,7 +147,7 @@ h1 sup {
     font-weight: 300;
     display: inline;
 }
-h1 sup {
+h1 sub#stats {
     right: auto;
     left: 0;
 }
@@ -174,7 +176,7 @@ footer {
 :root {
     --color: #0a0a0a;
     --back: white;
-    --accent: red;
+    --accent: #FF3E80;
     --shadow: whitesmoke;
 }
 
@@ -183,7 +185,7 @@ footer {
         color-scheme: light;
         --color: #0a0a0a;
         --back: white;
-        --accent: red;
+        --accent: #FF3E80;
         --shadow: whitesmoke;
     }
 }
@@ -193,7 +195,7 @@ footer {
         color-scheme: dark;
         --color: white;
         --back: #0a0a0a;
-        --accent: red;
+        --accent: #FF3E80;
         --shadow: #181818;
     }
 }
@@ -202,7 +204,7 @@ footer {
     color-scheme: dark;
     --color: white;
     --back: #0a0a0a;
-    --accent: red;
+    --accent: #FF3E80;
     --shadow: #181818;
 }
 
@@ -210,7 +212,7 @@ footer {
     color-scheme: light;
     --color: #0a0a0a;
     --back: white;
-    --accent: red;
+    --accent: #FF3E80;
     --shadow: whitesmoke;
 }
 

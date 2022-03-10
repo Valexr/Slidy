@@ -20,8 +20,8 @@ const esbuild = {
 export default async function ({
 	input = "./",
 	output = "./dist/",
-	ext = [ "" ],
-	exclude = [ "" ],
+	ext = [""],
+	exclude = [""],
 	replace = [],
 	remove = []
 }) {
@@ -34,10 +34,10 @@ export default async function ({
 
 		try {
 			await access(dirpath, constants.R_OK | constants.W_OK);
-			console.log("can access");
+			// console.log("can access");
 		} catch {
 			mkdir(dirpath);
-			console.error("cannot access");
+			// console.error("cannot access");
 		}
 
 		if (file.name.includes(".svelte")) {

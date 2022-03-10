@@ -17,10 +17,10 @@ export interface Parent extends ParentNode {
     offsetHeight: number;
 }
 
-export interface Slidy extends Node {
-    parentNode: ParentNode;
+export interface Slidy extends HTMLElement {
+    parentNode: ParentNode | null;
     childNodes: NodeListOf<Child>;
-    style: CssRules;
+    style: CSSStyleDeclaration;
     offsetTop: number;
     offsetLeft: number;
     offsetWidth: number;
