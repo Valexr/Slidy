@@ -1,4 +1,4 @@
-import { Parent, Child, Slidy, UniqEvent } from './types';
+import type { Parent, Child, Slidy, UniqEvent } from './types';
 
 function maxMin(max: number, min: number, val: number) {
     return Math.min(max, Math.max(min, val)) || 0;
