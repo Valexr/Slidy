@@ -1,16 +1,7 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "module": "ES2020",
-        "target": "ESNext",
-        "declaration": true,
-        "emitDeclarationOnly": true,
         "declarationDir": "dist/",
-        "strict": true,
-        "esModuleInterop": true,
-        "moduleResolution": "Node"
-        // "types": [
-        //     "src/types.ts"
-        // ]
     },
     "include": [
         "src/*"

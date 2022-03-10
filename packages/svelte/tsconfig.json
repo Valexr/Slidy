@@ -1,33 +1,21 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "ESNext"
-        ],
-        "module": "ESNext",
-        "target": "ESNext",
-        "declaration": true,
-        "emitDeclarationOnly": true,
-        "declarationDir": "dist/",
-        "strict": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "moduleResolution": "Node",
-        "preserveValueImports": true,
-        "types": [
-            "svelte",
-            "node",
-            "@slidy/core"
-        ]
-    },
-    "extends": "@tsconfig/svelte/tsconfig.json",
-    "include": [
-        "src/*"
-    ],
-    "exclude": [
-        "node_modules/*",
-        "dist/*",
-        "public/*",
-        "src/dev/*",
-        // "src/**/*.ts"
-    ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"sourceMap": true,
+		"declarationDir": "dist/",
+		"skipLibCheck": true,
+		"preserveValueImports": true,
+		"types": [
+			"svelte",
+			"node"
+		]
+	},
+	"include": [
+		"src/*"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"public"
+	]
 }

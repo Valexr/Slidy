@@ -1,15 +1,23 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
+        "baseUrl": "./packages",
         "paths": {
-            "@cmp": ["www/src/cmp/index.js"],
-            "@act": ["www/src/act/index.js"],
-            "@utils": ["www/src/utils/utils.js"],
-            "@settings": ["www/src/utils/settings.js"],
-            "@items": ["www/src/api/items.js"],
-            "@api": ["www/src/api/api.js"]
-        }
+            "@slidy/core": [ "core/src" ],
+            "@slidy/react": [ "react/src" ],
+            "@slidy/svelte": [ "svelte/src" ]
+        },
+        "declaration": true,
+		"emitDeclarationOnly": true,
+        "moduleResolution": "Node",
+        "lib": [ "ESNext" ],
+		"module": "ESNext",
+		"target": "ESNext",
+        "strict": true,
+        "importsNotUsedAsValues": "error",
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+        "esModuleInterop": true
     },
-    "include": ["www/src/**/*"],
-    "exclude": ["node_modules/*", "www/public/*"]
+    "include": [ "www/src/**/*" ],
+    "exclude": [ "node_modules/*", "www/public/*" ]
 }
