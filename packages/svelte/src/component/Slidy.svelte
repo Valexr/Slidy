@@ -74,6 +74,8 @@
 			loop,
 		}}
 		on:mount={(e) => console.log(e)}
+		on:resize={(e) => console.log(e)}
+		on:update={(e) => console.log(e)}
 		on:move={(e) => {
 			index = e.detail.index;
 			position = e.detail.position;
