@@ -70,3 +70,7 @@ export interface UniqEvent extends Event {
     clientY: number;
     shiftKey: boolean;
 }
+
+type EventsMap = [
+    string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?
+]

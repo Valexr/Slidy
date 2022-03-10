@@ -1,37 +1,20 @@
-import type { Parent, Child, Slidy, UniqEvent } from './types';
-
-function maxMin(max: number, min: number, val: number) {
-    return Math.min(max, Math.max(min, val)) || 0;
-}
-
-// function maxSize(node: Slidy, vertical: boolean) {
-//     return node[scroll(vertical)] - parent(node)[size(vertical)];
-// }
+import type { Parent, Child, Slidy } from '../types';
+import { maxMin } from './helpers'
 
 function indexing(node: Slidy, index: number, loop: boolean) {
     if (loop) {
         if (index < 0) {
-            return nodes(node).length - 1;
-        } else if (index > nodes(node).length - 1) {
+            return node.childNodes.length - 1;
+        } else if (index > node.childNodes.length - 1) {
             return 0;
         } else return index;
-    } else return maxMin(nodes(node).length - 1, 0, index);
+    } else return maxMin(node.childNodes.length - 1, 0, index);
 }
-
-function coordinate(e: UniqEvent, vertical: boolean) {
-    if (e.type === 'wheel') {
-        if (!vertical && Math.abs(e.deltaX) && Math.abs(e.deltaY) < 15) e.preventDefault();
-        return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;
-    } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
-}
-
-const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } => (e.changedTouches ? e.changedTouches[0] : e);
 
 const cix = (node: Slidy) => Math.floor(node.childNodes.length / 2);
 const parent = (node: Slidy): Parent => node.parentNode as Parent;
 const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf<Child>);
 const child = (node: Slidy, index: number) => node.childNodes[index] as Child;
-// const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
 const part = (align: string) => (align === 'center' ? 0.5 : 1);
@@ -77,4 +60,4 @@ function replace(node: Slidy, index: number, loop: boolean) {
     node.replaceChildren(...elements);
 }
 
-export { find, go, maxMin, replace, indexing, coordinate };
+export { find, go, replace, indexing };

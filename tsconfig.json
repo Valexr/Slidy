@@ -2,22 +2,35 @@
     "compilerOptions": {
         "baseUrl": "./packages",
         "paths": {
-            "@slidy/core": [ "core/src" ],
-            "@slidy/react": [ "react/src" ],
-            "@slidy/svelte": [ "svelte/src" ]
+            "@slidy/core": [
+                "core/src"
+            ],
+            "@slidy/react": [
+                "react/src"
+            ],
+            "@slidy/svelte": [
+                "svelte/src"
+            ]
         },
         "declaration": true,
-		"emitDeclarationOnly": true,
+        "emitDeclarationOnly": true,
         "moduleResolution": "Node",
-        "lib": [ "ESNext" ],
-		"module": "ESNext",
-		"target": "ESNext",
+        "lib": [
+            "ESNext"
+        ],
+        "module": "ESNext",
+        "target": "ESNext",
         "strict": true,
         "importsNotUsedAsValues": "error",
-		"isolatedModules": true,
-		"resolveJsonModule": true,
+        "isolatedModules": true,
+        "resolveJsonModule": true,
         "esModuleInterop": true
     },
-    "include": [ "www/src/**/*" ],
-    "exclude": [ "node_modules/*", "www/public/*" ]
+    "include": [
+        "www/src/**/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "www/public/*"
+    ]
 }

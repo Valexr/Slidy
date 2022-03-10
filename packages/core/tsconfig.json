@@ -2,6 +2,8 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declarationDir": "dist/",
+        // "esModuleInterop": false,
+        // "allowSyntheticDefaultImports": false,
         "lib": [
             "DOM",
             "ESNext"
@@ -11,11 +13,11 @@
         "src/*"
     ],
     "exclude": [
-        "node_modules/*",
-        "dist/*",
-        "dev/*"
+        // "src/utils/dom.ts",
+        "src/index.ts"
     ],
-    "files": [
-        "./src/index.ts"
-    ]
+    // "files": [
+    //     "src/slidy.ts",
+    //     "src/types.ts"
+    // ]
 }

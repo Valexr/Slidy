@@ -1,5 +1,7 @@
-import { css, dispatch, init, listen, onMount } from './env';
-import { find, go, maxMin, replace, indexing, coordinate } from './utils';
+import { coordinate, css, dispatch, init, listen, onMount } from './utils/env';
+import { find, go, replace, indexing } from './utils/dom';
+import { maxMin } from './utils/helpers'
+
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 
 export function slidy(
@@ -40,18 +42,18 @@ export function slidy(
     const PARENT = node.parentNode;
 
     const windowEvents: [string, EventListenerOrEventListenerObject][] = [
-        ['touchmove', onMove],
-        ['mousemove', onMove],
+        ['touchmove', onMove as EventListenerOrEventListenerObject],
+        ['mousemove', onMove as EventListenerOrEventListenerObject],
         ['touchend', onUp],
         ['mouseup', onUp],
         // ['scroll', onScroll],
     ];
     const parentEvents: [string, EventListenerOrEventListenerObject, boolean?][] = [
         ['contextmenu', clear],
-        ['touchstart', onDown],
-        ['mousedown', onDown],
-        ['keydown', onKeys],
-        ['wheel', onWheel],
+        ['touchstart', onDown as EventListenerOrEventListenerObject],
+        ['mousedown', onDown as EventListenerOrEventListenerObject],
+        ['keydown', onKeys as EventListenerOrEventListenerObject],
+        ['wheel', onWheel as EventListenerOrEventListenerObject],
         ['resize', onResize, true],
     ];
 
