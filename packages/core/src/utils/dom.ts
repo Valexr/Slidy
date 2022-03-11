@@ -60,4 +60,21 @@ function replace(node: Slidy, index: number, loop: boolean) {
     node.replaceChildren(...elements);
 }
 
+// DRAFT --------------------------------------
+// function cumulativeOffset(element) {
+// 	let top = 0,
+// 		left = 0;
+// 	if (element)
+// 		do {
+// 			top += element.offsetTop || 0;
+// 			left += element.offsetLeft || 0;
+// 			element = element.offsetParent;
+// 		} while (element);
+
+// 	return {
+// 		top: top,
+// 		left: left,
+// 	};
+// }
+
 export { find, go, replace, indexing };

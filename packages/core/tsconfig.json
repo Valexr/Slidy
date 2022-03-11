@@ -2,18 +2,20 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declarationDir": "dist/",
-        // "esModuleInterop": false,
-        // "allowSyntheticDefaultImports": false,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": false,
+        "noResolve": true,
         "lib": [
             "DOM",
             "ESNext"
-        ]
+        ],
+        "types": []
     },
     "include": [
         "src/*"
     ],
     "exclude": [
-        // "src/utils/dom.ts",
+        "src/utils/*",
         "src/index.ts"
     ],
     // "files": [
