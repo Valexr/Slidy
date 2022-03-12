@@ -11,6 +11,7 @@ export function slidy(
         length: 0,
         gravity: 1.2,
         duration: 375,
+        align: 'center',
         loop: false,
         snap: false,
         clamp: false,
@@ -27,12 +28,11 @@ export function slidy(
         reference = 0,
         position = 0,
         frame = 0,
-        dragtime: NodeJS.Timer | null,
         wheeltime: NodeJS.Timeout | null,
         hix = options.index,
         gap = 0,
         gravity = options.gravity,
-        align = 'center',
+        align = options.align,
         direction = 0,
         timestamp = 0;
 
@@ -97,7 +97,7 @@ export function slidy(
             }
             dispatch(node, 'mount', { childs });
         })
-        .catch((error) => console.error(error));
+        .catch((error: Error) => console.error(error));
 
     function move(pos: number, transition = 0): void {
         position += options.loop ? looping(pos) : pos;
@@ -113,7 +113,7 @@ export function slidy(
                 pos: position <= amp().min + active().size && direction <= 0,
                 idx: options.index === indx().min && direction < 0,
             };
-            align = max.pos ? 'end' : min.pos ? 'start' : 'center';
+            align = max.pos ? 'end' : min.pos ? 'start' : options.align;
             gravity = max.idx || min.idx ? maxMin(1.8, 0, gravity + 0.015) : options.gravity;
         }
 
@@ -153,7 +153,7 @@ export function slidy(
 
         options.index = indexing(node, index, options.loop);
         if (!options.loop) {
-            align = options.index === indx().min ? 'start' : options.index === indx().max ? 'end' : 'center';
+            align = options.index === indx().min ? 'start' : options.index === indx().max ? 'end' : options.align;
         }
 
         const ix = options.loop ? find(node, options.vertical).index(position, options.index, align) : options.index;
@@ -261,6 +261,7 @@ export function slidy(
     // let wheeling = false;
     function onWheel(e: UniqEvent): void {
         clear();
+        timestamp = performance.now();
         // wheeling = true;
         const coord = coordinate(e, options.vertical) * (2 - gravity);
 
@@ -301,7 +302,6 @@ export function slidy(
 
     function clear(): void {
         // hix = (wheeling || toing) ? hix : options.index;
-        clearInterval(dragtime as NodeJS.Timer);
         clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
         cancelAnimationFrame(rak);
@@ -318,7 +318,7 @@ export function slidy(
                         to(options[key]);
                         break;
                     case 'loop':
-                        align = 'center';
+                        align = options.align;
                         options[key] = opts[key];
                         replace(node, options.index, options[key]);
                         to(options.index);
@@ -326,6 +326,10 @@ export function slidy(
                     case 'gravity':
                         options[key] = maxMin(2, 0, opts[key]);
                         gravity = options[key];
+                        break;
+                    case 'align':
+                        options[key] = opts[key];
+                        align = options[key];
                         break;
                     case 'length':
                         options[key] = opts[key];

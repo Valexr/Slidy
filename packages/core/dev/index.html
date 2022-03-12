@@ -72,14 +72,13 @@
                         <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1"
                             max="2" />
                     </label>
-                    <!-- <label>
-                align
-                <select bind:value={align}>
-                    <option value="start">← start</option>
-                    <option value="middle">middle</option>
-                    <option value="end">end →</option>
-                </select>
-            </label> -->
+                    <label title="align">
+                        <select value="center" name="align" onchange="changeValue()">
+                            <option value="start">← start</option>
+                            <option value="center">center</option>
+                            <option value="end">end →</option>
+                        </select>
+                    </label>
                 </fieldset>
             </form>
         </footer>
@@ -139,6 +138,7 @@
             let options = {
                 index: 8,
                 length: limit,
+                align: 'center',
                 snap: true,
                 loop: false,
                 clamp: false,
@@ -152,7 +152,8 @@
                 nav = document.querySelector('#dots'),
                 stats = document.querySelector('#stats'),
                 buttons = document.querySelectorAll('button'),
-                inputs = document.querySelectorAll('input');
+                inputs = document.querySelectorAll('input'),
+                select = document.querySelector('select')
 
             window.onload = () => {
                 getPhotos(node, page, limit);
@@ -167,6 +168,7 @@
                     else if (input.name === 'gap') input.value = getVar(main, '--gap');
                     else if (input.name === 'limit') input.value = limit;
                 }
+                select.value = options.align
 
                 node.addEventListener('mount', (e) => {
                     console.log(e, options, buttons, inputs);
@@ -178,11 +180,11 @@
                 });
 
                 node.addEventListener('resize', (e) => {
-                    console.log(e)
+                    // console.log(e)
                 });
 
                 node.addEventListener('update', (e) => {
-                    console.log(e)
+                    // console.log(e)
                 });
 
                 function scrolling(p) {
@@ -223,8 +225,9 @@
             }
 
             function changeValue() {
-                slidy.update({ [event.target.name]: +event.target.value });
-                options[event.target.name] = +event.target.value;
+                const value = isNum(event.target.value) ? +event.target.value : event.target.value
+                slidy.update({ [event.target.name]: value });
+                options[event.target.name] = value;
             }
             function getVar(node, name) {
                 return getComputedStyle(node).getPropertyValue(name);
@@ -235,7 +238,6 @@
 
             function setLimit() {
                 options.length = limit = event.target.value;
-                // slidy.update({ length: options.length })
                 getPhotos(node, page, limit);
             }
 
@@ -283,6 +285,10 @@
 
             function randomQ(min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function isNum(number) {
+                return !isNaN(parseFloat(number)) && isFinite(+number);
             }
         </script>
     </body>
