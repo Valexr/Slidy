@@ -11,6 +11,7 @@
 	type $$Props = SlidyOptions;
 
 	export let arrows = true;
+	export let align: $$Props["align"] = "center";
 	export let background = false;
 	export let clamp = false;
 	export let className: $$Props["className"] = "";
@@ -64,7 +65,8 @@
 		class="slidy-slides"
 		aria-live="polite"
 		use:slidy={{
-			length: length,
+			align,
+			length,
 			vertical,
 			duration,
 			gravity,

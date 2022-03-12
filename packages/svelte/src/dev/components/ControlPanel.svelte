@@ -4,7 +4,7 @@
 	//export let limit = 9;
 	export let vertical = false;
 	export let clamp = true;
-	export let align: "start" | "middle" | "end" = "middle";
+	export let align: "start" | "center" | "end" = "center";
 	export let duration = 450;
 	export let gravity = 1.45;
 	export let width = "auto";
@@ -88,7 +88,7 @@
 				<span>Align</span>
 				<select bind:value={align}>
 					<option value="start">← start</option>
-					<option value="middle">middle</option>
+					<option value="center">center</option>
 					<option value="end">end →</option>
 				</select>
 			</label>

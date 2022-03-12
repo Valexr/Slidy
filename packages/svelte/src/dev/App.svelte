@@ -14,7 +14,7 @@
 	let index = 4;
 	let vertical = false;
 	let clamp = true;
-	let align: "start" | "middle" | "end" = "middle";
+	let align: "start" | "center" | "end" = "center";
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";
