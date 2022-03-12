@@ -3,7 +3,7 @@ export interface Options {
     length: number;
     gravity: number;
     duration: number;
-    align: string;
+    align: "start" | "center" | "end";
     vertical: boolean;
     clamp: boolean;
     snap: boolean;
