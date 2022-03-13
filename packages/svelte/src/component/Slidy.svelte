@@ -11,7 +11,6 @@
 	type $$Props = SlidyOptions;
 
 	export let arrows = true;
-	export let align: $$Props["align"] = "center";
 	export let background = false;
 	export let clamp = false;
 	export let className: $$Props["className"] = "";
@@ -24,7 +23,7 @@
 	export let loop = false;
 	export let position = 0;
 	export let slides: $$Props["slides"] = [];
-	export let snap = true;
+	export let snap: $$Props["snap"] = "center";
 	export let vertical = false;
 
 	$: length = slides.length;
@@ -65,23 +64,19 @@
 		class="slidy-slides"
 		aria-live="polite"
 		use:slidy={{
-			align,
 			length,
 			vertical,
 			duration,
 			gravity,
 			index,
 			clamp,
-			snap,
+			snap: snap || "",
 			loop,
 		}}
-		on:mount={(e) => console.log(e)}
-		on:resize={(e) => console.log(e)}
-		on:update={(e) => console.log(e)}
-		on:move={(e) => {
-			index = e.detail.index;
-			position = e.detail.position;
-		}}
+		on:mount
+		on:resize
+		on:update
+		on:move
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			<li

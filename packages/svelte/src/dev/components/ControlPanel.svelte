@@ -4,11 +4,10 @@
 	//export let limit = 9;
 	export let vertical = false;
 	export let clamp = true;
-	export let align: "start" | "center" | "end" = "center";
 	export let duration = 450;
 	export let gravity = 1.45;
 	export let width = "auto";
-	export let snap = true;
+	export let snap: "start" | "center" | "end" = "center";
 	export let loop = false;
 	export let gap = 15;
 </script>
@@ -37,14 +36,6 @@
 					on:change={() => (clamp = !clamp)}
 				/>
 				<span>Clamp</span>
-			</label>
-			<label>
-				<input
-					type="checkbox"
-					checked={snap}
-					on:change={() => (snap = !snap)}
-				/>
-				<span>Snap</span>
 			</label>
 			<label>
 				<input
@@ -86,7 +77,8 @@
 			</label>
 			<label>
 				<span>Align</span>
-				<select bind:value={align}>
+				<select bind:value={snap}>
+					<option value="">unset</option>
 					<option value="start">← start</option>
 					<option value="center">center</option>
 					<option value="end">end →</option>

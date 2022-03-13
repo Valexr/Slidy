@@ -18,7 +18,7 @@
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";
-	let snap = true;
+	let snap: "start" | "center" | "end" = "center";
 	let loop = false;
 	let gap = 15;
 
@@ -64,10 +64,10 @@
 	{#await slidesPromise}
 		loading...
 	{:then}
-		<Slidy bind:index bind:position slides={$slides} {clamp} {align} {duration} {gravity} {snap} {loop} {vertical} />
+		<Slidy bind:index bind:position slides={$slides} {clamp} {duration} {gravity} {snap} {loop} {vertical} />
 	{/await}
 </main>
 
 <Sidemenu bind:open={controlPanel}>
-	<ControlPanel bind:vertical bind:clamp bind:align bind:duration bind:gravity bind:width bind:loop bind:gap />
+	<ControlPanel bind:vertical bind:clamp bind:snap bind:duration bind:gravity bind:width bind:loop bind:gap />
 </Sidemenu>

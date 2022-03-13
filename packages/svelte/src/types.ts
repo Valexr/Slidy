@@ -9,7 +9,6 @@ export interface Slide {
 
 export interface SlidyOptions {
     arrows?: boolean;
-    align?: "start" | "center" | "end";
     background?: boolean;
     clamp?: boolean;
     className?: string;
@@ -22,7 +21,7 @@ export interface SlidyOptions {
     loop?: boolean;
     position?: number;
     slides: Slide[];
-    snap?: boolean;
+    snap?: "start" | "center" | "end";
     vertical?: boolean;
 }
 
