@@ -45,7 +45,6 @@ export function slidy(
         ['mousemove', onMove as EventListenerOrEventListenerObject],
         ['touchend', onUp],
         ['mouseup', onUp],
-        // ['scroll', onScroll],
     ];
     const parentEvents: [string, EventListenerOrEventListenerObject, boolean?][] = [
         ['contextmenu', clear],
@@ -53,11 +52,11 @@ export function slidy(
         ['mousedown', onDown as EventListenerOrEventListenerObject],
         ['keydown', onKeys as EventListenerOrEventListenerObject],
         ['wheel', onWheel as EventListenerOrEventListenerObject],
-        ['resize', onResize, true],
     ];
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
+        to(options.index)
         dispatch(node, 'resize', node);
     });
 
@@ -79,8 +78,6 @@ export function slidy(
         .then((childs: NodeListOf<Child>) => {
             const styles = {
                 userSelect: 'none',
-                // willChange: 'auto',
-                // touchAction: 'auto',
                 webkitUserSelect: 'none',
                 pointerEvents: 'none',
             };
@@ -103,7 +100,7 @@ export function slidy(
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options.vertical).index(position, null, snap);
 
-        direction = Math.sign(pos); // prev << -1 | 1 >> next
+        direction = Math.sign(pos);
 
         if (!options.loop) {
             snap =
@@ -126,6 +123,21 @@ export function slidy(
             return vertical ? `0, ${-positioning(position)}px, 0` : `${-positioning(position)}px, 0, 0`;
         }
 
+        function looping(pos: number): number {
+            const delta = hip - pos;
+            const first = find(node, options.vertical).size(0);
+            const last = find(node, options.vertical).size(node.childNodes.length - 1);
+            const history = (size: number) => (size + gap) * Math.sign(-pos);
+
+            if (hix !== options.index) {
+                pos > 0 ? go(node).next() : go(node).prev();
+                pos += history(pos > 0 ? first : last);
+                frame = position + pos + delta;
+            }
+            hix = options.index;
+            return pos;
+        }
+
         const styles = {
             transform: `translate3d(${translate(options.vertical)})`,
             transition: `transform ${transition}ms`,
@@ -136,37 +148,24 @@ export function slidy(
         dispatch(node, 'move', { index: options.index, position });
     }
 
-    function looping(pos: number): number {
-        const delta = hip - pos;
-        const first = find(node, options.vertical).size(0);
-        const last = find(node, options.vertical).size(node.childNodes.length - 1);
-        const history = (size: number) => (size + gap) * Math.sign(-pos);
-
-        if (hix !== options.index) {
-            pos > 0 ? go(node).next() : go(node).prev();
-            pos += history(pos > 0 ? first : last);
-            frame = position + pos + delta;
-        }
-        hix = options.index;
-        return pos;
-    }
-
     function to(index: number, target: number | null = null): void {
         clear();
 
         options.index = indexing(node, index, options.loop);
+
         if (!options.loop) {
             snap =
-                get('start').index && get('start').point
+                get('start').index
                     ? 'start'
-                    : get('end').index && get('end').point
+                    : get('end').index
                         ? 'end'
                         : options.snap;
         }
 
-        const ix = options.loop ? find(node, options.vertical).index(position, options.index, snap) : options.index;
+        const ix = options.loop
+            ? find(node, options.vertical).index(position, options.index, snap)
+            : options.index;
 
-        // console.log(index, options.index, ix);
         const pos = target
             ? options.snap
                 ? find(node, options.vertical).target(target, snap)
@@ -174,6 +173,7 @@ export function slidy(
             : target === 0
                 ? 0
                 : find(node, options.vertical).position(ix, snap);
+
         move(pos - position, options.duration);
     }
 
@@ -204,10 +204,8 @@ export function slidy(
                 move(pos);
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
 
-                if (options.loop && Math.abs(delta) < 100) to(options.index);
-                else if (!options.loop && Math.abs(delta) < 100 && (get('start').index || get('end').index)) {
-                    to(options.index);
-                }
+                if (Math.abs(delta) < 100 && (options.loop || get('start').index || get('end').index))
+                    to(options.index)
             });
         }
     }
@@ -247,8 +245,7 @@ export function slidy(
 
     function delting(position: number): Delta {
         velocity = maxMin(get('end').amplitude - position, get('start').amplitude - position, velocity);
-        // velocity = maxMin(1440, -1440, velocity);
-        // console.log(maxMin(get('end').amplitude - position, get('start').amplitude - position, velocity))
+
         let amplitude = velocity * (2 - gravity);
         const target = options.snap
             ? find(node, options.vertical).target(position + amplitude, snap)
@@ -273,7 +270,6 @@ export function slidy(
             if (options.snap || (!options.loop && (get('start').vector || get('end').vector)) || options.loop) {
                 wheeltime = setTimeout(() => {
                     to(options.index);
-                    // wheeling = false;
                     gravity = options.gravity;
                 }, 100);
             }
@@ -289,15 +285,6 @@ export function slidy(
         }
     }
 
-    // function onScroll(e: Scroll): void {
-    //     console.info(e);
-    //     // clear()
-    // }
-
-    function onResize(): void {
-        to(options.index);
-    }
-
     function clear(): void {
         clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
@@ -308,7 +295,6 @@ export function slidy(
     function update(opts: Options): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
-                // console.log(key);
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key], options.loop);

@@ -6,7 +6,6 @@ function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
 
         const mounting = setInterval(() => {
             count++;
-            // console.log(count, node.childNodes.length, length);
             if (count >= 69) {
                 count = 0;
                 clearInterval(mounting);
@@ -15,7 +14,6 @@ function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
                 count = 0;
                 clearInterval(mounting);
                 resolve(init(node));
-                // setTimeout(() => resolve(node.childNodes));
             }
         }, 16);
     });
@@ -47,9 +45,6 @@ function init(node: Slidy, childs?: NodeListOf<Child>): NodeListOf<Child> {
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
     }
-    // for (const key of childs.keys()) {
-    //     childs[key].index = key;
-    // }
     return childs;
 }
 
