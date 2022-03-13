@@ -62,7 +62,7 @@
         "@typescript-eslint/parser": "^5.14.0",
         "css-tree": "^2.1.0",
         "esbuild-svelte": "^0.6.3",
-        "eslint": "^8.10.0",
+        "eslint": "^8.11.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "svelte": "^3.46.4",
         "svelte-check": "^2.4.5",
