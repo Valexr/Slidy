@@ -73,7 +73,8 @@
                             max="2" />
                     </label>
                     <label title="align">
-                        <select value="center" name="align" onchange="changeValue()">
+                        <select value="center" name="snap" onchange="changeValue()">
+                            <option value="">unset</option>
                             <option value="start">← start</option>
                             <option value="center">center</option>
                             <option value="end">end →</option>
@@ -138,8 +139,7 @@
             let options = {
                 index: 8,
                 length: limit,
-                align: 'center',
-                snap: true,
+                snap: 'center',
                 loop: false,
                 clamp: false,
                 gravity: 1.2,
@@ -168,7 +168,7 @@
                     else if (input.name === 'gap') input.value = getVar(main, '--gap');
                     else if (input.name === 'limit') input.value = limit;
                 }
-                select.value = options.align
+                select.value = options.snap
 
                 node.addEventListener('mount', (e) => {
                     console.log(e, options, buttons, inputs);

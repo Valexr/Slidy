@@ -3,10 +3,9 @@ export interface Options {
     length: number;
     gravity: number;
     duration: number;
-    align: "start" | "center" | "end";
+    snap: "start" | "center" | "end" | "";
     vertical: boolean;
     clamp: boolean;
-    snap: boolean;
     loop: boolean;
 }
 
