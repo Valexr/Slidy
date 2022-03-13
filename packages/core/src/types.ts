@@ -3,7 +3,7 @@ export interface Options {
     length: number;
     gravity: number;
     duration: number;
-    snap: "start" | "center" | "end" | "";
+    snap: 'start' | 'center' | 'end' | '';
     vertical: boolean;
     clamp: boolean;
     loop: boolean;
@@ -71,8 +71,12 @@ export interface UniqEvent extends Event {
     shiftKey: boolean;
 }
 
-export type DispathDetail = CustomEventInit<unknown> | Options | Slidy | NodeListOf<Child> | { [key: string]: number } | undefined
+export type DispathDetail =
+    | CustomEventInit<unknown>
+    | Options
+    | Slidy
+    | NodeListOf<Child>
+    | { [key: string]: number }
+    | undefined;
 
-type EventsMap = [
-    string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?
-]
+type EventsMap = [string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?];

@@ -1,5 +1,5 @@
 import type { Parent, Child, Slidy } from '../types';
-import { maxMin } from './helpers'
+import { maxMin } from './helpers';
 
 function indexing(node: Slidy, index: number, loop: boolean) {
     if (loop) {
@@ -46,7 +46,7 @@ const find = (node: Slidy, vertical: boolean) => ({
         const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)];
         return distance(node, last, vertical) - prev;
     },
-    parent: () => parent(node)[size(vertical)]
+    parent: () => parent(node)[size(vertical)],
 });
 
 const go = (node: Slidy) => ({

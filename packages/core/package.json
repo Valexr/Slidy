@@ -24,12 +24,12 @@
         "dev:core": "node esbuild --core",
         "dev:svelte": "node esbuild --dev",
         "dev:react": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc",
+        "build": "rm -rf dist && node esbuild && tsc && rm -rf dist/utils",
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public",
-        "format": "prettier --ignore-path ../../.gitignore --write './**/*.{js,ts,md,json,html,css}'"
+        "format": "prettier --ignore-path ../../.gitignore --write './src/**/*.{js,ts,md,json,html,css}'"
     },
     "eslintConfig": {
         "extends": [

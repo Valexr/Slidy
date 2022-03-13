@@ -1,6 +1,6 @@
 import { coordinate, css, dispatch, init, listen, onMount } from './utils/env';
 import { find, go, replace, indexing } from './utils/dom';
-import { maxMin } from './utils/helpers'
+import { maxMin } from './utils/helpers';
 
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 
@@ -23,17 +23,17 @@ export function slidy(
 } {
     let raf: number,
         rak: number,
-        velocity = 0,
+        wheeltime: NodeJS.Timeout | null,
         reference = 0,
+        direction = 0,
+        timestamp = 0,
+        velocity = 0,
         position = 0,
         frame = 0,
-        wheeltime: NodeJS.Timeout | null,
-        hix = options.index,
         gap = 0,
-        gravity = options.gravity,
+        hix = options.index,
         snap = options.snap,
-        direction = 0,
-        timestamp = 0;
+        gravity = options.gravity;
 
     const consttime = 100;
     const hip = position;
@@ -62,19 +62,17 @@ export function slidy(
     });
 
     const get = (side = '') => {
-        const start = side === 'start'
-        const active = find(node, options.vertical).size(options.index)
-        const indx = start ? 0 : node.childNodes.length - 1
-        const snap = start ? 'start' : 'end'
+        const start = side === 'start';
+        const active = find(node, options.vertical).size(options.index);
+        const indx = start ? 0 : node.childNodes.length - 1;
+        const snap = start ? 'start' : 'end';
 
-        const index = options.index === indx
-        const amplitude = find(node, options.vertical).position(indx, snap)
-        const point = start
-            ? position < amplitude + active
-            : position > amplitude - active
-        const vector = index && (start ? direction < 0 : direction > 0)
+        const index = options.index === indx;
+        const amplitude = find(node, options.vertical).position(indx, snap);
+        const point = start ? position < amplitude + active : position > amplitude - active;
+        const vector = index && (start ? direction < 0 : direction > 0);
 
-        return { index, amplitude, point, vector }
+        return { index, amplitude, point, vector };
     };
 
     onMount(node, options.length)
@@ -105,24 +103,23 @@ export function slidy(
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options.vertical).index(position, null, snap);
 
-        direction = Math.sign(pos) // prev << -1 | 1 >> next
+        direction = Math.sign(pos); // prev << -1 | 1 >> next
 
         if (!options.loop) {
-            snap = get('end').point && direction >= 0
-                ? 'end'
-                : get('start').point && direction <= 0
-                    ? 'start'
-                    : options.snap;
-            gravity = ((get('end').vector) || (get('start').vector))
-                ? maxMin(1.8, 0, gravity + 0.015)
-                : options.gravity;
+            snap =
+                get('end').point && direction >= 0
+                    ? 'end'
+                    : get('start').point && direction <= 0
+                        ? 'start'
+                        : options.snap;
+            gravity = get('end').vector || get('start').vector ? maxMin(1.8, 0, gravity + 0.015) : options.gravity;
         }
 
         function positioning(position: number) {
-            const delta = find(node, options.vertical).parent() / 2
+            const delta = find(node, options.vertical).parent() / 2;
             return !options.loop
                 ? maxMin(get('end').amplitude + delta, get('start').amplitude - delta, position)
-                : position
+                : position;
         }
 
         function translate(vertical: boolean): string {
@@ -159,7 +156,12 @@ export function slidy(
 
         options.index = indexing(node, index, options.loop);
         if (!options.loop) {
-            snap = get('start').index && get('start').point ? 'start' : get('end').index && get('end').point ? 'end' : options.snap;
+            snap =
+                get('start').index && get('start').point
+                    ? 'start'
+                    : get('end').index && get('end').point
+                        ? 'end'
+                        : options.snap;
         }
 
         const ix = options.loop ? find(node, options.vertical).index(position, options.index, snap) : options.index;
@@ -203,11 +205,7 @@ export function slidy(
                 raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
 
                 if (options.loop && Math.abs(delta) < 100) to(options.index);
-                else if (
-                    !options.loop &&
-                    Math.abs(delta) < 100 &&
-                    (get('start').index || get('end').index)
-                ) {
+                else if (!options.loop && Math.abs(delta) < 100 && (get('start').index || get('end').index)) {
                     to(options.index);
                 }
             });
@@ -239,12 +237,11 @@ export function slidy(
         const { target, amplitude } = delting(position);
 
         if (Math.abs(amplitude) > 10) {
-            Math.abs(velocity) < 100
-                || !options.loop && (get('start').vector || get('end').vector)
+            Math.abs(velocity) < 100 || (!options.loop && (get('start').vector || get('end').vector))
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
-                    : scroll(target, amplitude, options.duration, performance.now())
+                    : scroll(target, amplitude, options.duration, performance.now());
         } else to(options.index);
     }
 
@@ -278,7 +275,7 @@ export function slidy(
                     to(options.index);
                     // wheeling = false;
                     gravity = options.gravity;
-                }, 100)
+                }, 100);
             }
         }
     }
