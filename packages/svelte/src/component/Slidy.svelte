@@ -77,6 +77,10 @@
 		on:resize
 		on:update
 		on:move
+		on:move={({ detail }) => {
+			index = detail.index;
+			position = detail.position;
+		}}
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			<li
