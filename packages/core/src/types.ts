@@ -72,11 +72,12 @@ export interface UniqEvent extends Event {
 }
 
 export type DispathDetail =
+    | { [key: string]: number }
     | CustomEventInit<unknown>
+    | NodeListOf<Child>
     | Options
     | Slidy
-    | NodeListOf<Child>
-    | { [key: string]: number }
+    | string
     | undefined;
 
 type EventsMap = [string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?];

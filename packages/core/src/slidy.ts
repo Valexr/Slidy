@@ -283,6 +283,7 @@ export function slidy(
         } else if (keys.includes(e.key)) {
             to(options.index + 1);
         }
+        dispatch(node, 'keys', e.key);
     }
 
     function clear(): void {
@@ -333,7 +334,7 @@ export function slidy(
         clear();
         RO.disconnect();
         listen(PARENT, parentEvents, false);
-        dispatch(node, 'destroy', options);
+        dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };
 }
