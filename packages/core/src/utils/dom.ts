@@ -46,6 +46,7 @@ const find = (node: Slidy, vertical: boolean) => ({
         const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)];
         return distance(node, last, vertical) - prev;
     },
+    parent: () => parent(node)[size(vertical)]
 });
 
 const go = (node: Slidy) => ({

@@ -1,4 +1,4 @@
-import type { Child, CssRules, Options, Parent, Slidy, UniqEvent } from '../types';
+import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '../types';
 
 function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -21,28 +21,28 @@ function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
     });
 }
 
-function getFPS() {
+function getFPS(): Promise<unknown> {
     return new Promise((resolve) =>
         requestAnimationFrame((t1: number) => requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1))))
     );
 }
 
-function dispatch(node: Slidy, name: string, detail?: { [key: string]: Options | Slidy | NodeListOf<Child> | number }) {
-    node.dispatchEvent(new CustomEvent(name, { detail }));
+function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
+    node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
 
 function listen(
     node: Window | Element | ParentNode | Slidy | null,
     events: [string, EventListenerOrEventListenerObject, boolean?][],
     on = true
-) {
+): void {
     for (const [event, handle, options] of events) {
         const listen = on ? 'addEventListener' : 'removeEventListener';
         if (node) node[listen](event, handle, options);
     }
 }
 
-function init(node: Slidy, childs?: NodeListOf<Child>) {
+function init(node: Slidy, childs?: NodeListOf<Child>): NodeListOf<Child> {
     childs = node.childNodes as NodeListOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
@@ -53,14 +53,14 @@ function init(node: Slidy, childs?: NodeListOf<Child>) {
     return childs;
 }
 
-function css(node: Slidy | Parent, styles: CssRules) {
+function css(node: Slidy | Parent, styles: CssRules): void {
     let property: keyof CssRules;
     for (property in styles) {
         node.style[property] = styles[property];
     }
 }
 
-function coordinate(e: UniqEvent, vertical: boolean) {
+function coordinate(e: UniqEvent, vertical: boolean): number {
     if (e.type === 'wheel') {
         if (!vertical && Math.abs(e.deltaX) && Math.abs(e.deltaY) < 15) e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;

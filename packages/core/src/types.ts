@@ -71,6 +71,8 @@ export interface UniqEvent extends Event {
     shiftKey: boolean;
 }
 
+export type DispathDetail = CustomEventInit<unknown> | Options | Slidy | NodeListOf<Child> | { [key: string]: number } | undefined
+
 type EventsMap = [
     string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?
 ]

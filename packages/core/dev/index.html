@@ -33,7 +33,7 @@
         <footer>
             <nav id="buttons">
                 <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
-                <button id="snap" onclick="slidy.update({snap: activate(this, options.snap)})">snap</button>
+                <!-- <button id="snap" onclick="slidy.update({snap: activate(this, options.snap)})">snap</button> -->
                 <button id="loop" onclick="slidy.update({loop: activate(this, options.loop)})">loop</button>
                 <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">
                     vertical
@@ -139,7 +139,7 @@
             let options = {
                 index: 8,
                 length: limit,
-                snap: 'center',
+                snap: '',
                 loop: false,
                 clamp: false,
                 gravity: 1.2,
@@ -171,20 +171,20 @@
                 select.value = options.snap
 
                 node.addEventListener('mount', (e) => {
-                    console.log(e, options, buttons, inputs);
+                    console.log(e);
                 });
-
                 node.addEventListener('move', (e) => {
                     indexing(e.detail.index);
                     scrolling(e.detail.position);
                 });
-
                 node.addEventListener('resize', (e) => {
                     // console.log(e)
                 });
-
                 node.addEventListener('update', (e) => {
                     // console.log(e)
+                });
+                node.addEventListener('destroy', (e) => {
+                    console.log(e)
                 });
 
                 function scrolling(p) {
@@ -247,7 +247,7 @@
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
                     .then(async (res) => {
                         const photos = await res.json();
-                        console.log(photos, window.outerWidth, window.outerHeight);
+                        // console.log(photos, window.outerWidth, window.outerHeight);
                         if (photos.length) {
                             node.innerHTML = photos
                                 .map((p, i) => {
@@ -266,7 +266,6 @@
                         }
                     })
                     .then(() => {
-                        console.log('destroy');
                         slidy?.destroy();
                         slidy = Slidy.slidy(node, options);
                     })

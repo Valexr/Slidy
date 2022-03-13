@@ -58,7 +58,7 @@ export function slidy(
 
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
-        dispatch(node, 'resize', { node });
+        dispatch(node, 'resize', node);
     });
 
     const get = (side = '') => {
@@ -97,7 +97,7 @@ export function slidy(
                 listen(PARENT as Parent, parentEvents);
                 RO.observe(PARENT as Element);
             }
-            dispatch(node, 'mount', { childs });
+            dispatch(node, 'mount', childs);
         })
         .catch((error: Error) => console.error(error));
 
@@ -116,12 +116,17 @@ export function slidy(
             gravity = ((get('end').vector) || (get('start').vector))
                 ? maxMin(1.8, 0, gravity + 0.015)
                 : options.gravity;
+        }
 
-            console.log(options.snap)
+        function positioning(position: number) {
+            const delta = find(node, options.vertical).parent() / 2
+            return !options.loop
+                ? maxMin(get('end').amplitude + delta, get('start').amplitude - delta, position)
+                : position
         }
 
         function translate(vertical: boolean): string {
-            return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            return vertical ? `0, ${-positioning(position)}px, 0` : `${-positioning(position)}px, 0, 0`;
         }
 
         const styles = {
@@ -154,7 +159,7 @@ export function slidy(
 
         options.index = indexing(node, index, options.loop);
         if (!options.loop) {
-            snap = get('start').index ? 'start' : get('end').index ? 'end' : options.snap;
+            snap = get('start').index && get('start').point ? 'start' : get('end').index && get('end').point ? 'end' : options.snap;
         }
 
         const ix = options.loop ? find(node, options.vertical).index(position, options.index, snap) : options.index;
@@ -235,7 +240,7 @@ export function slidy(
 
         if (Math.abs(amplitude) > 10) {
             Math.abs(velocity) < 100
-                || !options.loop && options.snap && (get('start').vector || get('end').vector)
+                || !options.loop && (get('start').vector || get('end').vector)
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
@@ -244,8 +249,9 @@ export function slidy(
     }
 
     function delting(position: number): Delta {
-        velocity = maxMin(get('end').amplitude, -get('end').amplitude, velocity);
-
+        velocity = maxMin(get('end').amplitude - position, get('start').amplitude - position, velocity);
+        // velocity = maxMin(1440, -1440, velocity);
+        // console.log(maxMin(get('end').amplitude - position, get('start').amplitude - position, velocity))
         let amplitude = velocity * (2 - gravity);
         const target = options.snap
             ? find(node, options.vertical).target(position + amplitude, snap)
@@ -337,13 +343,14 @@ export function slidy(
                 }
             }
         }
-        dispatch(node, 'update', { options });
+        dispatch(node, 'update', options);
     }
 
     function destroy(): void {
         clear();
         RO.disconnect();
         listen(PARENT, parentEvents, false);
+        dispatch(node, 'destroy', options);
     }
     return { update, destroy, to };
 }
