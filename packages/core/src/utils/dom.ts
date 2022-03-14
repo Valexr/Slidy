@@ -17,30 +17,30 @@ const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf
 const child = (node: Slidy, index: number) => node.childNodes[index] as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const part = (align: string) => (align === 'center' ? 0.5 : align === 'end' ? 1 : 0);
-const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
+const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0);
+const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) => {
     return parent(node)[size(vertical)] - child[size(vertical)] || 0;
 };
-const position = (node: Slidy, child: Child, vertical: boolean, align: string) =>
-    child[coord(vertical)] - diff(align, offset(node, child, vertical) * part(align));
+const position = (node: Slidy, child: Child, vertical: boolean, snap: string | undefined) =>
+    child[coord(vertical)] - diff(snap, offset(node, child, vertical) * part(snap));
 const distance = (node: Slidy, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)]);
 
-function closest(node: Slidy, target: number, vertical: boolean, align: string): Child {
+function closest(node: Slidy, target: number, vertical: boolean, snap: string | undefined): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
-        const dist = (child: Child) => Math.abs(position(node, child, vertical, align) - target);
+        const dist = (child: Child) => Math.abs(position(node, child, vertical, snap) - target);
         return dist(curr) < dist(prev) ? curr : prev;
     });
 }
 
 const find = (node: Slidy, vertical: boolean) => ({
-    index: (target: number, index: number | null, align: string): number => {
+    index: (target: number, index: number | undefined, snap: string | undefined): number => {
         const child: Child | undefined = nodes(node).find((child: Child) => child.index === index);
-        return child ? nodes(node).indexOf(child) : closest(node, target, vertical, align).index || 0;
+        return child ? nodes(node).indexOf(child) : closest(node, target, vertical, snap).index || 0;
     },
-    position: (index: number, align: string) => position(node, child(node, index), vertical, align),
-    target: (target: number, align: string) => position(node, closest(node, target, vertical, align), vertical, align),
-    size: (index: number) => nodes(node)[index][size(vertical)],
+    position: (index: number, snap?: string) => position(node, child(node, index), vertical, snap),
+    target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
+    size: (index: number) => index && nodes(node)[index][size(vertical)],
     gap: () => {
         const last = nodes(node).length - 1;
         const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)];
@@ -57,7 +57,9 @@ const go = (node: Slidy) => ({
 const rotate = (array: Array<Node | string>, key: number) => array.slice(key).concat(array.slice(0, key));
 
 function replace(node: Slidy, index: number, loop: boolean) {
-    const elements = loop ? rotate(nodes(node), index - cix(node)) : nodes(node).sort((a, b) => a.index - b.index);
+    const elements = loop
+        ? rotate(nodes(node), index - cix(node))
+        : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
 }
 

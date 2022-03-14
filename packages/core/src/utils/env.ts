@@ -55,7 +55,7 @@ function css(node: Slidy | Parent, styles: CssRules): void {
     }
 }
 
-function coordinate(e: UniqEvent, vertical: boolean): number {
+function coordinate(e: UniqEvent, vertical?: boolean): number {
     if (e.type === 'wheel') {
         if (!vertical && Math.abs(e.deltaX) && Math.abs(e.deltaY) < 15) e.preventDefault();
         return vertical ? e.deltaY : e.shiftKey ? e.deltaY : e.deltaX;

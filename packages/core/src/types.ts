@@ -1,12 +1,12 @@
 export interface Options {
-    index: number;
-    length: number;
-    gravity: number;
-    duration: number;
-    snap: 'start' | 'center' | 'end' | undefined;
-    vertical: boolean;
-    clamp: boolean;
-    loop: boolean;
+    index?: number;
+    length?: number;
+    gravity?: number;
+    duration?: number;
+    snap?: 'start' | 'center' | 'end';
+    vertical?: boolean;
+    clamp?: boolean;
+    loop?: boolean;
 }
 
 export interface Parent extends ParentNode {
