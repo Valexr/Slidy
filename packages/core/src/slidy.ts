@@ -9,7 +9,7 @@ const base: Options = {
     length: 1,
     gravity: 1.2,
     duration: 375,
-    snap: '',
+    snap: undefined,
     vertical: false,
     clamp: false,
     loop: false,

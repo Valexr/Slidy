@@ -3,7 +3,7 @@ export interface Options {
     length: number;
     gravity: number;
     duration: number;
-    snap: 'start' | 'center' | 'end';
+    snap: 'start' | 'center' | 'end' | undefined;
     vertical: boolean;
     clamp: boolean;
     loop: boolean;
