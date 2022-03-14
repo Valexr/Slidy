@@ -158,20 +158,21 @@
             window.onload = () => {
                 getPhotos(node, page, limit);
 
-                for (const button of buttons) {
-                    if (options[button.id] || (button.id === 'dark' && dark)) button.classList.add('active');
-                }
-                for (const input of inputs) {
-                    if (input.name in options) input.value = options[input.name];
-                    else if (input.name === 'width') input.value = getVar(main, '--width');
-                    else if (input.name === 'height') input.value = getVar(main, '--height');
-                    else if (input.name === 'gap') input.value = getVar(main, '--gap');
-                    else if (input.name === 'limit') input.value = limit;
-                }
-                select.value = options.snap
-
                 node.addEventListener('mount', (e) => {
                     console.log(e);
+                    options = e.detail.options
+
+                    for (const button of buttons) {
+                        if (options[button.id] || (button.id === 'dark' && dark)) button.classList.add('active');
+                    }
+                    for (const input of inputs) {
+                        if (input.name in options) input.value = options[input.name];
+                        else if (input.name === 'width') input.value = getVar(main, '--width');
+                        else if (input.name === 'height') input.value = getVar(main, '--height');
+                        else if (input.name === 'gap') input.value = getVar(main, '--gap');
+                        else if (input.name === 'limit') input.value = limit;
+                    }
+                    select.value = options.snap
                 });
                 node.addEventListener('move', (e) => {
                     indexing(e.detail.index);
@@ -242,7 +243,7 @@
             }
 
             async function getPhotos(node, page, limit) {
-                node.innerHTML = `<li style="display: grid; place-items: center">Loading...</li>`;
+                node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
 
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
                     .then(async (res) => {

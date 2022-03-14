@@ -4,24 +4,25 @@ import { maxMin } from './utils/helpers';
 
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 
+const base: Options = {
+    loop: false,
+    clamp: false,
+    vertical: false,
+    index: 0,
+    length: 1,
+    gravity: 1.2,
+    duration: 375,
+    snap: 'start',
+}
+
 export function slidy(
     node: Slidy,
-    options: Options = {
-        index: 0,
-        length: 0,
-        gravity: 1.2,
-        duration: 375,
-        snap: 'center',
-        loop: false,
-        clamp: false,
-        vertical: false,
-    }
+    options: Options
 ): {
     update: (options: Options) => void;
     destroy: () => void;
     to: (index: number, target?: number) => void;
 } {
-
     let raf: number,
         rak: number,
         wheeltime: NodeJS.Timeout | null,
@@ -34,11 +35,11 @@ export function slidy(
         gap = 0,
         hix = options.index,
         snap = options.snap,
-        gravity = options.gravity = options.gravity || 1.2;
+        gravity = options.gravity,
+        duration = options.duration
 
     const tracktime = 100;
     const hip = position;
-    const duration = options.duration = options.duration || 375
 
     const PARENT = node.parentNode;
 
@@ -76,7 +77,7 @@ export function slidy(
         return { index, amplitude, point, vector };
     };
 
-    // update(options)
+    options = { ...base, ...options }
 
     onMount(node, options.length)
         .then((childs: NodeListOf<Child>) => {
@@ -87,7 +88,12 @@ export function slidy(
             };
             css(node, styles);
 
+            hix = options.index
+            snap = options.snap
+            gravity = options.gravity
+            duration = options.duration
             gap = find(node, options.vertical).gap();
+
             replace(node, options.index, options.loop);
             to(options.index);
 
