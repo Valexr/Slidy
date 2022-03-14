@@ -72,7 +72,7 @@ export interface UniqEvent extends Event {
 }
 
 export type DispathDetail =
-    | { [key: string]: number }
+    | { [key: string]: any }
     | CustomEventInit<unknown>
     | NodeListOf<Child>
     | Options

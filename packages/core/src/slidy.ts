@@ -21,6 +21,7 @@ export function slidy(
     destroy: () => void;
     to: (index: number, target?: number) => void;
 } {
+
     let raf: number,
         rak: number,
         wheeltime: NodeJS.Timeout | null,
@@ -31,12 +32,14 @@ export function slidy(
         position = 0,
         frame = 0,
         gap = 0,
+        hip = position,
         hix = options.index,
         snap = options.snap,
-        gravity = options.gravity;
+        duration = options.duration = options.duration || 375,
+        gravity = options.gravity = options.gravity || 1.2;
 
     const consttime = 100;
-    const hip = position;
+    // const hip = position;
 
     const PARENT = node.parentNode;
 
@@ -74,6 +77,8 @@ export function slidy(
         return { index, amplitude, point, vector };
     };
 
+    update(options)
+
     onMount(node, options.length)
         .then((childs: NodeListOf<Child>) => {
             const styles = {
@@ -92,7 +97,7 @@ export function slidy(
                 listen(PARENT as Parent, parentEvents);
                 RO.observe(PARENT as Element);
             }
-            dispatch(node, 'mount', childs);
+            dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
 
@@ -174,7 +179,7 @@ export function slidy(
                 ? 0
                 : find(node, options.vertical).position(ix, snap);
 
-        move(pos - position, options.duration);
+        move(pos - position, duration);
     }
 
     function track(): void {
@@ -239,7 +244,7 @@ export function slidy(
                 ? to(options.index)
                 : options.clamp
                     ? to(options.index, target)
-                    : scroll(target, amplitude, options.duration, performance.now());
+                    : scroll(target, amplitude, duration, performance.now());
         } else to(options.index);
     }
 
