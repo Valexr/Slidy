@@ -40,7 +40,7 @@ const find = (node: Slidy, vertical: boolean) => ({
     },
     position: (index: number, snap?: string) => position(node, child(node, index), vertical, snap),
     target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
-    size: (index: number) => index && nodes(node)[index][size(vertical)],
+    size: (index: number) => nodes(node)[index][size(vertical)],
     gap: () => {
         const last = nodes(node).length - 1;
         const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)];
