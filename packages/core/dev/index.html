@@ -262,7 +262,6 @@
                                 .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
                                 .join('');
                         } else {
-                            slidy?.to(0);
                             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
                         }
                     })
