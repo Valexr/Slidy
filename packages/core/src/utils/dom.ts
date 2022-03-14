@@ -17,7 +17,7 @@ const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf
 const child = (node: Slidy, index: number) => node.childNodes[index] as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const part = (align: string) => (align === 'center' ? 0.5 : 1);
+const part = (align: string) => (align === 'center' ? 0.5 : align === 'end' ? 1 : 0);
 const diff = (align: string, pos: number) => (align !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) => {
     return parent(node)[size(vertical)] - child[size(vertical)] || 0;

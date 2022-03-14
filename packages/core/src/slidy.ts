@@ -9,7 +9,7 @@ const base: Options = {
     length: 1,
     gravity: 1.2,
     duration: 375,
-    snap: 'start',
+    snap: '',
     vertical: false,
     clamp: false,
     loop: false,
@@ -250,7 +250,7 @@ export function slidy(
                 : options.clamp
                     ? to(options.index, target)
                     : scroll(target, amplitude, duration, performance.now());
-        } else to(options.index);
+        } else if (options.snap) to(options.index);
     }
 
     function delting(position: number): Delta {
