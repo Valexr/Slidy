@@ -5,14 +5,14 @@ import { maxMin } from './utils/helpers';
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
 
 const base: Options = {
-    loop: false,
-    clamp: false,
-    vertical: false,
     index: 0,
     length: 1,
     gravity: 1.2,
     duration: 375,
     snap: 'start',
+    vertical: false,
+    clamp: false,
+    loop: false,
 }
 
 export function slidy(
