@@ -86,7 +86,7 @@
         "@typescript-eslint/eslint-plugin": "^5.14.0",
         "@typescript-eslint/parser": "^5.14.0",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.25",
+        "esbuild": "^0.14.26",
         "esbuild-plugin-eslinter": "^0.1.2",
         "eslint": "^8.11.0",
         "tslib": "^2.3.1",

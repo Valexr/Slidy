@@ -32,14 +32,13 @@ export function slidy(
         position = 0,
         frame = 0,
         gap = 0,
-        hip = position,
         hix = options.index,
         snap = options.snap,
-        duration = options.duration = options.duration || 375,
         gravity = options.gravity = options.gravity || 1.2;
 
-    const consttime = 100;
-    // const hip = position;
+    const tracktime = 100;
+    const hip = position;
+    const duration = options.duration = options.duration || 375
 
     const PARENT = node.parentNode;
 
@@ -77,7 +76,7 @@ export function slidy(
         return { index, amplitude, point, vector };
     };
 
-    update(options)
+    // update(options)
 
     onMount(node, options.length)
         .then((childs: NodeListOf<Child>) => {
@@ -190,7 +189,7 @@ export function slidy(
         const speed = (1000 * delta) / (1 + elapsed);
         velocity = (2 - gravity) * speed + 0.2 * velocity;
 
-        if (elapsed < consttime) return;
+        if (elapsed < tracktime) return;
         timestamp = now;
         frame = position;
     }
