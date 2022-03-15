@@ -23,7 +23,7 @@
 	export let loop = false;
 	export let position = 0;
 	export let slides: $$Props["slides"] = [];
-	export let snap: $$Props["snap"] = "center";
+	export let snap: $$Props["snap"] = undefined;
 	export let vertical = false;
 
 	$: length = slides.length;
@@ -70,7 +70,7 @@
 			gravity,
 			index,
 			clamp,
-			snap: snap || "",
+			snap,
 			loop,
 		}}
 		on:mount
