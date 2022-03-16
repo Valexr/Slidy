@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	import { createEventDispatcher } from "svelte";
 	import { slidy } from "@slidy/core";
 	import { Arrow, Image, Pagination } from "./components";
 	import { clamp as clampValue } from "../helpers/utils";
@@ -25,6 +26,8 @@
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let vertical = false;
+
+	const dispatch = createEventDispatcher();
 
 	$: length = slides.length;
 
@@ -90,6 +93,7 @@
 				class="slidy-slide"
 				class:active={i === index}
 				class:background
+				on:click={() => dispatch("select", { index: i })}
 				style={background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
 				role="group"
 			>
