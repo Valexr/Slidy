@@ -86,15 +86,17 @@
 		}}
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
+			{@const active = i === index}
+			{@const bgURL = background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
 			<li
-				aria-current={i === index ? "true" : undefined}
+				aria-current={active ? "true" : undefined}
 				aria-label={`${i} of ${length}`}
 				aria-roledescription="slide"
 				class="slidy-slide"
-				class:active={i === index}
+				class:active
 				class:background
 				on:click={() => dispatch("select", { index: i })}
-				style={background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
+				style={bgURL}
 				role="group"
 			>
 				<slot {item}>
