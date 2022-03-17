@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
 	import { createEventDispatcher } from "svelte";
 	import { slidy } from "@slidy/core";
-	import { Arrow, Image, Pagination } from "./components";
-	import { clamp as clampValue } from "../helpers/utils";
+	import { Arrow, Image, Navigation } from "../";
+	import { clamp as clampValue } from "../../helpers";
 	import "./slidy.module.css";
 
-	import type { SlidyOptions, ChangeSlide, Slide, GetSrc } from "../types";
+	import type { Slide, SlidyOptions, GetSrc } from "./Slidy.types";
 </script>
 
 <script lang="ts">
@@ -15,7 +15,7 @@
 	export let background = false;
 	export let clamp = false;
 	export let className: $$Props["className"] = "";
-	export let getImgSrc: GetSrc = (item: Slide) => item.src ?? "";
+	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
 	export let navigation = true;
 	export let duration = 450;
 	export let gravity = 1.2;
@@ -34,7 +34,7 @@
 	/**
 	 * Route to the desired slide index.
 	 */
-	const goto: ChangeSlide = (slide) => {
+	const goto = (slide: number): void => {
 		if (typeof slide === "number" && !Number.isNaN(slide)) {
 			index = clampValue(slide, 0, length - 1);
 		}
@@ -117,6 +117,6 @@
 	{/if}
 
 	{#if navigation}
-		<Pagination current={index + 1} start={1} end={length} {vertical} />
+		<Navigation current={index + 1} start={1} end={length} {vertical} />
 	{/if}
 </section>

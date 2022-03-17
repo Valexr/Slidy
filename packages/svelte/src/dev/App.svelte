@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import Slidy from "../component/Slidy.svelte";
+	import { Slidy } from "../";
 	import { ControlPanel, Sidemenu } from "./components";
 	import { createSlidesStore } from "./scripts/slide-store";
 	import { version } from "../../package.json";
@@ -14,7 +14,6 @@
 	let index = 4;
 	let vertical = false;
 	let clamp = true;
-	let align: "start" | "center" | "end" = "center";
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";

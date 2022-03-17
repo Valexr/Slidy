@@ -1,6 +1,7 @@
-import type { ImageSchema, GetPhotos, Size, Slide } from "../types";
+import type { Slide } from "../components/Slidy/Slidy.types";
+import type { ImageSchema, GetPhotos, Size } from "../types";
 
-export const getPhotos: GetPhotos = async ({ limit = 5, page = 1, width = 1280, height = 800 }): Promise<Slide[]> => {
+export const getPhotos: GetPhotos<Slide> = async ({ limit = 5, page = 1, width = 1280, height = 800 }) => {
 	const url = `https://picsum.photos/v2/list?limit=${limit}&page=${page}`;
 	const response = await fetch(url, { mode: "cors" });
 	const data: ImageSchema[] = await response.json();

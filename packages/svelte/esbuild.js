@@ -30,7 +30,7 @@ const cssModulesOptions = {
 };
 
 const esbuildBase = {
-	entryPoints: [ "src/component/index.ts" ],
+	entryPoints: [ "src/index.ts" ],
 	bundle: true,
 	minify: true,
 	sourcemap: false,
@@ -120,5 +120,3 @@ if (DEV) {
 		})
 	})();
 }
-
-

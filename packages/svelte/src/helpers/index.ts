@@ -1,3 +1,2 @@
-export { clamp, range, randInt } from "./utils";
-export { generateIndexes } from "./get-indexes";
+export { clamp, randInt } from "./utils";
 export { getPhotos } from "./images-api";

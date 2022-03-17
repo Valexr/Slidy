@@ -1,14 +1,12 @@
-import { range } from "./utils";
+import type { IndexGenerator } from "./Navigation.types";
 
-interface IndexGeneratorParams {
-	current: number;
-	start: number;
-	end: number;
-	limit: number;
-	siblings: number;
-}
-
-type IndexGenerator = (params: IndexGeneratorParams) => number[];
+/**
+ * Generates an array of numbers in given range [ start, start + 1, ... );
+ */
+ export const range = (start: number, end: number) => {
+	const size = end - start + 1;
+	return [ ...Array(size).keys() ].map((i) => i + start);
+};
 
 /**
  * Generates an array of indexes for responsive pagination: [ start, end ].

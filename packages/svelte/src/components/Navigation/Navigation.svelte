@@ -1,9 +1,6 @@
-<script lang="ts" context="module">
-</script>
-
 <script lang="ts">
-  import { generateIndexes } from "../../helpers";
-  import "./pagination.module.css";
+  import { generateIndexes } from "./Navigation.helpers";
+  import "./navigation.module.css";
 
   export let current: number;
   export let start: number;
@@ -18,17 +15,17 @@
   $: indices = generateIndexes({ current, start, end, limit, siblings });
 </script>
 
-<nav class="slidy-pagination" class:vertical aria-label="pagination">
+<nav class="slidy-navigation" class:vertical aria-label="pagination">
   {#each indices as item}
     {@const active = current === item}
     {@const contents = item < 0 ? "…" : item}
     {@const ellipsis = item < 0}
     {@const title = item < 0 ? undefined : `Show to item #${item}`}
-    <slot name="pagination-item" index={item} active={item === current}>
+    <slot name="navigation-item" index={item} active={item === current}>
       <button
         aria-current={active ? "true" : undefined}
         aria-label={title}
-        class="slidy-pagination-item"
+        class="slidy-navigation-item"
         class:active
         class:ellipsis
         class:ordinal
