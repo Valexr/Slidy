@@ -60,181 +60,23 @@ By default component works with images. Image object should contain `width` and 
 
 ## API
 
-<details>
-    <summary>
-        <code>
-            align = "center"
-        </code>
-    </summary>
-
-Controls the position of the `snap` points to align the slides after the scrolling operation has completed.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            background = false
-        </code>
-    </summary>
-
-Instead of creating `<img />` elements as contents, `background-image` property used to display images. Not recommended for SEO and should be used only for presentational content.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            clamp = false
-        </code>
-    </summary>
-
-Controls the inertia while scrolling the slides.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            className = undefined
-        </code>
-    </summary>
-
-Sets the `class` on the parent node.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            arrows = true
-        </code>
-    </summary>
-
-Renders the `arrow` button controls for accessible slide management. Removing the controls is not recommened for accessibility.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            navigation = true
-        </code>
-    </summary>
-
-Renders the navigation controls for pagination-like slide management.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            duration = 450
-        </code>
-    </summary>
-
-The duration value for slide transitions.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            gravity = 1.2
-        </code>
-    </summary>
-
-Controls the `gravity` value for more granular control over inertia of the scrolling operation.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            id = undefined
-        </code>
-    </summary>
-
-Sets the `id` attribute on component's parent node.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            getImgSrc = item => item.src
-        </code>
-    </summary>
-
-The slide's `src` attribute builder function. Useful, when the `src` is build from metadata, like an `url`.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            index = 0
-        </code>
-    </summary>
-
-Stores the index of the current slide. Usefull with binding for external controls. More at [External Controls](#external-controls).
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            loop = false
-        </code>
-    </summary>
-
-Makes the slideshow continious. Not recommended for better performance and considered as bad practice.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            position = 0
-        </code>
-    </summary>
-
-Stores the current position value of the carousel. Usefull with binding for external controls. More at [External Controls](#external-controls).
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            slides = []
-        </code>
-    </summary>
-
-An array of objects with image related metadata such as `src`, `alt`, etc.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            snap = true
-        </code>
-    </summary>
-
-Enforces the scroll positions that a scroll container's scrollport may end after a scrolling operation has completed.
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            vertical = false
-        </code>
-    </summary>
-
-Sets the component into the vertical orientation.
-
-</details>
+| Property     | Default          | Type       | Description |
+| :----------- | :--------------: | :--------: | :---------- |
+| `arrows`     | true             | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
+| `background` | false            | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
+| `clamp`      | false            | `Boolean`  | Controls the scroll inertia. |
+| `className`  | ""               | `string`   | Passes the `class` to the parent node. |
+| `getImgSrc`  | item => item.src | `function` | The slide's `src` attribute getter. |
+| `navigation` | true             | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
+| `duration`   | 450              | `number`   | Slide transitions duration value. |
+| `gravity`    | 1.2              | `number`   | Scroll inertia value. |
+| `id`         | undefined        | `string`   | Passes the `id` attribute to the parent node. |
+| `index`      | 0                | `number`   | The index of the initial slide. |
+| `loop`       | false            | `boolean`  | Makes the slideshow continious. |
+| `position`   | 0                | `number`   | The current position value of the carousel. |
+| `slides`     | []               | `Slides[]` | An array of objects with image metadata. |
+| `snap`       | undefined        | `"start" | "center" | "end"` | Enforces the scroll stop positions. |
+| `vertical`   | false            | `boolean`  | Sets the component into the vertical orientation. |
 
 ## Custom Properties API
 
