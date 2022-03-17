@@ -20,8 +20,8 @@ const esbuild = {
 export default async function ({
 	input = "./",
 	output = "./dist/",
-	ext = [""],
-	exclude = [""],
+	ext = [ "" ],
+	exclude = [ "" ],
 	replace = [],
 	remove = []
 }) {
@@ -44,7 +44,7 @@ export default async function ({
 
 			await preprocess(source.toString(), transformer, file.name).then(({ code }) => {
 
-				replace.forEach(([search, replace]) => code = code.replace(search, replace));
+				replace.forEach(([ search, replace ]) => code = code.replace(search, replace));
 
 				const match = remove.find(exc => code.includes(exc));
 				const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, "gi");
@@ -59,7 +59,7 @@ export default async function ({
 		} else {
 			let { code } = await transform(source.toString(), esbuild);
 
-			replace.forEach(([search, replace]) => code = code.replace(search, replace));
+			replace.forEach(([ search, replace ]) => code = code.replace(search, replace));
 
 			const match = remove.find(exc => code.includes(exc));
 			const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, "gi");
@@ -78,7 +78,7 @@ const transformer = [
 	}),
 ];
 
-async function getFiles(input = "./", ext = [""], exclude = [""]) {
+async function getFiles(input = "./", ext = [ "" ], exclude = [ "" ]) {
 
 	const entries = await readdir(input, { withFileTypes: true });
 
