@@ -134,13 +134,13 @@
                 slidy = null,
                 dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
                 page = randomQ(1, 69),
-                limit = 16;
+                limit = 9;
 
             let options = {
-                index: 8,
+                index: 2,
                 length: limit,
                 snap: 'center',
-                loop: false,
+                loop: true,
                 clamp: false,
                 gravity: 1.2,
                 duration: 375,
@@ -185,7 +185,7 @@
                     // console.log(e)
                 });
                 node.addEventListener('destroy', (e) => {
-                    console.log(e)
+                    // console.log(e)
                 });
 
                 function scrolling(p) {
@@ -198,7 +198,7 @@
                     const cix = Math.floor(node.children.length / 2);
 
                     Array.from(node.children).forEach((n, i) =>
-                        i === (options.loop ? cix : x) ? n.classList.add('active') : n.classList.remove('active')
+                        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
                     );
                     Array.from(nav.children).forEach((n, i) =>
                         i === x ? n.classList.add('active') : n.classList.remove('active')
@@ -241,8 +241,14 @@
                 options.length = limit = event.target.value;
                 getPhotos(node, page, limit);
             }
+            // node.addEventListener('click', (event) => alert(event.target.tagName), true)
+            // function onClick() {
+            //     node.style.pointerEvents = 'auto'
+            //     alert(event.target.tagName, this.tagName)
+            // }
 
             async function getPhotos(node, page, limit) {
+                node.style.transform = ''
                 node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
 
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
@@ -262,6 +268,7 @@
                                 .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
                                 .join('');
                         } else {
+                            node.style.transform = ''
                             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
                         }
                     })

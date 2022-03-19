@@ -60,10 +60,10 @@
     "devDependencies": {
         "@slidy/svelte": "workspace:*",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.26",
+        "esbuild": "^0.14.27",
         "esbuild-svelte": "^0.6.3",
         "gh-pages": "^3.2.3",
-        "prettier": "^2.5.1",
+        "prettier": "^2.6.0",
         "prettier-plugin-svelte": "^2.6.0",
         "sass": "^1.49.9",
         "svelte": "^3.46.4",

@@ -9,8 +9,8 @@ export interface Options {
     loop?: boolean;
 }
 
-export interface Parent extends ParentNode {
-    style: CssRules;
+export interface Parent extends HTMLElement {
+    style: CSSStyleDeclaration;
     offsetTop: number;
     offsetLeft: number;
     offsetWidth: number;
