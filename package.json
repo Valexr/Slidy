@@ -58,7 +58,6 @@
         ]
     },
     "devDependencies": {
-        "@slidy/svelte": "workspace:*",
         "derver": "^0.5.3",
         "esbuild": "^0.14.27",
         "esbuild-svelte": "^0.6.3",
