@@ -202,10 +202,11 @@ export function slidy(
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
+        const sign = Math.sign(Math.trunc(coord * (gravity * (e.shiftKey ? 1 : -1))))
 
-        if (e.shiftKey) {
-            e.preventDefault();
-            to(options.index as number - Math.sign(e.deltaY));
+        if (e.shiftKey || options.clamp) {
+            e.shiftKey && e.preventDefault();
+            to(options.index as number - sign);
         } else {
             move(coord);
             wheeltime = setTimeout(() => {
