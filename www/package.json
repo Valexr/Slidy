@@ -1,5 +1,5 @@
 {
-    "name": "www",
+    "name": "@slidy/www",
     "version": "0.0.1",
     "scripts": {
         "dev": "svelte-kit dev",
@@ -14,9 +14,10 @@
         "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
     },
     "devDependencies": {
-        "@slidy/svelte": "workspace:*",
         "@playwright/test": "^1.20.0",
+        "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-auto": "next",
+        "@sveltejs/adapter-static": "^1.0.0-next.29",
         "@sveltejs/kit": "next",
         "@typescript-eslint/eslint-plugin": "^5.15.0",
         "@typescript-eslint/parser": "^5.15.0",
