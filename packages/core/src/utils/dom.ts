@@ -14,17 +14,18 @@ function indexing(node: Slidy, index: number, loop: boolean) {
 const cix = (node: Slidy) => Math.floor(node.childNodes.length / 2);
 const parent = (node: Slidy): Parent => node.parentNode as Parent;
 const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf<Child>);
-const child = (node: Slidy, index: number) => nodes(node).find((child: Child) => child.index === index) as Child;
+const child = (node: Slidy, index: number) =>
+    nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
 const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
-const offset = (node: Slidy, child: Child, vertical: boolean) => {
-    return parent(node)[size(vertical)] - child[size(vertical)];
-};
+const offset = (node: Slidy, child: Child, vertical: boolean) =>
+    parent(node)[size(vertical)] - child[size(vertical)];
 const position = (node: Slidy, child: Child, vertical: boolean, snap: string | undefined) =>
     child[coord(vertical)] - diff(snap, offset(node, child, vertical) * part(snap));
-const distance = (node: Slidy, index: number, vertical: boolean) => Math.abs(nodes(node)[index][coord(vertical)]);
+const distance = (node: Slidy, index: number, vertical: boolean) =>
+    Math.abs(nodes(node)[index][coord(vertical)]);
 
 function closest(node: Slidy, target: number, vertical: boolean, snap: string | undefined): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
@@ -60,7 +61,7 @@ function replace(node: Slidy, index: number, loop: boolean) {
     node.replaceChildren(...elements);
 }
 
-// DRAFT --------------------------------------
+// DRAFT's --------------------------------------
 // function cumulativeOffset(element) {
 // 	let top = 0,
 // 		left = 0;
@@ -75,6 +76,15 @@ function replace(node: Slidy, index: number, loop: boolean) {
 // 		top: top,
 // 		left: left,
 // 	};
+// }
+
+// function traverse(callback, elem) {
+//     if (elem && elem.children && elem.children.length) {
+//         for (const childNode of elem.children) {
+//             callback(childNode)
+//             traverse(callback, childNode)
+//         }
+//     }
 // }
 
 export { find, go, replace, indexing };
