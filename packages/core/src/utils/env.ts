@@ -49,9 +49,8 @@ function init(node: Slidy, childs?: NodeListOf<Child>): NodeListOf<Child> {
 }
 
 function css(node: Slidy | Parent, styles: CssRules): void {
-    let property: keyof CssRules;
-    for (property in styles) {
-        node.style[property] = styles[property];
+    for (const property in styles) {
+        node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
     }
 }
 
