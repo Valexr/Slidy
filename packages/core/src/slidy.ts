@@ -36,19 +36,21 @@ export function slidy(
         snap = options.snap,
         gravity = options.gravity as number
 
-    const duration = options.duration as number * (options.duration as number / 1000)
 
     options = { ...base, ...options }
 
+
     const PARENT = node.parentElement;
 
-    const windowEvents: [string, EventListenerOrEventListenerObject][] = [
+    const DURATION = options.duration as number * (options.duration as number / 1000)
+
+    const WINDOW_EVENTS: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove as EventListenerOrEventListenerObject],
         ['mousemove', onMove as EventListenerOrEventListenerObject],
         ['touchend', onUp as EventListenerOrEventListenerObject],
         ['mouseup', onUp as EventListenerOrEventListenerObject],
     ];
-    const parentEvents: [string, EventListenerOrEventListenerObject, boolean?][] = [
+    const PARENT_EVENTS: [string, EventListenerOrEventListenerObject, boolean?][] = [
         ['contextmenu', clear],
         ['touchstart', onDown as EventListenerOrEventListenerObject],
         ['mousedown', onDown as EventListenerOrEventListenerObject],
@@ -73,7 +75,7 @@ export function slidy(
             position = find(node, options.vertical as boolean).position(options.index as number, snap)
 
             css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
-            listen(PARENT as Parent, parentEvents);
+            listen(PARENT as Parent, PARENT_EVENTS);
             RO.observe(PARENT as Element);
 
             dispatch(node, 'mount', { childs, options });
@@ -149,7 +151,7 @@ export function slidy(
         index = indexing(node, index, options.loop as boolean);
         target = !target ? find(node, options.vertical as boolean).position(index as number, snap) : target;
 
-        scroll(target, target - position, duration as number, performance.now())
+        scroll(target, target - position, DURATION, performance.now())
     }
 
     function onDown(e: UniqEvent): void {
@@ -161,7 +163,7 @@ export function slidy(
         frame = position;
         velocity = 0;
 
-        listen(window, windowEvents);
+        listen(window, WINDOW_EVENTS);
 
         if (e.type === 'mousedown') e.preventDefault()
     }
@@ -182,7 +184,7 @@ export function slidy(
             options.clamp ||
             ((options.duration && Math.abs(amplitude) <= options.duration) && options.snap)
 
-        scroll(target, amplitude, condition ? duration : options.duration as number, performance.now())
+        scroll(target, amplitude, condition ? DURATION : options.duration as number, performance.now())
     }
 
     function targeting(position: number): Delta {
@@ -226,7 +228,7 @@ export function slidy(
     function clear(): void {
         clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
-        listen(window, windowEvents, false);
+        listen(window, WINDOW_EVENTS, false);
     }
 
     function update(opts: Options): void {
@@ -263,7 +265,7 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        listen(PARENT, parentEvents, false);
+        listen(PARENT, PARENT_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };
