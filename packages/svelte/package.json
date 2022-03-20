@@ -1,76 +1,76 @@
 {
-    "name": "@slidy/svelte",
-    "version": "3.0.5",
-    "description": "Simple, configurable & reusable carousel component built with SvelteJS",
-    "main": "dist/slidy.cjs",
-    "module": "dist/slidy.mjs",
-    "browser": "dist/slidy.js",
-    "svelte": "dist/component/Slidy.svelte",
-    "types": "dist/types.d.ts",
-    "style": "dist/slidy.css",
-    "type": "module",
-    "files": [
-        "dist/*"
-    ],
-    "exports": {
-        ".": {
-            "import": "./dist/slidy.mjs",
-            "module": "./dist/slidy.mjs",
-            "require": "./dist/slidy.cjs",
-            "browser": "./dist/slidy.js",
-            "svelte": "./dist/component/Slidy.svelte",
-            "style": "./dist/slidy.css"
-        },
-        "./dist/component/Slidy.svelte": "./dist/component/Slidy.svelte",
-        "./dist/component/": "./dist/component/Slidy.svelte",
-        "./dist/slidy.css": "./dist/slidy.css",
-        "./package.json": "./package.json"
-    },
-    "scripts": {
-        "dev": "node esbuild --dev",
-        "dev:svelte": "node esbuild --svelte",
-        "dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist && prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
-        "build:local": "pnpm build -r --filter=@slidy/svelte...",
-        "format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
-        "check": "svelte-check --tsconfig ./tsconfig.json",
-        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
-        "lint": "eslint src/**/*.{ts,js,svelte}"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Valexr/slidy.git"
-    },
-    "keywords": [
-        "carousel",
-        "component",
-        "svelte",
-        "sveltejs",
-        "svelte-plugin"
-    ],
-    "author": "Valexr",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Valexr/slidy/issues"
-    },
-    "homepage": "https://valexr.github.io/slidy",
-    "devDependencies": {
-        "@slidy/core": "workspace:*",
-        "@tsconfig/svelte": "^3.0.0",
-        "@types/node": "^17.0.21",
-        "@typescript-eslint/eslint-plugin": "^5.15.0",
-        "@typescript-eslint/parser": "^5.15.0",
-        "css-tree": "^2.1.0",
-        "esbuild-svelte": "^0.6.3",
-        "eslint": "^8.11.0",
-        "eslint-plugin-svelte3": "^3.4.1",
-        "svelte": "^3.46.4",
-        "svelte-check": "^2.4.6",
-        "svelte-preprocess": "^4.10.4",
-        "svelte2tsx": "^0.5.6",
-        "typescript": "^4.6.2"
-    },
-    "peerDependencies": {
-        "svelte": "^3.42.4"
-    }
+	"name": "@slidy/svelte",
+	"version": "3.0.5",
+	"description": "Simple, configurable & reusable carousel component built with SvelteJS",
+	"main": "dist/slidy.cjs",
+	"module": "dist/slidy.mjs",
+	"browser": "dist/slidy.js",
+	"svelte": "dist/component/Slidy.svelte",
+	"types": "dist/types.d.ts",
+	"style": "dist/slidy.css",
+	"type": "module",
+	"files": [
+		"dist/*"
+	],
+	"exports": {
+		".": {
+			"import": "./dist/slidy.mjs",
+			"module": "./dist/slidy.mjs",
+			"require": "./dist/slidy.cjs",
+			"browser": "./dist/slidy.js",
+			"svelte": "./dist/component/Slidy.svelte",
+			"style": "./dist/slidy.css"
+		},
+		"./dist/component/Slidy.svelte": "./dist/component/Slidy.svelte",
+		"./dist/component/": "./dist/component/Slidy.svelte",
+		"./dist/slidy.css": "./dist/slidy.css",
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"dev": "node esbuild --dev",
+		"dev:svelte": "node esbuild --svelte",
+		"dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
+		"build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist && prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
+		"build:local": "pnpm build -r --filter=@slidy/svelte...",
+		"format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"pub": "pnpm build && pnpm publish --no-git-checks --access public",
+		"lint": "eslint src/**/*.{ts,js,svelte}"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Valexr/slidy.git"
+	},
+	"keywords": [
+		"carousel",
+		"component",
+		"svelte",
+		"sveltejs",
+		"svelte-plugin"
+	],
+	"author": "Valexr",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Valexr/slidy/issues"
+	},
+	"homepage": "https://valexr.github.io/slidy",
+	"devDependencies": {
+		"@slidy/core": "workspace:*",
+		"@tsconfig/svelte": "^3.0.0",
+		"@types/node": "^17.0.21",
+		"@typescript-eslint/eslint-plugin": "^5.15.0",
+		"@typescript-eslint/parser": "^5.15.0",
+		"css-tree": "^2.1.0",
+		"esbuild-svelte": "^0.6.3",
+		"eslint": "^8.11.0",
+		"eslint-plugin-svelte3": "^3.4.1",
+		"svelte": "^3.46.4",
+		"svelte-check": "^2.4.6",
+		"svelte-preprocess": "^4.10.4",
+		"svelte2tsx": "^0.5.6",
+		"prettier-plugin-svelte": "^2.6.0"
+	},
+	"peerDependencies": {
+		"svelte": "^3.42.4"
+	}
 }

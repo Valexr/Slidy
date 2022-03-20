@@ -41,6 +41,24 @@
         "url": "https://github.com/Valexr/slidy/issues"
     },
     "homepage": "https://valexr.github.io/slidy",
+    "eslintConfig": {
+        "extends": [
+            "plugin:@typescript-eslint/recommended"
+        ],
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "rules": {
+            "semi": 0,
+            "no-underscore-dangle": 0,
+            "import/prefer-default-export": 0
+        }
+    },
     "prettier": {
         "semi": true,
         "tabWidth": 4,
@@ -55,15 +73,16 @@
         ]
     },
     "devDependencies": {
+        "@types/eslint": "^8.4.1",
+        "@typescript-eslint/eslint-plugin": "^5.15.0",
+        "@typescript-eslint/parser": "^5.15.0",
         "derver": "^0.5.3",
+        "eslint": "^8.11.0",
         "esbuild": "^0.14.27",
-        "esbuild-svelte": "^0.6.3",
+        "esbuild-plugin-eslinter": "^0.1.2",
         "gh-pages": "^3.2.3",
         "prettier": "^2.6.0",
-        "prettier-plugin-svelte": "^2.6.0",
         "sass": "^1.49.9",
-        "svelte": "^3.46.4",
-        "svelte-preprocess": "^4.10.4",
         "tslib": "^2.3.1",
         "typescript": "^4.6.2"
     }
