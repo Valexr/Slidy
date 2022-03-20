@@ -120,7 +120,7 @@ export function slidy(
         const delta = position - frame;
         const speed = (1000 * delta) / (1 + elapsed);
 
-        velocity = (2 - gravity as number) * speed + 0.2 * velocity;
+        velocity = (2 - gravity) * speed + 0.2 * velocity;
 
         timestamp = now;
         frame = position;
