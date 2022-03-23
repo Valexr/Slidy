@@ -31,7 +31,7 @@ function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
 
 function listen(
     node: Window | Element | ParentNode | Slidy | null,
-    events: [string, EventListenerOrEventListenerObject, boolean?][],
+    events: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][],
     on = true
 ): void {
     for (const [event, handle, options] of events) {
@@ -55,16 +55,34 @@ function css(node: Slidy | Parent, styles: CssRules): void {
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
+    // !e.deltaMode === track/touchpad
+    // console.log(e.deltaMode)
     if (e.type === 'wheel') {
-        if (!vertical) {
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                e.preventDefault();
-                return e.shiftKey ? e.deltaY : e.deltaX;
-            } else return 0
-        } else return e.deltaY
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) e.preventDefault();
+        return vertical || e.shiftKey
+            ? e.deltaY : Math.abs(e.deltaX) > Math.abs(e.deltaY)
+                ? e.deltaX : 0
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
 const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } => (e.changedTouches ? e.changedTouches[0] : e);
 
-export { coordinate, css, dispatch, init, listen, onMount, getFPS };
+function throttle(fn: (...args: any) => void, ms: number, wait?: boolean, tm?: NodeJS.Timeout): (...args: any) => void {
+    return (...args) => {
+        if (!wait) {
+            fn(...args);
+            wait = true;
+            tm && clearTimeout(tm);
+            tm = setTimeout(() => wait = false, ms);
+        }
+    }
+}
+
+function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
+    tm && clearTimeout(tm)
+    return (args: any) => {
+        tm = setTimeout(() => fn(args), ms);
+    };
+}
+
+export { coordinate, css, delay, dispatch, init, listen, throttle, onMount, getFPS };

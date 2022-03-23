@@ -41,6 +41,7 @@ export interface Child extends ChildNode {
 }
 
 export interface CssRules {
+    willChange?: string;
     userSelect?: string;
     webkitUserSelect?: string;
     pointerEvents?: string;
@@ -64,6 +65,7 @@ export interface Scroll {
 
 export interface UniqEvent extends Event {
     changedTouches: Array<{ [key: string]: number }>;
+    deltaMode: number;
     deltaX: number;
     deltaY: number;
     clientX: number;

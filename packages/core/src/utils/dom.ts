@@ -1,7 +1,7 @@
 import type { Parent, Child, Slidy } from '../types';
 import { maxMin } from './helpers';
 
-function indexing(node: Slidy, index: number, loop: boolean) {
+function indexing(node: Slidy, index: number, loop?: boolean) {
     if (loop) {
         if (index < 0) {
             return node.childNodes.length - 1;
@@ -47,14 +47,17 @@ const find = (node: Slidy, vertical: boolean) => ({
     parent: () => parent(node)[size(vertical)],
 });
 
-const go = (node: Slidy) => ({
-    prev: () => node.prepend(node.childNodes[node.childNodes.length - 1]),
-    next: () => node.append(node.childNodes[0])
-});
+function shuffle(node: Slidy, direction: number): void | null {
+    return direction > 0 ? node.append(node.childNodes[0])
+        : direction < 0 ? node.prepend(node.childNodes[node.childNodes.length - 1])
+            : null;
+}
 
-const rotate = (array: Array<Node | string>, key: number) => array.slice(key).concat(array.slice(0, key));
+function rotate(array: Array<Node | string>, key: number) {
+    return array.slice(key).concat(array.slice(0, key));
+}
 
-function replace(node: Slidy, index: number, loop: boolean) {
+function replace(node: Slidy, index: number, loop?: boolean) {
     const elements = loop
         ? rotate(nodes(node), index - cix(node))
         : nodes(node).sort((a, b) => a.index - b.index);
@@ -87,4 +90,4 @@ function replace(node: Slidy, index: number, loop: boolean) {
 //     }
 // }
 
-export { find, go, replace, indexing };
+export { find, shuffle, replace, indexing };

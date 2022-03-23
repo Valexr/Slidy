@@ -1,5 +1,5 @@
-import { coordinate, css, dispatch, init, listen, onMount } from './utils/env';
-import { find, go, replace, indexing } from './utils/dom';
+import { coordinate, css, delay, dispatch, init, listen, throttle, onMount } from './utils/env';
+import { find, shuffle, replace, indexing } from './utils/dom';
 import { maxMin } from './utils/helpers';
 
 import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
@@ -36,13 +36,11 @@ export function slidy(
         snap = options.snap,
         gravity = options.gravity as number
 
-
     options = { ...base, ...options }
-
 
     const PARENT = node.parentElement;
 
-    const DURATION = options.duration as number * (options.duration as number / 1000)
+    const DURATION = Math.pow(options.duration as number, 2) / 1000
 
     const WINDOW_EVENTS: [string, EventListenerOrEventListenerObject][] = [
         ['touchmove', onMove as EventListenerOrEventListenerObject],
@@ -50,12 +48,16 @@ export function slidy(
         ['touchend', onUp as EventListenerOrEventListenerObject],
         ['mouseup', onUp as EventListenerOrEventListenerObject],
     ];
-    const PARENT_EVENTS: [string, EventListenerOrEventListenerObject, boolean?][] = [
+    const PARENT_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
         ['contextmenu', clear],
         ['touchstart', onDown as EventListenerOrEventListenerObject],
         ['mousedown', onDown as EventListenerOrEventListenerObject],
         ['keydown', onKeys as EventListenerOrEventListenerObject],
-        ['wheel', onWheel as EventListenerOrEventListenerObject]
+        [
+            'wheel',
+            throttle(onWheel, DURATION * 2) as EventListenerOrEventListenerObject,
+            { passive: false, capture: true }
+        ]
     ];
 
     const RAF = requestAnimationFrame;
@@ -66,7 +68,7 @@ export function slidy(
 
     onMount(node, options.length)
         .then((childs: NodeListOf<Child>) => {
-            replace(node, options.index as number, options.loop as boolean);
+            replace(node, options.index as number, options.loop);
 
             hix = options.index
             snap = options.snap
@@ -74,6 +76,7 @@ export function slidy(
             gap = find(node, options.vertical as boolean).gap();
             position = find(node, options.vertical as boolean).position(options.index as number, snap)
 
+            // css(node, { willChange: 'auto' });
             css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
             listen(PARENT as Parent, PARENT_EVENTS);
             RO.observe(PARENT as Element);
@@ -82,7 +85,7 @@ export function slidy(
         })
         .catch((error: Error) => console.error(error));
 
-    function move(pos: number, transition = 0): void {
+    function move(pos: number): void {
         direction = Math.sign(pos);
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options.vertical as boolean).index(position, snap);
@@ -95,10 +98,9 @@ export function slidy(
             const first = find(node, options.vertical as boolean).size(0);
             const last = find(node, options.vertical as boolean).size(node.childNodes.length - 1);
             const history = (direction: number) => ((direction > 0 ? first : last) + gap) * direction
-            const shuffle = (direction: number) => direction > 0 ? go(node).next() : direction < 0 ? go(node).prev() : null
 
             if (hix !== options.index) {
-                shuffle(direction)
+                shuffle(node, direction)
                 hix = options.index;
                 pos -= history(direction)
                 frame = position + pos
@@ -106,10 +108,7 @@ export function slidy(
             return pos;
         }
 
-        css(node, {
-            transform: `translate3d(${translate(options.vertical)})`,
-            transition: `transform ${transition}ms`,
-        });
+        css(node, { transform: `translate3d(${translate(options.vertical)})` });
 
         dispatch(node, 'move', { index: options.index, position });
     }
@@ -145,13 +144,13 @@ export function slidy(
         });
     }
 
-    function to(index: number, target?: number): void {
+    function to(index: number, duration = DURATION, target?: number): void {
         clear();
 
-        index = indexing(node, index, options.loop as boolean);
-        target = !target ? find(node, options.vertical as boolean).position(index as number, snap) : target;
+        index = indexing(node, index, options.loop);
+        target = !target ? find(node, options.vertical as boolean).position(index, snap) : target;
 
-        scroll(target, target - position, DURATION, performance.now())
+        scroll(target, target - position, duration, performance.now())
     }
 
     function onDown(e: UniqEvent): void {
@@ -176,7 +175,7 @@ export function slidy(
         track();
     }
 
-    function onUp(): void {
+    function onUp(e: UniqEvent): void {
         clear();
 
         const { target, amplitude } = targeting(position);
@@ -198,22 +197,22 @@ export function slidy(
         return { target, amplitude };
     }
 
-    function onWheel(e: UniqEvent): void {
+    function onWheel(e: UniqEvent, duration?: number): void {
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
-        const sign = Math.sign(Math.trunc(coord * (gravity * (e.shiftKey ? 1 : -1))))
+        // const sign = Math.trunc(coord * gravity * (e.shiftKey ? -1 : 1))
 
-        if (e.shiftKey || options.clamp) {
-            e.shiftKey && e.preventDefault();
-            to(options.index as number - sign);
-        } else {
-            move(coord);
-            wheeltime = setTimeout(() => {
-                to(options.index as number);
-                gravity = options.gravity as number;
-            }, 100);
-        }
+        // if (e.shiftKey || options.clamp) {
+        // duration = options.clamp || e.shiftKey ? DURATION : options.duration
+        to(options.index as number + Math.sign(coord))
+        // } else {
+        //     move(coord);
+        //     wheeltime = setTimeout(() => {
+        //         to(options.index as number);
+        //         gravity = options.gravity as number;
+        //     }, 100);
+        // }
     }
 
     function onKeys(e: KeyboardEvent): void {
@@ -227,6 +226,7 @@ export function slidy(
     }
 
     function clear(): void {
+        // hix = options.index
         clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
@@ -237,7 +237,7 @@ export function slidy(
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
                 switch (key) {
                     case 'index':
-                        options[key] = indexing(node, opts[key] as number, options.loop as boolean);
+                        options[key] = indexing(node, opts[key] as number, options.loop);
                         to(options[key] as number);
                         break;
                     case 'gravity':
