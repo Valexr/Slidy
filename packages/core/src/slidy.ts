@@ -1,8 +1,8 @@
-import { coordinate, css, delay, dispatch, init, listen, throttle, onMount } from './utils/env';
+import { coordinate, css, dispatch, init, listen, throttle, onMount } from './utils/env';
 import { find, shuffle, replace, indexing } from './utils/dom';
 import { maxMin } from './utils/helpers';
 
-import type { Child, Delta, Options, Parent, Slidy, UniqEvent } from './types';
+import type { Child, Delta, Options, Parent, Scroll, Slidy, UniqEvent } from './types';
 
 const base: Options = {
     index: 0,
@@ -12,7 +12,7 @@ const base: Options = {
     snap: undefined,
     vertical: false,
     clamp: false,
-    loop: false,
+    loop: false
 }
 
 export function slidy(
@@ -34,7 +34,8 @@ export function slidy(
         frame = position,
         hix = options.index,
         snap = options.snap,
-        gravity = options.gravity as number
+        gravity = options.gravity as number,
+        scrolled = false
 
     options = { ...base, ...options }
 
@@ -42,11 +43,12 @@ export function slidy(
 
     const DURATION = Math.pow(options.duration as number, 2) / 1000
 
-    const WINDOW_EVENTS: [string, EventListenerOrEventListenerObject][] = [
-        ['touchmove', onMove as EventListenerOrEventListenerObject],
+    const WINDOW_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
+        ['touchmove', onMove as EventListenerOrEventListenerObject, { passive: false }],
         ['mousemove', onMove as EventListenerOrEventListenerObject],
         ['touchend', onUp as EventListenerOrEventListenerObject],
         ['mouseup', onUp as EventListenerOrEventListenerObject],
+        ['scroll', onScroll as EventListenerOrEventListenerObject, { capture: true }]
     ];
     const PARENT_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
         ['contextmenu', clear],
@@ -55,7 +57,7 @@ export function slidy(
         ['keydown', onKeys as EventListenerOrEventListenerObject],
         [
             'wheel',
-            throttle(onWheel, DURATION * 2) as EventListenerOrEventListenerObject,
+            throttle(onWheel, (DURATION / gravity) * 2) as EventListenerOrEventListenerObject,
             { passive: false, capture: true }
         ]
     ];
@@ -65,6 +67,10 @@ export function slidy(
         to(options.index as number);
         dispatch(node, 'resize', node);
     });
+
+    function onScroll(): void {
+        scrolled = true
+    }
 
     onMount(node, options.length)
         .then((childs: NodeListOf<Child>) => {
@@ -168,14 +174,21 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        const delta = reference - coordinate(e, options.vertical);
+        const delta = (reference - coordinate(e, options.vertical)) * (2 - gravity);
         reference = coordinate(e, options.vertical);
 
-        move(delta * (2 - gravity));
+        move(delta);
         track();
+
+        if (Math.abs(delta) > 5) {
+            e.preventDefault()
+        } else if (scrolled) {
+            gravity = 2
+            to(options.index as number, DURATION / gravity)
+        }
     }
 
-    function onUp(e: UniqEvent): void {
+    function onUp(): void {
         clear();
 
         const { target, amplitude } = targeting(position);
@@ -197,15 +210,14 @@ export function slidy(
         return { target, amplitude };
     }
 
-    function onWheel(e: UniqEvent, duration?: number): void {
+    function onWheel(e: UniqEvent): void {
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         // const sign = Math.trunc(coord * gravity * (e.shiftKey ? -1 : 1))
 
         // if (e.shiftKey || options.clamp) {
-        // duration = options.clamp || e.shiftKey ? DURATION : options.duration
-        to(options.index as number + Math.sign(coord))
+        to(options.index as number + Math.sign(coord * (e.shiftKey ? -1 : 1)))
         // } else {
         //     move(coord);
         //     wheeltime = setTimeout(() => {
@@ -226,7 +238,8 @@ export function slidy(
     }
 
     function clear(): void {
-        // hix = options.index
+        scrolled = false
+        gravity = options.gravity as number
         clearTimeout(wheeltime as NodeJS.Timer);
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);

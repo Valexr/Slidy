@@ -56,7 +56,7 @@ function css(node: Slidy | Parent, styles: CssRules): void {
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
     // !e.deltaMode === track/touchpad
-    // console.log(e.deltaMode)
+
     if (e.type === 'wheel') {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) e.preventDefault();
         return vertical || e.shiftKey

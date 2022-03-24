@@ -71,6 +71,7 @@ export interface UniqEvent extends Event {
     clientX: number;
     clientY: number;
     shiftKey: boolean;
+    target: EventTarget;
 }
 
 export type DispathDetail =
