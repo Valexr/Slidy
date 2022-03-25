@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
-	import Slidy from '@slidy/svelte';
+	import { Slidy } from '@slidy/svelte/src';
+	import '@slidy/svelte/slidy.css';
 
 	async function getItems(page: number): Promise<any> {
 		const path = `https://picsum.photos/v2/list?page=${page}&limit=15`;
