@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher } from "svelte/internal";
 	import { slidy } from "@slidy/core";
 	import { Arrow, Image, Navigation } from "../";
 	import { clamp as clampValue } from "../../helpers";

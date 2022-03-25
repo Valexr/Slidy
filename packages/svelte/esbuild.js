@@ -30,7 +30,7 @@ const cssModulesOptions = {
 };
 
 const esbuildBase = {
-	entryPoints: [ "src/index.ts" ],
+	entryPoints: ["src/index.ts"],
 	bundle: true,
 	minify: true,
 	sourcemap: false,
@@ -70,7 +70,7 @@ if (DEV) {
 	});
 } else if (SVELTE) {
 	build({
-		entryPoints: [ "src/dev/main.ts" ],
+		entryPoints: ["src/dev/main.ts"],
 		outfile: "public/build/bundle.js",
 		platform: "browser",
 		bundle: true,
@@ -113,10 +113,10 @@ if (DEV) {
 		await transpile({
 			input: "./src/",
 			output: "./dist/",
-			ext: [ ".svelte", ".ts" ],
-			exclude: [ "dev", "types.ts", "images-api.ts" ],
-			replace: [ [ "./slidy.module.css", "../slidy.css" ] ],
-			remove: [ "images-api", "module.css" ]
-		})
+			ext: [".svelte", ".ts"],
+			exclude: ["dev", "types.ts", "images-api.ts"],
+			replace: [["./slidy.module.css", "../../slidy.css"]],
+			remove: ["images-api", "module.css"]
+		});
 	})();
 }

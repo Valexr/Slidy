@@ -5,7 +5,7 @@
 	"main": "dist/slidy.cjs",
 	"module": "dist/slidy.mjs",
 	"browser": "dist/slidy.js",
-	"svelte": "dist/component/Slidy.svelte",
+	"svelte": "dist/components/Slidy/Slidy.svelte",
 	"types": "dist/types.d.ts",
 	"style": "dist/slidy.css",
 	"type": "module",
@@ -18,12 +18,10 @@
 			"module": "./dist/slidy.mjs",
 			"require": "./dist/slidy.cjs",
 			"browser": "./dist/slidy.js",
-			"svelte": "./dist/component/Slidy.svelte",
+			"svelte": "./dist/components/Slidy/Slidy.svelte",
 			"style": "./dist/slidy.css"
 		},
-		"./dist/component/Slidy.svelte": "./dist/component/Slidy.svelte",
-		"./dist/component/": "./dist/component/Slidy.svelte",
-		"./dist/slidy.css": "./dist/slidy.css",
+		"./slidy.css": "./dist/slidy.css",
 		"./package.json": "./package.json"
 	},
 	"scripts": {

@@ -26,11 +26,8 @@
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
-    "include": [
-        "www/src/**/*"
-    ],
+    "include": [],
     "exclude": [
         "node_modules/*",
-        "www/public/*"
     ]
 }
