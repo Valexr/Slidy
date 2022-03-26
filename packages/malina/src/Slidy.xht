@@ -14,7 +14,7 @@
     export let index, options, items, gap, width, imagable = true
 </script>
 
-<section style="--gap: {gap}px; --width: {width}" tab-index="0" >
+<section style="--gap: {gap}px; --width: {width}" tabindex="0" >
     <ul *slidy={{...base, ...options}} @@>
         {#each items as item, i}
             <li id={i} class:active={i === index}>

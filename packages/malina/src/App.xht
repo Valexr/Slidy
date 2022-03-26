@@ -1,6 +1,7 @@
 <script>
     import {getImgs} from './api.js'
     import Slidy from './Slidy.xht'
+    import './app.css'
 
     let imagable = true,
         gap = 16,
@@ -40,6 +41,6 @@
 	<button on:click={() => index++}>→</button>
 </nav>
 
-<style>
+<style global>
     @import './app.css';
 </style>
