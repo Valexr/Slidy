@@ -1,33 +1,45 @@
 <script>
-    let name = 'world';
-    $: degrees = (name.length-5) * 5;
+    import {getImgs} from './api.js'
+    import Slidy from './Slidy.xht'
+
+    let imagable = true,
+        gap = 16,
+        index = 7,
+        length = 15,
+        position = 0,
+        page = Math.trunc((Math.random()*10))
+
+    function onMove(e) {
+		index = e.detail.index
+		position = e.detail.position
+	}
+
+    $: width = imagable ? 'auto' : '50%'
 </script>
 
-<img src="./malinajs.svg" alt="Malina.js Logo" style:transform={`rotate(${degrees}deg)`}/>
+<h1>Slidy 3.1.0</h1>
+<p>index: [{index}] position: {Math.trunc(position)}px</p>
 
-<h1>Hello {name}!</h1>
+<label>imagable&nbsp;
+	<input 
+		type="checkbox" 
+		bind:checked={imagable} />
+</label>
 
-<div>
-    <input type="text" :value={name} *{$element.focus()} />
-</div>
+{#await getImgs(page, length) then items}
+    <Slidy {items} options={{ index, length }} on:move={onMove} {width} {gap} {imagable} />
+{/await}
 
-<div>Edit and save file <code>src/App.xht</code> to reload</div>
+<nav id="dots">
+    {#each { length } as dot, i}
+        <button on:click={() => (index = i)} class:active={i === index}>{i}</button>
+    {/each}
+</nav>
+<nav>
+	<button on:click={() => index--}>←</button>
+	<button on:click={() => index++}>→</button>
+</nav>
 
 <style>
-    img{
-        display: block;
-        width: 200px;
-        margin: 60px auto;
-        transition: .2s;
-    }
-
-    h1,div{
-        text-align: center;
-        min-width: 300px;
-        margin: 40px auto;
-    }
-
-    input{
-        font-size: 24px;
-    }
+    @import './app.css';
 </style>

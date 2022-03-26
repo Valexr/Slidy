@@ -1,0 +1,25 @@
+/* app.css */
+@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css";
+/* @import "open-props/style";
+@import "open-props/normalize"; */
+
+/* FIX */
+:where(li) {
+    padding-inline-start: 0 !important;
+}
+
+:root {
+    --slidy-height: 75vh;
+    font-family: var(--font-sans);
+}
+
+nav, label {
+    display: flex; 
+    justify-content: start;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+*.active {color: red;}
+input { margin: 0}
