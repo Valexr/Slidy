@@ -61,7 +61,6 @@
 		"@typescript-eslint/parser": "^5.16.0",
 		"css-tree": "^2.1.0",
 		"esbuild-svelte": "^0.6.3",
-		"eslint": "^8.11.0",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"prettier-plugin-svelte": "^2.6.0",
 		"svelte": "^3.46.4",

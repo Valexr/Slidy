@@ -1,9 +1,7 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
-import pkg from './package.json' assert { type: 'json' };
 
 const DEV = process.argv.includes('--dev');
-const REACT = process.argv.includes('--react');
 
 const esbuildBase = {
     bundle: true,
@@ -20,18 +18,6 @@ const derverConfig = {
 };
 
 if (DEV) {
-    build({
-        ...esbuildBase,
-        outfile: pkg.module,
-        format: 'esm',
-        sourcemap: 'inline',
-        minify: false,
-        incremental: true,
-        watch: true,
-    }).then((bundle) => {
-        console.log('watching @slidy/react...');
-    });
-} else if (REACT) {
     build({
         entryPoints: ['dev/src/app.tsx'],
         outfile: 'dev/public/build/bundle.js',
@@ -54,17 +40,17 @@ if (DEV) {
 } else {
     (async () => {
         await build({
-            outfile: pkg.main,
+            outfile: "dist/slidy.cjs",
             format: 'cjs',
             ...esbuildBase,
         });
         await build({
-            outfile: pkg.module,
+            outfile: "dist/slidy.mjs",
             format: 'esm',
             ...esbuildBase,
         });
         await build({
-            outfile: pkg.browser,
+            outfile: "dist/slidy.js",
             globalName: 'Slidy',
             format: 'iife',
             ...esbuildBase,
