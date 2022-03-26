@@ -1,3 +1,10 @@
+@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css";
+
+:where(li) {
+    padding-inline-start: 0;
+}
+
 html,
 body {
     position: relative;
@@ -255,7 +262,7 @@ section {
 ul#scroll {
     overflow: auto;
 }
-ul#slidy {
+#slidy {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -268,7 +275,7 @@ ul#slidy {
     overflow: visible;
 }
 
-ul#slidy li {
+#slidy li, #slidy dd {
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -277,19 +284,20 @@ ul#slidy li {
     box-sizing: border-box;
     position: relative;
     background: var(--shadow);
+    margin: 0;
     /* border-radius: 0.25rem; */
     /* overflow: hidden; */
     /* box-shadow: inset 0px 0px 1px 1px var(--shadow); */
     /* will-change: transform; */
 }
-ul#slidy li.active {
+#slidy li.active, #slidy dd.active  {
     --shadow: var(--accent);
 }
-ul#slidy li.slotted {
+#slidy li.slotted, #slidy dd.slotted {
     --shadow: transparent;
 }
 
-ul#slidy li:before {
+#slidy li:before, #slidy dd:before {
     content: attr(id);
     position: absolute;
     z-index: 1;
@@ -299,7 +307,7 @@ ul#slidy li:before {
     /* will-change: transform; */
 }
 
-ul#slidy li img {
+#slidy li img, #slidy dd img {
     min-width: 100%;
     min-height: 100%;
     max-width: 100%;
@@ -310,22 +318,22 @@ ul#slidy li img {
 
 /* iOS */
 @supports (-webkit-touch-callout: none) {
-    ul#slidy li img {
+    #slidy li img {
         /* width: auto; */
         /* will-change: transform; */
         /* pointer-events: auto; */
     }
-    ul#slidy li:before {
+    #slidy li:before {
         /* will-change: transform; */
     }
 }
 /* MacOS */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    ul#slidy li img {
+    #slidy li img {
         /* width: auto; */
         /* will-change: transform; */
     }
-    ul#slidy li:before {
+    #slidy li:before {
         /* will-change: transform; */
     }
 }

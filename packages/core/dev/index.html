@@ -25,9 +25,9 @@
         </header>
         <main style="--gap: 1em; --flow: row; --width: auto; --height: 350px">
             <section tabindex="0">
-                <ul id="slidy">
-                    <li style="display: grid; place-items: center">Loading...</li>
-                </ul>
+                <dl id="slidy">
+                    <dd style="display: grid; place-items: center">Loading...</dd>
+                </dl>
             </section>
         </main>
         <footer>
@@ -137,11 +137,11 @@
                 page = randomQ(1, 69);
 
             let options = {
-                index: 1,
-                length: 3,
+                index: 4,
+                length: 9,
                 snap: 'center',
-                loop: true,
-                clamp: true,
+                loop: false,
+                clamp: false,
                 gravity: 1.2,
                 duration: 375,
                 vertical: false,
@@ -249,7 +249,7 @@
             async function getPhotos(node, page, limit) {
                 slidy?.destroy();
                 node.style.transform = '';
-                node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
+                node.innerHTML = `<dd style="display: grid; place-items: center">Loading... 🚀</dd>`;
 
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
                     .then(async (res) => {
@@ -259,9 +259,9 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio
+                                    return `<dd id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio
                                         }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height
-                                        }" alt="${p.author}"/></li>`;
+                                        }" alt="${p.author}"/></dd>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
@@ -269,7 +269,7 @@
                                 .join('');
                         } else {
                             node.style.transform = '';
-                            node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
+                            node.innerHTML = `<dd style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</dd>`;
                         }
                     })
                     .then(() => {

@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '../types';
 
-function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
+function onMount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, length: number }> {
     return new Promise((resolve, reject) => {
         let count = 0;
 
@@ -12,8 +12,9 @@ function onMount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
                 reject(`Slidy haven't items`);
             } else if (length && node.childNodes.length >= length) {
                 count = 0;
+                length = node.childNodes.length
                 clearInterval(mounting);
-                resolve(init(node));
+                resolve({ childs: init(node), length });
             }
         }, 16);
     });
