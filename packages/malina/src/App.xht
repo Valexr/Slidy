@@ -18,29 +18,35 @@
     $: width = imagable ? 'auto' : '50%'
 </script>
 
-<h1>Slidy 3.1.0</h1>
-<p>index: [{index}] position: {Math.trunc(position)}px</p>
+<header>
+    <h1>Slidy 3.1.0</h1>
+    <p>index: [{index}] position: {Math.trunc(position)}px</p>
 
-<label>imagable&nbsp;
-	<input 
-		type="checkbox" 
-		bind:checked={imagable} />
-</label>
+    <label>imagable&nbsp;
+        <input 
+            type="checkbox" 
+            bind:checked={imagable} />
+    </label>
+</header>
 
-{#await getImgs(page, length) then items}
-    <Slidy {items} options={{ index, length }} on:move={onMove} {width} {gap} {imagable} />
-{/await}
+<main>
+    {#await getImgs(page, length) then items}
+        <Slidy {items} options={{ index, length }} on:move={onMove} {width} {gap} {imagable} />
+    {/await}
+</main>
 
-<nav id="dots">
-    {#each { length } as dot, i}
-        <button on:click={() => (index = i)} class:active={i === index}>{i}</button>
-    {/each}
-</nav>
-<nav>
-	<button on:click={() => index--}>←</button>
-	<button on:click={() => index++}>→</button>
-</nav>
+<footer>
+    <nav id="dots">
+        {#each [...Array(length)] as dot, i}
+            <button on:click={() => (index = i)} class:active={i === index}>{i}</button>
+        {/each}
+    </nav>
+    <nav>
+        <button on:click={() => index--}>←</button>
+        <button on:click={() => index++}>→</button>
+    </nav>
+</footer>
 
 <style global>
-    @import './app.css';
+    /* @import './app.css'; */
 </style>

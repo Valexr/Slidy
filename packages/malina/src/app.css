@@ -14,7 +14,7 @@
     font-family: var(--font-sans);
 }
 
-body {
+header, footer {
     padding: 1rem;
 }
 
