@@ -18,9 +18,9 @@
     <body>
         <header>
             <img alt="Slidy" width="50" height="50" src="favicon.png" />
-            <h1>
+            <h3>
                 Slidy <span>3.0</span><sub>nativeJS</sub><sub id="stats" />
-            </h1>
+            </h3>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
         <main style="--gap: 1em; --flow: row; --width: auto; --height: 350px">
@@ -75,7 +75,7 @@
                     </label>
                     <label title="align">
                         <select value="center" name="snap" onchange="changeValue()">
-                            <option value="undefined">unset</option>
+                            <option value="">unset</option>
                             <option value="start">← start</option>
                             <option value="center">center</option>
                             <option value="end">end →</option>
@@ -139,7 +139,7 @@
             let options = {
                 index: 4,
                 length: 9,
-                snap: 'center',
+                snap: '',
                 loop: false,
                 clamp: false,
                 gravity: 1.2,

@@ -23,7 +23,7 @@
         "dev": "node esbuild --dev",
         "dev:core": "node esbuild --core",
         "dev:svelte": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc || rm -rf dist/utils",
+        "build": "rm -rf dist && node esbuild && tsc && rm -rf dist/utils",
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",

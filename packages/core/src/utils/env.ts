@@ -56,7 +56,7 @@ function css(node: Slidy | Parent, styles: CssRules): void {
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
-    // !e.deltaMode === track/touchpad
+    // !e.deltaMode || 0 === track/touchpad
 
     if (e.type === 'wheel') {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) e.preventDefault();
@@ -68,10 +68,10 @@ function coordinate(e: UniqEvent, vertical?: boolean): number {
 
 const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } => (e.changedTouches ? e.changedTouches[0] : e);
 
-function throttle(fn: (...args: any) => void, ms: number, wait?: boolean, tm?: NodeJS.Timeout): (...args: any) => void {
-    return (...args) => {
+function throttle(fn: (args: UniqEvent) => void, ms: number, wait?: boolean, tm?: NodeJS.Timeout): (args: UniqEvent) => void {
+    return (args) => {
         if (!wait) {
-            fn(...args);
+            fn(args);
             wait = true;
             tm && clearTimeout(tm);
             tm = setTimeout(() => wait = false, ms);

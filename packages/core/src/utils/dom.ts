@@ -18,7 +18,7 @@ const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0);
+const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) =>
     parent(node)[size(vertical)] - child[size(vertical)];
@@ -34,9 +34,14 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
     });
 }
 
+function indents(node: Slidy, index: number, loop?: boolean, gap?: number): number {
+    const edge = index === 0 ? -1 : index === nodes(node).length - 1 ? 1 : 0
+    return loop ? 0 : (gap as number * edge)
+}
+
 const find = (node: Slidy, vertical: boolean) => ({
     index: (target: number, snap: string | undefined): number => closest(node, target, vertical, snap).index,
-    position: (index: number, snap?: string) => position(node, child(node, index), vertical, snap),
+    position: (index: number, snap?: string, loop?: boolean, gap?: number) => position(node, child(node, index), vertical, snap) + indents(node, index, loop, gap),
     target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
     size: (index: number) => nodes(node)[index][size(vertical)],
     gap: () => {
