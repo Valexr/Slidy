@@ -37,7 +37,7 @@
 
 <footer>
     <nav id="dots">
-        {#each length as i}
+        {#each length as dot, i}
             <button on:click={() => (index = i)} class:active={i === index}>{i}</button>
         {/each}
     </nav>
