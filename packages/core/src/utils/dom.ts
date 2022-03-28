@@ -34,9 +34,11 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
     });
 }
 
-function indents(node: Slidy, index: number, loop: boolean, gap: number): number {
-    const edge = index === 0 ? -1 : index === nodes(node).length - 1 ? 1 : 0
-    return loop ? 0 : (gap as number * edge)
+function indents(node: Slidy, index: number, loop: boolean, gap: number, snap: string): number {
+    const edge = ((!loop && index === 0) || snap === 'start')
+        ? -1 : ((!loop && index === nodes(node).length - 1) || snap === 'end')
+            ? 1 : 0
+    return gap as number * edge
 }
 
 const find = (node: Slidy, options: Options) => ({
@@ -45,7 +47,7 @@ const find = (node: Slidy, options: Options) => ({
     },
     position: (index: number, snap?: string, gap?: number) => {
         const pos = position(node, child(node, index), options.vertical as boolean, snap)
-        return pos + indents(node, index, options.loop as boolean, gap as number)
+        return pos + indents(node, index, options.loop as boolean, gap as number, snap as string)
     },
     size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {

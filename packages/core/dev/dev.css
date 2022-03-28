@@ -289,7 +289,7 @@ ul#scroll {
     flex: 1 0 var(--gap);
 } */
 #slidy li.active, #slidy dd.active  {
-    --shadow: var(--accent);
+    /* --shadow: var(--accent); */
 }
 #slidy li.slotted, #slidy dd.slotted {
     --shadow: transparent;

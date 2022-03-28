@@ -23,7 +23,7 @@
             </h3>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
-        <main style="--gap: 1em; --flow: row; --width: auto; --height: 350px">
+        <main style="--gap: 1em; --flow: row; --width: auto; --height: 375px">
             <section tabindex="0">
                 <dl id="slidy">
                     <dd style="display: grid; place-items: center">Loading...</dd>
@@ -148,12 +148,14 @@
             };
 
             const main = document.querySelector('main'),
+                section = document.querySelector('section'),
                 node = document.querySelector('#slidy'),
                 nav = document.querySelector('#dots'),
                 stats = document.querySelector('#stats'),
                 buttons = document.querySelectorAll('button'),
                 inputs = document.querySelectorAll('input'),
-                select = document.querySelector('select');
+                select = document.querySelector('select'),
+                head = document.querySelector('head');
 
             window.onload = () => {
                 getPhotos(node, page, options.length);
@@ -256,12 +258,14 @@
                         const photos = await res.json();
                         // console.log(photos, window.outerWidth, window.outerHeight);
                         if (photos.length) {
+                            // head.innerHTML += photos.map((p, i) => {
+                            //     // const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
+                            //     return `<link rel="preload" as="image" href=${p.download_url}>`;
+                            // }).join('\n');
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<dd id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio
-                                        }/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height
-                                        }" alt="${p.author}"/></dd>`;
+                                    return `<dd id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></dd>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
