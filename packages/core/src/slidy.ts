@@ -1,5 +1,5 @@
 import { coordinate, css, dispatch, init, listen, throttle, onMount } from './utils/env';
-import { find, shuffle, replace, indexing } from './utils/dom';
+import { find, shuffle, history, replace, indexing } from './utils/dom';
 import { maxMin } from './utils/helpers';
 
 import type { Options, Parent, Slidy, UniqEvent } from './types';
@@ -72,12 +72,12 @@ export function slidy(
         .then(({ childs, length }) => {
             replace(node, options.index as number, options.loop);
 
-            hix = options.index
+            hix = options.index as number
             snap = options.snap
             options.length = length
             gravity = options.gravity as number
-            gap = find(node, options.vertical as boolean).gap();
-            position = find(node, options.vertical as boolean).position(options.index as number, snap, options.loop, gap)
+            gap = find(node, options).gap();
+            position = find(node, options).position(hix, snap, gap)
 
             to(options.index as number)
             css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
@@ -91,7 +91,7 @@ export function slidy(
     function move(pos: number): void {
         direction = Math.sign(pos);
         position += options.loop ? looping(pos) : pos;
-        options.index = find(node, options.vertical as boolean).index(position, snap);
+        options.index = find(node, options).index(position, snap);
 
         graviting(options.index)
         css(node, { transform: `translate3d(${translate(options.vertical)})` });
@@ -110,15 +110,11 @@ export function slidy(
         }
 
         function looping(pos: number): number {
-            const first = find(node, options.vertical as boolean).size(0);
-            const last = find(node, options.vertical as boolean).size(options.length as number - 1);
-            const history = (direction: number) => ((direction > 0 ? first : last) + gap) * direction
-
             if (hix !== options.index) {
+                pos -= history(node, direction, gap, options)
                 shuffle(node, direction)
-                hix = options.index;
-                pos -= history(direction)
                 frame = position + pos
+                hix = options.index;
             }
             return pos;
         }
@@ -140,8 +136,9 @@ export function slidy(
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
         snap = snapping(index)
-        target = options.snap || (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
-            ? find(node, options.vertical as boolean).position(index, snap, options.loop, gap)
+        target = options.snap
+            || (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
+            ? find(node, options).position(index, snap, gap)
             : position + amplitude;
         amplitude = target - position;
 
@@ -150,7 +147,7 @@ export function slidy(
             const delta = amplitude * Math.exp(elapsed);
 
             if (timestamp < time) {
-                target = options.loop ? find(node, options.vertical as boolean).position(index, snap, options.loop, gap) : target
+                target = options.loop ? find(node, options).position(index, snap, gap) : target
                 move(target as number - position - delta);
             }
 
@@ -169,7 +166,7 @@ export function slidy(
         clear();
 
         index = indexing(node, index, options.loop);
-        target = target || find(node, options.vertical as boolean).position(index, snap, options.loop, gap)
+        target = target || find(node, options).position(index, snap, gap)
 
         scroll(index, duration, performance.now(), target - position)
     }
@@ -207,10 +204,10 @@ export function slidy(
         clear();
 
         const amplitude = velocity * (2 - gravity);
-        const index = find(node, options.vertical as boolean).index(position + amplitude, snap)
+        const index = find(node, options).index(position + amplitude, snap)
         const condition =
             options.clamp ||
-            ((options.duration && Math.abs(amplitude) <= options.duration) && options.snap)
+            ((options.duration && Math.abs(amplitude) <= options.duration) && options.snap) || (!options.loop && (index === 0 || index === options.length as number - 1))
 
         scroll(index, (condition ? DURATION : options.duration as number), performance.now(), amplitude)
     }

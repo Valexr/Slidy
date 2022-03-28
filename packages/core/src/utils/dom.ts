@@ -1,4 +1,4 @@
-import type { Parent, Child, Slidy } from '../types';
+import type { Child, Options, Parent, Slidy } from '../types';
 import { maxMin } from './helpers';
 
 function indexing(node: Slidy, index: number, loop?: boolean) {
@@ -34,22 +34,28 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
     });
 }
 
-function indents(node: Slidy, index: number, loop?: boolean, gap?: number): number {
+function indents(node: Slidy, index: number, loop: boolean, gap: number): number {
     const edge = index === 0 ? -1 : index === nodes(node).length - 1 ? 1 : 0
     return loop ? 0 : (gap as number * edge)
 }
 
-const find = (node: Slidy, vertical: boolean) => ({
-    index: (target: number, snap: string | undefined): number => closest(node, target, vertical, snap).index,
-    position: (index: number, snap?: string, loop?: boolean, gap?: number) => position(node, child(node, index), vertical, snap) + indents(node, index, loop, gap),
-    target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
-    size: (index: number) => nodes(node)[index][size(vertical)],
+const find = (node: Slidy, options: Options) => ({
+    index: (target: number, snap: string | undefined): number => {
+        return closest(node, target, options.vertical as boolean, snap).index
+    },
+    position: (index: number, snap?: string, gap?: number) => {
+        const pos = position(node, child(node, index), options.vertical as boolean, snap)
+        return pos + indents(node, index, options.loop as boolean, gap as number)
+    },
+    size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {
         const last = nodes(node).length - 1;
-        const prev = distance(node, last - 1, vertical) + nodes(node)[last - 1][size(vertical)];
-        return distance(node, last, vertical) - prev;
+        const lastSize = nodes(node)[last - 1][size(options.vertical as boolean)];
+        const prev = distance(node, last - 1, options.vertical as boolean) + lastSize
+        return distance(node, last, options.vertical as boolean) - prev;
     },
-    parent: () => parent(node)[size(vertical)],
+    // target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
+    // parent: () => parent(node)[size(vertical)],
 });
 
 function shuffle(node: Slidy, direction: number): void | null {
@@ -58,8 +64,10 @@ function shuffle(node: Slidy, direction: number): void | null {
             : null;
 }
 
-function rotate(array: Array<Node | string>, key: number) {
-    return array.slice(key).concat(array.slice(0, key));
+function history(node: Slidy, direction: number, gap: number, options: Options) {
+    const first = nodes(node)[0][size(options.vertical as boolean)]
+    const last = nodes(node)[options.length as number - 1][size(options.vertical as boolean)]
+    return ((direction > 0 ? first : last) + gap) * direction
 }
 
 function replace(node: Slidy, index: number, loop?: boolean) {
@@ -68,6 +76,11 @@ function replace(node: Slidy, index: number, loop?: boolean) {
         : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
 }
+
+function rotate(array: Array<Node | string>, key: number) {
+    return array.slice(key).concat(array.slice(0, key));
+}
+
 
 // DRAFT's --------------------------------------
 // function cumulativeOffset(element) {
@@ -95,4 +108,4 @@ function replace(node: Slidy, index: number, loop?: boolean) {
 //     }
 // }
 
-export { find, shuffle, replace, indexing };
+export { find, shuffle, history, replace, indexing };
