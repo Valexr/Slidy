@@ -58,8 +58,8 @@ const find = (node: Slidy, options: Options) => ({
         return distance(node, last, options.vertical as boolean) - prev;
     },
     scroll: () => node[scroll(options.vertical as boolean)],
-    active: (index: number, snap?: string) => position(node, child(node, index), options.vertical as boolean, snap),
-    parent: () => parent(node)[size(options.vertical as boolean)],
+    // active: (index: number, snap?: string) => position(node, child(node, index), options.vertical as boolean, snap),
+    // parent: () => parent(node)[size(options.vertical as boolean)],
     // target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
 });
 
