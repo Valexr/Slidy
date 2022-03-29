@@ -76,8 +76,8 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.1",
-        "@typescript-eslint/eslint-plugin": "^5.16.0",
-        "@typescript-eslint/parser": "^5.16.0",
+        "@typescript-eslint/eslint-plugin": "^5.17.0",
+        "@typescript-eslint/parser": "^5.17.0",
         "derver": "^0.5.3",
         "esbuild": "^0.14.28",
         "esbuild-plugin-eslinter": "^0.1.2",

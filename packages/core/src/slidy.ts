@@ -136,8 +136,8 @@ export function slidy(
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
         snap = snapping(index)
-        target = options.snap
-            || (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
+        target = options.snap || options.loop ||
+            ((index === 0 || index === options.length as number - 1))
             ? find(node, options).position(index, snap, gap)
             : position + amplitude;
         amplitude = target - position;
@@ -148,7 +148,8 @@ export function slidy(
 
             if (timestamp < time) {
                 target = options.loop ? find(node, options).position(index, snap, gap) : target
-                move(target as number - position - delta);
+                const pos = target as number - position
+                move(pos - delta);
             }
 
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
@@ -186,6 +187,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
+        PARENT.blur()
         const delta = reference - coordinate(e, options.vertical)
         reference = coordinate(e, options.vertical);
 
@@ -202,6 +204,11 @@ export function slidy(
 
     function onUp(): void {
         clear();
+
+        const max = find(node, options).scroll()
+        const active = find(node, options).position(options.index as number, snap, gap)
+        const parent = find(node, options).parent()
+        velocity = !options.loop ? maxMin(max - active, -active - parent, velocity) : velocity
 
         const amplitude = velocity * (2 - gravity);
         const index = find(node, options).index(position + amplitude, snap)

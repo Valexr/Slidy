@@ -36,8 +36,8 @@ function listen(
     on = true
 ): void {
     for (const [event, handle, options] of events) {
-        const listen = on ? 'addEventListener' : 'removeEventListener';
-        if (node) node[listen](event, handle, options);
+        const state = on ? 'addEventListener' : 'removeEventListener';
+        if (node) node[state](event, handle, options);
     }
 }
 

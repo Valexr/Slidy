@@ -3,10 +3,16 @@
 
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=auto">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-capable" content="yes">
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
+
+        <link rel="apple-touch-icon" type="image/png" sizes="any" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" sizes="any" href="/apple-touch-icon-precomposed.png">
         <link rel="icon" type="image/png" href="favicon.png" />
         <link rel="stylesheet" href="dev.css" />
 
@@ -66,11 +72,11 @@
                         <input onchange="setVar(main, this.name, this.value)" name="gap" size="3" />
                     </label>
                     <label title="duration">
-                        <input onchange="changeValue()" name="duration" type="number" size="4" step="1" min="100"
+                        <input onchange="changeValue()" name="duration" type="number" size="2" step="1" min="100"
                             max="1000" />
                     </label>
                     <label title="gravity">
-                        <input onchange="changeValue()" name="gravity" type="number" size="4" step="0.1" min="0.1"
+                        <input onchange="changeValue()" name="gravity" type="number" size="1" step="0.1" min="0.1"
                             max="2" />
                     </label>
                     <label title="align">
@@ -137,8 +143,8 @@
                 page = randomQ(1, 69);
 
             let options = {
-                index: 4,
-                length: 9,
+                index: 7,
+                length: 15,
                 snap: '',
                 loop: false,
                 clamp: false,
