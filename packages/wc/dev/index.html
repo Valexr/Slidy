@@ -15,10 +15,11 @@
         <link rel="apple-touch-icon-precomposed" type="image/png" sizes="any" href="/apple-touch-icon-precomposed.png">
         <link rel="icon" type="image/png" href="favicon.png" />
         <link rel="stylesheet" href="dev.css" />
+        <link rel="stylesheet" href="slidy.css" />
 
         <title>Slidy 3.1.0 - NativeJS</title>
 
-        <script defer src="dev.js"></script>
+        <script type="module" src="slidy.js"></script>
     </head>
 
     <body>
@@ -30,14 +31,13 @@
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
         <main style="--gap: 1rem; --flow: row; --width: auto; --height: 375px">
-            <dl id="slidy">
-                <dd id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></dd>
-                <dd id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></dd>
-                <dd id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></dd>
-                <dd id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></dd>
-                <dd id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></dd>
-                <dd style="display: grid; place-items: center">Loading...</dd>
-            </dl>
+            <slidy-wc id="slidy" tabindex="0" itemWidth="var(--width)" height="350px" space="var(--gap)">
+                <img id="0" src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" />
+                <img id="1" src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" />
+                <img id="2" src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" />
+                <img id="3" src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" />
+                <img id="4" src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" />
+            </slidy-wc>
         </main>
         <footer>
             <nav id="buttons">
@@ -146,8 +146,8 @@
                 page = randomQ(1, 69);
 
             let options = {
-                index: 7,
-                length: 15,
+                index: 2,
+                length: 5,
                 snap: '',
                 loop: false,
                 clamp: false,
@@ -158,7 +158,7 @@
 
             const main = document.querySelector('main'),
                 section = document.querySelector('section'),
-                node = document.querySelector('#slidy'),
+                node = document.querySelector('slidy-wc'),
                 nav = document.querySelector('#dots'),
                 stats = document.querySelector('#stats'),
                 buttons = document.querySelectorAll('button'),
@@ -166,11 +166,9 @@
                 select = document.querySelector('select'),
                 head = document.querySelector('head');
 
+            node.setAttribute('options', JSON.stringify(options));
             window.onload = () => {
-                getPhotos(node, page, options.length);
-                // if (node.isConnected)
-                //     slidy = Slidy.slidy(node, options);
-
+                // getPhotos(node, page, options.length);
                 node.addEventListener('mount', (e) => {
                     console.log(e);
                     options = e.detail.options;
@@ -187,35 +185,36 @@
                     select.value = options.snap;
                 });
                 node.addEventListener('move', (e) => {
+                    // console.log(e);
                     indexing(e.detail.index);
                     scrolling(e.detail.position);
                 });
                 node.addEventListener('resize', (e) => {
-                    console.log(e);
+                    // console.log(e);
                 });
                 node.addEventListener('update', (e) => {
-                    // console.log(e)
+                    // console.log(e);
                 });
                 node.addEventListener('destroy', (e) => {
-                    // console.log(e)
+                    // console.log(e);
                 });
-
-                function scrolling(p) {
-                    position = p;
-                    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
-                }
-
-                function indexing(x) {
-                    options.index = x;
-
-                    Array.from(node.children).forEach((n, i) =>
-                        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
-                    );
-                    Array.from(nav.children).forEach((n, i) =>
-                        i === x ? n.classList.add('active') : n.classList.remove('active')
-                    );
-                }
             };
+
+            function scrolling(p) {
+                position = p;
+                stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
+            }
+
+            function indexing(x) {
+                options.index = x;
+
+                Array.from(node.children).forEach((n, i) =>
+                    +n.id === x ? n.classList.add('active') : n.classList.remove('active')
+                );
+                Array.from(nav.children).forEach((n, i) =>
+                    i === x ? n.classList.add('active') : n.classList.remove('active')
+                );
+            }
 
             function activate(node, prop) {
                 node.classList.toggle('active');
@@ -238,7 +237,7 @@
 
             function changeValue() {
                 const value = isNum(event.target.value) ? +event.target.value : event.target.value;
-                slidy.update({ [event.target.name]: value });
+                // slidy.update({ [event.target.name]: value });
                 options[event.target.name] = value;
                 if (event.target.name === 'length') getPhotos(node, page, value);
             }
@@ -260,7 +259,6 @@
             // }
 
             async function getPhotos(node, page, limit) {
-                slidy?.destroy();
                 node.style.transform = '';
                 node.innerHTML = `<dd style="display: grid; place-items: center">Loading... 🚀</dd>`;
 
@@ -276,7 +274,7 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<dd id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></dd>`;
+                                    return `<img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
@@ -286,9 +284,6 @@
                             node.style.transform = '';
                             node.innerHTML = `<dd style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</dd>`;
                         }
-                    })
-                    .then(() => {
-                        slidy = Slidy.slidy(node, options);
                     })
                     .catch((error) => {
                         console.error(error);

@@ -10,9 +10,9 @@ function onMount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, 
                 count = 0;
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
-            } else if (length && node.childNodes.length >= length) {
+            } else if (length && node.children.length >= length) {
                 count = 0;
-                length = node.childNodes.length
+                length = node.children.length
                 clearInterval(mounting);
                 resolve({ childs: init(node), length });
             }
@@ -42,14 +42,14 @@ function listen(
 }
 
 function init(node: Slidy, childs?: NodeListOf<Child>): NodeListOf<Child> {
-    childs = node.childNodes as NodeListOf<Child>;
+    childs = node.children as unknown as NodeListOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
     }
     return childs;
 }
 
-function css(node: Slidy | Parent, styles: CssRules): void {
+function style(node: Slidy | Parent, styles: CssRules): void {
     for (const property in styles) {
         node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
     }
@@ -86,4 +86,4 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
-export { coordinate, css, delay, dispatch, init, listen, throttle, onMount, getFPS };
+export { coordinate, style, delay, dispatch, init, listen, throttle, onMount, getFPS };

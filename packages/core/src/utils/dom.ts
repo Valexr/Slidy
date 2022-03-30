@@ -1,28 +1,27 @@
-import type { Child, Options, Parent, Slidy } from '../types';
+import type { Child, Options, Slidy } from '../types';
 import { maxMin } from './helpers';
 
 function indexing(node: Slidy, index: number, loop?: boolean) {
     if (loop) {
         if (index < 0) {
-            return node.childNodes.length - 1;
-        } else if (index > node.childNodes.length - 1) {
+            return nodes(node).length - 1;
+        } else if (index > nodes(node).length - 1) {
             return 0;
         } else return index;
-    } else return maxMin(node.childNodes.length - 1, 0, index);
+    } else return maxMin(nodes(node).length - 1, 0, index);
 }
 
-const cix = (node: Slidy) => Math.floor(node.childNodes.length / 2);
-const parent = (node: Slidy): Parent => node.parentNode as Parent;
-const nodes = (node: Slidy): Child[] => Array.from(node.childNodes as NodeListOf<Child>);
+const cix = (node: Slidy) => Math.floor(nodes(node).length / 2);
+const nodes = (node: Slidy): Child[] => Array.from(node.children as unknown as NodeListOf<Child>);
 const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
+// const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) =>
-    parent(node)[size(vertical)] - child[size(vertical)];
+    node[size(vertical)] - child[size(vertical)];
 const position = (node: Slidy, child: Child, vertical: boolean, snap: string | undefined) =>
     child[coord(vertical)] - diff(snap, offset(node, child, vertical) * part(snap));
 const distance = (node: Slidy, index: number, vertical: boolean) =>
@@ -57,9 +56,7 @@ const find = (node: Slidy, options: Options) => ({
         const prev = distance(node, last - 1, options.vertical as boolean) + lastSize
         return distance(node, last, options.vertical as boolean) - prev;
     },
-    scroll: () => node[scroll(options.vertical as boolean)],
-    // active: (index: number, snap?: string) => position(node, child(node, index), options.vertical as boolean, snap),
-    // parent: () => parent(node)[size(options.vertical as boolean)],
+    // scroll: () => node[scroll(options.vertical as boolean)],
     // target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
 });
 

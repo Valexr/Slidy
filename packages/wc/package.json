@@ -1,0 +1,53 @@
+{
+    "name": "@slidy/wc",
+    "version": "3.0.5",
+    "description": "Simple, configurable & reusable carousel webcomponent",
+    "main": "dist/slidy.cjs",
+    "module": "dist/slidy.mjs",
+    "browser": "dist/slidy.js",
+    "types": "dist/types.d.ts",
+    "type": "module",
+    "files": [
+        "dist/*"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/slidy.mjs",
+            "module": "./dist/slidy.mjs",
+            "require": "./dist/slidy.cjs",
+            "browser": "./dist/slidy.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "dev": "node esbuild --dev",
+        "build": "rm -rf dist && node esbuild && tsc && rm -rf dist/utils",
+        "lint": "eslint './src/**/*.{js,ts}'",
+        "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
+        "prelint": "pnpm run format",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
+        "format": "prettier --ignore-path ../../.gitignore --write './src/**/*.{js,ts,md,json,html,css}'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Valexr/slidy.git"
+    },
+    "keywords": [
+        "Slidy",
+        "Slider",
+        "Carousel",
+        "Action",
+        "Script",
+        "Js",
+        "Ts"
+    ],
+    "author": "Valexr",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Valexr/slidy/issues"
+    },
+    "homepage": "https://valexr.github.io/slidy",
+    "devDependencies": {
+        "@slidy/core": "workspace:*"
+    }
+}

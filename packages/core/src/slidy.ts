@@ -1,8 +1,8 @@
-import { coordinate, css, dispatch, init, listen, throttle, onMount } from './utils/env';
+import { coordinate, style, dispatch, init, listen, throttle, onMount } from './utils/env';
 import { find, shuffle, history, replace, indexing } from './utils/dom';
 import { maxMin } from './utils/helpers';
 
-import type { Options, Parent, Slidy, UniqEvent } from './types';
+import type { Options, Slidy, UniqEvent } from './types';
 
 const base: Options = {
     index: 0,
@@ -17,7 +17,7 @@ const base: Options = {
 
 export function slidy(
     node: Slidy,
-    options: Options
+    options: Partial<Options> = base
 ): {
     update: (options: Options) => void;
     destroy: () => void;
@@ -39,8 +39,6 @@ export function slidy(
 
     options = { ...base, ...options }
 
-    const PARENT = node.parentElement as HTMLElement;
-
     const DURATION = Math.pow(options.duration as number, 2) / 1000
 
     const WINDOW_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
@@ -50,7 +48,7 @@ export function slidy(
         ['mouseup', onUp as EventListenerOrEventListenerObject],
         ['scroll', onScroll as EventListenerOrEventListenerObject, { capture: true }]
     ];
-    const PARENT_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
+    const NODE_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
         ['contextmenu', clear],
         ['touchstart', onDown as EventListenerOrEventListenerObject],
         ['mousedown', onDown as EventListenerOrEventListenerObject],
@@ -77,12 +75,13 @@ export function slidy(
             options.length = length
             gravity = options.gravity as number
             gap = find(node, options).gap();
-            position = find(node, options).position(hix, snap, gap)
+            position = options.loop ? find(node, options).position(hix, snap, gap) : position
 
-            to(options.index as number)
-            css(PARENT as Parent, { outline: 'none', overflow: 'hidden' });
-            listen(PARENT as Parent, PARENT_EVENTS);
-            RO.observe(PARENT as Element);
+            style(node, { outline: 'none', overflow: 'hidden' });
+            node.tabIndex = 0
+
+            listen(node, NODE_EVENTS);
+            RO.observe(node as Element);
 
             dispatch(node, 'mount', { childs, options });
         })
@@ -94,7 +93,7 @@ export function slidy(
         options.index = find(node, options).index(position, snap);
 
         graviting(options.index)
-        css(node, { transform: `translate3d(${translate(options.vertical)})` });
+        moving(node.children);
         dispatch(node, 'move', { index: options.index, position });
 
         function graviting(index: number) {
@@ -105,8 +104,14 @@ export function slidy(
                     : options.gravity as number;
         }
 
+        function moving(childs: HTMLCollection) {
+            for (let index = 0; index < childs.length; index++) {
+                style(childs[index] as Slidy, { transform: `translate(${translate(options.vertical)})` })
+            }
+        }
+
         function translate(vertical?: boolean): string {
-            return vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            return vertical ? `0, ${-position}px` : `${-position}px, 0`;
         }
 
         function looping(pos: number): number {
@@ -128,10 +133,10 @@ export function slidy(
 
         velocity = (2 - gravity) * speed + 0.2 * velocity;
 
+        if (elapsed < 60) return;
+
         timestamp = now;
         frame = position;
-
-        if (elapsed < 100) return;
     }
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
@@ -146,11 +151,10 @@ export function slidy(
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
-            if (timestamp < time) {
-                target = options.loop ? find(node, options).position(index, snap, gap) : target
-                const pos = target as number - position
-                move(pos - delta);
-            }
+            // if (timestamp < time) {
+            target = options.loop ? find(node, options).position(index, snap, gap) : target
+            move(target as number - position - delta);
+            // }
 
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
         });
@@ -174,12 +178,12 @@ export function slidy(
 
     function onDown(e: UniqEvent): void {
         clear();
-        PARENT.focus()
+        node.focus()
 
         reference = coordinate(e, options.vertical);
         timestamp = performance.now();
         frame = position;
-        velocity = 0;
+        velocity = 0
 
         listen(window, WINDOW_EVENTS);
 
@@ -187,7 +191,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        PARENT.blur()
+        node.blur()
         const delta = reference - coordinate(e, options.vertical)
         reference = coordinate(e, options.vertical);
 
@@ -200,15 +204,13 @@ export function slidy(
             gravity = 2
             to(options.index as number, DURATION / gravity)
         }
+
+        // e.preventDefault()
+        // e.stopPropagation()
     }
 
-    function onUp(): void {
+    function onUp(e: UniqEvent): void {
         clear();
-
-        // const max = find(node, options).scroll()
-        // const active = find(node, options).position(options.index as number, snap, gap)
-        // const parent = find(node, options).parent()
-        // velocity = !options.loop ? maxMin(max - active, -active - parent, velocity) : velocity
 
         const amplitude = velocity * (2 - gravity);
         const index = find(node, options).index(position + amplitude, snap)
@@ -217,6 +219,9 @@ export function slidy(
             ((options.duration && Math.abs(amplitude) <= options.duration) && options.snap) || (!options.loop && (index === 0 || index === options.length as number - 1))
 
         scroll(index, (condition ? DURATION : options.duration as number), performance.now(), amplitude)
+
+        e.preventDefault()
+        e.stopPropagation()
     }
 
 
@@ -293,7 +298,7 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        listen(PARENT, PARENT_EVENTS, false);
+        listen(node, NODE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };

@@ -52,7 +52,8 @@ const derverConfig = {
 	watch: [
 		"public",
 		"src",
-		"dist"
+		"dist",
+		'../core/dist'
 	]
 };
 

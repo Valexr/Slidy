@@ -288,12 +288,18 @@ section {
     flex: 1 0 var(--gap);
 } */
 #slidy li.active, #slidy dd.active  {
-    /* --shadow: var(--accent); */
+    --shadow: var(--accent);
 }
 #slidy li.slotted, #slidy dd.slotted {
     --shadow: transparent;
 }
-
+slidy-wc > *::before {
+    content: attr(id);
+    position: absolute;
+    z-index: 1;
+    padding: 0.5rem 1rem;
+    bottom: 0;
+}
 #slidy li:before, #slidy dd:before {
     content: attr(id);
     position: absolute;
