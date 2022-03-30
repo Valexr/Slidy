@@ -151,10 +151,10 @@ export function slidy(
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
-            // if (timestamp < time) {
-            target = options.loop ? find(node, options).position(index, snap, gap) : target
-            move(target as number - position - delta);
-            // }
+            if (timestamp < time) {
+                target = options.loop ? find(node, options).position(index, snap, gap) : target
+                move(target as number - position - delta);
+            }
 
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
         });

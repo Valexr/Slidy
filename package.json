@@ -11,6 +11,7 @@
         "dev:react": "pnpm dev --filter=@slidy/react... --parallel",
         "dev:malina": "pnpm dev --filter=@slidy/malina... --parallel",
         "dev:svelte": "pnpm dev:svelte --parallel",
+        "build:wc": "pnpm build --filter=@slidy/wc",
         "build:www": "pnpm build --filter=@slidy/www",
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",

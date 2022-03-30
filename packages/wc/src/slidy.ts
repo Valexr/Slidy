@@ -3,7 +3,7 @@ import type { Options } from '@slidy/core';
 
 export default class Slidy extends HTMLElement {
     // options?: Partial<Options>;
-    render: () => void;
+    // render: () => void;
     constructor() {
         super();
         // this.render = () => { };
