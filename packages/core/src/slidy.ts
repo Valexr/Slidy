@@ -70,11 +70,11 @@ export function slidy(
         .then(({ childs, length }) => {
             replace(node, options.index as number, options.loop);
 
-            hix = options.index as number
             snap = options.snap
             options.length = length
-            gravity = options.gravity as number
+            hix = options.index as number
             gap = find(node, options).gap();
+            gravity = options.gravity as number
             position = options.loop ? find(node, options).position(hix, snap, gap) : position
 
             style(node, { outline: 'none', overflow: 'hidden' });
@@ -103,15 +103,17 @@ export function slidy(
                     ? maxMin(1.8, 0, gravity + 0.015)
                     : options.gravity as number;
         }
-
         function moving(childs: HTMLCollection) {
             for (let index = 0; index < childs.length; index++) {
-                style(childs[index] as Slidy, { transform: `translate(${translate(options.vertical)})` })
+                style(childs[index] as Slidy, {
+                    transform: translate(options.vertical)
+                })
             }
         }
 
         function translate(vertical?: boolean): string {
-            return vertical ? `0, ${-position}px` : `${-position}px, 0`;
+            const direction = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            return `translate3d(${direction})`
         }
 
         function looping(pos: number): number {
@@ -140,7 +142,8 @@ export function slidy(
     }
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
-        snap = snapping(index)
+        snapping(index)
+
         target = options.snap || options.loop ||
             (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
             ? find(node, options).position(index, snap, gap)
@@ -151,17 +154,17 @@ export function slidy(
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
-            if (timestamp < time) {
-                target = options.loop ? find(node, options).position(index, snap, gap) : target
-                move(target as number - position - delta);
-            }
+            // if (timestamp < time) {
+            target = options.loop ? find(node, options).position(index, snap, gap) : target
+            move(target as number - position - delta);
+            // }
 
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
         });
     }
 
-    function snapping(index: number) {
-        return options.loop
+    function snapping(index: number): void {
+        snap = options.loop
             ? options.snap : index === 0
                 ? 'start' : index === options.length as number - 1
                     ? 'end' : options.snap
@@ -191,7 +194,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        node.blur()
+        // node.blur()
         const delta = reference - coordinate(e, options.vertical)
         reference = coordinate(e, options.vertical);
 
@@ -209,7 +212,7 @@ export function slidy(
         // e.stopPropagation()
     }
 
-    function onUp(e: UniqEvent): void {
+    function onUp(): void {
         clear();
 
         const amplitude = velocity * (2 - gravity);
@@ -220,8 +223,8 @@ export function slidy(
 
         scroll(index, (condition ? DURATION : options.duration as number), performance.now(), amplitude)
 
-        e.preventDefault()
-        e.stopPropagation()
+        // e.preventDefault()
+        // e.stopPropagation()
     }
 
 

@@ -5,7 +5,9 @@
     padding-inline-start: 0;
 }
 
-header, footer, article {
+header,
+footer,
+article {
     margin: 1rem;
 }
 
@@ -74,11 +76,13 @@ form {
 b {
     color: var(--accent);
 }
+
 nav#dots {
     display: flex;
     overflow-x: scroll;
     gap: 0.5ex;
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 nav#dots::-webkit-scrollbar {
     display: none;
@@ -86,8 +90,10 @@ nav#dots::-webkit-scrollbar {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 nav#dots {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 fieldset {
@@ -96,6 +102,7 @@ fieldset {
     padding: 0;
     flex-flow: row wrap;
 }
+
 legend {
     display: flex;
     flex-wrap: wrap;
@@ -103,12 +110,13 @@ legend {
     width: 100%;
     gap: 0.5rem;
 }
+
 form {
     display: flex;
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     /* flex: 0 auto; */
     /* gap: 1rem; */
     /* padding: 0.5rem; */
@@ -123,15 +131,19 @@ label {
 }
 
 select {
+    appearance: none;
     -webkit-appearance: none;
 }
+
 h3 {
     position: relative;
     /* color: #FFC300; */
 }
+
 h3 span {
     /* color: #8759F2; */
 }
+
 h3 sub {
     position: absolute;
     right: 0;
@@ -140,10 +152,12 @@ h3 sub {
     font-weight: 300;
     display: inline;
 }
+
 h3 sub#stats {
     right: auto;
     left: 0;
 }
+
 header h3,
 header p {
     margin: 0;
@@ -151,9 +165,11 @@ header p {
     padding: 0;
     bottom: 9px;
 }
+
 header p {
     font-size: 1;
 }
+
 header,
 footer {
     display: flex;
@@ -161,6 +177,7 @@ footer {
     justify-content: space-between;
     flex-flow: row wrap;
 }
+
 footer {
     gap: 1rem;
     justify-content: flex-start;
@@ -218,11 +235,13 @@ footer {
     /* outline-color: var(--accent) !important; */
     /* will-change: transform, color; */
 }
+
 :disabled {
     color: inherit;
     border-color: inherit;
     cursor: inherit;
 }
+
 .active:not(li, :disabled) {
     border-color: var(--accent) !important;
 }
@@ -237,6 +256,7 @@ section {
     width: 100%;
     position: relative;
 }
+
 #loader,
 #info {
     position: absolute;
@@ -260,7 +280,8 @@ section {
     /* will-change: transform; */
 }
 
-#slidy li, #slidy dd {
+#slidy li,
+#slidy dd {
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -278,6 +299,7 @@ section {
     /* box-shadow: inset 0px 0px 1px 1px var(--shadow); */
     /* will-change: transform; */
 }
+
 /* #slidy dd:first-child {
     margin-left: var(--gap);
 }
@@ -287,14 +309,18 @@ section {
     height: 100%;
     flex: 1 0 var(--gap);
 } */
-#slidy li.active, #slidy dd.active  {
+#slidy li.active,
+#slidy dd.active {
     /* --shadow: var(--accent); */
 }
-#slidy li.slotted, #slidy dd.slotted {
+
+#slidy li.slotted,
+#slidy dd.slotted {
     --shadow: transparent;
 }
 
-#slidy li:before, #slidy dd:before {
+#slidy li:before,
+#slidy dd:before {
     content: attr(id);
     position: absolute;
     z-index: 1;
@@ -305,7 +331,8 @@ section {
     /* will-change: transform; */
 }
 
-#slidy li img, #slidy dd img {
+#slidy li img,
+#slidy dd img {
     min-width: 100%;
     min-height: 100%;
     max-width: 100%;
@@ -322,16 +349,19 @@ section {
         /* will-change: transform; */
         /* pointer-events: auto; */
     }
+
     #slidy li:before {
         /* will-change: transform; */
     }
 }
+
 /* MacOS */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     #slidy li img {
         /* width: auto; */
         /* will-change: transform; */
     }
+
     #slidy li:before {
         /* will-change: transform; */
     }
@@ -347,6 +377,7 @@ section {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
 .icon-refresh::after {
     border: 0.2em solid currentColor;
     border-top-color: currentcolor;
@@ -358,6 +389,7 @@ section {
     top: -0.25em;
     width: 0;
 }
+
 .icon-refresh::before {
     border: 0.12rem solid currentColor;
     border-right-color: currentcolor;
@@ -366,6 +398,7 @@ section {
     height: 0.75em;
     width: 0.75em;
 }
+
 .icon {
     box-sizing: border-box;
     display: inline-block;

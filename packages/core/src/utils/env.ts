@@ -11,10 +11,13 @@ function onMount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, 
                 clearInterval(mounting);
                 reject(`Slidy haven't items`);
             } else if (length && node.children.length >= length) {
+                // const childs = Array.from(node.children).filter(child => child.isConnected);
+                // if (node.children.length === childs.length) {
                 count = 0;
                 length = node.children.length
                 clearInterval(mounting);
                 resolve({ childs: init(node), length });
+                // }
             }
         }, 16);
     });

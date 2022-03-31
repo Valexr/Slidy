@@ -49,6 +49,7 @@ export interface CssRules {
     overflow?: string;
     transform?: string;
     transition?: string;
+    opacity?: number
 }
 
 export interface Delta {

@@ -29,7 +29,7 @@
             </h3>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
-        <main style="--gap: 1rem; --flow: row; --width: auto; --height: 375px">
+        <main style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
             <dl id="slidy">
                 <dd id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></dd>
                 <dd id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></dd>
@@ -202,7 +202,7 @@
 
                 function scrolling(p) {
                     position = p;
-                    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
+                    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>`;
                 }
 
                 function indexing(x) {
@@ -240,7 +240,10 @@
                 const value = isNum(event.target.value) ? +event.target.value : event.target.value;
                 slidy.update({ [event.target.name]: value });
                 options[event.target.name] = value;
-                if (event.target.name === 'length') getPhotos(node, page, value);
+                if (event.target.name === 'length') {
+                    getPhotos(node, page, value);
+                    console.log(options.length);
+                }
             }
             function getVar(node, name) {
                 return getComputedStyle(node).getPropertyValue(name);
