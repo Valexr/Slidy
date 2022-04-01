@@ -24,7 +24,7 @@ if (DEV) {
     build({
         ...esbuildBase,
         minify: false,
-        outdir: 'dev',
+        outfile: 'dev/dev.js',
         globalName: 'Slidy',
         format: 'iife',
         sourcemap: 'inline',
@@ -43,23 +43,17 @@ if (DEV) {
 } else {
     (async () => {
         await build({
-            outfile: './dist/slidy.cjs',
+            outfile: 'dist/slidy.cjs',
             format: 'cjs',
             ...esbuildBase,
         });
         await build({
-            outfile: './dist/slidy.mjs',
+            outfile: 'dist/slidy.mjs',
             format: 'esm',
             ...esbuildBase,
         });
         await build({
-            outfile: './dist/slidy.js',
-            globalName: 'Slidy',
-            format: 'iife',
-            ...esbuildBase,
-        });
-        await build({
-            outfile: 'dev/dev.js',
+            outfile: 'dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',
             ...esbuildBase,

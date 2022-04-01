@@ -15,12 +15,12 @@
 </script>
 
 <svelte:head>
-	<title>Slidy 3.0 - SvelteKit</title>
+	<title>Slidy 3.1.0 - SvelteKit</title>
 </svelte:head>
 
 <h1>Welcome to Slidy SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
 {#await getItems(page) then slides}
-	<Slidy getImgSrc={(item) => item.download_url} {slides} snap="center" />
+	<Slidy getImgSrc={(item) => item.download_url} {slides} loop snap="center" />
 {/await}

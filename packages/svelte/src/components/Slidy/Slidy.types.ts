@@ -19,7 +19,7 @@ export interface SlidyOptions {
 	className?: string;
 	dots?: boolean;
 	duration?: number;
-	getImgSrc?: string;
+	getImgSrc?: (item: any) => string;
 	gravity?: number;
 	id?: string;
 	index?: number;

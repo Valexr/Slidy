@@ -23,7 +23,7 @@
 
     <body>
         <header>
-            <img alt="Slidy" width="50" height="50" src="favicon.png" />
+            <img id="slidy-logo" alt="Slidy" width="50" height="50" src="favicon.png" />
             <h3>
                 Slidy <span>3.1.0</span><sub>nativeJS</sub><sub id="stats" />
             </h3>
@@ -31,11 +31,11 @@
         </header>
         <main style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
             <dl id="slidy">
-                <dd id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></dd>
+                <!-- <dd id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></dd>
                 <dd id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></dd>
                 <dd id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></dd>
                 <dd id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></dd>
-                <dd id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></dd>
+                <dd id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></dd> -->
                 <dd style="display: grid; place-items: center">Loading...</dd>
             </dl>
         </main>
@@ -146,10 +146,10 @@
                 page = randomQ(1, 69);
 
             let options = {
-                index: 7,
-                length: 15,
-                snap: '',
-                loop: false,
+                index: 2,
+                length: 5,
+                snap: 'center',
+                loop: true,
                 clamp: false,
                 gravity: 1.2,
                 duration: 375,
@@ -166,11 +166,13 @@
                 select = document.querySelector('select'),
                 head = document.querySelector('head');
 
+            console.log(('slidy-logo'));
+            console.log(window['slidy-logo']); // get Node by id
+
             window.onload = () => {
                 getPhotos(node, page, options.length);
                 // if (node.isConnected)
                 //     slidy = Slidy.slidy(node, options);
-
                 node.addEventListener('mount', (e) => {
                     console.log(e);
                     options = e.detail.options;

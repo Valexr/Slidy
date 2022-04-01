@@ -154,10 +154,10 @@ export function slidy(
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
-            // if (timestamp < time) {
-            target = options.loop ? find(node, options).position(index, snap, gap) : target
-            move(target as number - position - delta);
-            // }
+            if (timestamp < time) {
+                target = options.loop ? find(node, options).position(index, snap, gap) : target
+                move(target as number - position - delta);
+            }
 
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
         });
@@ -194,7 +194,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        // node.blur()
+        node.blur()
         const delta = reference - coordinate(e, options.vertical)
         reference = coordinate(e, options.vertical);
 
@@ -208,11 +208,11 @@ export function slidy(
             to(options.index as number, DURATION / gravity)
         }
 
-        // e.preventDefault()
-        // e.stopPropagation()
+        e.preventDefault()
+        e.stopPropagation()
     }
 
-    function onUp(): void {
+    function onUp(e: UniqEvent): void {
         clear();
 
         const amplitude = velocity * (2 - gravity);
@@ -223,8 +223,8 @@ export function slidy(
 
         scroll(index, (condition ? DURATION : options.duration as number), performance.now(), amplitude)
 
-        // e.preventDefault()
-        // e.stopPropagation()
+        e.preventDefault()
+        e.stopPropagation()
     }
 
 

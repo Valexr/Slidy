@@ -63,7 +63,7 @@
 		"esbuild-svelte": "^0.6.3",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"prettier-plugin-svelte": "^2.6.0",
-		"svelte": "^3.46.4",
+		"svelte": "^3.46.6",
 		"svelte-check": "^2.4.6",
 		"svelte-preprocess": "^4.10.4",
 		"svelte2tsx": "^0.5.6"
