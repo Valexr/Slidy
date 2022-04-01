@@ -10,7 +10,16 @@
             ],
             "@slidy/svelte": [
                 "svelte/src"
-            ]
+            ],
+            "@slidy/malina": [
+                "malina/src"
+            ],
+            "@slidy/wc": [
+                "wc/src"
+            ],
+            "@slidy/vue": [
+                "vue/src"
+            ],
         },
         "declaration": true,
         "emitDeclarationOnly": true,

@@ -1,0 +1,23 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "declarationDir": "dist/",
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ]
+    },
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        // "src/utils/*",
+        // "src/index.ts"
+    ],
+    // "files": [
+    //     "src/slidy.ts",
+    //     "src/types.ts"
+    // ]
+}

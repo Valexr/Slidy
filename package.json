@@ -6,12 +6,14 @@
     "type": "module",
     "scripts": {
         "dev:wc": "pnpm dev --filter=@slidy/wc... --parallel",
+        "dev:vue": "pnpm dev --filter=@slidy/vue... --parallel",
         "dev:www": "pnpm dev --filter=@slidy/www... --parallel",
         "dev:core": "pnpm dev:core --parallel",
         "dev:react": "pnpm dev --filter=@slidy/react... --parallel",
         "dev:malina": "pnpm dev --filter=@slidy/malina... --parallel",
         "dev:svelte": "pnpm dev:svelte --parallel",
         "build:wc": "pnpm build --filter=@slidy/wc",
+        "build:vue": "pnpm build --filter=@slidy/vue",
         "build:www": "pnpm build --filter=@slidy/www",
         "build:core": "pnpm build --filter=@slidy/core",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
@@ -78,6 +80,7 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.1",
+        "@types/node": "^17.0.23",
         "@typescript-eslint/eslint-plugin": "^5.17.0",
         "@typescript-eslint/parser": "^5.17.0",
         "derver": "^0.5.3",
