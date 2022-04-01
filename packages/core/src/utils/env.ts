@@ -3,23 +3,24 @@ import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '.
 function onMount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, length: number }> {
     return new Promise((resolve, reject) => {
         let count = 0;
-
-        const mounting = setInterval(() => {
-            count++;
-            if (count >= 69) {
-                count = 0;
-                clearInterval(mounting);
-                reject(`Slidy haven't items`);
-            } else if (node.children.length >= length) {
-                const childs = Array.from(node.children).filter(child => child.isConnected);
-                if (node.children.length === childs.length) {
+        if (node) {
+            const mounting = setInterval(() => {
+                count++;
+                if (count >= 69) {
                     count = 0;
-                    length = node.children.length
                     clearInterval(mounting);
-                    resolve({ childs: init(node), length });
+                    reject(`Slidy haven't items`);
+                } else if (node.children.length >= length) {
+                    const childs = Array.from(node.children).filter(child => child.isConnected);
+                    if (node.children.length === childs.length) {
+                        count = 0;
+                        length = node.children.length
+                        clearInterval(mounting);
+                        resolve({ childs: init(node), length });
+                    }
                 }
-            }
-        }, 16);
+            }, 16);
+        }
     });
 }
 

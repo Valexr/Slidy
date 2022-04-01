@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { Header, Main, Footer } from './components'
 import { Slidy } from '../../src';
 import { getImgs } from './api'
 
-let items = []
+// defineProps<{
+//     items: any[]
+// }>()
+
+// const items = await getImgs()
 onMounted(async () => {
     items = await getImgs()
     console.log(items)
@@ -11,28 +16,20 @@ onMounted(async () => {
 </script>
 
 <script lang="ts">
-// let items = []
+let items = ref([])
+getImgs().then(data => items.value = data)
 // onMounted(async () => {
 //     items = await getImgs()
-//     console.log(items)
+console.log(items.value)
 // })
 </script>
 
 <template>
-    <header>
-        <img id="slidy-logo" alt="Slidy" width="50" height="50" src="favicon.png" />
-        <h3>
-            Slidy
-            <span>3.1.0</span>
-            <sub>vueJS</sub>
-            <sub id="stats" />
-        </h3>
-        <button id="dark" @click="activate(this, dark)">dark</button>
-    </header>
-
-    <main>
-        <Slidy items="items" />
-    </main>
+    <Header />
+    <Main>
+        <Slidy />
+    </Main>
+    <Footer />
 </template>
 
 <style>
