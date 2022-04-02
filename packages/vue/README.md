@@ -1,3 +1,3 @@
-# @slidy/react
+# @slidy/vue
 
-Simple, configurable & reusable carousel component built with ReactJS based on [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core).
+Simple, configurable & reusable carousel component built with VueJS based on [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core).

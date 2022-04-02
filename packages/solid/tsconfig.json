@@ -1,0 +1,24 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "declarationDir": "dist/",
+        "lib": [
+            "ESNext"
+        ],
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+        "src/*"
+    ],
+    // "exclude": [
+    // "src/utils/*",
+    // "src/index.ts"
+    // ],
+    // "files": [
+    //     "src/slidy.ts",
+    //     "src/types.ts"
+    // ]
+}
