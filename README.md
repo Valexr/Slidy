@@ -36,6 +36,8 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 
 [@ariya](https://github.com/ariya) for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles
 
+[@argyleink](https://github.com/argyleink/open-props) for Open Source CSS Variables 👍🏻
+
 [@rodshtein](https://github.com/rodshtein) for the idea of implementing the action function
 
 [@EricRovell](https://github.com/EricRovell) for collaboration & ideas of modulating `@slidy`

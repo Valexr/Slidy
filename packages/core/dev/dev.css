@@ -8,7 +8,7 @@
 header,
 footer,
 article {
-    margin: 1rem;
+    margin: var(--size-fluid-2)
 }
 
 a {
