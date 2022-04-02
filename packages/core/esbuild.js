@@ -2,19 +2,19 @@ import { build } from 'esbuild';
 import { derver } from 'derver';
 import { eslintPlugin } from 'esbuild-plugin-eslinter';
 
-// import pkg from './package.json' assert { type: 'json' };
-
 const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
 
 const esbuildBase = {
     bundle: true,
-    minify: true,
-    sourcemap: false,
+    minify: !DEV || !CORE,
+    sourcemap: (DEV || CORE) ? 'inline' : false,
     target: 'es2020',
     legalComments: 'none',
     plugins: [eslintPlugin()],
-    entryPoints: ['src/slidy.ts'],
+    entryPoints: ['src/index.ts'],
+    watch: DEV,
+    incremental: DEV || CORE,
 };
 const derverConfig = {
     dir: 'dev',
@@ -23,29 +23,15 @@ const derverConfig = {
     watch: ['dev', 'src'],
 };
 
-if (DEV) {
+if (DEV || CORE) {
     build({
         ...esbuildBase,
-        outfile: './dist/slidy.mjs',
-        format: 'esm',
-        sourcemap: 'inline',
-        minify: false,
-        incremental: true,
-        watch: true,
+        outfile: DEV ? './dist/slidy.mjs' : 'dev/dev.js',
+        format: DEV ? 'esm' : 'iife',
+        globalName: 'Slidy'
     }).then((bundle) => {
-        console.log('watching @slidy/core...');
-    });
-} else if (CORE) {
-    build({
-        ...esbuildBase,
-        minify: false,
-        outfile: 'dev/dev.js',
-        globalName: 'Slidy',
-        format: 'iife',
-        sourcemap: 'inline',
-        incremental: true,
-    }).then((bundle) => {
-        derver({
+        if (DEV) console.log('watching @slidy/core...');
+        else derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
                 if (item !== 'dev') {
@@ -58,26 +44,20 @@ if (DEV) {
 } else {
     (async () => {
         await build({
+            ...esbuildBase,
             outfile: './dist/slidy.cjs',
             format: 'cjs',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: './dist/slidy.mjs',
             format: 'esm',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: './dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',
-            ...esbuildBase,
-        });
-        await build({
-            outfile: 'dev/dev.js',
-            globalName: 'Slidy',
-            format: 'iife',
-            ...esbuildBase,
         });
     })();
 }

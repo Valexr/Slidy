@@ -92,6 +92,13 @@
                     </label>
                 </fieldset>
             </form>
+            <form>
+                <fieldset>
+                    <label title="range">
+                        <input oninput="changeValue()" name="range" type="range" step="1" min="0" max="4" />
+                    </label>
+                </fieldset>
+            </form>
         </footer>
 
         <article>
@@ -245,6 +252,9 @@
                 if (event.target.name === 'length') {
                     getPhotos(node, page, value);
                     console.log(options.length);
+                } else if (event.target.name === 'range') {
+                    console.log(value);
+                    setTimeout(() => slidy.to(value), 100);
                 }
             }
             function getVar(node, name) {

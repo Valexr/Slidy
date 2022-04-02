@@ -3,8 +3,7 @@
     "compilerOptions": {
         "declarationDir": "dist/",
         "lib": [
-            "DOM",
-            "ESNext"
+            "DOM"
         ]
     },
     "include": [
@@ -14,8 +13,8 @@
         "src/utils/*",
         "src/index.ts"
     ],
-    // "files": [
-    //     "src/slidy.ts",
-    //     "src/types.ts"
-    // ]
+    "files": [
+        "src/slidy.ts",
+        "src/types.ts"
+    ]
 }
