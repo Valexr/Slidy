@@ -5,27 +5,24 @@ const DEV = process.argv.includes('--dev');
 
 const esbuildBase = {
     bundle: true,
-    minify: true,
-    sourcemap: false,
+    minify: !DEV,
+    incremental: DEV,
     legalComments: 'none',
     entryPoints: ['src/slidy.tsx'],
+    sourcemap: DEV ? 'inline' : false,
 };
 const derverConfig = {
-    dir: 'dev/public',
     port: 3332,
     host: '0.0.0.0',
-    watch: ['dev/public', 'dev/src/', 'src', '../core/dist'],
+    dir: 'dev/public',
+    watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
 };
 
 if (DEV) {
     build({
+        ...esbuildBase,
         entryPoints: ['dev/src/app.tsx'],
         outfile: 'dev/public/build/bundle.js',
-        bundle: true,
-        minify: false,
-        sourcemap: 'inline',
-        incremental: true,
-        legalComments: 'none',
     }).then((bundle) => {
         derver({
             ...derverConfig,
@@ -40,20 +37,20 @@ if (DEV) {
 } else {
     (async () => {
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.cjs",
             format: 'cjs',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.mjs",
             format: 'esm',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.js",
             globalName: 'Slidy',
             format: 'iife',
-            ...esbuildBase,
         });
     })();
 }

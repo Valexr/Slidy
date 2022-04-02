@@ -6,16 +6,17 @@ const DEV = process.argv.includes('--dev');
 
 const esbuildBase = {
     bundle: true,
-    minify: true,
-    sourcemap: false,
+    minify: !DEV,
+    incremental: DEV,
     legalComments: 'none',
+    plugins: [solidPlugin()],
     entryPoints: ['src/slidy.tsx'],
-    plugins: [solidPlugin()]
+    sourcemap: DEV ? 'inline' : false,
 };
 const derverConfig = {
-    dir: 'dev/public',
     port: 3336,
     host: '0.0.0.0',
+    dir: 'dev/public',
     watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
 };
 
@@ -24,9 +25,6 @@ if (DEV) {
         ...esbuildBase,
         entryPoints: ['dev/src/index.tsx'],
         outfile: 'dev/public/build/bundle.js',
-        minify: false,
-        sourcemap: 'inline',
-        incremental: true,
         loader: { '.svg': 'dataurl' },
     }).then((bundle) => {
         derver({
@@ -42,20 +40,20 @@ if (DEV) {
 } else {
     (async () => {
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.cjs",
             format: 'cjs',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.mjs",
             format: 'esm',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: "dist/slidy.js",
             globalName: 'Slidy',
             format: 'iife',
-            ...esbuildBase,
         });
     })();
 }

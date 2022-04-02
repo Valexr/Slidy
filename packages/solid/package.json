@@ -27,10 +27,10 @@
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
     },
     "keywords": [
-        "React",
-        "ReactJs",
+        "Solid",
+        "SolidJs",
         "Carousel",
-        "React-plugin"
+        "Solid-plugin"
     ],
     "author": "EricRovell",
     "license": "MIT",

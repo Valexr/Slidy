@@ -6,15 +6,14 @@ const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
 
 const esbuildBase = {
+    watch: DEV,
     bundle: true,
-    minify: !DEV || !CORE,
-    sourcemap: (DEV || CORE) ? 'inline' : false,
-    target: 'es2020',
     legalComments: 'none',
+    minify: !DEV || !CORE,
+    incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
-    watch: DEV,
-    incremental: DEV || CORE,
+    sourcemap: (DEV || CORE) ? 'inline' : false,
 };
 const derverConfig = {
     dir: 'dev',

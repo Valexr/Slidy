@@ -6,12 +6,12 @@ const DEV = process.argv.includes('--dev');
 
 const esbuildBase = {
     bundle: true,
-    minify: true,
-    sourcemap: false,
-    target: 'es2020',
+    minify: !DEV,
+    incremental: DEV,
     legalComments: 'none',
     plugins: [eslintPlugin()],
-    entryPoints: ['src/slidy.ts'],
+    entryPoints: ['src/index.ts'],
+    sourcemap: DEV ? 'inline' : false,
 };
 const derverConfig = {
     dir: 'dev',
@@ -23,12 +23,7 @@ const derverConfig = {
 if (DEV) {
     build({
         ...esbuildBase,
-        minify: false,
-        outfile: 'dev/dev.js',
-        globalName: 'Slidy',
-        format: 'iife',
-        sourcemap: 'inline',
-        incremental: true,
+        outfile: 'dev/dev.js'
     }).then((bundle) => {
         derver({
             ...derverConfig,
@@ -43,20 +38,20 @@ if (DEV) {
 } else {
     (async () => {
         await build({
+            ...esbuildBase,
             outfile: 'dist/slidy.cjs',
             format: 'cjs',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: 'dist/slidy.mjs',
             format: 'esm',
-            ...esbuildBase,
         });
         await build({
+            ...esbuildBase,
             outfile: 'dist/slidy.js',
             globalName: 'Slidy',
             format: 'iife',
-            ...esbuildBase,
         });
     })();
 }
