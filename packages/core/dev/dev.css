@@ -249,6 +249,7 @@ footer {
 main {
     height: var(--height, 375px);
     margin: var(--gap, 1rem) auto;
+    /* position: relative; */
 }
 
 section {

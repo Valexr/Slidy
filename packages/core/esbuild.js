@@ -9,7 +9,7 @@ const esbuildBase = {
     watch: DEV,
     bundle: true,
     legalComments: 'none',
-    minify: !DEV || !CORE,
+    minify: !DEV && !CORE,
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],

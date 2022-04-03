@@ -51,6 +51,7 @@ export interface CssRules {
     transition?: string;
     opacity?: number;
     display?: string;
+    position?: string;
 }
 
 export interface Delta {

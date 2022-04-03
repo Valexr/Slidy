@@ -14,7 +14,7 @@ Simple, configurable & reusable sliding action script
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/browse/@slidy/core@<version>/dist/slidy.js"></script>
+    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js"></script>
 </head>
 
 <script>

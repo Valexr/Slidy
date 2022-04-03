@@ -19,6 +19,15 @@
         <title>Slidy 3.1.0 - NativeJS</title>
 
         <script defer src="dev.js"></script>
+        <script type="module">
+            import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+            const nod = document.querySelector('#slidy');
+            // console.log(slidy(nod, {}))
+            window.slidy = slidy;
+            console.log(dark);
+            console.log(window['slidy-logo']); // get Node by id
+        </script>
     </head>
 
     <body>
@@ -30,14 +39,14 @@
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
         <main style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
-            <dl id="slidy">
-                <!-- <dd id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></dd>
-                <dd id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></dd>
-                <dd id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></dd>
-                <dd id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></dd>
-                <dd id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></dd> -->
-                <dd style="display: grid; place-items: center">Loading...</dd>
-            </dl>
+            <ul id="slidy">
+                <!-- <li id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></li>
+                <li id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></li>
+                <li id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></li>
+                <li id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></li>
+                <li id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></li> -->
+                <li style="display: grid; place-items: center">Loading...</li>
+            </ul>
         </main>
         <footer>
             <nav id="buttons">
@@ -173,9 +182,6 @@
                 select = document.querySelector('select'),
                 head = document.querySelector('head');
 
-            console.log(('slidy-logo'));
-            console.log(window['slidy-logo']); // get Node by id
-
             window.onload = () => {
                 getPhotos(node, page, options.length);
                 // if (node.isConnected)
@@ -251,7 +257,6 @@
                 options[event.target.name] = value;
                 if (event.target.name === 'length') {
                     getPhotos(node, page, value);
-                    console.log(options.length);
                 } else if (event.target.name === 'range') {
                     console.log(value);
                     setTimeout(() => slidy.to(value), 100);
@@ -277,7 +282,7 @@
             async function getPhotos(node, page, limit) {
                 slidy?.destroy();
                 node.style.transform = '';
-                node.innerHTML = `<dd style="display: grid; place-items: center">Loading... 🚀</dd>`;
+                node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
 
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
                     .then(async (res) => {
@@ -291,7 +296,7 @@
                             node.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<dd id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></dd>`;
+                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></li>`;
                                 })
                                 .join('');
                             nav.innerHTML = photos
@@ -299,11 +304,12 @@
                                 .join('');
                         } else {
                             node.style.transform = '';
-                            node.innerHTML = `<dd style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</dd>`;
+                            node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
                         }
                     })
                     .then(() => {
                         slidy = Slidy.slidy(node, options);
+                        console.log(node, main);
                     })
                     .catch((error) => {
                         console.error(error);

@@ -55,7 +55,9 @@ export function slidy(
         ['keydown', onKeys as EventListenerOrEventListenerObject],
         [
             'wheel',
-            throttle(onWheel, (DURATION / gravity) * 2) as EventListenerOrEventListenerObject,
+            options.clamp
+                ? throttle(onWheel, (DURATION / gravity) * 2) as EventListenerOrEventListenerObject
+                : onWheel as EventListenerOrEventListenerObject,
             { passive: false, capture: true }
         ]
     ];
@@ -77,7 +79,7 @@ export function slidy(
             gravity = options.gravity as number
             position = options.loop ? find(node, options).position(hix, snap, gap) : position
 
-            style(node, { outline: 'none', overflow: 'hidden' });
+            style(node, { outline: 'none', overflow: 'hidden', position: 'relative' });
             node.tabIndex = 0
 
             listen(node, NODE_EVENTS);
@@ -92,6 +94,7 @@ export function slidy(
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options).index(position, snap);
 
+        snapping(options.index)
         graviting(options.index)
         moving(node.children);
         dispatch(node, 'move', { index: options.index, position });
@@ -112,8 +115,8 @@ export function slidy(
         }
 
         function translate(vertical?: boolean): string {
-            const direction = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
-            return `translate3d(${direction})`
+            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            return `translate3d(${axis})`
         }
 
         function looping(pos: number): number {
@@ -201,15 +204,13 @@ export function slidy(
         move(delta * (2 - gravity));
         track();
 
-        if (Math.abs(delta) > 5) {
+        if (Math.abs(delta) > 2) {
             e.preventDefault()
+            e.stopPropagation()
         } else if (scrolled) {
             gravity = 2
             to(options.index as number, DURATION / gravity)
         }
-
-        e.preventDefault()
-        e.stopPropagation()
     }
 
     function onUp(e: UniqEvent): void {
@@ -234,25 +235,29 @@ export function slidy(
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         // const sign = Math.trunc(coord * gravity * (e.shiftKey ? -1 : 1))
 
-        // if (e.shiftKey || options.clamp) {
-        to(options.index as number + Math.sign(coord * (e.shiftKey ? -1 : 1)))
-        // } else {
-        //     move(coord);
-        //     wheeltime = setTimeout(() => {
-        //         to(options.index as number);
-        //         gravity = options.gravity as number;
-        //     }, 100);
-        // }
+        if (options.clamp || e.shiftKey) {
+            to(options.index as number + Math.sign(coord * (e.shiftKey ? -1 : 1)))
+        } else {
+            move(coord);
+            wheeltime = setTimeout(() => {
+                to(options.index as number);
+                gravity = options.gravity as number;
+            }, 60);
+        }
     }
 
     function onKeys(e: KeyboardEvent): void {
-        const keys = ['ArrowRight', 'Enter', ' '];
-        if (e.key === 'ArrowLeft') {
+        const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
+        const prev = ['ArrowLeft', 'ArrowUp']
+
+        if (prev.includes(e.key)) {
             to(options.index as number - 1);
-        } else if (keys.includes(e.key)) {
+        } else if (next.includes(e.key)) {
             to(options.index as number + 1);
         }
         dispatch(node, 'keys', e.key);
+
+        e.preventDefault()
     }
 
     function onScroll(): void {

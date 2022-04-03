@@ -35,8 +35,8 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
 }
 
 function indents(node: Slidy, index: number, loop: boolean, gap: number, snap: string): number {
-    const edge = ((!loop && index === 0) || snap === 'start')
-        ? -1 : ((!loop && index === nodes(node).length - 1) || snap === 'end')
+    const edge = loop ? 0 : (index === 0 || snap === 'start')
+        ? -1 : (index === nodes(node).length - 1 || snap === 'end')
             ? 1 : 0
     return gap as number * edge
 }
