@@ -235,7 +235,7 @@ export function slidy(
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         // const sign = Math.trunc(coord * gravity * (e.shiftKey ? -1 : 1))
 
-        if (options.clamp || e.shiftKey) {
+        if (options.clamp || e.shiftKey || e.deltaMode) {
             to(options.index as number + Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1)))
         } else {
             move(coord);
