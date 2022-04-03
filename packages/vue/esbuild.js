@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
-import vuePlugin from 'esbuild-plugin-vue3';
+import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import vuePlugin from 'esbuild-plugin-vue-next';
 
 const DEV = process.argv.includes('--dev');
 
@@ -9,7 +10,10 @@ const esbuildBase = {
     minify: !DEV,
     incremental: DEV,
     legalComments: 'none',
-    plugins: [vuePlugin()],
+    plugins: [
+        vuePlugin(),
+        eslintPlugin()
+    ],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV ? 'inline' : false,
 };
