@@ -80,6 +80,7 @@ All `options` are optional, but mount `node` required:
 
 ```svelte
 <!-- Svelte -->
+
 <script>
     import { slidy } from '@slidy/core';
 </script>
@@ -135,7 +136,6 @@ All `options` are optional, but mount `node` required:
     </ul>
 </section>
 ```
-</details>
 
 ## Events
 
