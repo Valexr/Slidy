@@ -6,7 +6,7 @@ import type { Options, Slidy, UniqEvent } from './types';
 
 const base: Options = {
     index: 0,
-    length: 1,
+    length: 2,
     gravity: 1.2,
     duration: 375,
     snap: undefined,
@@ -65,7 +65,7 @@ export function slidy(
     const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
         to(options.index);
-        dispatch(node, 'resize', node);
+        dispatch(node, 'resize', { node, options });
     });
 
     onMount(node, options.length)

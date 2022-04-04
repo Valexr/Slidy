@@ -142,6 +142,42 @@ Playground is available [here](repl).
 ```
 
 
+## Options
+
+| Property     | Default          | Type       | Description |
+| :----------- | :--------------: | :--------: | :---------- |
+| 'index'      | 0                | `number`   | Start index |
+| 'length'     | 2                | `number`   | Child nodes length – needed for more accurate `slidy` init |
+| 'gravity'    | 1.2              | `number`   | Sliding gravity – `0 (sky) ~ 2 (ground)` |
+| 'duration'   | 375              | `number`   | Scroll duration |
+| 'loop'       | false            | `boolean`  | Infinite sliding mode |
+| 'clamp'      | false            | `boolean`  | Clamping scroll by index |
+| 'vertical'   | false            | `boolean`  | Vertical flow axis |
+| 'snap'       | undefined        | `string`   | Snapping side - `'start', 'center', 'end', undefined` |
+
+
+## Events
+
+| Name     | Detail               | Description |
+| :------- | :------------------: | :---------- |
+| 'mount'  | { childs, options }  | Fires when `node.children.length` equals `options.length` or `2` & childNodes connected |
+| 'resize' | { node, options }    | Fires on resize target node |
+| 'move'   | { index, position }  | Fires on each sliding |
+| 'keys'   | { e.key }            | Fires when target node focusing and any key pressed |
+| 'update' | { options }          | Fires on each options update |
+| 'destroy'| { node }             | Fires before target node unmounted from the DOM |
+
+
+## Methods
+
+| Name        | Arguments                 | Description |
+| :---------- | :-----------------------: | :---------- |
+| 'to()'      | ( index, duration )       | Scroll to `index` with `duration` |
+| 'update()'  | ({ options.prop: value }) | Update any property in options |
+| 'destroy()' | ()                        | Remove event listners, observers & defaulted props on `slidy()` instance |
+
+
+
 MIT &copy; [Valexr](https://github.com/Valexr)
 
 [demo]: https://slidy-core.surge.sh
