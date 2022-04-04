@@ -4,7 +4,10 @@
         "declarationDir": "dist/",
         "lib": [
             "DOM"
-        ]
+        ],
+        // "types": [
+        //     "@types"
+        // ]
     },
     "include": [
         "src/*"
