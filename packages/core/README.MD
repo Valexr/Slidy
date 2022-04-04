@@ -29,12 +29,16 @@ Playground is available [here](repl).
 
 `slidy(node, options)` function is available via named import as mjs module or via global window object props. All `options` are optional. The only mount `node` required:
 
-### MJS module import
+### MJS/CJS module import
 
 ```html
 <head>
    <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+        // OR
+
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs';
 
         const node = document.querySelector('#slidy');
         const options = {
@@ -64,29 +68,39 @@ Playground is available [here](repl).
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js"></script>
-</head>
+    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js">
 
-<script>
-    let slidy, node, index = 0, position, childs
+        let slidy, node, index = 0, position, childs
+    
+        const options = {
+                index: 0,
+                length: 1,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                clamp: false,
+                snap: undefined,
+                vertical: false,
+            }
 
-    window.onload = () => {
-        node = document.querySelector('#slidy');
+        window.onload = () => {
+            node = document.querySelector('#slidy');
 
-        slidy = Slidy.slidy(node, options);
-        
-        slidy.to(5);
+            slidy = Slidy.slidy(node, options);
+            
+            slidy.to(5);
 
-        node.addEventListener('mounted', (e) => {
-            childs = e.detail
+            node.addEventListener('mounted', (e) => {
+                childs = e.detail
+            }
+
+            node.addEventListener('move', (e) => {
+                index = e.detail.index;
+                position = e.detail.position;
+            });
         }
-
-        node.addEventListener('move', (e) => {
-            index = e.detail.index;
-            position = e.detail.position;
-        });
-    }
-</script>
+    </script>
+</head>
 
 <section>
     <ul id="slidy">
@@ -100,6 +114,33 @@ Playground is available [here](repl).
     <button onclick="slidy.to(index + 1)">→</button>
 </nav>
 ```
+
+### As third party module in any frameworks
+
+```svelte
+<script>
+    import { slidy } from '@slidy/core';
+
+    const options = {
+            index: 0,
+            length: 1,
+            gravity: 1.2,
+            duration: 375,
+            loop: false,
+            clamp: false,
+            snap: undefined,
+            vertical: false,
+        }
+</script>
+
+<section>
+    <ul use:slidy={options}>
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
+
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 
