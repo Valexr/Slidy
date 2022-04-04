@@ -110,7 +110,7 @@ All `options` are optional, but mount `node` required:
 | :----------- | :--------------: | :--------: | :---------- |
 | `index`      | 0                | `number`   | Start index |
 | `length`     | 2                | `number`   | Child nodes length for more accurate `slidy` init |
-| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(sky) ~ 2(ground)` |
+| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(space) ~ 2(earth)` |
 | `duration`   | 375              | `number`   | Scroll duration |
 | `loop`       | false            | `boolean`  | Infinite sliding mode |
 | `clamp`      | false            | `boolean`  | Clamping scroll by index |
@@ -169,8 +169,11 @@ All `options` are optional, but mount `node` required:
 
         node.addEventListener('mount', (e) => console.log(e))
 
+        node.onupdate = () => console.log(e.detail)
+
         function onMove(e) {
-            console.log(e)
+            const { index, position } = e.detail
+            console.log(index, position)
         }
     </script>
 </head>
@@ -199,8 +202,8 @@ All `options` are optional, but mount `node` required:
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
 
         slidy(node)
-        slidy.update({ snap: 'center' })
 
+        slidy.update({ snap: 'center' })
         prev.onclick = () => slidy.to(index - 1)
         next.onclick = () => slidy.to(index + 1)
     </script>
