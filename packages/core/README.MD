@@ -6,7 +6,7 @@
 
 # @slidy/core
 
-> 👨🏻‍💻 in progress...
+> 👨🏻‍💻 вщсы in progress...
 
 Simple, configurable & reusable sliding action script.
 
