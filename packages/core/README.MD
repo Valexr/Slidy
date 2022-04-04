@@ -12,11 +12,11 @@ Simple, configurable & reusable sliding action script.
 
 #### Try the [DEMO]
 
-> - [Getting started](https://github.com/Valexr/Slidy/tree/master/packages/core#getting-started)
-> - [Usage](https://github.com/Valexr/Slidy/tree/master/packages/core#usage)
-> - [Options](https://github.com/Valexr/Slidy/tree/master/packages/core#options)
-> - [Events](https://github.com/Valexr/Slidy/tree/master/packages/core#events)
-> - [Methods](https://github.com/Valexr/Slidy/tree/master/packages/core#methods)
+> - [Getting started](#getting-started-)
+> - [Usage](#usage-)
+> - [Options](#options-)
+> - [Events](#events-)
+> - [Methods](#methods-)
 
 
 ## Getting started 🚀
