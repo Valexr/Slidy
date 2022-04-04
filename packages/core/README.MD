@@ -115,33 +115,33 @@ All `options` are optional, but mount `node` required:
         <h3 style="display: inline-block">Usage</h3>
     </summary>
 
-    ```html
-    <head>
-        <script type="module">
-            import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+```html
+<head>
+    <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
 
-            const options = {
-                    index: 0,
-                    length: 1,
-                    gravity: 1.2,
-                    duration: 375,
-                    loop: false,
-                    clamp: false,
-                    snap: 'center',
-                    vertical: false,
-                }
+        const options = {
+                index: 0,
+                length: 1,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                clamp: false,
+                snap: 'center',
+                vertical: false,
+            }
 
-            slidy(node, options)
-        </script>
-    </head>
+        slidy(node, options)
+    </script>
+</head>
 
-    <section>
-        <ul id="node">
-            <li>...</li>
-            ...
-        </ul>
-    </section>
-    ```
+<section>
+    <ul id="node">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
 </details>
 
 ## Events
