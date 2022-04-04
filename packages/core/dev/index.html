@@ -19,15 +19,15 @@
         <title>Slidy 3.1.0 - NativeJS</title>
 
         <script defer src="dev.js"></script>
-        <script type="module">
+        <!-- <script type="module">
             import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
 
             const nod = document.querySelector('#slidy');
-            // console.log(slidy(nod, {}))
+            console.log(slidy(nod, {}))
             window.slidy = slidy;
             console.log(dark);
             console.log(window['slidy-logo']); // get Node by id
-        </script>
+        </script> -->
     </head>
 
     <body>
@@ -163,7 +163,7 @@
 
             let options = {
                 index: 2,
-                // length: 5,
+                length: 5,
                 snap: 'center',
                 loop: true,
                 clamp: false,
@@ -183,9 +183,10 @@
                 head = document.querySelector('head');
 
             window.onload = () => {
+                console.log(window);
                 getPhotos(node, page, options.length);
                 // if (node.isConnected)
-                //     slidy = Slidy.slidy(node, options);
+                // slidy = Slidy.slidy(node, options);
                 node.addEventListener('mount', (e) => {
                     console.log(e);
                     options = e.detail.options;
@@ -276,7 +277,6 @@
                 fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
                     .then(async (res) => {
                         const photos = await res.json();
-                        // console.log(photos, window.outerWidth, window.outerHeight);
                         if (photos.length) {
                             // head.innerHTML += photos.map((p, i) => {
                             //     // const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);

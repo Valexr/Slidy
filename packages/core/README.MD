@@ -27,9 +27,9 @@ Playground is available in svelte [repl].
 
 ## Usage
 
-Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window` object props as `IIFE`. 
+Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
 
-All `options` are optional. The only mount `node` required by default:
+All `options` are optional, but mount `node` required:
 
 ### MJS/CJS module import
 
@@ -37,9 +37,7 @@ All `options` are optional. The only mount `node` required by default:
 <head>
    <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
-
         // OR
-
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs';
 
         const node = document.querySelector('#slidy');
@@ -70,39 +68,27 @@ All `options` are optional. The only mount `node` required by default:
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js">
+    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js"></script>
+</head>
 
-        let slidy, node, index = 0, position, childs
-    
-        const options = {
-                index: 0,
-                length: 1,
-                gravity: 1.2,
-                duration: 375,
-                loop: false,
-                clamp: false,
-                snap: undefined,
-                vertical: false,
-            }
+<script>
+    let slidy = null,
+        node = document.querySelector('#slidy'),
+        options = {
+            index: 0,
+            length: 1,
+            gravity: 1.2,
+            duration: 375,
+            loop: false,
+            clamp: false,
+            snap: undefined,
+            vertical: false,
+        }
 
         window.onload = () => {
-            node = document.querySelector('#slidy');
-
             slidy = Slidy.slidy(node, options);
-            
-            slidy.to(5);
-
-            node.addEventListener('mounted', (e) => {
-                childs = e.detail
-            }
-
-            node.addEventListener('move', (e) => {
-                index = e.detail.index;
-                position = e.detail.position;
-            });
         }
-    </script>
-</head>
+</script>
 
 <section>
     <ul id="slidy">
