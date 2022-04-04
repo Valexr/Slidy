@@ -18,11 +18,11 @@ Try the [demo]
 The package is available via [npm]:
 
 ```sh
-npm i @slidy/core
+npm i -D @slidy/core
 ```
-or CDN like exmaple [unpkg](CND)
+or from [cdn].
 
-Playground is available [here](REPL).
+Playground is available in svelte [repl].
 
 
 ## Usage
