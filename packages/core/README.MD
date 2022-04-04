@@ -36,9 +36,9 @@ All `options` are optional, but mount `node` required:
 ```html
 <head>
    <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs'; // MJS module
         // OR
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs';
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs'; // CJS module
 
         slidy(node)
     </script>
@@ -74,16 +74,12 @@ All `options` are optional, but mount `node` required:
         ...
     </ul>
 </section>
-
-<nav>
-    <button onclick="slidy.to(index - 1)">←</button>
-    <button onclick="slidy.to(index + 1)">→</button>
-</nav>
 ```
 
 ### As third party module in any frameworks
 
 ```svelte
+<!-- Svelte -->
 <script>
     import { slidy } from '@slidy/core';
 </script>
@@ -110,10 +106,7 @@ All `options` are optional, but mount `node` required:
 | `vertical`   | false            | `boolean`  | Vertical flow axis |
 | `snap`       | undefined        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
 
-<details>
-    <summary>
-        <h3 style="display: inline-block">Usage</h3>
-    </summary>
+### Usage
 
 ```html
 <head>
@@ -162,18 +155,7 @@ All `options` are optional, but mount `node` required:
     <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
 
-        const options = {
-                index: 0,
-                length: 1,
-                gravity: 1.2,
-                duration: 375,
-                loop: false,
-                clamp: false,
-                snap: 'center',
-                vertical: false,
-            }
-
-        slidy(node, options)
+        slidy(node)
 
         node.addEventListener('mount', (e) => console.log(e))
 
@@ -206,20 +188,11 @@ All `options` are optional, but mount `node` required:
     <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
 
-        const options = {
-                index: 0,
-                length: 1,
-                gravity: 1.2,
-                duration: 375,
-                loop: false,
-                clamp: false,
-                snap: 'center',
-                vertical: false,
-            }
+        slidy(node)
+        slidy.update({ snap: 'center' })
 
-        slidy(node, options)
-        slidy.update({index: 2})
-        slidy.to(2)
+        prev.onclick = () => slidy.to(index - 1)
+        next.onclick = () => slidy.to(index + 1)
     </script>
 </head>
 
@@ -229,6 +202,17 @@ All `options` are optional, but mount `node` required:
         ...
     </ul>
 </section>
+
+<nav>
+    <button id="prev">←</button>
+    <button id="next">→</button>
+</nav>
+
+<!-- if slidy() in global scope you can use global event handlers as atributes -->
+<nav>
+    <button onclick="slidy.to(index - 1)">←</button>
+    <button onclick="slidy.to(index + 1)">→</button>
+</nav>
 ```
 
 
