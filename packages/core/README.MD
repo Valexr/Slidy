@@ -110,7 +110,7 @@ All `options` are optional, but mount `node` required:
 | :----------- | :--------------: | :--------: | :---------- |
 | `index`      | 0                | `number`   | Start index |
 | `length`     | 2                | `number`   | Child nodes length for more accurate `slidy` init |
-| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(space) ~ 2(earth)` |
+| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(space) ↑ 1(eath) ↓ 2(underground)` |
 | `duration`   | 375              | `number`   | Scroll duration |
 | `loop`       | false            | `boolean`  | Infinite sliding mode |
 | `clamp`      | false            | `boolean`  | Clamping scroll by index |
