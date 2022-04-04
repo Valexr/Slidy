@@ -6,26 +6,36 @@
 
 # @slidy/core
 
-> 👨🏻‍💻 docs in progress...
-
 Simple, configurable & reusable sliding action script.
 
-Try the [DEMO]
+Сompletely mimics the behavior of a native scroll with index navigation, acceleration, gravity & infinite loop mode.
+
+#### Try the [DEMO]
+
+> - [Getting started](https://github.com/Valexr/Slidy/tree/master/packages/core#getting-started)
+> - [Usage](https://github.com/Valexr/Slidy/tree/master/packages/core#usage)
+> - [Options](https://github.com/Valexr/Slidy/tree/master/packages/core#options)
+> - [Events](https://github.com/Valexr/Slidy/tree/master/packages/core#events)
+> - [Methods](https://github.com/Valexr/Slidy/tree/master/packages/core#methods)
 
 
-## Getting started
+## Getting started 🚀
 
 The package is available via [NPM]:
 
 ```sh
 npm i -D @slidy/core
 ```
-or from [CDN].
+or from [CDN]:
+
+```js
+import { slidy } from 'https://unpkg.com/@slidy/core';
+```
 
 Playground is available in svelte [REPL].
 
 
-## Usage
+## Usage 👨🏻‍💻
 
 Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
 
@@ -94,7 +104,7 @@ All `options` are optional, but mount `node` required:
 ```
 
 
-## Options
+## Options ⚙️
 
 | Property     | Default          | Type       | Description |
 | :----------- | :--------------: | :--------: | :---------- |
@@ -137,7 +147,7 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
-## Events
+## Events 🔥
 
 | Name     | Detail               | Description |
 | :------- | :------------------: | :---------- |
@@ -173,7 +183,7 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
-## Methods
+## Methods 🎯
 
 | Name        | Arguments                 | Description |
 | :---------- | :-----------------------: | :---------- |
