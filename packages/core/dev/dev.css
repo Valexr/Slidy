@@ -103,26 +103,13 @@ fieldset {
     flex-flow: row wrap;
 }
 
-legend {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    width: 100%;
-    gap: 0.5rem;
-}
-
 form {
     display: flex;
     flex-wrap: wrap;
 }
 
 form>* {
-    /* flex: 0 auto; */
-    /* gap: 1rem; */
-    /* padding: 0.5rem; */
     display: flex;
-    /* align-items: center; */
-    /* justify-content: space-around; */
 }
 
 label {
@@ -137,11 +124,6 @@ select {
 
 h3 {
     position: relative;
-    /* color: #FFC300; */
-}
-
-h3 span {
-    /* color: #8759F2; */
 }
 
 h3 sub {
@@ -176,11 +158,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     flex-flow: row wrap;
-}
-
-footer {
     gap: 1rem;
-    justify-content: flex-start;
 }
 
 :root {
@@ -249,7 +227,6 @@ footer {
 main {
     height: var(--height, 375px);
     margin: var(--gap, 1rem) auto;
-    /* position: relative; */
 }
 
 section {
@@ -278,11 +255,9 @@ section {
     width: 100%;
     height: 100%;
     overflow: visible;
-    /* will-change: transform; */
 }
 
-#slidy li,
-#slidy dd {
+#slidy li {
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -294,53 +269,27 @@ section {
     margin: auto;
     box-shadow: var(--shadow-3);
     border-radius: var(--radius-3);
-    /* border-radius: 0.25rem; */
     overflow: hidden;
-    /* display: flex; */
-    /* box-shadow: inset 0px 0px 1px 1px var(--shadow); */
-    /* will-change: transform; */
 }
 
-/* #slidy dd:first-child {
-    margin-left: var(--gap);
-}
-#slidy dd:last-child::after {
-    content: '';
-    width: var(--gap);
-    height: 100%;
-    flex: 1 0 var(--gap);
-} */
-#slidy li.active,
-#slidy dd.active {
-    /* --shadow: var(--accent); */
+#slidy li.active {
+    --shadow: var(--accent);
 }
 
-#slidy li.slotted,
-#slidy dd.slotted {
-    --shadow: transparent;
-}
-
-#slidy li:before,
-#slidy dd:before {
+#slidy li:before {
     content: attr(id);
     position: absolute;
     z-index: 1;
     padding: 0.5rem 1rem;
     bottom: 0;
-    /* background: var(--surface-1); */
-    /* border-radius: var(--radius-round); */
-    /* will-change: transform; */
 }
 
-#slidy li img,
-#slidy dd img {
+#slidy li img {
     min-width: 100%;
     min-height: 100%;
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
-    /* pointer-events: auto; */
-    /* will-change: transform; */
 }
 
 /* iOS */

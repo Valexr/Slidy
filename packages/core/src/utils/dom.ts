@@ -1,5 +1,5 @@
-import type { Child, Options, Slidy } from '../types';
 import { maxMin } from './helpers';
+import type { Child, Options, Slidy } from '../types';
 
 function indexing(node: Slidy, index: number, loop?: boolean) {
     if (loop) {
@@ -112,4 +112,4 @@ function rotate(array: Array<Node | string>, key: number) {
 //     }
 // }
 
-export { find, shuffle, history, replace, indexing };
+export { find, history, indexing, replace, shuffle };

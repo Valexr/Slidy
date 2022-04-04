@@ -45,7 +45,7 @@
                 <li id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></li>
                 <li id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></li>
                 <li id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></li> -->
-                <li style="display: grid; place-items: center">Loading...</li>
+                <li style="display: grid; place-items: center">Loading... 🚀</li>
             </ul>
         </main>
         <footer>
@@ -104,7 +104,7 @@
             <form>
                 <fieldset>
                     <label title="range">
-                        <input oninput="changeValue()" name="range" type="range" step="1" min="0" max="4" />
+                        <input oninput="changeValue()" name="index" type="range" step="1" min="0" max="4" />
                     </label>
                 </fieldset>
             </form>
@@ -253,13 +253,12 @@
 
             function changeValue() {
                 const value = isNum(event.target.value) ? +event.target.value : event.target.value;
+
                 slidy.update({ [event.target.name]: value });
                 options[event.target.name] = value;
+
                 if (event.target.name === 'length') {
                     getPhotos(node, page, value);
-                } else if (event.target.name === 'range') {
-                    console.log(value);
-                    setTimeout(() => slidy.to(value), 100);
                 }
             }
             function getVar(node, name) {
@@ -268,16 +267,6 @@
             function setVar(node, name, value) {
                 return node.style.setProperty(`--${name}`, value);
             }
-
-            // function setLimit() {
-            //     options.length = limit = event.target.value;
-            //     getPhotos(node, page, limit);
-            // }
-            // node.addEventListener('click', (event) => alert(event.target.tagName), true)
-            // function onClick() {
-            //     node.style.pointerEvents = 'auto';
-            //     alert(event.target.tagName, this.tagName);
-            // }
 
             async function getPhotos(node, page, limit) {
                 slidy?.destroy();
