@@ -10,19 +10,19 @@
 
 Simple, configurable & reusable sliding action script.
 
-Try the [demo]
+Try the [DEMO]
 
 
 ## Getting started
 
-The package is available via [npm]:
+The package is available via [NPM]:
 
 ```sh
 npm i -D @slidy/core
 ```
-or from [cdn].
+or from [CDN].
 
-Playground is available in svelte [repl].
+Playground is available in svelte [REPL].
 
 
 ## Usage
@@ -40,24 +40,12 @@ All `options` are optional, but mount `node` required:
         // OR
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs';
 
-        const node = document.querySelector('#slidy');
-        const options = {
-                index: 0,
-                length: 1,
-                gravity: 1.2,
-                duration: 375,
-                loop: false,
-                clamp: false,
-                snap: undefined,
-                vertical: false,
-            }
-
-        slidy(node, options)
+        slidy(node)
     </script>
 </head>
 
 <section>
-    <ul id="slidy">
+    <ul id="node">
         <li>...</li>
         ...
     </ul>
@@ -74,19 +62,9 @@ All `options` are optional, but mount `node` required:
 <script>
     let slidy = null,
         node = document.querySelector('#slidy'),
-        options = {
-            index: 0,
-            length: 1,
-            gravity: 1.2,
-            duration: 375,
-            loop: false,
-            clamp: false,
-            snap: undefined,
-            vertical: false,
-        }
 
         window.onload = () => {
-            slidy = Slidy.slidy(node, options);
+            slidy = Slidy.slidy(node);
         }
 </script>
 
@@ -108,21 +86,10 @@ All `options` are optional, but mount `node` required:
 ```svelte
 <script>
     import { slidy } from '@slidy/core';
-
-    const options = {
-            index: 0,
-            length: 1,
-            gravity: 1.2,
-            duration: 375,
-            loop: false,
-            clamp: false,
-            snap: undefined,
-            vertical: false,
-        }
 </script>
 
 <section>
-    <ul use:slidy={options}>
+    <ul use:slidy>
         <li>...</li>
         ...
     </ul>
@@ -134,41 +101,140 @@ All `options` are optional, but mount `node` required:
 
 | Property     | Default          | Type       | Description |
 | :----------- | :--------------: | :--------: | :---------- |
-| 'index'      | 0                | `number`   | Start index |
-| 'length'     | 2                | `number`   | Child nodes length – needed for more accurate `slidy` init |
-| 'gravity'    | 1.2              | `number`   | Sliding gravity – `0 (sky) ~ 2 (ground)` |
-| 'duration'   | 375              | `number`   | Scroll duration |
-| 'loop'       | false            | `boolean`  | Infinite sliding mode |
-| 'clamp'      | false            | `boolean`  | Clamping scroll by index |
-| 'vertical'   | false            | `boolean`  | Vertical flow axis |
-| 'snap'       | undefined        | `string`   | Snapping side - `'start', 'center', 'end', undefined` |
+| `index`      | 0                | `number`   | Start index |
+| `length`     | 2                | `number`   | Child nodes length for more accurate `slidy` init |
+| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(sky) ~ 2(ground)` |
+| `duration`   | 375              | `number`   | Scroll duration |
+| `loop`       | false            | `boolean`  | Infinite sliding mode |
+| `clamp`      | false            | `boolean`  | Clamping scroll by index |
+| `vertical`   | false            | `boolean`  | Vertical flow axis |
+| `snap`       | undefined        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
 
+<details>
+    <summary>
+        <h3 style="display: inline-block">Usage</h3>
+    </summary>
+
+    ```html
+    <head>
+        <script type="module">
+            import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+            const options = {
+                    index: 0,
+                    length: 1,
+                    gravity: 1.2,
+                    duration: 375,
+                    loop: false,
+                    clamp: false,
+                    snap: 'center',
+                    vertical: false,
+                }
+
+            slidy(node, options)
+        </script>
+    </head>
+
+    <section>
+        <ul id="node">
+            <li>...</li>
+            ...
+        </ul>
+    </section>
+    ```
+</details>
 
 ## Events
 
 | Name     | Detail               | Description |
 | :------- | :------------------: | :---------- |
-| 'mount'  | { childs, options }  | Fires when `node.children.length` equals `options.length` or `2` & childNodes connected |
-| 'resize' | { node, options }    | Fires on resize target node |
-| 'move'   | { index, position }  | Fires on each sliding |
-| 'keys'   | { e.key }            | Fires when target node focusing and any key pressed |
-| 'update' | { options }          | Fires on each options update |
-| 'destroy'| { node }             | Fires before target node unmounted from the DOM |
+| `mount`  | { childs, options }  | Fires when `node.children.length` equals `options.length` or `2` & childNodes connected |
+| `resize` | { node, options }    | Fires on resize target node |
+| `move`   | { index, position }  | Fires on each sliding |
+| `keys`   | { e.key }            | Fires when target node focusing and any key pressed |
+| `update` | { options }          | Fires on each options update |
+| `destroy`| { node }             | Fires before target node unmounted from the DOM |
 
+### Usage
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+        const options = {
+                index: 0,
+                length: 1,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                clamp: false,
+                snap: 'center',
+                vertical: false,
+            }
+
+        slidy(node, options)
+
+        node.addEventListener('mount', (e) => console.log(e))
+
+        function onMove(e) {
+            console.log(e)
+        }
+    </script>
+</head>
+
+<section>
+    <ul id="node" onmove="onMove">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
 
 ## Methods
 
 | Name        | Arguments                 | Description |
 | :---------- | :-----------------------: | :---------- |
-| 'to()'      | ( index, duration )       | Scroll to `index` with `duration` |
-| 'update()'  | ({ options.prop: value }) | Update any property in options |
-| 'destroy()' | ()                        | Remove event listners, observers & defaulted props on `slidy()` instance |
+| `to()`      | ( index, duration )       | Scroll to `index` with `duration` |
+| `update()`  | ({ options.prop: value }) | Update any property in options |
+| `destroy()` | ()                        | Remove event listners, observers & defaulted props on `slidy()` instance |
 
+### Usage
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+        const options = {
+                index: 0,
+                length: 1,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                clamp: false,
+                snap: 'center',
+                vertical: false,
+            }
+
+        slidy(node, options)
+        slidy.update({index: 2})
+        slidy.to(2)
+    </script>
+</head>
+
+<section>
+    <ul id="node">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
 
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 
-[demo]: https://slidy-core.surge.sh
-[npm]: https://www.npmjs.com/package/@slidy/core
-[cdn]: https://unpkg.com/@slidy/core/
-[repl]: https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083
+[DEMO]: https://slidy-core.surge.sh
+[NPM]: https://www.npmjs.com/package/@slidy/core
+[CDN]: https://unpkg.com/@slidy/core/
+[REPL]: https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083
