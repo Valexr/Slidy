@@ -6,7 +6,7 @@
 
 # @slidy/core
 
-👨🏻‍💻 docs in progress...
+> 👨🏻‍💻 in progress...
 
 Simple, configurable & reusable sliding action script.
 
@@ -15,19 +15,54 @@ Try the [demo]
 
 ## Getting started
 
-The package is available via [npm][]:
+The package is available via [npm]:
 
 ```sh
 npm i @slidy/core
 ```
-REPL is available [here](REPL).
+or CDN like exmaple [unpkg](cdn)
+
+Playground is available [here](repl).
 
 
 ## Usage
 
-`Slidy` component is available via named import. All props are optional. The only preperty to get started is `slides` - an array of objects with image related data:
+`slidy(node, options)` function is available via named import as mjs module or via global window object props. All `options` are optional. The only mount `node` required:
 
-```sv
+### MJS module import
+
+```html
+<head>
+   <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+
+        const node = document.querySelector('#slidy');
+        const options = {
+                index: 0,
+                length: 1,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                clamp: false,
+                snap: undefined,
+                vertical: false,
+            }
+
+        slidy(node, options)
+    </script>
+</head>
+
+<section>
+    <ul id="slidy">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
+
+### IIFE as `Window` prop
+
+```html
 <head>
     <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js"></script>
 </head>
@@ -38,16 +73,7 @@ REPL is available [here](REPL).
     window.onload = () => {
         node = document.querySelector('#slidy');
 
-        slidy = Slidy.slidy(node, {
-                    index,
-                    align: 'middle',
-                    duration: 375,
-                    gravity: 1.2,
-                    snap: true,
-                    loop: false,
-                    clamp: false,
-                    vertical: false,
-                });
+        slidy = Slidy.slidy(node, options);
         
         slidy.to(5);
 
@@ -62,7 +88,7 @@ REPL is available [here](REPL).
     }
 </script>
 
-<section tabindex="0">
+<section>
     <ul id="slidy">
         <li>...</li>
         ...
@@ -79,4 +105,5 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 
 [demo]: https://slidy-core.surge.sh
 [npm]: https://www.npmjs.com/package/@slidy/core
+[cdn]: https://unpkg.com/@slidy/core/
 [repl]: https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083
