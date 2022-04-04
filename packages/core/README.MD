@@ -20,14 +20,16 @@ The package is available via [npm]:
 ```sh
 npm i @slidy/core
 ```
-or CDN like exmaple [unpkg](cdn)
+or CDN like exmaple [unpkg](CND)
 
-Playground is available [here](repl).
+Playground is available [here](REPL).
 
 
 ## Usage
 
-`slidy(node, options)` function is available via named import as mjs module or via global window object props. All `options` are optional. The only mount `node` required:
+Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window` object props as `IIFE`. 
+
+All `options` are optional. The only mount `node` required by default:
 
 ### MJS/CJS module import
 
