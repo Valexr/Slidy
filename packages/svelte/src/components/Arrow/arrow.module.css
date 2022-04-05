@@ -40,11 +40,11 @@
 	transform: rotate(180deg);
 }
 
-.slidy-arrow.prev.vertical svg {
+.slidy-arrow.prev.vertical slidy-arrow-icon {
 	transform: rotate(90deg);
 }
 
-.slidy-arrow.vertical:not(.prev) svg {
+.slidy-arrow.vertical:not(.prev) slidy-arrow-icon {
 	transform: rotate(90deg);
 }
 
