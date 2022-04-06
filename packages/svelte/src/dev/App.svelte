@@ -10,7 +10,7 @@
 	import "./app.module.css";
 
 	let position = 0;
-	let limit = 9;
+	let limit = 15;
 	let index = 4;
 	let vertical = false;
 	let clamp = true;
@@ -63,7 +63,18 @@
 	{#await slidesPromise}
 		loading...
 	{:then}
-		<Slidy bind:index bind:position slides={$slides} {clamp} {duration} {gravity} {snap} {loop} {vertical} />
+		<Slidy 
+			bind:index
+			bind:position
+			slides={$slides}
+			{clamp}
+			{duration}
+			{gravity}
+			{snap}
+			{loop}
+			thumbnail
+			{vertical}
+		/>
 	{/await}
 </main>
 
