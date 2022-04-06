@@ -13,10 +13,11 @@
 .slidy {
 	position: relative;
 	display: grid;
-	grid-template: 1fr auto / auto 1fr auto;
+	grid-template: minmax(0, 1fr) auto / auto minmax(0, 1fr) auto auto;
 	grid-template-areas:
-		'prev-slide slides next-slide'
-		'dots dots dots';
+		"prev-slide slides next-slide"
+		"thumbnail thumbnail thumbnail"
+		"dots dots dots";
 	height: var(--slidy-height, 100%);
 	width: var(--slidy-width, 100%);
 	overflow: hidden;
@@ -81,11 +82,11 @@
 
 .slidy.vertical {
 	display: grid;
-	grid-template: auto minmax(0, 1fr) auto / minmax(0, 1fr) auto;
+	grid-template: auto minmax(0, 1fr) auto / minmax(0, 1fr) auto auto;
 	grid-template-areas:
-		'prev-slide dots'
-		'slides dots'
-		'next-slide dots';
+		"prev-slide thumbnail dots"
+		"slides thumbnail dots"
+		"next-slide thumbnail dots";
 	height: var(--slidy-height, 100%);
 	width: var(--slidy-width, 100%);
 }
@@ -103,6 +104,29 @@
 	width: auto;
 	height: max-content;
 }
+
+/* mode::thumbnail */
+
+.slidy-thumbnail {
+	grid-area: thumbnail;
+	padding: 1em;
+}
+
+.slidy.thumbnail:not(.vertical) {
+	--slidy-height: var(--slidy-thumbnail-size, 75px);
+}
+
+.slidy.thumbnail.vertical {
+	--slidy-width: var(--slidy-thumbnail-size, 75px);
+	--slidy-slide-height: auto;
+}
+
+.slidy.thumbnail .slidy-slide:not(.active) {
+	transition: opacity 0.25s linear;
+	opacity: 0.35;
+}
+
+/* media */
 
 @media (hover: hover) {
 	/* as slides container has 'pointer-events: none', we have to use it on slidy */

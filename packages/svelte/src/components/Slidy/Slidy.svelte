@@ -13,9 +13,11 @@
 
 	export let arrows = true;
 	export let background = false;
+	export let counter = true;
 	export let clamp = false;
 	export let className: $$Props["className"] = "";
 	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
+	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
 	export let navigation = true;
 	export let duration = 450;
 	export let gravity = 1.2;
@@ -25,6 +27,7 @@
 	export let position = 0;
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
+	export let thumbnail = false;
 	export let vertical = false;
 
 	const dispatch = createEventDispatcher();
@@ -57,12 +60,21 @@
 	};
 </script>
 
-<section aria-roledescription="carousel" class="slidy {className}" class:vertical {id} tabindex="0" on:click={handleClick}>
-	<slot name="counter" {index} amount={length}>
-		<output class="slidy-counter">
-			{index + 1} / {length}
-		</output>
-	</slot>
+<section
+	aria-roledescription="carousel"
+	class="slidy {className}"
+	class:vertical
+	{id}
+	tabindex="0"
+	on:click={handleClick}
+>
+	{#if counter}
+		<slot name="counter" {index} amount={length}>
+			<output class="slidy-counter">
+				{index + 1} / {length}
+			</output>
+		</slot>
+	{/if}
 	<ul
 		class="slidy-slides"
 		aria-live="polite"
@@ -119,6 +131,29 @@
 						</slot>
 				</Arrow>
 			{/each}
+		</slot>
+	{/if}
+
+	{#if thumbnail}
+		<slot name="thumbnail">
+			<nav class="slidy-thumbnail">
+				<svelte:self
+					arrows={false}
+					{background}
+					clamp={true}
+					className={thumbnail ? "thumbnail" : ""}
+					counter={false}
+					getImgSrc={getThumbSrc}
+					{duration}
+					{gravity}
+					{index}
+					navigation={false}
+					{slides}
+					snap="center"
+					{vertical}
+					on:select={event => index = event.detail.index}
+				/>
+			</nav>
 		</slot>
 	{/if}
 

@@ -20,6 +20,7 @@ export interface SlidyOptions {
 	dots?: boolean;
 	duration?: number;
 	getImgSrc?: (item: any) => string;
+	getThumbSrc?: (item: any) => string;
 	gravity?: number;
 	id?: string;
 	index?: number;
@@ -27,5 +28,6 @@ export interface SlidyOptions {
 	position?: number;
 	slides: Slide[];
 	snap?: "start" | "center" | "end";
+	thumbnail?: boolean;
 	vertical?: boolean;
 }
