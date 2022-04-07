@@ -50,7 +50,7 @@ export function slidy(
     ];
     const NODE_EVENTS: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][] = [
         ['contextmenu', clear],
-        ['touchstart', onDown as EventListenerOrEventListenerObject],
+        ['touchstart', onDown as EventListenerOrEventListenerObject, { passive: false }],
         ['mousedown', onDown as EventListenerOrEventListenerObject],
         ['keydown', onKeys as EventListenerOrEventListenerObject],
         [
@@ -145,7 +145,8 @@ export function slidy(
     }
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
-        // snapping(index)
+        snapping(index)
+        velocity = 0
 
         target = options.snap || options.loop ||
             (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
