@@ -145,7 +145,7 @@ export function slidy(
     }
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
-        snapping(index)
+        // snapping(index)
 
         target = options.snap || options.loop ||
             (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
@@ -264,7 +264,7 @@ export function slidy(
 
     function clear(): void {
         scrolled = false
-        gravity = options.gravity as number
+        // gravity = options.gravity as number
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
         clearTimeout(wheeltime as NodeJS.Timer);
