@@ -48,6 +48,9 @@
                 <li style="display: grid; place-items: center">Loading... 🚀</li>
             </ul>
         </main>
+        <nav>
+            <ul id="thumbs" />
+        </nav>
         <footer>
             <nav id="buttons">
                 <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
@@ -158,14 +161,15 @@
         <script>
             let position = 0,
                 slidy = null,
+                slidyT = null,
                 dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
                 page = randomQ(1, 69);
 
             let options = {
-                index: 2,
-                length: 5,
+                index: 7,
+                length: 15,
                 snap: 'center',
-                loop: true,
+                loop: false,
                 clamp: false,
                 gravity: 1.2,
                 duration: 375,
@@ -175,6 +179,7 @@
             const main = document.querySelector('main'),
                 section = document.querySelector('section'),
                 node = document.querySelector('#slidy'),
+                thumbs = document.querySelector('#thumbs'),
                 nav = document.querySelector('#dots'),
                 stats = document.querySelector('#stats'),
                 buttons = document.querySelectorAll('button'),
@@ -199,6 +204,7 @@
                         else if (input.name === 'width') input.value = getVar(main, '--width');
                         else if (input.name === 'height') input.value = getVar(main, '--height');
                         else if (input.name === 'gap') input.value = getVar(main, '--gap');
+                        else if (input.name === 'index') input.max = options.length - 1;
                     }
                     select.value = options.snap;
                 });
@@ -223,8 +229,11 @@
 
                 function indexing(x) {
                     options.index = x;
-
+                    slidyT.to(x);
                     Array.from(node.children).forEach((n, i) =>
+                        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
+                    );
+                    Array.from(thumbs.children).forEach((n, i) =>
                         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
                     );
                     Array.from(nav.children).forEach((n, i) =>
@@ -288,6 +297,13 @@
                                     return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></li>`;
                                 })
                                 .join('');
+
+                            thumbs.innerHTML = photos
+                                .map((p, i) => {
+                                    const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
+                                    return `<li id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg)" width="${aspect.width}" height="${aspect.height}" alt="${p.author}""></li>`;
+                                })
+                                .join('');
                             nav.innerHTML = photos
                                 .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
                                 .join('');
@@ -298,6 +314,7 @@
                     })
                     .then(() => {
                         slidy = Slidy.slidy(node, options);
+                        slidyT = Slidy.slidy(thumbs, options);
                         console.log(node, main);
                     })
                     .catch((error) => {

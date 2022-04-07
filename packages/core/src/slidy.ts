@@ -146,7 +146,6 @@ export function slidy(
 
     function scroll(index: number, duration: number, timestamp: number, amplitude = 0, target?: number): void {
         snapping(index)
-        velocity = 0
 
         target = options.snap || options.loop ||
             (!options.loop && !options.snap && (index === 0 || index === options.length as number - 1))
@@ -168,10 +167,18 @@ export function slidy(
     }
 
     function snapping(index: number): void {
+        const scroll = find(node, options).scroll()
+        const start = find(node, options).position(index, 'start', gap)
+        const center = find(node, options).position(index, 'center', gap)
+        const end = find(node, options).position(index, 'end', gap)
+        const size = find(node, options).node()
+        console.log(start, center, end, size / 2)
+
         snap = options.loop
             ? options.snap : index === 0
                 ? 'start' : index === options.length as number - 1
                     ? 'end' : options.snap
+
     }
 
     function to(index = 0, duration = DURATION, target?: number): void {
@@ -179,6 +186,7 @@ export function slidy(
 
         index = indexing(node, index as number, options.loop);
         target = target || find(node, options).position(index, snap, gap)
+        // snapping(index)
 
         scroll(index, duration, performance.now(), target - position)
     }
@@ -232,6 +240,7 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
+        // snapping(options.index)
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         const index = options.index as number + Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1))

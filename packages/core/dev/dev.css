@@ -244,7 +244,8 @@ section {
     justify-content: center;
 }
 
-#slidy {
+#slidy,
+nav #thumbs {
     list-style: none;
     margin: 0;
     padding: var(--gap) 0;
@@ -257,7 +258,8 @@ section {
     overflow: visible;
 }
 
-#slidy li {
+#slidy li,
+nav #thumbs li {
     flex: 1 0 var(--width);
     width: var(--width);
     height: 100%;
@@ -270,6 +272,25 @@ section {
     box-shadow: var(--shadow-3);
     border-radius: var(--radius-3);
     overflow: hidden;
+}
+
+nav #thumbs {
+    gap: 1rem;
+}
+
+nav #thumbs li {
+    flex: 1 0 100px;
+    width: 100px;
+    height: 100px;
+    box-shadow: none;
+    background-image: attr(data-src url);
+    background-size: cover;
+    opacity: 0.25;
+}
+
+nav #thumbs li.active,
+nav #thumbs li:hover {
+    opacity: 1;
 }
 
 #slidy li.active {
