@@ -13,7 +13,7 @@
 .slidy {
 	position: relative;
 	display: grid;
-	grid-template: minmax(0, 1fr) auto / auto minmax(0, 1fr) auto auto;
+	grid-template: minmax(0, 1fr) / auto minmax(0, 1fr) auto;
 	grid-template-areas:
 		"prev-slide slides next-slide"
 		"thumbnail thumbnail thumbnail"
@@ -113,11 +113,11 @@
 }
 
 .slidy.thumbnail:not(.vertical) {
-	--slidy-height: var(--slidy-thumbnail-size, 75px);
+	--slidy-height: var(--slidy-thumbnail-size, 50px);
 }
 
 .slidy.thumbnail.vertical {
-	--slidy-width: var(--slidy-thumbnail-size, 75px);
+	--slidy-width: var(--slidy-thumbnail-size, 50px);
 	--slidy-slide-height: auto;
 }
 
