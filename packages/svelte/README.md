@@ -60,23 +60,25 @@ By default component works with images. Image object should contain `width` and 
 
 ## API
 
-| Property     | Default          | Type       | Description |
-| :----------- | :--------------: | :--------: | :---------- |
-| `arrows`     | true             | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
-| `background` | false            | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
-| `clamp`      | false            | `Boolean`  | Controls the scroll inertia. |
-| `className`  | ""               | `string`   | Passes the `class` to the parent node. |
-| `getImgSrc`  | item => item.src | `function` | The slide's `src` attribute getter. |
-| `navigation` | true             | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
-| `duration`   | 450              | `number`   | Slide transitions duration value. |
-| `gravity`    | 1.2              | `number`   | Scroll inertia value. |
-| `id`         | undefined        | `string`   | Passes the `id` attribute to the parent node. |
-| `index`      | 0                | `number`   | The index of the initial slide. |
-| `loop`       | false            | `boolean`  | Makes the slideshow continious. |
-| `position`   | 0                | `number`   | The current position value of the carousel. |
-| `slides`     | []               | `Slides[]` | An array of objects with image metadata. |
-| `snap`       | undefined        | `"start" | "center" | "end"` | Enforces the scroll stop positions. |
-| `vertical`   | false            | `boolean`  | Sets the component into the vertical orientation. |
+| Property      | Default          | Type       | Description |
+| :------------ | :--------------: | :--------: | :---------- |
+| `arrows`      | true             | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
+| `background`  | false            | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
+| `clamp`       | false            | `Boolean`  | Controls the scroll inertia. |
+| `className`   | ""               | `string`   | Passes the `class` to the parent node. |
+| `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter. |
+| `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter. |
+| `navigation`  | true             | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
+| `duration`    | 450              | `number`   | Slide transitions duration value. |
+| `gravity`     | 1.2              | `number`   | Scroll inertia value. |
+| `id`          | undefined        | `string`   | Passes the `id` attribute to the parent node. |
+| `index`       | 0                | `number`   | The index of the initial slide. |
+| `loop`        | false            | `boolean`  | Makes the slideshow continious. |
+| `position`    | 0                | `number`   | The current position value of the carousel. |
+| `slides`      | []               | `Slides[]` | An array of objects with image metadata. |
+| `snap`        | undefined        | `"start" | "center" | "end"` | Enforces the scroll stop positions. |
+| `thumbnail`   | false            | `boolean`  | Renders the thumbnail navigation panel. |
+| `vertical`    | false            | `boolean`  | Sets the component into the vertical orientation. |
 
 ## Custom Properties API
 
@@ -96,6 +98,7 @@ List of available public custom properties:
 | `--slidy-nav-item-size`    |   16px   | `<length>` | The navigation elements size.                        |
 | `--slidy-nav-item-radius`  |   50%    | `<length>` | The navigation elements border radius.               |
 | `--slidy-nav-item-color`   |  white   | `<color>`  | The navigation elements color.                       |
+| `--slidy-thumbnail-size`   |   50px   | `<length>` | The thumbnail panel size.                            |
 | `--slidy-arrow-size`       |   24px   | `<length>` | The arrow controls size.                             |
 
 There are two options:
@@ -196,55 +199,11 @@ For example, to override styles of specific section, use the classes described a
 
 ## Slots
 
-Available `slot` names:
+### `arrow`
 
-<details>
-    <summary>
-        <code>
-            default
-        </code>
-    </summary>
+Customizes the content of the default arrow controls.
 
-Usually the default markup is not enough. The `default` slot solves this problem. To use custom slide markup slot expose each `slides` prop item as `let:item` directive.
-
-```svelte
-<Slidy let:item>
-    <figure>
-        <img src="{item.src}" alt="{item.figcaption}" />
-        <figcaption>
-            {item.figcaption}
-        </figcaption>
-    </figure>
-</Slidy>
-```
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            counter
-        </code>
-    </summary>
-
-Custom counter slot. To indicate the progress, component provide `index` and `amount` props:
-
-```svelte
-<Slidy let:index let:amount>
-    <output slot="counter">
-        {index / amount}%
-    </output>
-</Slidy>
-```
-
-</details>
-
-<details>
-    <summary>
-        <code>
-            arrows
-        </code>
-    </summary>
+### `arrows`
 
 Provides a slot for custom arrow buttons.
 
@@ -271,14 +230,34 @@ Also, there are `grid-area` is present in the layout for this custom controls: `
 </style>
 ```
 
-</details>
+### `counter`
 
-<details>
-    <summary>
-        <code>
-            nav-item
-        </code>
-    </summary>
+Custom counter slot. To indicate the progress, component provide `index` and `amount` props:
+
+```svelte
+<Slidy let:index let:amount>
+    <output slot="counter">
+        {index / amount}%
+    </output>
+</Slidy>
+```
+
+### `default`
+
+Usually the default markup is not enough. The `default` slot solves this problem. To use custom slide markup slot expose each `slides` prop item as `let:item` directive.
+
+```svelte
+<Slidy let:item>
+    <figure>
+        <img src="{item.src}" alt="{item.figcaption}" />
+        <figcaption>
+            {item.figcaption}
+        </figcaption>
+    </figure>
+</Slidy>
+```
+
+### `nav-item`
 
 Provides a slot for custom pagination buttons.
 Slot receives optional `index` and `active` props for proper functionality.
@@ -291,7 +270,10 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 </Slidy>
 ```
 
-</details>
+### `thumbnail`
+
+*Work in progress*
+
 
 ## Events
 
