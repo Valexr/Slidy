@@ -15,8 +15,6 @@
 	$: ariaLabel = type < 1
 		? `Go to the previous slide: #${index}`
 		: `Go to the next slide: #${index}`;
-
-	$: console.log($$slots);
 </script>
 
 <button
