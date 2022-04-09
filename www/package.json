@@ -20,9 +20,9 @@
         "@sveltejs/kit": "next",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
-        "prettier-plugin-svelte": "^2.6.0",
-        "svelte": "^3.46.6",
-        "svelte-check": "^2.4.6",
+        "prettier-plugin-svelte": "^2.7.0",
+        "svelte": "^3.47.0",
+        "svelte-check": "^2.6.0",
         "svelte-preprocess": "^4.10.5"
     },
     "type": "module"
