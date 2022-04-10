@@ -62,7 +62,7 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
-### IIFE as `Window` prop
+### IIFE as `Window` Object
 
 ```html
 <head>
@@ -112,7 +112,7 @@ All `options` are optional, but mount `node` required:
 | `length`     | 2                | `number`   | Child nodes length for more accurate `slidy` init |
 | `gravity`    | 1.2              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | 375              | `number`   | Scroll duration |
-| `loop`       | false            | `boolean`  | Infinite sliding mode |
+| `loop`       | false            | `boolean`  | Infinite loop mode |
 | `clamp`      | false            | `boolean`  | Clamping scroll by index |
 | `vertical`   | false            | `boolean`  | Vertical flow axis |
 | `snap`       | undefined        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
@@ -149,9 +149,9 @@ All `options` are optional, but mount `node` required:
 
 ## Events 🔥
 
-| Name     | Detail               | Description |
-| :------- | :------------------: | :---------- |
-| `mount`  | { childs, options }  | Fires when `node.children.length` equals `options.length` or `2` & childNodes connected |
+| Name     | Detail               | Description                                                                       |
+| :------- | :------------------: | :-------------------------------------------------------------------------------- |
+| `mount`  | { childs, options }  | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
 | `resize` | { node, options }    | Fires on resize target node |
 | `move`   | { index, position }  | Fires on each sliding |
 | `keys`   | { e.key }            | Fires when target node focusing and any key pressed |
