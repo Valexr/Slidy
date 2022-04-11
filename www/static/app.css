@@ -6,5 +6,6 @@
 
 :root {
     --slidy-height: 75vh;
+    --link: #FF3E80;
     font-family: var(--font-sans);
 }
