@@ -27,6 +27,8 @@ export interface Slidy extends HTMLElement {
     offsetHeight: number;
     scrollWidth: number;
     scrollHeight: number;
+    scrollTopMax: number;
+    scrollLeftMax: number;
     replaceChildren: (...nodes: (string | Node)[]) => void;
     append: (...nodes: (string | Node)[]) => void;
     prepend: (...nodes: (string | Node)[]) => void;

@@ -48,9 +48,7 @@
                 <li style="display: grid; place-items: center">Loading... 🚀</li>
             </ul>
         </main>
-        <nav>
-            <ul id="thumbs" />
-        </nav>
+        <nav id="thumbs"></nav>
         <footer>
             <nav id="buttons">
                 <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
@@ -211,12 +209,15 @@
                 node.addEventListener('move', (e) => {
                     indexing(e.detail.index);
                     scrolling(e.detail.position);
+                    slidyT.to(e.detail.index);
+                    // console.log(e);
                 });
                 node.addEventListener('resize', (e) => {
                     console.log(e);
                 });
                 node.addEventListener('update', (e) => {
-                    // console.log(e)
+                    console.log(e);
+                    // slidyT.to(x);
                 });
                 node.addEventListener('destroy', (e) => {
                     // console.log(e)
@@ -229,7 +230,6 @@
 
                 function indexing(x) {
                     options.index = x;
-                    slidyT.to(x);
                     Array.from(node.children).forEach((n, i) =>
                         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
                     );
@@ -280,6 +280,7 @@
 
             async function getPhotos(node, page, limit) {
                 slidy?.destroy();
+                slidyT?.destroy();
                 node.style.transform = '';
                 node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
 
@@ -301,9 +302,10 @@
                             thumbs.innerHTML = photos
                                 .map((p, i) => {
                                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg)" width="${aspect.width}" height="${aspect.height}" alt="${p.author}""></li>`;
+                                    return `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
                                 })
                                 .join('');
+
                             nav.innerHTML = photos
                                 .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
                                 .join('');

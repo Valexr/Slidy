@@ -94,9 +94,9 @@ export function slidy(
         position += options.loop ? looping(pos) : pos;
         options.index = find(node, options).index(position, snap);
 
+        moving(node.children);
         snapping(options.index)
         graviting(options.index)
-        moving(node.children);
         dispatch(node, 'move', { index: options.index, position });
 
         function graviting(index: number) {
@@ -138,7 +138,7 @@ export function slidy(
 
         velocity = (2 - gravity) * speed + 0.2 * velocity;
 
-        if (elapsed < 60) return;
+        if (elapsed < 100) return;
 
         timestamp = now;
         frame = position;
@@ -161,18 +161,18 @@ export function slidy(
                 target = options.loop ? find(node, options).position(index, snap, gap) : target
                 move(target as number - position - delta);
             }
-
             raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
+
         });
     }
 
     function snapping(index: number): void {
-        const scroll = find(node, options).scroll()
-        const start = find(node, options).position(index, 'start', gap)
-        const center = find(node, options).position(index, 'center', gap)
-        const end = find(node, options).position(index, 'end', gap)
-        const size = find(node, options).node()
-        console.log(start, center, end, size / 2)
+        // const scroll = find(node, options).scroll()
+        // const start = find(node, options).position(index, 'start', gap)
+        // const center = find(node, options).position(index, 'center', gap)
+        // const end = find(node, options).position(index, 'end', gap)
+        // const size = find(node, options).node()
+        // console.log(index, start, center, end, size / 2)
 
         snap = options.loop
             ? options.snap : index === 0
@@ -277,7 +277,7 @@ export function slidy(
         // gravity = options.gravity as number
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
-        clearTimeout(wheeltime as NodeJS.Timer);
+        clearTimeout(wheeltime as NodeJS.Timeout);
     }
 
     function update(opts: Options): void {
