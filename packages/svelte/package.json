@@ -34,7 +34,7 @@
 		"format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"pub": "pnpm build && pnpm publish --no-git-checks --access public",
-		"lint": "eslint src/**/*.{ts,js,svelte}"
+		"lint": "eslint src/**/*.{ts,svelte}"
 	},
 	"repository": {
 		"type": "git",
