@@ -3,6 +3,9 @@
 # top-most EditorConfig file
 root = true
 
+[*.{js,jsx,ts,tsx}]
+quote_type = single
+
 [*]
 indent_style = space
 indent_size = 4

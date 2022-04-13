@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '../types';
 
-function onMount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, length: number }> {
+function mount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, length: number }> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -90,4 +90,4 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
-export { coordinate, style, delay, dispatch, init, listen, throttle, onMount, getFPS };
+export { coordinate, style, delay, dispatch, init, listen, throttle, mount, getFPS };
