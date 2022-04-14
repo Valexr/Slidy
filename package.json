@@ -2,7 +2,6 @@
     "name": "slidy",
     "version": "3.0.5",
     "description": "Simple, configurable & reusable carousel",
-    "private": true,
     "type": "module",
     "scripts": {
         "dev:wc": "pnpm dev --filter=@slidy/wc... --parallel",
