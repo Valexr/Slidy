@@ -1,0 +1,53 @@
+{
+    "name": "@slidy/media",
+    "version": "1.0.0",
+    "description": "Simple, persistent & reactive media-query browser storage",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
+    "browser": "dist/index.js",
+    "types": "dist/types.d.ts",
+    "type": "module",
+    "files": [
+        "dist/*"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.mjs",
+            "module": "./dist/index.mjs",
+            "require": "./dist/index.cjs",
+            "browser": "./dist/index.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "scripts": {
+        "dev": "node esbuild --dev",
+        "build": "rm -rf dist && node esbuild && tsc",
+        "lint": "eslint './src/**/*.{js,ts}'",
+        "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
+        "prelint": "pnpm run format",
+        "pub": "pnpm build && pnpm publish --no-git-checks --access public",
+        "format": "prettier --ignore-path ../../.gitignore --write './src/**/*.{js,ts,md,json,html,css}'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Valexr/slidy.git"
+    },
+    "keywords": [
+        "Slidy",
+        "Media",
+        "Storage",
+        "Browser",
+        "mediaStorage",
+        "localStorage",
+        "sessionStorage",
+        "Script",
+        "Js",
+        "Ts"
+    ],
+    "author": "Valexr",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Valexr/Slidy/issues"
+    },
+    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/core"
+}

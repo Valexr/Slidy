@@ -13,6 +13,7 @@
         "dev:solid": "pnpm dev --filter=@slidy/solid... --parallel",
         "dev:malina": "pnpm dev --filter=@slidy/malina... --parallel",
         "dev:svelte": "pnpm dev:svelte --filter=@slidy/svelte... --parallel",
+        "dev:media": "pnpm dev --filter=@slidy/media",
         "build:wc": "pnpm build --filter=@slidy/wc",
         "build:vue": "pnpm build --filter=@slidy/vue",
         "build:www": "pnpm build --filter=@slidy/www",
@@ -21,6 +22,7 @@
         "build:solid": "pnpm build --filter=@slidy/solid",
         "build:malina": "pnpm build --filter=@slidy/malina",
         "build:svelte": "pnpm build --filter=@slidy/svelte",
+        "build:media": "pnpm build --filter=@slidy/media",
         "format": "prettier --ignore-path .gitignore packages/svelte --write '**/*.{js,ts,md,json,html,css}'",
         "deploy": "pnpm build:www && gh-pages -d www/build",
         "pub": "pnpm pub -r"
@@ -48,7 +50,7 @@
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
     },
-    "homepage": "https://valexr.github.io/slidy",
+    "homepage": "https://valexr.github.io/Slidy",
     "eslintConfig": {
         "extends": [
             "plugin:@typescript-eslint/recommended"
