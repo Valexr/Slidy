@@ -288,14 +288,14 @@ nav#thumbs button {
     box-shadow: none;
     /* background-image: attr(data-src url); */
     background-size: cover;
-    background-blend-mode: overlay;
-    /* opacity: 0.25; */
+    background-blend-mode: luminosity;
+    opacity: 0.25;
 }
 
 
 nav#thumbs button:hover,
 nav#thumbs button.active {
-    /* opacity: 1; */
+    opacity: 1;
     background-blend-mode: normal;
 }
 
