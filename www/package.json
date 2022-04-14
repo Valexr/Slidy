@@ -17,7 +17,7 @@
         "@playwright/test": "^1.21.0",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.0-next.29",
-        "@sveltejs/kit": "^1.0.0-next.311",
+        "@sveltejs/kit": "^1.0.0-next.312",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "prettier-plugin-svelte": "^2.7.0",
