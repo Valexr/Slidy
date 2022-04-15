@@ -22,7 +22,9 @@ export function mediaStorage(storage?: Partial<BrowserStorage>, queries?: Partia
     queries = { ...base.queries, ...queries }
     storage = { ...base.storage, ...storage }
 
-    if (persist(storage)) {
+    const persisted = persist(storage)
+
+    if (persisted) {
         const match: MediaQuery = JSON.parse(store(storage).getItem(storage.key as string) as string) || {};
 
         for (const query in queries) {
@@ -36,9 +38,9 @@ export function mediaStorage(storage?: Partial<BrowserStorage>, queries?: Partia
             else match[query] ??= media.matches;
             if (storage)
                 store(storage).setItem(storage.key as string, JSON.stringify(match));
+            return match
         }
 
-        return match
     } else return queries
 
     function store(storage: Partial<BrowserStorage>): Storage {
@@ -47,8 +49,8 @@ export function mediaStorage(storage?: Partial<BrowserStorage>, queries?: Partia
 
     function persist(storage: Partial<BrowserStorage>): boolean {
         try {
-            store(storage).setItem('test' as string, 'test' as string);
-            store(storage).removeItem('test' as string);
+            store(storage).setItem('test', 'test');
+            store(storage).removeItem('test');
             return true;
         } catch (e) {
             console.error(e)

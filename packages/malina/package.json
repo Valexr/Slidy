@@ -10,6 +10,6 @@
     "license": "MIT",
     "devDependencies": {
         "@slidy/core": "workspace:*",
-        "malinajs": "^0.6.55"
+        "malinajs": "^0.6.56"
     }
 }

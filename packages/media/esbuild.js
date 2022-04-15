@@ -4,14 +4,13 @@ import { eslintPlugin } from 'esbuild-plugin-eslinter';
 const DEV = process.argv.includes('--dev');
 
 const esbuildBase = {
-    watch: DEV,
     bundle: true,
-    legalComments: 'none',
+    watch: DEV,
     minify: !DEV,
     incremental: DEV,
-    plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
-    sourcemap: DEV && 'inline'
+    sourcemap: DEV && 'inline',
+    legalComments: 'none',
 };
 
 if (DEV) {
