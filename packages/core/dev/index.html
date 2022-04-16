@@ -58,10 +58,42 @@
             import { mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
 
+            const queries = {
+                xs: '(max-width: 480px)',
+                sm: '(max-width: 600px)',
+                md: '(max-width: 840px)',
+                lg: '(max-width: 960px)',
+                xl: '(max-width: 1280px)',
+                xxl: '(min-width: 1281px)',
+                landscape: '(orientation: landscape)',
+                portrait: '(orientation: portrait)',
+                dark: '(prefers-color-scheme: dark)',
+                light: '(prefers-color-scheme: light)',
+                mouse: '(hover: hover)',
+                touch: '(hover: none)'
+            };
+
+            const media = mediaStorage({ queries, getter: x => console.log('x:', x) });
+            media.subscribe((matches) => {
+                console.log('m:', matches);
+                // window.media = matches;
+            });
+
             window.Slidy = slidy;
             window.utils = utils;
+            window.media = media.matches;
+            window.options = {
+                index: 7,
+                length: 15,
+                snap: 'center',
+                loop: false,
+                clamp: false,
+                gravity: 1.2,
+                duration: 375,
+                vertical: false,
+            };
 
-            console.log('s:', slidy, mediaStorage(), utils);
+            // console.log('module:', media.matches, window.media);
             // console.log(window['slidy-logo']); // get Node by id
         </script>
     </head>
@@ -96,7 +128,7 @@
 
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
-                <button id="reload" onclick="getPhotos(node, randomQ(1, 69), options.length)">
+                <button id="reload" onclick="utils.getPhotos(node, utils.randomQ(1, 69), options.length)">
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1)">→</button>
@@ -107,7 +139,7 @@
             <form>
                 <fieldset>
                     <label title="length">
-                        <input onchange="utils.changeValue(options)" name="length" type="number" size="1" step="1"
+                        <input onchange="utils.changeValue(this, options)" name="length" type="number" size="1" step="1"
                             min="1" max="50" />
                     </label>
                     <label title="width">
@@ -120,15 +152,15 @@
                         <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="5" />
                     </label>
                     <label title="duration">
-                        <input onchange="utils.changeValue()" name="duration" type="number" size="2" step="1" min="100"
-                            max="1000" />
+                        <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
+                            step="1" min="100" max="1000" />
                     </label>
                     <label title="gravity">
-                        <input onchange="utils.changeValue()" name="gravity" type="number" size="1" step="0.1" min="0.1"
-                            max="2" />
+                        <input onchange="utils.changeValue(this, options)" name="gravity" type="number" size="1"
+                            step="0.1" min="0.1" max="2" />
                     </label>
                     <label title="align">
-                        <select value="center" name="snap" onchange="utils.changeValue()">
+                        <select value="center" name="snap" onchange="utils.changeValue(this, options)">
                             <option value="">unset</option>
                             <option value="start">← start</option>
                             <option value="center">center</option>
@@ -140,7 +172,8 @@
             <form>
                 <fieldset>
                     <label title="range">
-                        <input oninput="utils.changeValue()" name="index" type="range" step="1" min="0" max="4" />
+                        <input oninput="utils.changeValue(this, options)" name="index" type="range" step="1" min="0"
+                            max="4" />
                     </label>
                 </fieldset>
             </form>
@@ -195,18 +228,7 @@
             let position = 0,
                 slidy = null,
                 slidyT = null,
-                dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            var options = {
-                index: 7,
-                length: 15,
-                snap: 'center',
-                loop: false,
-                clamp: false,
-                gravity: 1.2,
-                duration: 375,
-                vertical: false,
-            };
+                dark = false;
 
             const node = document.querySelector('#slidy'),
                 buttons = document.querySelectorAll('button'),
@@ -215,6 +237,7 @@
 
             window.onload = () => {
                 console.log(window);
+                dark = media.dark;
                 utils.getPhotos(node, utils.randomQ(1, 69), options.length);
 
                 node.addEventListener('mount', (e) => {
@@ -241,6 +264,7 @@
                 });
                 node.addEventListener('resize', (e) => {
                     // console.log(e);
+                    // media.sm && console.log(media);
                 });
                 node.addEventListener('update', (e) => {
                     // console.log(e);
@@ -249,11 +273,6 @@
                 node.addEventListener('destroy', (e) => {
                     // console.log(e)
                 });
-
-                function scrolling(p) {
-                    position = p;
-                    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>`;
-                }
             };
         </script>
     </body>

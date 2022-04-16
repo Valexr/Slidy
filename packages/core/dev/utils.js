@@ -15,13 +15,13 @@ export function indexing(x) {
     );
 }
 
-export function changeValue(options) {
-    const value = isNum(event.target.value) ? +event.target.value : event.target.value;
+export function changeValue(target, options) {
+    const value = isNum(target.value) ? +target.value : target.value;
 
-    slidy.update({ [event.target.name]: value });
-    options[event.target.name] = value;
+    slidy.update({ [target.name]: value });
+    options[target.name] = value;
 
-    if (event.target.name === 'length') {
+    if (target.name === 'length') {
         getPhotos(node, utils.randomQ(1, 69), value);
     }
 }
@@ -40,9 +40,9 @@ export function isNum(number) {
     return !isNaN(parseFloat(number)) && isFinite(+number);
 }
 
-export function activate(node, prop) {
+export function activate(target, prop) {
     node.classList.toggle('active');
-    switch (event.target.id) {
+    switch (target.id) {
         case 'dark':
             document.documentElement.setAttribute('scheme', !dark ? 'dark' : 'light');
             dark = !dark;

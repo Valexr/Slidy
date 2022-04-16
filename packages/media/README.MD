@@ -6,9 +6,7 @@
 
 # @slidy/media
 
-> 👨🏻‍💻 docs in progress
-
-Simple, persistent & reactive media-query browser storage.
+Simple, persisted, observable media-query storage enspired by svelte/stores.
 
 SSR compartible.
 
@@ -16,8 +14,10 @@ SSR compartible.
 
 > - [Getting started](#getting-started-)
 > - [Usage](#usage-)
-> - [Storage](#storage-)
-> - [Queries](#queries-)
+> - [Options](#options-)
+>   - [Storage](#storage-)
+>   - [Queries](#queries-)
+>   - [Getter](#getter-)
 
 
 ## Getting started 🚀
@@ -33,14 +33,14 @@ or from [CDN]:
 import { slidy } from 'https://unpkg.com/@slidy/media';
 ```
 
-<!-- Playground is available in svelte [REPL]. -->
+Playground is available in svelte [REPL].
 
 
 ## Usage
 
-Function `mediaStorage(storage, queries)` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
+Function `mediaStorage({ storage, queries, getter })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
 
-All arguments are optional.
+All arguments are optional, only `queries` required.
 
 ### MJS/CJS module import
 
@@ -80,70 +80,63 @@ All arguments are optional.
     import { readable } from 'svelte/store';
     import { mediaStorage } from '@slidy/media';
 
-    const media = readable({}, set => set(mediaStorage()))
+    const media = mediaStorage()
+
+    $: console.log($media)
 </script>
 ```
 
 
-## Storage
+## Options
 
-### Default
+```ts
+interface Options {
+    storage?: BrowserStorage;
+    queries?: MediaQuery,
+    getter?: Getter
+}
+```
+
+### Storage
+
+Persist media-query matches in any browser storage. By default `undefined`.
 
 ```ts
 type BrowserStorage = {
     type: string
     key: string
 }
-const storage: BrowserStorage = { type: 'session', key: 'media-storage' }
+const storage: BrowserStorage = undefined
 ```
 
-### Props
-
-| Property     | Default          | Type       | Description |
-| :----------- | :--------------: | :--------: | :---------- |
-| `type`       | `session`        | `string`   | Browser storage type: `'session', 'local'` |
-| `key`        | `media-storage`  | `string`   | Browser storage key |
-
-### Usage
+| Property     | Type       | Description |
+| :----------- | :--------: | :---------- |
+| `type`       | `string`   | Browser storage type: `'session', 'local'` |
+| `key`        | `string`   | Browser storage key |
 
 ```html
 <head>
     <script type="module">
         import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
-        const media = mediaStorage({key: 'my-storage-key'})
+        const storage = { 
+            type: 'session', 
+            key: 'my-storage-key' 
+        }
+        const media = mediaStorage({ storage })
     </script>
 </head>
 ```
 
-## Queries
+### Queries
 
-### Default
+Media queries rules object like `{ dark: '(prefers-color-scheme: dark)' }`. Support multiple conditions like `'(max-width: 840px) or (prefers-color-scheme: light)'` more `@media` rules on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#logical_operators)
 
 ```ts
 type MediaQuery = {
     [key: string]: boolean | string | undefined;
 };
-
-const queries: MediaQuery = {
-    xs: '(max-width: 480px)',
-    sm: '(max-width: 600px)',
-    md: '(max-width: 840px)',
-    lg: '(max-width: 960px)',
-    xl: '(max-width: 1280px)',
-    xxl: '(min-width: 1281px)',
-    landscape: '(orientation: landscape)',
-    portrait: '(orientation: portrait)',
-    dark: '(prefers-color-scheme: dark)',
-    light: '(prefers-color-scheme: light)',
-    mouse: '(hover: hover)',
-    touch: '(hover: none)'
-}
 ```
-
-### Usage
-
-> Support multiple conditions like `'(max-width: 840px) or (prefers-color-scheme: light)'` more `@media` rules on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#logical_operators)
 
 ```html
 <head>
@@ -164,14 +157,34 @@ const queries: MediaQuery = {
             mouse: '(hover: hover)',
             touch: '(hover: none)'
         }
-        const media = mediaStorage(queries)
+        const media = mediaStorage({ queries })
     </script>
 </head>
 ```
 
+## Getter
+
+Callback function with matches results.
+
+```ts
+type Getter = (matches: MediaQuery) => void
+```
+
+```html
+<head>
+    <script type="module">
+        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const getter = (mq) => console.log(mq)
+        const media = mediaStorage({ getter })
+    </script>
+</head>
+```
+
+
 MIT &copy; [Valexr](https://github.com/Valexr)
 
-[DEMO]: https://slidy-core.surge.sh
+[DEMO]: https://slidy-media.surge.sh
 [NPM]: https://www.npmjs.com/package/@slidy/media
 [CDN]: https://unpkg.com/@slidy/media/
-[REPL]: https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083
+[REPL]: https://svelte.dev/repl/e015c399d7b0442b9a75b71ede67fb61

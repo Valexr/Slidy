@@ -34,6 +34,26 @@
 </script>
 
 <script lang="ts">
+	import { mediaStorage } from '@slidy/media';
+
+	const queries = {
+		xs: '(max-width: 480px)',
+		sm: '(max-width: 600px)',
+		md: '(max-width: 840px)',
+		lg: '(max-width: 960px)',
+		xl: '(max-width: 1280px)',
+		xxl: '(min-width: 1281px)',
+		landscape: '(orientation: landscape)',
+		portrait: '(orientation: portrait)',
+		dark: '(prefers-color-scheme: dark)',
+		light: '(prefers-color-scheme: light)',
+		mouse: '(hover: hover)',
+		touch: '(hover: none)'
+	};
+
+	const media = mediaStorage({ queries });
+	$: console.log($media);
+
 	let page = Math.trunc(Math.random() * 100);
 </script>
 
@@ -42,7 +62,7 @@
 </svelte:head>
 
 <header>
-	<h1>Welcome to Slidy SvelteKit</h1>
+	<h1>Welcome to Slidy SvelteKit {$media?.dark}</h1>
 	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 </header>
 

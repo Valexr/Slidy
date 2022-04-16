@@ -1,60 +1,50 @@
-import type { MediaQuery, BrowserStorage } from './types'
+import type { MediaQuery, BrowserStorage, Options } from './types'
 
-export function mediaStorage(storage?: Partial<BrowserStorage>, queries?: Partial<MediaQuery>): MediaQuery {
-    const base = {
-        queries: {
-            xs: '(max-width: 480px)',
-            sm: '(max-width: 600px)',
-            md: '(max-width: 840px)',
-            lg: '(max-width: 960px)',
-            xl: '(max-width: 1280px)',
-            xxl: '(min-width: 1281px)',
-            landscape: '(orientation: landscape)',
-            portrait: '(orientation: portrait)',
-            dark: '(prefers-color-scheme: dark)',
-            light: '(prefers-color-scheme: light)',
-            mouse: '(hover: hover)',
-            touch: '(hover: none)'
-        },
-        storage: { type: 'session', key: 'media-storage' }
-    }
-
-    queries = { ...base.queries, ...queries }
-    storage = { ...base.storage, ...storage }
-
-    const persisted = persist(storage)
-
-    if (persisted) {
-        const match: MediaQuery = JSON.parse(store(storage).getItem(storage.key as string) as string) || {};
+export function mediaStorage({ storage, queries, getter }: Options) {
+    if (typeof window == 'object') {
+        const subscribers: Set<(matches: MediaQuery) => void> = new Set();
+        const matches: MediaQuery = storage ? JSON.parse(store(storage).getItem(storage.key as string) as string) || {} : {}
 
         for (const query in queries) {
             const media = window.matchMedia(queries[query] as string)
-            setMatches(media, query)
-            media.onchange = (e) => setMatches(e, query)
+            set(media as MediaQueryList, query)
+            media.onchange = (e: MediaQueryListEvent) => set(e, query)
         }
 
-        function setMatches(media: MediaQueryList | MediaQueryListEvent, query: string) {
-            if ('target' in media) match[query] = media.matches;
-            else match[query] ??= media.matches;
+        function set(media: MediaQueryList | MediaQueryListEvent, query: string) {
+            matches[query] = media.matches;
             if (storage)
-                store(storage).setItem(storage.key as string, JSON.stringify(match));
+                store(storage).setItem(storage.key as string, JSON.stringify(matches));
+            update(matches)
+            getter && getter(matches)
         }
 
-        return match
-    } else return queries
+        function update(matches: MediaQuery) {
+            subscribers.forEach(fn => fn(matches))
+        }
 
-    function store(storage: Partial<BrowserStorage>): Storage {
+        function subscribe(fn: (matches: MediaQuery) => void) {
+            fn(matches)
+            subscribers.add(fn);
+            return () => unsubscribe(fn)
+        }
+        const unsubscribe = (fn: (matches: MediaQuery) => void): boolean => subscribers.delete(fn)
+
+        return { matches, subscribe }
+    } else return
+
+    function store(storage: BrowserStorage): Storage {
         return storage.type === 'session' ? sessionStorage : localStorage
     }
 
-    function persist(storage: Partial<BrowserStorage>): boolean {
-        try {
-            store(storage).setItem('test', 'test');
-            store(storage).removeItem('test');
-            return true;
-        } catch (e) {
-            console.error(e)
-            return false
-        }
-    }
+    // function persist(storage: Partial<BrowserStorage>): boolean {
+    //     try {
+    //         store(storage).setItem('test', 'test');
+    //         store(storage).removeItem('test');
+    //         return true;
+    //     } catch (e) {
+    //         console.error(e)
+    //         return false
+    //     }
+    // }
 }
