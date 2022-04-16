@@ -12,11 +12,11 @@ SSR compartible.
 #### Try the [DEMO]
 
 > - [Getting started](#getting-started-)
-> - [Usage](#usage-)
-> - [Options](#options-)
->   - [Storage](#storage-)
->   - [Queries](#queries-)
->   - [Getter](#getter-)
+> - [Usage](#usage)
+> - [Options](#options)
+>   - [Storage](#storage)
+>   - [Queries](#queries)
+>   - [Getter](#getter)
 
 
 ## Getting started 🚀
