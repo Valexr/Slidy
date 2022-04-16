@@ -6,11 +6,10 @@
 
 # @slidy/media
 
-Simple, persisted, observable media-query storage enspired by svelte/stores.
-
+Simple, persisted, observable media-query storage enspired by svelte/stores.  
 SSR compartible.
 
-<!-- #### Try the [DEMO] -->
+#### Try the [DEMO]
 
 > - [Getting started](#getting-started-)
 > - [Usage](#usage-)
@@ -32,8 +31,6 @@ or from [CDN]:
 ```js
 import { slidy } from 'https://unpkg.com/@slidy/media';
 ```
-
-Playground is available in svelte [REPL].
 
 
 ## Usage
@@ -184,7 +181,7 @@ type Getter = (matches: MediaQuery) => void
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 
-[DEMO]: https://slidy-media.surge.sh
+[DEMO]: https://svelte.dev/repl/e015c399d7b0442b9a75b71ede67fb61
 [NPM]: https://www.npmjs.com/package/@slidy/media
 [CDN]: https://unpkg.com/@slidy/media/
 [REPL]: https://svelte.dev/repl/e015c399d7b0442b9a75b71ede67fb61

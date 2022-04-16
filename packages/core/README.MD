@@ -6,8 +6,7 @@
 
 # @slidy/core
 
-Simple, configurable & reusable sliding action script.
-
+Simple, configurable & reusable sliding action script.  
 Сompletely mimics the behavior of a native scroll with index navigation, acceleration, gravity & infinite loop mode.
 
 #### Try the [DEMO]

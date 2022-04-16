@@ -1,7 +1,7 @@
 {
     "name": "@slidy/media",
-    "version": "1.0.0",
-    "description": "Simple, persistent & reactive media-query browser storage",
+    "version": "1.1.0",
+    "description": "Simple, persisted, observable media-query storage",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
     "browser": "dist/index.js",
@@ -50,5 +50,5 @@
     "bugs": {
         "url": "https://github.com/Valexr/Slidy/issues"
     },
-    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/core"
+    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/media"
 }
