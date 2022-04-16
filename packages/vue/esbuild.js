@@ -23,6 +23,18 @@ const derverConfig = {
     dir: 'dev/public',
     watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
 };
+const builds = {
+    cjs: {
+        outfile: './dist/slidy.cjs'
+    },
+    esm: {
+        outfile: './dist/slidy.mjs'
+    },
+    iife: {
+        outfile: './dist/slidy.js',
+        globalName: 'Slidy'
+    }
+};
 
 if (DEV) {
     build({
@@ -42,22 +54,11 @@ if (DEV) {
         });
     });
 } else {
-    (async () => {
-        await build({
+    for (const key in builds) {
+        build({
             ...esbuildBase,
-            outfile: "dist/slidy.cjs",
-            format: 'cjs',
+            ...builds[key],
+            format: key
         });
-        await build({
-            ...esbuildBase,
-            outfile: "dist/slidy.mjs",
-            format: 'esm',
-        });
-        await build({
-            ...esbuildBase,
-            outfile: "dist/slidy.js",
-            globalName: 'Slidy',
-            format: 'iife',
-        });
-    })();
+    }
 }

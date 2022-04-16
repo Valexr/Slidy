@@ -58,11 +58,11 @@ if (DEV || CORE) {
         });
     });
 } else {
-    Object.keys(builds).forEach(key => {
+    for (const key in builds) {
         build({
             ...esbuildBase,
             ...builds[key],
             format: key
         });
-    });
+    }
 }

@@ -8,9 +8,23 @@ const esbuildBase = {
     watch: DEV,
     minify: !DEV,
     incremental: DEV,
+    plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV && 'inline',
     legalComments: 'none',
+};
+
+const builds = {
+    cjs: {
+        outfile: './dist/index.cjs'
+    },
+    esm: {
+        outfile: './dist/index.mjs'
+    },
+    iife: {
+        outfile: './dist/index.js',
+        globalName: 'MediaStorage'
+    }
 };
 
 if (DEV) {
@@ -20,22 +34,11 @@ if (DEV) {
         format: 'esm'
     }).then(() => console.log('watching @slidy/media...'));
 } else {
-    (async () => {
-        await build({
+    for (const key in builds) {
+        build({
             ...esbuildBase,
-            outfile: './dist/index.cjs',
-            format: 'cjs',
+            ...builds[key],
+            format: key
         });
-        await build({
-            ...esbuildBase,
-            outfile: './dist/index.mjs',
-            format: 'esm',
-        });
-        await build({
-            ...esbuildBase,
-            outfile: './dist/index.js',
-            globalName: 'MediaStorage',
-            format: 'iife',
-        });
-    })();
+    }
 }
