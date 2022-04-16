@@ -13,20 +13,37 @@ const esbuildBase = {
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
-    sourcemap: (DEV || CORE) ? 'inline' : false,
+    sourcemap: (DEV || CORE) ? 'inline' : false
 };
 const derverConfig = {
     dir: 'dev',
     port: 3330,
     host: '0.0.0.0',
-    watch: ['dev', 'src'],
+    watch: ['dev', 'src', '../media/dist'],
+};
+const builds = {
+    cjs: {
+        outfile: './dist/slidy.cjs'
+    },
+    esm: {
+        outfile: './dist/slidy.mjs'
+    },
+    iife: {
+        outfile: './dist/slidy.js',
+        globalName: 'Slidy'
+    }
 };
 
 if (DEV || CORE) {
     build({
         ...esbuildBase,
-        outfile: DEV ? './dist/slidy.mjs' : 'dev/dev.js',
-        format: DEV ? 'esm' : 'iife',
+        ...CORE
+            ? {
+                entryPoints: ['@slidy/core', '@slidy/media'],
+                outdir: 'dev/build'
+            }
+            : { outfile: 'dist/slidy.mjs' },
+        format: 'esm',
         globalName: 'Slidy'
     }).then((bundle) => {
         if (DEV) console.log('watching @slidy/core...');
@@ -41,22 +58,11 @@ if (DEV || CORE) {
         });
     });
 } else {
-    (async () => {
-        await build({
+    Object.keys(builds).forEach(key => {
+        build({
             ...esbuildBase,
-            outfile: './dist/slidy.cjs',
-            format: 'cjs',
+            ...builds[key],
+            format: key
         });
-        await build({
-            ...esbuildBase,
-            outfile: './dist/slidy.mjs',
-            format: 'esm',
-        });
-        await build({
-            ...esbuildBase,
-            outfile: './dist/slidy.js',
-            globalName: 'Slidy',
-            format: 'iife',
-        });
-    })();
+    });
 }

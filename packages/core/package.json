@@ -48,5 +48,8 @@
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
     },
-    "homepage": "https://valexr.github.io/slidy"
+    "homepage": "https://valexr.github.io/slidy",
+    "devDependencies": {
+        "@slidy/media": "workspace:*"
+    }
 }

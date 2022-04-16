@@ -53,15 +53,20 @@
 
         <title>Slidy 3.1.0 - NativeJS</title>
 
-        <script defer src="dev.js"></script>
-        <script type="module">
-            import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+        <!-- <script type="module" src="build/core.js"></script> -->
+        <!-- <script type="module" src="build/media.js"></script> -->
 
-            const nod = document.querySelector('#slidy');
-            console.log(slidy);
-            window.slidy = slidy;
-            console.log(dark);
-            console.log(window['slidy-logo']); // get Node by id
+        <script type="module">
+            // import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+            // import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+            // import { media } from './media.js';
+            import { slidy } from './build/core.js';
+            import { mediaStorage } from './build/media.js';
+            import * as utils from './utils.js';
+
+            console.log('s:', slidy, mediaStorage(), utils);
+            window.Slidy = slidy;
+            // console.log(window['slidy-logo']); // get Node by id
         </script>
     </head>
 
@@ -247,10 +252,10 @@
                     // console.log(e);
                 });
                 node.addEventListener('resize', (e) => {
-                    console.log(e);
+                    // console.log(e);
                 });
                 node.addEventListener('update', (e) => {
-                    console.log(e);
+                    // console.log(e);
                     // slidyT.to(x);
                 });
                 node.addEventListener('destroy', (e) => {
@@ -349,9 +354,8 @@
                         }
                     })
                     .then(() => {
-                        slidy = Slidy.slidy(node, options);
-                        slidyT = Slidy.slidy(thumbs, options);
-                        console.log(node, main);
+                        slidy = Slidy(node, options);
+                        slidyT = Slidy(thumbs, options);
                     })
                     .catch((error) => {
                         console.error(error);

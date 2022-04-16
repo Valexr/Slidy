@@ -14,7 +14,7 @@
     ],
     "exclude": [],
     "files": [
-        "src/index.ts",
+        "src/media.ts",
         "src/types.ts"
     ]
 }

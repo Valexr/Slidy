@@ -53,7 +53,7 @@ const derverConfig = {
 		"public",
 		"src",
 		"dist",
-		'../core/dist'
+		'node_modules/@slidy/core'
 	]
 };
 

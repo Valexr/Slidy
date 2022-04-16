@@ -9,7 +9,6 @@ import {
 } from './utils/env';
 import { find, history, indexing, replace, shuffle } from './utils/dom';
 import { maxMin } from './utils/helpers';
-
 import type { Options, Slidy, UniqEvent } from './types';
 
 const base: Options = {

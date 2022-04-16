@@ -143,6 +143,8 @@ const queries: MediaQuery = {
 
 ### Usage
 
+> Support multiple conditions like `'(max-width: 840px) or (prefers-color-scheme: light)'` more `@media` rules on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#logical_operators)
+
 ```html
 <head>
     <script type="module">

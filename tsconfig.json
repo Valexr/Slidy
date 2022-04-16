@@ -20,6 +20,9 @@
             "@slidy/vue": [
                 "vue/src"
             ],
+            "@slidy/media": [
+                "media/src"
+            ],
         },
         "declaration": true,
         "emitDeclarationOnly": true,
