@@ -162,7 +162,7 @@ type MediaQuery = {
 </head>
 ```
 
-## Getter
+### Getter
 
 Callback function with matches results.
 
