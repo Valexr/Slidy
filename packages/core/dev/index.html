@@ -53,19 +53,15 @@
 
         <title>Slidy 3.1.0 - NativeJS</title>
 
-        <!-- <script type="module" src="build/core.js"></script> -->
-        <!-- <script type="module" src="build/media.js"></script> -->
-
         <script type="module">
-            // import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
-            // import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
-            // import { media } from './media.js';
             import { slidy } from './build/core.js';
             import { mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
 
-            console.log('s:', slidy, mediaStorage(), utils);
             window.Slidy = slidy;
+            window.utils = utils;
+
+            console.log('s:', slidy, mediaStorage(), utils);
             // console.log(window['slidy-logo']); // get Node by id
         </script>
     </head>
@@ -76,9 +72,9 @@
             <h3>
                 Slidy <span>3.1.0</span><sub>nativeJS</sub><sub id="stats" />
             </h3>
-            <button id="dark" onclick="activate(this, dark)">dark</button>
+            <button id="dark" onclick="utils.activate(this, dark)">dark</button>
         </header>
-        <main style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
+        <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
             <ul id="slidy">
                 <!-- <li id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></li>
                 <li id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></li>
@@ -91,9 +87,9 @@
         <nav id="thumbs"></nav>
         <footer>
             <nav id="buttons">
-                <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
-                <button id="loop" onclick="slidy.update({loop: activate(this, options.loop)})">loop</button>
-                <button id="vertical" onclick="slidy.update({vertical: activate(this, options.vertical)})">
+                <button id="clamp" onclick="slidy.update({clamp: utils.activate(this, options.clamp)})">clamp</button>
+                <button id="loop" onclick="slidy.update({loop: utils.activate(this, options.loop)})">loop</button>
+                <button id="vertical" onclick="slidy.update({vertical: utils.activate(this, options.vertical)})">
                     vertical
                 </button>
             </nav>
@@ -111,28 +107,28 @@
             <form>
                 <fieldset>
                     <label title="length">
-                        <input onchange="changeValue()" name="length" type="number" size="1" step="1" min="1"
-                            max="50" />
+                        <input onchange="utils.changeValue(options)" name="length" type="number" size="1" step="1"
+                            min="1" max="50" />
                     </label>
                     <label title="width">
-                        <input onchange="setVar(main, this.name, this.value)" name="width" size="5" />
+                        <input onchange="utils.setVar(main, this.name, this.value)" name="width" size="5" />
                     </label>
                     <label title="height">
-                        <input onchange="setVar(main, this.name, this.value)" name="height" size="5" />
+                        <input onchange="utils.setVar(main, this.name, this.value)" name="height" size="5" />
                     </label>
                     <label title="gap">
-                        <input onchange="setVar(main, this.name, this.value)" name="gap" size="5" />
+                        <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="5" />
                     </label>
                     <label title="duration">
-                        <input onchange="changeValue()" name="duration" type="number" size="2" step="1" min="100"
+                        <input onchange="utils.changeValue()" name="duration" type="number" size="2" step="1" min="100"
                             max="1000" />
                     </label>
                     <label title="gravity">
-                        <input onchange="changeValue()" name="gravity" type="number" size="1" step="0.1" min="0.1"
+                        <input onchange="utils.changeValue()" name="gravity" type="number" size="1" step="0.1" min="0.1"
                             max="2" />
                     </label>
                     <label title="align">
-                        <select value="center" name="snap" onchange="changeValue()">
+                        <select value="center" name="snap" onchange="utils.changeValue()">
                             <option value="">unset</option>
                             <option value="start">← start</option>
                             <option value="center">center</option>
@@ -144,7 +140,7 @@
             <form>
                 <fieldset>
                     <label title="range">
-                        <input oninput="changeValue()" name="index" type="range" step="1" min="0" max="4" />
+                        <input oninput="utils.changeValue()" name="index" type="range" step="1" min="0" max="4" />
                     </label>
                 </fieldset>
             </form>
@@ -199,10 +195,9 @@
             let position = 0,
                 slidy = null,
                 slidyT = null,
-                dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-                page = randomQ(1, 69);
+                dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-            let options = {
+            var options = {
                 index: 7,
                 length: 15,
                 snap: 'center',
@@ -213,22 +208,15 @@
                 vertical: false,
             };
 
-            const main = document.querySelector('main'),
-                section = document.querySelector('section'),
-                node = document.querySelector('#slidy'),
-                thumbs = document.querySelector('#thumbs'),
-                nav = document.querySelector('#dots'),
-                stats = document.querySelector('#stats'),
+            const node = document.querySelector('#slidy'),
                 buttons = document.querySelectorAll('button'),
                 inputs = document.querySelectorAll('input'),
-                select = document.querySelector('select'),
-                head = document.querySelector('head');
+                select = document.querySelector('select');
 
             window.onload = () => {
                 console.log(window);
-                getPhotos(node, page, options.length);
-                // if (node.isConnected)
-                // slidy = Slidy.slidy(node, options);
+                utils.getPhotos(node, utils.randomQ(1, 69), options.length);
+
                 node.addEventListener('mount', (e) => {
                     console.log(e);
                     options = e.detail.options;
@@ -238,16 +226,16 @@
                     }
                     for (const input of inputs) {
                         if (input.name in options) input.value = options[input.name];
-                        else if (input.name === 'width') input.value = getVar(main, '--width');
-                        else if (input.name === 'height') input.value = getVar(main, '--height');
-                        else if (input.name === 'gap') input.value = getVar(main, '--gap');
+                        else if (input.name === 'width') input.value = utils.getVar(main, '--width');
+                        else if (input.name === 'height') input.value = utils.getVar(main, '--height');
+                        else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
                         else if (input.name === 'index') input.max = options.length - 1;
                     }
                     select.value = options.snap;
                 });
                 node.addEventListener('move', (e) => {
-                    indexing(e.detail.index);
-                    scrolling(e.detail.position);
+                    utils.indexing(e.detail.index);
+                    utils.scrolling(e.detail.position);
                     slidyT.to(e.detail.index);
                     // console.log(e);
                 });
@@ -266,117 +254,7 @@
                     position = p;
                     stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>`;
                 }
-
-                function indexing(x) {
-                    options.index = x;
-                    Array.from(node.children).forEach((n, i) =>
-                        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
-                    );
-                    Array.from(thumbs.children).forEach((n, i) =>
-                        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
-                    );
-                    Array.from(nav.children).forEach((n, i) =>
-                        i === x ? n.classList.add('active') : n.classList.remove('active')
-                    );
-                }
             };
-
-            function activate(node, prop) {
-                node.classList.toggle('active');
-                switch (event.target.id) {
-                    case 'dark':
-                        document.documentElement.setAttribute('scheme', !dark ? 'dark' : 'light');
-                        dark = !dark;
-                        break;
-                    case 'vertical':
-                        setVar(main, 'flow', vertical ? 'column' : 'row');
-                        vertical = !vertical;
-                        break;
-
-                    default:
-                        break;
-                }
-                prop = !prop;
-                return prop;
-            }
-
-            function changeValue() {
-                const value = isNum(event.target.value) ? +event.target.value : event.target.value;
-
-                slidy.update({ [event.target.name]: value });
-                options[event.target.name] = value;
-
-                if (event.target.name === 'length') {
-                    getPhotos(node, page, value);
-                }
-            }
-            function getVar(node, name) {
-                return getComputedStyle(node).getPropertyValue(name);
-            }
-            function setVar(node, name, value) {
-                return node.style.setProperty(`--${name}`, value);
-            }
-
-            async function getPhotos(node, page, limit) {
-                slidy?.destroy();
-                slidyT?.destroy();
-                node.style.transform = '';
-                node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
-
-                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
-                    .then(async (res) => {
-                        const photos = await res.json();
-                        if (photos.length) {
-                            // head.innerHTML += photos.map((p, i) => {
-                            //     // const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                            //     return `<link rel="preload" as="image" href=${p.download_url}>`;
-                            // }).join('\n');
-                            node.innerHTML = photos
-                                .map((p, i) => {
-                                    const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></li>`;
-                                })
-                                .join('');
-
-                            thumbs.innerHTML = photos
-                                .map((p, i) => {
-                                    const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
-                                })
-                                .join('');
-
-                            nav.innerHTML = photos
-                                .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
-                                .join('');
-                        } else {
-                            node.style.transform = '';
-                            node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
-                        }
-                    })
-                    .then(() => {
-                        slidy = Slidy(node, options);
-                        slidyT = Slidy(thumbs, options);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-
-            function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
-                let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-                return {
-                    width: Math.round(srcWidth * ratio),
-                    height: Math.round(srcHeight * ratio),
-                };
-            }
-
-            function randomQ(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            function isNum(number) {
-                return !isNaN(parseFloat(number)) && isFinite(+number);
-            }
         </script>
     </body>
 
