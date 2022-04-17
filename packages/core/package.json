@@ -2,9 +2,9 @@
     "name": "@slidy/core",
     "version": "3.1.0",
     "description": "Simple, configurable & reusable sliding action script",
-    "main": "dist/slidy.cjs",
-    "module": "dist/slidy.mjs",
-    "browser": "dist/slidy.js",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
+    "browser": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "files": [
@@ -12,10 +12,10 @@
     ],
     "exports": {
         ".": {
-            "import": "./dist/slidy.mjs",
-            "module": "./dist/slidy.mjs",
-            "require": "./dist/slidy.cjs",
-            "browser": "./dist/slidy.js"
+            "import": "./dist/index.mjs",
+            "module": "./dist/index.mjs",
+            "require": "./dist/index.cjs",
+            "browser": "./dist/index.js"
         },
         "./package.json": "./package.json"
     },

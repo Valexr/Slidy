@@ -23,13 +23,13 @@ const derverConfig = {
 };
 const builds = {
     cjs: {
-        outfile: './dist/slidy.cjs'
+        outfile: './dist/index.cjs'
     },
     esm: {
-        outfile: './dist/slidy.mjs'
+        outfile: './dist/index.mjs'
     },
     iife: {
-        outfile: './dist/slidy.js',
+        outfile: './dist/index.js',
         globalName: 'Slidy'
     }
 };
@@ -42,7 +42,7 @@ if (DEV || CORE) {
                 entryPoints: ['@slidy/core', '@slidy/media'],
                 outdir: 'dev/build'
             }
-            : { outfile: 'dist/slidy.mjs' },
+            : { outfile: 'dist/index.mjs' },
         format: 'esm',
         globalName: 'Slidy'
     }).then((bundle) => {
