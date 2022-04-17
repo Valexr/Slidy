@@ -2,7 +2,6 @@
 	import { Slidy } from '@slidy/svelte';
 	import { mediaStorage, type MediaQuery } from '@slidy/media';
 	import { getPhotos } from '$lib/api';
-	import { browser } from '$app/env';
 
 	const queries = {
 		xs: '(max-width: 480px)',
@@ -19,11 +18,7 @@
 		touch: '(hover: none)'
 	};
 
-	const media = mediaStorage({
-		queries,
-		storage: browser && sessionStorage,
-		cookie: true
-	});
+	const media = mediaStorage({ queries, cookie: true });
 
 	export async function load({ session }) {
 		const { theme = JSON.stringify(media.matches) } = session.user;

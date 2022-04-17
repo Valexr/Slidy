@@ -35,7 +35,7 @@ import { slidy } from 'https://unpkg.com/@slidy/media';
 
 ## Usage
 
-Function `mediaStorage({ queries, getter, storage, cookie })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
+Function `mediaStorage({ queries, getter, cookie })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
 
 All arguments are optional, only `queries` required.
 
@@ -61,10 +61,9 @@ All arguments are optional, only `queries` required.
 </head>
 
 <script>
-    let media = null,
-        node = document.querySelector('#slidy'),
+    let media = null
 
-        window.onload = () => media = MediaStorage.mediaStorage()
+    window.onload = () => media = MediaStorage.mediaStorage()
 </script>
 ```
 
