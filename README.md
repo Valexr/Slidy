@@ -22,7 +22,7 @@ Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Val
 
 And npm organization [@slidy](https://www.npmjs.com/org/slidy).
 
-> ## ⚠️ version 3.0 in beta now [demo](https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083)
+> ## ⚠️ version 3.1.0 in prerelise now [demo](https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083)
 
 > Version 2 is no longer supported, but have packages on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/).  
 Source files temporally live in [`./_v2`](https://github.com/Valexr/slidy/tree/master/_v2) folder.

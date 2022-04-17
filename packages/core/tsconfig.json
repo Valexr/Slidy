@@ -13,11 +13,10 @@
         "src/*"
     ],
     "exclude": [
-        "src/utils/*",
-        "src/index.ts"
+        "src/utils/*"
     ],
     "files": [
-        "src/slidy.ts",
+        "src/index.ts",
         "src/types.ts"
     ]
 }

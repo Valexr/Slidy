@@ -1,11 +1,11 @@
 {
     "name": "@slidy/core",
-    "version": "3.0.5",
+    "version": "3.1.0",
     "description": "Simple, configurable & reusable sliding action script",
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
-    "types": "dist/types.d.ts",
+    "types": "dist/index.d.ts",
     "type": "module",
     "files": [
         "dist/*"
