@@ -55,7 +55,7 @@
 
         <script type="module">
             import { slidy } from './build/core.js';
-            import { mediaStorage } from './build/media.js';
+            import { media } from './build/media.js';
             import * as utils from './utils.js';
 
             const queries = {
@@ -73,15 +73,15 @@
                 touch: '(hover: none)'
             };
 
-            const media = mediaStorage({ queries, getter: x => console.log('x:', x) });
-            media.subscribe((matches) => {
+            const mqs = media({ queries, getter: x => console.log('x:', x) });
+            mqs.subscribe((matches) => {
                 console.log('m:', matches);
                 // window.media = matches;
             });
 
             window.Slidy = slidy;
             window.utils = utils;
-            window.media = media.matches;
+            window.media = mqs.matches;
             window.options = {
                 index: 7,
                 length: 15,
