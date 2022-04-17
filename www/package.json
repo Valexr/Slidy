@@ -15,8 +15,8 @@
     },
     "devDependencies": {
         "@playwright/test": "^1.21.0",
-        "@slidy/svelte": "workspace:*",
         "@slidy/media": "workspace:*",
+        "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.0-next.29",
         "@sveltejs/kit": "^1.0.0-next.314",
         "eslint-config-prettier": "^8.5.0",

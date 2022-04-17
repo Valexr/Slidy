@@ -6,7 +6,7 @@
 	"module": "dist/slidy.mjs",
 	"browser": "dist/slidy.js",
 	"svelte": "dist/index.js",
-	"types": "dist/types.d.ts",
+	"types": "dist/index.d.ts",
 	"style": "dist/slidy.css",
 	"type": "module",
 	"files": [
