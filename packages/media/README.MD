@@ -133,7 +133,7 @@ type MediaQuery = {
 
 ### Getter
 
-Callback function with matches results.
+Callback function with matches object results.
 
 ```ts
 type Getter = (matches: MediaQuery) => void
