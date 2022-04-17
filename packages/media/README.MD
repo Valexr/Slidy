@@ -29,26 +29,24 @@ npm i -D @slidy/media
 or from [CDN]:
 
 ```js
-import { slidy } from 'https://unpkg.com/@slidy/media';
+import { media } from 'https://unpkg.com/@slidy/media';
 ```
 
 
 ## Usage
 
-Function `mediaStorage({ queries, getter, cookie })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
-
-All arguments are optional, only `queries` required.
+Function `media({ queries, getter, cookie })` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
 
 ### MJS/CJS module import
 
 ```html
 <head>
    <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs'; // MJS module
+        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs'; // MJS module
         // OR
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.cjs'; // CJS module
+        import { media } from 'https://unpkg.com/@slidy/media/dist/index.cjs'; // CJS module
 
-        const media = mediaStorage()
+        const mediaQueries = media()
     </script>
 </head>
 ```
@@ -61,9 +59,9 @@ All arguments are optional, only `queries` required.
 </head>
 
 <script>
-    let media = null
+    let mediaQueries = null
 
-    window.onload = () => media = MediaStorage.mediaStorage()
+    window.onload = () => mediaQueries = Slidy.media()
 </script>
 ```
 
@@ -73,33 +71,33 @@ All arguments are optional, only `queries` required.
 <!-- Svelte -->
 
 <script>
-    import { readable } from 'svelte/store';
-    import { mediaStorage } from '@slidy/media';
+    import { media } from '@slidy/media';
 
-    const media = mediaStorage()
+    const mediaQueries = media()
 
-    $: console.log($media)
+    $: console.log($mediaQueries)
 </script>
 ```
 
 
 ## Options
 
+All arguments are optional, only `queries` required.
+
 ```ts
 interface Options {
-    queries?: MediaQuery;
-    getter?: Getter;
-    cookie?: boolean;
+    queries?: Queries,
+    getter?: Getter,
+    cookie?: boolean
 }
 ```
-
 
 ### Queries
 
 Media queries rules object like `{ dark: '(prefers-color-scheme: dark)' }`. Support multiple conditions like `'(max-width: 840px) or (prefers-color-scheme: light)'` more `@media` rules on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#logical_operators)
 
 ```ts
-type MediaQuery = {
+type Queries = {
     [key: string]: boolean | string | undefined;
 };
 ```
@@ -107,7 +105,7 @@ type MediaQuery = {
 ```html
 <head>
     <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
         const queries: MediaQuery = {
             xs: '(max-width: 480px)',
@@ -123,7 +121,7 @@ type MediaQuery = {
             mouse: '(hover: hover)',
             touch: '(hover: none)'
         }
-        const media = mediaStorage({ queries })
+        const mediaQueries = media({ queries })
     </script>
 </head>
 ```
@@ -134,16 +132,17 @@ type MediaQuery = {
 Callback function with matches object results.
 
 ```ts
-type Getter = (matches: MediaQuery) => void
+type Getter = (matches: Queries) => void
 ```
 
 ```html
 <head>
     <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
-        const getter = (mq) => console.log(mq)
-        const media = mediaStorage({ getter })
+        const getter = (mqs) => console.log(mqs)
+
+        const mediaQueries = media({ getter })
     </script>
 </head>
 ```
@@ -160,9 +159,9 @@ const cookie: boolean
 ```html
 <head>
     <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
-        const media = mediaStorage({ cookie: true })
+        const mediaQueries = media({ cookie: true })
     </script>
 </head>
 ```

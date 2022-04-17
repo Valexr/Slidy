@@ -1,15 +1,15 @@
-import type { MediaQuery, Options } from './types'
+import type { Options, Queries } from './types'
 
-export function mediaStorage({ queries, getter, cookie }: Options) {
+export function media({ queries, getter, cookie }: Partial<Options>) {
 
-    const subscribers: Set<(matches: MediaQuery) => void> = new Set();
-    const matches: MediaQuery = {}
+    const subscribers: Set<(matches: Queries) => void> = new Set();
+    const matches: Queries = {}
 
     if (typeof window === 'object') {
         for (const query in queries) {
             const media = window.matchMedia(queries[query] as string)
             set(media, query)
-            media.onchange = (e) => set(e, query)
+            media.onchange = (e: MediaQueryListEvent) => set(e, query)
         }
     }
 
@@ -20,16 +20,16 @@ export function mediaStorage({ queries, getter, cookie }: Options) {
         cookie && (document.cookie = `mediaStorage=${JSON.stringify(matches)}`)
     }
 
-    function update(matches: MediaQuery) {
+    function update(matches: Queries) {
         subscribers.forEach(fn => fn(matches))
     }
 
-    function subscribe(fn: (matches: MediaQuery) => void) {
+    function subscribe(fn: (matches: Queries) => void) {
         fn(matches)
         subscribers.add(fn);
         return () => unsubscribe(fn)
     }
-    const unsubscribe = (fn: (matches: MediaQuery) => void): boolean => subscribers.delete(fn)
+    const unsubscribe = (fn: (matches: Queries) => void): boolean => subscribers.delete(fn)
 
     return { matches, subscribe }
 }

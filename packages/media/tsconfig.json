@@ -5,16 +5,8 @@
         "lib": [
             "DOM"
         ],
-        // "types": [
-        //     "@types"
-        // ]
     },
     "include": [
         "src/*"
     ],
-    "exclude": [],
-    "files": [
-        "src/media.ts",
-        "src/types.ts"
-    ]
 }

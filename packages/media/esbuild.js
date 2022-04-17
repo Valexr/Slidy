@@ -23,7 +23,7 @@ const builds = {
     },
     iife: {
         outfile: './dist/index.js',
-        globalName: 'MediaStorage'
+        globalName: 'Slidy'
     }
 };
 
