@@ -45,9 +45,9 @@ All `options` are optional, but mount `node` required:
 ```html
 <head>
    <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs'; // MJS module
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs'; // MJS module
         // OR
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.cjs'; // CJS module
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.cjs'; // CJS module
 
         slidy(node)
     </script>
@@ -65,7 +65,7 @@ All `options` are optional, but mount `node` required:
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/core/dist/slidy.js"></script>
+    <script defer src="https://unpkg.com/@slidy/core/dist/index.js"></script>
 </head>
 
 <script>
@@ -121,7 +121,7 @@ All `options` are optional, but mount `node` required:
 ```html
 <head>
     <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
 
         const options = {
                 index: 0,
@@ -162,7 +162,7 @@ All `options` are optional, but mount `node` required:
 ```html
 <head>
     <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
 
         slidy(node)
 
@@ -198,7 +198,7 @@ All `options` are optional, but mount `node` required:
 ```html
 <head>
     <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/slidy.mjs';
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
 
         slidy(node)
 
