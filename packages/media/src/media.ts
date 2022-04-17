@@ -1,10 +1,10 @@
-import type { MediaQuery, BrowserStorage, Options } from './types'
+import type { MediaQuery, Options } from './types'
 
-export function mediaStorage({ storage, queries, getter, cookie }: Options) {
+export function mediaStorage({ queries, getter, storage, cookie }: Options) {
 
     const subscribers: Set<(matches: MediaQuery) => void> = new Set();
     const matches: MediaQuery = (storage && typeof window === 'object')
-        && JSON.parse(store(storage).getItem(storage.key) as string)
+        && JSON.parse(storage.getItem('mediaStorage') as string)
         || {}
 
     if (typeof window === 'object') {
@@ -17,14 +17,10 @@ export function mediaStorage({ storage, queries, getter, cookie }: Options) {
 
     function set(media: MediaQueryList | MediaQueryListEvent, query: string) {
         matches[query] = media.matches;
-        storage && store(storage).setItem(storage.key, JSON.stringify(matches));
+        storage && storage.setItem('mediaStorage', JSON.stringify(matches));
         cookie && (document.cookie = `mediaStorage=${JSON.stringify(matches)}`)
         getter && getter(matches)
         update(matches)
-    }
-
-    function store(storage: BrowserStorage): Storage {
-        return storage.type === 'session' ? sessionStorage : localStorage
     }
 
     function update(matches: MediaQuery) {

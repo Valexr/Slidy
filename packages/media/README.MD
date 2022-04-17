@@ -14,9 +14,10 @@ SSR compartible.
 > - [Getting started](#getting-started-)
 > - [Usage](#usage)
 > - [Options](#options)
->   - [Storage](#storage)
 >   - [Queries](#queries)
 >   - [Getter](#getter)
+>   - [Storage](#storage)
+>   - [Cookie](#cookie)
 
 
 ## Getting started 🚀
@@ -35,7 +36,7 @@ import { slidy } from 'https://unpkg.com/@slidy/media';
 
 ## Usage
 
-Function `mediaStorage({ storage, queries, getter })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
+Function `mediaStorage({ queries, getter, storage, cookie })` is available via named import as `MJS/CJS` module or via global `Window.MediaStorage` object props as `IIFE`. 
 
 All arguments are optional, only `queries` required.
 
@@ -88,42 +89,13 @@ All arguments are optional, only `queries` required.
 
 ```ts
 interface Options {
-    storage?: BrowserStorage;
     queries?: MediaQuery,
     getter?: Getter
+    storage?: Storage;
+    cookie?: boolean;
 }
 ```
 
-### Storage
-
-Persist media-query matches in any browser storage. By default `undefined`.
-
-```ts
-type BrowserStorage = {
-    type: string
-    key: string
-}
-const storage: BrowserStorage = undefined
-```
-
-| Property     | Type       | Description |
-| :----------- | :--------: | :---------- |
-| `type`       | `string`   | Browser storage type: `'session', 'local'` |
-| `key`        | `string`   | Browser storage key |
-
-```html
-<head>
-    <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
-
-        const storage = { 
-            type: 'session', 
-            key: 'my-storage-key' 
-        }
-        const media = mediaStorage({ storage })
-    </script>
-</head>
-```
 
 ### Queries
 
@@ -177,6 +149,43 @@ type Getter = (matches: MediaQuery) => void
     </script>
 </head>
 ```
+
+### Storage
+
+Persist media-query matches object in any browser storage. Storage key `mediaStorage`.
+
+```ts
+const storage: Storage = undefined | sessionStorage | localStorage
+```
+
+```html
+<head>
+    <script type="module">
+        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const media = mediaStorage({ storage: sessionStorage })
+    </script>
+</head>
+```
+
+### Cookie
+
+Persist media-query matches object in browser cookie like JSON string. Cookie key `mediaStorage`.
+
+```ts
+const cookie: boolean
+```
+
+```html
+<head>
+    <script type="module">
+        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const media = mediaStorage({ cookie: true })
+    </script>
+</head>
+```
+
 
 
 MIT &copy; [Valexr](https://github.com/Valexr)

@@ -2,24 +2,28 @@
 	import { Slidy } from '@slidy/svelte';
 	import { mediaStorage, type MediaQuery } from '@slidy/media';
 	import { getPhotos } from '$lib/api';
+	import { browser } from '$app/env';
 
 	const queries = {
-			xs: '(max-width: 480px)',
-			sm: '(max-width: 600px)',
-			md: '(max-width: 840px)',
-			lg: '(max-width: 960px)',
-			xl: '(max-width: 1280px)',
-			xxl: '(min-width: 1281px)',
-			landscape: '(orientation: landscape)',
-			portrait: '(orientation: portrait)',
-			dark: '(prefers-color-scheme: dark)',
-			light: '(prefers-color-scheme: light)',
-			mouse: '(hover: hover)',
-			touch: '(hover: none)'
-		},
-		storage = { type: 'session', key: 'ss-media' };
+		xs: '(max-width: 480px)',
+		sm: '(max-width: 600px)',
+		md: '(max-width: 840px)',
+		lg: '(max-width: 960px)',
+		xl: '(max-width: 1280px)',
+		xxl: '(min-width: 1281px)',
+		landscape: '(orientation: landscape)',
+		portrait: '(orientation: portrait)',
+		dark: '(prefers-color-scheme: dark)',
+		light: '(prefers-color-scheme: light)',
+		mouse: '(hover: hover)',
+		touch: '(hover: none)'
+	};
 
-	const media = mediaStorage({ queries, storage, cookie: true });
+	const media = mediaStorage({
+		queries,
+		storage: browser && sessionStorage,
+		cookie: true
+	});
 
 	export async function load({ session }) {
 		const { theme = JSON.stringify(media.matches) } = session.user;
@@ -48,6 +52,7 @@
 <header>
 	<h1 style="color: {theme.dark ? 'inherit' : 'red'}">
 		Welcome to Slidy SvelteKit! {theme.dark}
+		{$media.dark}
 	</h1>
 	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 </header>
