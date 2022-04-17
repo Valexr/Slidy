@@ -1,11 +1,9 @@
 import type { MediaQuery, Options } from './types'
 
-export function mediaStorage({ queries, getter, storage, cookie }: Options) {
+export function mediaStorage({ queries, getter, cookie }: Options) {
 
     const subscribers: Set<(matches: MediaQuery) => void> = new Set();
-    const matches: MediaQuery = (storage && typeof window === 'object')
-        && JSON.parse(storage.getItem('mediaStorage') as string)
-        || {}
+    const matches: MediaQuery = {}
 
     if (typeof window === 'object') {
         for (const query in queries) {
@@ -17,10 +15,9 @@ export function mediaStorage({ queries, getter, storage, cookie }: Options) {
 
     function set(media: MediaQueryList | MediaQueryListEvent, query: string) {
         matches[query] = media.matches;
-        storage && storage.setItem('mediaStorage', JSON.stringify(matches));
-        cookie && (document.cookie = `mediaStorage=${JSON.stringify(matches)}`)
-        getter && getter(matches)
         update(matches)
+        getter && getter(matches)
+        cookie && (document.cookie = `mediaStorage=${JSON.stringify(matches)}`)
     }
 
     function update(matches: MediaQuery) {

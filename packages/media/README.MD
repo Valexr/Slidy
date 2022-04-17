@@ -6,7 +6,7 @@
 
 # @slidy/media
 
-Simple, persisted, observable media-query storage enspired by svelte/stores.  
+Simple, observable & cookie-persisted media-query storage enspired by svelte/stores.  
 SSR compartible.
 
 #### Try the [DEMO]
@@ -16,7 +16,6 @@ SSR compartible.
 > - [Options](#options)
 >   - [Queries](#queries)
 >   - [Getter](#getter)
->   - [Storage](#storage)
 >   - [Cookie](#cookie)
 
 
@@ -89,9 +88,8 @@ All arguments are optional, only `queries` required.
 
 ```ts
 interface Options {
-    queries?: MediaQuery,
-    getter?: Getter
-    storage?: Storage;
+    queries?: MediaQuery;
+    getter?: Getter;
     cookie?: boolean;
 }
 ```
@@ -131,6 +129,7 @@ type MediaQuery = {
 </head>
 ```
 
+
 ### Getter
 
 Callback function with matches object results.
@@ -150,23 +149,6 @@ type Getter = (matches: MediaQuery) => void
 </head>
 ```
 
-### Storage
-
-Persist media-query matches object in any browser storage. Storage key `mediaStorage`.
-
-```ts
-const storage: Storage = undefined | sessionStorage | localStorage
-```
-
-```html
-<head>
-    <script type="module">
-        import { mediaStorage } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
-
-        const media = mediaStorage({ storage: sessionStorage })
-    </script>
-</head>
-```
 
 ### Cookie
 

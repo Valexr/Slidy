@@ -7,7 +7,6 @@ type Getter = (matches: MediaQuery) => void
 interface Options {
     queries?: MediaQuery,
     getter?: Getter,
-    storage?: Storage;
     cookie?: boolean
 }
 
