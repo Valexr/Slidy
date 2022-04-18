@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import { Slidy } from '@slidy/svelte';
-	import { media, type Queries } from '@slidy/media';
+	import { media as mediaStore, type Queries } from '@slidy/media';
 	import { getPhotos } from '$lib/api';
 
 	const queries = {
@@ -18,10 +18,10 @@
 		touch: '(hover: none)'
 	};
 
-	const mqs = media({ queries, cookie: true });
+	const media = mediaStore({ queries, cookie: true });
 
 	export async function load({ session }) {
-		const { theme = JSON.stringify(mqs.matches) } = session.user;
+		const { theme = JSON.stringify(media.matches) } = session.user;
 
 		return {
 			props: {
@@ -35,7 +35,7 @@
 	let main,
 		page = Math.trunc(Math.random() * 99);
 
-	export let theme: Queries = mqs.matches;
+	export let theme: Queries = media.matches;
 
 	$: theme = JSON.parse(theme as unknown as string);
 </script>
@@ -47,7 +47,7 @@
 <header>
 	<h1 style="color: {theme.dark ? 'inherit' : 'red'}">
 		Welcome to Slidy SvelteKit! {theme.dark}
-		{$mqs.dark}
+		{$media.dark}
 	</h1>
 	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 </header>

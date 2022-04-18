@@ -8,11 +8,12 @@
 
 <img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates.
 
-Сompletely mimics the behavior of a native scroll with index navigation, acceleration, gravity & infinite loop mode.
+Сompletely mimics the behavior of a native scroll with index navigation, acceleration, gravity & infinite loop mode. With many templates & some usefull plugins.
 
-Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
+Since version 3 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
 
-- [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding nativeJS script
+- [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - NativeJS core sliding script
+- [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - NativeJS observable media store
 - [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 - [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 - [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
@@ -22,7 +23,7 @@ Since version 3.0 Slidy have separate monorepo [packages](https://github.com/Val
 
 And npm organization [@slidy](https://www.npmjs.com/org/slidy).
 
-> ## ⚠️ version 3.1.0 in prerelise now [demo](https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083)
+> ## ⚠️ version 3.1.1 in prerelise now [demo](https://svelte.dev/repl/8edad715f4054a20ac9b43af28b17083)
 
 > Version 2 is no longer supported, but have packages on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/).  
 Source files temporally live in [`./_v2`](https://github.com/Valexr/slidy/tree/master/_v2) folder.
