@@ -1,7 +1,7 @@
 {
     "name": "@slidy/media",
     "version": "1.2.3",
-    "description": "Simple, observable & cookie-persisted media-query storage",
+    "description": "Simple, observable & cookie-persisted media-query store",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
     "browser": "dist/index.js",

@@ -6,7 +6,7 @@
 
 # @slidy/media
 
-Simple, observable & cookie-persisted media-query storage enspired by svelte/stores.  
+Simple, observable & cookie-persisted media-query store enspired by svelte/stores.  
 SSR compartible.
 
 #### Try the [DEMO]
