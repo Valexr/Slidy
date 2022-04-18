@@ -17,7 +17,7 @@ export function media({ queries, getter, cookie }: Partial<Options>) {
         matches[query] = media.matches;
         update(matches)
         getter && getter(matches)
-        cookie && (document.cookie = `mediaStorage=${JSON.stringify(matches)}`)
+        cookie && (document.cookie = `media=${JSON.stringify(matches)}`)
     }
 
     function update(matches: Queries) {

@@ -1,6 +1,6 @@
 {
     "name": "@slidy/media",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "Simple, observable & cookie-persisted media-query storage",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",

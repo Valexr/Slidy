@@ -13,7 +13,8 @@ const esbuildBase = {
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
-    sourcemap: (DEV || CORE) ? 'inline' : false
+    sourcemap: (DEV || CORE) ? 'inline' : false,
+    globalName: 'Slidy'
 };
 const derverConfig = {
     dir: 'dev',
@@ -29,8 +30,7 @@ const builds = {
         outfile: './dist/index.mjs'
     },
     iife: {
-        outfile: './dist/index.js',
-        globalName: 'Slidy'
+        outfile: './dist/index.js'
     }
 };
 

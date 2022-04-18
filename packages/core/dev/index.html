@@ -51,12 +51,13 @@
         <link rel="icon" type="image/png" href="assets/favicon.png" />
         <link rel="stylesheet" href="dev.css" />
 
-        <title>Slidy 3.1.1 - NativeJS</title>
-
+        <title>Slidy 3.1.2 - NativeJS</title>
+        <!-- <script type="module" src="https://unpkg.com/@slidy/media@1.2.2/dist/index.mjs"></script> -->
         <script type="module">
             import { slidy } from './build/core.js';
-            import { media } from './build/media.js';
+            // import { media } from './build/media.js';
             import * as utils from './utils.js';
+            import { media } from 'https://unpkg.com/@slidy/media@1.2.2/dist/index.mjs';
 
             const queries = {
                 xs: '(max-width: 480px)',
@@ -93,7 +94,7 @@
                 vertical: false,
             };
 
-            // console.log('module:', media.matches, window.media);
+            console.log('module:', media.matches, window.media);
             // console.log(window['slidy-logo']); // get Node by id
         </script>
     </head>
@@ -102,7 +103,7 @@
         <header>
             <img id="slidy-logo" alt="Slidy" width="50" height="50" src="assets/favicon.png" />
             <h3>
-                Slidy <span>3.1.1</span><sub>nativeJS</sub><sub id="stats" />
+                Slidy <span>3.1.2</span><sub>nativeJS</sub><sub id="stats" />
             </h3>
             <button id="dark" onclick="utils.activate(this, dark)">dark</button>
         </header>
@@ -237,7 +238,7 @@
 
             window.onload = () => {
                 console.log(window);
-                dark = media.dark;
+                // dark = media.dark;
                 utils.getPhotos(node, utils.randomQ(1, 69), options.length);
 
                 node.addEventListener('mount', (e) => {

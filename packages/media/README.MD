@@ -42,11 +42,11 @@ Function `media({ queries, getter, cookie })` is available via named import as `
 ```html
 <head>
    <script type="module">
-        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs'; // MJS module
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs'; // MJS module
         // OR
-        import { media } from 'https://unpkg.com/@slidy/media/dist/index.cjs'; // CJS module
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.cjs'; // CJS module
 
-        const mediaQueries = media()
+        const media = mediaStore()
     </script>
 </head>
 ```
@@ -61,7 +61,7 @@ Function `media({ queries, getter, cookie })` is available via named import as `
 <script>
     let mediaQueries = null
 
-    window.onload = () => mediaQueries = Slidy.media()
+    window.onload = () => media = Slidy.media()
 </script>
 ```
 
@@ -71,11 +71,11 @@ Function `media({ queries, getter, cookie })` is available via named import as `
 <!-- Svelte -->
 
 <script>
-    import { media } from '@slidy/media';
+    import { media as mediaStore } from '@slidy/media';
 
-    const mediaQueries = media()
+    const media = mediaStore()
 
-    $: console.log($mediaQueries)
+    $: console.log($media)
 </script>
 ```
 
@@ -105,7 +105,7 @@ type Queries = {
 ```html
 <head>
     <script type="module">
-        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
         const queries: MediaQuery = {
             xs: '(max-width: 480px)',
@@ -121,7 +121,7 @@ type Queries = {
             mouse: '(hover: hover)',
             touch: '(hover: none)'
         }
-        const mediaQueries = media({ queries })
+        const media = mediaStore({ queries })
     </script>
 </head>
 ```
@@ -138,11 +138,11 @@ type Getter = (matches: Queries) => void
 ```html
 <head>
     <script type="module">
-        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
         const getter = (mqs) => console.log(mqs)
 
-        const mediaQueries = media({ getter })
+        const media = mediaStore({ getter })
     </script>
 </head>
 ```
@@ -150,7 +150,7 @@ type Getter = (matches: Queries) => void
 
 ### Cookie
 
-Persist media-query matches object in browser cookie like JSON string. Cookie key `mediaStorage`.
+Persist media-query matches object in browser cookie like JSON string. Cookie key `media`.
 
 ```ts
 const cookie: boolean
@@ -159,9 +159,9 @@ const cookie: boolean
 ```html
 <head>
     <script type="module">
-        import { media } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
 
-        const mediaQueries = media({ cookie: true })
+        const media = mediaStore({ cookie: true })
     </script>
 </head>
 ```
