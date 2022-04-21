@@ -45,10 +45,7 @@
 </svelte:head>
 
 <header>
-	<h1 style="color: {theme.dark ? 'inherit' : 'red'}">
-		Welcome to Slidy SvelteKit! {theme.dark}
-		{$media.dark}
-	</h1>
+	<h1 style="color: {theme.dark ? 'inherit' : 'red'}">Welcome to Slidy SvelteKit!</h1>
 	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 </header>
 
