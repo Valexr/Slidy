@@ -11,6 +11,6 @@
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/malina",
     "devDependencies": {
         "@slidy/core": "workspace:*",
-        "malinajs": "^0.6.56"
+        "malinajs": "^0.6.57"
     }
 }
