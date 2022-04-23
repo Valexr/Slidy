@@ -6,9 +6,9 @@
 
 # @Slidy
 
-<img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates.
+<img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates & some usefull plugins.
 
-Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode. With many templates & some usefull plugins.
+Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
 Since version 3 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
 
