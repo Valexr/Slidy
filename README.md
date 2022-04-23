@@ -6,7 +6,7 @@
 
 # @Slidy
 
-<img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates & some usefull plugins.
+<img align="right" width="180" height="180" src="Slidy.png"> Simple, configurable & reusable carousel sliding action script with templates & some useful plugins.
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
