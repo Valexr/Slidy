@@ -57,6 +57,7 @@
             import { slidy } from './build/core.js';
             import { media as mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
+            import { getPhotos } from './api.js';
             // import { media } from 'https://unpkg.com/@slidy/media@1.2.3/dist/index.mjs';
 
             const queries = {
@@ -95,42 +96,44 @@
             window.position = 0;
             window.slidy = null;
             window.slidyT = null;
+            window.getPhotos = getPhotos;
 
             console.log('window:', window, media.dark);
 
-            utils.getPhotos(node, utils.randomQ(1, 69), options.length);
+            getPhotos(node, utils.randomQ(1, 69), options.length);
 
-            node.addEventListener('mount', (e) => {
-                options = e.detail.options;
+            const events = ['mount', 'move', 'resize', 'update', 'destroy'];
 
-                for (const button of document.querySelectorAll('button')) {
-                    if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
-                }
-                for (const input of document.querySelectorAll('input')) {
-                    if (input.name in options) input.value = options[input.name];
-                    else if (input.name === 'width') input.value = utils.getVar(main, '--width');
-                    else if (input.name === 'height') input.value = utils.getVar(main, '--height');
-                    else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
-                    else if (input.name === 'index') input.max = options.length - 1;
-                }
-                snap.value = options.snap;
-            });
-            node.addEventListener('move', (e) => {
-                utils.indexing(e.detail.index);
-                utils.scrolling(e.detail.position);
-                slidyT.to(e.detail.index);
-                // console.log(e);
-            });
-            node.addEventListener('resize', (e) => {
-                // console.log(e);
-                // media.sm && console.log(media);
-            });
-            node.addEventListener('update', (e) => {
-                // console.log(e);
-                // slidyT.to(x);
-            });
-            node.addEventListener('destroy', (e) => {
-                // console.log(e)
+            events.forEach(event => {
+                node.addEventListener(event, (e) => {
+                    switch (event) {
+                        case 'mount':
+                            options = e.detail.options;
+                            for (const button of document.querySelectorAll('button')) {
+                                if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
+                            }
+                            for (const input of document.querySelectorAll('input')) {
+                                if (input.name in options) input.value = options[input.name];
+                                else if (input.name === 'width') input.value = utils.getVar(main, '--width');
+                                else if (input.name === 'height') input.value = utils.getVar(main, '--height');
+                                else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
+                                else if (input.name === 'index') input.max = options.length - 1;
+                            }
+                            snap.value = options.snap;
+                            break;
+
+                        case 'move':
+                            utils.indexing(e.detail.index);
+                            utils.scrolling(e.detail.position);
+                            slidyT.to(e.detail.index);
+                            // console.log(e);
+                            break;
+
+                        default:
+                            // console.log(e);
+                            break;
+                    }
+                });
             });
         </script>
     </head>
@@ -165,7 +168,7 @@
 
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
-                <button id="reload" onclick="utils.getPhotos(node, utils.randomQ(1, 69), options.length)">
+                <button id="reload" onclick="getPhotos(node, utils.randomQ(1, 69), options.length)">
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1)">→</button>

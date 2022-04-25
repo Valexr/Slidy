@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '../types';
 
-function mount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, length: number }> {
+function mount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -14,9 +14,8 @@ function mount(node: Slidy, length = 2): Promise<{ childs: NodeListOf<Child>, le
                     const childs = Array.from(node.children).filter(child => child.isConnected);
                     if (node.children.length === childs.length) {
                         count = 0;
-                        length = node.children.length
                         clearInterval(mounting);
-                        resolve({ childs: init(node), length });
+                        resolve(init(node));
                     }
                 }
             }, 16);

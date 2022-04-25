@@ -153,7 +153,7 @@ All `options` are optional, but mount `node` required:
 | `mount`  | { childs, options }  | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
 | `resize` | { node, options }    | Fires on resize target node |
 | `move`   | { index, position }  | Fires on each sliding |
-| `keys`   | { e.key }            | Fires when target node focusing and any key pressed |
+| `keys`   | { e.key }            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target `node`. |
 | `update` | { options }          | Fires on each options update |
 | `destroy`| { node }             | Fires before target node unmounted from the DOM |
 
@@ -178,7 +178,7 @@ All `options` are optional, but mount `node` required:
 </head>
 
 <section>
-    <ul id="node" onmove="onMove">
+    <ul id="node" onmove="onMove" tabindex="0">
         <li>...</li>
         ...
     </ul>

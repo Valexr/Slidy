@@ -93,11 +93,12 @@ export function slidy(
     });
 
     mount(node, options.length)
-        .then(({ childs, length }) => {
+        .then((childs) => {
             replace(node, options.index as number, options.loop);
 
+            options.length = childs.length;
+
             snap = options.snap;
-            options.length = length;
             hix = options.index as number;
             gap = find(node, options).gap();
             gravity = options.gravity as number;
@@ -110,7 +111,6 @@ export function slidy(
                 overflow: 'hidden',
                 position: 'relative',
             });
-            node.tabIndex = 0;
 
             listen(node, NODE_EVENTS);
             RO.observe(node as Element);
@@ -125,7 +125,7 @@ export function slidy(
         options.index = find(node, options).index(position, snap);
 
         moving(node.children);
-        // snapping(options.index);
+        snapping(options.index);
         graviting(options.index);
         dispatch(node, 'move', { index: options.index, position });
 
@@ -226,15 +226,14 @@ export function slidy(
         clear();
 
         index = indexing(node, index as number, options.loop);
-        snapping(index)
         target = target || find(node, options).position(index, snap, gap);
+        // snapping(index)
 
         scroll(index, duration, performance.now(), target - position);
     }
 
     function onDown(e: UniqEvent): void {
         clear();
-        node.focus();
 
         reference = coordinate(e, options.vertical);
         timestamp = performance.now();
@@ -242,12 +241,10 @@ export function slidy(
         velocity = 0;
 
         listen(window, WINDOW_EVENTS);
-
-        if (e.type === 'mousedown') e.preventDefault();
+        window.ondragstart = () => false
     }
 
     function onMove(e: UniqEvent): void {
-        node.blur();
         const delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
 
@@ -263,7 +260,7 @@ export function slidy(
         }
     }
 
-    function onUp(e: UniqEvent): void {
+    function onUp(): void {
         clear();
 
         const amplitude = velocity * (2 - gravity);
@@ -281,8 +278,7 @@ export function slidy(
             amplitude,
         );
 
-        e.preventDefault();
-        e.stopPropagation();
+        window.ondragstart = null
     }
 
     function onWheel(e: UniqEvent): void {
