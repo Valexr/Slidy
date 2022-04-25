@@ -97,7 +97,6 @@ export function slidy(
             replace(node, options.index as number, options.loop);
 
             options.length = childs.length;
-
             snap = options.snap;
             hix = options.index as number;
             gap = find(node, options).gap();
@@ -111,6 +110,7 @@ export function slidy(
                 overflow: 'hidden',
                 position: 'relative',
             });
+            node.tabIndex = 0
 
             listen(node, NODE_EVENTS);
             RO.observe(node as Element);

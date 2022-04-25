@@ -39,7 +39,7 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/solid",
     "dependencies": {
-        "solid-js": "^1.3.16"
+        "solid-js": "^1.3.17"
     },
     "devDependencies": {
         "@slidy/core": "workspace:*",
