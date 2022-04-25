@@ -52,12 +52,12 @@
         <link rel="stylesheet" href="dev.css" />
 
         <title>Slidy 3.1.2 - NativeJS</title>
-        <!-- <script type="module" src="https://unpkg.com/@slidy/media@1.2.2/dist/index.mjs"></script> -->
+
         <script type="module">
             import { slidy } from './build/core.js';
-            // import { media } from './build/media.js';
+            import { media as mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
-            import { media } from 'https://unpkg.com/@slidy/media@1.2.2/dist/index.mjs';
+            // import { media } from 'https://unpkg.com/@slidy/media@1.2.3/dist/index.mjs';
 
             const queries = {
                 xs: '(max-width: 480px)',
@@ -74,18 +74,17 @@
                 touch: '(hover: none)'
             };
 
-            const mqs = media({ queries, getter: x => console.log('x:', x) });
-            mqs.subscribe((matches) => {
+            const mediaQ = mediaStorage({ queries, getter: x => console.log('x:', x) });
+            mediaQ.subscribe((matches) => {
                 console.log('m:', matches);
-                // window.media = matches;
+                window.media = matches;
             });
 
             window.Slidy = slidy;
             window.utils = utils;
-            window.media = mqs.matches;
             window.options = {
-                index: 7,
-                length: 15,
+                index: 6,
+                length: 13,
                 snap: 'center',
                 loop: false,
                 clamp: false,
@@ -93,9 +92,46 @@
                 duration: 375,
                 vertical: false,
             };
+            window.position = 0;
+            window.slidy = null;
+            window.slidyT = null;
 
-            console.log('module:', media.matches, window.media);
-            // console.log(window['slidy-logo']); // get Node by id
+            console.log('window:', window, media.dark);
+
+            utils.getPhotos(node, utils.randomQ(1, 69), options.length);
+
+            node.addEventListener('mount', (e) => {
+                options = e.detail.options;
+
+                for (const button of document.querySelectorAll('button')) {
+                    if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
+                }
+                for (const input of document.querySelectorAll('input')) {
+                    if (input.name in options) input.value = options[input.name];
+                    else if (input.name === 'width') input.value = utils.getVar(main, '--width');
+                    else if (input.name === 'height') input.value = utils.getVar(main, '--height');
+                    else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
+                    else if (input.name === 'index') input.max = options.length - 1;
+                }
+                snap.value = options.snap;
+            });
+            node.addEventListener('move', (e) => {
+                utils.indexing(e.detail.index);
+                utils.scrolling(e.detail.position);
+                slidyT.to(e.detail.index);
+                // console.log(e);
+            });
+            node.addEventListener('resize', (e) => {
+                // console.log(e);
+                // media.sm && console.log(media);
+            });
+            node.addEventListener('update', (e) => {
+                // console.log(e);
+                // slidyT.to(x);
+            });
+            node.addEventListener('destroy', (e) => {
+                // console.log(e)
+            });
         </script>
     </head>
 
@@ -105,16 +141,16 @@
             <h3>
                 Slidy <span>3.1.2</span><sub>nativeJS</sub><sub id="stats" />
             </h3>
-            <button id="dark" onclick="utils.activate(this, dark)">dark</button>
+            <button id="dark" onclick="utils.activate(this, media.dark)">dark</button>
         </header>
         <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
-            <ul id="slidy">
+            <ul id="node">
                 <!-- <li id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></li>
                 <li id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></li>
                 <li id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></li>
                 <li id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></li>
                 <li id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></li> -->
-                <li style="display: grid; place-items: center">Loading... 🚀</li>
+                <!-- <li style="display: grid; place-items: center">Loading... 🚀</li> -->
             </ul>
         </main>
         <nav id="thumbs"></nav>
@@ -137,7 +173,7 @@
 
             <nav id="dots"></nav>
 
-            <form>
+            <form id="form">
                 <fieldset>
                     <label title="length">
                         <input onchange="utils.changeValue(this, options)" name="length" type="number" size="1" step="1"
@@ -161,7 +197,7 @@
                             step="0.1" min="0.1" max="2" />
                     </label>
                     <label title="align">
-                        <select value="center" name="snap" onchange="utils.changeValue(this, options)">
+                        <select id="snap" value="center" name="snap" onchange="utils.changeValue(this, options)">
                             <option value="">unset</option>
                             <option value="start">← start</option>
                             <option value="center">center</option>
@@ -169,8 +205,6 @@
                         </select>
                     </label>
                 </fieldset>
-            </form>
-            <form>
                 <fieldset>
                     <label title="range">
                         <input oninput="utils.changeValue(this, options)" name="index" type="range" step="1" min="0"
@@ -224,58 +258,6 @@
             }
             </code></pre>
         </article>
-
-        <script>
-            let position = 0,
-                slidy = null,
-                slidyT = null,
-                dark = false;
-
-            const node = document.querySelector('#slidy'),
-                buttons = document.querySelectorAll('button'),
-                inputs = document.querySelectorAll('input'),
-                select = document.querySelector('select');
-
-            window.onload = () => {
-                console.log(window);
-                // dark = media.dark;
-                utils.getPhotos(node, utils.randomQ(1, 69), options.length);
-
-                node.addEventListener('mount', (e) => {
-                    console.log(e);
-                    options = e.detail.options;
-
-                    for (const button of buttons) {
-                        if (options[button.id] || (button.id === 'dark' && dark)) button.classList.add('active');
-                    }
-                    for (const input of inputs) {
-                        if (input.name in options) input.value = options[input.name];
-                        else if (input.name === 'width') input.value = utils.getVar(main, '--width');
-                        else if (input.name === 'height') input.value = utils.getVar(main, '--height');
-                        else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
-                        else if (input.name === 'index') input.max = options.length - 1;
-                    }
-                    select.value = options.snap;
-                });
-                node.addEventListener('move', (e) => {
-                    utils.indexing(e.detail.index);
-                    utils.scrolling(e.detail.position);
-                    slidyT.to(e.detail.index);
-                    // console.log(e);
-                });
-                node.addEventListener('resize', (e) => {
-                    // console.log(e);
-                    // media.sm && console.log(media);
-                });
-                node.addEventListener('update', (e) => {
-                    // console.log(e);
-                    // slidyT.to(x);
-                });
-                node.addEventListener('destroy', (e) => {
-                    // console.log(e)
-                });
-            };
-        </script>
     </body>
 
 </html>

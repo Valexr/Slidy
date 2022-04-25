@@ -245,7 +245,7 @@ section {
     justify-content: center;
 }
 
-#slidy,
+#node,
 nav#thumbs {
     list-style: none;
     margin: 0;
@@ -259,7 +259,7 @@ nav#thumbs {
     /* overflow: visible; */
 }
 
-#slidy li,
+#node li,
 nav#thumbs button {
     flex: 1 0 var(--width);
     width: var(--width);
@@ -299,11 +299,11 @@ nav#thumbs button.active {
     background-blend-mode: normal;
 }
 
-#slidy li.active {
+#node li.active {
     /* --shadow: var(--accent); */
 }
 
-#slidy li:before {
+#node li:before {
     content: attr(id);
     position: absolute;
     z-index: 1;
@@ -311,7 +311,7 @@ nav#thumbs button.active {
     bottom: 0;
 }
 
-#slidy li img {
+#node li img {
     min-width: 100%;
     min-height: 100%;
     max-width: 100%;
@@ -321,25 +321,25 @@ nav#thumbs button.active {
 
 /* iOS */
 @supports (-webkit-touch-callout: none) {
-    #slidy li img {
+    #node li img {
         /* width: auto; */
         /* will-change: transform; */
         /* pointer-events: auto; */
     }
 
-    #slidy li:before {
+    #node li:before {
         /* will-change: transform; */
     }
 }
 
 /* MacOS */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    #slidy li img {
+    #node li img {
         /* width: auto; */
         will-change: transform;
     }
 
-    #slidy li:before {
+    #node li:before {
         /* will-change: transform; */
     }
 }

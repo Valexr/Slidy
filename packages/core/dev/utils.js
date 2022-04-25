@@ -4,13 +4,13 @@ export function scrolling(p, cb) {
 }
 export function indexing(x) {
     options.index = x;
-    Array.from(node.children).forEach((n, i) =>
+    node.childNodes.forEach((n, i) =>
         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
     );
-    Array.from(thumbs.children).forEach((t, i) =>
+    thumbs.childNodes.forEach((t, i) =>
         +t.id === x ? t.classList.add('active') : t.classList.remove('active')
     );
-    Array.from(dots.children).forEach((d, i) =>
+    dots.childNodes.forEach((d, i) =>
         i === x ? d.classList.add('active') : d.classList.remove('active')
     );
 }
@@ -41,7 +41,6 @@ export function isNum(number) {
 }
 
 export function activate(target, prop) {
-    node.classList.toggle('active');
     switch (target.id) {
         case 'dark':
             document.documentElement.setAttribute('scheme', !dark ? 'dark' : 'light');
@@ -55,6 +54,7 @@ export function activate(target, prop) {
         default:
             break;
     }
+    target.classList.toggle('active');
     prop = !prop;
     return prop;
 }
@@ -69,23 +69,17 @@ export async function getPhotos(node, page, limit) {
         .then(async (res) => {
             const photos = await res.json();
             if (photos.length) {
+                node.innerHTML = thumbs.innerHTML = dots.innerHTML = '';
 
-                node.innerHTML = photos
-                    .map((p, i) => {
-                        const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                        return `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></li>`;
-                    })
-                    .join('');
+                photos.forEach((p, i) => {
+                    const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
 
-                thumbs.innerHTML = photos
-                    .map((p, i) => {
-                        return `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
-                    })
-                    .join('');
+                    node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/></li>`;
 
-                dots.innerHTML = photos
-                    .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
-                    .join('');
+                    thumbs.innerHTML += `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+
+                    dots.innerHTML += `<button onclick="slidy.to(${i})">${i}</button>`;
+                });
             } else {
                 node.style.transform = '';
                 node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
