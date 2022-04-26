@@ -7,7 +7,7 @@
 # @slidy/core
 
 Simple, configurable & reusable sliding action script.  
-Сompletely mimics the behavior of a native scroll with  with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
+Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
 #### Try the [DEMO]
 
