@@ -69,6 +69,7 @@ export function slidy(
         AddEventListenerOptions?,
     ][] = [
             ['contextmenu', clear],
+            ['dragstart', (e) => e.preventDefault()],
             ['touchstart', onDown as EventListenerOrEventListenerObject, {
                 passive: false,
             }],
@@ -106,11 +107,11 @@ export function slidy(
                 : position;
 
             style(node, {
-                outline: 'none',
+                outline: 'unset',
                 overflow: 'hidden',
                 position: 'relative',
+                userSelect: 'none'
             });
-            node.tabIndex = 0
 
             listen(node, NODE_EVENTS);
             RO.observe(node as Element);
@@ -241,7 +242,6 @@ export function slidy(
         velocity = 0;
 
         listen(window, WINDOW_EVENTS);
-        window.ondragstart = () => false
     }
 
     function onMove(e: UniqEvent): void {
@@ -277,8 +277,6 @@ export function slidy(
             performance.now(),
             amplitude,
         );
-
-        window.ondragstart = null
     }
 
     function onWheel(e: UniqEvent): void {
