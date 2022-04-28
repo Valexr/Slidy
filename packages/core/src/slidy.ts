@@ -170,7 +170,7 @@ export function slidy(
 
         velocity = (2 - gravity) * speed + 0.2 * velocity;
 
-        if (elapsed < 100) return;
+        if (elapsed < 69) return;
 
         timestamp = now;
         frame = position;

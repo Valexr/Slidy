@@ -268,11 +268,11 @@ nav#thumbs button {
     max-height: 100%;
     box-sizing: border-box;
     position: relative;
-    background: var(--surface-1);
     margin: auto;
-    box-shadow: var(--shadow-3);
-    border-radius: var(--radius-3);
     overflow: hidden;
+    box-shadow: var(--shadow-3);
+    background: var(--surface-1);
+    border-radius: var(--radius-3);
     /* will-change: transform; */
 }
 
@@ -300,6 +300,7 @@ nav#thumbs button.active {
 }
 
 #node li.active {
+    /* box-shadow: var(--shadow-3); */
     /* --shadow: var(--accent); */
 }
 
