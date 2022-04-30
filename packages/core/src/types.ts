@@ -7,6 +7,7 @@ export interface Options {
     vertical?: boolean;
     clamp?: boolean;
     loop?: boolean;
+    indent?: number;
 }
 
 export interface Parent extends HTMLElement {

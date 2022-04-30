@@ -20,6 +20,7 @@ const base: Options = {
     vertical: false,
     clamp: false,
     loop: false,
+    indent: 0,
 };
 
 export function slidy(
