@@ -130,10 +130,11 @@ All `options` are optional, but mount `node` required:
                 length: 1,
                 gravity: 1.2,
                 duration: 375,
+                indent: 0,
                 loop: false,
                 clamp: false,
-                snap: 'center',
                 vertical: false,
+                snap: 'center',
             }
 
         slidy(node, options)
