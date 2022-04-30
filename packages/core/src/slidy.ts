@@ -128,7 +128,7 @@ export function slidy(
         options.index = find(node, options).index(position, snap);
 
         moving(node.children);
-        snapping(options.index);
+        // snapping(options.index);
         graviting(options.index);
         dispatch(node, 'move', { index: options.index, position });
 

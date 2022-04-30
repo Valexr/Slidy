@@ -19,7 +19,7 @@ Simple, configurable & reusable sliding action script.
 > - [Methods](#methods-)
 
 
-## Getting started 🚀
+## Getting started
 
 The package is available via [NPM]:
 
@@ -35,7 +35,7 @@ import { slidy } from 'https://unpkg.com/@slidy/core';
 Playground is available in svelte [REPL].
 
 
-## Usage 👨🏻‍💻
+## Usage
 
 Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
 
@@ -104,7 +104,7 @@ All `options` are optional, but mount `node` required:
 ```
 
 
-## Options ⚙️
+## Options
 
 | Property     | Default          | Type       | Description |
 | :----------- | :--------------: | :--------: | :---------- |
@@ -149,7 +149,7 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
-## Events 🔥
+## Events
 
 | Name     | Detail               | Description                                                                       |
 | :------- | :------------------: | :-------------------------------------------------------------------------------- |
@@ -188,7 +188,7 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
-## Methods 🎯
+## Methods
 
 | Name        | Arguments                 | Description |
 | :---------- | :-----------------------: | :---------- |
