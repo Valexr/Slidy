@@ -12,7 +12,7 @@ Simple, configurable & reusable sliding action script.
 
 #### Try the [DEMO]
 
-> - [Getting started](#getting-started-)
+> - [Getting started](#getting-started)
 > - [Usage](#usage)
 > - [Options](#options)
 > - [Events](#events)
