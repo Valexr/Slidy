@@ -10,7 +10,7 @@
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
-Since version 3 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
+## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
 - [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - NativeJS core sliding script
 - [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - NativeJS observable media store
@@ -21,7 +21,7 @@ Since version 3 Slidy have separate monorepo [packages](https://github.com/Valex
 - [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 - [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
-And npm organization [@slidy](https://www.npmjs.com/org/slidy).
+## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
 > ## ⚠️ version 3 in prerelise now. Try the [DEMO](https://slidy-core.surge.sh/)
 
