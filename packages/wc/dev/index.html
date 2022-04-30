@@ -17,21 +17,82 @@
         <link rel="stylesheet" href="dev.css" />
         <link rel="stylesheet" href="slidy.css" />
 
-        <title>Slidy 3.1.0 - WebComponent</title>
+        <title>Slidy 3.1.3 - WebComponent</title>
 
         <script type="module" src="dev.js"></script>
+
+        <script type="module">
+            import * as utils from './utils.js';
+            import { getPhotos } from './api.js';
+
+            window.utils = utils;
+            window.options = {
+                index: 6,
+                length: 13,
+                snap: 'center',
+                loop: false,
+                clamp: false,
+                gravity: 1.2,
+                duration: 375,
+                vertical: false,
+            };
+            window.position = 0;
+            window.slidy = null;
+            window.slidyT = null;
+            window.getPhotos = getPhotos;
+
+            node.setAttribute('options', JSON.stringify(options));
+            node.options = options;
+            console.log('window:', window, node, window['slidy-wc']);
+
+            getPhotos(node, utils.randomQ(1, 69), options.length);
+
+            const events = ['mount', 'move', 'resize', 'update', 'destroy'];
+
+            events.forEach(event => {
+                node.addEventListener(event, (e) => {
+                    switch (event) {
+                        case 'mount':
+                            options = e.detail.options;
+                            for (const button of document.querySelectorAll('button')) {
+                                if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
+                            }
+                            for (const input of document.querySelectorAll('input')) {
+                                if (input.name in options) input.value = options[input.name];
+                                else if (input.name === 'width') input.value = utils.getVar(main, '--width');
+                                else if (input.name === 'height') input.value = utils.getVar(main, '--height');
+                                else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
+                                else if (input.name === 'index') input.max = options.length - 1;
+                            }
+                            snap.value = options.snap;
+                            break;
+
+                        case 'move':
+                            utils.indexing(e.detail.index);
+                            utils.scrolling(e.detail.position);
+                            // slidyT.to(e.detail.index);
+                            // console.log(e);
+                            break;
+
+                        default:
+                            // console.log(e);
+                            break;
+                    }
+                });
+            });
+        </script>
     </head>
 
     <body>
         <header>
             <img alt="Slidy" width="50" height="50" src="favicon.png" />
             <h3>
-                Slidy <span>3.1.0</span><sub>nativeJS</sub><sub id="stats" />
+                Slidy <span>3.1.3</span><sub>nativeJS</sub><sub id="stats" />
             </h3>
             <button id="dark" onclick="activate(this, dark)">dark</button>
         </header>
-        <main style="--gap: 1rem; --flow: row; --width: auto; --height: 375px">
-            <slidy-wc id="slidy" tabindex="0" itemWidth="var(--width)" height="350px" space="var(--gap)">
+        <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
+            <slidy-wc id="node" tabindex="0" itemWidth="var(--width)" height="350px" space="var(--gap)">
                 <img id="0" src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" />
                 <img id="1" src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" />
                 <img id="2" src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" />
@@ -39,6 +100,9 @@
                 <img id="4" src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" />
             </slidy-wc>
         </main>
+
+        <nav id="thumbs"></nav>
+
         <footer>
             <nav id="buttons">
                 <button id="clamp" onclick="slidy.update({clamp: activate(this, options.clamp)})">clamp</button>
@@ -51,7 +115,7 @@
 
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
-                <button id="reload" onclick="getPhotos(node, randomQ(1, 69), options.length)">
+                <button id="reload" onclick="getPhotos(node, utils.randomQ(1, 69), options.length)">
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1)">→</button>
@@ -138,174 +202,6 @@
             }
             </code></pre>
         </article>
-
-        <script>
-            let position = 0,
-                slidy = null,
-                dark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-                page = randomQ(1, 69);
-
-            let options = {
-                index: 2,
-                // length: 5,
-                snap: '',
-                loop: false,
-                clamp: false,
-                gravity: 1.2,
-                duration: 375,
-                vertical: false,
-            };
-
-            const main = document.querySelector('main'),
-                section = document.querySelector('section'),
-                node = document.querySelector('slidy-wc'),
-                nav = document.querySelector('#dots'),
-                stats = document.querySelector('#stats'),
-                buttons = document.querySelectorAll('button'),
-                inputs = document.querySelectorAll('input'),
-                select = document.querySelector('select'),
-                head = document.querySelector('head');
-
-            node.setAttribute('options', JSON.stringify(options));
-            window.onload = () => {
-                // getPhotos(node, page, options.length);
-                node.addEventListener('mount', (e) => {
-                    console.log(e);
-                    options = e.detail.options;
-
-                    for (const button of buttons) {
-                        if (options[button.id] || (button.id === 'dark' && dark)) button.classList.add('active');
-                    }
-                    for (const input of inputs) {
-                        if (input.name in options) input.value = options[input.name];
-                        else if (input.name === 'width') input.value = getVar(main, '--width');
-                        else if (input.name === 'height') input.value = getVar(main, '--height');
-                        else if (input.name === 'gap') input.value = getVar(main, '--gap');
-                    }
-                    select.value = options.snap;
-                });
-                node.addEventListener('move', (e) => {
-                    // console.log(e);
-                    indexing(e.detail.index);
-                    scrolling(e.detail.position);
-                });
-                node.addEventListener('resize', (e) => {
-                    // console.log(e);
-                });
-                node.addEventListener('update', (e) => {
-                    // console.log(e);
-                });
-                node.addEventListener('destroy', (e) => {
-                    // console.log(e);
-                });
-            };
-
-            function scrolling(p) {
-                position = p;
-                stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>`;
-            }
-
-            function indexing(x) {
-                options.index = x;
-
-                Array.from(node.children).forEach((n, i) =>
-                    +n.id === x ? n.classList.add('active') : n.classList.remove('active')
-                );
-                Array.from(nav.children).forEach((n, i) =>
-                    i === x ? n.classList.add('active') : n.classList.remove('active')
-                );
-            }
-
-            function activate(node, prop) {
-                node.classList.toggle('active');
-                switch (event.target.id) {
-                    case 'dark':
-                        document.documentElement.setAttribute('scheme', !dark ? 'dark' : 'light');
-                        dark = !dark;
-                        break;
-                    case 'vertical':
-                        setVar(main, 'flow', vertical ? 'column' : 'row');
-                        vertical = !vertical;
-                        break;
-
-                    default:
-                        break;
-                }
-                prop = !prop;
-                return prop;
-            }
-
-            function changeValue() {
-                const value = isNum(event.target.value) ? +event.target.value : event.target.value;
-                // slidy.update({ [event.target.name]: value });
-                options[event.target.name] = value;
-                if (event.target.name === 'length') getPhotos(node, page, value);
-            }
-            function getVar(node, name) {
-                return getComputedStyle(node).getPropertyValue(name);
-            }
-            function setVar(node, name, value) {
-                return node.style.setProperty(`--${name}`, value);
-            }
-
-            // function setLimit() {
-            //     options.length = limit = event.target.value;
-            //     getPhotos(node, page, limit);
-            // }
-            // node.addEventListener('click', (event) => alert(event.target.tagName), true)
-            // function onClick() {
-            //     node.style.pointerEvents = 'auto';
-            //     alert(event.target.tagName, this.tagName);
-            // }
-
-            async function getPhotos(node, page, limit) {
-                node.style.transform = '';
-                node.innerHTML = `<dd style="display: grid; place-items: center">Loading... 🚀</dd>`;
-
-                fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
-                    .then(async (res) => {
-                        const photos = await res.json();
-                        // console.log(photos, window.outerWidth, window.outerHeight);
-                        if (photos.length) {
-                            // head.innerHTML += photos.map((p, i) => {
-                            //     // const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                            //     return `<link rel="preload" as="image" href=${p.download_url}>`;
-                            // }).join('\n');
-                            node.innerHTML = photos
-                                .map((p, i) => {
-                                    const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
-                                    return `<img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/>`;
-                                })
-                                .join('');
-                            nav.innerHTML = photos
-                                .map((p, i) => `<button onclick="slidy.to(${i})">${i}</button>`)
-                                .join('');
-                        } else {
-                            node.style.transform = '';
-                            node.innerHTML = `<dd style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</dd>`;
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-
-            function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
-                let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-                return {
-                    width: Math.round(srcWidth * ratio),
-                    height: Math.round(srcHeight * ratio),
-                };
-            }
-
-            function randomQ(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            function isNum(number) {
-                return !isNaN(parseFloat(number)) && isFinite(+number);
-            }
-        </script>
     </body>
 
 </html>

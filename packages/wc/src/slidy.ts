@@ -76,7 +76,7 @@ export default class Slidy extends HTMLElement {
         //     }).observe(this, { childList: true });
         // }
         // console.log(this)
-        if (this.isConnected) slidy(this, JSON.parse(this.attributes.options.value))
+        if (this.isConnected) slidy(this, this.options)
     }
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {

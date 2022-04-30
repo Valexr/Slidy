@@ -110,7 +110,8 @@ export function slidy(
                 outline: 'unset',
                 overflow: 'hidden',
                 position: 'relative',
-                userSelect: 'none'
+                userSelect: 'none',
+                webkitUserSelect: 'none'
             });
 
             listen(node, NODE_EVENTS);
