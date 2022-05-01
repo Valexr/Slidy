@@ -194,7 +194,7 @@ export function slidy(
             : position + amplitude;
         amplitude = target - position;
 
-        RAF(function scroll(time: number) {
+        RAF(function animate(time: number) {
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
@@ -204,7 +204,7 @@ export function slidy(
                     : target;
                 move(target as number - position - delta);
             }
-            raf = Math.abs(delta) > 0.5 ? RAF(scroll) : 0;
+            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0;
         });
     }
 
