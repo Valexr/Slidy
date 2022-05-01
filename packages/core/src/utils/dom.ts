@@ -42,7 +42,7 @@ const indent = (node: Slidy, index: number, gap: number, options: Options) => {
 
 function indents(node: Slidy, index: number, gap: number, snap: string, options: Options): number {
     const edge = options.loop ? 0 : ((index === 0 || snap === 'start'))
-        ? indent(node, index, gap, options) * -1
+        ? -indent(node, index, gap, options)
         : ((index === nodes(node).length - 1 || snap === 'end'))
             ? indent(node, index, gap, options) : 0
     return gap as number * edge
