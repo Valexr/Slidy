@@ -12,7 +12,7 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
 }
 
 const cix = (node: Slidy) => Math.floor(nodes(node).length / 2);
-const nodes = (node: Slidy): Child[] => Array.from(node.children as unknown as NodeListOf<Child>);
+const nodes = (node: Slidy): Child[] => Array.from(node.children as HTMLCollectionOf<Child>);
 const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
@@ -33,12 +33,17 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
         return dist(curr) < dist(prev) ? curr : prev;
     });
 }
-const indent = (node: Slidy, index: number, gap: number, options: Options) =>
-    options.indent || ((child(node, index)[size(options.vertical as boolean)] + gap * 2 < node[size(options.vertical as boolean)]) ? 1 : 0.6)
+const indent = (node: Slidy, index: number, gap: number, options: Options) => {
+    const wrap = node[size(options.vertical as boolean)]
+    const active = child(node, index)[size(options.vertical as boolean)]
+    const diff = wrap - active
+    return options.indent || (active + gap * 2 < wrap) ? 1 : diff / 2 / gap
+}
 
 function indents(node: Slidy, index: number, gap: number, snap: string, options: Options): number {
     const edge = options.loop ? 0 : ((index === 0 || snap === 'start'))
-        ? indent(node, index, gap, options) * -1 : ((index === nodes(node).length - 1 || snap === 'end'))
+        ? indent(node, index, gap, options) * -1
+        : ((index === nodes(node).length - 1 || snap === 'end'))
             ? indent(node, index, gap, options) : 0
     return gap as number * edge
 }

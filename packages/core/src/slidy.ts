@@ -194,18 +194,20 @@ export function slidy(
             : position + amplitude;
         amplitude = target - position;
 
-        RAF(function animate(time: number) {
+        raf = RAF(function animate(time: number) {
+            time = time < timestamp ? performance.now() : time
+
             const elapsed = (timestamp - time) / duration;
             const delta = amplitude * Math.exp(elapsed);
 
-            if (timestamp < time) {
-                target = options.loop
-                    ? find(node, options).position(index, snap, gap)
-                    : target;
-                move(target as number - position - delta);
-            }
-            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0;
-        });
+            target = options.loop
+                ? find(node, options).position(index, snap, gap)
+                : target;
+            // raf = Math.abs(delta) > 0.5 && time >= timestamp ? RAF(animate) : 0;
+            raf = RAF(animate)
+
+            return move(target as number - position - delta);
+        })
     }
 
     function snapping(index: number): void {
@@ -283,16 +285,23 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
-        // snapping(options.index)
+        // snapping(options.index as number)
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         const index = options.index as number +
             Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
 
-        if (options.clamp || e.shiftKey || e.deltaMode) {
+        // const start = find(node, options).position(options.index as number, 'start', gap)
+        // const center = find(node, options).position(index, 'center', gap)
+        // const end = find(node, options).position(options.index as number, 'end', gap)
+
+        if (options.clamp || e.shiftKey) {
             to(index);
         } else {
             move(coord);
+            // if (!options.loop && position <= start || position >= end) {
+            //     clear();
+            // }
             wheeltime = setTimeout(() => {
                 to(options.index as number);
             }, 60);

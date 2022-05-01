@@ -10,37 +10,13 @@ export interface Options {
     indent?: number;
 }
 
-export interface Parent extends HTMLElement {
-    style: CSSStyleDeclaration;
-    offsetTop: number;
-    offsetLeft: number;
-    offsetWidth: number;
-    offsetHeight: number;
-}
-
 export interface Slidy extends HTMLElement {
-    parentNode: ParentNode | null;
-    childNodes: NodeListOf<ChildNode> | NodeListOf<Child>;
-    style: CSSStyleDeclaration;
-    offsetTop: number;
-    offsetLeft: number;
-    offsetWidth: number;
-    offsetHeight: number;
-    scrollWidth: number;
-    scrollHeight: number;
     scrollTopMax: number;
     scrollLeftMax: number;
-    replaceChildren: (...nodes: (string | Node)[]) => void;
-    append: (...nodes: (string | Node)[]) => void;
-    prepend: (...nodes: (string | Node)[]) => void;
 }
 
-export interface Child extends ChildNode {
+export interface Child extends HTMLElement {
     index: number;
-    offsetTop: number;
-    offsetLeft: number;
-    offsetWidth: number;
-    offsetHeight: number;
 }
 
 export interface CssRules {
@@ -55,18 +31,6 @@ export interface CssRules {
     opacity?: number;
     display?: string;
     position?: string;
-}
-
-export interface Delta {
-    target: number;
-    amplitude: number;
-}
-
-export interface Scroll {
-    target: number;
-    amplitude: number;
-    duration: number;
-    timestamp: number;
 }
 
 export interface UniqEvent extends Event {
@@ -88,5 +52,3 @@ export type DispathDetail =
     | Slidy
     | string
     | undefined;
-
-type EventsMap = [string, ((e: UniqEvent) => void) | ((e: KeyboardEvent) => void), boolean?];

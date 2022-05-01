@@ -4,6 +4,7 @@ export function scrolling(p, cb) {
 }
 export function indexing(x) {
     options.index = x;
+
     node.childNodes.forEach((n, i) =>
         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
     );

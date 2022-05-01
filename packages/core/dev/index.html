@@ -99,7 +99,7 @@
             window.slidyT = null;
             window.getPhotos = getPhotos;
 
-            console.log('window:', window, media.dark);
+            console.log('window:', window);
 
             getPhotos(node, utils.randomQ(1, 69), options.length);
 
@@ -127,6 +127,9 @@
                             utils.indexing(e.detail.index);
                             utils.scrolling(e.detail.position);
                             slidyT.to(e.detail.index);
+                            break;
+
+                        case 'update':
                             // console.log(e);
                             break;
 
@@ -157,7 +160,9 @@
                 <!-- <li style="display: grid; place-items: center">Loading... 🚀</li> -->
             </ul>
         </main>
+
         <nav id="thumbs"></nav>
+
         <footer>
             <nav id="buttons">
                 <button id="clamp" onclick="slidy.update({clamp: utils.activate(this, options.clamp)})">clamp</button>

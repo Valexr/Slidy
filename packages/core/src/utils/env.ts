@@ -1,6 +1,6 @@
-import type { Child, CssRules, DispathDetail, Parent, Slidy, UniqEvent } from '../types';
+import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
 
-function mount(node: Slidy, length = 2): Promise<NodeListOf<Child>> {
+function mount(node: Slidy, length = 2): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -34,7 +34,7 @@ function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
 }
 
 function listen(
-    node: Window | Element | ParentNode | Slidy | null,
+    node: Window | Slidy | null,
     events: [string, EventListenerOrEventListenerObject, AddEventListenerOptions?][],
     on = true
 ): void {
@@ -44,15 +44,15 @@ function listen(
     }
 }
 
-function init(node: Slidy, childs?: NodeListOf<Child>): NodeListOf<Child> {
-    childs = node.children as unknown as NodeListOf<Child>;
+function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<Child> {
+    childs = node.children as unknown as HTMLCollectionOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
     }
     return childs;
 }
 
-function style(node: Slidy | Parent, styles: CssRules): void {
+function style(node: Slidy, styles: CssRules): void {
     for (const property in styles) {
         node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
     }
