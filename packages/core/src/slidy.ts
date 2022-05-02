@@ -149,7 +149,7 @@ export function slidy(
 
         function moving(childs: HTMLCollection) {
             for (let index = 0; index < childs.length; index++) {
-                style(childs[index] as Slidy, {
+                style(childs[index] as HTMLElement, {
                     transform: translate(options.vertical),
                 });
             }

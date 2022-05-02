@@ -52,7 +52,7 @@ function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<C
     return childs;
 }
 
-function style(node: Slidy, styles: CssRules): void {
+function style(node: HTMLElement, styles: CssRules): void {
     for (const property in styles) {
         node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
     }

@@ -54,7 +54,7 @@
         <title>Slidy 3.1.4 - NativeJS</title>
 
         <script type="module">
-            import { slidy } from './build/core.js';
+            import { slidy as slidyCore } from './build/core.js';
             import { media as mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
@@ -81,7 +81,7 @@
                 window.media = matches;
             });
 
-            window.Slidy = slidy;
+            window.Slidy = slidyCore;
             window.utils = utils;
             window.options = {
                 index: 6,
@@ -110,9 +110,14 @@
                     switch (event) {
                         case 'mount':
                             options = e.detail.options;
+
+                            thumbs.onclick = (e) => slidy.to(e.target.id);
+                            dots.onclick = (e) => slidy.to(e.target.id);
+
                             for (const button of document.querySelectorAll('button')) {
                                 if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
                             }
+
                             for (const input of document.querySelectorAll('input')) {
                                 if (input.name in options) input.value = options[input.name];
                                 else if (input.name === 'width') input.value = utils.getVar(main, '--width');
