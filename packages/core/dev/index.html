@@ -111,11 +111,12 @@
                         case 'mount':
                             options = e.detail.options;
 
-                            thumbs.onclick = (e) => slidy.to(e.target.id);
-                            dots.onclick = (e) => slidy.to(e.target.id);
-
                             for (const button of document.querySelectorAll('button')) {
-                                if (options[button.id] || (button.id === 'dark' && media.dark)) button.classList.add('active');
+                                if (options[button.id] || (button.id === 'dark' && media.dark)) {
+                                    button.classList.add('active');
+                                } else if (!isNaN(button.id)) {
+                                    button.onclick = (e) => slidy.to(+e.target.id);
+                                }
                             }
 
                             for (const input of document.querySelectorAll('input')) {
@@ -169,7 +170,7 @@
             </ul>
         </main>
 
-        <nav id="thumbs" tabindex="0"></nav>
+        <nav id="thumbs"></nav>
 
         <footer>
             <nav id="buttons">

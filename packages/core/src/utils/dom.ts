@@ -45,7 +45,7 @@ function indents(node: Slidy, index: number, gap: number, snap: string, options:
         ? -indent(node, index, gap, options)
         : ((index === nodes(node).length - 1 || snap === 'end'))
             ? indent(node, index, gap, options) : 0
-    return gap as number * edge
+    return gap * edge
 }
 
 const find = (node: Slidy, options: Options) => ({

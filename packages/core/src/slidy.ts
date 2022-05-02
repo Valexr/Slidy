@@ -40,7 +40,7 @@ export function slidy(
         position = 0,
         gap = 0,
         frame = position,
-        hix = options.index,
+        hix: number,
         snap = options.snap,
         gravity = options.gravity as number,
         scrolled = false;
@@ -51,39 +51,39 @@ export function slidy(
 
     const WINDOW_EVENTS: [
         string,
-        EventListenerOrEventListenerObject,
+        EventListener,
         AddEventListenerOptions?,
     ][] = [
-            ['touchmove', onMove as EventListenerOrEventListenerObject, {
+            ['touchmove', onMove as EventListener, {
                 passive: false,
             }],
-            ['mousemove', onMove as EventListenerOrEventListenerObject],
-            ['touchend', onUp as EventListenerOrEventListenerObject],
-            ['mouseup', onUp as EventListenerOrEventListenerObject],
-            ['scroll', onScroll as EventListenerOrEventListenerObject, {
+            ['mousemove', onMove as EventListener],
+            ['touchend', onUp],
+            ['mouseup', onUp],
+            ['scroll', onScroll, {
                 capture: true,
             }],
         ];
     const NODE_EVENTS: [
         string,
-        EventListenerOrEventListenerObject,
+        EventListener,
         AddEventListenerOptions?,
     ][] = [
             ['contextmenu', clear],
             ['dragstart', (e) => e.preventDefault()],
-            ['touchstart', onDown as EventListenerOrEventListenerObject, {
+            ['touchstart', onDown as EventListener, {
                 passive: false,
             }],
-            ['mousedown', onDown as EventListenerOrEventListenerObject],
-            ['keydown', onKeys as EventListenerOrEventListenerObject],
+            ['mousedown', onDown as EventListener],
+            ['keydown', onKeys as EventListener],
             [
                 'wheel',
                 options.clamp
                     ? throttle(
                         onWheel,
                         (DURATION / gravity) * 2,
-                    ) as EventListenerOrEventListenerObject
-                    : onWheel as EventListenerOrEventListenerObject,
+                    ) as EventListener
+                    : onWheel as EventListener,
                 { passive: false, capture: true },
             ],
         ];
@@ -100,11 +100,10 @@ export function slidy(
 
             options.length = childs.length;
             snap = options.snap;
-            hix = options.index as number;
             gap = find(node, options).gap();
             gravity = options.gravity as number;
             position = options.loop
-                ? find(node, options).position(hix, snap, gap)
+                ? find(node, options).position(options.index as number, snap, gap)
                 : position;
 
             style(node, {
@@ -116,7 +115,7 @@ export function slidy(
             });
 
             listen(node, NODE_EVENTS);
-            RO.observe(node as Element);
+            RO.observe(node);
 
             dispatch(node, 'mount', { childs, options });
         })
@@ -124,7 +123,7 @@ export function slidy(
 
     function move(pos: number): void {
         direction = Math.sign(pos);
-        position += options.loop ? looping(pos) : pos;
+        position += positioning(pos);
         options.index = find(node, options).index(position, snap);
 
         moving(node.children);
@@ -133,9 +132,17 @@ export function slidy(
 
         dispatch(node, 'move', { index: options.index, position });
 
-        if (hix !== options.index) {
-            dispatch(node, 'index', { index: options.index, position });
-            hix = options.loop ? hix : options.index;
+        function positioning(pos: number): number {
+            if (hix !== options.index) {
+                if (options.loop) {
+                    pos -= history(node, direction, gap, options);
+                    shuffle(node, direction);
+                    frame = position + pos;
+                }
+                hix = options.index as number;
+                dispatch(node, 'index', { index: options.index, position });
+            }
+            return pos;
         }
 
         function graviting(index: number) {
@@ -159,16 +166,6 @@ export function slidy(
             const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
             return `translate3d(${axis})`;
         }
-
-        function looping(pos: number): number {
-            if (hix !== options.index) {
-                pos -= history(node, direction, gap, options);
-                shuffle(node, direction);
-                frame = position + pos;
-                hix = options.index;
-            }
-            return pos;
-        }
     }
 
     function track(): void {
@@ -190,7 +187,7 @@ export function slidy(
         duration: number,
         timestamp: number,
         amplitude = 0,
-        target?: number,
+        target = 0,
     ): void {
         snapping(index);
 
@@ -213,7 +210,7 @@ export function slidy(
             raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0;
             // raf = RAF(animate)
 
-            return move(target as number - position - delta);
+            return move(target - position - delta);
         })
     }
 
@@ -237,7 +234,7 @@ export function slidy(
     function to(index = 0, duration = DURATION, target?: number): void {
         clear();
 
-        index = indexing(node, index as number, options.loop);
+        index = indexing(node, index, options.loop);
         target = target || find(node, options).position(index, snap, gap);
         // snapping(index)
 
@@ -310,7 +307,7 @@ export function slidy(
             //     clear();
             // }
             wheeltime = setTimeout(() => {
-                to(options.index as number);
+                to(options.index);
             }, 60);
         }
     }
@@ -336,7 +333,7 @@ export function slidy(
         // gravity = options.gravity as number
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
-        clearTimeout(wheeltime as NodeJS.Timeout);
+        clearTimeout(wheeltime);
     }
 
     function update(opts: Options): void {
