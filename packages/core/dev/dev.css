@@ -275,6 +275,8 @@ nav#thumbs button {
     background: var(--surface-1);
     border-radius: var(--radius-3);
     /* will-change: transform color; */
+    /* backface-visibility: hidden; */
+    /* transform-style: preserve-3d; */
 }
 
 nav#thumbs {

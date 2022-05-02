@@ -11,6 +11,7 @@ export interface Options {
 }
 
 export interface Slidy extends HTMLElement {
+    onindex: (e: CustomEvent) => void;
     scrollTopMax: number;
     scrollLeftMax: number;
 }

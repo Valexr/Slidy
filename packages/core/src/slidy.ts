@@ -130,7 +130,13 @@ export function slidy(
         moving(node.children);
         // snapping(options.index);
         graviting(options.index);
+
         dispatch(node, 'move', { index: options.index, position });
+
+        if (hix !== options.index) {
+            dispatch(node, 'index', { index: options.index, position });
+            hix = options.loop ? hix : options.index;
+        }
 
         function graviting(index: number) {
             gravity = options.loop
@@ -140,6 +146,7 @@ export function slidy(
                     ? maxMin(1.8, 0, gravity + 0.015)
                     : options.gravity as number;
         }
+
         function moving(childs: HTMLCollection) {
             for (let index = 0; index < childs.length; index++) {
                 style(childs[index] as Slidy, {
@@ -203,8 +210,8 @@ export function slidy(
             target = options.loop
                 ? find(node, options).position(index, snap, gap)
                 : target;
-            // raf = Math.abs(delta) > 0.5 && time >= timestamp ? RAF(animate) : 0;
-            raf = RAF(animate)
+            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0;
+            // raf = RAF(animate)
 
             return move(target as number - position - delta);
         })

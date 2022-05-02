@@ -156,6 +156,7 @@ All `options` are optional, but mount `node` required:
 | `mount`  | { childs, options }  | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
 | `resize` | { node, options }    | Fires on resize target node |
 | `move`   | { index, position }  | Fires on each sliding |
+| `index`  | { index, position }  | Fires only on each index change |
 | `keys`   | { e.key }            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. |
 | `update` | { options }          | Fires on each options update |
 | `destroy`| { node }             | Fires before target node unmounted from the DOM |
@@ -171,7 +172,7 @@ All `options` are optional, but mount `node` required:
 
         node.addEventListener('mount', (e) => console.log(e))
 
-        node.onupdate = () => console.log(e.detail)
+        node.onupdate = (e) => console.log(e.detail)
 
         function onMove(e) {
             const { index, position } = e.detail
@@ -206,6 +207,7 @@ All `options` are optional, but mount `node` required:
         slidy(node)
 
         slidy.update({ snap: 'center' })
+        
         prev.onclick = () => slidy.to(index - 1)
         next.onclick = () => slidy.to(index + 1)
     </script>

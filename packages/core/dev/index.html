@@ -75,9 +75,9 @@
                 touch: '(hover: none)'
             };
 
-            const mediaQ = mediaStorage({ queries, getter: x => console.log('x:', x) });
+            const mediaQ = mediaStorage({ queries });
             mediaQ.subscribe((matches) => {
-                console.log('m:', matches);
+                // console.log('m:', matches);
                 window.media = matches;
             });
 
@@ -103,7 +103,7 @@
 
             getPhotos(node, utils.randomQ(1, 69), options.length);
 
-            const events = ['mount', 'move', 'resize', 'update', 'destroy'];
+            const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
 
             events.forEach(event => {
                 node.addEventListener(event, (e) => {
@@ -124,13 +124,16 @@
                             break;
 
                         case 'move':
-                            utils.indexing(e.detail.index);
                             utils.scrolling(e.detail.position);
+                            break;
+
+                        case 'index':
+                            utils.indexing(e.detail.index);
                             slidyT.to(e.detail.index);
                             break;
 
                         case 'update':
-                            // console.log(e);
+                            console.log(e);
                             break;
 
                         default:
@@ -161,7 +164,7 @@
             </ul>
         </main>
 
-        <nav id="thumbs"></nav>
+        <nav id="thumbs" tabindex="0"></nav>
 
         <footer>
             <nav id="buttons">
