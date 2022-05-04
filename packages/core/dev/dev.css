@@ -12,7 +12,7 @@ article {
 }
 
 a {
-    color: var(--accent);
+    /* color: var(--accent); */
     text-decoration: none;
 }
 
@@ -36,7 +36,7 @@ textarea {
     font-size: inherit;
     padding: 0.4em;
     box-sizing: border-box;
-    color: var(--color);
+    /* color: var(--color); */
     background-color: var(--surface-1);
     /* border: 1px solid transparent; */
     /* border-radius: var(--radius-conditional-3); */
@@ -48,8 +48,8 @@ input:disabled {
 }
 
 button {
-    color: var(--color);
-    background-color: var(--back);
+    /* color: var(--color); */
+    /* background-color: var(--back); */
     outline: none;
     cursor: pointer;
 }
@@ -59,13 +59,13 @@ button:disabled {
 }
 
 button:not(:disabled):active {
-    background-color: var(--color);
-    border-color: var(--accent);
-    color: var(--back);
+    /* background-color: var(--color); */
+    /* border-color: var(--accent); */
+    /* color: var(--back); */
 }
 
 button:focus {
-    border-color: var(--accent);
+    /* border-color: var(--accent); */
 }
 
 nav,
@@ -163,46 +163,46 @@ footer {
 }
 
 :root {
-    --color: #0a0a0a;
+    /* --color: #0a0a0a; */
     /* --back: white; */
     --accent: #FF3E80;
-    --shadow: whitesmoke;
+    /* --shadow: whitesmoke; */
 }
 
 @media (prefers-color-scheme: light) {
     :root {
         color-scheme: light;
-        --color: #0a0a0a;
+        /* --color: #0a0a0a; */
         /* --back: white; */
-        --accent: #FF3E80;
-        --shadow: whitesmoke;
+        /* --accent: #FF3E80; */
+        /* --shadow: whitesmoke; */
     }
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
-        --color: white;
+        /* --color: white; */
         /* --back: #0a0a0a; */
-        --accent: #FF3E80;
-        --shadow: #181818;
+        /* --accent: #FF3E80; */
+        /* --shadow: #181818; */
     }
 }
 
 [scheme='dark'] {
     color-scheme: dark;
-    --color: white;
+    /* --color: white; */
     /* --back: #0a0a0a; */
-    --accent: #FF3E80;
-    --shadow: #181818;
+    /* --accent: #FF3E80; */
+    /* --shadow: #181818; */
 }
 
 [scheme='light'] {
     color-scheme: light;
-    --color: #0a0a0a;
+    /* --color: #0a0a0a; */
     /* --back: white; */
-    --accent: #FF3E80;
-    --shadow: whitesmoke;
+    /* --accent: #FF3E80; */
+    /* --shadow: whitesmoke; */
 }
 
 .active,
@@ -222,7 +222,7 @@ footer {
 }
 
 .active:not(li, :disabled) {
-    border-color: var(--accent) !important;
+    /* border-color: var(--accent) !important; */
 }
 
 main {
