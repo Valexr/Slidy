@@ -4,8 +4,7 @@ import {
     init,
     listen,
     mount,
-    style,
-    throttle,
+    style
 } from './utils/env';
 import { find, history, indexing, replace, shuffle } from './utils/dom';
 import { maxMin } from './utils/helpers';
@@ -32,7 +31,7 @@ export function slidy(
     to: (index: number, target?: number) => void;
 } {
     let raf: number,
-        wheeltime: NodeJS.Timeout,
+        wst: NodeJS.Timeout,
         reference = 0,
         direction = 0,
         timestamp = 0,
@@ -54,15 +53,11 @@ export function slidy(
         EventListener,
         AddEventListenerOptions?,
     ][] = [
-            ['touchmove', onMove as EventListener, {
-                passive: false,
-            }],
+            ['touchmove', onMove as EventListener, { passive: false }],
             ['mousemove', onMove as EventListener],
             ['touchend', onUp],
             ['mouseup', onUp],
-            ['scroll', onScroll, {
-                capture: true,
-            }],
+            ['scroll', onScroll, { capture: true }],
         ];
     const NODE_EVENTS: [
         string,
@@ -71,21 +66,10 @@ export function slidy(
     ][] = [
             ['contextmenu', clear],
             ['dragstart', (e) => e.preventDefault()],
-            ['touchstart', onDown as EventListener, {
-                passive: false,
-            }],
+            ['touchstart', onDown as EventListener, { passive: false }],
             ['mousedown', onDown as EventListener],
             ['keydown', onKeys as EventListener],
-            [
-                'wheel',
-                options.clamp
-                    ? throttle(
-                        onWheel,
-                        (DURATION / gravity) * 2,
-                    ) as EventListener
-                    : onWheel as EventListener,
-                { passive: false, capture: true },
-            ],
+            ['wheel', onWheel as EventListener, { passive: false, capture: true }],
         ];
 
     const RAF = requestAnimationFrame;
@@ -288,27 +272,15 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
-        // snapping(options.index as number)
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         const index = options.index as number +
             Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
+        const cond = options.clamp || e.shiftKey ||
+            (!options.loop && (options.index === 0 || options.index === options.length as number - 1))
 
-        // const start = find(node, options).position(options.index as number, 'start', gap)
-        // const center = find(node, options).position(index, 'center', gap)
-        // const end = find(node, options).position(options.index as number, 'end', gap)
-
-        if (options.clamp || e.shiftKey) {
-            to(index);
-        } else {
-            move(coord);
-            // if (!options.loop && position <= start || position >= end) {
-            //     clear();
-            // }
-            wheeltime = setTimeout(() => {
-                to(options.index);
-            }, 60);
-        }
+        move(coord)
+        wst = setTimeout(() => to(cond ? index : options.index), cond ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {
@@ -329,10 +301,9 @@ export function slidy(
 
     function clear(): void {
         scrolled = false;
-        // gravity = options.gravity as number
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
-        clearTimeout(wheeltime);
+        clearTimeout(wst)
     }
 
     function update(opts: Options): void {
