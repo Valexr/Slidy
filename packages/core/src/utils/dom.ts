@@ -37,7 +37,7 @@ const indent = (node: Slidy, index: number, gap: number, options: Options) => {
     const wrap = node[size(options.vertical as boolean)]
     const active = child(node, index)[size(options.vertical as boolean)]
     const diff = wrap - active
-    return options.indent || (active + gap * 2 < wrap) ? 1 : diff / 2 / gap
+    return options.indent || ((active + gap * 2 < wrap) ? 1 : diff / 2 / gap)
 }
 
 function indents(node: Slidy, index: number, gap: number, snap: string, options: Options): number {
