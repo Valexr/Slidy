@@ -106,17 +106,17 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
-| Property     | Default          | Type       | Description |
-| :----------- | :--------------: | :--------: | :---------- |
-| `index`      | 0                | `number`   | Start index |
-| `length`     | 2                | `number`   | Child nodes length for more accurate `slidy` init |
-| `gravity`    | 1.2              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
-| `duration`   | 375              | `number`   | Scroll duration |
-| `indent`     | 0                | `number`   | Scroll indent: part of gap padding both start/end edges. `gap * indent`. If not set autoindented: `slideSize + gap * 2 < wrapperSize ? gap : gap * 0.6` |
-| `loop`       | false            | `boolean`  | Infinite loop mode |
-| `clamp`      | false            | `boolean`  | Clamping scroll by index |
-| `vertical`   | false            | `boolean`  | Vertical flow axis |
-| `snap`       | undefined        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
+| Property     | Default            | Type       | Description |
+| :----------- | :----------------- | :--------- | :---------- |
+| `index`      | `0`                | `number`   | Start index |
+| `length`     | `2`                | `number`   | Child nodes length for more accurate `slidy` init |
+| `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
+| `duration`   | `375`              | `number`   | Scroll duration |
+| `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges. `gap * indent`. If not set autoindented: `slideSize + gap * 2 < wrapperSize ? gap : gap * 0.6` |
+| `loop`       | `false`            | `boolean`  | Infinite loop mode |
+| `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
+| `vertical`   | `false`            | `boolean`  | Vertical flow axis |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
 
 ### Usage
 
@@ -152,14 +152,14 @@ All `options` are optional, but mount `node` required:
 ## Events
 
 | Name     | Detail               | Description                                                                       |
-| :------- | :------------------: | :-------------------------------------------------------------------------------- |
-| `mount`  | { childs, options }  | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
-| `resize` | { node, options }    | Fires on resize target node |
-| `move`   | { index, position }  | Fires on each sliding |
-| `index`  | { index, position }  | Fires only on each index change |
-| `keys`   | { e.key }            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. |
-| `update` | { options }          | Fires on each options update |
-| `destroy`| { node }             | Fires before target node unmounted from the DOM |
+| :------- | :------------------- | :-------------------------------------------------------------------------------- |
+| `mount`  | `{childs,options}`   | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
+| `resize` | `{node,options}`     | Fires on resize target node |
+| `move`   | `{index,position}`   | Fires on each sliding |
+| `index`  | `{index,position}`   | Fires only on each index change |
+| `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. |
+| `update` | `{options}`          | Fires on each options update |
+| `destroy`| `{node}`             | Fires before target node unmounted from the DOM |
 
 ### Usage
 
@@ -192,10 +192,10 @@ All `options` are optional, but mount `node` required:
 ## Methods
 
 | Name        | Arguments                 | Description |
-| :---------- | :-----------------------: | :---------- |
-| `to()`      | ( index, duration )       | Scroll to `index` with `duration` |
-| `update()`  | ({ options.prop: value }) | Update any property in options |
-| `destroy()` | ()                        | Remove event listners, observers & defaulted props on `slidy()` instance |
+| :---------- | :------------------------ | :---------- |
+| `to()`      | `(index,duration)`        | Scroll to `index` with `duration` |
+| `update()`  | `({options.prop:value})`  | Update any property in options |
+| `destroy()` | `()`                      | Remove event listners, observers & defaulted props on `slidy()` instance |
 
 ### Usage
 

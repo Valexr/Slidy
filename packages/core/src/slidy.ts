@@ -168,20 +168,6 @@ export function slidy(
         }
     }
 
-    function track(): void {
-        const now = performance.now();
-        const elapsed = now - timestamp;
-        const delta = position - frame;
-        const speed = (1000 * delta) / (1 + elapsed);
-
-        velocity = (2 - gravity) * speed + 0.2 * velocity;
-
-        if (elapsed < 69) return;
-
-        timestamp = now;
-        frame = position;
-    }
-
     function scroll(
         index: number,
         duration: number,
@@ -198,20 +184,19 @@ export function slidy(
             : position + amplitude;
         amplitude = target - position;
 
-        raf = RAF(function animate(time: number) {
-            time = time < timestamp ? performance.now() : time
+        raf = RAF(animate)
 
-            const elapsed = (timestamp - time) / duration;
-            const delta = amplitude * Math.exp(elapsed);
+        function animate() {
+            const elapsed = timestamp - performance.now();
+            const delta = amplitude * Math.exp(elapsed / duration);
 
             target = options.loop
                 ? find(node, options).position(index, snap, gap)
                 : target;
-            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0;
-            // raf = RAF(animate)
+            raf = RAF(animate)
 
             return move(target - position - delta);
-        })
+        }
     }
 
     function snapping(index: number): void {
@@ -265,6 +250,20 @@ export function slidy(
         } else if (scrolled) {
             gravity = 2;
             to(options.index, DURATION / gravity);
+        }
+
+        function track(): void {
+            const now = performance.now();
+            const elapsed = now - timestamp;
+            const delta = position - frame;
+            const speed = (1000 * delta) / (1 + elapsed);
+
+            velocity = (2 - gravity) * speed + 0.2 * velocity;
+
+            if (elapsed < 69) return;
+
+            timestamp = now;
+            frame = position;
         }
     }
 
