@@ -313,7 +313,7 @@ There are two variables available to control the component externally: `index` a
 
 ## License
 
-MIT &copy; [Valexr](https://github.com/Valexr)
+MIT &copy; [EricRovell](https://github.com/EricRovell)
 
 [core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
 [demo]: https://valexr.github.io/Slidy
