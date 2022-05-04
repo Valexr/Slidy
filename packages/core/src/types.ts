@@ -47,7 +47,7 @@ export interface UniqEvent extends Event {
 export type DispathDetail =
     | { [key: string]: any }
     | CustomEventInit<unknown>
-    | NodeListOf<Child>
+    | HTMLCollectionOf<Child>
     | Options
     | Slidy
     | string

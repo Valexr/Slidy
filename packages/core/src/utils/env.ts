@@ -34,7 +34,7 @@ function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
 }
 
 function listen(
-    node: Window | Slidy | null,
+    node: Window | Slidy,
     events: [string, EventListener, AddEventListenerOptions?][],
     on = true
 ): void {
