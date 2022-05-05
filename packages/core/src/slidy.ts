@@ -159,11 +159,12 @@ export function slidy(
         amplitude = 0,
         target = 0,
     ): void {
-        snapping(index);
-
-        target = options.snap || options.loop ||
+        const condition = options.snap || options.loop ||
             (!options.loop && !options.snap &&
                 (index === 0 || index === options.length as number - 1))
+
+        snapping(index);
+        target = condition
             ? find(node, options).position(index, snap, gap)
             : position + amplitude;
         amplitude = target - position;
@@ -276,11 +277,11 @@ export function slidy(
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         const index = options.index as number +
             Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
-        const cond = options.clamp || e.shiftKey ||
+        const condition = options.clamp || e.shiftKey ||
             (!options.loop && (options.index === 0 || options.index === options.length as number - 1))
 
         move(coord)
-        wst = setTimeout(() => to(cond ? index : options.index), cond ? 0 : 69);
+        wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {

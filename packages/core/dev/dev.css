@@ -12,7 +12,7 @@ article {
 }
 
 a {
-    /* color: var(--accent); */
+    color: var(--accent);
     text-decoration: none;
 }
 
