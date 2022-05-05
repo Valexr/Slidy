@@ -120,11 +120,25 @@
                             }
 
                             for (const input of document.querySelectorAll('input')) {
-                                if (input.name in options) input.value = options[input.name];
-                                else if (input.name === 'width') input.value = utils.getVar(main, '--width');
-                                else if (input.name === 'height') input.value = utils.getVar(main, '--height');
-                                else if (input.name === 'gap') input.value = utils.getVar(main, '--gap');
-                                else if (input.name === 'index') input.max = options.length - 1;
+                                switch (input.name) {
+                                    case 'width':
+                                        input.value = utils.getVar(main, '--width');
+                                        break;
+                                    case 'height':
+                                        input.value = utils.getVar(main, '--height');
+                                        break;
+                                    case 'gap':
+                                        input.value = utils.getVar(main, '--gap');
+                                        break;
+                                    case 'index':
+                                        input.value = options.index;
+                                        input.max = options.length - 1;
+                                        break;
+
+                                    default:
+                                        input.value = options[input.name];
+                                        break;
+                                }
                             }
                             snap.value = options.snap;
                             break;
@@ -135,7 +149,6 @@
 
                         case 'index':
                             utils.indexing(e.detail.index);
-                            slidyT.to(e.detail.index);
                             break;
 
                         case 'update':
@@ -143,7 +156,7 @@
                             break;
 
                         default:
-                            // console.log(e);
+                            console.log(e);
                             break;
                     }
                 });

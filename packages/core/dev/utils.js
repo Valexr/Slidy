@@ -4,7 +4,8 @@ export function scrolling(p, cb) {
 }
 export function indexing(x) {
     options.index = x;
-
+    document.querySelector('input[name=index]').value = x;
+    slidyT.to(x);
     node.childNodes.forEach((n, i) =>
         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
     );
