@@ -1,6 +1,5 @@
 export interface Options {
     index?: number;
-    length?: number;
     gravity?: number;
     duration?: number;
     snap?: 'start' | 'center' | 'end';

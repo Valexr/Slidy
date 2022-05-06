@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
 
-function mount(node: Slidy, length = 2): Promise<HTMLCollectionOf<Child>> {
+function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -10,9 +10,9 @@ function mount(node: Slidy, length = 2): Promise<HTMLCollectionOf<Child>> {
                     count = 0;
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
-                } else if (length && node.children.length >= length) {
+                } else {
                     const childs = Array.from(node.children).filter(child => child.isConnected);
-                    if (node.children.length === childs.length) {
+                    if (node.children.length && node.children.length === childs.length) {
                         count = 0;
                         clearInterval(mounting);
                         resolve(init(node));
@@ -45,7 +45,7 @@ function listen(
 }
 
 function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<Child> {
-    childs = node.children as unknown as HTMLCollectionOf<Child>;
+    childs = node.children as HTMLCollectionOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
     }

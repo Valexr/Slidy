@@ -109,10 +109,9 @@ All `options` are optional, but mount `node` required:
 | Property     | Default            | Type       | Description |
 | :----------- | :----------------- | :--------- | :---------- |
 | `index`      | `0`                | `number`   | Start index |
-| `length`     | `2`                | `number`   | Child nodes length for more accurate `slidy` init |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges. `gap * indent`. If not set autoindented: `slideSize + gap * 2 < wrapperSize ? gap : gap * 0.6` |
+| `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
@@ -127,7 +126,6 @@ All `options` are optional, but mount `node` required:
 
         const options = {
                 index: 0,
-                length: 1,
                 gravity: 1.2,
                 duration: 375,
                 indent: 0,

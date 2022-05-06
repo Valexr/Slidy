@@ -1,7 +1,6 @@
 import {
     coordinate,
     dispatch,
-    init,
     listen,
     mount,
     style
@@ -12,7 +11,6 @@ import type { Options, Slidy, UniqEvent } from './types';
 
 const base: Options = {
     index: 0,
-    length: 2,
     gravity: 1.2,
     duration: 375,
     snap: undefined,
@@ -38,6 +36,7 @@ export function slidy(
         velocity = 0,
         position = 0,
         gap = 0,
+        last = 0,
         frame = position,
         hix: number,
         snap = options.snap,
@@ -78,12 +77,12 @@ export function slidy(
         dispatch(node, 'resize', { node, options });
     });
 
-    mount(node, options.length)
+    mount(node)
         .then((childs) => {
             replace(node, options.index as number, options.loop);
 
-            options.length = childs.length;
             snap = options.snap;
+            last = childs.length - 1;
             gap = find(node, options).gap();
             gravity = options.gravity as number;
             position = options.loop
@@ -133,7 +132,7 @@ export function slidy(
             gravity = options.loop
                 ? options.gravity as number
                 : (index === 0 && direction <= 0) ||
-                    (index === options.length as number - 1 && direction >= 0)
+                    (index === last && direction >= 0)
                     ? maxMin(1.8, 0, gravity + 0.015)
                     : options.gravity as number;
         }
@@ -161,7 +160,7 @@ export function slidy(
     ): void {
         const condition = options.snap || options.loop ||
             (!options.loop && !options.snap &&
-                (index === 0 || index === options.length as number - 1))
+                (index === 0 || index === last))
 
         snapping(index);
         target = condition
@@ -191,14 +190,9 @@ export function slidy(
         // const end = find(node, options).position(index, 'end', gap)
         // const size = find(node, options).node()
         // console.log(index, start, center, end, size / 2)
-
-        snap = options.loop
-            ? options.snap
-            : index === 0
-                ? 'start'
-                : index === options.length as number - 1
-                    ? 'end'
-                    : options.snap;
+        if (!options.loop) {
+            snap = index === 0 ? 'start' : index === last ? 'end' : options.snap
+        }
     }
 
     function to(index = 0, duration = DURATION, target?: number): void {
@@ -261,7 +255,7 @@ export function slidy(
             ((options.duration && Math.abs(amplitude) <= options.duration) &&
                 options.snap) ||
             (!options.loop &&
-                (index === 0 || index === options.length as number - 1));
+                (index === 0 || index === last));
 
         scroll(
             index,
@@ -278,7 +272,7 @@ export function slidy(
         const index = options.index as number +
             Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
         const condition = options.clamp || e.shiftKey ||
-            (!options.loop && (options.index === 0 || options.index === options.length as number - 1))
+            (!options.loop && (options.index === 0 || options.index === last))
 
         move(coord)
         wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
@@ -322,11 +316,6 @@ export function slidy(
                     case 'snap':
                         options[key] = opts[key];
                         snap = options[key];
-                        break;
-                    case 'length':
-                        options[key] = opts[key];
-                        init(node);
-                        to(options.index);
                         break;
 
                     default:

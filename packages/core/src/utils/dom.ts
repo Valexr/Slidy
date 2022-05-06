@@ -78,7 +78,7 @@ function shuffle(node: Slidy, direction: number): void | null {
 
 function history(node: Slidy, direction: number, gap: number, options: Options) {
     const first = nodes(node)[0][size(options.vertical as boolean)]
-    const last = nodes(node)[options.length as number - 1][size(options.vertical as boolean)]
+    const last = nodes(node)[nodes(node).length - 1][size(options.vertical as boolean)]
     return ((direction > 0 ? first : last) + gap) * direction
 }
 
