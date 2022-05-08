@@ -59,7 +59,7 @@
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
 
-            let version = '3.1.8';
+            let version = '3.1.9';
             title.innerText = `Slidy ${version} - NativeJS`;
             header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
 
@@ -100,6 +100,14 @@
             window.slidy = null;
             window.slidyT = null;
             window.getPhotos = getPhotos;
+            window.changing = false;
+            window.input = (node) => {
+                changing = true;
+                slidy.to(node.value);
+            };
+            window.change = () => {
+                changing = !changing;
+            };
 
             console.log('window:', window);
 
@@ -107,14 +115,14 @@
 
             const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
 
-            events.forEach(event => {
+            window.onload = () => events.forEach(event => {
                 node.addEventListener(event, (e) => {
                     switch (event) {
                         case 'mount':
                             options = e.detail.options;
 
                             for (const button of document.querySelectorAll('button')) {
-                                if (options[button.id] || (button.id === 'dark' && media.dark)) {
+                                if (options[button.id]) {
                                     button.classList.add('active');
                                 } else if (!isNaN(button.id)) {
                                     button.onclick = (e) => slidy.to(+e.target.id);
@@ -244,7 +252,7 @@
                 </fieldset>
                 <fieldset>
                     <label title="range">
-                        <input oninput="utils.changeValue(this, options)" name="index" type="range" step="1" min="0"
+                        <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
                             max="4" />
                     </label>
                 </fieldset>

@@ -17,7 +17,8 @@ const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-// const scroll = (vertical: boolean) => (vertical ? 'scrollTopMax' : 'scrollLeftMax');
+// const max = (vertical: boolean) => (vertical ? 'scrollTopMax' : 'scrollLeftMax');
+// const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) =>
@@ -63,7 +64,8 @@ const find = (node: Slidy, options: Options) => ({
         const prev = distance(node, last - 1, options.vertical as boolean) + lastSize
         return distance(node, last, options.vertical as boolean) - prev;
     },
-    node: () => node[size(options.vertical as boolean)],
+    // node: () => node[size(options.vertical as boolean)],
+    // max: () => node[max(options.vertical as boolean)],
     // scroll: () => node[scroll(options.vertical as boolean)],
     // active: (index: number, snap?: string) => position(node, child(node, index), options.vertical as boolean, snap),
     // parent: () => node[size(options.vertical as boolean)],

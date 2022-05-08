@@ -11,13 +11,13 @@ import type { Options, Slidy, UniqEvent } from './types';
 
 const base: Options = {
     index: 0,
+    indent: 0,
     gravity: 1.2,
     duration: 375,
     snap: undefined,
     vertical: false,
     clamp: false,
     loop: false,
-    indent: 0,
 };
 
 export function slidy(
@@ -41,7 +41,9 @@ export function slidy(
         hix: number,
         snap = options.snap,
         gravity = options.gravity as number,
-        scrolled = false;
+        scrolled = false,
+        start = 0,
+        end = 0
 
     options = { ...base, ...options };
 
@@ -109,10 +111,8 @@ export function slidy(
         position += positioning(pos);
         options.index = find(node, options).index(position, snap);
 
+        graviting();
         moving(node.children);
-        // snapping(options.index);
-        graviting(options.index);
-
         dispatch(node, 'move', { index: options.index, position });
 
         function positioning(pos: number): number {
@@ -128,13 +128,9 @@ export function slidy(
             return pos;
         }
 
-        function graviting(index: number) {
-            gravity = options.loop
-                ? options.gravity as number
-                : (index === 0 && direction <= 0) ||
-                    (index === last && direction >= 0)
-                    ? maxMin(1.8, 0, gravity + 0.015)
-                    : options.gravity as number;
+        function graviting() {
+            const condition = (position < start && direction < 0) || (position > end && direction > 0)
+            gravity = condition && !options.loop ? 1.8 : options.gravity as number;
         }
 
         function moving(childs: HTMLCollection) {
@@ -146,8 +142,16 @@ export function slidy(
         }
 
         function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            const axis = vertical
+                ? `0, ${-edging(position)}px, 0` : `${-edging(position)}px, 0, 0`;
             return `translate3d(${axis})`;
+        }
+
+        function edging(position: number) {
+            start = find(node, options).position(0, 'start', gap)
+            end = find(node, options).position(last, 'end', gap)
+            return !options.snap && !options.loop
+                ? maxMin(end, start, position) : position
         }
     }
 
@@ -163,6 +167,7 @@ export function slidy(
                 (index === 0 || index === last))
 
         snapping(index);
+
         target = condition
             ? find(node, options).position(index, snap, gap)
             : position + amplitude;
@@ -177,19 +182,12 @@ export function slidy(
             target = options.loop
                 ? find(node, options).position(index, snap, gap)
                 : target;
-            raf = RAF(animate)
-
+            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0
             return move(target - position - delta);
         }
     }
 
     function snapping(index: number): void {
-        // const scroll = find(node, options).scroll()
-        // const start = find(node, options).position(index, 'start', gap)
-        // const center = find(node, options).position(index, 'center', gap)
-        // const end = find(node, options).position(index, 'end', gap)
-        // const size = find(node, options).node()
-        // console.log(index, start, center, end, size / 2)
         if (!options.loop) {
             snap = index === 0 ? 'start' : index === last ? 'end' : options.snap
         }
@@ -199,8 +197,8 @@ export function slidy(
         clear();
 
         index = indexing(node, index, options.loop);
+        snapping(index)
         target = target || find(node, options).position(index, snap, gap);
-        // snapping(index)
 
         scroll(index, duration, performance.now(), target - position);
     }
@@ -271,11 +269,11 @@ export function slidy(
         const coord = coordinate(e, options.vertical) * (2 - gravity);
         const index = options.index as number +
             Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
-        const condition = options.clamp || e.shiftKey ||
-            (!options.loop && (options.index === 0 || options.index === last))
+        const condition = options.clamp || e.shiftKey
+        const edges = (!options.loop && (options.index === 0 || options.index === last))
 
-        move(coord)
-        wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
+        move(edges ? coord / 4.5 : coord)
+        wst = setTimeout(() => to(condition || edges ? index : options.index), condition || edges ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {

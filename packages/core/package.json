@@ -1,6 +1,6 @@
 {
     "name": "@slidy/core",
-    "version": "3.1.8",
+    "version": "3.1.9",
     "description": "Simple, configurable & reusable sliding action script",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",

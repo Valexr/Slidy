@@ -1,12 +1,12 @@
 export interface Options {
     index?: number;
+    indent?: number;
     gravity?: number;
     duration?: number;
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
     clamp?: boolean;
     loop?: boolean;
-    indent?: number;
 }
 
 export interface Slidy extends HTMLElement {

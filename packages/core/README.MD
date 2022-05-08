@@ -115,7 +115,7 @@ All `options` are optional, but mount `node` required:
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined` |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. If `undefined`, when possible snap by `center` & prevent scroll by edges. |
 
 ### Usage
 

@@ -1,10 +1,12 @@
-export function scrolling(p, cb) {
+export function scrolling(p) {
     position = p;
     stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
 }
 export function indexing(x) {
     options.index = x;
-    document.querySelector('input[name=index]').value = x;
+    if (!changing) {
+        document.querySelector('input[name=index]').value = x;
+    }
     slidyT.to(x);
     node.childNodes.forEach((n, i) =>
         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
