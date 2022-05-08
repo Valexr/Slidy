@@ -1,3 +1,4 @@
+import { maxMin } from './helpers';
 import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
@@ -57,6 +58,16 @@ function style(node: HTMLElement, styles: CssRules): void {
     }
 }
 
+function indexing(node: Slidy, index: number, loop?: boolean) {
+    if (loop) {
+        if (index < 0) {
+            return node.children.length - 1;
+        } else if (index > node.children.length - 1) {
+            return 0;
+        } else return index;
+    } else return maxMin(node.children.length - 1, 0, index);
+}
+
 function coordinate(e: UniqEvent, vertical?: boolean): number {
     if (e.type === 'wheel') {
         const X = Math.abs(e.deltaX) > Math.abs(e.deltaY)
@@ -87,4 +98,4 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
-export { coordinate, style, delay, dispatch, init, listen, throttle, mount, getFPS };
+export { coordinate, style, indexing, delay, dispatch, init, listen, throttle, mount, getFPS };

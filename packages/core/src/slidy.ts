@@ -1,11 +1,12 @@
 import {
     coordinate,
+    indexing,
     dispatch,
     listen,
     mount,
     style
 } from './utils/env';
-import { find, history, indexing, replace, shuffle } from './utils/dom';
+import { find, history, replace, shuffle } from './utils/dom';
 import { maxMin } from './utils/helpers';
 import type { Options, Slidy, UniqEvent } from './types';
 

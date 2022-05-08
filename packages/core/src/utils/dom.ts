@@ -1,15 +1,4 @@
-import { maxMin } from './helpers';
 import type { Child, Options, Slidy } from '../types';
-
-function indexing(node: Slidy, index: number, loop?: boolean) {
-    if (loop) {
-        if (index < 0) {
-            return nodes(node).length - 1;
-        } else if (index > nodes(node).length - 1) {
-            return 0;
-        } else return index;
-    } else return maxMin(nodes(node).length - 1, 0, index);
-}
 
 const cix = (node: Slidy) => Math.floor(nodes(node).length / 2);
 const nodes = (node: Slidy): Child[] => Array.from(node.children as HTMLCollectionOf<Child>);
@@ -122,4 +111,4 @@ function rotate(array: Array<Node | string>, key: number) {
 //     }
 // }
 
-export { find, history, indexing, replace, shuffle };
+export { find, history, replace, shuffle };
