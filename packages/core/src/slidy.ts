@@ -78,6 +78,7 @@ export function slidy(
         to(options.index);
         dispatch(node, 'resize', { node, options });
     });
+    const edges = (index: number) => !options.loop && (index === 0 || index === last)
 
     mount(node)
         .then((childs) => {
@@ -162,9 +163,7 @@ export function slidy(
         amplitude = 0,
         target = 0,
     ): void {
-        const condition = options.snap || options.loop ||
-            (!options.loop && !options.snap &&
-                (index === 0 || index === last))
+        const condition = options.snap || options.loop || edges(index)
 
         snapping(index);
 
@@ -251,9 +250,7 @@ export function slidy(
         const index = find(node, options).index(position + amplitude, snap);
         const condition = options.clamp ||
             ((options.duration && Math.abs(amplitude) <= options.duration) &&
-                options.snap) ||
-            (!options.loop &&
-                (index === 0 || index === last));
+                options.snap) || edges(index)
 
         scroll(
             index,
@@ -267,13 +264,13 @@ export function slidy(
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
-        const index = options.index as number +
-            Math.sign(coord * (e.shiftKey && !options.vertical ? -1 : 1));
-        const condition = options.clamp || e.shiftKey
-        const edges = (!options.loop && (options.index === 0 || options.index === last))
+        const direction = coord * (e.shiftKey && !options.vertical ? -1 : 1)
+        const index = options.index as number + Math.sign(direction);
+        const clamping = options.clamp || e.shiftKey
+        const condition = clamping || edges(options.index as number)
 
-        move(edges ? coord / 4.5 : coord)
-        wst = setTimeout(() => to(condition || edges ? index : options.index), condition || edges ? 0 : 69);
+        if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord)
+        wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {
