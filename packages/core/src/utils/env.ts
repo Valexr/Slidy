@@ -10,9 +10,8 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
                     count = 0;
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
-                } else {
-                    const childs = Array.from(node.children).filter(child => child.isConnected);
-                    if (node.children.length && node.children.length === childs.length) {
+                } else if (node.children.length) {
+                    if (Array.from(node.children).every(child => child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
                         resolve(init(node));

@@ -59,9 +59,12 @@
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
 
-            let version = '3.1.9';
-            title.innerText = `Slidy ${version} - NativeJS`;
-            header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
+            fetch('https://unpkg.com/@slidy/core/package.json')
+                .then(async res => await res.json())
+                .then(({ version }) => {
+                    title.innerText = `Slidy ${version} - NativeJS`;
+                    header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
+                });
 
             const queries = {
                 xs: '(max-width: 480px)',
