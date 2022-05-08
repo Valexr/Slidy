@@ -64,6 +64,7 @@
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
+                    getPhotos(node, utils.randomQ(1, 69), options.length);
                 });
 
             const queries = {
@@ -113,8 +114,6 @@
             };
 
             console.log('window:', window);
-
-            getPhotos(node, utils.randomQ(1, 69), options.length);
 
             const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
 

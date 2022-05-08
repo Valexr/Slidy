@@ -291,9 +291,9 @@ export function slidy(
 
     function clear(): void {
         scrolled = false;
+        clearTimeout(wst)
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
-        clearTimeout(wst)
     }
 
     function update(opts: Options): void {
