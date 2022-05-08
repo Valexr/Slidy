@@ -46,13 +46,8 @@ export function isNum(number) {
 
 export function activate(target, prop) {
     switch (target.id) {
-        case 'dark':
-            document.documentElement.setAttribute('scheme', !dark ? 'dark' : 'light');
-            dark = !dark;
-            break;
         case 'vertical':
             utils.setVar(main, 'flow', vertical ? 'column' : 'row');
-            vertical = !vertical;
             break;
 
         default:

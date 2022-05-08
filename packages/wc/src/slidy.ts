@@ -8,7 +8,14 @@ export default class Slidy extends HTMLElement {
         super();
         // this.render = () => { };
     }
-
+    // constructor() {
+    //     super() // sets AND returns 'this' scope
+    //        .attachShadow({mode: 'open'}) // sets AND returns this.shadowRoot
+    //        .append(
+    //           document.createElement('div'),
+    //           document.createElement('style')
+    //        );
+    //   }
     // toggleOverflowClass(elem: Element) {
     //     elem.classList.toggle('overflowing', this.scrollWidth > this.clientWidth);
     // }

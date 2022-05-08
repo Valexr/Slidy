@@ -58,13 +58,12 @@ function style(node: HTMLElement, styles: CssRules): void {
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
-    // !e.deltaMode || 0 === track/touchpad
-
     if (e.type === 'wheel') {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) e.preventDefault();
+        const X = Math.abs(e.deltaX) > Math.abs(e.deltaY)
+        if (X || e.shiftKey) e.preventDefault();
         return vertical || e.shiftKey
-            ? e.deltaY : Math.abs(e.deltaX) > Math.abs(e.deltaY)
-                ? e.deltaX : 0
+            ? X ? e.deltaX : e.deltaY
+            : X ? e.deltaX : 0
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
