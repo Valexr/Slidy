@@ -265,8 +265,9 @@ export function slidy(
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
-        const direction = coord * (e.shiftKey && !options.vertical ? -1 : 1)
-        const index = options.index as number + Math.sign(direction);
+        // const isMac = /(Mac)/i.test(navigator.platform)
+        // const direction = coord * (isMac ? -1 : 1)
+        const index = options.index as number + Math.sign(coord);
         const clamping = options.clamp || e.shiftKey
         const condition = clamping || edges(options.index as number)
 
