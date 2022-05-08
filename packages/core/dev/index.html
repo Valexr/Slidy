@@ -122,7 +122,7 @@
                     switch (event) {
                         case 'mount':
                             options = e.detail.options;
-
+                            console.log(options);
                             for (const button of document.querySelectorAll('button')) {
                                 if (options[button.id]) {
                                     button.classList.add('active');

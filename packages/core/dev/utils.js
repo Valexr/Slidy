@@ -45,15 +45,16 @@ export function isNum(number) {
 }
 
 export function activate(target, prop) {
+    target.classList.toggle('active');
+    prop = !prop;
     switch (target.id) {
         case 'vertical':
-            utils.setVar(main, 'flow', vertical ? 'column' : 'row');
+            utils.setVar(main, 'flow', prop ? 'column' : 'row');
+            slidy.to(options.index);
             break;
 
         default:
             break;
     }
-    target.classList.toggle('active');
-    prop = !prop;
     return prop;
 }
