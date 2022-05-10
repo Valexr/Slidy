@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { createEventDispatcher } from "svelte/internal";
 	import { slidy } from "@slidy/core";
-	import { Arrow, Image, Navigation } from "../";
+	import { Arrow, Image, Navigation, Progress } from "../";
 	import { clamp as clampValue } from "../../helpers";
 	import "./slidy.module.css";
 
@@ -25,6 +25,7 @@
 	export let index = 0;
 	export let loop = false;
 	export let position = 0;
+	export let progress = false;
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
@@ -135,6 +136,10 @@
 				</Arrow>
 			{/each}
 		</slot>
+	{/if}
+
+	{#if progress}
+		<Progress value={index + 1} max={length} />
 	{/if}
 
 	{#if thumbnail}

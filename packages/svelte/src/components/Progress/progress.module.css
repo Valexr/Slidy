@@ -1,0 +1,49 @@
+.slidy-progress-bar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	grid-area: progress;
+	width: 100%;
+	padding: 0.5em;
+}
+
+.slidy-progress {
+	appearance: none;
+  border: none;
+	width: 100%;
+	height: var(--slidy-progress-track-size, 5px);
+	border-radius: 1e3px;
+	overflow: hidden;
+}
+
+.slidy-progress-bar:focus {
+  outline-color: 1px dashed red;
+  outline-offset: 5px;
+}
+
+.slidy-progress::-webkit-progress-bar {
+	background-color: var(--slidy-progress-track-color, rgb(150 150 150 / 0.5));
+}
+
+.slidy-progress::-webkit-progress-value {
+	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
+}
+
+.slidy-progress::-moz-progress-bar {
+	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
+}
+
+.slidy-progress[value]::-webkit-progress-value {
+  transition: inline-size .25s ease-out;
+}
+
+.slidy-sr-only {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}

@@ -75,6 +75,7 @@ By default component works with images. Image object should contain `width` and 
 | `index`       | 0                | `number`   | The index of the initial slide. |
 | `loop`        | false            | `boolean`  | Makes the slideshow continious. |
 | `position`    | 0                | `number`   | The current position value of the carousel. |
+| `progress`    | false            | `boolean`  | Renders the progress bar. |
 | `slides`      | []               | `Slides[]` | An array of objects with image metadata. |
 | `snap`        | undefined        | `"start" | "center" | "end"` | Enforces the scroll stop positions. |
 | `thumbnail`   | false            | `boolean`  | Renders the thumbnail navigation panel. |
@@ -86,20 +87,23 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                   | Default  |    Type    | Description                                          |
-| :------------------------- | :------: | :--------: | :--------------------------------------------------- |
-| `--slidy-height`           |   100%   | `<length>` | The height of the component's node.                  |
-| `--slidy-width`            |   100%   | `<length>` | The width of the component's node.                   |
-| `--slidy-slide-gap`        |   1rem   | `<length>` | The gap between items in carousel.                   |
-| `--slidy-slide-height`     |   100%   | `<length>` | The carousel items height.                           |
-| `--slidy-slide-width`      |   auto   | `<length>` | The carousel items width.                            |
-| `--slidy-slide-object-fit` |  cover   |     -      | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-bg-color`   | darkgray | `<color>`  | The placeholder background color for loading images. |
-| `--slidy-nav-item-size`    |   16px   | `<length>` | The navigation elements size.                        |
-| `--slidy-nav-item-radius`  |   50%    | `<length>` | The navigation elements border radius.               |
-| `--slidy-nav-item-color`   |  white   | `<color>`  | The navigation elements color.                       |
-| `--slidy-thumbnail-size`   |   50px   | `<length>` | The thumbnail panel size.                            |
-| `--slidy-arrow-size`       |   24px   | `<length>` | The arrow controls size.                             |
+| Property                              | Default                |    Type    | Description                                          |
+| :------------------------------------ | :--------------------: | :--------: | :--------------------------------------------------- |
+| `--slidy-height`                      | 100%                   | `<length>` | The height of the component's node.                  |
+| `--slidy-width`                       | 100%                   | `<length>` | The width of the component's node.                   |
+| `--slidy-slide-gap`                   | 1rem                   | `<length>` | The gap between items in carousel.                   |
+| `--slidy-slide-height`                | 100%                   | `<length>` | The carousel items height.                           |
+| `--slidy-slide-width`                 | auto                   | `<length>` | The carousel items width.                            |
+| `--slidy-slide-object-fit`            | cover                  |     -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-bg-color`              | darkgray               | `<color>`  | The placeholder background color for loading images. |
+| `--slidy-nav-item-size`               | 16px                   | `<length>` | The navigation elements size.                        |
+| `--slidy-nav-item-radius`             | 50%                    | `<length>` | The navigation elements border radius.               |
+| `--slidy-nav-item-color`              | white                  | `<color>`  | The navigation elements color.                       |
+| `--slidy-thumbnail-size`              | 50px                   | `<length>` | The thumbnail panel size.                            |
+| `--slidy-arrow-size`                  | 24px                   | `<length>` | The arrow controls size.                             |
+| `--slidy-progress-track-size`         | 5px                    | `<length>` | The progress bar height.                             |
+| `--slidy-progress-track-color`        | rgb(150 150 150 / 0.5) | `<color>`  | The progress bar track color.                        |
+| `--slidy-progress-track-active-color` | rgb(196 79 97)         | `<color>`  | The progress bar active track color.                 |
 
 There are two options:
 
@@ -274,19 +278,20 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 
 *Work in progress*
 
-
 ## Events
 
 The component forwards custom events:
 
 | Name     | Description                          | Event detail                          |
 | :--------| :----------------------------------- |:------------------------------------: |
-| `mount`  | Component is mounted to the DOM.     | `Event`                               |
+| `destroy`| Component is destroyed.              | `node`                                |
+| `index`  | The current slide index changes.     | `{ index: number, position: number }` |
+| `keys`   | The key pressed on focus.            | `event.code`                          |
+| `mount`  | Component is mounted to the DOM.     | `{ childs, options }`                               |
 | `move`   | Navigation occurs.                   | `{ index: number, position: number }` |
-| `resize` | Component's dimentions changes.      | `Event`                               |
-| `update` | Component's props changes.           | `Event`                               |
+| `resize` | Component's dimentions changes.      | `{ node, options }`                               |
+| `update` | Component's props changes.           | `options`                               |
 | `select` | User clicked on specific slide.      | `{ index: number }`                   |
-
 
 ## Recipes
 

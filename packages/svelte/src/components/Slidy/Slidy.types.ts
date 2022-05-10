@@ -26,6 +26,7 @@ export interface SlidyOptions {
 	index?: number;
 	loop?: boolean;
 	position?: number;
+	progress?: boolean;
 	slides: Slide[];
 	snap?: "start" | "center" | "end";
 	thumbnail?: boolean;

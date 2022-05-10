@@ -16,6 +16,7 @@
 	grid-template: minmax(0, 1fr) / auto minmax(0, 1fr) auto;
 	grid-template-areas:
 		"prev-slide slides next-slide"
+		"progress progress progress"
 		"thumbnail thumbnail thumbnail"
 		"dots dots dots";
 	height: var(--slidy-height, 100%);

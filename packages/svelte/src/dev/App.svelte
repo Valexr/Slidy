@@ -73,6 +73,7 @@
 			{snap}
 			{loop}
 			thumbnail
+			progress
 			{vertical}
 		/>
 	{/await}
