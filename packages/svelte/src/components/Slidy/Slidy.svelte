@@ -88,14 +88,17 @@
 			snap,
 			loop,
 		}}
+		on:destroy
+		on:index
+		on:keys
 		on:mount
-		on:resize
-		on:update
 		on:move
 		on:move={({ detail }) => {
 			index = detail.index;
 			position = detail.position;
 		}}
+		on:resize={e => console.log(e)}
+		on:update		
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			{@const active = i === index}
