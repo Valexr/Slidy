@@ -149,7 +149,6 @@
 					{index}
 					navigation={false}
 					{slides}
-					snap="center"
 					{vertical}
 					on:select={event => index = event.detail.index}
 				/>
