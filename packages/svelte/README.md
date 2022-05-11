@@ -87,23 +87,23 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                              | Default                |    Type    | Description                                          |
-| :------------------------------------ | :--------------------: | :--------: | :--------------------------------------------------- |
-| `--slidy-height`                      | 100%                   | `<length>` | The height of the component's node.                  |
-| `--slidy-width`                       | 100%                   | `<length>` | The width of the component's node.                   |
-| `--slidy-slide-gap`                   | 1rem                   | `<length>` | The gap between items in carousel.                   |
-| `--slidy-slide-height`                | 100%                   | `<length>` | The carousel items height.                           |
-| `--slidy-slide-width`                 | auto                   | `<length>` | The carousel items width.                            |
-| `--slidy-slide-object-fit`            | cover                  |     -      | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-bg-color`              | darkgray               | `<color>`  | The placeholder background color for loading images. |
-| `--slidy-nav-item-size`               | 16px                   | `<length>` | The navigation elements size.                        |
-| `--slidy-nav-item-radius`             | 50%                    | `<length>` | The navigation elements border radius.               |
-| `--slidy-nav-item-color`              | white                  | `<color>`  | The navigation elements color.                       |
-| `--slidy-thumbnail-size`              | 50px                   | `<length>` | The thumbnail panel size.                            |
-| `--slidy-arrow-size`                  | 24px                   | `<length>` | The arrow controls size.                             |
-| `--slidy-progress-track-size`         | 5px                    | `<length>` | The progress bar height.                             |
-| `--slidy-progress-track-color`        | rgb(150 150 150 / 0.5) | `<color>`  | The progress bar track color.                        |
-| `--slidy-progress-track-active-color` | rgb(196 79 97)         | `<color>`  | The progress bar active track color.                 |
+| Property                       | Default                |    Type    | Description                                          |
+| :----------------------------- | :--------------------: | :--------: | :--------------------------------------------------- |
+| `--slidy-height`               | 100%                   | `<length>` | The height of the component's node.                  |
+| `--slidy-width`                | 100%                   | `<length>` | The width of the component's node.                   |
+| `--slidy-slide-gap`            | 1rem                   | `<length>` | The gap between items in carousel.                   |
+| `--slidy-slide-height`         | 100%                   | `<length>` | The carousel items height.                           |
+| `--slidy-slide-width`          | auto                   | `<length>` | The carousel items width.                            |
+| `--slidy-slide-object-fit`     | cover                  |     -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-bg-color`       | darkgray               | `<color>`  | The placeholder background color for loading images. |
+| `--slidy-nav-item-size`        | 16px                   | `<length>` | The navigation elements size.                        |
+| `--slidy-nav-item-radius`      | 50%                    | `<length>` | The navigation elements border radius.               |
+| `--slidy-nav-item-color`       | white                  | `<color>`  | The navigation elements color.                       |
+| `--slidy-thumbnail-size`       | 50px                   | `<length>` | The thumbnail panel size.                            |
+| `--slidy-arrow-size`           | 24px                   | `<length>` | The arrow controls size.                             |
+| `--slidy-progress-track-size`  | 5px                    | `<length>` | The progress bar height.                             |
+| `--slidy-progress-track-color` | rgb(150 150 150 / 0.5) | `<color>`  | The progress bar track color.                        |
+| `--slidy-progress-track-active-color` | rgb(196 79 97)  | `<color>`  | The progress bar active track color.          |
 
 There are two options:
 
@@ -234,18 +234,6 @@ Also, there are `grid-area` is present in the layout for this custom controls: `
 </style>
 ```
 
-### `counter`
-
-Custom counter slot. To indicate the progress, component provide `index` and `amount` props:
-
-```svelte
-<Slidy let:index let:amount>
-    <output slot="counter">
-        {index / amount}%
-    </output>
-</Slidy>
-```
-
 ### `default`
 
 Usually the default markup is not enough. The `default` slot solves this problem. To use custom slide markup slot expose each `slides` prop item as `let:item` directive.
@@ -271,6 +259,20 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 ```svelte
 <Slidy let:active let:index>
     <button slot="nav-item" data-index="{index}" active="{active}" index="{index}"></button>
+</Slidy>
+```
+
+### `overlay`
+
+Slot to display content overlaid content. It covers the slides area and can be customized by overriding the `.slidy-overlay`. For example, it is used to display the counter.
+
+```svelte
+<Slidy>
+    <slot name="overlay">
+        <button>
+            Share
+        </button>
+    </slot>
 </Slidy>
 ```
 

@@ -69,12 +69,15 @@
 	tabindex="0"
 	on:click={handleClick}
 >
-	{#if counter}
-		<slot name="counter" {index} amount={length}>
-			<output class="slidy-counter">
-				{index + 1} / {length}
-			</output>
-		</slot>
+	{#if counter || $$slots.overlay}
+		<div class="slidy-overlay">
+			{#if counter}
+				<output class="slidy-counter">
+					{index + 1} / {length}
+				</output>
+			{/if}
+			<slot name="overlay" />
+		</div>
 	{/if}
 	<ul
 		class="slidy-slides"

@@ -25,6 +25,16 @@
 	overscroll-behavior: contain;
 }
 
+/* overlay */
+
+.slidy-overlay {
+	grid-area: slides;
+	position: relative;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+}
+
 /* slides */
 
 .slidy-slides {
@@ -71,7 +81,8 @@
 	position: absolute;
 	top: 1em;
 	right: 1em;
-	z-index: 3;
+	width: fit-content;
+	height: min-content;
 	font-family: inherit;
 	background-color: rgb(59 78 78 / 0.75);
 	padding: 0.25em 0.5em;
