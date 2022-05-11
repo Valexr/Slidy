@@ -1,7 +1,8 @@
 import { maxMin } from './helpers';
-import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
+import { find } from './dom';
+import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent } from '../types';
 
-function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
+function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -15,6 +16,8 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
                     if (Array.from(node.children).every(child => child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
+                        node.last = node.children.length - 1;
+                        node.gap = find(node, options).gap();
                         resolve(init(node));
                     }
                 }
@@ -72,8 +75,8 @@ function coordinate(e: UniqEvent, vertical?: boolean): number {
     if (e.type === 'wheel') {
         const X = Math.abs(e.deltaX) > Math.abs(e.deltaY)
         if (X || e.shiftKey) e.preventDefault();
-        return vertical || e.shiftKey
-            ? X ? e.deltaX : e.deltaY
+        return e.shiftKey
+            ? X ? Math.sign(e.deltaX) : Math.sign(e.deltaY)
             : X ? e.deltaX : 0
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
