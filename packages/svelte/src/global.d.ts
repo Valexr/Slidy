@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { SlidyOptions as Options } from "../src/components/Slidy/Slidy.types";
 
 interface Position {
@@ -11,7 +12,7 @@ declare namespace svelte.JSX {
 	interface HTMLAttributes<T> {
 		ondestroy?: SlidyEvent<HTMLElement>;
 		onindex?: SlidyEvent<Position>;
-		onkeys?: (event: any) => any;
+		onkeys?: (event: unknown) => unknown;
 		onmount?: SlidyEvent<{
 			childs: HTMLCollection,
 			options: Options
