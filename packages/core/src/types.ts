@@ -14,13 +14,21 @@ export interface Slidy extends HTMLElement {
     // scrollLeftMax: number;
     gap: number;
     last: number;
-    onmount?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
+    onmount?:
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onresize: ((this: GlobalEventHandlers, e: UIEvent) => any) | null;
     onmove?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
-    onindex?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
+    onindex?:
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onkeys?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
-    onupdate?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
-    ondestroy?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | undefined;
+    onupdate?:
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
+    ondestroy?:
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | undefined;
 }
 
 export interface Child extends HTMLElement {

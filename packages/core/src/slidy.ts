@@ -1,18 +1,11 @@
-import {
-    coordinate,
-    indexing,
-    dispatch,
-    listen,
-    mount,
-    style
-} from './utils/env';
+import { coordinate, indexing, dispatch, listen, mount, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
 import { maxMin } from './utils/helpers';
 import type { Options, Slidy, UniqEvent } from './types';
 
 export function slidy(
     node: Slidy,
-    opts: Partial<Options>,
+    opts: Partial<Options>
 ): {
     update: (options: Options) => void;
     destroy: () => void;
@@ -27,9 +20,8 @@ export function slidy(
         vertical: false,
         clamp: false,
         loop: false,
-        ...opts
+        ...opts,
     };
-
 
     let raf = 0,
         end = 0,
@@ -45,45 +37,37 @@ export function slidy(
         hix = options.index,
         snap = options.snap,
         wst: NodeJS.Timeout,
-        gravity = options.gravity as number
+        gravity = options.gravity as number;
 
     const DURATION = Math.pow(options.duration as number, 2) / 1000;
 
-    const WINDOW_EVENTS: [
-        string,
-        EventListener,
-        AddEventListenerOptions?,
-    ][] = [
-            ['touchmove', onMove as EventListener, { passive: false }],
-            ['mousemove', onMove as EventListener],
-            ['touchend', onUp],
-            ['mouseup', onUp],
-            ['scroll', onScroll, { capture: true }],
-        ];
-    const NODE_EVENTS: [
-        string,
-        EventListener,
-        AddEventListenerOptions?,
-    ][] = [
-            ['contextmenu', clear],
-            ['dragstart', (e) => e.preventDefault()],
-            ['touchstart', onDown as EventListener, { passive: false }],
-            ['mousedown', onDown as EventListener],
-            ['keydown', onKeys as EventListener],
-            ['wheel', onWheel as EventListener, { passive: false, capture: true }],
-        ];
+    const WINDOW_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
+        ['touchmove', onMove as EventListener, { passive: false }],
+        ['mousemove', onMove as EventListener],
+        ['touchend', onUp],
+        ['mouseup', onUp],
+        ['scroll', onScroll, { capture: true }],
+    ];
+    const NODE_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
+        ['contextmenu', clear],
+        ['dragstart', (e) => e.preventDefault()],
+        ['touchstart', onDown as EventListener, { passive: false }],
+        ['mousedown', onDown as EventListener],
+        ['keydown', onKeys as EventListener],
+        ['wheel', onWheel as EventListener, { passive: false, capture: true }],
+    ];
 
     const RO = new ResizeObserver(() => {
         to(options.index);
         dispatch(node, 'resize', { node, options });
     });
 
-    const edges = (index?: number) => !options.loop && (index === 0 || index === node.last)
+    const edges = (index?: number) => !options.loop && (index === 0 || index === node.last);
     const snapping = (index: number) => {
         if (!options.loop) {
-            snap = index === 0 ? 'start' : index === node.last ? 'end' : options.snap
+            snap = index === 0 ? 'start' : index === node.last ? 'end' : options.snap;
         }
-    }
+    };
 
     mount(node, options)
         .then((childs) => {
@@ -92,17 +76,16 @@ export function slidy(
                 overflow: 'hidden',
                 position: 'relative',
                 userSelect: 'none',
-                webkitUserSelect: 'none'
+                webkitUserSelect: 'none',
             });
             listen(node, NODE_EVENTS);
-            RO.observe(node)
+            RO.observe(node);
 
             setTimeout(() => {
-                replace(node, options.index, options.loop)
-                mounted = true
-                dispatch(node, 'mount', { childs, options })
-            }, options.duration)
-
+                replace(node, options.index, options.loop);
+                mounted = true;
+                dispatch(node, 'mount', { childs, options });
+            }, options.duration);
         })
         .catch((error: Error) => console.error(error));
 
@@ -129,9 +112,10 @@ export function slidy(
         }
 
         function graviting(): void {
-            const condition = edges(options.index) &&
-                ((position < start && direction < 0) || (position > end && direction > 0))
-            gravity = condition ? 1.8 : options.gravity as number;
+            const condition =
+                edges(options.index) &&
+                ((position < start && direction < 0) || (position > end && direction > 0));
+            gravity = condition ? 1.8 : (options.gravity as number);
         }
 
         function moving(childs: HTMLCollection): void {
@@ -143,16 +127,14 @@ export function slidy(
         }
 
         function translate(vertical?: boolean): string {
-            const axis = vertical
-                ? `0, ${-edging(position)}px, 0` : `${-edging(position)}px, 0, 0`;
+            const axis = vertical ? `0, ${-edging(position)}px, 0` : `${-edging(position)}px, 0, 0`;
             return `translate3d(${axis})`;
         }
 
         function edging(position: number): number {
-            start = find(node, options).position(0, 'start')
-            end = find(node, options).position(node.last, 'end')
-            return !options.snap && !options.loop
-                ? maxMin(end, start, position) : position
+            start = find(node, options).position(0, 'start');
+            end = find(node, options).position(node.last, 'end');
+            return !options.snap && !options.loop ? maxMin(end, start, position) : position;
         }
     }
 
@@ -164,27 +146,28 @@ export function slidy(
     ): void {
         snapping(index);
 
-        const condition = options.snap || options.loop || edges(index)
-        const target = condition
-            ? find(node, options).position(index, snap)
-            : position + amplitude;
+        const condition = options.snap || options.loop || edges(index);
+        const target = condition ? find(node, options).position(index, snap) : position + amplitude;
 
         amplitude = target - position;
 
         requestAnimationFrame(function animate(now: number) {
-            const elapsed = time - now
+            const elapsed = time - now;
             const delta = amplitude * Math.exp(elapsed / duration);
-            const pos = (options.loop ? find(node, options).position(index, snap) : target) - position - delta
+            const pos =
+                (options.loop ? find(node, options).position(index, snap) : target) -
+                position -
+                delta;
 
-            raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0
+            raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0;
             return move(pos);
-        })
+        });
     }
 
     function to(index = 0, duration = DURATION): void {
         clear();
-        index = indexing(node, index, options.loop)
-        snapping(index)
+        index = indexing(node, index, options.loop);
+        snapping(index);
         scroll(index, duration, find(node, options).position(index, snap) - position);
     }
 
@@ -223,7 +206,6 @@ export function slidy(
             if (elapsed < 69) return;
             timestamp = performance.now();
             frame = position;
-
         }
     }
 
@@ -232,10 +214,12 @@ export function slidy(
 
         const amplitude = distance * (2 - gravity);
         const index = find(node, options).index(position + amplitude, snap);
-        const duration = options.clamp ||
-            ((options.duration && Math.abs(amplitude) <= options.duration) &&
-                options.snap) || edges(index)
-            ? DURATION : options.duration as number
+        const duration =
+            options.clamp ||
+            (options.duration && Math.abs(amplitude) <= options.duration && options.snap) ||
+            edges(index)
+                ? DURATION
+                : (options.duration as number);
 
         scroll(index, duration, amplitude);
     }
@@ -244,19 +228,19 @@ export function slidy(
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
-        const index = options.index as number + Math.sign(coord);
-        const clamping = options.clamp || e.shiftKey
-        const condition = clamping || edges(options.index as number)
+        const index = (options.index as number) + Math.sign(coord);
+        const clamping = options.clamp || e.shiftKey;
+        const condition = clamping || edges(options.index as number);
 
-        if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord)
+        if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord);
         wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
         const prev = ['ArrowLeft', 'ArrowUp'];
-        const index = options.index as number +
-            (prev.includes(e.key) ? -1 : next.includes(e.key) ? 1 : 0);
+        const index =
+            (options.index as number) + (prev.includes(e.key) ? -1 : next.includes(e.key) ? 1 : 0);
 
         to(index);
         dispatch(node, 'keys', e.key);
@@ -270,8 +254,8 @@ export function slidy(
 
     function clear(): void {
         scrolled = false;
-        clearTimeout(wst)
-        cancelAnimationFrame(raf)
+        clearTimeout(wst);
+        cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
     }
 

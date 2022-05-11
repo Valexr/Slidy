@@ -13,7 +13,7 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
                 } else if (node.children.length) {
-                    if (Array.from(node.children).every(child => child.isConnected)) {
+                    if (Array.from(node.children).every((child) => child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
                         node.last = node.children.length - 1;
@@ -28,7 +28,9 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
 
 function getFPS(): Promise<number> {
     return new Promise((resolve) =>
-        requestAnimationFrame((t1: number) => requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1))))
+        requestAnimationFrame((t1: number) =>
+            requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))
+        )
     );
 }
 
@@ -73,29 +75,33 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
     if (e.type === 'wheel') {
-        const X = Math.abs(e.deltaX) > Math.abs(e.deltaY)
+        const X = Math.abs(e.deltaX) > Math.abs(e.deltaY);
         if (X || e.shiftKey) e.preventDefault();
-        return e.shiftKey
-            ? X ? Math.sign(e.deltaX) : Math.sign(e.deltaY)
-            : X ? e.deltaX : 0
+        return e.shiftKey ? (X ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : X ? e.deltaX : 0;
     } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
-const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } => (e.changedTouches ? e.changedTouches[0] : e);
+const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
+    e.changedTouches ? e.changedTouches[0] : e;
 
-function throttle(fn: (args: UniqEvent) => void, ms: number, wait?: boolean, tm?: NodeJS.Timeout): (args: UniqEvent) => void {
+function throttle(
+    fn: (args: UniqEvent) => void,
+    ms: number,
+    wait?: boolean,
+    tm?: NodeJS.Timeout
+): (args: UniqEvent) => void {
     return (args) => {
         if (!wait) {
             fn(args);
             wait = true;
             tm && clearTimeout(tm);
-            tm = setTimeout(() => wait = false, ms);
+            tm = setTimeout(() => (wait = false), ms);
         }
-    }
+    };
 }
 
 function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
-    tm && clearTimeout(tm)
+    tm && clearTimeout(tm);
     return (args: any) => {
         tm = setTimeout(() => fn(args), ms);
     };

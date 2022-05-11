@@ -27,8 +27,8 @@
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",
-        "pub": "pnpm build && pnpm publish",
-        "format": "prettier --ignore-path ../../.gitignore --write './src/**/*.{js,ts,md,json,html,css}'"
+        "format": "prettier --ignore-path ../../.gitignore --write './src/**/*.{js,ts,md,json,html,css}'",
+        "pub": "pnpm build && pnpm publish"
     },
     "publishConfig": {
         "access": "public"

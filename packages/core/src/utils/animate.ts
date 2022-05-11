@@ -36,7 +36,7 @@ export function animate(fn: RafCallback) {
             now,
             start,
             elapsed: start - now,
-            stop
+            stop,
         });
 
         !stopped && frame();

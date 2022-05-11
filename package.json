@@ -73,15 +73,8 @@
     "prettier": {
         "semi": true,
         "tabWidth": 4,
-        "printWidth": 120,
-        "singleQuote": true,
-        "svelteSortOrder": "options-markup-scripts-styles",
-        "svelteStrictMode": true,
-        "svelteAllowShorthand": true,
-        "svelteIndentScriptAndStyle": true,
-        "plugins": [
-            "prettier-plugin-svelte"
-        ]
+        "printWidth": 100,
+        "singleQuote": true
     },
     "devDependencies": {
         "@types/eslint": "^8.4.2",
