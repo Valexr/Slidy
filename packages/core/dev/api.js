@@ -11,7 +11,7 @@ export async function getPhotos(node, page, limit) {
                 node.innerHTML = thumbs.innerHTML = dots.innerHTML = '';
 
                 photos.forEach((p, i) => {
-                    const aspect = (value, ratio = false) => aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight)[value] * (ratio ? devicePixelRatio : 1);
+                    const aspect = (value, ratio = false) => aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * (ratio ? devicePixelRatio : 1);
 
                     node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect('width', true)}/${aspect('height', true)}.jpg" width="${aspect('width')}" height="${aspect('height')}" alt="${p.author}"/></li>`;
 

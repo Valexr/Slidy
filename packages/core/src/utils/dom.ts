@@ -23,28 +23,28 @@ function closest(node: Slidy, target: number, vertical: boolean, snap: string | 
         return dist(curr) < dist(prev) ? curr : prev;
     });
 }
-const indent = (node: Slidy, index: number, gap: number, options: Options) => {
+const indent = (node: Slidy, index: number, options: Options) => {
     const wrap = node[size(options.vertical as boolean)]
     const active = child(node, index)[size(options.vertical as boolean)]
     const diff = wrap - active
-    return options.indent || ((active + gap * 2 < wrap) ? 1 : diff / 2 / gap)
+    return options.indent || ((active + node.gap * 2 < wrap) ? 1 : diff / 2 / node.gap)
 }
 
-function indents(node: Slidy, index: number, gap: number, snap: string, options: Options): number {
+function indents(node: Slidy, index: number, snap: string, options: Options): number {
     const edge = options.loop ? 0 : ((index === 0 || snap === 'start'))
-        ? -indent(node, index, gap, options)
+        ? -indent(node, index, options)
         : ((index === nodes(node).length - 1 || snap === 'end'))
-            ? indent(node, index, gap, options) : 0
-    return gap * edge
+            ? indent(node, index, options) : 0
+    return node.gap * edge
 }
 
 const find = (node: Slidy, options: Options) => ({
     index: (target: number, snap: string | undefined): number => {
         return closest(node, target, options.vertical as boolean, snap).index
     },
-    position: (index: number, snap?: string, gap?: number) => {
-        const pos = position(node, child(node, index), options.vertical as boolean, snap)
-        return pos + indents(node, index, gap as number, snap as string, options)
+    position: (index: number | undefined, snap?: string) => {
+        const pos = position(node, child(node, index as number), options.vertical as boolean, snap)
+        return pos + indents(node, index as number, snap as string, options)
     },
     size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {
@@ -67,15 +67,15 @@ function shuffle(node: Slidy, direction: number): void | null {
             : null;
 }
 
-function history(node: Slidy, direction: number, gap: number, options: Options) {
+function history(node: Slidy, direction: number, options: Options) {
     const first = nodes(node)[0][size(options.vertical as boolean)]
     const last = nodes(node)[nodes(node).length - 1][size(options.vertical as boolean)]
-    return ((direction > 0 ? first : last) + gap) * direction
+    return ((direction > 0 ? first : last) + node.gap) * direction
 }
 
-function replace(node: Slidy, index: number, loop?: boolean) {
+function replace(node: Slidy, index?: number, loop?: boolean) {
     const elements = loop
-        ? rotate(nodes(node), index - cix(node))
+        ? rotate(nodes(node), index as number - cix(node))
         : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
 }

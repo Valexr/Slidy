@@ -58,14 +58,7 @@
             import { media as mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
-
-            fetch('https://unpkg.com/@slidy/core/package.json')
-                .then(async res => await res.json())
-                .then(({ version }) => {
-                    title.innerText = `Slidy ${version} - NativeJS`;
-                    header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
-                    getPhotos(node, utils.randomQ(1, 69), options.length);
-                });
+            import { setEvents } from './env.js';
 
             const queries = {
                 xs: '(max-width: 480px)',
@@ -115,64 +108,13 @@
 
             console.log('window:', window);
 
-            const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
-
-            window.onload = () => events.forEach(event => {
-                node.addEventListener(event, (e) => {
-                    switch (event) {
-                        case 'mount':
-                            options = e.detail.options;
-
-                            for (const button of document.querySelectorAll('button')) {
-                                if (options[button.id]) {
-                                    button.classList.add('active');
-                                } else if (!isNaN(button.id)) {
-                                    button.onclick = (e) => slidy.to(+e.target.id);
-                                }
-                            }
-
-                            for (const input of document.querySelectorAll('input')) {
-                                switch (input.name) {
-                                    case 'width':
-                                        input.value = utils.getVar(main, '--width');
-                                        break;
-                                    case 'height':
-                                        input.value = utils.getVar(main, '--height');
-                                        break;
-                                    case 'gap':
-                                        input.value = utils.getVar(main, '--gap');
-                                        break;
-                                    case 'index':
-                                        input.value = options.index;
-                                        input.max = options.length - 1;
-                                        break;
-
-                                    default:
-                                        input.value = options[input.name];
-                                        break;
-                                }
-                            }
-                            snap.value = options.snap;
-                            break;
-
-                        case 'move':
-                            utils.scrolling(e.detail.position);
-                            break;
-
-                        case 'index':
-                            utils.indexing(e.detail.index);
-                            break;
-
-                        case 'update':
-                            console.log(e);
-                            break;
-
-                        default:
-                            console.log(e);
-                            break;
-                    }
+            fetch('https://unpkg.com/@slidy/core/package.json')
+                .then(async res => await res.json())
+                .then(({ version }) => {
+                    title.innerText = `Slidy ${version} - NativeJS`;
+                    header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
+                    getPhotos(node, utils.randomQ(1, 69), options.length).then(setEvents);
                 });
-            });
         </script>
     </head>
 

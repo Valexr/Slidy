@@ -10,43 +10,42 @@ import { find, history, replace, shuffle } from './utils/dom';
 import { maxMin } from './utils/helpers';
 import type { Options, Slidy, UniqEvent } from './types';
 
-const base: Options = {
-    index: 0,
-    indent: 0,
-    gravity: 1.2,
-    duration: 375,
-    snap: undefined,
-    vertical: false,
-    clamp: false,
-    loop: false,
-};
-
 export function slidy(
     node: Slidy,
-    options: Partial<Options> = base,
+    opts: Partial<Options>,
 ): {
     update: (options: Options) => void;
     destroy: () => void;
     to: (index: number, target?: number) => void;
 } {
-    let raf: number,
-        wst: NodeJS.Timeout,
+    const options: Options = {
+        index: 0,
+        indent: 0,
+        gravity: 1.2,
+        duration: 375,
+        snap: undefined,
+        vertical: false,
+        clamp: false,
+        loop: false,
+        ...opts
+    };
+
+
+    let raf = 0,
+        end = 0,
+        start = 0,
+        position = 0,
+        distance = 0,
         reference = 0,
         direction = 0,
         timestamp = 0,
-        velocity = 0,
-        position = 0,
-        gap = 0,
-        last = 0,
-        frame = position,
-        hix: number,
-        snap = options.snap,
-        gravity = options.gravity as number,
+        mounted = false,
         scrolled = false,
-        start = 0,
-        end = 0
-
-    options = { ...base, ...options };
+        frame = position,
+        hix = options.index,
+        snap = options.snap,
+        wst: NodeJS.Timeout,
+        gravity = options.gravity as number
 
     const DURATION = Math.pow(options.duration as number, 2) / 1000;
 
@@ -74,25 +73,20 @@ export function slidy(
             ['wheel', onWheel as EventListener, { passive: false, capture: true }],
         ];
 
-    const RAF = requestAnimationFrame;
     const RO = new ResizeObserver(() => {
         to(options.index);
         dispatch(node, 'resize', { node, options });
     });
-    const edges = (index: number) => !options.loop && (index === 0 || index === last)
 
-    mount(node)
+    const edges = (index?: number) => !options.loop && (index === 0 || index === node.last)
+    const snapping = (index: number) => {
+        if (!options.loop) {
+            snap = index === 0 ? 'start' : index === node.last ? 'end' : options.snap
+        }
+    }
+
+    mount(node, options)
         .then((childs) => {
-            replace(node, options.index as number, options.loop);
-
-            snap = options.snap;
-            last = childs.length - 1;
-            gap = find(node, options).gap();
-            gravity = options.gravity as number;
-            position = options.loop
-                ? find(node, options).position(options.index as number, snap, gap)
-                : position;
-
             style(node, {
                 outline: 'unset',
                 overflow: 'hidden',
@@ -100,11 +94,15 @@ export function slidy(
                 userSelect: 'none',
                 webkitUserSelect: 'none'
             });
-
             listen(node, NODE_EVENTS);
-            RO.observe(node);
+            RO.observe(node)
 
-            dispatch(node, 'mount', { childs, options });
+            setTimeout(() => {
+                replace(node, options.index, options.loop)
+                mounted = true
+                dispatch(node, 'mount', { childs, options })
+            }, options.duration)
+
         })
         .catch((error: Error) => console.error(error));
 
@@ -119,23 +117,24 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (hix !== options.index) {
-                if (options.loop) {
-                    pos -= history(node, direction, gap, options);
+                if (options.loop && mounted) {
+                    pos -= history(node, direction, options);
                     shuffle(node, direction);
                     frame = position + pos;
                 }
-                hix = options.index as number;
+                hix = options.index;
                 dispatch(node, 'index', { index: options.index, position });
             }
             return pos;
         }
 
-        function graviting() {
-            const condition = (position < start && direction < 0) || (position > end && direction > 0)
-            gravity = condition && !options.loop ? 1.8 : options.gravity as number;
+        function graviting(): void {
+            const condition = edges(options.index) &&
+                ((position < start && direction < 0) || (position > end && direction > 0))
+            gravity = condition ? 1.8 : options.gravity as number;
         }
 
-        function moving(childs: HTMLCollection) {
+        function moving(childs: HTMLCollection): void {
             for (let index = 0; index < childs.length; index++) {
                 style(childs[index] as HTMLElement, {
                     transform: translate(options.vertical),
@@ -149,9 +148,9 @@ export function slidy(
             return `translate3d(${axis})`;
         }
 
-        function edging(position: number) {
-            start = find(node, options).position(0, 'start', gap)
-            end = find(node, options).position(last, 'end', gap)
+        function edging(position: number): number {
+            start = find(node, options).position(0, 'start')
+            end = find(node, options).position(node.last, 'end')
             return !options.snap && !options.loop
                 ? maxMin(end, start, position) : position
         }
@@ -160,47 +159,33 @@ export function slidy(
     function scroll(
         index: number,
         duration: number,
-        timestamp: number,
         amplitude = 0,
-        target = 0,
+        time = performance.now()
     ): void {
-        const condition = options.snap || options.loop || edges(index)
-
         snapping(index);
 
-        target = condition
-            ? find(node, options).position(index, snap, gap)
+        const condition = options.snap || options.loop || edges(index)
+        const target = condition
+            ? find(node, options).position(index, snap)
             : position + amplitude;
+
         amplitude = target - position;
 
-        raf = RAF(animate)
-
-        function animate() {
-            const elapsed = timestamp - performance.now();
+        requestAnimationFrame(function animate(now: number) {
+            const elapsed = time - now
             const delta = amplitude * Math.exp(elapsed / duration);
+            const pos = (options.loop ? find(node, options).position(index, snap) : target) - position - delta
 
-            target = options.loop
-                ? find(node, options).position(index, snap, gap)
-                : target;
-            raf = Math.abs(delta) > 0.5 ? RAF(animate) : 0
-            return move(target - position - delta);
-        }
+            raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0
+            return move(pos);
+        })
     }
 
-    function snapping(index: number): void {
-        if (!options.loop) {
-            snap = index === 0 ? 'start' : index === last ? 'end' : options.snap
-        }
-    }
-
-    function to(index = 0, duration = DURATION, target?: number): void {
+    function to(index = 0, duration = DURATION): void {
         clear();
-
-        index = indexing(node, index, options.loop);
+        index = indexing(node, index, options.loop)
         snapping(index)
-        target = target || find(node, options).position(index, snap, gap);
-
-        scroll(index, duration, performance.now(), target - position);
+        scroll(index, duration, find(node, options).position(index, snap) - position);
     }
 
     function onDown(e: UniqEvent): void {
@@ -209,7 +194,7 @@ export function slidy(
         reference = coordinate(e, options.vertical);
         timestamp = performance.now();
         frame = position;
-        velocity = 0;
+        distance = 0;
 
         listen(window, WINDOW_EVENTS);
     }
@@ -225,48 +210,40 @@ export function slidy(
             e.preventDefault();
             e.stopPropagation();
         } else if (scrolled) {
+            to(options.index);
             gravity = 2;
-            to(options.index, DURATION / gravity);
         }
 
         function track(): void {
-            const now = performance.now();
-            const elapsed = now - timestamp;
+            const elapsed = performance.now() - timestamp;
             const delta = position - frame;
             const speed = (1000 * delta) / (1 + elapsed);
 
-            velocity = (2 - gravity) * speed + 0.2 * velocity;
-
+            distance = (2 - gravity) * speed + 0.2 * distance;
             if (elapsed < 69) return;
-
-            timestamp = now;
+            timestamp = performance.now();
             frame = position;
+
         }
     }
 
     function onUp(): void {
         clear();
 
-        const amplitude = velocity * (2 - gravity);
+        const amplitude = distance * (2 - gravity);
         const index = find(node, options).index(position + amplitude, snap);
-        const condition = options.clamp ||
+        const duration = options.clamp ||
             ((options.duration && Math.abs(amplitude) <= options.duration) &&
                 options.snap) || edges(index)
+            ? DURATION : options.duration as number
 
-        scroll(
-            index,
-            condition ? DURATION : options.duration as number,
-            performance.now(),
-            amplitude,
-        );
+        scroll(index, duration, amplitude);
     }
 
     function onWheel(e: UniqEvent): void {
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - gravity);
-        // const isMac = /(Mac)/i.test(navigator.platform)
-        // const direction = coord * (isMac ? -1 : 1)
         const index = options.index as number + Math.sign(coord);
         const clamping = options.clamp || e.shiftKey
         const condition = clamping || edges(options.index as number)
@@ -294,7 +271,7 @@ export function slidy(
     function clear(): void {
         scrolled = false;
         clearTimeout(wst)
-        cancelAnimationFrame(raf);
+        cancelAnimationFrame(raf)
         listen(window, WINDOW_EVENTS, false);
     }
 
