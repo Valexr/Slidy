@@ -31,13 +31,12 @@ const indent = (node: Slidy, index: number, options: Options) => {
 };
 
 function indents(node: Slidy, index: number, snap: string, options: Options): number {
-    const edge = options.loop
-        ? 0
-        : index === 0 || snap === 'start'
-        ? -indent(node, index, options)
-        : index === nodes(node).length - 1 || snap === 'end'
-        ? indent(node, index, options)
-        : 0;
+    const edge =
+        (!options.loop && index === 0) || snap === 'start'
+            ? -indent(node, index, options)
+            : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
+            ? indent(node, index, options)
+            : 0;
     return node.gap * edge;
 }
 
@@ -78,11 +77,12 @@ function history(node: Slidy, direction: number, options: Options) {
     return ((direction > 0 ? first : last) + node.gap) * direction;
 }
 
-function replace(node: Slidy, index?: number, loop?: boolean) {
-    const elements = loop
-        ? rotate(nodes(node), (index as number) - cix(node))
+function replace(node: Slidy, options: Options) {
+    const elements = options.loop
+        ? rotate(nodes(node), (options.index as number) - cix(node))
         : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
+    return find(node, options).position(options.index, options.snap);
 }
 
 function rotate(array: Array<Node | string>, key: number) {

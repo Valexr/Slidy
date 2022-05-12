@@ -3,7 +3,7 @@ export interface Options {
     indent?: number;
     gravity?: number;
     duration?: number;
-    easing: EasingFn,
+    easing: EasingFn;
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
     clamp?: boolean;
@@ -15,7 +15,7 @@ export interface Options {
  * @returns value from 0 to 1
  * @default easeInOutCubic
  * @see https://easings.net
-*/
+ */
 export type EasingFn = (x: number) => number;
 
 export interface Slidy extends HTMLElement {
@@ -24,20 +24,20 @@ export interface Slidy extends HTMLElement {
     gap: number;
     last: number;
     onmount?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onresize: ((this: GlobalEventHandlers, e: UIEvent) => any) | null;
     onmove?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onindex?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onkeys?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onupdate?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     ondestroy?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | undefined;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | undefined;
 }
 
 export interface Child extends HTMLElement {

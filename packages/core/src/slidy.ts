@@ -33,7 +33,6 @@ export function slidy(
         reference = 0,
         direction = 0,
         timestamp = 0,
-        mounted = false,
         scrolled = false,
         frame = position,
         wst: NodeJS.Timeout,
@@ -71,6 +70,8 @@ export function slidy(
 
     mount(node, options)
         .then((childs) => {
+            listen(node, NODE_EVENTS);
+
             style(node, {
                 outline: 'unset',
                 overflow: 'hidden',
@@ -78,14 +79,12 @@ export function slidy(
                 userSelect: 'none',
                 webkitUserSelect: 'none',
             });
-            listen(node, NODE_EVENTS);
+
+            position = replace(node, options);
+
             RO.observe(node);
 
-            setTimeout(() => {
-                replace(node, options.index, options.loop);
-                mounted = true;
-                dispatch(node, 'mount', { childs, options });
-            }, options.duration);
+            dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
 
@@ -100,7 +99,7 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (hix !== options.index) {
-                if (options.loop && mounted) {
+                if (options.loop) {
                     pos -= history(node, direction, options);
                     shuffle(node, direction);
                     frame = position + pos;
@@ -142,24 +141,20 @@ export function slidy(
         index: number,
         duration: number,
         amplitude = 0,
-        time = performance.now()
+        _time = performance.now()
     ): void {
         snapping(index);
 
         const condition = options.snap || options.loop || edges(index);
         const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
-
         amplitude = target - position;
-        requestAnimationFrame((t) => console.log(t))
-        requestAnimationFrame(function animate(now: number) {
-            if (!time) time = now
-            const elapsed = time - now;
+
+        requestAnimationFrame(function animate() {
+            const elapsed = _time - performance.now();
             const delta = amplitude * options.easing(Math.exp(elapsed / duration));
-            const pos =
-                (options.loop ? find(node, options).position(index, SNAP) : target) -
-                position -
-                delta;
-            // console.log(position)
+            const current = options.loop ? find(node, options).position(index, SNAP) : target;
+            const pos = current - position - delta;
+
             raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0;
             return move(pos);
         });
@@ -201,7 +196,7 @@ export function slidy(
         function track(): void {
             const elapsed = performance.now() - timestamp;
             const delta = position - frame;
-            const speed = (1000 * delta) / (1 + elapsed)
+            const speed = (1000 * delta) / (1 + elapsed);
             distance = (2 - GRAVITY) * speed + 0.2 * distance;
 
             if (elapsed < 69) return;
@@ -217,8 +212,8 @@ export function slidy(
         const index = find(node, options).index(position + amplitude, SNAP);
         const duration =
             options.clamp ||
-                (options.duration && Math.abs(amplitude) <= options.duration && options.snap)
-                || edges(index)
+            (options.duration && Math.abs(amplitude) <= options.duration && options.snap) ||
+            edges(index)
                 ? DURATION
                 : (options.duration as number);
 
@@ -280,6 +275,10 @@ export function slidy(
                         options[key] = opts[key];
                         DURATION = Math.pow(options[key] as number, 2) / 1000;
                         break;
+                    case 'loop':
+                        options[key] = opts[key];
+                        position = replace(node, options);
+                        to(options.index);
 
                     default:
                         options[key as keyof Options] = opts[key as keyof Options] as never;

@@ -14,7 +14,8 @@ const esbuildBase = {
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
     sourcemap: (DEV || CORE) ? 'inline' : false,
-    globalName: 'Slidy'
+    globalName: 'Slidy',
+    format: 'esm'
 };
 const derverConfig = {
     dir: 'dev',
@@ -31,6 +32,10 @@ const builds = {
     },
     iife: {
         outfile: './dist/index.js'
+    },
+    easing: {
+        entryPoints: ['src/utils/easing.ts'],
+        outfile: './dist/easing.js'
     }
 };
 
@@ -43,7 +48,6 @@ if (DEV || CORE) {
                 outdir: 'dev/build'
             }
             : { outfile: 'dist/index.mjs' },
-        format: 'esm',
         globalName: 'Slidy'
     }).then((bundle) => {
         if (DEV) console.log('watching @slidy/core...');
@@ -62,7 +66,7 @@ if (DEV || CORE) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key
+            format: key !== 'easing' ? key : 'esm'
         });
     }
 }
