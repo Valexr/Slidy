@@ -16,6 +16,7 @@ export function slidy(
         indent: 0,
         gravity: 1.2,
         duration: 375,
+        easing: (t: number) => t,
         snap: undefined,
         vertical: false,
         clamp: false,
@@ -26,6 +27,7 @@ export function slidy(
     let raf = 0,
         end = 0,
         start = 0,
+        hix = -1,
         position = 0,
         distance = 0,
         reference = 0,
@@ -34,12 +36,10 @@ export function slidy(
         mounted = false,
         scrolled = false,
         frame = position,
-        hix = options.index,
-        snap = options.snap,
         wst: NodeJS.Timeout,
-        gravity = options.gravity as number;
-
-    const DURATION = Math.pow(options.duration as number, 2) / 1000;
+        SNAP = options.snap,
+        GRAVITY = options.gravity as number,
+        DURATION = Math.pow(options.duration as number, 2) / 1000;
 
     const WINDOW_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -65,7 +65,7 @@ export function slidy(
     const edges = (index?: number) => !options.loop && (index === 0 || index === node.last);
     const snapping = (index: number) => {
         if (!options.loop) {
-            snap = index === 0 ? 'start' : index === node.last ? 'end' : options.snap;
+            SNAP = index === 0 ? 'start' : index === node.last ? 'end' : options.snap;
         }
     };
 
@@ -92,7 +92,7 @@ export function slidy(
     function move(pos: number): void {
         direction = Math.sign(pos);
         position += positioning(pos);
-        options.index = find(node, options).index(position, snap);
+        options.index = find(node, options).index(position, SNAP);
 
         graviting();
         moving(node.children);
@@ -105,7 +105,7 @@ export function slidy(
                     shuffle(node, direction);
                     frame = position + pos;
                 }
-                hix = options.index;
+                hix = options.index as number;
                 dispatch(node, 'index', { index: options.index, position });
             }
             return pos;
@@ -115,7 +115,7 @@ export function slidy(
             const condition =
                 edges(options.index) &&
                 ((position < start && direction < 0) || (position > end && direction > 0));
-            gravity = condition ? 1.8 : (options.gravity as number);
+            GRAVITY = condition ? 1.8 : (options.gravity as number);
         }
 
         function moving(childs: HTMLCollection): void {
@@ -147,18 +147,19 @@ export function slidy(
         snapping(index);
 
         const condition = options.snap || options.loop || edges(index);
-        const target = condition ? find(node, options).position(index, snap) : position + amplitude;
+        const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
 
         amplitude = target - position;
-
+        requestAnimationFrame((t) => console.log(t))
         requestAnimationFrame(function animate(now: number) {
+            if (!time) time = now
             const elapsed = time - now;
-            const delta = amplitude * Math.exp(elapsed / duration);
+            const delta = amplitude * options.easing(Math.exp(elapsed / duration));
             const pos =
-                (options.loop ? find(node, options).position(index, snap) : target) -
+                (options.loop ? find(node, options).position(index, SNAP) : target) -
                 position -
                 delta;
-
+            // console.log(position)
             raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0;
             return move(pos);
         });
@@ -168,7 +169,7 @@ export function slidy(
         clear();
         index = indexing(node, index, options.loop);
         snapping(index);
-        scroll(index, duration, find(node, options).position(index, snap) - position);
+        scroll(index, duration, find(node, options).position(index, SNAP) - position);
     }
 
     function onDown(e: UniqEvent): void {
@@ -186,7 +187,7 @@ export function slidy(
         const delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
 
-        move(delta * (2 - gravity));
+        move(delta * (2 - GRAVITY));
         track();
 
         if (Math.abs(delta) > 2) {
@@ -194,15 +195,15 @@ export function slidy(
             e.stopPropagation();
         } else if (scrolled) {
             to(options.index);
-            gravity = 2;
+            GRAVITY = 2;
         }
 
         function track(): void {
             const elapsed = performance.now() - timestamp;
             const delta = position - frame;
-            const speed = (1000 * delta) / (1 + elapsed);
+            const speed = (1000 * delta) / (1 + elapsed)
+            distance = (2 - GRAVITY) * speed + 0.2 * distance;
 
-            distance = (2 - gravity) * speed + 0.2 * distance;
             if (elapsed < 69) return;
             timestamp = performance.now();
             frame = position;
@@ -212,12 +213,12 @@ export function slidy(
     function onUp(): void {
         clear();
 
-        const amplitude = distance * (2 - gravity);
-        const index = find(node, options).index(position + amplitude, snap);
+        const amplitude = distance * (2 - GRAVITY);
+        const index = find(node, options).index(position + amplitude, SNAP);
         const duration =
             options.clamp ||
-            (options.duration && Math.abs(amplitude) <= options.duration && options.snap) ||
-            edges(index)
+                (options.duration && Math.abs(amplitude) <= options.duration && options.snap)
+                || edges(index)
                 ? DURATION
                 : (options.duration as number);
 
@@ -227,7 +228,7 @@ export function slidy(
     function onWheel(e: UniqEvent): void {
         clear();
 
-        const coord = coordinate(e, options.vertical) * (2 - gravity);
+        const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord);
         const clamping = options.clamp || e.shiftKey;
         const condition = clamping || edges(options.index as number);
@@ -269,11 +270,15 @@ export function slidy(
                         break;
                     case 'gravity':
                         options[key] = maxMin(2, 0, opts[key] as number);
-                        gravity = options[key] as number;
+                        GRAVITY = options[key] as number;
                         break;
                     case 'snap':
                         options[key] = opts[key];
-                        snap = options[key];
+                        SNAP = options[key];
+                        break;
+                    case 'duration':
+                        options[key] = opts[key];
+                        DURATION = Math.pow(options[key] as number, 2) / 1000;
                         break;
 
                     default:

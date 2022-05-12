@@ -7,7 +7,7 @@ export function indexing(x) {
     if (!changing) {
         document.querySelector('input[name=index]').value = x;
     }
-    slidyT.to(x);
+    // slidyT.to(x);
     node.childNodes.forEach((n, i) =>
         +n.id === x ? n.classList.add('active') : n.classList.remove('active')
     );
@@ -20,8 +20,10 @@ export function indexing(x) {
 }
 
 export function changeValue(target, options) {
-    const value = isNum(target.value) ? +target.value : target.value;
-
+    const value = isNum(target.value)
+        ? +target.value : target.value.includes('(t)')
+            ? new Function(`const ${target.value.split('<:>')[0]} = ${target.value.split('<:>')[1]}; return ${target.value.split('<:>')[0]}`)() : target.value;
+    console.log(value, target.value);
     slidy.update({ [target.name]: value });
     options[target.name] = value;
 

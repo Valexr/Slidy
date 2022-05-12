@@ -112,6 +112,7 @@ All `options` are optional, but mount `node` required:
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
 | `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
+| `easing`     | `(t) => t`         | `function` | Scroll easing: default liner. |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |

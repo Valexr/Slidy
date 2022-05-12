@@ -1,38 +1,34 @@
-/*
- * Easing Functions - inspired from http://gizma.com/easing/
- * only considering the t value for the range [0, 1] => [0, 1]
- */
 export const easing = {
     // no easing, no acceleration
-    linear: (t: number) => t,
+    linear: (t) => t,
     // accelerating from zero velocity
-    easeInQuad: (t: number) => t * t,
+    easeInQuad: (t) => t * t,
     // decelerating to zero velocity
-    easeOutQuad: (t: number) => t * (2 - t),
+    easeOutQuad: (t) => t * (2 - t),
     // acceleration until halfway, then deceleration
-    easeInOutQuad: (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+    easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
     // accelerating from zero velocity
-    easeInCubic: (t: number) => t * t * t,
+    easeInCubic: (t) => t * t * t,
     // decelerating to zero velocity
-    easeOutCubic: (t: number) => --t * t * t + 1,
+    easeOutCubic: (t) => --t * t * t + 1,
     // acceleration until halfway, then deceleration
-    easeInOutCubic: (t: number) =>
+    easeInOutCubic: (t) =>
         t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
     // accelerating from zero velocity
-    easeInQuart: (t: number) => t * t * t * t,
+    easeInQuart: (t) => t * t * t * t,
     // decelerating to zero velocity
-    easeOutQuart: (t: number) => 1 - --t * t * t * t,
+    easeOutQuart: (t) => 1 - --t * t * t * t,
     // acceleration until halfway, then deceleration
-    easeInOutQuart: (t: number) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t),
+    easeInOutQuart: (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t),
     // accelerating from zero velocity
-    easeInQuint: (t: number) => t * t * t * t * t,
+    easeInQuint: (t) => t * t * t * t * t,
     // decelerating to zero velocity
-    easeOutQuint: (t: number) => 1 + --t * t * t * t * t,
+    easeOutQuint: (t) => 1 + --t * t * t * t * t,
     // acceleration until halfway, then deceleration
-    easeInOutQuint: (t: number) =>
+    easeInOutQuint: (t) =>
         t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
-    easeInBounce: (t: number) => 1 - this.easeOutBounce(1 - t),
-    easeOutBounce: (t: number) => {
+    easeInBounce: (t) => 1 - this.easeOutBounce(1 - t),
+    easeOutBounce: (t) => {
         const n1 = 7.5625;
         const d1 = 2.75;
 
@@ -46,5 +42,7 @@ export const easing = {
             return n1 * (t -= 2.625 / d1) * t + 0.984375;
         }
     },
-
+    easeInSine: (t) => 1 - Math.cos((t * Math.PI) / 2),
+    easeOutSine: (t) => Math.sin((t * Math.PI) / 2),
+    easeInOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2
 };

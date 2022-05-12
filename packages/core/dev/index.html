@@ -59,6 +59,7 @@
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
             import { setEvents } from './env.js';
+            import { easing } from './easing.js';
 
             const queries = {
                 xs: '(max-width: 480px)',
@@ -198,6 +199,12 @@
                     <label title="range">
                         <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
                             max="4" />
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <label title="easings">
+                        <select id="easings" value="center" name="easing"
+                            onchange="utils.changeValue(this, options)"></select>
                     </label>
                 </fieldset>
             </form>
