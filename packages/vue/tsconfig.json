@@ -3,11 +3,11 @@
     "compilerOptions": {
         "baseUrl": ".",
         "declarationDir": "dist/",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ESNext"
-        ]
+        // "lib": [
+        //     "DOM",
+        //     "DOM.Iterable",
+        //     "ESNext"
+        // ]
     },
     "include": [
         "src/*"
