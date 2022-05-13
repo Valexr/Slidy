@@ -2,12 +2,6 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declarationDir": "dist/",
-        "lib": [
-            "DOM"
-        ],
-        // "types": [
-        //     "@types"
-        // ]
     },
     "include": [
         "src/**/*"

@@ -28,7 +28,9 @@
         "emitDeclarationOnly": true,
         "moduleResolution": "Node",
         "lib": [
-            "ESNext"
+            "DOM",
+            "ESNext",
+            "DOM.Iterable",
         ],
         "module": "ESNext",
         "target": "ESNext",
