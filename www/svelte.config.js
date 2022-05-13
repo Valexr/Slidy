@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
+import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -15,16 +16,21 @@ const config = {
             fallback: null,
             precompress: false
         }),
-
         prerender: {
             // This can be false if you're using a fallback (i.e. SPA mode)
             default: true
         },
-        vite: () => ({
+        vite: {
             server: {
-                port: 3339,
+                port: 3339
+            },
+            resolve: {
+                alias: {
+                    "@slidy/svelte": path.resolve("../packages/svelte/src/index.ts"),
+                    "@slidy/media": path.resolve("../packages/media/src/index.ts")
+                }
             }
-        }),
+        },
     }
 };
 
