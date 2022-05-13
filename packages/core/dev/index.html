@@ -170,13 +170,13 @@
                             min="1" max="50" />
                     </label>
                     <label title="width">
-                        <input onchange="utils.setVar(main, this.name, this.value)" name="width" size="5" />
+                        <input onchange="utils.setVar(main, this.name, this.value)" name="width" size="4" />
                     </label>
                     <label title="height">
                         <input onchange="utils.setVar(main, this.name, this.value)" name="height" size="5" />
                     </label>
                     <label title="gap">
-                        <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="5" />
+                        <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="4" />
                     </label>
                     <label title="duration">
                         <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
@@ -194,17 +194,13 @@
                             <option value="end">end →</option>
                         </select>
                     </label>
-                </fieldset>
-                <fieldset>
-                    <label title="range">
-                        <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
-                            max="4" />
-                    </label>
-                </fieldset>
-                <fieldset>
                     <label title="easings">
                         <select id="easings" value="center" name="easing"
                             onchange="utils.changeValue(this, options)"></select>
+                    </label>
+                    <label title="range">
+                        <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
+                            max="4" />
                     </label>
                 </fieldset>
             </form>

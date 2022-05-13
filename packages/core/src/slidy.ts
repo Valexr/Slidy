@@ -212,8 +212,8 @@ export function slidy(
         const index = find(node, options).index(position + amplitude, SNAP);
         const duration =
             options.clamp ||
-            (options.duration && Math.abs(amplitude) <= options.duration && options.snap) ||
-            edges(index)
+                (options.duration && Math.abs(amplitude) <= options.duration && options.snap) ||
+                edges(index)
                 ? DURATION
                 : (options.duration as number);
 

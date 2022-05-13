@@ -15,7 +15,7 @@ export async function getPhotos(node, page, limit) {
 
                     node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect('width', true)}/${aspect('height', true)}.jpg" width="${aspect('width')}" height="${aspect('height')}" alt="${p.author}"/></li>`;
 
-                    // thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio}/${100 * devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+                    thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio}/${100 * devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
 
                     dots.innerHTML += `<button id="${i}">${i}</button>`;
                 });
@@ -26,7 +26,7 @@ export async function getPhotos(node, page, limit) {
         })
         .then(() => {
             slidy = Slidy(node, options);
-            // slidyT = Slidy(thumbs, { easing: easeOutQuint });
+            slidyT = Slidy(thumbs);
         })
         .catch((error) => {
             console.error(error);
