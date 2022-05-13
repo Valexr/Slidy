@@ -30,7 +30,7 @@ Source files temporally live in [`./_v2`](https://github.com/Valexr/slidy/tree/m
 
 ## Development
 
-For monorepos behavior @slidy use `pnpm 7 workspaces`.
+For monorepos behavior @slidy use `pnpm workspaces`.
 
 ## Todo
 
