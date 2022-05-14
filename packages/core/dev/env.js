@@ -1,4 +1,4 @@
-import { easing } from './easing.js';
+import * as easing from './build/src/utils/easing.js';
 
 export function setEvents() {
     const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
@@ -38,8 +38,8 @@ export function setEvents() {
                                 break;
                         }
                     }
-
-                    easings.innerHTML = Object.keys(easing).map(e => `<option value="${e + '<:>' + easing[e]}">${e}</option>`)
+                    easings.innerHTML = Object.keys(easing)
+                        .map(e => `<option value="${e + '<:>' + easing[e]}">${e}</option>`)
                         .join('\n');
                     snap.value = options.snap;
                     break;

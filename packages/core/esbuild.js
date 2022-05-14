@@ -44,7 +44,7 @@ if (DEV || CORE) {
         ...esbuildBase,
         ...CORE
             ? {
-                entryPoints: ['@slidy/core', '@slidy/media'],
+                entryPoints: ['@slidy/core', '@slidy/media', 'src/utils/easing.ts'],
                 outdir: 'dev/build'
             }
             : { outfile: 'dist/index.mjs' },

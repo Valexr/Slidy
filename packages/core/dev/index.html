@@ -54,12 +54,11 @@
         <title id="title"></title>
 
         <script type="module">
-            import { slidy as slidyCore } from './build/core.js';
-            import { media as mediaStorage } from './build/media.js';
+            import { slidy as slidyCore } from './build/@slidy/core.js';
+            import { media as mediaStorage } from './build/@slidy/media.js';
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
             import { setEvents } from './env.js';
-            import { easing } from './easing.js';
 
             const queries = {
                 xs: '(max-width: 480px)',

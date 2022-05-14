@@ -141,7 +141,7 @@ export function slidy(
         index: number,
         duration: number,
         amplitude = 0,
-        _time = performance.now()
+        _time = 0
     ): void {
         snapping(index);
 
@@ -149,13 +149,14 @@ export function slidy(
         const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
         amplitude = target - position;
 
-        requestAnimationFrame(function animate() {
-            const elapsed = _time - performance.now();
+        requestAnimationFrame(function animate(now) {
+            if (!_time) _time = now
+            const elapsed = _time - now;
             const delta = amplitude * options.easing(Math.exp(elapsed / duration));
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
-            const pos = current - position - delta;
+            const pos = (current - position) - delta;
 
-            raf = Math.abs(delta) > 0.36 ? requestAnimationFrame(animate) : 0;
+            raf = Math.abs(delta) >= 0.36 ? requestAnimationFrame(animate) : 0;
             return move(pos);
         });
     }
