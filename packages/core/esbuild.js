@@ -35,7 +35,7 @@ const builds = {
     },
     easing: {
         entryPoints: ['src/utils/easing.ts'],
-        outfile: './dist/easing.js'
+        outfile: './dist/utils/easing.js'
     }
 };
 

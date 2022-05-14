@@ -1,16 +1,18 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declarationDir": "dist/",
+        "declarationDir": "dist",
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "src/utils/easing.ts"
     ],
     "exclude": [
         "src/utils/*"
     ],
     "files": [
         "src/index.ts",
+        "src/utils/easing.ts",
         "src/types.ts"
     ]
 }

@@ -41,7 +41,7 @@ export function setEvents() {
                     easings.innerHTML = Object.keys(easing)
                         .map(e => `<option value="${e + '<:>' + easing[e]}">${e}</option>`)
                         .join('\n');
-                    options.easing = easing.easeInBack;
+                    options.easing = easing.back;
                     snap.value = options.snap;
                     break;
 
