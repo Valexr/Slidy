@@ -149,9 +149,8 @@ export function slidy(
         const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
         amplitude = target - position;
 
-        requestAnimationFrame(function animate(now) {
-            // if (!_time) _time = now
-            const elapsed = _time - now;
+        requestAnimationFrame(function animate() {
+            const elapsed = _time - performance.now();
             const delta = amplitude * options.easing(Math.exp(elapsed / duration));
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = (current - position) - delta;
@@ -265,12 +264,11 @@ export function slidy(
                         to(options[key]);
                         break;
                     case 'gravity':
-                        options[key] = maxMin(2, 0, opts[key] as number);
-                        GRAVITY = options[key] as number;
+                        GRAVITY = options[key] = maxMin(2, 0, opts[key] as number);
                         break;
                     case 'snap':
-                        options[key] = opts[key];
-                        SNAP = options[key];
+                        SNAP = options[key] = opts[key];
+                        to(options.index);
                         break;
                     case 'duration':
                         options[key] = opts[key];

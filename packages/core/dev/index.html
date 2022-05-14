@@ -59,6 +59,7 @@
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
             import { setEvents } from './env.js';
+            import { easeOutBounce } from './build/src/utils/easing.js';
 
             const queries = {
                 xs: '(max-width: 480px)',
@@ -97,6 +98,7 @@
             window.slidy = null;
             window.slidyT = null;
             window.getPhotos = getPhotos;
+            window.easeOutBounce = easeOutBounce;
             window.changing = false;
             window.input = (node) => {
                 changing = true;

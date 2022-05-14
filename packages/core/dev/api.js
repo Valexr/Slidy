@@ -32,11 +32,6 @@ export async function getPhotos(node, page, limit) {
             console.error(error);
         });
 
-    const easeOutQuad = (t) => t * (2 - t);
-    const easeOutQuint = (t) => 1 + --t * t * t * t * t;
-    const easeInOutCubic = function (x) {
-        return x < 0.5 ? 4 * Math.pow(x, 3) : 1 - Math.pow(-2 * x + 2, 3) / 2;
-    };
     function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
         let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
         return {
