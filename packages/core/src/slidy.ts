@@ -141,7 +141,7 @@ export function slidy(
         index: number,
         duration: number,
         amplitude = 0,
-        _time = 0
+        _time = performance.now()
     ): void {
         snapping(index);
 
@@ -150,7 +150,7 @@ export function slidy(
         amplitude = target - position;
 
         requestAnimationFrame(function animate(now) {
-            if (!_time) _time = now
+            // if (!_time) _time = now
             const elapsed = _time - now;
             const delta = amplitude * options.easing(Math.exp(elapsed / duration));
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
