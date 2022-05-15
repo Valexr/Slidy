@@ -16,9 +16,13 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     if (Array.from(node.children).every((child) => child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
+                        const childs = init(node)
                         node.last = node.children.length - 1;
                         node.gap = find(node, options).gap();
-                        resolve(init(node));
+                        node.start = find(node, options).position(0, 'start');
+                        node.end = find(node, options).position(node.last, 'end');
+                        node.scrollable = find(node, options).scroll() > find(node, options).node()
+                        resolve(childs);
                     }
                 }
             }, 16);

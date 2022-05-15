@@ -282,16 +282,13 @@ nav#thumbs button {
 nav#thumbs {
     gap: 1rem;
     justify-content: center;
-    /* touch-action: auto; */
 }
 
 nav#thumbs button {
-    flex: 1 0 100px;
-    width: 100px;
+    min-width: 100px;
     height: 100px;
     box-shadow: none;
     margin: 0;
-    /* background-image: attr(data-src url); */
     background-size: cover;
     background-blend-mode: luminosity;
     opacity: 0.25;

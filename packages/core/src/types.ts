@@ -15,6 +15,10 @@ export interface Slidy extends HTMLElement {
     // scrollLeftMax: number;
     gap: number;
     last: number;
+    start: number;
+    end: number;
+    size: number;
+    scrollable?: boolean;
     onmount?:
     | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
     | null;

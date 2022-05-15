@@ -25,8 +25,6 @@ export function slidy(
     };
 
     let raf = 0,
-        end = 0,
-        start = 0,
         hix = -1,
         position = 0,
         distance = 0,
@@ -58,6 +56,10 @@ export function slidy(
 
     const RO = new ResizeObserver(() => {
         to(options.index);
+        node.gap = find(node, options).gap();
+        node.start = find(node, options).position(0, 'start');
+        node.end = find(node, options).position(node.last, 'end');
+        node.scrollable = find(node, options).scroll() > find(node, options).node()
         dispatch(node, 'resize', { node, options });
     });
 
@@ -83,7 +85,6 @@ export function slidy(
             position = replace(node, options);
 
             RO.observe(node);
-
             dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
@@ -113,7 +114,7 @@ export function slidy(
         function graviting(): void {
             const condition =
                 edges(options.index) &&
-                ((position < start && direction < 0) || (position > end && direction > 0));
+                ((position < node.start && direction < 0) || (position > node.end && direction > 0));
             GRAVITY = condition ? 1.8 : (options.gravity as number);
         }
 
@@ -130,10 +131,9 @@ export function slidy(
             return `translate3d(${axis})`;
         }
 
-        function edging(position: number): number {
-            start = find(node, options).position(0, 'start');
-            end = find(node, options).position(node.last, 'end');
-            return !options.snap && !options.loop ? maxMin(end, start, position) : position;
+        function edging(position: number): number | void {
+            if (node.scrollable)
+                return !options.snap && !options.loop ? maxMin(node.end, node.start, position) : position;
         }
     }
 
@@ -151,7 +151,11 @@ export function slidy(
 
         requestAnimationFrame(function animate() {
             const elapsed = _time - performance.now();
-            const delta = amplitude * options.easing(Math.exp(elapsed / duration));
+            const T = Math.exp(elapsed / duration)
+            // const TT = Math.exp(T - 1)
+            const ET = options.easing(T)
+            // console.log(T, ET, TT, 1 - time)
+            const delta = amplitude * ET;
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = (current - position) - delta;
 
@@ -177,7 +181,7 @@ export function slidy(
 
         listen(window, WINDOW_EVENTS);
     }
-
+    // let time = 0
     function onMove(e: UniqEvent): void {
         const delta = reference - coordinate(e, options.vertical);
         reference = coordinate(e, options.vertical);
@@ -198,7 +202,8 @@ export function slidy(
             const delta = position - frame;
             const speed = (1000 * delta) / (1 + elapsed);
             distance = (2 - GRAVITY) * speed + 0.2 * distance;
-
+            // console.log(speed)
+            // time = elapsed / options.duration
             if (elapsed < 69) return;
             timestamp = performance.now();
             frame = position;
