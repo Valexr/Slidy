@@ -38,7 +38,7 @@ export function slidy(
         DURATION = Math.pow(options.duration as number, 2) / 1000;
 
     const WINDOW_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
-        ['touchmove', onMove as EventListener],
+        ['touchmove', onMove as EventListener, { passive: false, capture: true }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp],
         ['mouseup', onUp],
@@ -47,7 +47,7 @@ export function slidy(
     const NODE_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
         ['contextmenu', clear],
         ['dragstart', (e) => e.preventDefault()],
-        ['touchstart', onDown as EventListener],
+        ['touchstart', onDown as EventListener, { passive: false, capture: true }],
         ['mousedown', onDown as EventListener],
         ['keydown', onKeys as EventListener],
         ['wheel', onWheel as EventListener, { passive: false, capture: true }],
