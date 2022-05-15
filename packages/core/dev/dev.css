@@ -212,7 +212,7 @@ footer {
     color: var(--accent);
     accent-color: var(--accent);
     /* outline-color: var(--accent) !important; */
-    /* will-change: transform, color; */
+    /* will-change: color; */
 }
 
 :disabled {

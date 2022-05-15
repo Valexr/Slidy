@@ -1,4 +1,3 @@
-import { maxMin } from './helpers';
 import { find } from './dom';
 import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent } from '../types';
 
@@ -74,7 +73,7 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         } else if (index > node.children.length - 1) {
             return 0;
         } else return index;
-    } else return maxMin(node.children.length - 1, 0, index);
+    } else return clamp(0, index, node.children.length - 1,);
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
@@ -87,6 +86,10 @@ function coordinate(e: UniqEvent, vertical?: boolean): number {
 
 const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
     e.changedTouches ? e.changedTouches[0] : e;
+
+function clamp(min: number, val: number, max: number) {
+    return Math.min(max, Math.max(min, val));
+}
 
 function throttle(
     fn: (args: UniqEvent) => void,
@@ -111,4 +114,4 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
-export { coordinate, style, indexing, delay, dispatch, init, listen, throttle, mount, getFPS };
+export { clamp, coordinate, style, indexing, delay, dispatch, init, listen, throttle, mount, getFPS };
