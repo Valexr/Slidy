@@ -1,4 +1,4 @@
-import * as easing from './build/src/utils/easing.js';
+import * as easing from './build/src/easing.js';
 
 export function setEvents() {
     const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
@@ -38,10 +38,23 @@ export function setEvents() {
                                 break;
                         }
                     }
-                    easings.innerHTML = Object.keys(easing)
-                        .map(e => `<option value="${e + '<:>' + easing[e]}">${e}</option>`)
-                        .join('\n');
-                    options.easing = easing.back;
+
+                    const eases = new Map([
+                        ['sine', easing.sine],
+                        ['quad', easing.quad],
+                        ['cubic', easing.cubic],
+                        ['quart', easing.quart],
+                        ['quint', easing.quint],
+                        ['expo', easing.expo],
+                        ['circ', easing.circ],
+                        ['back', easing.back],
+                        ['elastic', easing.elastic],
+                        ['bounce', easing.bounce],
+                    ]);
+                    for (const [k, v] of eases) {
+                        easings.innerHTML += `<option value="${k + '<:>' + v}">${k}</option>`;
+                    }
+                    options.easing = easing.sine;
                     snap.value = options.snap;
                     break;
 

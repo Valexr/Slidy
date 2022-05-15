@@ -34,8 +34,8 @@ const builds = {
         outfile: './dist/index.js'
     },
     easing: {
-        entryPoints: ['src/utils/easing.ts'],
-        outfile: './dist/utils/easing.js'
+        entryPoints: ['src/easing.ts'],
+        outfile: './dist/easing.js'
     }
 };
 
@@ -44,7 +44,7 @@ if (DEV || CORE) {
         ...esbuildBase,
         ...CORE
             ? {
-                entryPoints: ['@slidy/core', '@slidy/media', 'src/utils/easing.ts'],
+                entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
                 outdir: 'dev/build'
             }
             : { outfile: 'dist/index.mjs' },

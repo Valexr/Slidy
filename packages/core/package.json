@@ -18,13 +18,13 @@
             "browser": "./dist/index.js"
         },
         "./package.json": "./package.json",
-        "./dist/utils/easing": "./dist/utils/easing.js"
+        "./dist/easing": "./dist/easing.js"
     },
     "scripts": {
         "dev": "node esbuild --dev",
         "dev:core": "node esbuild --core",
         "dev:svelte": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc",
+        "build": "rm -rf dist && node esbuild && tsc && rm -rf dist/utils",
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",

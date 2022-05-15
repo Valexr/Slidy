@@ -1,4 +1,4 @@
-import type { Easing } from '../types';
+import type { Easing } from './types';
 
 const linear: Easing = (t) => t;
 const quad: Easing = (t) => t * t;

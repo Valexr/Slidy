@@ -5,14 +5,14 @@
     },
     "include": [
         "src/**/*",
-        "src/utils/easing.ts"
+        "src/easing.ts"
     ],
     "exclude": [
         "src/utils/*"
     ],
     "files": [
         "src/index.ts",
-        "src/utils/easing.ts",
+        "src/easing.ts",
         "src/types.ts"
     ]
 }
