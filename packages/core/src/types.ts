@@ -18,6 +18,7 @@ export interface Slidy extends HTMLElement {
     start: number;
     end: number;
     size: number;
+    active: number;
     scrollable?: boolean;
     onmount?:
     | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)

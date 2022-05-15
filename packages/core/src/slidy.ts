@@ -64,8 +64,12 @@ export function slidy(
 
     const edges = (index?: number) => !options.loop && (index === 0 || index === node.last);
     const snapping = (index: number) => {
-        if (!options.loop) {
-            SNAP = index === 0 ? 'start' : index === node.last ? 'end' : options.snap;
+        if (!options.loop && options.snap) {
+            node.active = find(node, options).position(index, options.snap)
+            const start = index === 0 || node.active <= node.start
+            const end = index === node.last || node.active >= node.end
+
+            SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
     };
 
@@ -144,18 +148,18 @@ export function slidy(
         const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
         amplitude = target - position;
 
-        requestAnimationFrame(function animate(now) {
-            const elapsed = _time - now;
+        requestAnimationFrame(function animate() {
+            const elapsed = _time - performance.now();
             const T = Math.exp(elapsed / duration)
             // const TT = Math.exp(T - 1)
             const ET = options.easing(T)
-            // console.log(T, ET, TT, 1 - time)
+            // console.log(amplitude)
             const delta = amplitude * ET;
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = (current - position) - delta;
 
             raf = Math.abs(delta) >= 0.36 ? requestAnimationFrame(animate) : 0;
-            return move(pos);
+            move(pos);
         });
     }
 

@@ -20,6 +20,7 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                         node.gap = find(node, options).gap();
                         node.start = find(node, options).position(0, 'start');
                         node.end = find(node, options).position(node.last, 'end');
+                        node.size = find(node, options).node();
                         node.scrollable = find(node, options).scroll() > find(node, options).node()
                         resolve(childs);
                     }
