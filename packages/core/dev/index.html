@@ -83,8 +83,8 @@
             window.Slidy = slidyCore;
             window.utils = utils;
             window.options = {
-                index: 6,
-                length: 13,
+                index: 4,
+                length: 9,
                 gravity: 1.2,
                 duration: 375,
                 indent: 0,
@@ -144,14 +144,6 @@
         <nav id="thumbs"></nav>
 
         <footer>
-            <nav id="buttons">
-                <button id="clamp" onclick="slidy.update({clamp: utils.activate(this, options.clamp)})">clamp</button>
-                <button id="loop" onclick="slidy.update({loop: utils.activate(this, options.loop)})">loop</button>
-                <button id="vertical" onclick="slidy.update({vertical: utils.activate(this, options.vertical)})">
-                    vertical
-                </button>
-            </nav>
-
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1)">←</button>
                 <button id="reload" onclick="getPhotos(node, utils.randomQ(1, 69), options.length)">
@@ -162,8 +154,41 @@
 
             <nav id="dots"></nav>
 
+            <nav id="buttons">
+                <button id="clamp" onclick="slidy.update({clamp: utils.activate(this, options.clamp)})">clamp</button>
+                <button id="loop" onclick="slidy.update({loop: utils.activate(this, options.loop)})">loop</button>
+                <button id="vertical" onclick="slidy.update({vertical: utils.activate(this, options.vertical)})">
+                    vertical
+                </button>
+            </nav>
+
+            <form>
+                <fieldset>
+                    <label title="align">
+                        <select id="snap" value="center" name="snap" onchange="utils.changeValue(this, options)">
+                            <option value="">unset</option>
+                            <option value="start">← start</option>
+                            <option value="center">center</option>
+                            <option value="end">end →</option>
+                        </select>
+                    </label>
+                    <label title="easings">
+                        <select id="easings" value="center" name="easing"
+                            onchange="utils.changeValue(this, options)"></select>
+                    </label>
+                </fieldset>
+            </form>
+
             <form id="form">
                 <fieldset>
+                    <label title="duration">
+                        <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
+                            step="1" min="100" max="1000" />
+                    </label>
+                    <label title="gravity">
+                        <input onchange="utils.changeValue(this, options)" name="gravity" type="number" size="1"
+                            step="0.1" min="0.1" max="2" />
+                    </label>
                     <label title="length">
                         <input onchange="utils.changeValue(this, options)" name="length" type="number" size="1" step="1"
                             min="1" max="50" />
@@ -176,26 +201,6 @@
                     </label>
                     <label title="gap">
                         <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="4" />
-                    </label>
-                    <label title="duration">
-                        <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
-                            step="1" min="100" max="1000" />
-                    </label>
-                    <label title="gravity">
-                        <input onchange="utils.changeValue(this, options)" name="gravity" type="number" size="1"
-                            step="0.1" min="0.1" max="2" />
-                    </label>
-                    <label title="align">
-                        <select id="snap" value="center" name="snap" onchange="utils.changeValue(this, options)">
-                            <option value="">unset</option>
-                            <option value="start">← start</option>
-                            <option value="center">center</option>
-                            <option value="end">end →</option>
-                        </select>
-                    </label>
-                    <label title="easings">
-                        <select id="easings" value="center" name="easing"
-                            onchange="utils.changeValue(this, options)"></select>
                     </label>
                     <label title="range">
                         <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"

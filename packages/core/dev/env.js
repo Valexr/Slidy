@@ -40,6 +40,7 @@ export function setEvents() {
                     }
 
                     const eases = new Map([
+                        ['linear', easing.linear],
                         ['sine', easing.sine],
                         ['quad', easing.quad],
                         ['cubic', easing.cubic],
@@ -54,7 +55,7 @@ export function setEvents() {
                     for (const [k, v] of eases) {
                         easings.innerHTML += `<option value="${k + '<:>' + v}">${k}</option>`;
                     }
-                    options.easing = easing.sine;
+                    options.easing = easing.linear;
                     snap.value = options.snap;
                     break;
 
