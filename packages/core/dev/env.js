@@ -38,7 +38,7 @@ export function setEvents() {
                                 break;
                         }
                     }
-
+                    easings.innerHTML = '';
                     const eases = new Map([
                         ['linear', easing.linear],
                         ['sine', easing.sine],

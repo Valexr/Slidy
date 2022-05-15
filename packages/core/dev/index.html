@@ -179,7 +179,7 @@
                 </fieldset>
             </form>
 
-            <form id="form">
+            <form>
                 <fieldset>
                     <label title="duration">
                         <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
@@ -193,6 +193,11 @@
                         <input onchange="utils.changeValue(this, options)" name="length" type="number" size="1" step="1"
                             min="1" max="50" />
                     </label>
+                </fieldset>
+            </form>
+
+            <form>
+                <fieldset>
                     <label title="width">
                         <input onchange="utils.setVar(main, this.name, this.value)" name="width" size="4" />
                     </label>
@@ -202,6 +207,11 @@
                     <label title="gap">
                         <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="4" />
                     </label>
+                </fieldset>
+            </form>
+
+            <form>
+                <fieldset>
                     <label title="range">
                         <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
                             max="4" />
