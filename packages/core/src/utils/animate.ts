@@ -17,7 +17,7 @@ type RafCallback = (data: CallbackData) => void;
 /** Run fn each animation frame */
 export function animate(fn: RafCallback) {
     let id: number;
-    let start: number;
+    let start: number = performance.now();
     let stopped = false;
 
     const frame = () => {

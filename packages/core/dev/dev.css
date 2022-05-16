@@ -274,7 +274,7 @@ nav#thumbs button {
     box-shadow: var(--shadow-3);
     background: var(--surface-1);
     border-radius: var(--radius-3);
-    /* will-change: transform color; */
+    /* will-change: transform; */
     /* backface-visibility: hidden; */
     /* transform-style: preserve-3d; */
 }

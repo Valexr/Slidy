@@ -26,7 +26,7 @@ export async function getPhotos(node, page, limit) {
         })
         .then(() => {
             slidy = Slidy(node, options);
-            slidyT = Slidy(thumbs, { index: 0 });
+            slidyT = Slidy(thumbs);
         })
         .catch((error) => {
             console.error(error);

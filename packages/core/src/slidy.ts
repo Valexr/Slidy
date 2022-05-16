@@ -53,6 +53,8 @@ export function slidy(
         ['wheel', onWheel as EventListener, { passive: false, capture: true }],
     ];
 
+    const RAF = requestAnimationFrame
+
     const RO = new ResizeObserver(() => {
         to(options.index);
         node.gap = find(node, options).gap();
@@ -62,8 +64,9 @@ export function slidy(
         dispatch(node, 'resize', { node, options });
     });
 
-    const edges = (index?: number) => !options.loop && (index === 0 || index === node.last);
-    const snapping = (index: number) => {
+    function edges(index?: number) { return !options.loop && (index === 0 || index === node.last) }
+
+    function snapping(index: number) {
         if (!options.loop && options.snap) {
             node.active = find(node, options).position(index, options.snap)
             const start = index === 0 || node.active <= node.start
@@ -71,7 +74,7 @@ export function slidy(
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
-    };
+    }
 
     mount(node, options)
         .then((childs) => {
@@ -95,7 +98,7 @@ export function slidy(
         options.index = find(node, options).index(position, SNAP);
 
         dispatch(node, 'move', { index: options.index, position });
-        if (edges(options.index)) graviting();
+        graviting(options.index);
         moving(node.children);
 
         function positioning(pos: number): number {
@@ -111,10 +114,10 @@ export function slidy(
             return pos;
         }
 
-        function graviting(): void {
-            const condition = (position < node.start && direction < 0)
-                || (position > node.end && direction > 0)
-            GRAVITY = condition ? 1.8 : (options.gravity as number);
+        function graviting(index: number): void {
+            const edged = edges(index) && ((position < node.start && direction < 0)
+                || (position > node.end && direction > 0))
+            GRAVITY = edged ? 1.8 : (options.gravity as number);
         }
 
         function moving(childs: HTMLCollection): void {
@@ -131,35 +134,36 @@ export function slidy(
         }
 
         function edging(position: number): number | void {
-            if (node.scrollable)
-                return !options.snap && !options.loop ? clamp(node.start, position, node.end) : position;
+            return node.scrollable
+                ? !options.snap && !options.loop
+                    ? clamp(node.start, position, node.end) : position
+                : 0
         }
     }
 
     function scroll(
         index: number,
         duration: number,
-        amplitude = 0,
-        _time = performance.now()
+        amplitude = 0
     ): void {
         snapping(index);
 
-        const condition = options.snap || options.loop || edges(index);
-        const target = condition ? find(node, options).position(index, SNAP) : position + amplitude;
+        const time = performance.now()
+        const snaped = options.snap || options.loop || edges(index);
+        const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
+
         amplitude = target - position;
 
-        requestAnimationFrame(function animate() {
-            const elapsed = _time - performance.now();
+        RAF(function animate() {
+            const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration)
-            // const TT = Math.exp(T - 1)
             const ET = options.easing(T)
-            // console.log(amplitude)
             const delta = amplitude * ET;
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = (current - position) - delta;
 
-            raf = Math.abs(delta) >= 0.36 ? requestAnimationFrame(animate) : 0;
-            move(pos);
+            raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
+            return move(pos);
         });
     }
 
@@ -223,10 +227,10 @@ export function slidy(
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord);
         const clamping = options.clamp || e.shiftKey;
-        const condition = clamping || edges(options.index as number);
+        const clamped = clamping || edges(options.index as number);
 
         if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord);
-        wst = setTimeout(() => to(condition ? index : options.index), condition ? 0 : 69);
+        wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
     }
 
     function onKeys(e: KeyboardEvent): void {
