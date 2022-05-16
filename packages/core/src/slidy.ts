@@ -58,6 +58,7 @@ export function slidy(
 
     const RO = new ResizeObserver(() => {
         to(options.index);
+        node.last = node.children.length - 1;
         node.gap = find(node, options).gap();
         node.start = find(node, options).position(0, 'start');
         node.end = find(node, options).position(node.last, 'end');

@@ -12,8 +12,7 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
                 } else if (node.children.length) {
-                    const mounted = (child: Element) => child && child.isConnected;
-                    if (Array.from(node.children).every((child) => mounted(child))) {
+                    if (Array.from(node.children).every((child) => child && child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
                         const childs = init(node);
@@ -21,7 +20,6 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                         node.gap = find(node, options).gap();
                         node.start = find(node, options).position(0, 'start');
                         node.end = find(node, options).position(node.last, 'end');
-                        node.size = find(node, options).node();
                         node.scrollable = find(node, options).scroll() > find(node, options).node();
                         resolve(childs);
                     }
