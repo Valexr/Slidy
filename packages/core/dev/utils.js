@@ -1,3 +1,5 @@
+import * as easing from './build/src/easing.js';
+
 export function scrolling(p) {
     position = p;
     stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
@@ -22,12 +24,8 @@ export function indexing(x) {
 export function changeValue(target, options) {
     const value = isNum(target.value)
         ? +target.value
-        : target.value.includes('(t)')
-        ? new Function(
-              `const ${target.value.split('<:>')[0]} = ${target.value.split('<:>')[1]}; return ${
-                  target.value.split('<:>')[0]
-              }`
-          )()
+        : target.value in easing
+        ? easing[target.value]
         : target.value;
     slidy.update({ [target.name]: value });
     options[target.name] = value;

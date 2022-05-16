@@ -38,30 +38,28 @@ export function setEvents() {
                                 break;
                         }
                     }
-                    easings.innerHTML = '';
-                    const eases = new Map([
-                        ['linear', easing.linear],
-                        ['sine', easing.sine],
-                        ['quad', easing.quad],
-                        ['cubic', easing.cubic],
-                        ['quart', easing.quart],
-                        ['quint', easing.quint],
-                        ['expo', easing.expo],
-                        ['circ', easing.circ],
-                        ['back', easing.back],
-                        ['elastic', easing.elastic],
-                        ['bounce', easing.bounce],
-                    ]);
-                    for (const [k, v] of eases) {
-                        easings.innerHTML += `<option value="${k + '<:>' + v}">${k}</option>`;
-                    }
-                    options.easing = easing.linear;
+
+                    const eases = [
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ];
+                    easings.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
+                    easings.value = options.easing.name;
+                    options.easing = easing[easings.value];
                     snap.value = options.snap;
                     break;
 
                 case 'move':
                     utils.scrolling(e.detail.position);
-                    // console.log(e);
                     break;
 
                 case 'index':

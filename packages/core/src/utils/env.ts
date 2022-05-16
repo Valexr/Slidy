@@ -12,7 +12,8 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
                 } else if (node.children.length) {
-                    if (Array.from(node.children).every((child) => child.isConnected)) {
+                    const mounted = (child: Element) => child && child.isConnected;
+                    if (Array.from(node.children).every((child) => mounted(child))) {
                         count = 0;
                         clearInterval(mounting);
                         const childs = init(node);
@@ -38,7 +39,7 @@ function getFPS(): Promise<number> {
     );
 }
 
-function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
+function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
     node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
 
