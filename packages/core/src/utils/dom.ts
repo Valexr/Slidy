@@ -6,7 +6,6 @@ const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-// const max = (vertical: boolean) => (vertical ? 'scrollTopMax' : 'scrollLeftMax');
 const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
@@ -35,8 +34,8 @@ function indents(node: Slidy, index: number, snap: string, options: Options): nu
         (!options.loop && index === 0) || snap === 'start'
             ? -indent(node, index, options)
             : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
-            ? indent(node, index, options)
-            : 0;
+                ? indent(node, index, options)
+                : 0;
     return node.gap * edge;
 }
 
@@ -56,19 +55,15 @@ const find = (node: Slidy, options: Options) => ({
         return distance(node, last, options.vertical as boolean) - prev;
     },
     node: () => node[size(options.vertical as boolean)],
-    // max: () => node[max(options.vertical as boolean)],
     scroll: () => node[scroll(options.vertical as boolean)],
-    // active: (index: number, snap?: string) => position(node, child(node, index), options.vertical as boolean, snap),
-    // parent: () => node[size(options.vertical as boolean)],
-    // target: (target: number, snap?: string) => position(node, closest(node, target, vertical, snap), vertical, snap),
 });
 
 function shuffle(node: Slidy, direction: number): void | null {
     return direction > 0
         ? node.append(node.childNodes[0])
         : direction < 0
-        ? node.prepend(node.childNodes[node.childNodes.length - 1])
-        : null;
+            ? node.prepend(node.childNodes[node.childNodes.length - 1])
+            : null;
 }
 
 function history(node: Slidy, direction: number, options: Options) {
@@ -82,12 +77,14 @@ function replace(node: Slidy, options: Options) {
         ? rotate(nodes(node), (options.index as number) - cix(node))
         : nodes(node).sort((a, b) => a.index - b.index);
     node.replaceChildren(...elements);
+
+    function rotate(array: Array<Node | string>, key: number) {
+        return array.slice(key).concat(array.slice(0, key));
+    }
+
     return find(node, options).position(options.index, options.snap);
 }
 
-function rotate(array: Array<Node | string>, key: number) {
-    return array.slice(key).concat(array.slice(0, key));
-}
 
 // DRAFT's --------------------------------------
 // function cumulativeOffset(element) {
