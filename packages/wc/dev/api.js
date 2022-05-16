@@ -11,9 +11,17 @@ export async function getPhotos(node, page, limit) {
                 photos.forEach((p, i) => {
                     const aspect = aspectQ(p.width, p.height, main.offsetWidth, main.offsetHeight);
 
-                    node.innerHTML += `<img src="https://picsum.photos/id/${p.id}/${aspect.width * window.devicePixelRatio}/${aspect.height * window.devicePixelRatio}.jpg" width="${aspect.width}" height="${aspect.height}" alt="${p.author}"/>`;
+                    node.innerHTML += `<img src="https://picsum.photos/id/${p.id}/${
+                        aspect.width * window.devicePixelRatio
+                    }/${aspect.height * window.devicePixelRatio}.jpg" width="${
+                        aspect.width
+                    }" height="${aspect.height}" alt="${p.author}"/>`;
 
-                    thumbs.innerHTML += `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${p.id}/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio}.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+                    thumbs.innerHTML += `<button id="${i}" onclick="slidy.to(${i})" style="background-image: url(https://picsum.photos/id/${
+                        p.id
+                    }/${100 * window.devicePixelRatio}/${
+                        100 * window.devicePixelRatio
+                    }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
 
                     dots.innerHTML += `<button onclick="slidy.to(${i})">${i}</button>`;
                 });

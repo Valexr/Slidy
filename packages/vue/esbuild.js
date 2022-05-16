@@ -10,10 +10,7 @@ const esbuildBase = {
     minify: !DEV,
     incremental: DEV,
     legalComments: 'none',
-    plugins: [
-        vuePlugin(),
-        eslintPlugin()
-    ],
+    plugins: [vuePlugin(), eslintPlugin()],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV ? 'inline' : false,
 };
@@ -25,15 +22,15 @@ const derverConfig = {
 };
 const builds = {
     cjs: {
-        outfile: './dist/slidy.cjs'
+        outfile: './dist/slidy.cjs',
     },
     esm: {
-        outfile: './dist/slidy.mjs'
+        outfile: './dist/slidy.mjs',
     },
     iife: {
         outfile: './dist/slidy.js',
-        globalName: 'Slidy'
-    }
+        globalName: 'Slidy',
+    },
 };
 
 if (DEV) {
@@ -41,7 +38,7 @@ if (DEV) {
         ...esbuildBase,
         entryPoints: ['dev/src/app.ts'],
         outfile: 'dev/public/build/bundle.js',
-        loader: { '.svg': 'file' }
+        loader: { '.svg': 'file' },
     }).then((bundle) => {
         derver({
             ...derverConfig,
@@ -58,7 +55,7 @@ if (DEV) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key
+            format: key,
         });
     }
 }

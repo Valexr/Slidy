@@ -9,7 +9,7 @@
 
 .slidy-progress {
 	appearance: none;
-  border: none;
+	border: none;
 	width: 100%;
 	height: var(--slidy-progress-track-size, 5px);
 	border-radius: 1e3px;
@@ -17,8 +17,8 @@
 }
 
 .slidy-progress-bar:focus {
-  outline-color: 1px dashed red;
-  outline-offset: 5px;
+	outline-color: 1px dashed red;
+	outline-offset: 5px;
 }
 
 .slidy-progress::-webkit-progress-bar {
@@ -34,16 +34,16 @@
 }
 
 .slidy-progress[value]::-webkit-progress-value {
-  transition: inline-size .25s ease-out;
+	transition: inline-size 0.25s ease-out;
 }
 
 .slidy-sr-only {
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
 }

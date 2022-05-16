@@ -41,45 +41,45 @@ REPL is available [here](REPL).
 
 ```svelte
 <script>
-    import { Slidy } from '@slidy/svelte';
+	import { Slidy } from "@slidy/svelte";
 
-    const slides = [
-        {
-            id: 1,
-            width: 800,
-            height: 1200,
-            src: 'static/img/some-image.webp',
-        },
-    ];
+	const slides = [
+		{
+			id: 1,
+			width: 800,
+			height: 1200,
+			src: "static/img/some-image.webp",
+		},
+	];
 </script>
 
-<Slidy slides="{slides}" />
+<Slidy {slides} />
 ```
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are _required_.
 
 ## API
 
-| Property      | Default          | Type       | Description |
-| :------------ | :--------------: | :--------: | :---------- |
-| `arrows`      | true             | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
-| `background`  | false            | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
-| `clamp`       | false            | `Boolean`  | Controls the scroll inertia. |
-| `className`   | ""               | `string`   | Passes the `class` to the parent node. |
-| `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter. |
-| `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter. |
-| `navigation`  | true             | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
-| `duration`    | 450              | `number`   | Slide transitions duration value. |
-| `gravity`     | 1.2              | `number`   | Scroll inertia value. |
-| `id`          | undefined        | `string`   | Passes the `id` attribute to the parent node. |
-| `index`       | 0                | `number`   | The index of the initial slide. |
-| `loop`        | false            | `boolean`  | Makes the slideshow continious. |
-| `position`    | 0                | `number`   | The current position value of the carousel. |
-| `progress`    | false            | `boolean`  | Renders the progress bar. |
-| `slides`      | []               | `Slides[]` | An array of objects with image metadata. |
-| `snap`        | undefined        | `"start" | "center" | "end"` | Enforces the scroll stop positions. |
-| `thumbnail`   | false            | `boolean`  | Renders the thumbnail navigation panel. |
-| `vertical`    | false            | `boolean`  | Sets the component into the vertical orientation. |
+| Property      |     Default      |    Type    | Description                                                           |
+| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- | ------ | ----------------------------------- |
+| `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
+| `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
+| `clamp`       |      false       | `Boolean`  | Controls the scroll inertia.                                          |
+| `className`   |        ""        |  `string`  | Passes the `class` to the parent node.                                |
+| `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter.                                   |
+| `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter.                               |
+| `navigation`  |       true       | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
+| `duration`    |       450        |  `number`  | Slide transitions duration value.                                     |
+| `gravity`     |       1.2        |  `number`  | Scroll inertia value.                                                 |
+| `id`          |    undefined     |  `string`  | Passes the `id` attribute to the parent node.                         |
+| `index`       |        0         |  `number`  | The index of the initial slide.                                       |
+| `loop`        |      false       | `boolean`  | Makes the slideshow continious.                                       |
+| `position`    |        0         |  `number`  | The current position value of the carousel.                           |
+| `progress`    |      false       | `boolean`  | Renders the progress bar.                                             |
+| `slides`      |        []        | `Slides[]` | An array of objects with image metadata.                              |
+| `snap`        |    undefined     |  `"start"  | "center"                                                              | "end"` | Enforces the scroll stop positions. |
+| `thumbnail`   |      false       | `boolean`  | Renders the thumbnail navigation panel.                               |
+| `vertical`    |      false       | `boolean`  | Sets the component into the vertical orientation.                     |
 
 ## Custom Properties API
 
@@ -87,23 +87,23 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                       | Default                |    Type    | Description                                          |
-| :----------------------------- | :--------------------: | :--------: | :--------------------------------------------------- |
-| `--slidy-height`               | 100%                   | `<length>` | The height of the component's node.                  |
-| `--slidy-width`                | 100%                   | `<length>` | The width of the component's node.                   |
-| `--slidy-slide-gap`            | 1rem                   | `<length>` | The gap between items in carousel.                   |
-| `--slidy-slide-height`         | 100%                   | `<length>` | The carousel items height.                           |
-| `--slidy-slide-width`          | auto                   | `<length>` | The carousel items width.                            |
-| `--slidy-slide-object-fit`     | cover                  |     -      | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-bg-color`       | darkgray               | `<color>`  | The placeholder background color for loading images. |
-| `--slidy-nav-item-size`        | 16px                   | `<length>` | The navigation elements size.                        |
-| `--slidy-nav-item-radius`      | 50%                    | `<length>` | The navigation elements border radius.               |
-| `--slidy-nav-item-color`       | white                  | `<color>`  | The navigation elements color.                       |
-| `--slidy-thumbnail-size`       | 50px                   | `<length>` | The thumbnail panel size.                            |
-| `--slidy-arrow-size`           | 24px                   | `<length>` | The arrow controls size.                             |
-| `--slidy-progress-track-size`  | 5px                    | `<length>` | The progress bar height.                             |
-| `--slidy-progress-track-color` | rgb(150 150 150 / 0.5) | `<color>`  | The progress bar track color.                        |
-| `--slidy-progress-track-active-color` | rgb(196 79 97)  | `<color>`  | The progress bar active track color.          |
+| Property                              |        Default         |    Type    | Description                                          |
+| :------------------------------------ | :--------------------: | :--------: | :--------------------------------------------------- |
+| `--slidy-height`                      |          100%          | `<length>` | The height of the component's node.                  |
+| `--slidy-width`                       |          100%          | `<length>` | The width of the component's node.                   |
+| `--slidy-slide-gap`                   |          1rem          | `<length>` | The gap between items in carousel.                   |
+| `--slidy-slide-height`                |          100%          | `<length>` | The carousel items height.                           |
+| `--slidy-slide-width`                 |          auto          | `<length>` | The carousel items width.                            |
+| `--slidy-slide-object-fit`            |         cover          |     -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-bg-color`              |        darkgray        | `<color>`  | The placeholder background color for loading images. |
+| `--slidy-nav-item-size`               |          16px          | `<length>` | The navigation elements size.                        |
+| `--slidy-nav-item-radius`             |          50%           | `<length>` | The navigation elements border radius.               |
+| `--slidy-nav-item-color`              |         white          | `<color>`  | The navigation elements color.                       |
+| `--slidy-thumbnail-size`              |          50px          | `<length>` | The thumbnail panel size.                            |
+| `--slidy-arrow-size`                  |          24px          | `<length>` | The arrow controls size.                             |
+| `--slidy-progress-track-size`         |          5px           | `<length>` | The progress bar height.                             |
+| `--slidy-progress-track-color`        | rgb(150 150 150 / 0.5) | `<color>`  | The progress bar track color.                        |
+| `--slidy-progress-track-active-color` |     rgb(196 79 97)     | `<color>`  | The progress bar active track color.                 |
 
 There are two options:
 
@@ -123,13 +123,13 @@ More optimal way is to use cascade. All supported custom properties starts with 
 
 ```svelte
 <div class="parent">
-    <Slidy />
+	<Slidy />
 </div>
 
 <style>
-    .parent {
-        --slidy-navigation-color: red;
-    }
+	.parent {
+		--slidy-navigation-color: red;
+	}
 </style>
 ```
 
@@ -139,10 +139,10 @@ Or just pass a class with a set of custom properties:
 <Slidy className="some-class" />
 
 <style>
-    .some-class {
-        --slidy-navigation-color: red;
-        --slidy-nav-item-size: 1rem;
-    }
+	.some-class {
+		--slidy-navigation-color: red;
+		--slidy-nav-item-size: 1rem;
+	}
 </style>
 ```
 
@@ -152,17 +152,17 @@ In cases where the custom properties are not enough, Svelte provides a `:global(
 
 ```svelte
 <script>
-    import { Slidy } from 'svelte-slidy';
+	import { Slidy } from "svelte-slidy";
 
-    export let id = 'unique-id';
+	export let id = "unique-id";
 </script>
 
-<Slidy id="{id}" />
+<Slidy {id} />
 
 <style>
-    :global(#unique-id) {
-        /* your CSS styles */
-    }
+	:global(#unique-id) {
+		/* your CSS styles */
+	}
 </style>
 ```
 
@@ -195,9 +195,9 @@ For example, to override styles of specific section, use the classes described a
 
 ```svelte
 <style>
-    :global(.slidy .slidy-arrow) {
-        /* your custom CSS styles */
-    }
+	:global(.slidy .slidy-arrow) {
+		/* your custom CSS styles */
+	}
 </style>
 ```
 
@@ -217,20 +217,20 @@ Also, there are `grid-area` is present in the layout for this custom controls: `
 
 ```svelte
 <Slidy>
-    <svelte:fragment slot="arrows">
-        <button data-step="-1"> Show the previous slide </button>
-        <button data-step="1"> Show the next slide </button>
-    </svelte:fragment>
+	<svelte:fragment slot="arrows">
+		<button data-step="-1"> Show the previous slide </button>
+		<button data-step="1"> Show the next slide </button>
+	</svelte:fragment>
 </Slidy>
 
 <style>
-    button:first-of-type {
-        grid-area: prev-slide;
-    }
+	button:first-of-type {
+		grid-area: prev-slide;
+	}
 
-    button:last-of-type {
-        grid-area: next-slide;
-    }
+	button:last-of-type {
+		grid-area: next-slide;
+	}
 </style>
 ```
 
@@ -240,12 +240,12 @@ Usually the default markup is not enough. The `default` slot solves this problem
 
 ```svelte
 <Slidy let:item>
-    <figure>
-        <img src="{item.src}" alt="{item.figcaption}" />
-        <figcaption>
-            {item.figcaption}
-        </figcaption>
-    </figure>
+	<figure>
+		<img src={item.src} alt={item.figcaption} />
+		<figcaption>
+			{item.figcaption}
+		</figcaption>
+	</figure>
 </Slidy>
 ```
 
@@ -258,7 +258,7 @@ Custom navigation item should be a `<button />` and have `data-index` attribute 
 
 ```svelte
 <Slidy let:active let:index>
-    <button slot="nav-item" data-index="{index}" active="{active}" index="{index}"></button>
+	<button slot="nav-item" data-index={index} {active} {index} />
 </Slidy>
 ```
 
@@ -268,32 +268,30 @@ Slot to display content overlaid content. It covers the slides area and can be c
 
 ```svelte
 <Slidy>
-    <slot name="overlay">
-        <button>
-            Share
-        </button>
-    </slot>
+	<slot name="overlay">
+		<button> Share </button>
+	</slot>
 </Slidy>
 ```
 
 ### `thumbnail`
 
-*Work in progress*
+_Work in progress_
 
 ## Events
 
 The component forwards custom events:
 
-| Name     | Description                          | Event detail                          |
-| :--------| :----------------------------------- |:------------------------------------: |
-| `destroy`| Component is destroyed.              | `node`                                |
-| `index`  | The current slide index changes.     | `{ index: number, position: number }` |
-| `keys`   | The key pressed on focus.            | `event.code`                          |
-| `mount`  | Component is mounted to the DOM.     | `{ childs, options }`                               |
-| `move`   | Navigation occurs.                   | `{ index: number, position: number }` |
-| `resize` | Component's dimentions changes.      | `{ node, options }`                               |
-| `update` | Component's props changes.           | `options`                               |
-| `select` | User clicked on specific slide.      | `{ index: number }`                   |
+| Name      | Description                      |             Event detail              |
+| :-------- | :------------------------------- | :-----------------------------------: |
+| `destroy` | Component is destroyed.          |                `node`                 |
+| `index`   | The current slide index changes. | `{ index: number, position: number }` |
+| `keys`    | The key pressed on focus.        |             `event.code`              |
+| `mount`   | Component is mounted to the DOM. |         `{ childs, options }`         |
+| `move`    | Navigation occurs.               | `{ index: number, position: number }` |
+| `resize`  | Component's dimentions changes.  |          `{ node, options }`          |
+| `update`  | Component's props changes.       |               `options`               |
+| `select`  | User clicked on specific slide.  |          `{ index: number }`          |
 
 ## Recipes
 
@@ -305,15 +303,15 @@ There are two variables available to control the component externally: `index` a
 
 ```svelte
 <script>
-    import { Slidy } from 'svelte-slidy';
+	import { Slidy } from "svelte-slidy";
 
-    let index = 0;
-    let position = 0;
+	let index = 0;
+	let position = 0;
 </script>
 
-<button on:click="{() => (index += 1)}"> Next slide </button>
+<button on:click={() => (index += 1)}> Next slide </button>
 
-<button on:click="{() => (position += 50)}"> Move </button>
+<button on:click={() => (position += 50)}> Move </button>
 
 <Slidy bind:index bind:position />
 ```

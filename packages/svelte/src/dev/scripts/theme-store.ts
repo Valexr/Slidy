@@ -6,7 +6,7 @@ function themeStore() {
 
 	return {
 		subscribe,
-		switch: () => update(theme => !theme),
+		switch: () => update((theme) => !theme),
 	};
 }
 

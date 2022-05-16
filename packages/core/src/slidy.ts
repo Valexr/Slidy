@@ -53,24 +53,26 @@ export function slidy(
         ['wheel', onWheel as EventListener, { passive: false, capture: true }],
     ];
 
-    const RAF = requestAnimationFrame
+    const RAF = requestAnimationFrame;
 
     const RO = new ResizeObserver(() => {
         to(options.index);
         node.gap = find(node, options).gap();
         node.start = find(node, options).position(0, 'start');
         node.end = find(node, options).position(node.last, 'end');
-        node.scrollable = find(node, options).scroll() > find(node, options).node()
+        node.scrollable = find(node, options).scroll() > find(node, options).node();
         dispatch(node, 'resize', { node, options });
     });
 
-    function edges(index?: number) { return !options.loop && (index === 0 || index === node.last) }
+    function edges(index?: number) {
+        return !options.loop && (index === 0 || index === node.last);
+    }
 
     function snapping(index: number) {
         if (!options.loop && options.snap) {
-            node.active = find(node, options).position(index, options.snap)
-            const start = index === 0 || node.active <= node.start
-            const end = index === node.last || node.active >= node.end
+            node.active = find(node, options).position(index, options.snap);
+            const start = index === 0 || node.active <= node.start;
+            const end = index === node.last || node.active >= node.end;
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
@@ -115,8 +117,10 @@ export function slidy(
         }
 
         function graviting(index: number): void {
-            const edged = edges(index) && ((position < node.start && direction < 0)
-                || (position > node.end && direction > 0))
+            const edged =
+                edges(index) &&
+                ((position < node.start && direction < 0) ||
+                    (position > node.end && direction > 0));
             GRAVITY = edged ? 1.8 : (options.gravity as number);
         }
 
@@ -136,19 +140,16 @@ export function slidy(
         function edging(position: number): number | void {
             return node.scrollable
                 ? !options.snap && !options.loop
-                    ? clamp(node.start, position, node.end) : position
-                : 0
+                    ? clamp(node.start, position, node.end)
+                    : position
+                : 0;
         }
     }
 
-    function scroll(
-        index: number,
-        duration: number,
-        amplitude = 0
-    ): void {
+    function scroll(index: number, duration: number, amplitude = 0): void {
         snapping(index);
 
-        const time = performance.now()
+        const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
 
@@ -156,11 +157,11 @@ export function slidy(
 
         RAF(function animate() {
             const elapsed = time - performance.now();
-            const T = Math.exp(elapsed / duration)
-            const ET = options.easing(T)
+            const T = Math.exp(elapsed / duration);
+            const ET = options.easing(T);
             const delta = amplitude * ET;
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
-            const pos = (current - position) - delta;
+            const pos = current - position - delta;
 
             raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
             return move(pos);
@@ -216,7 +217,7 @@ export function slidy(
 
         const amplitude = distance * (2 - GRAVITY);
         const index = find(node, options).index(position + amplitude, SNAP);
-        const duration = Math.abs(index - hix) > 1 ? options.duration as number : DURATION
+        const duration = Math.abs(index - hix) > 1 ? (options.duration as number) : DURATION;
 
         scroll(index, duration, amplitude);
     }
@@ -238,7 +239,7 @@ export function slidy(
         const prev = ['ArrowLeft', 'ArrowUp'];
         const index = prev.includes(e.key) ? -1 : next.includes(e.key) ? 1 : 0;
 
-        to(options.index as number + index);
+        to((options.index as number) + index);
         dispatch(node, 'keys', e.key);
 
         e.preventDefault();
@@ -252,7 +253,7 @@ export function slidy(
         scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(raf);
-        GRAVITY = options.gravity as number
+        GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
     }
 

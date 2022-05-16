@@ -19,15 +19,15 @@ const derverConfig = {
 };
 const builds = {
     cjs: {
-        outfile: './dist/slidy.cjs'
+        outfile: './dist/slidy.cjs',
     },
     esm: {
-        outfile: './dist/slidy.mjs'
+        outfile: './dist/slidy.mjs',
     },
     iife: {
         outfile: './dist/slidy.js',
-        globalName: 'Slidy'
-    }
+        globalName: 'Slidy',
+    },
 };
 
 if (DEV) {
@@ -51,7 +51,7 @@ if (DEV) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key
+            format: key,
         });
     }
 }

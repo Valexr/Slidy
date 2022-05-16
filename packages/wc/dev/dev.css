@@ -1,5 +1,5 @@
-@import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+@import 'https://unpkg.com/open-props';
+@import 'https://unpkg.com/open-props/normalize.min.css';
 
 :where(li) {
     padding-inline-start: 0;
@@ -8,7 +8,7 @@
 header,
 footer,
 article {
-    margin: var(--size-fluid-2)
+    margin: var(--size-fluid-2);
 }
 
 a {
@@ -109,7 +109,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 
@@ -165,7 +165,7 @@ footer {
 :root {
     --color: #0a0a0a;
     /* --back: white; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: whitesmoke;
 }
 
@@ -174,7 +174,7 @@ footer {
         color-scheme: light;
         --color: #0a0a0a;
         /* --back: white; */
-        --accent: #FF3E80;
+        --accent: #ff3e80;
         --shadow: whitesmoke;
     }
 }
@@ -184,7 +184,7 @@ footer {
         color-scheme: dark;
         --color: white;
         /* --back: #0a0a0a; */
-        --accent: #FF3E80;
+        --accent: #ff3e80;
         --shadow: #181818;
     }
 }
@@ -193,7 +193,7 @@ footer {
     color-scheme: dark;
     --color: white;
     /* --back: #0a0a0a; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: #181818;
 }
 
@@ -201,7 +201,7 @@ footer {
     color-scheme: light;
     --color: #0a0a0a;
     /* --back: white; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: whitesmoke;
 }
 
@@ -292,7 +292,6 @@ nav#thumbs button {
     background-blend-mode: luminosity;
     opacity: 0.25;
 }
-
 
 nav#thumbs button:hover,
 nav#thumbs button.active {

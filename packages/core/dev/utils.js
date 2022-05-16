@@ -21,8 +21,14 @@ export function indexing(x) {
 
 export function changeValue(target, options) {
     const value = isNum(target.value)
-        ? +target.value : target.value.includes('(t)')
-            ? new Function(`const ${target.value.split('<:>')[0]} = ${target.value.split('<:>')[1]}; return ${target.value.split('<:>')[0]}`)() : target.value;
+        ? +target.value
+        : target.value.includes('(t)')
+        ? new Function(
+              `const ${target.value.split('<:>')[0]} = ${target.value.split('<:>')[1]}; return ${
+                  target.value.split('<:>')[0]
+              }`
+          )()
+        : target.value;
     slidy.update({ [target.name]: value });
     options[target.name] = value;
 

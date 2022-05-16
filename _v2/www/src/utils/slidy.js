@@ -1,6 +1,16 @@
 import { spring, tweened } from 'svelte/motion';
 import { cubicOut, cubicIn, expoInOut, sineInOut, quintOut, expoOut } from 'svelte/easing';
-import { arr, dots, nodes, element, leftW, translateX, send, receive, duration } from './stores/slidy.js';
+import {
+    arr,
+    dots,
+    nodes,
+    element,
+    leftW,
+    translateX,
+    send,
+    receive,
+    duration,
+} from './stores/slidy.js';
 import { get } from 'svelte/store';
 import { setOpen } from './stores/settings.js';
 

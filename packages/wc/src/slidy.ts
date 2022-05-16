@@ -83,13 +83,13 @@ export default class Slidy extends HTMLElement {
         //     }).observe(this, { childList: true });
         // }
         // console.log(this)
-        if (this.isConnected) slidy(this, this.options)
+        if (this.isConnected) slidy(this, this.options);
     }
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
         // this.render();
-        console.log(name, oldValue, newValue)
-        if (name === 'options') console.log(JSON.parse(newValue))
+        console.log(name, oldValue, newValue);
+        if (name === 'options') console.log(JSON.parse(newValue));
         // if (this.isConnected) slidy(this)
         // slidy(this)
     }
@@ -100,5 +100,5 @@ export default class Slidy extends HTMLElement {
 
 if ('customElements' in window) {
     customElements.define('slidy-wc', Slidy);
-    customElements.whenDefined('slidy-wc').then(c => console.log(c));
+    customElements.whenDefined('slidy-wc').then((c) => console.log(c));
 }

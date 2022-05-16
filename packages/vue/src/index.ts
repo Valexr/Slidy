@@ -1,1 +1,1 @@
-export { default as Slidy } from './Slidy.vue'
+export { default as Slidy } from './Slidy.vue';

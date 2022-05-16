@@ -15,13 +15,13 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     if (Array.from(node.children).every((child) => child.isConnected)) {
                         count = 0;
                         clearInterval(mounting);
-                        const childs = init(node)
+                        const childs = init(node);
                         node.last = node.children.length - 1;
                         node.gap = find(node, options).gap();
                         node.start = find(node, options).position(0, 'start');
                         node.end = find(node, options).position(node.last, 'end');
                         node.size = find(node, options).node();
-                        node.scrollable = find(node, options).scroll() > find(node, options).node()
+                        node.scrollable = find(node, options).scroll() > find(node, options).node();
                         resolve(childs);
                     }
                 }
@@ -74,7 +74,7 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         } else if (index > node.children.length - 1) {
             return 0;
         } else return index;
-    } else return clamp(0, index, node.children.length - 1,);
+    } else return clamp(0, index, node.children.length - 1);
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {
@@ -115,4 +115,16 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
-export { clamp, coordinate, style, indexing, delay, dispatch, init, listen, throttle, mount, getFPS };
+export {
+    clamp,
+    coordinate,
+    style,
+    indexing,
+    delay,
+    dispatch,
+    init,
+    listen,
+    throttle,
+    mount,
+    getFPS,
+};

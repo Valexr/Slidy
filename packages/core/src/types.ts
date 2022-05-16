@@ -21,20 +21,20 @@ export interface Slidy extends HTMLElement {
     active: number;
     scrollable?: boolean;
     onmount?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onresize: ((this: GlobalEventHandlers, e: UIEvent) => any) | null;
     onmove?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onindex?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     onkeys?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onupdate?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | null;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | null;
     ondestroy?:
-    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-    | undefined;
+        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+        | undefined;
 }
 
 export interface Child extends HTMLElement {
@@ -76,9 +76,9 @@ export type DispathDetail =
     | undefined;
 
 /** Easing function.
-* @param t value from 0 to 1
-* @returns value from 0 to 1
-* @default easeInOutCubic
-* @see https://easings.net
-*/
+ * @param t value from 0 to 1
+ * @returns value from 0 to 1
+ * @default easeInOutCubic
+ * @see https://easings.net
+ */
 export type Easing = (t: number) => number;

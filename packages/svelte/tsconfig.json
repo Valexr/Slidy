@@ -5,17 +5,8 @@
 		"declarationDir": "dist/",
 		"skipLibCheck": true,
 		"preserveValueImports": true,
-		"types": [
-			"svelte",
-			"node"
-		]
+		"types": ["svelte", "node"]
 	},
-	"include": [
-		"src/**/*"
-	],
-	"exclude": [
-		"node_modules",
-		"dist",
-		"public"
-	]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "public"]
 }

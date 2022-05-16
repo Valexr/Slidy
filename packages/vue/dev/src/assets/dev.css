@@ -1,5 +1,5 @@
-@import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+@import 'https://unpkg.com/open-props';
+@import 'https://unpkg.com/open-props/normalize.min.css';
 
 :where(li) {
     padding-inline-start: 0;
@@ -116,7 +116,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     /* flex: 0 auto; */
     /* gap: 1rem; */
     /* padding: 0.5rem; */
@@ -186,7 +186,7 @@ footer {
 :root {
     --color: #0a0a0a;
     /* --back: white; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: whitesmoke;
 }
 
@@ -195,7 +195,7 @@ footer {
         color-scheme: light;
         --color: #0a0a0a;
         /* --back: white; */
-        --accent: #FF3E80;
+        --accent: #ff3e80;
         --shadow: whitesmoke;
     }
 }
@@ -205,7 +205,7 @@ footer {
         color-scheme: dark;
         --color: white;
         /* --back: #0a0a0a; */
-        --accent: #FF3E80;
+        --accent: #ff3e80;
         --shadow: #181818;
     }
 }
@@ -214,7 +214,7 @@ footer {
     color-scheme: dark;
     --color: white;
     /* --back: #0a0a0a; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: #181818;
 }
 
@@ -222,7 +222,7 @@ footer {
     color-scheme: light;
     --color: #0a0a0a;
     /* --back: white; */
-    --accent: #FF3E80;
+    --accent: #ff3e80;
     --shadow: whitesmoke;
 }
 

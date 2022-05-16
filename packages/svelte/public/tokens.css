@@ -31,7 +31,7 @@
 	}
 }
 
-[scheme='dark'] {
+[scheme="dark"] {
 	color-scheme: dark;
 	--surface-1: rgb(13 13 13);
 	--surface-2: rgb(27 27 27);
@@ -41,7 +41,7 @@
 	--accent: #b85345;
 }
 
-[scheme='light'] {
+[scheme="light"] {
 	color-scheme: light;
 	--surface-1: #ffc8b8;
 	--surface-2: #ffa48c;

@@ -3,7 +3,7 @@ import * as easing from './build/src/easing.js';
 export function setEvents() {
     const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
 
-    events.forEach(event => {
+    events.forEach((event) => {
         node.addEventListener(event, (e) => {
             switch (event) {
                 case 'mount':

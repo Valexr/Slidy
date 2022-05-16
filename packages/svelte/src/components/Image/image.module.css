@@ -9,7 +9,7 @@
 }
 
 .slidy-image::before {
-	content: 'Image failed to load:' ' ' attr(alt);
+	content: "Image failed to load:" " " attr(alt);
 	position: absolute;
 	top: 0;
 	left: 0;

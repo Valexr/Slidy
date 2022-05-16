@@ -2,36 +2,18 @@
     "compilerOptions": {
         "baseUrl": "./packages",
         "paths": {
-            "@slidy/core": [
-                "core/src"
-            ],
-            "@slidy/react": [
-                "react/src"
-            ],
-            "@slidy/svelte": [
-                "svelte/src"
-            ],
-            "@slidy/malina": [
-                "malina/src"
-            ],
-            "@slidy/wc": [
-                "wc/src"
-            ],
-            "@slidy/vue": [
-                "vue/src"
-            ],
-            "@slidy/media": [
-                "media/src"
-            ],
+            "@slidy/core": ["core/src"],
+            "@slidy/react": ["react/src"],
+            "@slidy/svelte": ["svelte/src"],
+            "@slidy/malina": ["malina/src"],
+            "@slidy/wc": ["wc/src"],
+            "@slidy/vue": ["vue/src"],
+            "@slidy/media": ["media/src"]
         },
         "declaration": true,
         "emitDeclarationOnly": true,
         "moduleResolution": "Node",
-        "lib": [
-            "DOM",
-            "ESNext",
-            "DOM.Iterable",
-        ],
+        "lib": ["DOM", "ESNext", "DOM.Iterable"],
         "module": "ESNext",
         "target": "ESNext",
         "strict": true,
@@ -41,7 +23,5 @@
         "esModuleInterop": true
     },
     "include": [],
-    "exclude": [
-        "node_modules/*",
-    ]
+    "exclude": ["node_modules/*"]
 }

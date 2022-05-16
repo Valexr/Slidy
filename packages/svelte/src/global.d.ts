@@ -14,8 +14,8 @@ declare namespace svelte.JSX {
 		onindex?: SlidyEvent<Position>;
 		onkeys?: (event: unknown) => unknown;
 		onmount?: SlidyEvent<{
-			childs: HTMLCollection,
-			options: Options
+			childs: HTMLCollection;
+			options: Options;
 		}>;
 		onmove?: SlidyEvent<Position>;
 		onresize?: SlidyEvent<{

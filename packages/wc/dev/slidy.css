@@ -20,11 +20,11 @@ reel-l {
     scrollbar-color: var(--color-light) var(--color-dark);
 }
 
-reel-l>* {
+reel-l > * {
     flex: 0 0 var(--item-width);
 }
 
-reel-l>img {
+reel-l > img {
     height: 100%;
     flex-basis: auto;
     width: auto;
@@ -40,5 +40,11 @@ reel-l::-webkit-scrollbar-track {
 
 reel-l::-webkit-scrollbar-thumb {
     background-color: var(--color-dark);
-    background-image: linear-gradient(var(--color-dark) 0, var(--color-dark) 0.25rem, var(--color-light) 0.25rem, var(--color-light) 0.75rem, var(--color-dark) 0.75rem);
+    background-image: linear-gradient(
+        var(--color-dark) 0,
+        var(--color-dark) 0.25rem,
+        var(--color-light) 0.25rem,
+        var(--color-light) 0.75rem,
+        var(--color-dark) 0.75rem
+    );
 }

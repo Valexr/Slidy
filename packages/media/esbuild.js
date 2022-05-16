@@ -16,29 +16,29 @@ const esbuildBase = {
 
 const builds = {
     cjs: {
-        outfile: './dist/index.cjs'
+        outfile: './dist/index.cjs',
     },
     esm: {
-        outfile: './dist/index.mjs'
+        outfile: './dist/index.mjs',
     },
     iife: {
         outfile: './dist/index.js',
-        globalName: 'Slidy'
-    }
+        globalName: 'Slidy',
+    },
 };
 
 if (DEV) {
     build({
         ...esbuildBase,
         outfile: './dist/index.mjs',
-        format: 'esm'
+        format: 'esm',
     }).then(() => console.log('watching @slidy/media...'));
 } else {
     for (const key in builds) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key
+            format: key,
         });
     }
 }

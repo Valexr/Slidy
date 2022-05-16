@@ -1,6 +1,6 @@
 /* app.css */
-@import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+@import 'https://unpkg.com/open-props';
+@import 'https://unpkg.com/open-props/normalize.min.css';
 /* @import "open-props/style";
 @import "open-props/normalize"; */
 
@@ -14,16 +14,22 @@
     font-family: var(--font-sans);
 }
 
-header, footer {
+header,
+footer {
     padding: 1rem;
 }
 
-nav, label {
-    display: flex; 
+nav,
+label {
+    display: flex;
     justify-content: start;
     margin: 1rem 0;
     flex-wrap: wrap;
     align-items: center;
 }
-*.active {color: red;}
-input { margin: 0}
+*.active {
+    color: red;
+}
+input {
+    margin: 0;
+}

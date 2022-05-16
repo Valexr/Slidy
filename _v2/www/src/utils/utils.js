@@ -35,8 +35,10 @@ export function objectMap(obj, fn) {
     }, {});
 }
 
-const objectsMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
-const objectReduce = (obj, value) => Object.values(obj, value).reduce((t, { value }) => t + value, 0);
+const objectsMap = (obj, fn) =>
+    Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
+const objectReduce = (obj, value) =>
+    Object.values(obj, value).reduce((t, { value }) => t + value, 0);
 // export function prev(arr) { arr = [{ ...arr[arr.length - 1] }, ...arr.slice(0, -1)] }
 // export function next(arr) { arr = [...arr.slice(1), { ...arr[0] }] }
 

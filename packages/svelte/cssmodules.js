@@ -23,8 +23,7 @@ export default (options = {}) => ({
 				.replace(/(\/|\\)/g, "__")
 				.replace(/\./g, "_");
 
-			const transformClassName = (node) =>
-				options.transformClassName?.({ path, content, node }) ?? `${node.name}`;
+			const transformClassName = (node) => options.transformClassName?.({ path, content, node }) ?? `${node.name}`;
 
 			csstree.walk(ast, {
 				visit: "ClassSelector",
@@ -67,5 +66,5 @@ export default (options = {}) => ({
 			const css = cssContents.get(args.path);
 			return { contents: css, loader: "css" };
 		});
-	}
+	},
 });

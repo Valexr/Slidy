@@ -7,9 +7,7 @@
         "jsxImportSource": "solid-js",
         "allowSyntheticDefaultImports": true
     },
-    "include": [
-        "src/*"
-    ],
+    "include": ["src/*"]
     // "exclude": [
     // "src/utils/*",
     // "src/index.ts"

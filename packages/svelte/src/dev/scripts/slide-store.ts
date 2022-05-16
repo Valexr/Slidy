@@ -22,7 +22,7 @@ export function createSlidesStore() {
 
 	async function add(amount = 1) {
 		const slides = await fetchSlides(amount);
-		update((value) => [ ...value, ...slides ]);
+		update((value) => [...value, ...slides]);
 	}
 
 	function remove(amount = 1) {

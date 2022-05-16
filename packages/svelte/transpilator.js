@@ -17,14 +17,7 @@ const esbuild = {
 	}`,
 };
 
-export default async function ({
-	input = "./",
-	output = "./dist/",
-	ext = [ "" ],
-	exclude = [ "" ],
-	replace = [],
-	remove = []
-}) {
+export default async function ({ input = "./", output = "./dist/", ext = [""], exclude = [""], replace = [], remove = [] }) {
 	const files = await getFiles(input, ext, exclude);
 
 	for (const file of files) {
@@ -41,27 +34,23 @@ export default async function ({
 		}
 
 		if (file.name.includes(".svelte")) {
-
 			await preprocess(source.toString(), transformer, file.name).then(({ code }) => {
+				replace.forEach(([search, replace]) => (code = code.replace(search, replace)));
 
-				replace.forEach(([ search, replace ]) => code = code.replace(search, replace));
-
-				const match = remove.find(exc => code.includes(exc));
+				const match = remove.find((exc) => code.includes(exc));
 				const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, "gi");
 				const removed = code.replace(regex, "");
 
-				const cleaned = removed.replace(/ lang="(scss|ts)"/g, "")
-					.replace("<script context=\"module\"></script>", "");
+				const cleaned = removed.replace(/ lang="(scss|ts)"/g, "").replace('<script context="module"></script>', "");
 
 				writeFile(filepath, cleaned);
 			});
-
 		} else {
 			let { code } = await transform(source.toString(), esbuild);
 
-			replace.forEach(([ search, replace ]) => code = code.replace(search, replace));
+			replace.forEach(([search, replace]) => (code = code.replace(search, replace)));
 
-			const match = remove.find(exc => code.includes(exc));
+			const match = remove.find((exc) => code.includes(exc));
 			const regex = new RegExp(`(import|export)(.*?)${match}(.*?);`, "gi");
 			const removed = code.replace(regex, "");
 
@@ -78,16 +67,15 @@ const transformer = [
 	}),
 ];
 
-async function getFiles(input = "./", ext = [ "" ], exclude = [ "" ]) {
-
+async function getFiles(input = "./", ext = [""], exclude = [""]) {
 	const entries = await readdir(input, { withFileTypes: true });
 
 	const files = entries
 		.filter((file) => {
 			const filepath = input + file.name;
 			const isDirectory = file.isDirectory();
-			const hasExt = ext.some(ext => file.name.includes(ext));
-			const hasExc = exclude.some(exc => filepath.includes(exc));
+			const hasExt = ext.some((ext) => file.name.includes(ext));
+			const hasExc = exclude.some((exc) => filepath.includes(exc));
 			return !isDirectory && hasExt && !hasExc;
 		})
 		.map((file) => ({ ...file, path: input + file.name }));
@@ -95,8 +83,7 @@ async function getFiles(input = "./", ext = [ "" ], exclude = [ "" ]) {
 	const folders = entries.filter((folder) => folder.isDirectory());
 
 	for (const folder of folders) {
-		let filesInFolder = await getFiles(`${input}${folder.name}/`, ext, exclude).then((files) =>
-			files.map(f => ({ ...f, folder: folder.name })));
+		let filesInFolder = await getFiles(`${input}${folder.name}/`, ext, exclude).then((files) => files.map((f) => ({ ...f, folder: folder.name })));
 		files.push(...filesInFolder);
 	}
 

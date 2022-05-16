@@ -1,11 +1,11 @@
 {
-    "extends": "./.svelte-kit/tsconfig.json",
-    "compilerOptions": {
-        "paths": {
-            "$lib": [ "src/lib" ],
-            "$lib/*": [ "src/lib/*" ],
-            "@slidy/svelte": [ "../packages/svelte/src" ],
-            "@slidy/media": [ "../packages/media/src" ]
-        },
-    }
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"],
+			"@slidy/svelte": ["../packages/svelte/src"],
+			"@slidy/media": ["../packages/media/src"]
+		}
+	}
 }

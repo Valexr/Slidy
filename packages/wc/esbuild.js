@@ -23,7 +23,7 @@ const derverConfig = {
 if (DEV) {
     build({
         ...esbuildBase,
-        outfile: 'dev/dev.js'
+        outfile: 'dev/dev.js',
     }).then((bundle) => {
         derver({
             ...derverConfig,

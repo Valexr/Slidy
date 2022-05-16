@@ -13,9 +13,9 @@ const esbuildBase = {
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: ['src/index.ts'],
-    sourcemap: (DEV || CORE) ? 'inline' : false,
+    sourcemap: DEV || CORE ? 'inline' : false,
     globalName: 'Slidy',
-    format: 'esm'
+    format: 'esm',
 };
 const derverConfig = {
     dir: 'dev',
@@ -25,48 +25,49 @@ const derverConfig = {
 };
 const builds = {
     cjs: {
-        outfile: './dist/index.cjs'
+        outfile: './dist/index.cjs',
     },
     esm: {
-        outfile: './dist/index.mjs'
+        outfile: './dist/index.mjs',
     },
     iife: {
-        outfile: './dist/index.js'
+        outfile: './dist/index.js',
     },
     easing: {
         entryPoints: ['src/easing.ts'],
-        outfile: './dist/easing.js'
-    }
+        outfile: './dist/easing.js',
+    },
 };
 
 if (DEV || CORE) {
     build({
         ...esbuildBase,
-        ...CORE
+        ...(CORE
             ? {
-                entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
-                outdir: 'dev/build'
-            }
-            : { outfile: 'dist/index.mjs' },
-        globalName: 'Slidy'
+                  entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
+                  outdir: 'dev/build',
+              }
+            : { outfile: 'dist/index.mjs' }),
+        globalName: 'Slidy',
     }).then((bundle) => {
         if (DEV) console.log('watching @slidy/core...');
-        else derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'dev') {
-                    lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
+        else
+            derver({
+                ...derverConfig,
+                onwatch: async (lr, item) => {
+                    if (item !== 'dev') {
+                        lr.prevent();
+                        bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+                    }
+                },
+            });
     });
 } else {
     for (const key in builds) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key !== 'easing' ? key : 'esm'
+            format: key !== 'easing' ? key : 'esm',
         });
     }
 }

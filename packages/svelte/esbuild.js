@@ -12,21 +12,21 @@ const svelteOptions = {
 	compilerOptions: {
 		dev: DEV || SVELTE,
 		css: !SVELTE,
-		immutable: true
+		immutable: true,
 	},
 	preprocess: [
 		sveltePreprocess({
 			sourceMap: DEV || SVELTE,
-			typescript: true
-		})
-	]
+			typescript: true,
+		}),
+	],
 };
 
 const cssModulesOptions = {
 	transformClassName: ({ path, content, node }) => {
 		// node - https://github.com/csstree/csstree/blob/bf05b963f85a08541c2991fa369f5bb613096db2/docs/ast.md
 		return `${node.name}`;
-	}
+	},
 };
 
 const esbuildBase = {
@@ -35,26 +35,15 @@ const esbuildBase = {
 	minify: true,
 	sourcemap: false,
 	legalComments: "none",
-	external: [
-		"svelte",
-		"svelte/*"
-	],
-	plugins: [
-		sveltePlugin(svelteOptions),
-		cssmodules(cssModulesOptions)
-	]
+	external: ["svelte", "svelte/*"],
+	plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
 };
 
 const derverConfig = {
 	dir: "public",
 	port: 3331,
 	host: "0.0.0.0",
-	watch: [
-		"public",
-		"src",
-		"dist",
-		'node_modules/@slidy/core'
-	]
+	watch: ["public", "src", "dist", "node_modules/@slidy/core"],
 };
 
 if (DEV) {
@@ -66,7 +55,7 @@ if (DEV) {
 		minify: false,
 		incremental: true,
 		watch: true,
-	}).then(bundle => {
+	}).then((bundle) => {
 		console.log("Watching @slidy/svelte...");
 	});
 } else if (SVELTE) {
@@ -78,17 +67,14 @@ if (DEV) {
 		sourcemap: "inline",
 		incremental: true,
 		legalComments: "none",
-		plugins: [
-			sveltePlugin(svelteOptions),
-			cssmodules(cssModulesOptions)
-		],
+		plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
 	}).then((bundle) => {
 		derver({
 			...derverConfig,
 			onwatch: async (lr, item) => {
 				if (item !== "public") {
 					lr.prevent();
-					bundle.rebuild().catch(err => lr.error(err.message, "Svelte compile error"));
+					bundle.rebuild().catch((err) => lr.error(err.message, "Svelte compile error"));
 				}
 			},
 		});
@@ -117,7 +103,7 @@ if (DEV) {
 			ext: [".svelte", ".ts"],
 			exclude: ["dev", "types.ts", "images-api.ts"],
 			replace: [["./slidy.module.css", "../../slidy.css"]],
-			remove: ["images-api", "module.css"]
+			remove: ["images-api", "module.css"],
 		});
 	})();
 }

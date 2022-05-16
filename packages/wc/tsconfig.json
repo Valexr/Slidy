@@ -1,19 +1,14 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declarationDir": "dist/",
+        "declarationDir": "dist/"
         // "lib": [
         //     "DOM",
         //     "ESNext"
         // ]
     },
-    "include": [
-        "src/*"
-    ],
-    "exclude": [
-        "src/utils/*",
-        "src/index.ts"
-    ],
+    "include": ["src/*"],
+    "exclude": ["src/utils/*", "src/index.ts"]
     // "files": [
     //     "src/slidy.ts",
     //     "src/types.ts"
