@@ -147,12 +147,13 @@ export function slidy(
         }
     }
 
-    function scroll(index: number, duration: number, amplitude = 0): void {
+    function scroll(index: number, amplitude = 0, _duration?: number): void {
         snapping(index);
 
         const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
+        const duration = _duration || (!options.clamp && Math.abs(index - hix) > 1 ? options.duration as number : DURATION)
 
         amplitude = target - position;
 
@@ -169,11 +170,10 @@ export function slidy(
         });
     }
 
-    function to(index = 0, duration = DURATION): void {
+    function to(index = 0, duration?: number): void {
         clear();
         index = indexing(node, index, options.loop);
-        snapping(index);
-        scroll(index, duration, find(node, options).position(index, SNAP) - position);
+        scroll(index, find(node, options).position(index, SNAP) - position, duration);
     }
 
     function onDown(e: UniqEvent): void {
@@ -218,9 +218,8 @@ export function slidy(
 
         const amplitude = distance * (2 - GRAVITY);
         const index = find(node, options).index(position + amplitude, SNAP);
-        const duration = Math.abs(index - hix) > 1 ? (options.duration as number) : DURATION;
 
-        scroll(index, duration, amplitude);
+        scroll(index, amplitude);
     }
 
     function onWheel(e: UniqEvent): void {
