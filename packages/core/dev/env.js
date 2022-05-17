@@ -67,11 +67,11 @@ export function setEvents() {
                     break;
 
                 case 'update':
-                    console.log(e);
+                    // console.log(e);
                     break;
 
                 default:
-                    console.log(e);
+                    // console.log(e);
                     break;
             }
         });

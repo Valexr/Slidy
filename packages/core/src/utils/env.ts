@@ -1,7 +1,6 @@
-import { find } from './dom';
-import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent } from '../types';
+import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
 
-function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> {
+function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -11,17 +10,12 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     count = 0;
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
-                } else if (node.children.length) {
-                    if (Array.from(node.children).every((child) => child && child.isConnected)) {
+                } else if (node.children.length > 2) {
+                    const mounted = Array.from(node.children).every((child) => child && child.isConnected)
+                    if (mounted) {
                         count = 0;
                         clearInterval(mounting);
-                        const childs = init(node);
-                        node.last = node.children.length - 1;
-                        node.gap = find(node, options).gap();
-                        node.start = find(node, options).position(0, 'start');
-                        node.end = find(node, options).position(node.last, 'end');
-                        node.scrollable = find(node, options).scroll() > find(node, options).node();
-                        resolve(childs);
+                        resolve(init(node));
                     }
                 }
             }, 16);
@@ -92,11 +86,11 @@ function clamp(min: number, val: number, max: number) {
 }
 
 function throttle(
-    fn: (args: UniqEvent) => void,
+    fn: (args: any) => void,
     ms: number,
     wait?: boolean,
     tm?: NodeJS.Timeout
-): (args: UniqEvent) => void {
+): (args: any) => void {
     return (args) => {
         if (!wait) {
             fn(args);

@@ -57,32 +57,31 @@ export function slidy(
     const RAF = requestAnimationFrame;
 
     const RO = new ResizeObserver(() => {
-        to(options.index);
-        node.last = node.children.length - 1;
         node.gap = find(node, options).gap();
         node.start = find(node, options).position(0, 'start');
-        node.end = find(node, options).position(node.last, 'end');
-        node.scrollable = find(node, options).scroll() > find(node, options).node();
+        node.end = find(node, options).position(node.children.length - 1, 'end');
+        node.scrollable = node.end - node.start > node.gap * 2;
+        to(options.index)
+        position = !node.scrollable ? 0 : position
         dispatch(node, 'resize', { node, options });
     });
 
     function edges(index?: number) {
-        return !options.loop && (index === 0 || index === node.last);
+        return !options.loop && (index === 0 || index === node.children.length - 1);
     }
 
     function snapping(index: number) {
         if (!options.loop && options.snap) {
             node.active = find(node, options).position(index, options.snap);
             const start = index === 0 || node.active <= node.start;
-            const end = index === node.last || node.active >= node.end;
+            const end = index === node.children.length - 1 || node.active >= node.end;
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
     }
 
-    mount(node, options)
+    mount(node)
         .then((childs) => {
-            position = replace(node, options);
             listen(node, NODE_EVENTS);
             style(node, {
                 outline: 'unset',
@@ -92,13 +91,14 @@ export function slidy(
                 webkitUserSelect: 'none',
             });
             RO.observe(node);
+            position = node.scrollable ? replace(node, options) : 0;
             dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
 
     function move(pos: number): void {
         direction = Math.sign(pos);
-        position += positioning(pos);
+        position += node.scrollable ? positioning(pos) : 0;
         options.index = find(node, options).index(position, SNAP);
 
         dispatch(node, 'move', { index: options.index, position });
@@ -140,11 +140,9 @@ export function slidy(
         }
 
         function edging(position: number): number | void {
-            return node.scrollable
-                ? !options.snap && !options.loop
-                    ? clamp(node.start, position, node.end)
-                    : position
-                : 0;
+            return !options.snap && !options.loop
+                ? clamp(node.start, position, node.end)
+                : position
         }
     }
 
