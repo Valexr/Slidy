@@ -109,7 +109,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 

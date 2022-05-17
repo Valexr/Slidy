@@ -11,7 +11,9 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
                     clearInterval(mounting);
                     reject(`Slidy haven't items`);
                 } else if (node.children.length > 2) {
-                    const mounted = Array.from(node.children).every((child) => child && child.isConnected)
+                    const mounted = Array.from(node.children).every(
+                        (child) => child && child.isConnected
+                    );
                     if (mounted) {
                         count = 0;
                         clearInterval(mounting);

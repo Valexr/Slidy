@@ -14,7 +14,6 @@ export async function getPhotos(node, page, limit) {
                     slidy = Slidy(node, options);
                     slidyT = Slidy(thumbs);
                 });
-
             } else {
                 node.style.transform = '';
                 node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
@@ -39,14 +38,18 @@ export async function getPhotos(node, page, limit) {
                 return aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * pr;
             };
 
-            node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id
-                }/${aspect('width', true)}/${aspect('height', true)}.jpg" width="${aspect(
-                    'width'
-                )}" height="${aspect('height')}" alt="${p.author}"/></li>`;
+            node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect(
+                'width',
+                true
+            )}/${aspect('height', true)}.jpg" width="${aspect('width')}" height="${aspect(
+                'height'
+            )}" alt="${p.author}"/></li>`;
 
-            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${p.id
-                }/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio
-                }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${
+                p.id
+            }/${100 * window.devicePixelRatio}/${
+                100 * window.devicePixelRatio
+            }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
 
             dots.innerHTML += `<button id="${i}">${i}</button>`;
         });

@@ -60,9 +60,10 @@ export function slidy(
         node.gap = find(node, options).gap();
         node.start = find(node, options).position(0, 'start');
         node.end = find(node, options).position(node.children.length - 1, 'end');
-        node.scrollable = node.end - node.start > node.gap * 2;
-        to(options.index)
-        position = !node.scrollable ? 0 : position
+        node.scrollable = Math.abs(node.end - node.start) > node.gap * 2;
+
+        to(options.index);
+        position = !node.scrollable ? 0 : position;
         dispatch(node, 'resize', { node, options });
     });
 
@@ -91,7 +92,7 @@ export function slidy(
                 webkitUserSelect: 'none',
             });
             RO.observe(node);
-            position = node.scrollable ? replace(node, options) : 0;
+            position = replace(node, options);
             dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
@@ -142,7 +143,7 @@ export function slidy(
         function edging(position: number): number | void {
             return !options.snap && !options.loop
                 ? clamp(node.start, position, node.end)
-                : position
+                : position;
         }
     }
 
