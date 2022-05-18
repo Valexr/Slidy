@@ -111,7 +111,7 @@ All `options` are optional, but mount `node` required:
 | `index`      | `0`                | `number`   | Start index |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
+| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0`. See more in [easing.ts](https://github.com/Valexr/Slidy/blob/master/packages/core/src/easing.ts). Available from `@slidy/core/dist/easing`.|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |

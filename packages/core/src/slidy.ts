@@ -13,7 +13,7 @@ export function slidy(
 } {
     const options: Options = {
         index: 0,
-        indent: 0,
+        indent: 1,
         gravity: 1.2,
         duration: 375,
         easing: linear,
@@ -73,9 +73,9 @@ export function slidy(
 
     function snapping(index: number) {
         if (!options.loop && options.snap) {
-            node.active = find(node, options).position(index, options.snap);
-            const start = index === 0 || node.active <= node.start;
-            const end = index === node.children.length - 1 || node.active >= node.end;
+            const active = find(node, options).position(index, options.snap);
+            const start = index === 0 || active <= node.start
+            const end = index === node.children.length - 1 || active >= node.end
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
@@ -100,6 +100,7 @@ export function slidy(
     function move(pos: number): void {
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
+        position = edging(position)
         options.index = find(node, options).index(position, SNAP);
 
         dispatch(node, 'move', { index: options.index, position });
@@ -136,14 +137,14 @@ export function slidy(
         }
 
         function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-edging(position)}px, 0` : `${-edging(position)}px, 0, 0`;
+            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
             return `translate3d(${axis})`;
         }
 
-        function edging(position: number): number | void {
+        function edging(position: number): number {
             return !options.snap && !options.loop
                 ? clamp(node.start, position, node.end)
-                : position;
+                : position
         }
     }
 
@@ -153,15 +154,15 @@ export function slidy(
         const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
-        const duration = _duration || (!options.clamp && Math.abs(index - hix) > 1 ? options.duration as number : DURATION)
+        const duration = _duration
+            || (!options.clamp && Math.abs(index - hix) > 1 ? options.duration as number : DURATION)
 
         amplitude = target - position;
 
         RAF(function animate() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
-            const ET = options.easing(T);
-            const delta = amplitude * ET;
+            const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
@@ -170,7 +171,7 @@ export function slidy(
         });
     }
 
-    function to(index = 0, duration?: number): void {
+    function to(index = 0, duration = DURATION): void {
         clear();
         index = indexing(node, index, options.loop);
         scroll(index, find(node, options).position(index, SNAP) - position, duration);
@@ -227,10 +228,11 @@ export function slidy(
 
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord);
-        const clamping = options.clamp || e.shiftKey;
-        const clamped = clamping || edges(options.index as number);
+        const clamp = options.clamp || e.shiftKey;
+        const clamped = clamp || edges(options.index as number);
+        snapping(options.index as number)
 
-        if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord);
+        if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord);
         wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
     }
 
@@ -283,6 +285,7 @@ export function slidy(
 
                     default:
                         options[key as keyof Options] = opts[key as keyof Options] as never;
+                        to(options.index);
                         break;
                 }
             }

@@ -26,7 +26,7 @@ const indent = (node: Slidy, index: number, options: Options) => {
     const wrap = node[size(options.vertical as boolean)];
     const active = child(node, index)[size(options.vertical as boolean)];
     const diff = wrap - active;
-    return options.indent || (active + node.gap * 2 < wrap ? 1 : diff / 2 / node.gap);
+    return active + node.gap * 2 < wrap ? options.indent : diff / 2 / node.gap
 };
 
 function indents(node: Slidy, index: number, snap: string, options: Options): number {
@@ -34,8 +34,8 @@ function indents(node: Slidy, index: number, snap: string, options: Options): nu
         (!options.loop && index === 0) || snap === 'start'
             ? -indent(node, index, options)
             : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
-            ? indent(node, index, options)
-            : 0;
+                ? indent(node, index, options)
+                : 0;
     return node.gap * edge;
 }
 
@@ -47,6 +47,8 @@ const find = (node: Slidy, options: Options) => ({
         const pos = position(node, child(node, index as number), options.vertical as boolean, snap);
         return pos + indents(node, index as number, snap as string, options);
     },
+    distance: (index: number) =>
+        Math.abs(nodes(node)[index][coord(options.vertical as boolean)]),
     size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {
         const last = nodes(node).length - 1;
@@ -62,8 +64,8 @@ function shuffle(node: Slidy, direction: number): void | null {
     return direction > 0
         ? node.append(node.childNodes[0])
         : direction < 0
-        ? node.prepend(node.childNodes[node.childNodes.length - 1])
-        : null;
+            ? node.prepend(node.childNodes[node.childNodes.length - 1])
+            : null;
 }
 
 function history(node: Slidy, direction: number, options: Options) {
