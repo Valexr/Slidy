@@ -72,10 +72,10 @@ export function slidy(
     }
 
     function snapping(index: number) {
-        if (!options.loop) {
+        if (!options.loop && options.snap) {
             const active = find(node, options).position(index, options.snap);
-            const start = index === 0 || (options.snap && active <= node.start);
-            const end = index === node.children.length - 1 || (options.snap && active >= node.end);
+            const start = index === 0 || active <= node.start
+            const end = index === node.children.length - 1 || active >= node.end
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }

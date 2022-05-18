@@ -12,7 +12,7 @@ export async function getPhotos(node, page, limit) {
 
                 createSlides(photos).then(() => {
                     slidy = Slidy(node, options);
-                    slidyT = Slidy(thumbs);
+                    slidyT = Slidy(thumbs, { gravity: 1 });
                 });
             } else {
                 node.style.transform = '';
