@@ -66,7 +66,6 @@
 	class="slidy {className}"
 	class:vertical
 	{id}
-	tabindex="0"
 	on:click={handleClick}
 >
 	{#if counter || $$slots.overlay}
@@ -82,15 +81,15 @@
 	<ul
 		class="slidy-slides"
 		aria-live="polite"
+		tabindex="0"
 		use:slidy={{
-			length,
-			vertical,
+			clamp,
 			duration,
 			gravity,
 			index,
-			clamp,
-			snap,
 			loop,
+			snap,
+			vertical
 		}}
 		on:destroy
 		on:index
