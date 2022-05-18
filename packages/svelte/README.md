@@ -61,7 +61,7 @@ By default component works with images. Image object should contain `width` and 
 ## API
 
 | Property      |     Default      |    Type    | Description                                                           |
-| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- | ------ | ----------------------------------- |
+| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- |
 | `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
 | `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
 | `clamp`       |      false       | `Boolean`  | Controls the scroll inertia.                                          |
@@ -72,12 +72,13 @@ By default component works with images. Image object should contain `width` and 
 | `duration`    |       450        |  `number`  | Slide transitions duration value.                                     |
 | `gravity`     |       1.2        |  `number`  | Scroll inertia value.                                                 |
 | `id`          |    undefined     |  `string`  | Passes the `id` attribute to the parent node.                         |
+| `indent`      |        0         |  `number`  | Custom scroll indent value, calculates as `gap * indent`.             |
 | `index`       |        0         |  `number`  | The index of the initial slide.                                       |
 | `loop`        |      false       | `boolean`  | Makes the slideshow continious.                                       |
 | `position`    |        0         |  `number`  | The current position value of the carousel.                           |
 | `progress`    |      false       | `boolean`  | Renders the progress bar.                                             |
-| `slides`      |        []        | `Slides[]` | An array of objects with image metadata.                              |
-| `snap`        |    undefined     |  `"start"  | "center"                                                              | "end"` | Enforces the scroll stop positions. |
+| `slides`      |       [ ]        | `Slides[]` | An array of objects with image metadata.                              |
+| `snap`        |    undefined     |  `"start"  | "center" | "end"` | Enforces the scroll stop positions.               |
 | `thumbnail`   |      false       | `boolean`  | Renders the thumbnail navigation panel.                               |
 | `vertical`    |      false       | `boolean`  | Sets the component into the vertical orientation.                     |
 

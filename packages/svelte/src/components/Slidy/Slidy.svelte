@@ -22,6 +22,7 @@
 	export let duration = 450;
 	export let gravity = 1.2;
 	export let id: $$Props["id"] = undefined;
+	export let indent: $$Props["indent"] = 2;
 	export let index = 0;
 	export let loop = false;
 	export let position = 0;
@@ -86,6 +87,7 @@
 			clamp,
 			duration,
 			gravity,
+			indent,
 			index,
 			loop,
 			snap,

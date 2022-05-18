@@ -23,6 +23,7 @@ export interface SlidyOptions {
 	getThumbSrc?: (item: any) => string;
 	gravity?: number;
 	id?: string;
+	indent?: number;
 	index?: number;
 	loop?: boolean;
 	position?: number;
