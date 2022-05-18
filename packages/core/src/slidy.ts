@@ -33,7 +33,7 @@ export function slidy(
         timestamp = 0,
         scrolled = false,
         frame = position,
-        wst: NodeJS.Timeout,
+        wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
@@ -72,10 +72,10 @@ export function slidy(
     }
 
     function snapping(index: number) {
-        if (!options.loop && options.snap) {
+        if (!options.loop) {
             const active = find(node, options).position(index, options.snap);
-            const start = index === 0 || active <= node.start;
-            const end = index === node.children.length - 1 || active >= node.end;
+            const start = index === 0 || (options.snap && active <= node.start);
+            const end = index === node.children.length - 1 || (options.snap && active >= node.end);
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
@@ -234,7 +234,9 @@ export function slidy(
         snapping(options.index as number);
 
         if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord);
-        wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
+        wst = options.snap || clamp
+            ? setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69)
+            : undefined
     }
 
     function onKeys(e: KeyboardEvent): void {

@@ -34,8 +34,8 @@ function indents(node: Slidy, index: number, snap: string, options: Options): nu
         (!options.loop && index === 0) || snap === 'start'
             ? -indent(node, index, options)
             : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
-            ? indent(node, index, options)
-            : 0;
+                ? indent(node, index, options)
+                : 0;
     return node.gap * edge;
 }
 
@@ -63,8 +63,8 @@ function shuffle(node: Slidy, direction: number): void | null {
     return direction > 0
         ? node.append(node.childNodes[0])
         : direction < 0
-        ? node.prepend(node.childNodes[node.childNodes.length - 1])
-        : null;
+            ? node.prepend(node.childNodes[node.childNodes.length - 1])
+            : null;
 }
 
 function history(node: Slidy, direction: number, options: Options) {
