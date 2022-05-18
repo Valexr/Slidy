@@ -74,8 +74,8 @@ export function slidy(
     function snapping(index: number) {
         if (!options.loop && options.snap) {
             const active = find(node, options).position(index, options.snap);
-            const start = index === 0 || active <= node.start
-            const end = index === node.children.length - 1 || active >= node.end
+            const start = index === 0 || active <= node.start;
+            const end = index === node.children.length - 1 || active >= node.end;
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
@@ -100,7 +100,7 @@ export function slidy(
     function move(pos: number): void {
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
-        position = edging(position)
+        position = edging(position);
         options.index = find(node, options).index(position, SNAP);
 
         dispatch(node, 'move', { index: options.index, position });
@@ -144,7 +144,7 @@ export function slidy(
         function edging(position: number): number {
             return !options.snap && !options.loop
                 ? clamp(node.start, position, node.end)
-                : position
+                : position;
         }
     }
 
@@ -154,8 +154,9 @@ export function slidy(
         const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
-        const duration = _duration
-            || (!options.clamp && Math.abs(index - hix) > 1 ? options.duration as number : DURATION)
+        const duration =
+            _duration ||
+            (!options.clamp && Math.abs(index - hix) > 1 ? (options.duration as number) : DURATION);
 
         amplitude = target - position;
 
@@ -230,7 +231,7 @@ export function slidy(
         const index = (options.index as number) + Math.sign(coord);
         const clamp = options.clamp || e.shiftKey;
         const clamped = clamp || edges(options.index as number);
-        snapping(options.index as number)
+        snapping(options.index as number);
 
         if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord);
         wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
