@@ -17,7 +17,7 @@
 	export let clamp = false;
 	export let className: $$Props["className"] = "";
 	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
-	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
+	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => getImgSrc(item);
 	export let navigation = true;
 	export let duration = 450;
 	export let gravity = 1.2;
