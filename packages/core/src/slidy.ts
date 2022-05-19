@@ -83,7 +83,6 @@ export function slidy(
 
     mount(node)
         .then((childs) => {
-            listen(node, NODE_EVENTS);
             style(node, {
                 outline: 'unset',
                 overflow: 'hidden',
@@ -92,6 +91,7 @@ export function slidy(
                 webkitUserSelect: 'none',
             });
             RO.observe(node);
+            listen(node, NODE_EVENTS);
             position = replace(node, options);
             dispatch(node, 'mount', { childs, options });
         })
@@ -234,10 +234,11 @@ export function slidy(
         snapping(options.index as number);
 
         if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord);
-        wst = options.snap || clamp
-            ? setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69)
-            : undefined
+        if (options.snap || clamp) {
+            wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69)
+        }
     }
+
 
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
