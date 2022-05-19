@@ -13,7 +13,7 @@ export function slidy(
 } {
     const options: Options = {
         index: 0,
-        indent: 0,
+        indent: 1,
         gravity: 1.2,
         duration: 375,
         easing: linear,
@@ -33,7 +33,7 @@ export function slidy(
         timestamp = 0,
         scrolled = false,
         frame = position,
-        wst: NodeJS.Timeout,
+        wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
@@ -73,9 +73,9 @@ export function slidy(
 
     function snapping(index: number) {
         if (!options.loop && options.snap) {
-            node.active = find(node, options).position(index, options.snap);
-            const start = index === 0 || node.active <= node.start;
-            const end = index === node.children.length - 1 || node.active >= node.end;
+            const active = find(node, options).position(index, options.snap);
+            const start = index === 0 || active <= node.start
+            const end = index === node.children.length - 1 || active >= node.end
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
@@ -83,7 +83,6 @@ export function slidy(
 
     mount(node)
         .then((childs) => {
-            listen(node, NODE_EVENTS);
             style(node, {
                 outline: 'unset',
                 overflow: 'hidden',
@@ -92,14 +91,16 @@ export function slidy(
                 webkitUserSelect: 'none',
             });
             RO.observe(node);
+            listen(node, NODE_EVENTS);
             position = replace(node, options);
             dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
 
-    function move(pos: number): void {
+    function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
+        position = edging(position);
         options.index = find(node, options).index(position, SNAP);
 
         dispatch(node, 'move', { index: options.index, position });
@@ -108,7 +109,7 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (hix !== options.index) {
-                dispatch(node, 'index', { index: options.index, position });
+                dispatch(node, 'index', { index, position });
                 if (options.loop) {
                     pos -= history(node, direction, options);
                     shuffle(node, direction);
@@ -136,11 +137,11 @@ export function slidy(
         }
 
         function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-edging(position)}px, 0` : `${-edging(position)}px, 0, 0`;
+            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
             return `translate3d(${axis})`;
         }
 
-        function edging(position: number): number | void {
+        function edging(position: number): number {
             return !options.snap && !options.loop
                 ? clamp(node.start, position, node.end)
                 : position;
@@ -153,24 +154,25 @@ export function slidy(
         const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
-        const duration = _duration || (!options.clamp && Math.abs(index - hix) > 1 ? options.duration as number : DURATION)
+        const duration =
+            _duration ||
+            (!options.clamp && Math.abs(index - hix) > 1 ? (options.duration as number) : DURATION);
 
         amplitude = target - position;
 
         RAF(function animate() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
-            const ET = options.easing(T);
-            const delta = amplitude * ET;
+            const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
             raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
-            return move(pos);
+            return move(pos, index);
         });
     }
 
-    function to(index = 0, duration?: number): void {
+    function to(index = 0, duration = DURATION): void {
         clear();
         index = indexing(node, index, options.loop);
         scroll(index, find(node, options).position(index, SNAP) - position, duration);
@@ -227,12 +229,16 @@ export function slidy(
 
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord);
-        const clamping = options.clamp || e.shiftKey;
-        const clamped = clamping || edges(options.index as number);
+        const clamp = options.clamp || e.shiftKey;
+        const clamped = clamp || edges(options.index as number);
+        snapping(options.index as number);
 
-        if (!clamping) move(edges(options.index as number) ? coord / 4.5 : coord);
-        wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
+        if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord, options.index);
+        if (options.snap || clamp) {
+            wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69)
+        }
     }
+
 
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
@@ -283,6 +289,7 @@ export function slidy(
 
                     default:
                         options[key as keyof Options] = opts[key as keyof Options] as never;
+                        to(options.index);
                         break;
                 }
             }

@@ -111,7 +111,7 @@ All `options` are optional, but mount `node` required:
 | `index`      | `0`                | `number`   | Start index |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `0`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
+| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0`. See more in [easing.ts](https://github.com/Valexr/Slidy/blob/master/packages/core/src/easing.ts). Available from `@slidy/core/dist/easing`.|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
@@ -154,8 +154,8 @@ All `options` are optional, but mount `node` required:
 | :------- | :------------------- | :-------------------------------------------------------------------------------- |
 | `mount`  | `{childs,options}`   | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
 | `resize` | `{node,options}`     | Fires on resize target node |
-| `move`   | `{index,position}`   | Fires on each sliding |
-| `index`  | `{index,position}`   | Fires only on each index change |
+| `move`   | `{index,position}`   | Fires when slidy move. `index === every.index` |
+| `index`  | `{index,position}`   | Fires on each index change. `index === target.index` |
 | `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. |
 | `update` | `{options}`          | Fires on each options update |
 | `destroy`| `{node}`             | Fires before target node unmounted from the DOM |

@@ -1,6 +1,6 @@
 export interface Options {
     index?: number;
-    indent?: number;
+    indent: number;
     gravity?: number;
     duration?: number;
     easing: Easing;
