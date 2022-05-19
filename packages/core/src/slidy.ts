@@ -97,7 +97,7 @@ export function slidy(
         })
         .catch((error: Error) => console.error(error));
 
-    function move(pos: number): void {
+    function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
         position = edging(position);
@@ -109,7 +109,7 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (hix !== options.index) {
-                dispatch(node, 'index', { index: options.index, position });
+                dispatch(node, 'index', { index, position });
                 if (options.loop) {
                     pos -= history(node, direction, options);
                     shuffle(node, direction);
@@ -168,7 +168,7 @@ export function slidy(
             const pos = current - position - delta;
 
             raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
-            return move(pos);
+            return move(pos, index);
         });
     }
 

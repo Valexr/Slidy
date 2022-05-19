@@ -59,7 +59,7 @@ export function setEvents() {
                     break;
 
                 case 'move':
-                    utils.scrolling(e.detail.position);
+                    utils.moving(e.detail);
                     break;
 
                 case 'index':

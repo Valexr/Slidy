@@ -1,8 +1,18 @@
 import * as easing from './build/src/easing.js';
 
-export function scrolling(p) {
-    position = p;
+export function moving(e) {
+    position = e.position;
     stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
+
+    node.childNodes.forEach((n, i) =>
+        +n.id === e.index ? n.classList.add('active') : n.classList.remove('active')
+    );
+    thumbs.childNodes.forEach((t, i) =>
+        +t.id === e.index ? t.classList.add('active') : t.classList.remove('active')
+    );
+    dots.childNodes.forEach((d, i) =>
+        i === e.index ? d.classList.add('active') : d.classList.remove('active')
+    );
 }
 export function indexing(x) {
     options.index = x;
@@ -10,23 +20,14 @@ export function indexing(x) {
         document.querySelector('input[name=index]').value = x;
     }
     slidyT.to(x);
-    node.childNodes.forEach((n, i) =>
-        +n.id === x ? n.classList.add('active') : n.classList.remove('active')
-    );
-    thumbs.childNodes.forEach((t, i) =>
-        +t.id === x ? t.classList.add('active') : t.classList.remove('active')
-    );
-    dots.childNodes.forEach((d, i) =>
-        i === x ? d.classList.add('active') : d.classList.remove('active')
-    );
 }
 
 export function changeValue(target, options) {
     const value = isNum(target.value)
         ? +target.value
         : target.value in easing
-        ? easing[target.value]
-        : target.value;
+            ? easing[target.value]
+            : target.value;
     slidy.update({ [target.name]: value });
     options[target.name] = value;
 
