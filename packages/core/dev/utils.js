@@ -2,6 +2,7 @@ import * as easing from './build/src/easing.js';
 
 export function moving(e) {
     position = e.position;
+    options.index = e.index;
     stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
 
     node.childNodes.forEach((n, i) =>
@@ -15,7 +16,6 @@ export function moving(e) {
     );
 }
 export function indexing(x) {
-    options.index = x;
     if (!changing) {
         document.querySelector('input[name=index]').value = x;
     }

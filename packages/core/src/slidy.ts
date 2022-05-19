@@ -233,7 +233,7 @@ export function slidy(
         const clamped = clamp || edges(options.index as number);
         snapping(options.index as number);
 
-        if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord);
+        if (!clamp) move(edges(options.index as number) ? coord / 4.5 : coord, options.index);
         if (options.snap || clamp) {
             wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69)
         }
