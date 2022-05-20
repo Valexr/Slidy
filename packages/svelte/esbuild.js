@@ -30,12 +30,14 @@ const cssModulesOptions = {
 };
 
 const esbuildBase = {
-	entryPoints: ["src/index.ts"],
+	watch: DEV,
 	bundle: true,
-	minify: true,
-	sourcemap: false,
 	legalComments: "none",
-	external: ["svelte", "svelte/*"],
+	minify: !DEV && !SVELTE,
+	incremental: DEV || SVELTE,
+	entryPoints: ["src/index.ts"],
+	sourcemap: (DEV || SVELTE) && "inline",
+	external: !DEV && !SVELTE ? ["svelte", "svelte/*"] : [],
 	plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
 };
 
@@ -43,7 +45,7 @@ const derverConfig = {
 	dir: "public",
 	port: 3331,
 	host: "0.0.0.0",
-	watch: ["public", "src", "dist", "node_modules/@slidy/core"],
+	watch: ["public", "src", "node_modules/@slidy/core"],
 };
 
 if (DEV) {
@@ -51,23 +53,15 @@ if (DEV) {
 		...esbuildBase,
 		outfile: "./dist/slidy.mjs",
 		format: "esm",
-		sourcemap: "inline",
-		minify: false,
-		incremental: true,
-		watch: true,
 	}).then((bundle) => {
 		console.log("Watching @slidy/svelte...");
 	});
 } else if (SVELTE) {
 	build({
+		...esbuildBase,
 		entryPoints: ["src/dev/main.ts"],
 		outfile: "public/build/bundle.js",
 		platform: "browser",
-		bundle: true,
-		sourcemap: "inline",
-		incremental: true,
-		legalComments: "none",
-		plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
 	}).then((bundle) => {
 		derver({
 			...derverConfig,

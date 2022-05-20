@@ -44,9 +44,9 @@ if (DEV || CORE) {
         ...esbuildBase,
         ...(CORE
             ? {
-                  entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
-                  outdir: 'dev/build',
-              }
+                entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
+                outdir: 'dev/build',
+            }
             : { outfile: 'dist/index.mjs' }),
         globalName: 'Slidy',
     }).then((bundle) => {
