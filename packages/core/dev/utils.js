@@ -1,4 +1,4 @@
-import * as easing from './build/src/easing.js';
+import * as easing from './build/easing.js';
 
 export function moving(e) {
     position = e.position;

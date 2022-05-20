@@ -1,6 +1,5 @@
 import { clamp, coordinate, indexing, dispatch, listen, mount, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import { linear } from './easing';
 import type { Options, Slidy, UniqEvent } from './types';
 
 export function slidy(
@@ -16,7 +15,7 @@ export function slidy(
         indent: 1,
         gravity: 1.2,
         duration: 375,
-        easing: linear,
+        easing: function linear(t) { return t },
         snap: undefined,
         vertical: false,
         clamp: false,
