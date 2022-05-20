@@ -85,7 +85,7 @@ type Easing = (t: number) => number;
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 
-[DEMO]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
+[DEMO]: https://slidy-core.surge.sh
 [NPM]: https://www.npmjs.com/package/@slidy/easing
 [CDN]: https://unpkg.com/@slidy/easing/
 [REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
