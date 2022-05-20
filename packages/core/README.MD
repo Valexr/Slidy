@@ -28,8 +28,8 @@ npm i -D @slidy/core
 ```
 or from [CDN]:
 
-```js
-import { slidy } from 'https://unpkg.com/@slidy/core';
+```html
+<script src="https://unpkg.com/@slidy/core"></script>
 ```
 
 Playground is available in svelte [REPL].
@@ -66,7 +66,7 @@ All `options` are optional, but mount `node` required:
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/core/dist/index.js"></script>
+    <script src="https://unpkg.com/@slidy/core"></script>
 </head>
 
 <script>
@@ -74,7 +74,7 @@ All `options` are optional, but mount `node` required:
         node = document.querySelector('#slidy'),
 
         window.onload = () => {
-            slidy = Slidy.slidy(node);
+            slidy = Slidy.core(node);
         }
 </script>
 

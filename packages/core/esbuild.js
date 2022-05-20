@@ -27,13 +27,14 @@ const derverConfig = {
 };
 const builds = {
     cjs: {
-        outfile: './dist/index.cjs',
+        outfile: 'dist/index.cjs',
     },
     esm: {
-        outfile: './dist/index.mjs',
+        outfile: 'dist/index.mjs',
     },
     iife: {
-        outfile: './dist/index.js',
+        entryPoints: ['src/iife.ts'],
+        outfile: 'dist/index.js',
     },
 };
 

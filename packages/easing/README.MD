@@ -23,8 +23,8 @@ npm i -D @slidy/easing
 ```
 or from [CDN]:
 
-```js
-import * as easing from 'https://unpkg.com/@slidy/easing';
+```html
+<script src="https://unpkg.com/@slidy/easing"></script>
 ```
 
 
@@ -62,7 +62,7 @@ type Easing = (t: number) => number;
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/easing/dist/index.js"></script>
+    <script src="https://unpkg.com/@slidy/easing"></script>
 </head>
 
 <script>

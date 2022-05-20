@@ -28,8 +28,8 @@ npm i -D @slidy/media
 ```
 or from [CDN]:
 
-```js
-import { media } from 'https://unpkg.com/@slidy/media';
+```html
+<script src="https://unpkg.com/@slidy/media"></script>
 ```
 
 
@@ -55,7 +55,7 @@ Function `media({ queries, getter, cookie })` is available via named import as `
 
 ```html
 <head>
-    <script defer src="https://unpkg.com/@slidy/media/dist/index.js"></script>
+    <script src="https://unpkg.com/@slidy/media"></script>
 </head>
 
 <script>

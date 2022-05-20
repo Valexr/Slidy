@@ -54,7 +54,6 @@
         <title id="title"></title>
 
         <script type="module">
-            import { slidy as slidyCore } from './build/core.js';
             import { media as mediaStorage } from './build/media.js';
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
@@ -80,7 +79,6 @@
                 window.media = matches;
             });
 
-            window.Slidy = slidyCore;
             window.utils = utils;
             window.options = {
                 index: 4,

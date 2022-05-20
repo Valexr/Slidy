@@ -1,3 +1,5 @@
+import { slidy as slidyCore } from './build/core.js';
+
 export async function getPhotos(node, page, limit) {
     slidy?.destroy();
     slidyT?.destroy();
@@ -11,8 +13,8 @@ export async function getPhotos(node, page, limit) {
                 node.innerHTML = thumbs.innerHTML = dots.innerHTML = '';
 
                 createSlides(photos).then(() => {
-                    slidy = Slidy(node, options);
-                    slidyT = Slidy(thumbs, { gravity: 1, duration: 500 });
+                    slidy = slidyCore(node, options);
+                    slidyT = slidyCore(thumbs, { gravity: 1, duration: 500 });
                 });
             } else {
                 node.style.transform = '';
