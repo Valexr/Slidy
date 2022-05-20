@@ -1,7 +1,7 @@
 /** Easing function.
  * @param t value from 0 to 1
  * @returns value from 0 to 1
- * @default easeInOutCubic
+ * @default linear
  * @see https://easings.net
  */
 
