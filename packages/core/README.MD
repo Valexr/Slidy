@@ -112,7 +112,7 @@ All `options` are optional, but mount `node` required:
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
 | `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
-| `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0`. See more in [easing.ts](https://github.com/Valexr/Slidy/blob/master/packages/core/src/easing.ts). Available from `@slidy/core/dist/easing`.|
+| `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
@@ -124,16 +124,18 @@ All `options` are optional, but mount `node` required:
 <head>
     <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
+        import { linear } from 'https://unpkg.com/@slidy/easing/dist/index.mjs'
 
         const options = {
                 index: 0,
+                indent: 0,
                 gravity: 1.2,
                 duration: 375,
-                indent: 0,
-                loop: false,
-                clamp: false,
+                easing: linear,
                 vertical: false,
                 snap: 'center',
+                clamp: false,
+                loop: false,
             }
 
         slidy(node, options)
