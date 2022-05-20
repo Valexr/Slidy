@@ -30,7 +30,9 @@ import * as easing from 'https://unpkg.com/@slidy/easing';
 
 ## Usage
 
-Easing functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. Includes `linear, quad, cubic, quart, quint, bounce, sine, expo, elastic, circ, back` as EaseIn functions. More info: https://easings.net.
+Easing functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
+Includes `linear, quad, cubic, quart, quint, bounce, sine, expo, elastic, circ, back` as EaseIn functions.  
+More info: https://easings.net.
 
 ```ts
 /** Easing function.
