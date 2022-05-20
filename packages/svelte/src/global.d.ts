@@ -10,6 +10,13 @@ type SlidyEvent<T> = (event: CustomEvent<T>) => void;
 
 declare namespace svelte.JSX {
 	interface HTMLAttributes<T> {
+		gap: number;
+		last: number;
+		start: number;
+		end: number;
+		size: number;
+		active: number;
+		scrollable: boolean;
 		ondestroy?: SlidyEvent<HTMLElement>;
 		onindex?: SlidyEvent<Position>;
 		onkeys?: (event: unknown) => unknown;

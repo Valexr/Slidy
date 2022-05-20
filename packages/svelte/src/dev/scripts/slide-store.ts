@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import { getPhotos, randInt, clamp } from "../../helpers";
-import type { Slide } from "../../types";
+import type { Slide } from "../../components/Slidy/Slidy.types";
 
 /**
  * Manages the slides to display.

@@ -47,8 +47,7 @@ if (DEV || CORE) {
                 entryPoints: ['@slidy/core', '@slidy/media', 'src/easing.ts'],
                 outdir: 'dev/build',
             }
-            : { outfile: 'dist/index.mjs' }),
-        globalName: 'Slidy',
+            : { outfile: 'dist/index.mjs' })
     }).then((bundle) => {
         if (DEV) console.log('watching @slidy/core...');
         else

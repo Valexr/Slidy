@@ -1,43 +1,25 @@
 <script lang="ts" context="module">
-	import { Slidy } from '@slidy/svelte';
-	import { media as mediaStore, type Queries } from '@slidy/media';
+	import { Slidy } from '@slidy/svelte/src';
+	import '@slidy/svelte/slidy.css';
+	import { media, type Queries } from '$lib/media';
 	import { getPhotos } from '$lib/api';
 
-	const queries = {
-		xs: '(max-width: 480px)',
-		sm: '(max-width: 600px)',
-		md: '(max-width: 840px)',
-		lg: '(max-width: 960px)',
-		xl: '(max-width: 1280px)',
-		xxl: '(min-width: 1281px)',
-		landscape: '(orientation: landscape)',
-		portrait: '(orientation: portrait)',
-		dark: '(prefers-color-scheme: dark)',
-		light: '(prefers-color-scheme: light)',
-		mouse: '(hover: hover)',
-		touch: '(hover: none)'
-	};
-
-	const media = mediaStore({ queries, cookie: true });
-
 	export async function load({ session }) {
-		const { theme = JSON.stringify(media.matches) } = session.user;
+		let { theme = JSON.stringify(media.matches) } = session.user;
 
 		return {
 			props: {
-				theme
+				theme: JSON.parse(theme)
 			}
 		};
 	}
 </script>
 
 <script lang="ts">
-	let main,
+	let main: HTMLElement,
 		page = Math.trunc(Math.random() * 99);
 
 	export let theme: Queries = media.matches;
-
-	$: theme = JSON.parse(theme as unknown as string);
 </script>
 
 <svelte:head>
@@ -52,14 +34,14 @@
 <main bind:this={main}>
 	{#await getPhotos(page, main) then slides}
 		<Slidy
-			{slides}
 			getImgSrc={(item) => item.download_url}
-			clamp
-			index={4}
-			snap="center"
 			duration={450}
 			gravity={1.45}
+			snap="center"
 			thumbnail
+			index={4}
+			{slides}
+			clamp
 		/>
 	{/await}
 </main>

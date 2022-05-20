@@ -103,7 +103,7 @@
 			position = detail.position;
 		}}
 		on:resize
-		on:update		
+		on:update
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			{@const active = i === index}
@@ -150,18 +150,18 @@
 		<slot name="thumbnail">
 			<nav class="slidy-thumbnail">
 				<svelte:self
-					arrows={false}
-					{background}
 					clamp={true}
-					className={thumbnail ? "thumbnail" : ""}
+					arrows={false}
 					counter={false}
-					getImgSrc={getThumbSrc}
-					{duration}
-					{gravity}
-					{index}
 					navigation={false}
-					{slides}
+					className="thumbnail"
+					getImgSrc={getThumbSrc}
+					{background}
+					{duration}
 					{vertical}
+					{gravity}
+					{slides}
+					{index}
 					on:select={event => index = event.detail.index}
 				/>
 			</nav>

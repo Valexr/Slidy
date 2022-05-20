@@ -32,12 +32,13 @@ const cssModulesOptions = {
 const esbuildBase = {
 	watch: DEV,
 	bundle: true,
+	globalName: "slidy",
 	legalComments: "none",
 	minify: !DEV && !SVELTE,
 	incremental: DEV || SVELTE,
 	entryPoints: ["src/index.ts"],
 	sourcemap: (DEV || SVELTE) && "inline",
-	external: !DEV && !SVELTE ? ["svelte", "svelte/*"] : [],
+	external: !SVELTE ? ["svelte", "svelte/*"] : [],
 	plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
 };
 
@@ -46,6 +47,18 @@ const derverConfig = {
 	port: 3331,
 	host: "0.0.0.0",
 	watch: ["public", "src", "node_modules/@slidy/core"],
+};
+
+const builds = {
+	cjs: {
+		outfile: "dist/slidy.cjs",
+	},
+	esm: {
+		outfile: "dist/slidy.mjs",
+	},
+	iife: {
+		outfile: "dist/slidy.js",
+	}
 };
 
 if (DEV) {
@@ -75,23 +88,15 @@ if (DEV) {
 	});
 } else {
 	(async () => {
-		await build({
-			...esbuildBase,
-			outfile: "dist/slidy.cjs",
-			format: "cjs",
-		});
-		await build({
-			...esbuildBase,
-			outfile: "dist/slidy.mjs",
-			format: "esm",
-		});
-		await build({
-			...esbuildBase,
-			outfile: "dist/slidy.js",
-			globalName: "slidy",
-			format: "iife",
-		});
-		await transpile({
+		for (const key in builds) {
+			await build({
+				...esbuildBase,
+				...builds[key],
+				format: key,
+			});
+		}
+	})().then(() => {
+		transpile({
 			input: "./src/",
 			output: "./dist/",
 			ext: [".svelte", ".ts"],
@@ -99,5 +104,5 @@ if (DEV) {
 			replace: [["./slidy.module.css", "../../slidy.css"]],
 			remove: ["images-api", "module.css"],
 		});
-	})();
+	});
 }
