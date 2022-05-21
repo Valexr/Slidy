@@ -111,7 +111,8 @@ All `options` are optional, but mount `node` required:
 | `index`      | `0`                | `number`   | Start index |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges (`gap * indent`). |
+| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges `gap * indent`. |
+| `step`       | `1`                | `number`   | Scroll range in clamp, e.shiftKey & key navigation modes: `step - < index > + step`). |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
@@ -127,6 +128,7 @@ All `options` are optional, but mount `node` required:
         import { linear } from 'https://unpkg.com/@slidy/easing/dist/index.mjs'
 
         const options = {
+                step: 1,
                 index: 0,
                 indent: 0,
                 gravity: 1.2,

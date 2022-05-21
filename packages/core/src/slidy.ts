@@ -11,6 +11,7 @@ export function slidy(
     to: (index: number, target?: number) => void;
 } {
     const options: Options = {
+        step: 1,
         index: 0,
         indent: 1,
         gravity: 1.2,
@@ -226,7 +227,11 @@ export function slidy(
 
         scroll(
             options.clamp
-                ? clamp((options.index as number) - 1, index, (options.index as number) + 1)
+                ? clamp(
+                      (options.index as number) - (options.step as number),
+                      index,
+                      (options.index as number) + (options.step as number)
+                  )
                 : index,
             amplitude
         );
@@ -236,7 +241,7 @@ export function slidy(
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
-        const index = (options.index as number) + Math.sign(coord);
+        const index = (options.index as number) + Math.sign(coord) * (options.step as number);
         const clamp = options.clamp || e.shiftKey;
         const clamped = clamp || edges(options.index as number);
         const pos = edges(options.index as number) ? coord / 4.5 : coord;
@@ -251,7 +256,11 @@ export function slidy(
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
         const prev = ['ArrowLeft', 'ArrowUp'];
-        const index = prev.includes(e.key) ? -1 : next.includes(e.key) ? 1 : 0;
+        const index = prev.includes(e.key)
+            ? -(options.step as number)
+            : next.includes(e.key)
+            ? (options.step as number)
+            : 0;
 
         to((options.index as number) + index);
         dispatch(node, 'keys', e.key);

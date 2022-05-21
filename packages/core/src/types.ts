@@ -3,6 +3,7 @@ export interface Options {
     indent: number;
     gravity?: number;
     duration?: number;
+    step?: number;
     easing: Easing;
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
