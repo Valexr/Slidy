@@ -26,8 +26,8 @@ export function changeValue(target, options) {
     const value = isNum(target.value)
         ? +target.value
         : target.value in easing
-            ? easing[target.value]
-            : target.value;
+        ? easing[target.value]
+        : target.value;
     slidy.update({ [target.name]: value });
     options[target.name] = value;
 

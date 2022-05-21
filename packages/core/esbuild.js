@@ -59,7 +59,7 @@ if (DEV || CORE) {
         build({
             ...esbuildBase,
             ...builds[key],
-            format: key
+            format: key,
         });
     }
 }

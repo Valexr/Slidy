@@ -58,7 +58,7 @@ const builds = {
 	},
 	iife: {
 		outfile: "dist/slidy.js",
-	}
+	},
 };
 
 if (DEV) {

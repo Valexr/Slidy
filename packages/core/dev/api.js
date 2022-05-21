@@ -14,7 +14,7 @@ export async function getPhotos(node, page, limit) {
 
                 createSlides(photos).then(() => {
                     slidy = slidyCore(node, options);
-                    slidyT = slidyCore(thumbs, { gravity: 1, duration: 500 });
+                    slidyT = slidyCore(thumbs, { gravity: 1 });
                 });
             } else {
                 node.style.transform = '';
@@ -47,9 +47,11 @@ export async function getPhotos(node, page, limit) {
                 'height'
             )}" alt="${p.author}"/></li>`;
 
-            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${p.id
-                }/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio
-                }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${
+                p.id
+            }/${100 * window.devicePixelRatio}/${
+                100 * window.devicePixelRatio
+            }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
 
             dots.innerHTML += `<button id="${i}">${i}</button>`;
         });
