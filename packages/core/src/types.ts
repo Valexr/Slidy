@@ -1,13 +1,12 @@
 export interface Options {
     index?: number;
     indent: number;
+    clamp?: number;
     gravity?: number;
     duration?: number;
-    step?: number;
     easing: Easing;
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
-    clamp?: boolean;
     loop?: boolean;
 }
 
@@ -20,20 +19,20 @@ export interface Slidy extends HTMLElement {
     active: number;
     scrollable: boolean;
     onmount?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
+    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+    | null;
     onresize: ((this: GlobalEventHandlers, e: UIEvent) => any) | null;
     onmove?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onindex?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
+    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+    | null;
     onkeys?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
     onupdate?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
+    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+    | null;
     ondestroy?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | undefined;
+    | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
+    | undefined;
 }
 
 export interface Child extends HTMLElement {

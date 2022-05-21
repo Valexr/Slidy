@@ -111,11 +111,10 @@ All `options` are optional, but mount `node` required:
 | `index`      | `0`                | `number`   | Start index |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges `gap * indent`. |
-| `step`       | `1`                | `number`   | Scroll range in clamp, e.shiftKey & key navigation modes: `step - < index > + step`). |
+| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges `gap * indent` |
+| `clamp`      | `0`                | `number`   | Clamping scroll by index: `clamp - < index > + clamp` |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
-| `clamp`      | `false`            | `boolean`  | Clamping scroll by index |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
 | `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. If `undefined`, when possible snap by `center` & prevent scroll by edges. |
 

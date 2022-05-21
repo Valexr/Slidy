@@ -63,13 +63,10 @@ function style(node: HTMLElement, styles: CssRules): void {
 }
 
 function indexing(node: Slidy, index: number, loop?: boolean) {
-    if (loop) {
-        if (index < 0) {
-            return node.children.length - 1;
-        } else if (index > node.children.length - 1) {
-            return 0;
-        } else return index;
-    } else return clamp(0, index, node.children.length - 1);
+    return loop
+        ? index < 0 ? node.children.length - 1
+            : index > node.children.length - 1 ? 0 : index
+        : clamp(0, index, node.children.length - 1);
 }
 
 function coordinate(e: UniqEvent, vertical?: boolean): number {

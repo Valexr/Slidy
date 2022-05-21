@@ -11,8 +11,8 @@ export function slidy(
     to: (index: number, target?: number) => void;
 } {
     const options: Options = {
-        step: 1,
         index: 0,
+        clamp: 1,
         indent: 1,
         gravity: 1.2,
         duration: 375,
@@ -21,7 +21,6 @@ export function slidy(
         },
         snap: undefined,
         vertical: false,
-        clamp: false,
         loop: false,
         ...opts,
     };
@@ -225,23 +224,29 @@ export function slidy(
         const amplitude = distance * (2 - GRAVITY);
         const index = find(node, options).index(position + amplitude, SNAP);
 
-        scroll(
-            options.clamp
-                ? clamp(
-                      (options.index as number) - (options.step as number),
-                      index,
-                      (options.index as number) + (options.step as number)
-                  )
-                : index,
-            amplitude
-        );
+        scroll(clamping(index, options), amplitude);
+    }
+
+    function clamping(index: number, options: Options) {
+        if (options.loop) {
+            if (index <= 0) {
+                return index
+            } else if (index >= node.children.length - 1) {
+                return index
+            }
+        }
+        return options.clamp ? clamp(
+            (options.index as number) - (options.clamp as number),
+            index,
+            (options.index as number) + (options.clamp as number)
+        ) : index
     }
 
     function onWheel(e: UniqEvent): void {
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
-        const index = (options.index as number) + Math.sign(coord) * (options.step as number);
+        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamp = options.clamp || e.shiftKey;
         const clamped = clamp || edges(options.index as number);
         const pos = edges(options.index as number) ? coord / 4.5 : coord;
@@ -257,12 +262,10 @@ export function slidy(
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
         const prev = ['ArrowLeft', 'ArrowUp'];
         const index = prev.includes(e.key)
-            ? -(options.step as number)
-            : next.includes(e.key)
-            ? (options.step as number)
-            : 0;
+            ? -1 : next.includes(e.key)
+                ? 1 : 0;
 
-        to((options.index as number) + index);
+        to((options.index as number) + (options.clamp || 1) * index);
         dispatch(node, 'keys', e.key);
 
         e.preventDefault();
