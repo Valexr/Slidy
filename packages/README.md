@@ -1,8 +1,8 @@
-Since version 3 Slidy have separate monorepo [packages](https://github.com/Valexr/slidy/tree/master/packages) structure:
+## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
--   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - nativeJS core sliding script
--   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - nativeJS observable media store
--   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - NativeJS easing functions
+-   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
+-   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
+-   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 -   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
