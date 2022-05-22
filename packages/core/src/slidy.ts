@@ -1,6 +1,6 @@
-import { clamp, coordinate, indexing, dispatch, listen, mount, style } from './utils/env';
+import { clamp, coordinate, indexing, dispatch, mount } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import type { Options, Slidy, UniqEvent } from './types';
+import type { Options, Slidy } from './types';
 
 export function slidy(
     node: Slidy,
@@ -12,7 +12,7 @@ export function slidy(
 } {
     const options: Options = {
         index: 0,
-        clamp: 1,
+        clamp: 0,
         indent: 1,
         gravity: 1.2,
         duration: 375,
@@ -32,28 +32,11 @@ export function slidy(
         reference = 0,
         direction = 0,
         timestamp = 0,
-        scrolled = false,
         frame = position,
         wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
-
-    const WINDOW_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
-        ['touchmove', onMove as EventListener, { passive: false, capture: true }],
-        ['mousemove', onMove as EventListener],
-        ['touchend', onUp],
-        ['mouseup', onUp],
-        ['scroll', onScroll],
-    ];
-    const NODE_EVENTS: [string, EventListener, AddEventListenerOptions?][] = [
-        ['contextmenu', clear],
-        ['dragstart', (e) => e.preventDefault()],
-        ['touchstart', onDown as EventListener, { passive: false, capture: true }],
-        ['mousedown', onDown as EventListener],
-        ['keydown', onKeys as EventListener],
-        ['wheel', onWheel as EventListener, { passive: false, capture: true }],
-    ];
 
     const RAF = requestAnimationFrame;
 
@@ -84,15 +67,17 @@ export function slidy(
 
     mount(node)
         .then((childs) => {
-            style(node, {
-                outline: 'unset',
-                overflow: 'hidden',
-                position: 'relative',
-                userSelect: 'none',
-                webkitUserSelect: 'none',
-            });
+            node.style.outline = 'unset'
+            node.style.overflow = 'hidden'
+            node.style.position = 'relative'
+            node.style.touchAction = 'none'
+            node.onpointerup = onUp
+            node.onpointerdown = onDown
+            node.oncontextmenu = clear
+            node.onkeydown = onKeys
+            node.onwheel = onWheel
+
             RO.observe(node);
-            listen(node, NODE_EVENTS);
             position = replace(node, options);
             dispatch(node, 'mount', { childs, options });
         })
@@ -130,10 +115,9 @@ export function slidy(
         }
 
         function moving(childs: HTMLCollection): void {
-            for (let index = 0; index < childs.length; index++) {
-                style(childs[index] as HTMLElement, {
-                    transform: translate(options.vertical),
-                });
+            for (const child of childs) {
+                const el = child as HTMLElement
+                el.style.transform = translate(options.vertical)
             }
         }
 
@@ -175,37 +159,36 @@ export function slidy(
 
     function to(index = 0, duration = DURATION): void {
         clear();
-        index = indexing(node, index, options.loop);
+        index = indexing(node, index, options.loop)
         const pos = find(node, options).position(index, SNAP) - position;
         scroll(index, pos, duration);
     }
 
-    function onDown(e: UniqEvent): void {
+    function onDown(e: PointerEvent): void {
         clear();
+
+        node.style.touchAction = 'auto'
+        node.onpointermove = onMove
+        node.setPointerCapture(e.pointerId);
+        node.onpointercancel = () => to(options.index)
 
         reference = coordinate(e, options.vertical);
         timestamp = performance.now();
         frame = position;
         distance = 0;
 
-        listen(window, WINDOW_EVENTS);
+        e.preventDefault()
     }
 
-    function onMove(e: UniqEvent): void {
+    function onMove(e: PointerEvent): void {
+        node.style.touchAction = 'none'
+
         const delta = reference - coordinate(e, options.vertical);
         const pos = delta * (2 - GRAVITY);
         reference = coordinate(e, options.vertical);
 
         move(pos);
         track();
-
-        if (Math.abs(delta) > 2) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else if (scrolled) {
-            to(options.index);
-            GRAVITY = 2;
-        }
 
         function track(): void {
             const elapsed = performance.now() - timestamp;
@@ -228,33 +211,37 @@ export function slidy(
     }
 
     function clamping(index: number, options: Options) {
-        if (options.loop) {
-            if (index <= 0) {
-                return index
-            } else if (index >= node.children.length - 1) {
-                return index
-            }
-        }
-        return options.clamp ? clamp(
-            (options.index as number) - (options.clamp as number),
-            index,
-            (options.index as number) + (options.clamp as number)
-        ) : index
+        // if (options.loop) {
+        //     if (options.index === 0) {
+        //         index = (options.index as number) + (options.clamp as number)
+        //     } else if (index === node.children.length - 1) {
+        //         index = (options.index as number) - (options.clamp as number)
+        //     }
+        // }
+        const min = (options.index as number) - (options.clamp as number)
+        const max = (options.index as number) + (options.clamp as number)
+        const mix = clamp(min, index, max)
+
+        // console.log(min, index, max, options.index, mix)
+
+        return options.clamp ? mix : index
     }
 
-    function onWheel(e: UniqEvent): void {
+    function onWheel(e: WheelEvent): void {
         clear();
 
         const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
-        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
+        const index = (options.index as number) + (Math.sign(coord) * (options.clamp || 1));
         const clamp = options.clamp || e.shiftKey;
-        const clamped = clamp || edges(options.index as number);
-        const pos = edges(options.index as number) ? coord / 4.5 : coord;
+        const clamped = clamp || edges(options.index);
+        const pos = edges(options.index) ? coord / 4.5 : coord;
         snapping(options.index as number);
 
         if (!clamp) move(pos, options.index);
         if (options.snap || clamp) {
-            wst = setTimeout(() => to(clamped ? index : options.index), clamped ? 0 : 69);
+            wst = setTimeout(() => {
+                to(clamped ? index : options.index)
+            }, clamped ? 0 : 69);
         }
     }
 
@@ -271,16 +258,11 @@ export function slidy(
         e.preventDefault();
     }
 
-    function onScroll(): void {
-        scrolled = true;
-    }
-
     function clear(): void {
-        scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(raf);
+        node.onpointermove = null
         GRAVITY = options.gravity as number;
-        listen(window, WINDOW_EVENTS, false);
     }
 
     function update(opts: Options): void {
@@ -320,7 +302,6 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        listen(node, NODE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };

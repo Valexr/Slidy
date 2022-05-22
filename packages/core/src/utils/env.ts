@@ -1,4 +1,4 @@
-import type { Child, CssRules, DispathDetail, Slidy, UniqEvent } from '../types';
+import type { Child, CssRules, DispathDetail, Slidy } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -57,6 +57,7 @@ function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<C
 }
 
 function style(node: HTMLElement, styles: CssRules): void {
+    // console.log(styles)
     for (const property in styles) {
         node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
     }
@@ -69,16 +70,19 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         : clamp(0, index, node.children.length - 1);
 }
 
-function coordinate(e: UniqEvent, vertical?: boolean): number {
+function coordinate(e: WheelEvent | PointerEvent, vertical?: boolean): number {
     if (e.type === 'wheel') {
-        const X = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        const X = Math.abs((e as WheelEvent).deltaX) > Math.abs((e as WheelEvent).deltaY);
         if (X || e.shiftKey) e.preventDefault();
-        return e.shiftKey ? (X ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : X ? e.deltaX : 0;
-    } else return vertical ? uniQ(e).clientY : uniQ(e).clientX;
+        return e.shiftKey
+            ? (X ? (e as WheelEvent).deltaX
+                : (e as WheelEvent).deltaY) : X
+                ? (e as WheelEvent).deltaX : 0;
+    } else return vertical ? e.clientY : e.clientX;
 }
 
-const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
-    e.changedTouches ? e.changedTouches[0] : e;
+// const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
+//     e.changedTouches ? e.changedTouches[0] : e;
 
 function clamp(min: number, val: number, max: number) {
     return Math.min(max, Math.max(min, val));

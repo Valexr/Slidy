@@ -51,18 +51,20 @@ export interface CssRules {
     opacity?: number;
     display?: string;
     position?: string;
+    touchAction?: string;
 }
 
-export interface UniqEvent extends Event {
-    changedTouches: Array<{ [key: string]: number }>;
-    deltaMode: number;
-    deltaX: number;
-    deltaY: number;
-    clientX: number;
-    clientY: number;
-    shiftKey: boolean;
-    target: EventTarget;
-}
+// export interface UniqEvent extends PointerEvent {
+//     changedTouches: Array<{ [key: string]: number }>;
+//     deltaMode: number;
+//     deltaX: number;
+//     deltaY: number;
+//     clientX: number;
+//     clientY: number;
+//     shiftKey: boolean;
+//     target: EventTarget;
+//     pointerId: number;
+// }
 
 export type DispathDetail =
     | { [key: string]: any }

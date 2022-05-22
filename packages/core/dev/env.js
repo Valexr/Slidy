@@ -13,7 +13,17 @@ export function setEvents() {
                         if (options[button.id]) {
                             button.classList.add('active');
                         } else if (!isNaN(button.id)) {
-                            button.onclick = (e) => slidy.to(+e.target.id);
+                            let duration = 0;
+                            button.onpointerdown = (e) => {
+                                duration = e.timeStamp;
+                                e.target.onpointermove = null;
+                                e.target.onpointermove = (e) => {
+                                    e.target.onpointerup = null;
+                                };
+                                e.target.onpointerup = (e) => {
+                                    slidy.to(+e.target.id, e.timeStamp - duration);
+                                };
+                            };
                         }
                     }
 

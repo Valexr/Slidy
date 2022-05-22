@@ -116,7 +116,7 @@ All `options` are optional, but mount `node` required:
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. If `undefined`, when possible snap by `center` & prevent scroll by edges. |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, scroll to index snap by `center` & prevent scroll by edges. |
 
 ### Usage
 
