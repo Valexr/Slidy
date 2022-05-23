@@ -55,6 +55,7 @@
 
         <script type="module">
             import { media as mediaStorage } from './build/media.js';
+            import * as easings from './build/easing.js';
             import * as utils from './utils.js';
             import { getPhotos } from './api.js';
             import { setEvents } from './env.js';
@@ -80,6 +81,7 @@
             });
 
             window.utils = utils;
+            window.easings = easings;
             window.options = {
                 index: 4,
                 clamp: 0,
@@ -157,27 +159,23 @@
             <nav id="dots"></nav>
 
             <nav id="buttons">
-                <button id="loop" onclick="slidy.update({loop: utils.activate(this, options.loop)})">
+                <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
                     loop
                 </button>
-                <button id="vertical" onclick="slidy.update({vertical: utils.activate(this, options.vertical)})">
+                <button id="vertical" onclick="slidy.update({ vertical: options.vertical = !options.vertical})">
                     vertical
                 </button>
             </nav>
 
             <form>
                 <fieldset>
-                    <label title="align">
-                        <select id="snap" value="center" name="snap" onchange="utils.changeValue(this, options)">
-                            <option value="">unset</option>
-                            <option value="start">← start</option>
-                            <option value="center">center</option>
-                            <option value="end">end →</option>
+                    <label title="snap">
+                        <select id="snap" name="snap" onchange="slidy.update({ snap: this.value })">
                         </select>
                     </label>
-                    <label title="easings">
-                        <select id="easings" value="center" name="easing"
-                            onchange="utils.changeValue(this, options)"></select>
+                    <label title="easing">
+                        <select id="easing" name="easing" onchange="slidy.update({ easing: easings[this.value] })">
+                        </select>
                     </label>
                 </fieldset>
             </form>
@@ -185,38 +183,38 @@
             <form>
                 <fieldset>
                     <label title="clamp">
-                        <input onchange="utils.changeValue(this, options)" name="clamp" type="number" size="1" step="1"
-                            min="0" max="3" />
+                        <input id="clamp" onchange="slidy.update({ clamp: +this.value })" name="clamp" type="number"
+                            size="1" step="1" min="0" max="3" />
                     </label>
                     <label title="indent">
-                        <input onchange="utils.changeValue(this, options)" name="indent" type="number" size="1"
-                            step="0.1" min="-2" max="2" />
+                        <input id="indent" onchange="slidy.update({ indent: +this.value })" name="indent" type="number"
+                            size="1" step="0.1" min="-2" max="2" />
                     </label>
                     <label title="duration">
-                        <input onchange="utils.changeValue(this, options)" name="duration" type="number" size="2"
-                            step="1" min="100" max="1000" />
+                        <input id="duration" onchange="slidy.update({ duration: +this.value })" name="duration"
+                            type="number" size="2" step="1" min="100" max="1000" />
                     </label>
                     <label title="gravity">
-                        <input onchange="utils.changeValue(this, options)" name="gravity" type="number" size="1"
-                            step="0.1" min="0.1" max="2" />
-                    </label>
-                    <label title="length">
-                        <input onchange="utils.changeValue(this, options)" name="length" type="number" size="1" step="1"
-                            min="1" max="50" />
+                        <input id="gravity" onchange="slidy.update({ gravity: +this.value })" name="gravity"
+                            type="number" size="1" step="0.1" min="0.1" max="2" />
                     </label>
                 </fieldset>
             </form>
 
             <form>
                 <fieldset>
+                    <label title="length">
+                        <input id="length" onchange="utils.changeLength(this)" name="length" type="number" size="1"
+                            step="1" min="1" max="50" />
+                    </label>
                     <label title="width">
-                        <input onchange="utils.setVar(main, this.name, this.value)" name="width" size="4" />
+                        <input onchange="utils.setVar(this)" name="width" size="4" />
                     </label>
                     <label title="height">
-                        <input onchange="utils.setVar(main, this.name, this.value)" name="height" size="5" />
+                        <input onchange="utils.setVar(this)" name="height" size="5" />
                     </label>
                     <label title="gap">
-                        <input onchange="utils.setVar(main, this.name, this.value)" name="gap" size="4" />
+                        <input onchange="utils.setVar(this)" name="gap" size="4" />
                     </label>
                 </fieldset>
             </form>

@@ -1,4 +1,4 @@
-import { clamp, coordinate, indexing, dispatch, mount } from './utils/env';
+import { clamp, coordinate, indexing, dispatch, mount, throttle, listen } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
 import type { Options, Slidy } from './types';
 
@@ -35,6 +35,7 @@ export function slidy(
         frame = position,
         wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
+        CLAMP = options.clamp,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
 
@@ -71,11 +72,20 @@ export function slidy(
             node.style.overflow = 'hidden'
             node.style.position = 'relative'
             node.style.touchAction = 'none'
+
             node.onpointerup = onUp
             node.onpointerdown = onDown
             node.oncontextmenu = clear
-            node.onkeydown = onKeys
-            node.onwheel = onWheel
+            node.onkeydown = throttle(onKeys, DURATION)
+            node.onwheel = options.clamp ? throttle(onWheel, DURATION) : onWheel
+            // node.onscroll = (e) => {
+            //     console.log(e)
+            //     e.preventDefault()
+            //     // e.stopPropagation()
+            //     // e.stopImmediatePropagation()
+            // }
+
+            listen(window, [['wheel', winWheel as EventListener, { passive: false, capture: false }]])
 
             RO.observe(node);
             position = replace(node, options);
@@ -153,7 +163,7 @@ export function slidy(
             const pos = current - position - delta;
 
             raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
-            return move(pos, index);
+            move(pos, index);
         });
     }
 
@@ -167,12 +177,12 @@ export function slidy(
     function onDown(e: PointerEvent): void {
         clear();
 
-        node.style.touchAction = 'auto'
         node.onpointermove = onMove
-        node.setPointerCapture(e.pointerId);
+        node.style.touchAction = 'auto'
+        e.pointerType === 'mouse' && node.focus()
         node.onpointercancel = () => to(options.index)
 
-        reference = coordinate(e, options.vertical);
+        reference = coordinate(e, options);
         timestamp = performance.now();
         frame = position;
         distance = 0;
@@ -181,11 +191,13 @@ export function slidy(
     }
 
     function onMove(e: PointerEvent): void {
+        node.setPointerCapture(e.pointerId);
         node.style.touchAction = 'none'
+        e.pointerType === 'mouse' && node.blur()
 
-        const delta = reference - coordinate(e, options.vertical);
+        const delta = reference - coordinate(e, options);
         const pos = delta * (2 - GRAVITY);
-        reference = coordinate(e, options.vertical);
+        reference = coordinate(e, options);
 
         move(pos);
         track();
@@ -201,12 +213,12 @@ export function slidy(
         }
     }
 
-    function onUp(): void {
+    function onUp(e: PointerEvent): void {
         clear();
 
         const amplitude = distance * (2 - GRAVITY);
         const index = find(node, options).index(position + amplitude, SNAP);
-
+        node.releasePointerCapture(e.pointerId);
         scroll(clamping(index, options), amplitude);
     }
 
@@ -222,26 +234,32 @@ export function slidy(
         const max = (options.index as number) + (options.clamp as number)
         const mix = clamp(min, index, max)
 
-        // console.log(min, index, max, options.index, mix)
+        console.log(min, index, max, options.index, mix)
 
         return options.clamp ? mix : index
     }
 
     function onWheel(e: WheelEvent): void {
         clear();
+        update({ clamp: e.shiftKey ? 1 : CLAMP })
 
-        const coord = coordinate(e, options.vertical) * (2 - GRAVITY);
+        const coord = coordinate(e, options) * (2 - GRAVITY)
         const index = (options.index as number) + (Math.sign(coord) * (options.clamp || 1));
-        const clamp = options.clamp || e.shiftKey;
-        const clamped = clamp || edges(options.index);
+        const clamped = options.clamp || e.shiftKey || edges(options.index);
         const pos = edges(options.index) ? coord / 4.5 : coord;
+        const ix = clamped ? index : options.index
+        const tm = clamped ? 0 : DURATION
         snapping(options.index as number);
 
-        if (!clamp) move(pos, options.index);
-        if (options.snap || clamp) {
-            wst = setTimeout(() => {
-                to(clamped ? index : options.index)
-            }, clamped ? 0 : 69);
+        if (!(options.clamp || e.shiftKey)) move(pos, options.index);
+        if (options.snap || options.clamp || e.shiftKey) {
+            wst = setTimeout(() => to(ix), tm);
+        }
+    }
+
+    function winWheel(e: WheelEvent) {
+        if (((Math.abs(e.deltaX) > Math.abs(e.deltaY)) || e.shiftKey) && e.composedPath().includes(node)) {
+            e.preventDefault()
         }
     }
 
@@ -265,7 +283,7 @@ export function slidy(
         GRAVITY = options.gravity as number;
     }
 
-    function update(opts: Options): void {
+    function update(opts: Partial<Options>): void {
         for (const key in opts) {
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
                 switch (key) {
@@ -278,6 +296,11 @@ export function slidy(
                         break;
                     case 'snap':
                         SNAP = options[key] = opts[key];
+                        to(options.index);
+                        break;
+                    case 'clamp':
+                        CLAMP = options[key] = opts[key];
+                        node.onwheel = opts[key] ? throttle(onWheel, options.duration as number / 1.5) : onWheel
                         to(options.index);
                         break;
                     case 'duration':
@@ -296,12 +319,13 @@ export function slidy(
                 }
             }
         }
-        dispatch(node, 'update', options);
+        dispatch(node, 'update', opts);
     }
 
     function destroy(): void {
         clear();
         RO.disconnect();
+        listen(window, [['wheel', winWheel as EventListener]], false)
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };

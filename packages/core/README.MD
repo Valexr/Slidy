@@ -160,7 +160,7 @@ All `options` are optional, but mount `node` required:
 | `move`   | `{index,position}`   | Fires when slidy move. `index === every.index` |
 | `index`  | `{index,position}`   | Fires on each index change. `index === target.index` |
 | `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. |
-| `update` | `{options}`          | Fires on each options update |
+| `update` | `{updated.options}`  | Fires on each options update |
 | `destroy`| `{node}`             | Fires before target node unmounted from the DOM |
 
 ### Usage

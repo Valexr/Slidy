@@ -1,5 +1,3 @@
-import * as easing from './build/easing.js';
-
 export function setEvents() {
     const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
 
@@ -7,8 +5,7 @@ export function setEvents() {
         node.addEventListener(event, (e) => {
             switch (event) {
                 case 'mount':
-                    options = e.detail.options;
-
+                    Object.assign(options, e.detail.options);
                     for (const button of document.querySelectorAll('button')) {
                         if (options[button.id]) {
                             button.classList.add('active');
@@ -30,13 +27,13 @@ export function setEvents() {
                     for (const input of document.querySelectorAll('input')) {
                         switch (input.name) {
                             case 'width':
-                                input.value = utils.getVar(main, '--width');
+                                input.value = utils.getVar('--width');
                                 break;
                             case 'height':
-                                input.value = utils.getVar(main, '--height');
+                                input.value = utils.getVar('--height');
                                 break;
                             case 'gap':
-                                input.value = utils.getVar(main, '--gap');
+                                input.value = utils.getVar('--gap');
                                 break;
                             case 'index':
                                 input.value = options.index;
@@ -61,10 +58,16 @@ export function setEvents() {
                         'back',
                         'elastic',
                         'bounce',
+                    ], snaps = [
+                        'unset',
+                        'start',
+                        'center',
+                        'end'
                     ];
-                    easings.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
-                    easings.value = options.easing.name;
-                    options.easing = easing[easings.value];
+                    easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
+                    snap.innerHTML = snaps.map((s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`);
+                    easing.value = options.easing.name;
+                    options.easing = easings[easing.value];
                     snap.value = options.snap;
                     break;
 
@@ -77,6 +80,18 @@ export function setEvents() {
                     break;
 
                 case 'update':
+                    Object.assign(options, e.detail);
+
+                    for (const option in e.detail) {
+                        const target = document.getElementById(option);
+
+                        if (target.tagName === 'BUTTON') {
+                            target.classList.toggle('active');
+                            target.id === 'vertical' && main.style.setProperty(`--flow`, e.detail[option] ? 'column' : 'row');
+                        } else {
+                            target.value = target.id === 'easing' ? e.detail[option].name : e.detail[option];
+                        }
+                    }
                     // console.log(e);
                     break;
 

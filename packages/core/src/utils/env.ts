@@ -1,4 +1,4 @@
-import type { Child, CssRules, DispathDetail, Slidy } from '../types';
+import type { Child, CssRules, DispathDetail, Options, Slidy } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -70,15 +70,14 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         : clamp(0, index, node.children.length - 1);
 }
 
-function coordinate(e: WheelEvent | PointerEvent, vertical?: boolean): number {
+function coordinate(e: WheelEvent | PointerEvent, options: Options): number {
     if (e.type === 'wheel') {
         const X = Math.abs((e as WheelEvent).deltaX) > Math.abs((e as WheelEvent).deltaY);
         if (X || e.shiftKey) e.preventDefault();
         return e.shiftKey
-            ? (X ? (e as WheelEvent).deltaX
-                : (e as WheelEvent).deltaY) : X
-                ? (e as WheelEvent).deltaX : 0;
-    } else return vertical ? e.clientY : e.clientX;
+            ? (X ? Math.sign((e as WheelEvent).deltaX) : Math.sign((e as WheelEvent).deltaY))
+            : X ? (e as WheelEvent).deltaX : 0;
+    } else return options.vertical ? e.clientY : e.clientX;
 }
 
 // const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
@@ -111,6 +110,14 @@ function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args:
     };
 }
 
+function debounce(fn: (args: any) => void, ms: number) {
+    let timeout: NodeJS.Timeout;
+    return function (args: any) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn(args), ms);
+    };
+}
+
 export {
     clamp,
     coordinate,
@@ -121,6 +128,7 @@ export {
     init,
     listen,
     throttle,
+    debounce,
     mount,
     getFPS,
 };

@@ -1,5 +1,3 @@
-import * as easing from './build/easing.js';
-
 export function moving(e) {
     position = e.position;
     options.index = e.index;
@@ -22,24 +20,16 @@ export function indexing(x) {
     slidyT.to(x);
 }
 
-export function changeValue(target, options) {
-    const value = isNum(target.value)
-        ? +target.value
-        : target.value in easing
-            ? easing[target.value]
-            : target.value;
-    slidy.update({ [target.name]: value });
-    options[target.name] = value;
-
-    if (target.name === 'length') {
-        getPhotos(node, utils.randomQ(1, 69), value);
-    }
+export function changeLength(target) {
+    options[target.name] = +target.value;
+    return getPhotos(node, utils.randomQ(1, 69), target.value);
 }
-export function getVar(node, name) {
-    return getComputedStyle(node).getPropertyValue(name);
+export function getVar(name) {
+    return getComputedStyle(main).getPropertyValue(name);
 }
-export function setVar(node, name, value) {
-    return node.style.setProperty(`--${name}`, value);
+export function setVar(target) {
+    main.style.setProperty(`--${target.name}`, target.value);
+    return slidy.to(options.index);
 }
 
 export function randomQ(min, max) {
@@ -48,19 +38,4 @@ export function randomQ(min, max) {
 
 export function isNum(number) {
     return !isNaN(parseFloat(number)) && isFinite(+number);
-}
-
-export function activate(target, prop) {
-    target.classList.toggle('active');
-    prop = !prop;
-    switch (target.id) {
-        case 'vertical':
-            utils.setVar(main, 'flow', prop ? 'column' : 'row');
-            slidy.to(options.index);
-            break;
-
-        default:
-            break;
-    }
-    return prop;
 }

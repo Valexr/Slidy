@@ -109,7 +109,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -254,8 +254,9 @@ nav#thumbs {
     flex-flow: var(--flow) nowrap;
     gap: var(--gap);
     min-width: 0;
-    width: 100%;
+    /* width: 100%; */
     height: 100%;
+    margin: auto;
     /* overflow: visible; */
     /* will-change: transform; */
 }
@@ -283,7 +284,6 @@ nav#thumbs {
     gap: 1rem;
     justify-content: center;
     max-width: max-content;
-    margin: auto;
 }
 
 nav#thumbs button {
