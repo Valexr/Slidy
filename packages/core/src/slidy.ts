@@ -1,6 +1,6 @@
-import { clamp, coordinate, indexing, dispatch, mount, throttle, listen } from './utils/env';
+import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import type { Options, Slidy } from './types';
+import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
     node: Slidy,
@@ -30,6 +30,7 @@ export function slidy(
         position = 0,
         distance = 0,
         reference = 0,
+        scrolled = false,
         direction = 0,
         timestamp = 0,
         frame = position,
@@ -38,6 +39,24 @@ export function slidy(
         CLAMP = options.clamp,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
+
+    const WINDOW_EVENTS: EventMap = [
+        ['touchmove', onMove as EventListener, { passive: false, capture: true }],
+        ['mousemove', onMove as EventListener],
+        ['touchend', onUp],
+        ['mouseup', onUp],
+    ];
+    const WINDOW_NATIVE_EVENTS: EventMap = [
+        ['wheel', winWheel as EventListener, { passive: false, capture: true }],
+        ['scroll', winScroll as EventListener],
+    ];
+    const NODE_EVENTS: EventMap = [
+        ['contextmenu', () => to(options.index)],
+        ['dragstart', (e) => e.preventDefault()],
+        ['touchstart', onDown as EventListener, { passive: false, capture: true }],
+        ['mousedown', onDown as EventListener],
+        ['keydown', throttle(onKeys, DURATION)],
+    ];
 
     const RAF = requestAnimationFrame;
 
@@ -52,8 +71,12 @@ export function slidy(
         dispatch(node, 'resize', { node, options });
     });
 
-    function edges(index?: number) {
-        return !options.loop && (index === 0 || index === node.children.length - 1);
+    function edges(index = 0, direction = 0) {
+        return (
+            !options.loop &&
+            ((index === 0 && direction <= 0 && position <= node.start) ||
+                (index === node.children.length - 1 && direction >= 0 && position >= node.end))
+        );
     }
 
     function snapping(index: number) {
@@ -68,27 +91,23 @@ export function slidy(
 
     mount(node)
         .then((childs) => {
-            node.style.outline = 'unset'
-            node.style.overflow = 'hidden'
-            node.style.position = 'relative'
-            node.style.touchAction = 'none'
-
-            node.onpointerup = onUp
-            node.onpointerdown = onDown
-            node.oncontextmenu = clear
-            node.onkeydown = throttle(onKeys, DURATION)
-            node.onwheel = options.clamp ? throttle(onWheel, DURATION) : onWheel
-            // node.onscroll = (e) => {
-            //     console.log(e)
-            //     e.preventDefault()
-            //     // e.stopPropagation()
-            //     // e.stopImmediatePropagation()
-            // }
-
-            listen(window, [['wheel', winWheel as EventListener, { passive: false, capture: false }]])
+            style(node, {
+                outline: 'unset',
+                overflow: 'hidden',
+                position: 'relative',
+                userSelect: 'none',
+                webkitUserSelect: 'none',
+                touchAction: 'pan-y',
+                webkitTapHighlightColor: 'transparent'
+            });
+            node.onwheel = options.clamp
+                ? throttle(onWheel as EventListener, DURATION)
+                : (onWheel as EventListener);
+            position = replace(node, options);
 
             RO.observe(node);
-            position = replace(node, options);
+            listen(node, NODE_EVENTS);
+            listen(window, WINDOW_NATIVE_EVENTS);
             dispatch(node, 'mount', { childs, options });
         })
         .catch((error: Error) => console.error(error));
@@ -117,10 +136,7 @@ export function slidy(
         }
 
         function graviting(index: number): void {
-            const edged =
-                edges(index) &&
-                ((position < node.start && direction < 0) ||
-                    (position > node.end && direction > 0));
+            const edged = edges(index, direction);
             GRAVITY = edged ? 1.8 : (options.gravity as number);
         }
 
@@ -129,11 +145,16 @@ export function slidy(
                 const el = child as HTMLElement
                 el.style.transform = translate(options.vertical)
             }
+            // for (let index = 0; index < childs.length; index++) {
+            //     style(childs[index] as HTMLElement, {
+            //         transform: translate(options.vertical),
+            //     });
+            // }
         }
 
         function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
-            return `translate3d(${axis})`;
+            const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
+            return `translate(${axis})`;
         }
 
         function edging(position: number): number {
@@ -147,7 +168,7 @@ export function slidy(
         snapping(index);
 
         const time = performance.now();
-        const snaped = options.snap || options.loop || edges(index);
+        const snaped = options.snap || options.loop || edges(index, direction);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
         const duration =
             _duration ||
@@ -169,56 +190,57 @@ export function slidy(
 
     function to(index = 0, duration = DURATION): void {
         clear();
-        index = indexing(node, index, options.loop)
+        index = indexing(node, index, options.loop);
         const pos = find(node, options).position(index, SNAP) - position;
         scroll(index, pos, duration);
     }
 
-    function onDown(e: PointerEvent): void {
+    function onDown(e: UniqEvent): void {
         clear();
-
-        node.onpointermove = onMove
-        node.style.touchAction = 'auto'
-        e.pointerType === 'mouse' && node.focus()
-        node.onpointercancel = () => to(options.index)
 
         reference = coordinate(e, options);
         timestamp = performance.now();
-        frame = position;
         distance = 0;
+        frame = position;
 
-        e.preventDefault()
+        listen(window, WINDOW_EVENTS);
     }
 
-    function onMove(e: PointerEvent): void {
-        node.setPointerCapture(e.pointerId);
-        node.style.touchAction = 'none'
-        e.pointerType === 'mouse' && node.blur()
-
+    function onMove(e: UniqEvent): void {
         const delta = reference - coordinate(e, options);
         const pos = delta * (2 - GRAVITY);
+
         reference = coordinate(e, options);
+        distance = track();
 
-        move(pos);
-        track();
+        if (e.type === 'touchmove') {
+            if (scrolled || (options.vertical && edges(options.index, direction))) {
+                to(options.index);
+                GRAVITY = 2;
+            } else if (Math.abs(delta) >= 5) {
+                e.preventDefault();
+            }
+            move(pos);
+        } else move(pos);
 
-        function track(): void {
-            const elapsed = performance.now() - timestamp;
+        function track(): number {
+            const now = performance.now();
+            const elapsed = now - timestamp;
             const delta = position - frame;
             const speed = (1000 * delta) / (1 + elapsed);
+
+            timestamp = now;
             frame = position;
-            timestamp = performance.now();
-            distance = (2 - GRAVITY) * speed + 0.2 * distance;
-            if (elapsed < 69) return;
+            return (2 - GRAVITY) * speed + 0.2 * distance
         }
     }
 
-    function onUp(e: PointerEvent): void {
+    function onUp(): void {
         clear();
 
         const amplitude = distance * (2 - GRAVITY);
         const index = find(node, options).index(position + amplitude, SNAP);
-        node.releasePointerCapture(e.pointerId);
+
         scroll(clamping(index, options), amplitude);
     }
 
@@ -230,25 +252,25 @@ export function slidy(
         //         index = (options.index as number) - (options.clamp as number)
         //     }
         // }
-        const min = (options.index as number) - (options.clamp as number)
-        const max = (options.index as number) + (options.clamp as number)
-        const mix = clamp(min, index, max)
+        const min = (options.index as number) - (options.clamp as number);
+        const max = (options.index as number) + (options.clamp as number);
+        const mix = clamp(min, index, max);
 
-        console.log(min, index, max, options.index, mix)
+        console.log(min, index, max, options.index, mix);
 
-        return options.clamp ? mix : index
+        return options.clamp ? mix : index;
     }
 
-    function onWheel(e: WheelEvent): void {
+    function onWheel(e: UniqEvent): void {
         clear();
-        update({ clamp: e.shiftKey ? 1 : CLAMP })
+        update({ clamp: e.shiftKey ? 1 : CLAMP });
 
-        const coord = coordinate(e, options) * (2 - GRAVITY)
-        const index = (options.index as number) + (Math.sign(coord) * (options.clamp || 1));
+        const coord = coordinate(e, options) * (2 - GRAVITY);
+        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index);
         const pos = edges(options.index) ? coord / 4.5 : coord;
-        const ix = clamped ? index : options.index
-        const tm = clamped ? 0 : DURATION
+        const ix = clamped ? index : options.index;
+        const tm = clamped ? 0 : DURATION;
         snapping(options.index as number);
 
         if (!(options.clamp || e.shiftKey)) move(pos, options.index);
@@ -258,17 +280,25 @@ export function slidy(
     }
 
     function winWheel(e: WheelEvent) {
-        if (((Math.abs(e.deltaX) > Math.abs(e.deltaY)) || e.shiftKey) && e.composedPath().includes(node)) {
-            e.preventDefault()
+        if (
+            (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
+            e.composedPath().includes(node)
+        ) {
+            e.preventDefault();
+            window.scroll(0, 0)
+            // dispatch(window, 'scroll')
         }
+    }
+
+    function winScroll(e: Event): void {
+        e.preventDefault();
+        scrolled = true;
     }
 
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
         const prev = ['ArrowLeft', 'ArrowUp'];
-        const index = prev.includes(e.key)
-            ? -1 : next.includes(e.key)
-                ? 1 : 0;
+        const index = prev.includes(e.key) ? -1 : next.includes(e.key) ? 1 : 0;
 
         to((options.index as number) + (options.clamp || 1) * index);
         dispatch(node, 'keys', e.key);
@@ -277,10 +307,11 @@ export function slidy(
     }
 
     function clear(): void {
+        scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(raf);
-        node.onpointermove = null
         GRAVITY = options.gravity as number;
+        listen(window, WINDOW_EVENTS, false);
     }
 
     function update(opts: Partial<Options>): void {
@@ -300,7 +331,9 @@ export function slidy(
                         break;
                     case 'clamp':
                         CLAMP = options[key] = opts[key];
-                        node.onwheel = opts[key] ? throttle(onWheel, options.duration as number / 1.5) : onWheel
+                        node.onwheel = opts[key]
+                            ? throttle(onWheel as EventListener, (options.duration as number) / 1.5)
+                            : (onWheel as EventListener);
                         to(options.index);
                         break;
                     case 'duration':
@@ -325,7 +358,8 @@ export function slidy(
     function destroy(): void {
         clear();
         RO.disconnect();
-        listen(window, [['wheel', winWheel as EventListener]], false)
+        listen(node, NODE_EVENTS, false);
+        listen(node, WINDOW_NATIVE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };

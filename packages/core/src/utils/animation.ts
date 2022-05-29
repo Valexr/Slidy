@@ -1,5 +1,3 @@
-function fade(position: number, index: number) {
+function fade(position: number, index: number) {}
 
-}
-
-export { fade }
+export { fade };

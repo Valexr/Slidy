@@ -47,25 +47,23 @@ export function setEvents() {
                     }
 
                     const eases = [
-                        'linear',
-                        'sine',
-                        'quad',
-                        'cubic',
-                        'quart',
-                        'quint',
-                        'expo',
-                        'circ',
-                        'back',
-                        'elastic',
-                        'bounce',
-                    ], snaps = [
-                        'unset',
-                        'start',
-                        'center',
-                        'end'
-                    ];
+                            'linear',
+                            'sine',
+                            'quad',
+                            'cubic',
+                            'quart',
+                            'quint',
+                            'expo',
+                            'circ',
+                            'back',
+                            'elastic',
+                            'bounce',
+                        ],
+                        snaps = ['unset', 'start', 'center', 'end'];
                     easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
-                    snap.innerHTML = snaps.map((s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`);
+                    snap.innerHTML = snaps.map(
+                        (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
+                    );
                     easing.value = options.easing.name;
                     options.easing = easings[easing.value];
                     snap.value = options.snap;
@@ -87,9 +85,14 @@ export function setEvents() {
 
                         if (target.tagName === 'BUTTON') {
                             target.classList.toggle('active');
-                            target.id === 'vertical' && main.style.setProperty(`--flow`, e.detail[option] ? 'column' : 'row');
+                            target.id === 'vertical' &&
+                                main.style.setProperty(
+                                    `--flow`,
+                                    e.detail[option] ? 'column' : 'row'
+                                );
                         } else {
-                            target.value = target.id === 'easing' ? e.detail[option].name : e.detail[option];
+                            target.value =
+                                target.id === 'easing' ? e.detail[option].name : e.detail[option];
                         }
                     }
                     // console.log(e);

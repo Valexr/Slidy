@@ -4,6 +4,6 @@
         "declarationDir": "dist"
     },
     "include": ["src/**/*"],
-    "exclude": ["src/utils/*"],
+    "exclude": ["src/utils/*", "src/iife.ts"],
     "files": ["src/index.ts", "src/types.ts"]
 }

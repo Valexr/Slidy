@@ -1,4 +1,4 @@
-import type { Child, CssRules, DispathDetail, Options, Slidy } from '../types';
+import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -56,32 +56,33 @@ function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<C
     return childs;
 }
 
-function style(node: HTMLElement, styles: CssRules): void {
-    // console.log(styles)
+function style(node: HTMLElement, styles: Partial<CssRules>): void {
     for (const property in styles) {
-        node.style[property as keyof CssRules] = styles[property as keyof CssRules] as never;
+        const PROP = property as keyof CssRules
+        node.style[PROP as never] = styles[PROP] as never;
     }
 }
 
 function indexing(node: Slidy, index: number, loop?: boolean) {
     return loop
-        ? index < 0 ? node.children.length - 1
-            : index > node.children.length - 1 ? 0 : index
+        ? index < 0
+            ? node.children.length - 1
+            : index > node.children.length - 1
+                ? 0
+                : index
         : clamp(0, index, node.children.length - 1);
 }
 
-function coordinate(e: WheelEvent | PointerEvent, options: Options): number {
+function coordinate(e: UniqEvent, options: Options) {
     if (e.type === 'wheel') {
-        const X = Math.abs((e as WheelEvent).deltaX) > Math.abs((e as WheelEvent).deltaY);
-        if (X || e.shiftKey) e.preventDefault();
-        return e.shiftKey
-            ? (X ? Math.sign((e as WheelEvent).deltaX) : Math.sign((e as WheelEvent).deltaY))
-            : X ? (e as WheelEvent).deltaX : 0;
-    } else return options.vertical ? e.clientY : e.clientX;
+        const wX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        if (wX || e.shiftKey) e.preventDefault();
+        return e.shiftKey ? (wX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : wX ? e.deltaX : 0;
+    } else return options.vertical ? uniQ(e).clientY : uniQ(e).clientX;
 }
 
-// const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
-//     e.changedTouches ? e.changedTouches[0] : e;
+const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
+    e.changedTouches ? e.changedTouches[0] : e;
 
 function clamp(min: number, val: number, max: number) {
     return Math.min(max, Math.max(min, val));

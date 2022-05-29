@@ -48,7 +48,7 @@ const find = (node: Slidy, options: Options) => ({
         return pos + indents(node, index as number, snap as string, options);
     },
     distance: (index: number) => Math.abs(nodes(node)[index][coord(options.vertical as boolean)]),
-    size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
+    // size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {
         const last = nodes(node).length - 1;
         const lastSize = nodes(node)[last - 1][size(options.vertical as boolean)];

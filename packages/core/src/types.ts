@@ -12,6 +12,7 @@ export interface Options {
 
 export interface Slidy extends HTMLElement {
     gap: number;
+    axis: string;
     last: number;
     start: number;
     end: number;
@@ -48,23 +49,26 @@ export interface CssRules {
     overflow?: string;
     transform?: string;
     transition?: string;
-    opacity?: number;
+    opacity?: string;
     display?: string;
     position?: string;
     touchAction?: string;
+    webkitTapHighlightColor?: string;
 }
 
-// export interface UniqEvent extends PointerEvent {
-//     changedTouches: Array<{ [key: string]: number }>;
-//     deltaMode: number;
-//     deltaX: number;
-//     deltaY: number;
-//     clientX: number;
-//     clientY: number;
-//     shiftKey: boolean;
-//     target: EventTarget;
-//     pointerId: number;
-// }
+export interface UniqEvent extends PointerEvent {
+    changedTouches: Array<{ [key: string]: number }>;
+    deltaMode: number;
+    deltaX: number;
+    deltaY: number;
+    clientX: number;
+    clientY: number;
+    shiftKey: boolean;
+    target: EventTarget;
+    pointerId: number;
+}
+
+export type EventMap = [string, EventListener, AddEventListenerOptions?][];
 
 export type DispathDetail =
     | { [key: string]: any }
