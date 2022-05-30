@@ -22,6 +22,6 @@
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
-    "include": [],
+    // "include": [],
     "exclude": ["node_modules/*"]
 }

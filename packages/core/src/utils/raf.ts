@@ -1,8 +1,4 @@
 interface CallbackData {
-    /** Current timestamp */
-    now: number;
-    /** Start time */
-    start: number;
     /** Elapsed time from start */
     elapsed: number;
     /** Stop loop cycle */
@@ -15,7 +11,7 @@ export type StopRaf = () => void;
 type RafCallback = (data: CallbackData) => void;
 
 /** Run fn each animation frame */
-export function animate(fn: RafCallback) {
+export function raf(fn: RafCallback) {
     let id: number;
     let start: number = performance.now();
     let stopped = false;
@@ -33,8 +29,6 @@ export function animate(fn: RafCallback) {
         if (!start) start = now;
 
         fn({
-            now,
-            start,
             elapsed: start - now,
             stop,
         });

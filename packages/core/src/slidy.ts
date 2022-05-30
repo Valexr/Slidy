@@ -1,6 +1,6 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import { animate, type StopRaf } from './utils/animate';
+import { raf, type StopRaf } from './utils/raf';
 import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -174,11 +174,12 @@ export function slidy(
 
         amplitude = target - position;
 
-        stop = animate((frame) => {
+        stop = raf((frame) => {
             const T = Math.exp(frame.elapsed / duration);
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
+
             Math.abs(delta) <= 0.36 && frame.stop();
             move(pos, index);
         });
