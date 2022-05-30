@@ -29,6 +29,7 @@ export function slidy(
         hix = -1,
         position = 0,
         distance = 0,
+        scrolled = false,
         direction = 0,
         timestamp = 0,
         frame = position,
@@ -46,6 +47,7 @@ export function slidy(
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
+        ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
         ['contextmenu', () => to(options.index)],
@@ -214,13 +216,12 @@ export function slidy(
 
         frame = position;
         timestamp = performance.now();
-        distance = (2 - GRAVITY) * speed + (GRAVITY - 1) * distance
+        distance = (2 - GRAVITY) * speed + 0.2 * distance
 
-        window.onscroll = () => {
+        if (scrolled) {
             to(options.index);
             GRAVITY = 2;
-        }
-        move(pos);
+        } else move(pos);
     }
 
     function onUp(): void {
@@ -276,6 +277,10 @@ export function slidy(
         }
     }
 
+    function winScroll(): void {
+        scrolled = true;
+    }
+
     function onKeys(e: KeyboardEvent): void {
         const next = ['ArrowRight', 'ArrowDown', 'Enter', ' '];
         const prev = ['ArrowLeft', 'ArrowUp'];
@@ -288,6 +293,7 @@ export function slidy(
     }
 
     function clear(): void {
+        scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(raf);
         GRAVITY = options.gravity as number;
@@ -347,7 +353,7 @@ export function slidy(
         clear();
         RO.disconnect();
         listen(node, NODE_EVENTS, false);
-        listen(node, WINDOW_NATIVE_EVENTS, false);
+        listen(window, WINDOW_NATIVE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
     return { update, destroy, to };

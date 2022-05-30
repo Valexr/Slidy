@@ -1,4 +1,4 @@
-import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent } from '../types';
+import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent, EventMap } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -39,7 +39,7 @@ function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
 
 function listen(
     node: Window | Slidy,
-    events: [string, EventListener, AddEventListenerOptions?][],
+    events: EventMap,
     on = true
 ): void {
     for (const [event, handle, options] of events) {
