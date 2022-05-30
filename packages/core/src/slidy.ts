@@ -1,5 +1,6 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
+import { animate, type StopRaf } from './utils/animate'
 import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -25,14 +26,13 @@ export function slidy(
         ...opts,
     };
 
-    let raf = 0,
-        hix = -1,
+    let hix = -1,
+        stop: StopRaf,
         position = 0,
         distance = 0,
         scrolled = false,
         direction = 0,
-        timestamp = 0,
-        frame = position,
+        ets = 0,
         wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
         CLAMP = options.clamp,
@@ -57,8 +57,6 @@ export function slidy(
         ['keydown', throttle(onKeys, DURATION)],
     ];
 
-    const RAF = requestAnimationFrame;
-
     const RO = new ResizeObserver(() => {
         sizes()
         to(options.index);
@@ -74,11 +72,9 @@ export function slidy(
     }
 
     function edges(index = 0, direction = 0) {
-        return (
-            !options.loop &&
-            ((index === 0 && direction <= 0 && position <= node.start) ||
-                (index === node.children.length - 1 && direction >= 0 && position >= node.end))
-        );
+        return !options.loop &&
+            ((index === 0 && direction <= 0 && position < node.start) ||
+                (index === node.children.length - 1 && direction >= 0 && position > node.end))
     }
 
     function snapping(index: number) {
@@ -130,7 +126,6 @@ export function slidy(
                 if (options.loop) {
                     pos -= history(node, direction, options);
                     shuffle(node, direction);
-                    frame = position + pos;
                 }
                 hix = options.index as number;
             }
@@ -169,7 +164,6 @@ export function slidy(
     function scroll(index: number, amplitude = 0, _duration?: number): void {
         snapping(index);
 
-        const time = performance.now();
         const snaped = options.snap || options.loop || edges(index, direction);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
         const duration =
@@ -178,16 +172,14 @@ export function slidy(
 
         amplitude = target - position;
 
-        RAF(function animate() {
-            const elapsed = time - performance.now();
-            const T = Math.exp(elapsed / duration);
+        stop = animate((frame) => {
+            const T = Math.exp(frame.elapsed / duration);
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
-
-            raf = Math.abs(delta) >= 0.36 ? RAF(animate) : 0;
+            Math.abs(delta) <= 0.36 && frame.stop()
             move(pos, index);
-        });
+        })
     }
 
     function to(index = 0, duration = DURATION): void {
@@ -200,8 +192,7 @@ export function slidy(
     function onDown(e: UniqEvent): void {
         clear();
 
-        timestamp = performance.now();
-        frame = position;
+        ets = e.timeStamp
         distance = 0;
 
         coordinate(e, options);
@@ -210,13 +201,11 @@ export function slidy(
 
     function onMove(e: UniqEvent): void {
         const pos = coordinate(e, options) * (2 - GRAVITY);
-        const elapsed = performance.now() - timestamp;
-        const delta = position - frame;
-        const speed = (1000 * delta) / (1 + elapsed);
+        const elapsed = e.timeStamp - ets;
+        const speed = (1000 * pos) / (1 + elapsed);
 
-        frame = position;
-        timestamp = performance.now();
-        distance = (2 - GRAVITY) * speed + 0.2 * distance
+        ets = e.timeStamp;
+        distance = (2 - GRAVITY) * speed + (GRAVITY - 1) * distance
 
         if (scrolled) {
             to(options.index);
@@ -252,15 +241,16 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
-        update({ clamp: e.shiftKey ? 1 : CLAMP });
+        e.shiftKey && update({ clamp: e.shiftKey ? 1 : CLAMP });
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index);
         const pos = edges(options.index) ? coord / 4.5 : coord;
         const ix = clamped ? index : options.index;
-        const tm = clamped ? 0 : DURATION;
+        const tm = clamped ? 0 : DURATION / 2;
         snapping(options.index as number);
+
 
         if (!(options.clamp || e.shiftKey)) move(pos, options.index);
         if (options.snap || options.clamp || e.shiftKey) {
@@ -271,7 +261,7 @@ export function slidy(
     function winWheel(e: WheelEvent) {
         if (
             (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
-            e.composedPath().includes(node)
+            e.composedPath().includes(node) && (options.clamp || e.shiftKey)
         ) {
             e.preventDefault();
         }
@@ -293,9 +283,9 @@ export function slidy(
     }
 
     function clear(): void {
+        stop && stop()
         scrolled = false;
-        clearTimeout(wst);
-        cancelAnimationFrame(raf);
+        clearTimeout(wst)
         GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
     }
