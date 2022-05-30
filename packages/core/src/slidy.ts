@@ -29,7 +29,6 @@ export function slidy(
         hix = -1,
         position = 0,
         distance = 0,
-        scrolled = false,
         direction = 0,
         timestamp = 0,
         frame = position,
@@ -47,7 +46,6 @@ export function slidy(
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
-        ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
         ['contextmenu', () => to(options.index)],
@@ -201,8 +199,8 @@ export function slidy(
         clear();
 
         timestamp = performance.now();
-        distance = 0;
         frame = position;
+        distance = 0;
 
         coordinate(e, options);
         listen(window, WINDOW_EVENTS);
@@ -214,14 +212,15 @@ export function slidy(
         const delta = position - frame;
         const speed = (1000 * delta) / (1 + elapsed);
 
-        timestamp = performance.now();
         frame = position;
-        distance = (2 - GRAVITY) * speed + 0.2 * distance
+        timestamp = performance.now();
+        distance = (2 - GRAVITY) * speed + (GRAVITY - 1) * distance
 
-        if (scrolled) {
+        window.onscroll = () => {
             to(options.index);
             GRAVITY = 2;
-        } else move(pos);
+        }
+        move(pos);
     }
 
     function onUp(): void {
@@ -274,14 +273,7 @@ export function slidy(
             e.composedPath().includes(node)
         ) {
             e.preventDefault();
-            // window.scroll(0, 0)
-            // dispatch(window, 'scroll')
         }
-    }
-
-    function winScroll(): void {
-        // e.preventDefault();
-        scrolled = true;
     }
 
     function onKeys(e: KeyboardEvent): void {
@@ -296,7 +288,6 @@ export function slidy(
     }
 
     function clear(): void {
-        scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(raf);
         GRAVITY = options.gravity as number;
