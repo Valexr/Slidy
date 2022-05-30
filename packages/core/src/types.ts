@@ -2,6 +2,7 @@ export interface Options {
     index?: number;
     indent: number;
     clamp?: number;
+    wheel?: number;
     gravity?: number;
     duration?: number;
     easing: Easing;

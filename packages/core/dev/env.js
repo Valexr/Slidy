@@ -82,17 +82,20 @@ export function setEvents() {
 
                     for (const option in e.detail) {
                         const target = document.getElementById(option);
-
-                        if (target.tagName === 'BUTTON') {
-                            target.classList.toggle('active');
-                            target.id === 'vertical' &&
-                                main.style.setProperty(
-                                    `--flow`,
-                                    e.detail[option] ? 'column' : 'row'
-                                );
-                        } else {
-                            target.value =
-                                target.id === 'easing' ? e.detail[option].name : e.detail[option];
+                        if (target) {
+                            if (target.tagName === 'BUTTON') {
+                                target.classList.toggle('active');
+                                target.id === 'vertical' &&
+                                    main.style.setProperty(
+                                        `--flow`,
+                                        e.detail[option] ? 'column' : 'row'
+                                    );
+                            } else {
+                                target.value =
+                                    target.id === 'easing'
+                                        ? e.detail[option].name
+                                        : e.detail[option];
+                            }
                         }
                     }
                     // console.log(e);

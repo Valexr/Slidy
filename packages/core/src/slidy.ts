@@ -35,7 +35,6 @@ export function slidy(
         ets = 0,
         wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
-        CLAMP = options.clamp,
         GRAVITY = options.gravity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
 
@@ -74,8 +73,8 @@ export function slidy(
     function edges(index = 0, direction = 0) {
         return (
             !options.loop &&
-            ((index === 0 && direction <= 0 && position < node.start) ||
-                (index === node.children.length - 1 && direction >= 0 && position > node.end))
+            ((index === 0 && direction <= 0 && position <= node.start) ||
+                (index === node.children.length - 1 && direction >= 0 && position >= node.end))
         );
     }
 
@@ -101,7 +100,7 @@ export function slidy(
                 webkitTapHighlightColor: 'transparent',
             });
             node.onwheel = options.clamp
-                ? throttle(onWheel as EventListener, DURATION)
+                ? throttle(onWheel as EventListener, DURATION * 1.5)
                 : (onWheel as EventListener);
             position = replace(node, options);
 
@@ -244,15 +243,16 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
-        e.shiftKey && update({ clamp: e.shiftKey ? 1 : CLAMP });
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index);
-        const pos = edges(options.index) ? coord / 4.5 : coord;
+        const pos = edges(options.index) ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
+
         snapping(options.index as number);
+        !options.clamp && update({ wheel: e.shiftKey ? 1 : 0 });
 
         if (!(options.clamp || e.shiftKey)) move(pos, options.index);
         if (options.snap || options.clamp || e.shiftKey) {
@@ -263,8 +263,7 @@ export function slidy(
     function winWheel(e: WheelEvent) {
         if (
             (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
-            e.composedPath().includes(node) &&
-            (options.clamp || e.shiftKey)
+            e.composedPath().includes(node)
         ) {
             e.preventDefault();
         }
@@ -309,9 +308,10 @@ export function slidy(
                         to(options.index);
                         break;
                     case 'clamp':
-                        CLAMP = options[key] = opts[key];
+                    case 'wheel':
+                        options[key] = options.wheel = opts[key];
                         node.onwheel = opts[key]
-                            ? throttle(onWheel as EventListener, (options.duration as number) / 1.5)
+                            ? throttle(onWheel as EventListener, DURATION * 1.5)
                             : (onWheel as EventListener);
                         break;
                     case 'duration':
@@ -325,16 +325,13 @@ export function slidy(
                             sizes();
                             to(options.index);
                         });
-                    case 'vertical':
-                        options[key] = opts[key];
+
+                    default:
+                        options[key as keyof Options] = opts[key as keyof Options] as never;
                         setTimeout(() => {
                             sizes();
                             to(options.index);
                         });
-
-                    default:
-                        options[key as keyof Options] = opts[key as keyof Options] as never;
-                        to(options.index);
                         break;
                 }
             }
