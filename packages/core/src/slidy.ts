@@ -1,6 +1,6 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import { animate, type StopRaf } from './utils/animate'
+import { animate, type StopRaf } from './utils/animate';
 import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -58,7 +58,7 @@ export function slidy(
     ];
 
     const RO = new ResizeObserver(() => {
-        sizes()
+        sizes();
         to(options.index);
         position = !node.scrollable ? 0 : position;
         dispatch(node, 'resize', { node, options });
@@ -72,9 +72,11 @@ export function slidy(
     }
 
     function edges(index = 0, direction = 0) {
-        return !options.loop &&
+        return (
+            !options.loop &&
             ((index === 0 && direction <= 0 && position < node.start) ||
                 (index === node.children.length - 1 && direction >= 0 && position > node.end))
+        );
     }
 
     function snapping(index: number) {
@@ -96,7 +98,7 @@ export function slidy(
                 userSelect: 'none',
                 webkitUserSelect: 'none',
                 touchAction: 'pan-y',
-                webkitTapHighlightColor: 'transparent'
+                webkitTapHighlightColor: 'transparent',
             });
             node.onwheel = options.clamp
                 ? throttle(onWheel as EventListener, DURATION)
@@ -139,8 +141,8 @@ export function slidy(
 
         function moving(childs: HTMLCollection): void {
             for (const child of childs) {
-                const el = child as HTMLElement
-                el.style.transform = translate(options.vertical)
+                const el = child as HTMLElement;
+                el.style.transform = translate(options.vertical);
             }
             // for (let index = 0; index < childs.length; index++) {
             //     style(childs[index] as HTMLElement, {
@@ -177,9 +179,9 @@ export function slidy(
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
-            Math.abs(delta) <= 0.36 && frame.stop()
+            Math.abs(delta) <= 0.36 && frame.stop();
             move(pos, index);
-        })
+        });
     }
 
     function to(index = 0, duration = DURATION): void {
@@ -192,7 +194,7 @@ export function slidy(
     function onDown(e: UniqEvent): void {
         clear();
 
-        ets = e.timeStamp
+        ets = e.timeStamp;
         distance = 0;
 
         coordinate(e, options);
@@ -205,7 +207,7 @@ export function slidy(
         const speed = (1000 * pos) / (1 + elapsed);
 
         ets = e.timeStamp;
-        distance = (2 - GRAVITY) * speed + (GRAVITY - 1) * distance
+        distance = (2 - GRAVITY) * speed + (GRAVITY - 1) * distance;
 
         if (scrolled) {
             to(options.index);
@@ -251,7 +253,6 @@ export function slidy(
         const tm = clamped ? 0 : DURATION / 2;
         snapping(options.index as number);
 
-
         if (!(options.clamp || e.shiftKey)) move(pos, options.index);
         if (options.snap || options.clamp || e.shiftKey) {
             wst = setTimeout(() => to(ix), tm);
@@ -261,7 +262,8 @@ export function slidy(
     function winWheel(e: WheelEvent) {
         if (
             (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
-            e.composedPath().includes(node) && (options.clamp || e.shiftKey)
+            e.composedPath().includes(node) &&
+            (options.clamp || e.shiftKey)
         ) {
             e.preventDefault();
         }
@@ -283,9 +285,9 @@ export function slidy(
     }
 
     function clear(): void {
-        stop && stop()
+        stop && stop();
         scrolled = false;
-        clearTimeout(wst)
+        clearTimeout(wst);
         GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
     }
@@ -319,14 +321,14 @@ export function slidy(
                         options[key] = opts[key];
                         position = replace(node, options);
                         setTimeout(() => {
-                            sizes()
-                            to(options.index)
+                            sizes();
+                            to(options.index);
                         });
                     case 'vertical':
                         options[key] = opts[key];
                         setTimeout(() => {
-                            sizes()
-                            to(options.index)
+                            sizes();
+                            to(options.index);
                         });
 
                     default:

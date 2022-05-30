@@ -37,11 +37,7 @@ function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
     node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
 
-function listen(
-    node: Window | Slidy,
-    events: EventMap,
-    on = true
-): void {
+function listen(node: Window | Slidy, events: EventMap, on = true): void {
     for (const [event, handle, options] of events) {
         const state = on ? 'addEventListener' : 'removeEventListener';
         if (node) node[state](event, handle, options);
@@ -58,7 +54,7 @@ function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<C
 
 function style(node: HTMLElement, styles: Partial<CssRules>): void {
     for (const property in styles) {
-        const PROP = property as keyof CssRules
+        const PROP = property as keyof CssRules;
         node.style[PROP as never] = styles[PROP] as never;
     }
 }
@@ -68,42 +64,35 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         ? index < 0
             ? node.children.length - 1
             : index > node.children.length - 1
-                ? 0
-                : index
+            ? 0
+            : index
         : clamp(0, index, node.children.length - 1);
 }
 
-let x = 0, y = 0, dx = 0, dy = 0
+let x = 0,
+    y = 0,
+    dx = 0,
+    dy = 0;
 function coordinate(e: UniqEvent, options: Options) {
     if (e.type === 'wheel') {
         const WX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
         if (WX || e.shiftKey) e.preventDefault();
         return e.shiftKey ? (WX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : WX ? e.deltaX : 0;
     } else {
+        const DX = Math.abs(dx) > Math.abs(dy);
+        if (options.vertical ? !DX : DX) e.preventDefault();
         if (e.type === 'mousedown' || e.type === 'touchstart') {
-            dx = 0
-            dy = 0
-            x = e.pageX
-            y = e.pageY
+            x = e.pageX;
+            y = e.pageY;
         } else if (e.type === 'mousemove' || e.type === 'touchmove') {
-            const DX = Math.abs(dx) > Math.abs(dy)
-            dx = x - e.pageX
-            dy = y - e.pageY
-            x = e.pageX
-            y = e.pageY
-            if (options.vertical ? !DX : DX) e.preventDefault()
-            return options.vertical ? dy : dx;
-        } else if (e.type === 'mousemove' || e.type === 'touchmove') {
-            x = e.pageX
-            y = e.pageY
+            dx = x - e.pageX;
+            dy = y - e.pageY;
+            x = e.pageX;
+            y = e.pageY;
         }
-        return 0
-        // return options.vertical ? uniQ(e).clientY : uniQ(e).clientX;
+        return options.vertical ? dy : dx;
     }
 }
-
-// const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
-//     e.changedTouches ? e.changedTouches[0] : e;
 
 function clamp(min: number, val: number, max: number) {
     return Math.min(max, Math.max(min, val));
