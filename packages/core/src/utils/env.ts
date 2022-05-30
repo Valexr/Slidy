@@ -73,16 +73,37 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         : clamp(0, index, node.children.length - 1);
 }
 
+let x = 0, y = 0, dx = 0, dy = 0
 function coordinate(e: UniqEvent, options: Options) {
     if (e.type === 'wheel') {
-        const wX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        if (wX || e.shiftKey) e.preventDefault();
-        return e.shiftKey ? (wX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : wX ? e.deltaX : 0;
-    } else return options.vertical ? uniQ(e).clientY : uniQ(e).clientX;
+        const WX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        if (WX || e.shiftKey) e.preventDefault();
+        return e.shiftKey ? (WX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : WX ? e.deltaX : 0;
+    } else {
+        if (e.type === 'mousedown' || e.type === 'touchstart') {
+            dx = 0
+            dy = 0
+            x = e.pageX
+            y = e.pageY
+        } else if (e.type === 'mousemove' || e.type === 'touchmove') {
+            const DX = Math.abs(dx) > Math.abs(dy)
+            dx = x - e.pageX
+            dy = y - e.pageY
+            x = e.pageX
+            y = e.pageY
+            if (options.vertical ? !DX : DX) e.preventDefault()
+            return options.vertical ? dy : dx;
+        } else if (e.type === 'mousemove' || e.type === 'touchmove') {
+            x = e.pageX
+            y = e.pageY
+        }
+        return 0
+        // return options.vertical ? uniQ(e).clientY : uniQ(e).clientX;
+    }
 }
 
-const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
-    e.changedTouches ? e.changedTouches[0] : e;
+// const uniQ = (e: UniqEvent): UniqEvent | { [key: string]: number } =>
+//     e.changedTouches ? e.changedTouches[0] : e;
 
 function clamp(min: number, val: number, max: number) {
     return Math.min(max, Math.max(min, val));

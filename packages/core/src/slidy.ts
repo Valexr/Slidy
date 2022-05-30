@@ -29,7 +29,6 @@ export function slidy(
         hix = -1,
         position = 0,
         distance = 0,
-        reference = 0,
         scrolled = false,
         direction = 0,
         timestamp = 0,
@@ -61,15 +60,18 @@ export function slidy(
     const RAF = requestAnimationFrame;
 
     const RO = new ResizeObserver(() => {
-        node.gap = find(node, options).gap();
-        node.start = find(node, options).position(0, 'start');
-        node.end = find(node, options).position(node.children.length - 1, 'end');
-        node.scrollable = Math.abs(node.end - node.start) > node.gap * 2;
-
+        sizes()
         to(options.index);
         position = !node.scrollable ? 0 : position;
         dispatch(node, 'resize', { node, options });
     });
+
+    function sizes() {
+        node.gap = find(node, options).gap();
+        node.start = find(node, options).position(0, 'start');
+        node.end = find(node, options).position(node.children.length - 1, 'end');
+        node.scrollable = Math.abs(node.end - node.start) > node.gap * 2;
+    }
 
     function edges(index = 0, direction = 0) {
         return (
@@ -198,41 +200,28 @@ export function slidy(
     function onDown(e: UniqEvent): void {
         clear();
 
-        reference = coordinate(e, options);
         timestamp = performance.now();
         distance = 0;
         frame = position;
 
+        coordinate(e, options);
         listen(window, WINDOW_EVENTS);
     }
 
     function onMove(e: UniqEvent): void {
-        const delta = reference - coordinate(e, options);
-        const pos = delta * (2 - GRAVITY);
+        const pos = coordinate(e, options) * (2 - GRAVITY);
+        const elapsed = performance.now() - timestamp;
+        const delta = position - frame;
+        const speed = (1000 * delta) / (1 + elapsed);
 
-        reference = coordinate(e, options);
-        distance = track();
+        timestamp = performance.now();
+        frame = position;
+        distance = (2 - GRAVITY) * speed + 0.2 * distance
 
-        if (e.type === 'touchmove') {
-            if (scrolled || (options.vertical && edges(options.index, direction))) {
-                to(options.index);
-                GRAVITY = 2;
-            } else if (Math.abs(delta) >= 5) {
-                e.preventDefault();
-            }
-            move(pos);
+        if (scrolled) {
+            to(options.index);
+            GRAVITY = 2;
         } else move(pos);
-
-        function track(): number {
-            const now = performance.now();
-            const elapsed = now - timestamp;
-            const delta = position - frame;
-            const speed = (1000 * delta) / (1 + elapsed);
-
-            timestamp = now;
-            frame = position;
-            return (2 - GRAVITY) * speed + 0.2 * distance
-        }
     }
 
     function onUp(): void {
@@ -285,13 +274,13 @@ export function slidy(
             e.composedPath().includes(node)
         ) {
             e.preventDefault();
-            window.scroll(0, 0)
+            // window.scroll(0, 0)
             // dispatch(window, 'scroll')
         }
     }
 
-    function winScroll(e: Event): void {
-        e.preventDefault();
+    function winScroll(): void {
+        // e.preventDefault();
         scrolled = true;
     }
 
@@ -334,7 +323,6 @@ export function slidy(
                         node.onwheel = opts[key]
                             ? throttle(onWheel as EventListener, (options.duration as number) / 1.5)
                             : (onWheel as EventListener);
-                        to(options.index);
                         break;
                     case 'duration':
                         options[key] = opts[key];
@@ -343,7 +331,16 @@ export function slidy(
                     case 'loop':
                         options[key] = opts[key];
                         position = replace(node, options);
-                        to(options.index);
+                        setTimeout(() => {
+                            sizes()
+                            to(options.index)
+                        });
+                    case 'vertical':
+                        options[key] = opts[key];
+                        setTimeout(() => {
+                            sizes()
+                            to(options.index)
+                        });
 
                     default:
                         options[key as keyof Options] = opts[key as keyof Options] as never;
