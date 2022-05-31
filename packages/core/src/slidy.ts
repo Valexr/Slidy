@@ -108,7 +108,7 @@ export function slidy(
                 webkitTapHighlightColor: 'transparent',
             });
             node.onwheel = options.clamp
-                ? throttle(onWheel as EventListener, DURATION * 1.5)
+                ? throttle(onWheel as EventListener, DURATION * 2)
                 : (onWheel as EventListener);
             position = replace(node, options);
 
@@ -188,19 +188,17 @@ export function slidy(
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
-            if (Math.abs(delta) >= 0.36) {
-                move(pos, index);
-            } else {
+            if (Math.abs(delta) <= 0.36) {
                 SENSITY = options.sensity as number;
                 frame.stop();
             }
-
+            move(pos, index);
         });
     }
 
     function to(index = 0, duration = DURATION): void {
         clear();
-        index = indexing(node, index, options.loop);
+        index = indexing(node, index, options);
         const pos = find(node, options).position(index, SNAP) - position;
         scroll(index, pos, duration);
     }
@@ -239,20 +237,10 @@ export function slidy(
     }
 
     function clamping(index: number, options: Options) {
-        // if (options.loop) {
-        //     if (options.index === 0) {
-        //         index = (options.index as number) + (options.clamp as number)
-        //     } else if (index === node.children.length - 1) {
-        //         index = (options.index as number) - (options.clamp as number)
-        //     }
-        // }
-        const min = (options.index as number) - (options.clamp as number);
-        const max = (options.index as number) + (options.clamp as number);
-        const mix = clamp(min, index, max);
+        const dir = direction < 0 ? -1 : 1
+        const range = (options.index as number) + (options.clamp as number) * dir
 
-        console.log(min, index, max, options.index, mix);
-
-        return options.clamp ? mix : index;
+        return options.clamp ? indexing(node, range, options) : index
     }
 
     function onWheel(e: UniqEvent): void {
@@ -314,7 +302,7 @@ export function slidy(
             if (options[key as keyof Options] !== opts[key as keyof Options]) {
                 switch (key) {
                     case 'index':
-                        options[key] = indexing(node, opts[key] as number, options.loop);
+                        options[key] = indexing(node, opts[key] as number, options);
                         to(options[key]);
                         break;
                     case 'gravity':
@@ -331,7 +319,7 @@ export function slidy(
                     case 'wheel':
                         options[key] = options.wheel = opts[key];
                         node.onwheel = opts[key]
-                            ? throttle(onWheel as EventListener, DURATION * 1.5)
+                            ? throttle(onWheel as EventListener, DURATION * 2)
                             : (onWheel as EventListener);
                         break;
                     case 'duration':

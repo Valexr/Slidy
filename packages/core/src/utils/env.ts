@@ -59,12 +59,12 @@ function style(node: HTMLElement, styles: Partial<CssRules>): void {
     }
 }
 
-function indexing(node: Slidy, index: number, loop?: boolean) {
-    return loop
+function indexing(node: Slidy, index: number, options: Options) {
+    return options.loop
         ? index < 0
-            ? node.children.length - 1
+            ? node.children.length + index
             : index > node.children.length - 1
-                ? 0
+                ? index - node.children.length
                 : index
         : clamp(0, index, node.children.length - 1);
 }
