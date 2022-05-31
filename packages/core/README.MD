@@ -161,7 +161,7 @@ All `options` are optional, but mount `node` required:
 | `resize` | `{node,options}`     | Fires on resize target node |
 | `move`   | `{index,position}`   | Fires when slidy move. `index === every.index` |
 | `index`  | `{index,position}`   | Fires on each index change. `index === target.index` |
-| `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. Predefined keys: `['ArrowRight', 'ArrowLeft','ArrowDown', 'ArrowUp', 'Enter', ' ']` |
+| `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. Predefined keys: `['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Enter', ' ']` |
 | `update` | `{updated.options}`  | Fires on each options update |
 | `destroy`| `{node}`             | Fires before target node unmounted from the DOM |
 
