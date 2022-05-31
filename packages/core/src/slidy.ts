@@ -190,7 +190,7 @@ export function slidy(
 
             if (Math.abs(delta) <= 0.36) {
                 SENSITY = options.sensity as number;
-                frame.stop();
+                return frame.stop();
             }
             move(pos, index);
         });
@@ -260,7 +260,7 @@ export function slidy(
 
         if (options.snap || options.clamp || e.shiftKey) {
             wst = setTimeout(() => {
-                options.clamp && !e.shiftKey ? sense(pos, e) && to(ix) : to(ix)
+                (options.clamp && !e.shiftKey) ? sense(pos, e) && to(ix) : to(ix)
             }, tm);
         }
     }
