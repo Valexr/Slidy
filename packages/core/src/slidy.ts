@@ -15,7 +15,7 @@ export function slidy(
         index: 0,
         clamp: 0,
         indent: 1,
-        sensity: 1,
+        sensity: 0,
         gravity: 1.2,
         duration: 375,
         easing: function linear(t) {
@@ -88,6 +88,12 @@ export function slidy(
 
             SNAP = start ? 'start' : end ? 'end' : options.snap;
         }
+    }
+
+    function sense(pos: number, e: UniqEvent) {
+        return options.vertical && e.type === 'touchmove'
+            ? !edges(options.index, Math.sign(pos))
+            : Math.abs(pos) >= SENSITY
     }
 
     mount(node)
@@ -220,10 +226,10 @@ export function slidy(
         if (scrolled) {
             to(options.index);
             GRAVITY = 2;
-        } else if (Math.abs(pos) >= SENSITY) move(pos);
+        } else if (sense(pos, e)) move(pos);
     }
 
-    function onUp(e: UniqEvent): void {
+    function onUp(): void {
         clear();
 
         const amplitude = distance * (2 - GRAVITY);
@@ -251,6 +257,7 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
+        snapping(options.index as number);
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
@@ -259,21 +266,20 @@ export function slidy(
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
-        snapping(options.index as number);
+        if (!options.clamp) update({ wheel: e.shiftKey ? 1 : 0 });
 
-        !options.clamp && update({ wheel: e.shiftKey ? 1 : 0 });
+        if (!(options.clamp || e.shiftKey) && sense(pos, e)) move(pos, options.index);
 
-        if (!(options.clamp || e.shiftKey) && Math.abs(pos) >= SENSITY) {
-            move(pos, options.index);
-        }
         if (options.snap || options.clamp || e.shiftKey) {
-            wst = setTimeout(() => to(ix), tm);
+            wst = setTimeout(() => {
+                options.clamp && !e.shiftKey ? sense(pos, e) && to(ix) : to(ix)
+            }, tm);
         }
     }
 
     function winWheel(e: WheelEvent) {
         if (
-            ((Math.abs(e.deltaX) - Math.abs(e.deltaY) >= SENSITY) || e.shiftKey || options.clamp) &&
+            ((Math.abs(e.deltaX) > Math.abs(e.deltaY)) || e.shiftKey) &&
             e.composedPath().includes(node)
         ) {
             e.preventDefault();

@@ -79,17 +79,16 @@ function coordinate(e: UniqEvent, options: Options) {
         if (WX || e.shiftKey) e.preventDefault();
         return e.shiftKey ? (WX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : WX ? e.deltaX : 0;
     } else {
-        const DX = (Math.abs(dx) - Math.abs(dy)) >= (options.sensity as number)
-        if (options.vertical ? !DX : DX) e.preventDefault();
         if (e.type === 'mousedown' || e.type === 'touchstart') {
             x = mix(e).pageX;
             y = mix(e).pageY;
         } else if (e.type === 'mousemove' || e.type === 'touchmove') {
             dx = x - mix(e).pageX;
             dy = y - mix(e).pageY;
+            const DX = (Math.abs(dx) > Math.abs(dy))
+            if (options.vertical ? !DX : DX) e.preventDefault();
             x = mix(e).pageX;
             y = mix(e).pageY;
-            console.log(DX)
         }
         return options.vertical ? dy : dx;
     }

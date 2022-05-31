@@ -111,9 +111,9 @@ All `options` are optional, but mount `node` required:
 | `index`      | `0`                | `number`   | Start index |
 | `clamp`      | `0`                | `number`   | Clamping sliding by index: `clamp - < index > + clamp` |
 | `indent`     | `1`                | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
-| `sensity`    | `1`                | `number`   | Sliding sensity: how many pixels to start moving, default `1` when moved |
+| `sensity`    | `0`                | `number`   | Sliding sensity: how many pixels to start moving, default `0` when moved |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
-| `duration`   | `375`              | `number`   | Sliding duration |
+| `duration`   | `375`              | `number`   | Sliding duration in ms |
 | `animation`  | `?`                | `function` | Sliding custom animation: ...in progress 👨🏻‍💻 |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
 | `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding to index snap by `center` & prevent sliding by edges. |
