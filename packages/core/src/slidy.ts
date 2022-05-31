@@ -15,6 +15,7 @@ export function slidy(
         index: 0,
         clamp: 0,
         indent: 1,
+        sensity: 1,
         gravity: 1.2,
         duration: 375,
         easing: function linear(t) {
@@ -36,13 +37,14 @@ export function slidy(
         wst: NodeJS.Timeout | undefined,
         SNAP = options.snap,
         GRAVITY = options.gravity as number,
+        SENSITY = options.sensity as number,
         DURATION = Math.pow(options.duration as number, 2) / 1000;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false, capture: true }],
         ['mousemove', onMove as EventListener],
-        ['touchend', onUp],
-        ['mouseup', onUp],
+        ['touchend', onUp as EventListener],
+        ['mouseup', onUp as EventListener],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -112,6 +114,7 @@ export function slidy(
         .catch((error: Error) => console.error(error));
 
     function move(pos: number, index?: number): void {
+        SENSITY = 0
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
         position = edging(position);
@@ -179,8 +182,13 @@ export function slidy(
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
-            Math.abs(delta) <= 0.36 && frame.stop();
-            move(pos, index);
+            if (Math.abs(delta) >= 0.36) {
+                move(pos, index);
+            } else {
+                SENSITY = options.sensity as number;
+                frame.stop();
+            }
+
         });
     }
 
@@ -212,10 +220,10 @@ export function slidy(
         if (scrolled) {
             to(options.index);
             GRAVITY = 2;
-        } else move(pos);
+        } else if (Math.abs(pos) >= SENSITY) move(pos);
     }
 
-    function onUp(): void {
+    function onUp(e: UniqEvent): void {
         clear();
 
         const amplitude = distance * (2 - GRAVITY);
@@ -252,9 +260,12 @@ export function slidy(
         const tm = clamped ? 0 : DURATION / 2;
 
         snapping(options.index as number);
+
         !options.clamp && update({ wheel: e.shiftKey ? 1 : 0 });
 
-        if (!(options.clamp || e.shiftKey)) move(pos, options.index);
+        if (!(options.clamp || e.shiftKey) && Math.abs(pos) >= SENSITY) {
+            move(pos, options.index);
+        }
         if (options.snap || options.clamp || e.shiftKey) {
             wst = setTimeout(() => to(ix), tm);
         }
@@ -262,7 +273,7 @@ export function slidy(
 
     function winWheel(e: WheelEvent) {
         if (
-            (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
+            ((Math.abs(e.deltaX) - Math.abs(e.deltaY) >= SENSITY) || e.shiftKey || options.clamp) &&
             e.composedPath().includes(node)
         ) {
             e.preventDefault();
@@ -302,6 +313,9 @@ export function slidy(
                         break;
                     case 'gravity':
                         GRAVITY = options[key] = clamp(0, opts[key] as number, 2);
+                        break;
+                    case 'sensity':
+                        SENSITY = options[key] = opts[key] as number;
                         break;
                     case 'snap':
                         SNAP = options[key] = opts[key];

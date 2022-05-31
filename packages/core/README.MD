@@ -109,14 +109,16 @@ All `options` are optional, but mount `node` required:
 | Property     | Default            | Type       | Description |
 | :----------- | :----------------- | :--------- | :---------- |
 | `index`      | `0`                | `number`   | Start index |
+| `clamp`      | `0`                | `number`   | Clamping sliding by index: `clamp - < index > + clamp` |
+| `indent`     | `1`                | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
+| `sensity`    | `1`                | `number`   | Sliding sensity: how many pixels to moving |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
-| `duration`   | `375`              | `number`   | Scroll duration |
-| `indent`     | `1`                | `number`   | Scroll indent: part of gap padding both start/end edges `gap * indent` |
-| `clamp`      | `0`                | `number`   | Clamping scroll by index: `clamp - < index > + clamp` |
+| `duration`   | `375`              | `number`   | Sliding duration |
+| `animation`  | `?`                | `function` | Sliding custom animation: ...in progress 👨🏻‍💻 |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
-| `loop`       | `false`            | `boolean`  | Infinite loop mode |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding to index snap by `center` & prevent sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, scroll to index snap by `center` & prevent scroll by edges. |
+| `loop`       | `false`            | `boolean`  | Infinite loop mode |
 
 ### Usage
 

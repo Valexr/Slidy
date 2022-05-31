@@ -64,8 +64,8 @@ function indexing(node: Slidy, index: number, loop?: boolean) {
         ? index < 0
             ? node.children.length - 1
             : index > node.children.length - 1
-            ? 0
-            : index
+                ? 0
+                : index
         : clamp(0, index, node.children.length - 1);
 }
 
@@ -79,19 +79,24 @@ function coordinate(e: UniqEvent, options: Options) {
         if (WX || e.shiftKey) e.preventDefault();
         return e.shiftKey ? (WX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : WX ? e.deltaX : 0;
     } else {
-        const DX = Math.abs(dx) > Math.abs(dy);
+        const DX = (Math.abs(dx) - Math.abs(dy)) >= (options.sensity as number)
         if (options.vertical ? !DX : DX) e.preventDefault();
         if (e.type === 'mousedown' || e.type === 'touchstart') {
-            x = e.pageX;
-            y = e.pageY;
+            x = mix(e).pageX;
+            y = mix(e).pageY;
         } else if (e.type === 'mousemove' || e.type === 'touchmove') {
-            dx = x - e.pageX;
-            dy = y - e.pageY;
-            x = e.pageX;
-            y = e.pageY;
+            dx = x - mix(e).pageX;
+            dy = y - mix(e).pageY;
+            x = mix(e).pageX;
+            y = mix(e).pageY;
+            console.log(DX)
         }
         return options.vertical ? dy : dx;
     }
+}
+
+function mix(e: UniqEvent): Touch {
+    return e.touches && e.touches[0] || e
 }
 
 function clamp(min: number, val: number, max: number) {
