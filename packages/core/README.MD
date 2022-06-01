@@ -116,7 +116,7 @@ All `options` are optional, but mount `node` required:
 | `duration`   | `375`              | `number`   | Sliding duration in ms |
 | `animation`  | `?`                | `function` | Sliding custom animation: ...in progress 👨🏻‍💻 |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding to index snap by `center` & prevent sliding by edges. |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding `to(index)` snap by `center` & prevent sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 
