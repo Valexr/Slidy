@@ -90,23 +90,27 @@ export function slidy(
         }
     }
 
-    function sense(pos: number, e: UniqEvent) {
-        return options.vertical && e.type === 'touchmove'
+    function sense(e: UniqEvent, pos: number) {
+        return (options.vertical && e.type === 'touchmove')
             ? !edges(options.index, Math.sign(pos))
             : Math.abs(pos) >= SENSITY;
     }
 
-    mount(node)
+    mount(node, options)
         .then((childs) => {
             style(node, {
-                outline: 'unset',
+                outline: 'none',
                 overflow: 'hidden',
                 position: 'relative',
                 userSelect: 'none',
                 webkitUserSelect: 'none',
-                touchAction: 'pan-y',
                 webkitTapHighlightColor: 'transparent',
             });
+
+            // const styleEl = document.createElement('style');
+            // styleEl.innerHTML = `#${node.id}::-webkit-scrollbar {display: none} #${node.id} {scrollbar-width: none}`
+            // document.head.appendChild(styleEl);
+
             node.onwheel = options.clamp
                 ? throttle(onWheel as EventListener, DURATION * 2)
                 : (onWheel as EventListener);
@@ -150,7 +154,7 @@ export function slidy(
         function moving(childs: HTMLCollection): void {
             for (const child of childs) {
                 const el = child as HTMLElement;
-                el.style.transform = translate(options.vertical);
+                el.style.transform = translate(el, options.vertical);
             }
             // for (let index = 0; index < childs.length; index++) {
             //     style(childs[index] as HTMLElement, {
@@ -159,9 +163,10 @@ export function slidy(
             // }
         }
 
-        function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
-            return `translate(${axis})`;
+        function translate(el: HTMLElement, vertical?: boolean): string {
+            // console.log(el.size, el.pos)
+            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
+            return `translate3d(${axis})`;
         }
 
         function edging(position: number): number {
@@ -187,7 +192,7 @@ export function slidy(
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
-
+            // console.log(pos)
             move(pos, index);
 
             if (Math.abs(delta) <= 0.36) {
@@ -225,7 +230,7 @@ export function slidy(
         if (scrolled) {
             to(options.index);
             GRAVITY = 2;
-        } else if (sense(pos, e)) move(pos);
+        } else if (sense(e, pos)) move(pos);
     }
 
     function onUp(): void {
@@ -250,19 +255,17 @@ export function slidy(
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
-        const clamped = options.clamp || e.shiftKey || edges(options.index);
-        const pos = edges(options.index) ? coord / 9 : coord;
+        const clamped = options.clamp || e.shiftKey || edges(options.index, Math.sign(coord));
+        const pos = edges(options.index, Math.sign(coord)) ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
         if (!options.clamp) update({ wheel: e.shiftKey ? 1 : 0 });
 
-        if (!(options.clamp || e.shiftKey) && sense(pos, e)) move(pos, options.index);
+        if (!(options.clamp || e.shiftKey) && sense(e, pos)) move(pos, options.index);
 
         if (options.snap || options.clamp || e.shiftKey) {
-            wst = setTimeout(() => {
-                options.clamp && !e.shiftKey ? sense(pos, e) && to(ix) : to(ix);
-            }, tm);
+            wst = setTimeout(() => sense(e, pos) && to(ix), tm);
         }
     }
 

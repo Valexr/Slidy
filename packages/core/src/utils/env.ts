@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent, EventMap } from '../types';
 
-function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
+function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -17,7 +17,7 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
                     if (mounted) {
                         count = 0;
                         clearInterval(mounting);
-                        resolve(init(node));
+                        resolve(init(node, options));
                     }
                 }
             }, 16);
@@ -44,10 +44,13 @@ function listen(node: Window | Slidy, events: EventMap, on = true): void {
     }
 }
 
-function init(node: Slidy, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<Child> {
+function init(node: Slidy, options: Options, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<Child> {
     childs = node.children as HTMLCollectionOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
+        // childs[index].size = options.vertical ? childs[index].offsetHeight : childs[index].offsetWidth;
+        // childs[index].pos = options.vertical ? childs[index].offsetTop : childs[index].offsetLeft;
+        // childs[index].style.position = 'absolute';
     }
     return childs;
 }
@@ -64,8 +67,8 @@ function indexing(node: Slidy, index: number, options: Options) {
         ? index < 0
             ? node.children.length + index
             : index > node.children.length - 1
-            ? index - node.children.length
-            : index
+                ? index - node.children.length
+                : index
         : clamp(0, index, node.children.length - 1);
 }
 
@@ -77,7 +80,7 @@ function coordinate(e: UniqEvent, options: Options) {
     if (e.type === 'wheel') {
         const WX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
         if (WX || e.shiftKey) e.preventDefault();
-        return e.shiftKey ? (WX ? Math.sign(e.deltaX) : Math.sign(e.deltaY)) : WX ? e.deltaX : 0;
+        return WX ? e.deltaX : e.shiftKey ? e.deltaY : 0;
     } else {
         if (e.type === 'mousedown' || e.type === 'touchstart') {
             x = mix(e).pageX;
