@@ -103,7 +103,7 @@ fieldset {
     margin: 0;
     padding: 0;
     flex-flow: row wrap;
-    gap: 0.25em
+    gap: 0.25em;
 }
 
 form {
@@ -111,7 +111,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 

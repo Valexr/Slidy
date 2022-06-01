@@ -93,7 +93,7 @@ export function slidy(
     function sense(pos: number, e: UniqEvent) {
         return options.vertical && e.type === 'touchmove'
             ? !edges(options.index, Math.sign(pos))
-            : Math.abs(pos) >= SENSITY
+            : Math.abs(pos) >= SENSITY;
     }
 
     mount(node)
@@ -120,7 +120,7 @@ export function slidy(
         .catch((error: Error) => console.error(error));
 
     function move(pos: number, index?: number): void {
-        SENSITY = 0
+        SENSITY = 0;
         direction = Math.sign(pos);
         position += node.scrollable ? positioning(pos) : 0;
         position = edging(position);
@@ -238,10 +238,10 @@ export function slidy(
     }
 
     function clamping(index: number, options: Options) {
-        const dir = direction < 0 ? -1 : 1
-        const range = (options.index as number) + (options.clamp as number) * dir
+        const dir = direction < 0 ? -1 : 1;
+        const range = (options.index as number) + (options.clamp as number) * dir;
 
-        return options.clamp ? indexing(node, range, options) : index
+        return options.clamp ? indexing(node, range, options) : index;
     }
 
     function onWheel(e: UniqEvent): void {
@@ -261,14 +261,14 @@ export function slidy(
 
         if (options.snap || options.clamp || e.shiftKey) {
             wst = setTimeout(() => {
-                (options.clamp && !e.shiftKey) ? sense(pos, e) && to(ix) : to(ix)
+                options.clamp && !e.shiftKey ? sense(pos, e) && to(ix) : to(ix);
             }, tm);
         }
     }
 
     function winWheel(e: WheelEvent) {
         if (
-            ((Math.abs(e.deltaX) > Math.abs(e.deltaY)) || e.shiftKey) &&
+            (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
             e.composedPath().includes(node)
         ) {
             e.preventDefault();

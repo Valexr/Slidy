@@ -17,6 +17,7 @@ Simple, configurable & reusable sliding action script.
 > - [Options](#options)
 > - [Events](#events)
 > - [Methods](#methods)
+> - [Animations](#animations)
 
 
 ## Getting started
@@ -132,6 +133,7 @@ All `options` are optional, but mount `node` required:
                 step: 1,
                 index: 0,
                 indent: 0,
+                sensity: 0,
                 gravity: 1.2,
                 duration: 375,
                 easing: linear,
@@ -153,17 +155,18 @@ All `options` are optional, but mount `node` required:
 </section>
 ```
 
+
 ## Events
 
 | Name     | Detail               | Description                                                                       |
 | :------- | :------------------- | :-------------------------------------------------------------------------------- |
-| `mount`  | `{childs,options}`   | Fires when `node.children.length >= (options.length or 2)` & childNodes connected |
+| `mount`  | `{childs,options}`   | Fires when `node.children.length > 2` & childNodes connected |
 | `resize` | `{node,options}`     | Fires on resize target node |
-| `move`   | `{index,position}`   | Fires when slidy move. `index === every.index` |
-| `index`  | `{index,position}`   | Fires on each index change. `index === target.index` |
+| `move`   | `{index,position}`   | Fires on any sliding: `index === every.index` |
+| `index`  | `{index,position}`   | Fires on each index change: `index === target.index` |
 | `keys`   | `{e.key}`            | Fires when target node focusing and any key pressed. Needed `tabindex="0"` attribute on target node. Predefined keys: `['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Enter', ' ']` |
 | `update` | `{updated.options}`  | Fires on each options update |
-| `destroy`| `{node}`             | Fires before target node unmounted from the DOM |
+| `destroy`| `{node}`             | Fires when [`destroy()`](#methods) is done or before target node unmounted from the DOM |
 
 ### Usage
 
@@ -192,6 +195,7 @@ All `options` are optional, but mount `node` required:
     </ul>
 </section>
 ```
+
 
 ## Methods
 
@@ -236,6 +240,10 @@ All `options` are optional, but mount `node` required:
 </nav>
 ```
 
+
+## Animations
+
+...in progress 👨🏻‍💻
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 

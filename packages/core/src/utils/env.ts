@@ -64,8 +64,8 @@ function indexing(node: Slidy, index: number, options: Options) {
         ? index < 0
             ? node.children.length + index
             : index > node.children.length - 1
-                ? index - node.children.length
-                : index
+            ? index - node.children.length
+            : index
         : clamp(0, index, node.children.length - 1);
 }
 
@@ -85,7 +85,7 @@ function coordinate(e: UniqEvent, options: Options) {
         } else if (e.type === 'mousemove' || e.type === 'touchmove') {
             dx = x - mix(e).pageX;
             dy = y - mix(e).pageY;
-            const DX = (Math.abs(dx) > Math.abs(dy))
+            const DX = Math.abs(dx) > Math.abs(dy);
             if (options.vertical ? !DX : DX) e.preventDefault();
             x = mix(e).pageX;
             y = mix(e).pageY;
@@ -95,7 +95,7 @@ function coordinate(e: UniqEvent, options: Options) {
 }
 
 function mix(e: UniqEvent): Touch {
-    return e.touches && e.touches[0] || e
+    return (e.touches && e.touches[0]) || e;
 }
 
 function clamp(min: number, val: number, max: number) {
