@@ -36,6 +36,7 @@ textarea {
     font-size: inherit;
     padding: 0.4em;
     box-sizing: border-box;
+    color: var(--text-2);
     /* color: var(--color); */
     background-color: var(--surface-1);
     /* border: 1px solid transparent; */
@@ -117,6 +118,7 @@ form>* {
 label {
     display: flex;
     flex-flow: column;
+    color: var(--surface-4);
 }
 
 select {

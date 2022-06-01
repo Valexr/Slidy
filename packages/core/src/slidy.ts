@@ -188,11 +188,12 @@ export function slidy(
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
+            move(pos, index);
+
             if (Math.abs(delta) <= 0.36) {
                 SENSITY = options.sensity as number;
                 return frame.stop();
             }
-            move(pos, index);
         });
     }
 
