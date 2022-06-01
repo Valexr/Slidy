@@ -91,7 +91,7 @@ export function slidy(
     }
 
     function sense(e: UniqEvent, pos: number) {
-        return (options.vertical && e.type === 'touchmove')
+        return options.vertical && e.type === 'touchmove'
             ? !edges(options.index, Math.sign(pos))
             : Math.abs(pos) >= SENSITY;
     }
@@ -112,7 +112,7 @@ export function slidy(
             // document.head.appendChild(styleEl);
 
             node.onwheel = options.clamp
-                ? throttle(onWheel as EventListener, DURATION * 2)
+                ? throttle(onWheel, DURATION * 2)
                 : (onWheel as EventListener);
             position = replace(node, options);
 
@@ -323,7 +323,7 @@ export function slidy(
                     case 'wheel':
                         options[key] = options.wheel = opts[key];
                         node.onwheel = opts[key]
-                            ? throttle(onWheel as EventListener, DURATION * 2)
+                            ? throttle(onWheel, DURATION * 2)
                             : (onWheel as EventListener);
                         break;
                     case 'duration':

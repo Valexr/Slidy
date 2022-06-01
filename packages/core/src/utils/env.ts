@@ -44,7 +44,11 @@ function listen(node: Window | Slidy, events: EventMap, on = true): void {
     }
 }
 
-function init(node: Slidy, options: Options, childs?: HTMLCollectionOf<Child>): HTMLCollectionOf<Child> {
+function init(
+    node: Slidy,
+    options: Options,
+    childs?: HTMLCollectionOf<Child>
+): HTMLCollectionOf<Child> {
     childs = node.children as HTMLCollectionOf<Child>;
     for (let index = 0; index < childs.length; index++) {
         childs[index].index = index;
@@ -67,8 +71,8 @@ function indexing(node: Slidy, index: number, options: Options) {
         ? index < 0
             ? node.children.length + index
             : index > node.children.length - 1
-                ? index - node.children.length
-                : index
+            ? index - node.children.length
+            : index
         : clamp(0, index, node.children.length - 1);
 }
 
