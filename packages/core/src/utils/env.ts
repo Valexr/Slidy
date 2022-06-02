@@ -1,6 +1,6 @@
 import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent, EventMap } from '../types';
 
-function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> {
+function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -17,7 +17,7 @@ function mount(node: Slidy, options: Options): Promise<HTMLCollectionOf<Child>> 
                     if (mounted) {
                         count = 0;
                         clearInterval(mounting);
-                        resolve(init(node, options));
+                        resolve(init(node));
                     }
                 }
             }, 16);
@@ -44,17 +44,10 @@ function listen(node: Window | Slidy, events: EventMap, on = true): void {
     }
 }
 
-function init(
-    node: Slidy,
-    options: Options,
-    childs?: HTMLCollectionOf<Child>
-): HTMLCollectionOf<Child> {
-    childs = node.children as HTMLCollectionOf<Child>;
-    for (let index = 0; index < childs.length; index++) {
+function init(node: Slidy): HTMLCollectionOf<Child> {
+    const childs = node.children as HTMLCollectionOf<Child>;
+    for (let index = 0; index < node.children.length; index++) {
         childs[index].index = index;
-        // childs[index].size = options.vertical ? childs[index].offsetHeight : childs[index].offsetWidth;
-        // childs[index].pos = options.vertical ? childs[index].offsetTop : childs[index].offsetLeft;
-        // childs[index].style.position = 'absolute';
     }
     return childs;
 }
@@ -71,8 +64,8 @@ function indexing(node: Slidy, index: number, options: Options) {
         ? index < 0
             ? node.children.length + index
             : index > node.children.length - 1
-                ? index - node.children.length
-                : index
+            ? index - node.children.length
+            : index
         : clamp(0, index, node.children.length - 1);
 }
 
@@ -83,8 +76,8 @@ let x = 0,
 function coordinate(e: UniqEvent, options: Options) {
     const DELTA = Math.abs(dx) > Math.abs(dy);
     if (e.type === 'wheel') {
-        dx = e.deltaX
-        dy = e.deltaY
+        dx = e.deltaX;
+        dy = e.deltaY;
     } else if (e.type === 'mousedown' || e.type === 'touchstart') {
         x = mix(e).pageX;
         y = mix(e).pageY;
@@ -95,7 +88,7 @@ function coordinate(e: UniqEvent, options: Options) {
         x = mix(e).pageX;
         y = mix(e).pageY;
     }
-    return DELTA ? dx : ((options.vertical && e.type !== 'wheel') || e.shiftKey) ? dy : 0;
+    return DELTA ? dx : (options.vertical && e.type !== 'wheel') || e.shiftKey ? dy : 0;
 }
 
 function mix(e: UniqEvent): Touch {

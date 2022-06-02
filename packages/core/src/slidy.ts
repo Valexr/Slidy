@@ -1,6 +1,6 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-import { raf, type StopRaf } from './utils/raf';
+// import { raf, type StopRaf } from './utils/raf';
 import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -27,12 +27,13 @@ export function slidy(
         loop: false,
         _wheel: 0,
         ...opts,
-    }
+    };
 
     // let result = (({ p1, p2, p100 }) => ({ p1, p2, p100 }))(myObj);
 
     let hix = -1,
-        stop: StopRaf,
+        loop = 0,
+        // stop: StopRaf,
         position = 0,
         distance = 0,
         scrolled = false,
@@ -95,14 +96,14 @@ export function slidy(
     }
 
     function sense(e: UniqEvent, pos: number) {
-        return !e.shiftKey ?
-            options.vertical && e.type === 'touchmove'
+        return !e.shiftKey
+            ? options.vertical && e.type === 'touchmove'
                 ? !edges(options.index, Math.sign(pos))
                 : Math.abs(pos) >= SENSITY
-            : true
+            : true;
     }
 
-    mount(node, options)
+    mount(node)
         .then((childs) => {
             style(node, {
                 outline: 'none',
@@ -161,7 +162,7 @@ export function slidy(
         function moving(childs: HTMLCollection): void {
             for (const child of childs) {
                 const el = child as HTMLElement;
-                el.style.transform = translate(el, options.vertical);
+                el.style.transform = translate(options.vertical);
             }
             // for (let index = 0; index < childs.length; index++) {
             //     style(childs[index] as HTMLElement, {
@@ -170,7 +171,7 @@ export function slidy(
             // }
         }
 
-        function translate(el: HTMLElement, vertical?: boolean): string {
+        function translate(vertical?: boolean): string {
             // console.log(el.size, el.pos)
             const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
             return `translate(${axis})`;
@@ -186,6 +187,7 @@ export function slidy(
     function scroll(index: number, amplitude = 0, _duration?: number): void {
         snapping(index);
 
+        const time = performance.now();
         const snaped = options.snap || options.loop || edges(index, direction);
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
         const duration =
@@ -194,18 +196,17 @@ export function slidy(
 
         amplitude = target - position;
 
-        stop = raf((frame) => {
-            const T = Math.exp(frame.elapsed / duration);
+        requestAnimationFrame(function raf() {
+            const elapsed = time - performance.now();
+            const T = Math.exp(elapsed / duration);
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
+            loop = Math.abs(delta) >= 0.36 ? requestAnimationFrame(raf) : 0;
             move(pos, index);
 
-            if (Math.abs(delta) <= 0.36) {
-                SENSITY = options.sensity as number;
-                return frame.stop();
-            }
+            SENSITY = Math.abs(delta) <= 0.36 ? (options.sensity as number) : SENSITY;
         });
     }
 
@@ -260,24 +261,28 @@ export function slidy(
         clear();
         snapping(options.index as number);
 
-        const coord = coordinate(e, options) * (2 - GRAVITY)
+        const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index, Math.sign(coord));
         const pos = edges(options.index, Math.sign(coord)) ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
-        if (!options.clamp) update({ _wheel: e.shiftKey ? 1 : 0 });
+        if (!options.clamp && sense(e, pos)) {
+            update({ _wheel: e.shiftKey ? 1 : 0 });
+            move(pos, options.index);
+        }
 
-        if ((!options.clamp && !e.shiftKey) && sense(e, pos)) move(pos, options.index);
-        else wst = setTimeout(() => sense(e, pos) && to(ix), tm);
-
+        wst = options.snap ? setTimeout(() => sense(e, pos) && to(ix), tm) : undefined;
     }
 
     function winWheel(e: UniqEvent) {
-        if ((Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) && e.composedPath().includes(node)) {
+        if (
+            (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
+            e.composedPath().includes(node)
+        ) {
             e.preventDefault();
-            document.body.style.overscrollBehaviorX = 'none'
+            document.body.style.overscrollBehaviorX = 'none';
         }
     }
 
@@ -297,15 +302,20 @@ export function slidy(
     }
 
     function clear(): void {
-        stop && stop();
+        // stop && stop();
         scrolled = false;
         clearTimeout(wst);
+        cancelAnimationFrame(loop);
         GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
     }
 
     function update(opts: Partial<Options>): void {
-        if (Object.keys(opts).some(key => options[key as keyof Options] !== opts[key as keyof Options])) {
+        if (
+            Object.keys(opts).some(
+                (key) => options[key as keyof Options] !== opts[key as keyof Options]
+            )
+        ) {
             for (const key in opts) {
                 switch (key) {
                     case 'index':
