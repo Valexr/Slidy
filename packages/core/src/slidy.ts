@@ -1,6 +1,5 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, style } from './utils/env';
 import { find, history, replace, shuffle } from './utils/dom';
-// import { raf, type StopRaf } from './utils/raf';
 import type { Options, Slidy, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -29,11 +28,8 @@ export function slidy(
         ...opts,
     };
 
-    // let result = (({ p1, p2, p100 }) => ({ p1, p2, p100 }))(myObj);
-
     let hix = -1,
         loop = 0,
-        // stop: StopRaf,
         position = 0,
         distance = 0,
         scrolled = false,
@@ -112,16 +108,12 @@ export function slidy(
                 userSelect: 'none',
                 webkitUserSelect: 'none',
                 webkitTapHighlightColor: 'transparent',
-                // overscrollBehaviorX: 'contain'
             });
-            // document.body.style.overscrollBehaviorX = 'none'
-            // const styleEl = document.createElement('style');
-            // styleEl.innerHTML = `#${node.id}::-webkit-scrollbar {display: none} #${node.id} {scrollbar-width: none}`
-            // document.head.appendChild(styleEl);
 
             node.onwheel = options.clamp
                 ? throttle(onWheel, DURATION * 2)
                 : (onWheel as EventListener);
+
             position = replace(node, options);
 
             RO.observe(node);
@@ -164,15 +156,9 @@ export function slidy(
                 const el = child as HTMLElement;
                 el.style.transform = translate(options.vertical);
             }
-            // for (let index = 0; index < childs.length; index++) {
-            //     style(childs[index] as HTMLElement, {
-            //         transform: translate(options.vertical),
-            //     });
-            // }
         }
 
         function translate(vertical?: boolean): string {
-            // console.log(el.size, el.pos)
             const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
             return `translate(${axis})`;
         }
@@ -192,7 +178,7 @@ export function slidy(
         const target = snaped ? find(node, options).position(index, SNAP) : position + amplitude;
         const duration =
             _duration ||
-            (!options.clamp && Math.abs(index - hix) > 1 ? (options.duration as number) : DURATION);
+            (!options.clamp && Math.abs(index - hix) ? (options.duration as number) : DURATION);
 
         amplitude = target - position;
 
@@ -203,10 +189,13 @@ export function slidy(
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
 
-            loop = Math.abs(delta) >= 0.36 ? requestAnimationFrame(raf) : 0;
-            move(pos, index);
-
-            SENSITY = Math.abs(delta) <= 0.36 ? (options.sensity as number) : SENSITY;
+            if (Math.abs(delta) >= 0.36) {
+                loop = requestAnimationFrame(raf);
+                move(pos, index);
+            } else {
+                loop = 0;
+                SENSITY = options.sensity as number;
+            }
         });
     }
 
@@ -254,7 +243,7 @@ export function slidy(
         const dir = direction < 0 ? -1 : 1;
         const range = (options.index as number) + (options.clamp as number) * dir;
 
-        return options.clamp ? indexing(node, range, options) : index;
+        return options.clamp && Math.abs(index - hix) ? indexing(node, range, options) : index;
     }
 
     function onWheel(e: UniqEvent): void {
@@ -302,7 +291,6 @@ export function slidy(
     }
 
     function clear(): void {
-        // stop && stop();
         scrolled = false;
         clearTimeout(wst);
         cancelAnimationFrame(loop);

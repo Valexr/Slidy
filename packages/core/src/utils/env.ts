@@ -60,13 +60,8 @@ function style(node: HTMLElement, styles: Partial<CssRules>): void {
 }
 
 function indexing(node: Slidy, index: number, options: Options) {
-    return options.loop
-        ? index < 0
-            ? node.children.length + index
-            : index > node.children.length - 1
-            ? index - node.children.length
-            : index
-        : clamp(0, index, node.children.length - 1);
+    const length = node.children.length;
+    return options.loop ? (index + length) % length : clamp(0, index, length - 1);
 }
 
 let x = 0,
@@ -114,50 +109,6 @@ function throttle(
         }
     };
 }
-
-// function throttle(fn, wait) {
-//     var time = Date.now();
-
-//     return function (event) {
-//         // we dismiss every wheel event with deltaY less than 4
-//         if (Math.abs(event.deltaY) < 4) return
-
-//         if ((time + wait - Date.now()) < 0) {
-//             fn(event);
-//             time = Date.now();
-//         }
-//     }
-// }
-
-// function throttle(func, ms) {
-
-//     let isThrottled = false,
-//         savedArgs,
-//         savedThis;
-
-//     function wrapper() {
-
-//         if (isThrottled) { // (2)
-//             savedArgs = arguments;
-//             savedThis = this;
-//             return;
-//         }
-
-//         func.apply(this, arguments); // (1)
-
-//         isThrottled = true;
-
-//         setTimeout(function () {
-//             isThrottled = false; // (3)
-//             if (savedArgs) {
-//                 wrapper.apply(savedThis, savedArgs);
-//                 savedArgs = savedThis = null;
-//             }
-//         }, ms);
-//     }
-
-//     return wrapper;
-// }
 
 function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
     tm && clearTimeout(tm);
