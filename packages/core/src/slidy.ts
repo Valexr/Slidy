@@ -21,11 +21,15 @@ export function slidy(
         easing: function linear(t) {
             return t;
         },
+        animation: undefined,
         snap: undefined,
         vertical: false,
         loop: false,
+        _wheel: 0,
         ...opts,
-    };
+    }
+
+    // let result = (({ p1, p2, p100 }) => ({ p1, p2, p100 }))(myObj);
 
     let hix = -1,
         stop: StopRaf,
@@ -47,7 +51,7 @@ export function slidy(
         ['mouseup', onUp as EventListener],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
-        ['wheel', winWheel as EventListener, { passive: false, capture: true }],
+        ['wheel', winWheel as EventListener, { passive: false }],
         ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
@@ -91,9 +95,11 @@ export function slidy(
     }
 
     function sense(e: UniqEvent, pos: number) {
-        return options.vertical && e.type === 'touchmove'
-            ? !edges(options.index, Math.sign(pos))
-            : Math.abs(pos) >= SENSITY;
+        return !e.shiftKey ?
+            options.vertical && e.type === 'touchmove'
+                ? !edges(options.index, Math.sign(pos))
+                : Math.abs(pos) >= SENSITY
+            : true
     }
 
     mount(node, options)
@@ -105,8 +111,9 @@ export function slidy(
                 userSelect: 'none',
                 webkitUserSelect: 'none',
                 webkitTapHighlightColor: 'transparent',
+                // overscrollBehaviorX: 'contain'
             });
-
+            // document.body.style.overscrollBehaviorX = 'none'
             // const styleEl = document.createElement('style');
             // styleEl.innerHTML = `#${node.id}::-webkit-scrollbar {display: none} #${node.id} {scrollbar-width: none}`
             // document.head.appendChild(styleEl);
@@ -165,8 +172,8 @@ export function slidy(
 
         function translate(el: HTMLElement, vertical?: boolean): string {
             // console.log(el.size, el.pos)
-            const axis = vertical ? `0, ${-position}px, 0` : `${-position}px, 0, 0`;
-            return `translate3d(${axis})`;
+            const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
+            return `translate(${axis})`;
         }
 
         function edging(position: number): number {
@@ -192,7 +199,7 @@ export function slidy(
             const delta = amplitude * options.easing(T);
             const current = options.loop ? find(node, options).position(index, SNAP) : target;
             const pos = current - position - delta;
-            // console.log(pos)
+
             move(pos, index);
 
             if (Math.abs(delta) <= 0.36) {
@@ -253,28 +260,24 @@ export function slidy(
         clear();
         snapping(options.index as number);
 
-        const coord = coordinate(e, options) * (2 - GRAVITY);
+        const coord = coordinate(e, options) * (2 - GRAVITY)
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index, Math.sign(coord));
         const pos = edges(options.index, Math.sign(coord)) ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
-        if (!options.clamp) update({ wheel: e.shiftKey ? 1 : 0 });
+        if (!options.clamp) update({ _wheel: e.shiftKey ? 1 : 0 });
 
-        if (!(options.clamp || e.shiftKey) && sense(e, pos)) move(pos, options.index);
+        if ((!options.clamp && !e.shiftKey) && sense(e, pos)) move(pos, options.index);
+        else wst = setTimeout(() => sense(e, pos) && to(ix), tm);
 
-        if (options.snap || options.clamp || e.shiftKey) {
-            wst = setTimeout(() => sense(e, pos) && to(ix), tm);
-        }
     }
 
-    function winWheel(e: WheelEvent) {
-        if (
-            (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) &&
-            e.composedPath().includes(node)
-        ) {
+    function winWheel(e: UniqEvent) {
+        if ((Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) && e.composedPath().includes(node)) {
             e.preventDefault();
+            document.body.style.overscrollBehaviorX = 'none'
         }
     }
 
@@ -302,8 +305,8 @@ export function slidy(
     }
 
     function update(opts: Partial<Options>): void {
-        for (const key in opts) {
-            if (options[key as keyof Options] !== opts[key as keyof Options]) {
+        if (Object.keys(opts).some(key => options[key as keyof Options] !== opts[key as keyof Options])) {
+            for (const key in opts) {
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key] as number, options);
@@ -320,8 +323,8 @@ export function slidy(
                         to(options.index);
                         break;
                     case 'clamp':
-                    case 'wheel':
-                        options[key] = options.wheel = opts[key];
+                    case '_wheel':
+                        options[key] = options._wheel = opts[key];
                         node.onwheel = opts[key]
                             ? throttle(onWheel, DURATION * 2)
                             : (onWheel as EventListener);
@@ -347,8 +350,8 @@ export function slidy(
                         break;
                 }
             }
+            dispatch(node, 'update', opts);
         }
-        dispatch(node, 'update', opts);
     }
 
     function destroy(): void {

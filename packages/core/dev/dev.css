@@ -111,7 +111,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -231,6 +231,7 @@ footer {
 main {
     height: var(--height, 375px);
     margin: var(--gap, 1rem) auto;
+    /* overflow: hidden; */
 }
 
 section {

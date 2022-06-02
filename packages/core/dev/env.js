@@ -47,18 +47,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         snaps = ['unset', 'start', 'center', 'end'];
                     easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
                     snap.innerHTML = snaps.map(

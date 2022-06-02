@@ -71,8 +71,8 @@ function indexing(node: Slidy, index: number, options: Options) {
         ? index < 0
             ? node.children.length + index
             : index > node.children.length - 1
-            ? index - node.children.length
-            : index
+                ? index - node.children.length
+                : index
         : clamp(0, index, node.children.length - 1);
 }
 
@@ -81,24 +81,21 @@ let x = 0,
     dx = 0,
     dy = 0;
 function coordinate(e: UniqEvent, options: Options) {
+    const DELTA = Math.abs(dx) > Math.abs(dy);
     if (e.type === 'wheel') {
-        const WX = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        if (WX || e.shiftKey) e.preventDefault();
-        return WX ? e.deltaX : e.shiftKey ? e.deltaY : 0;
-    } else {
-        if (e.type === 'mousedown' || e.type === 'touchstart') {
-            x = mix(e).pageX;
-            y = mix(e).pageY;
-        } else if (e.type === 'mousemove' || e.type === 'touchmove') {
-            dx = x - mix(e).pageX;
-            dy = y - mix(e).pageY;
-            const DX = Math.abs(dx) > Math.abs(dy);
-            if (options.vertical ? !DX : DX) e.preventDefault();
-            x = mix(e).pageX;
-            y = mix(e).pageY;
-        }
-        return options.vertical ? dy : dx;
+        dx = e.deltaX
+        dy = e.deltaY
+    } else if (e.type === 'mousedown' || e.type === 'touchstart') {
+        x = mix(e).pageX;
+        y = mix(e).pageY;
+    } else if (e.type === 'mousemove' || e.type === 'touchmove') {
+        dx = x - mix(e).pageX;
+        dy = y - mix(e).pageY;
+        if (options.vertical ? !DELTA : DELTA) e.preventDefault();
+        x = mix(e).pageX;
+        y = mix(e).pageY;
     }
+    return DELTA ? dx : ((options.vertical && e.type !== 'wheel') || e.shiftKey) ? dy : 0;
 }
 
 function mix(e: UniqEvent): Touch {
@@ -124,6 +121,50 @@ function throttle(
         }
     };
 }
+
+// function throttle(fn, wait) {
+//     var time = Date.now();
+
+//     return function (event) {
+//         // we dismiss every wheel event with deltaY less than 4
+//         if (Math.abs(event.deltaY) < 4) return
+
+//         if ((time + wait - Date.now()) < 0) {
+//             fn(event);
+//             time = Date.now();
+//         }
+//     }
+// }
+
+// function throttle(func, ms) {
+
+//     let isThrottled = false,
+//         savedArgs,
+//         savedThis;
+
+//     function wrapper() {
+
+//         if (isThrottled) { // (2)
+//             savedArgs = arguments;
+//             savedThis = this;
+//             return;
+//         }
+
+//         func.apply(this, arguments); // (1)
+
+//         isThrottled = true;
+
+//         setTimeout(function () {
+//             isThrottled = false; // (3)
+//             if (savedArgs) {
+//                 wrapper.apply(savedThis, savedArgs);
+//                 savedArgs = savedThis = null;
+//             }
+//         }, ms);
+//     }
+
+//     return wrapper;
+// }
 
 function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
     tm && clearTimeout(tm);
