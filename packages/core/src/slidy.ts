@@ -39,7 +39,7 @@ export function slidy(
         SNAP = options.snap,
         GRAVITY = options.gravity as number,
         SENSITY = options.sensity as number,
-        DURATION = (options.duration as number) / 2
+        DURATION = (options.duration as number) / 2;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false, capture: true }],
@@ -109,9 +109,7 @@ export function slidy(
                 webkitTapHighlightColor: 'transparent',
             });
 
-            node.onwheel = options.clamp
-                ? throttle(onWheel, DURATION)
-                : (onWheel as EventListener);
+            node.onwheel = options.clamp ? throttle(onWheel, DURATION) : (onWheel as EventListener);
 
             position = replace(node, options);
 
@@ -125,7 +123,7 @@ export function slidy(
     function move(pos: number, index?: number): void {
         SENSITY = 0;
         direction = Math.sign(pos);
-        position += positioning(pos)
+        position += positioning(pos);
         position = edging(position);
         options.index = find(node, options).index(position, SNAP);
 
@@ -135,16 +133,15 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (hix !== options.index) {
-
                 if (options.loop) {
-                    const index = (options.index as number) - hix
-                    const diff = indexing(node, index, options)
-                    const dir = diff <= 1 ? 1 : -1
+                    const index = (options.index as number) - hix;
+                    const diff = indexing(node, index, options);
+                    const dir = diff <= 1 ? 1 : -1;
 
                     pos -= history(node, dir, options);
                     shuffle(node, dir);
                 }
-                hix = options.index as number
+                hix = options.index as number;
 
                 dispatch(node, 'index', { index, position });
             }
@@ -248,10 +245,11 @@ export function slidy(
 
     function clamping(index: number, options: Options) {
         const dir = direction < 0 ? -1 : 1;
-        index = options.clamp && Math.abs(index - hix)
-            ? (options.index as number) + (options.clamp as number) * dir
-            : index;
-        return indexing(node, index, options)
+        index =
+            options.clamp && Math.abs(index - hix)
+                ? (options.index as number) + (options.clamp as number) * dir
+                : index;
+        return indexing(node, index, options);
     }
 
     function onWheel(e: UniqEvent): void {
@@ -259,13 +257,13 @@ export function slidy(
         snapping(options.index as number);
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
-        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1)
+        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
         const clamped = options.clamp || e.shiftKey || edges(options.index, Math.sign(coord));
         const pos = edges(options.index, Math.sign(coord)) ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
-        if ((!options.clamp) && sense(e, pos)) {
+        if (!options.clamp && sense(e, pos)) {
             update({ _wheel: e.shiftKey ? 1 : 0 });
             !e.shiftKey && move(pos, options.index);
         }
