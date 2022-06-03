@@ -63,13 +63,14 @@ function indexing(node: Slidy, index: number, options: Options) {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
 }
+// slides.at(index % slides.length)
 
 let x = 0,
     y = 0,
     dx = 0,
     dy = 0;
 function coordinate(e: UniqEvent, options: Options) {
-    const DELTA = Math.abs(dx) > Math.abs(dy);
+    const DELTA = Math.abs(dx) >= Math.abs(dy);
     if (e.type === 'wheel') {
         dx = e.deltaX;
         dy = e.deltaY;

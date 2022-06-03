@@ -18,12 +18,12 @@
 		"@slidy/media": "workspace:*",
 		"@slidy/svelte": "workspace:*",
 		"@sveltejs/adapter-static": "^1.0.0-next.34",
-		"@sveltejs/kit": "^1.0.0-next.347",
+		"@sveltejs/kit": "^1.0.0-next.348",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.48.0",
-		"svelte-check": "^2.7.1",
+		"svelte-check": "^2.7.2",
 		"svelte-preprocess": "^4.10.6"
 	},
 	"type": "module"

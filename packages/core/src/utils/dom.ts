@@ -6,7 +6,6 @@ const child = (node: Slidy, index: number) =>
     nodes(node).find((child: Child) => child.index === index) as Child;
 const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
 const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-// const scroll = (vertical: boolean) => (vertical ? 'scrollHeight' : 'scrollWidth');
 const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
 const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
 const offset = (node: Slidy, child: Child, vertical: boolean) =>
@@ -34,8 +33,8 @@ function indents(node: Slidy, index: number, snap: string, options: Options): nu
         (!options.loop && index === 0) || snap === 'start'
             ? -indent(node, index, options)
             : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
-            ? indent(node, index, options)
-            : 0;
+                ? indent(node, index, options)
+                : 0;
     return node.gap * edge;
 }
 
@@ -48,23 +47,20 @@ const find = (node: Slidy, options: Options) => ({
         return pos + indents(node, index as number, snap as string, options);
     },
     distance: (index: number) => Math.abs(nodes(node)[index][coord(options.vertical as boolean)]),
-    // size: (index: number) => nodes(node)[index][size(options.vertical as boolean)],
     gap: () => {
         const last = nodes(node).length - 1;
         const lastSize = nodes(node)[last - 1][size(options.vertical as boolean)];
         const prev = distance(node, last - 1, options.vertical as boolean) + lastSize;
         return distance(node, last, options.vertical as boolean) - prev;
     },
-    // node: () => node[size(options.vertical as boolean)],
-    // scroll: () => node[scroll(options.vertical as boolean)],
 });
 
-function shuffle(node: Slidy, direction: number): void | null {
+function shuffle(node: Slidy, direction: number): void {
     return direction > 0
-        ? node.append(node.childNodes[0])
+        ? node.append(nodes(node)[0])
         : direction < 0
-        ? node.prepend(node.childNodes[node.childNodes.length - 1])
-        : null;
+            ? node.prepend(nodes(node)[node.children.length - 1])
+            : undefined;
 }
 
 function history(node: Slidy, direction: number, options: Options) {
@@ -85,31 +81,5 @@ function replace(node: Slidy, options: Options) {
 
     return node.scrollable ? find(node, options).position(options.index, options.snap) : 0;
 }
-
-// DRAFT's --------------------------------------
-// function cumulativeOffset(element) {
-// 	let top = 0,
-// 		left = 0;
-// 	if (element)
-// 		do {
-// 			top += element.offsetTop || 0;
-// 			left += element.offsetLeft || 0;
-// 			element = element.offsetParent;
-// 		} while (element);
-
-// 	return {
-// 		top: top,
-// 		left: left,
-// 	};
-// }
-
-// function traverse(callback, elem) {
-//     if (elem && elem.children && elem.children.length) {
-//         for (const childNode of elem.children) {
-//             callback(childNode)
-//             traverse(callback, childNode)
-//         }
-//     }
-// }
 
 export { find, history, replace, shuffle };
