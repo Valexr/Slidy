@@ -1,4 +1,4 @@
-import type { Child, CssRules, DispathDetail, Options, Slidy, UniqEvent, EventMap } from '../types';
+import type { Child, DispathDetail, Options, Slidy, UniqEvent, EventMap } from '../types';
 
 function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     return new Promise((resolve, reject) => {
@@ -25,17 +25,6 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     });
 }
 
-function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
-    node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
-}
-
-function listen(node: Window | Slidy, events: EventMap, on = true): void {
-    for (const [event, handle, options] of events) {
-        const state = on ? 'addEventListener' : 'removeEventListener';
-        if (node) node[state](event, handle, options);
-    }
-}
-
 function init(node: Slidy): HTMLCollectionOf<Child> {
     const childs = node.children as HTMLCollectionOf<Child>;
     for (let index = 0; index < node.children.length; index++) {
@@ -48,7 +37,6 @@ function indexing(node: Slidy, index: number, options: Options) {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
 }
-// slides.at(index % slides.length)
 
 let x = 0,
     y = 0,
@@ -77,6 +65,17 @@ function clamp(min: number, val: number, max: number) {
     return Math.min(max, Math.max(min, val));
 }
 
+function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
+    node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
+}
+
+function listen(node: Window | Slidy, events: EventMap, on = true): void {
+    for (const [event, handle, options] of events) {
+        const state = on ? 'addEventListener' : 'removeEventListener';
+        if (node) node[state](event, handle, options);
+    }
+}
+
 function throttle(
     fn: (args: any) => void,
     ms: number,
@@ -93,48 +92,4 @@ function throttle(
     };
 }
 
-// DRAFTS -------------------------------------------------------
-function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
-    tm && clearTimeout(tm);
-    return (args: any) => {
-        tm = setTimeout(() => fn(args), ms);
-    };
-}
-
-function debounce(fn: (args: any) => void, ms: number) {
-    let timeout: NodeJS.Timeout;
-    return function (args: any) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => fn(args), ms);
-    };
-}
-
-function fps(): Promise<number> {
-    return new Promise((resolve) =>
-        requestAnimationFrame((t1: number) =>
-            requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))
-        )
-    );
-}
-
-function style(node: HTMLElement, styles: Partial<CssRules>): void {
-    for (const property in styles) {
-        const PROP = property as keyof CssRules;
-        node.style[PROP as never] = styles[PROP] as never;
-    }
-}
-
-export {
-    init,
-    mount,
-    clamp,
-    listen,
-    indexing,
-    throttle,
-    dispatch,
-    coordinate,
-    debounce,
-    style,
-    delay,
-    fps,
-};
+export { init, mount, clamp, listen, dispatch, throttle, indexing, coordinate };

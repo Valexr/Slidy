@@ -1,6 +1,6 @@
 {
     "name": "@slidy/core",
-    "version": "3.3.2",
+    "version": "3.3.3",
     "description": "Simple, configurable & reusable sliding action script",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
@@ -17,8 +17,7 @@
             "require": "./dist/index.cjs",
             "browser": "./dist/index.js"
         },
-        "./package.json": "./package.json",
-        "./dist/easing": "./dist/easing.js"
+        "./package.json": "./package.json"
     },
     "scripts": {
         "dev": "node esbuild --dev",

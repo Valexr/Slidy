@@ -64,7 +64,8 @@ export function setEvents() {
                     snap.innerHTML = snaps.map(
                         (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
                     );
-                    easing.value = options.easing.name;
+                    easing.value =
+                        options.easing.name === 'easing' ? 'linear' : options.easing.name;
                     options.easing = easings[easing.value];
                     snap.value = options.snap;
                     break;

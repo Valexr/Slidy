@@ -56,16 +56,15 @@ const find = (node: Slidy, options: Options) => ({
 function history(node: Slidy, direction: number, options: Options) {
     const first = nodes(node)[0][size(options.vertical as boolean)];
     const last = nodes(node)[nodes(node).length - 1][size(options.vertical as boolean)];
-    const shuffle = (node: Slidy, direction: number): void => {
-        return direction > 0
-            ? node.append(nodes(node)[0])
-            : direction < 0
-            ? node.prepend(nodes(node)[node.children.length - 1])
-            : undefined;
-    };
-
-    shuffle(node, direction);
     return ((direction > 0 ? first : last) + node.gap) * direction;
+}
+
+function shuffle(node: Slidy, direction: number): void {
+    return direction > 0
+        ? node.append(nodes(node)[0])
+        : direction < 0
+        ? node.prepend(nodes(node)[node.children.length - 1])
+        : undefined;
 }
 
 function replace(node: Slidy, options: Options) {
@@ -80,4 +79,4 @@ function replace(node: Slidy, options: Options) {
     return node.scrollable ? find(node, options).position(options.index, options.snap) : 0;
 }
 
-export { find, history, replace };
+export { find, history, shuffle, replace };

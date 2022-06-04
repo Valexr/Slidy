@@ -10,33 +10,13 @@ export interface Options {
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
     loop?: boolean;
-    _shift?: boolean;
 }
 
 export interface Slidy extends HTMLElement {
-    gap: number;
-    axis: string;
-    last: number;
+    scrollable: boolean;
     start: number;
     end: number;
-    size: number;
-    active: number;
-    scrollable: boolean;
-    onmount?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
-    onresize: ((this: GlobalEventHandlers, e: UIEvent) => any) | null;
-    onmove?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
-    onindex?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
-    onkeys?: ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any) | null;
-    onupdate?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | null;
-    ondestroy?:
-        | ((this: GlobalEventHandlers, e: CustomEvent<{ detail: DispathDetail }>) => any)
-        | undefined;
+    gap: number;
 }
 
 export interface Child extends HTMLElement {
@@ -45,15 +25,8 @@ export interface Child extends HTMLElement {
 
 export interface UniqEvent extends PointerEvent {
     touches: TouchList;
-    changedTouches: TouchList;
-    deltaMode: number;
     deltaX: number;
     deltaY: number;
-    clientX: number;
-    clientY: number;
-    shiftKey: boolean;
-    target: EventTarget;
-    pointerId: number;
 }
 
 export type EventMap = [string, EventListener, AddEventListenerOptions?][];
@@ -75,20 +48,3 @@ export type DispathDetail =
  */
 export type Easing = (t: number) => number;
 export type Animation = (position: number, index: number) => number;
-
-// DRAFTS ----------------------------------------------------------
-export interface CssRules {
-    willChange?: string;
-    userSelect?: string;
-    webkitUserSelect?: string;
-    pointerEvents?: string;
-    outline?: string;
-    overflow?: string;
-    transform?: string;
-    transition?: string;
-    opacity?: string;
-    display?: string;
-    position?: string;
-    touchAction?: string;
-    webkitTapHighlightColor?: string;
-}
