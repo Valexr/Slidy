@@ -10,7 +10,7 @@ export interface Options {
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
     loop?: boolean;
-    _wheel?: number;
+    _shift?: boolean;
 }
 
 export interface Slidy extends HTMLElement {
@@ -41,22 +41,6 @@ export interface Slidy extends HTMLElement {
 
 export interface Child extends HTMLElement {
     index: number;
-}
-
-export interface CssRules {
-    willChange?: string;
-    userSelect?: string;
-    webkitUserSelect?: string;
-    pointerEvents?: string;
-    outline?: string;
-    overflow?: string;
-    transform?: string;
-    transition?: string;
-    opacity?: string;
-    display?: string;
-    position?: string;
-    touchAction?: string;
-    webkitTapHighlightColor?: string;
 }
 
 export interface UniqEvent extends PointerEvent {
@@ -91,3 +75,20 @@ export type DispathDetail =
  */
 export type Easing = (t: number) => number;
 export type Animation = (position: number, index: number) => number;
+
+// DRAFTS ----------------------------------------------------------
+export interface CssRules {
+    willChange?: string;
+    userSelect?: string;
+    webkitUserSelect?: string;
+    pointerEvents?: string;
+    outline?: string;
+    overflow?: string;
+    transform?: string;
+    transition?: string;
+    opacity?: string;
+    display?: string;
+    position?: string;
+    touchAction?: string;
+    webkitTapHighlightColor?: string;
+}

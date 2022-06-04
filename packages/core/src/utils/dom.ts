@@ -12,8 +12,6 @@ const offset = (node: Slidy, child: Child, vertical: boolean) =>
     node[size(vertical)] - child[size(vertical)];
 const position = (node: Slidy, child: Child, vertical: boolean, snap: string | undefined) =>
     child[coord(vertical)] - diff(snap, offset(node, child, vertical) * part(snap));
-const distance = (node: Slidy, index: number, vertical: boolean) =>
-    Math.abs(nodes(node)[index][coord(vertical)]);
 
 function closest(node: Slidy, target: number, vertical: boolean, snap: string | undefined): Child {
     return nodes(node).reduce((prev: Child, curr: Child) => {
@@ -46,40 +44,40 @@ const find = (node: Slidy, options: Options) => ({
         const pos = position(node, child(node, index as number), options.vertical as boolean, snap);
         return pos + indents(node, index as number, snap as string, options);
     },
-    distance: (index: number) => Math.abs(nodes(node)[index][coord(options.vertical as boolean)]),
     gap: () => {
-        const last = nodes(node).length - 1;
-        const lastSize = nodes(node)[last - 1][size(options.vertical as boolean)];
-        const prev = distance(node, last - 1, options.vertical as boolean) + lastSize;
-        return distance(node, last, options.vertical as boolean) - prev;
+        return (
+            nodes(node)[1][coord(options.vertical as boolean)] -
+            nodes(node)[0][coord(options.vertical as boolean)] -
+            nodes(node)[0][size(options.vertical as boolean)]
+        );
     },
 });
-
-function shuffle(node: Slidy, direction: number): void {
-    return direction > 0
-        ? node.append(nodes(node)[0])
-        : direction < 0
-        ? node.prepend(nodes(node)[node.children.length - 1])
-        : undefined;
-}
 
 function history(node: Slidy, direction: number, options: Options) {
     const first = nodes(node)[0][size(options.vertical as boolean)];
     const last = nodes(node)[nodes(node).length - 1][size(options.vertical as boolean)];
+    const shuffle = (node: Slidy, direction: number): void => {
+        return direction > 0
+            ? node.append(nodes(node)[0])
+            : direction < 0
+            ? node.prepend(nodes(node)[node.children.length - 1])
+            : undefined;
+    };
+
+    shuffle(node, direction);
     return ((direction > 0 ? first : last) + node.gap) * direction;
 }
 
 function replace(node: Slidy, options: Options) {
+    const rotate = (array: Array<Node | string>, key: number) => {
+        return array.slice(key).concat(array.slice(0, key));
+    };
     const elements = options.loop
         ? rotate(nodes(node), (options.index as number) - cix(node))
         : nodes(node).sort((a, b) => a.index - b.index);
+
     node.replaceChildren(...elements);
-
-    function rotate(array: Array<Node | string>, key: number) {
-        return array.slice(key).concat(array.slice(0, key));
-    }
-
     return node.scrollable ? find(node, options).position(options.index, options.snap) : 0;
 }
 
-export { find, history, replace, shuffle };
+export { find, history, replace };

@@ -25,14 +25,6 @@ function mount(node: Slidy): Promise<HTMLCollectionOf<Child>> {
     });
 }
 
-function getFPS(): Promise<number> {
-    return new Promise((resolve) =>
-        requestAnimationFrame((t1: number) =>
-            requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))
-        )
-    );
-}
-
 function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
     node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
@@ -52,13 +44,6 @@ function init(node: Slidy): HTMLCollectionOf<Child> {
     return childs;
 }
 
-function style(node: HTMLElement, styles: Partial<CssRules>): void {
-    for (const property in styles) {
-        const PROP = property as keyof CssRules;
-        node.style[PROP as never] = styles[PROP] as never;
-    }
-}
-
 function indexing(node: Slidy, index: number, options: Options) {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
@@ -70,6 +55,7 @@ let x = 0,
     dx = 0,
     dy = 0;
 function coordinate(e: UniqEvent, options: Options) {
+    const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
     const DELTA = Math.abs(dx) >= Math.abs(dy);
     if (e.type === 'wheel') {
         dx = e.deltaX;
@@ -85,10 +71,6 @@ function coordinate(e: UniqEvent, options: Options) {
         y = mix(e).pageY;
     }
     return DELTA ? dx : (options.vertical && e.type !== 'wheel') || e.shiftKey ? dy : 0;
-}
-
-function mix(e: UniqEvent): Touch {
-    return (e.touches && e.touches[0]) || e;
 }
 
 function clamp(min: number, val: number, max: number) {
@@ -111,6 +93,7 @@ function throttle(
     };
 }
 
+// DRAFTS -------------------------------------------------------
 function delay(fn: (args: any) => void, ms: number, tm?: NodeJS.Timeout): (args: any) => void {
     tm && clearTimeout(tm);
     return (args: any) => {
@@ -126,17 +109,32 @@ function debounce(fn: (args: any) => void, ms: number) {
     };
 }
 
+function fps(): Promise<number> {
+    return new Promise((resolve) =>
+        requestAnimationFrame((t1: number) =>
+            requestAnimationFrame((t2: number) => resolve(1000 / (t2 - t1)))
+        )
+    );
+}
+
+function style(node: HTMLElement, styles: Partial<CssRules>): void {
+    for (const property in styles) {
+        const PROP = property as keyof CssRules;
+        node.style[PROP as never] = styles[PROP] as never;
+    }
+}
+
 export {
-    clamp,
-    coordinate,
-    style,
-    indexing,
-    delay,
-    dispatch,
     init,
-    listen,
-    throttle,
-    debounce,
     mount,
-    getFPS,
+    clamp,
+    listen,
+    indexing,
+    throttle,
+    dispatch,
+    coordinate,
+    debounce,
+    style,
+    delay,
+    fps,
 };
