@@ -111,7 +111,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -259,6 +259,7 @@ nav#thumbs {
     gap: var(--gap);
     width: 100%;
     height: 100%;
+    -webkit-tap-highlight-color: transparent;
     /* will-change: transform; */
 }
 
