@@ -275,8 +275,7 @@ export function slidy(
     function onKeys(e: KeyboardEvent): void {
         const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
         const index = (options.clamp || 1) * ((keys.indexOf(e.key) % 2) - 1 || 1);
-
-        to((options.index as number) + index);
+        if (keys.indexOf(e.key) >= 0) to((options.index as number) + index);
         dispatch(node, 'keys', e.key);
 
         keys.includes(e.key) && e.preventDefault();
@@ -291,12 +290,9 @@ export function slidy(
     }
 
     function update(opts: Partial<Options>): void {
-        if (
-            Object.keys(opts).some(
-                (key) => options[key as keyof Options] !== opts[key as keyof Options]
-            )
-        ) {
-            for (const key in opts) {
+        for (const key in opts) {
+            if (opts[key as keyof Options] !== options[key as keyof Options]) {
+                console.log(opts);
                 switch (key) {
                     case 'index':
                         options[key] = indexing(node, opts[key] as number, options);
@@ -340,8 +336,8 @@ export function slidy(
                         break;
                 }
             }
-            dispatch(node, 'update', opts);
         }
+        dispatch(node, 'update', opts);
     }
 
     function destroy(): void {
