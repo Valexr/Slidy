@@ -63,30 +63,10 @@ export function slidy(
         dispatch(node, 'resize', { node, options });
     });
 
-    function edges(index = 0, direction = 0): boolean {
-        return (
-            !options.loop &&
-            ((index === 0 && direction <= 0 && position <= dom(node, options).start) ||
-                (index === node.children.length - 1 &&
-                    direction >= 0 &&
-                    position >= dom(node, options).end))
-        );
-    }
-
-    function snap(index: number): 'center' | 'end' | 'start' | undefined {
-        if (!options.loop && options.snap) {
-            const active = dom(node, options).position(index, options.snap);
-            const start = index === 0 || active <= dom(node, options).start;
-            const end = index === node.children.length - 1 || active >= dom(node, options).end;
-
-            return start ? 'start' : end ? 'end' : options.snap;
-        }
-    }
-
     function sense(e: UniqEvent, pos: number): boolean {
         return !e.shiftKey
             ? options.vertical && e.type === 'touchmove'
-                ? !edges(options.index, Math.sign(pos))
+                ? !dom(node, options).edges(options.index, position, Math.sign(pos))
                 : Math.abs(pos) >= SENSITY
             : true;
     }
@@ -109,13 +89,15 @@ export function slidy(
         })
         .catch((error: Error) => console.error(error));
 
-    function move(pos = 0, index?: number): void {
+    function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
         options.index = dom(node, options).index(position, SNAP);
 
-        GRAVITY = edges(options.index, direction) ? 1.8 : (options.gravity as number);
+        GRAVITY = dom(node, options).edges(options.index, position, direction)
+            ? 1.8
+            : (options.gravity as number);
         SENSITY = 0;
 
         moving(node.children);
@@ -152,13 +134,14 @@ export function slidy(
         }
     }
 
-    function scroll(index = 0, amplitude = 0, _duration = 0): void {
-        SNAP = snap(index);
+    function scroll(index: number, amplitude: number, _duration = 0): void {
+        SNAP = dom(node, options).snap(index);
 
         const time = performance.now();
-        const snaped = options.snap || options.loop || edges(index, direction);
+        const snaped =
+            options.snap || options.loop || dom(node, options).edges(index, position, direction);
         const target = snaped
-            ? dom(node, options).position(index, SNAP)
+            ? dom(node, options).distance(index, SNAP)
             : clamp(dom(node, options).start, position + amplitude, dom(node, options).end);
         const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
 
@@ -168,7 +151,7 @@ export function slidy(
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const delta = amplitude * options.easing(T);
-            const current = options.loop ? dom(node, options).position(index, SNAP) : target;
+            const current = options.loop ? dom(node, options).distance(index, SNAP) : target;
             const pos = current - position - delta;
 
             move(pos, index);
@@ -185,7 +168,7 @@ export function slidy(
     function to(index = 0, duration = DURATION): void {
         clear();
         index = indexing(node, index, options);
-        const pos = dom(node, options).position(index, SNAP) - position;
+        const pos = dom(node, options).distance(index, SNAP) - position;
         scroll(index, pos, duration);
     }
 
@@ -235,12 +218,17 @@ export function slidy(
 
     function onWheel(e: UniqEvent): void {
         clear();
-        SNAP = snap(options.index as number);
+        SNAP = dom(node, options).snap(options.index as number);
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
-        const clamped = options.clamp || e.shiftKey || edges(options.index, Math.sign(coord));
-        const pos = edges(options.index, Math.sign(coord)) ? coord / 9 : coord;
+        const clamped =
+            options.clamp ||
+            e.shiftKey ||
+            dom(node, options).edges(options.index, position, Math.sign(coord));
+        const pos = dom(node, options).edges(options.index, position, Math.sign(coord))
+            ? coord / 9
+            : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
 
