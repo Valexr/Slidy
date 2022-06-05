@@ -1,3 +1,4 @@
+/** Slidy options object [docs](https://github.com/Valexr/slidy/tree/master/packages/core#options)*/
 export interface Options {
     index?: number;
     clamp?: number;
@@ -47,4 +48,5 @@ export type DispathDetail =
  * @see https://easings.net
  */
 export type Easing = (t: number) => number;
+
 export type Animation = (position: number, index: number) => number;

@@ -33,39 +33,26 @@ function init(node: Slidy): HTMLCollectionOf<Child> {
     return childs;
 }
 
-function indexing(node: Slidy, index: number, options: Options) {
+function indexing(node: Slidy, index: number, options: Options): number {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
 }
 
-let x = 0,
-    y = 0,
-    dx = 0,
-    dy = 0;
-function coordinate(e: UniqEvent, options: Options) {
-    const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
-    const DELTA = Math.abs(dx) >= Math.abs(dy);
+function coordinate(e: UniqEvent, options: Options): number {
     if (e.type === 'wheel') {
-        dx = e.deltaX;
-        dy = e.deltaY;
-    } else if (e.type === 'mousedown' || e.type === 'touchstart') {
-        x = mix(e).pageX;
-        y = mix(e).pageY;
-    } else if (e.type === 'mousemove' || e.type === 'touchmove') {
-        dx = x - mix(e).pageX;
-        dy = y - mix(e).pageY;
-        if (options.vertical ? !DELTA : DELTA) e.preventDefault();
-        x = mix(e).pageX;
-        y = mix(e).pageY;
+        const DELTA = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
+        return DELTA ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+    } else {
+        const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
+        return options.vertical ? mix(e).pageY : mix(e).pageX;
     }
-    return DELTA ? dx : (options.vertical && e.type !== 'wheel') || e.shiftKey ? dy : 0;
 }
 
-function clamp(min: number, val: number, max: number) {
+function clamp(min: number, val: number, max: number): number {
     return Math.min(max, Math.max(min, val));
 }
 
-function dispatch(node: Slidy, name: string, detail?: DispathDetail) {
+function dispatch(node: Slidy, name: string, detail?: DispathDetail): void {
     node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
 

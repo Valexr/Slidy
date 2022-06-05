@@ -1,82 +1,68 @@
 import type { Child, Options, Slidy } from '../types';
 
-const cix = (node: Slidy) => Math.floor(nodes(node).length / 2);
-const nodes = (node: Slidy): Child[] => Array.from(node.children as HTMLCollectionOf<Child>);
-const child = (node: Slidy, index: number) =>
-    nodes(node).find((child: Child) => child.index === index) as Child;
-const coord = (vertical: boolean) => (vertical ? 'offsetTop' : 'offsetLeft');
-const size = (vertical: boolean) => (vertical ? 'offsetHeight' : 'offsetWidth');
-const part = (snap: string | undefined) => (snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5);
-const diff = (snap: string | undefined, pos: number) => (snap !== 'start' ? pos : 0);
-const offset = (node: Slidy, child: Child, vertical: boolean) =>
-    node[size(vertical)] - child[size(vertical)];
-const position = (node: Slidy, child: Child, vertical: boolean, snap: string | undefined) =>
-    child[coord(vertical)] - diff(snap, offset(node, child, vertical) * part(snap));
+export function dom(node: Slidy, options: Options) {
+    const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
+    const indexes = nodes.map((node) => node.index);
+    const length = nodes.length;
+    const cix = Math.floor(length / 2);
+    const coord = options.vertical ? 'offsetTop' : 'offsetLeft';
+    const size = options.vertical ? 'offsetHeight' : 'offsetWidth';
+    const gap = nodes[1][coord] - nodes[0][coord] - nodes[0][size];
+    const start = position(0, 'start');
+    const end = position(length - 1, 'end');
+    const scrollable = Math.abs(end - start) > gap * 2;
 
-function closest(node: Slidy, target: number, vertical: boolean, snap: string | undefined): Child {
-    return nodes(node).reduce((prev: Child, curr: Child) => {
-        const dist = (child: Child) => Math.abs(position(node, child, vertical, snap) - target);
-        return dist(curr) < dist(prev) ? curr : prev;
-    });
-}
-const indent = (node: Slidy, index: number, options: Options) => {
-    const wrap = node[size(options.vertical as boolean)];
-    const active = child(node, index)[size(options.vertical as boolean)];
-    const diff = wrap - active;
-    return active + node.gap * 2 < wrap ? options.indent : diff / 2 / node.gap;
-};
+    function child(index: number) {
+        return nodes.find((child: Child) => child.index === index) as Child;
+    }
 
-function indents(node: Slidy, index: number, snap: string, options: Options): number {
-    const edge =
-        (!options.loop && index === 0) || snap === 'start'
-            ? -indent(node, index, options)
-            : (!options.loop && index === nodes(node).length - 1) || snap === 'end'
-            ? indent(node, index, options)
-            : 0;
-    return node.gap * edge;
-}
+    function position(index: number, snap?: string) {
+        const offset = node[size] - child(index)[size];
+        const part = snap === 'center' ? 0.5 : snap === 'end' ? 1 : 0.5;
+        const diff = snap !== 'start' ? offset * part : 0;
+        const pos = child(index)[coord] - diff;
+        const indented = child(index)[size] + gap * 2 < node[size];
+        const indent = indented ? options.indent : offset / 2 / gap;
+        const start = (!options.loop && index === 0) || snap === 'start';
+        const end = (!options.loop && index === length - 1) || snap === 'end';
+        const edge = start ? -indent : end ? indent : 0;
+        return pos + gap * edge;
+    }
 
-const find = (node: Slidy, options: Options) => ({
-    index: (target: number, snap: string | undefined): number => {
-        return closest(node, target, options.vertical as boolean, snap).index;
-    },
-    position: (index: number | undefined, snap?: string) => {
-        const pos = position(node, child(node, index as number), options.vertical as boolean, snap);
-        return pos + indents(node, index as number, snap as string, options);
-    },
-    gap: () => {
-        return (
-            nodes(node)[1][coord(options.vertical as boolean)] -
-            nodes(node)[0][coord(options.vertical as boolean)] -
-            nodes(node)[0][size(options.vertical as boolean)]
-        );
-    },
-});
+    return {
+        gap,
+        end,
+        start,
+        position,
+        scrollable,
+        index(target: number, snap?: string): number {
+            return indexes.reduce((prev, curr) => {
+                const dist = (index: number) => Math.abs(position(index, snap) - target);
+                return dist(curr) < dist(prev) ? curr : prev;
+            });
+        },
+        history(direction: number): number {
+            const first = nodes[0][size];
+            const last = nodes[length - 1][size];
+            return ((direction > 0 ? first : last) + gap) * direction;
+        },
+        shuffle(direction: number): void {
+            return direction > 0
+                ? node.append(nodes[0])
+                : direction < 0
+                ? node.prepend(nodes[length - 1])
+                : undefined;
+        },
+        replace(): number {
+            const rotate = (array: Array<Node | string>, key: number) => {
+                return array.slice(key).concat(array.slice(0, key));
+            };
+            const elements = options.loop
+                ? rotate(nodes, (options.index as number) - cix)
+                : nodes.sort((a, b) => a.index - b.index);
 
-function history(node: Slidy, direction: number, options: Options) {
-    const first = nodes(node)[0][size(options.vertical as boolean)];
-    const last = nodes(node)[nodes(node).length - 1][size(options.vertical as boolean)];
-    return ((direction > 0 ? first : last) + node.gap) * direction;
-}
-
-function shuffle(node: Slidy, direction: number): void {
-    return direction > 0
-        ? node.append(nodes(node)[0])
-        : direction < 0
-        ? node.prepend(nodes(node)[node.children.length - 1])
-        : undefined;
-}
-
-function replace(node: Slidy, options: Options) {
-    const rotate = (array: Array<Node | string>, key: number) => {
-        return array.slice(key).concat(array.slice(0, key));
+            node.replaceChildren(...elements);
+            return scrollable ? position(options.index as number, options.snap) : 0;
+        },
     };
-    const elements = options.loop
-        ? rotate(nodes(node), (options.index as number) - cix(node))
-        : nodes(node).sort((a, b) => a.index - b.index);
-
-    node.replaceChildren(...elements);
-    return node.scrollable ? find(node, options).position(options.index, options.snap) : 0;
 }
-
-export { find, history, shuffle, replace };
