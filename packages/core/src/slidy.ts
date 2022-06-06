@@ -1,9 +1,9 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen } from './utils/env';
 import { dom } from './utils/dom';
-import type { Options, Slidy, UniqEvent, EventMap } from './types';
+import type { Options, UniqEvent, EventMap } from './types';
 
 export function slidy(
-    node: Slidy,
+    node: HTMLElement,
     opts: Partial<Options>
 ): {
     update: (options: Options) => void;
@@ -78,7 +78,7 @@ export function slidy(
             node.style.position = 'relative';
             node.style.userSelect = 'none';
             node.style.webkitUserSelect = 'none';
-            node.onwheel = options.clamp ? throttle(onWheel, DURATION) : (onWheel as EventListener);
+            node.onwheel = throttle(onWheel, DURATION, options.clamp);
 
             position = dom(node, options).replace();
 
@@ -110,7 +110,7 @@ export function slidy(
                     dom(node, options).shuffle(direction);
                 }
                 hix = options.index as number;
-                dispatch(node, 'index', { index, position });
+                dispatch(node, 'index', { index });
             }
             return dom(node, options).scrollable ? pos : 0;
         }
@@ -195,7 +195,7 @@ export function slidy(
             to(options.index);
             GRAVITY = 2;
         } else if (sense(e, pos)) {
-            move(pos * (2 - GRAVITY));
+            move(pos * (2 - GRAVITY), options.index);
             e.preventDefault();
         }
     }
@@ -233,19 +233,15 @@ export function slidy(
         const tm = clamped ? 0 : DURATION / 2;
         const moved = !options.clamp && !e.shiftKey;
 
-        moved && sense(e, pos) && move(pos);
-        wst = options.snap || !moved
-            ? setTimeout(() => sense(e, pos) && to(ix), tm)
-            : undefined;
+        moved && sense(e, pos) && move(pos, options.index);
+        wst = options.snap || !moved ? setTimeout(() => sense(e, pos) && to(ix), tm) : undefined;
     }
 
     function winWheel(e: WheelEvent): void {
         if (e.composedPath().includes(node)) {
             (Math.abs(e.deltaX) >= Math.abs(e.deltaY) || e.shiftKey) && e.preventDefault();
             if (e.shiftKey !== shifted) {
-                node.onwheel = e.shiftKey
-                    ? throttle(onWheel, DURATION)
-                    : (onWheel as EventListener);
+                node.onwheel = throttle(onWheel, DURATION, e.shiftKey);
                 shifted = e.shiftKey;
             }
         }
@@ -297,9 +293,7 @@ export function slidy(
                         break;
                     case 'clamp':
                         options[key] = opts[key];
-                        node.onwheel = opts[key]
-                            ? throttle(onWheel, DURATION)
-                            : (onWheel as EventListener);
+                        node.onwheel = throttle(onWheel, DURATION, opts[key]);
                         break;
                     case 'loop':
                     case 'vertical':

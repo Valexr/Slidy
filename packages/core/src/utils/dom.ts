@@ -1,6 +1,6 @@
-import type { Child, Options, Slidy } from '../types';
+import type { Child, Options } from '../types';
 
-export function dom(node: Slidy, options: Options) {
+export function dom(node: HTMLElement, options: Options) {
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
     const indexes = nodes.map((node) => node.index);
     const length = nodes.length;
@@ -42,13 +42,11 @@ export function dom(node: Slidy, options: Options) {
             });
         },
         edges(index = 0, position = 0, direction = 0): boolean {
-            return (
-                !options.loop &&
-                ((index <= 0 && direction <= 0 && position <= start) ||
-                    (index >= length - 1 && direction >= 0 && position >= end))
-            );
+            const st = index <= 0 && direction <= 0 && position <= start;
+            const ed = index >= length - 1 && direction >= 0 && position >= end;
+            return !options.loop && (st || ed);
         },
-        snap(index: number): 'center' | 'end' | 'start' | undefined {
+        snap(index: number): Options['snap'] | undefined {
             if (options.snap) {
                 const active = distance(index, options.snap);
                 const onstart = index <= 0 || active <= start;

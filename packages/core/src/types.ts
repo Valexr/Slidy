@@ -13,12 +13,12 @@ export interface Options {
     loop?: boolean;
 }
 
-export interface Slidy extends HTMLElement {
-    scrollable: boolean;
-    start: number;
-    end: number;
-    gap: number;
-}
+// export interface Slidy extends HTMLElement {
+//     scrollable: boolean;
+//     start: number;
+//     end: number;
+//     gap: number;
+// }
 
 export interface Child extends HTMLElement {
     index: number;
@@ -37,7 +37,7 @@ export type DispathDetail =
     | CustomEventInit<unknown>
     | HTMLCollectionOf<Child>
     | Options
-    | Slidy
+    | HTMLElement
     | string
     | undefined;
 
