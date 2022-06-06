@@ -40,7 +40,7 @@ function indexing(node: Slidy, index: number, options: Options): number {
 
 function coordinate(e: UniqEvent, options: Options): number {
     if (e.type === 'wheel') {
-        const DELTA = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
+        const DELTA = Math.abs(e.deltaX) > Math.abs(e.deltaY);
         return DELTA ? e.deltaX : e.shiftKey ? e.deltaY : 0;
     } else {
         const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;

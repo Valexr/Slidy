@@ -58,8 +58,8 @@ export function dom(node: Slidy, options: Options) {
                     ? onstart
                         ? 'start'
                         : onend
-                            ? 'end'
-                            : options.snap
+                        ? 'end'
+                        : options.snap
                     : options.snap;
             }
         },
@@ -72,8 +72,8 @@ export function dom(node: Slidy, options: Options) {
             return direction > 0
                 ? node.append(nodes[0])
                 : direction < 0
-                    ? node.prepend(nodes[length - 1])
-                    : undefined;
+                ? node.prepend(nodes[length - 1])
+                : undefined;
         },
         replace(): number {
             const rotate = (array: Array<Node | string>, key: number) => {

@@ -67,7 +67,7 @@ export function slidy(
         return !e.shiftKey
             ? options.vertical && e.type === 'touchmove'
                 ? !dom(node, options).edges(options.index, position, Math.sign(pos))
-                : Math.abs(pos) >= SENSITY
+                : Math.abs(pos) > SENSITY
             : true;
     }
 
@@ -98,7 +98,7 @@ export function slidy(
         GRAVITY = dom(node, options).edges(options.index, position, direction)
             ? 1.8
             : (options.gravity as number);
-        SENSITY = 0;
+        SENSITY = -1;
 
         moving(node.children);
         dispatch(node, 'move', { index: options.index, position });
@@ -195,8 +195,8 @@ export function slidy(
             to(options.index);
             GRAVITY = 2;
         } else if (sense(e, pos)) {
-            e.preventDefault();
             move(pos * (2 - GRAVITY));
+            e.preventDefault();
         }
     }
 
@@ -231,13 +231,12 @@ export function slidy(
             : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
+        const moved = !options.clamp && !e.shiftKey;
 
-        if (!options.clamp && !e.shiftKey && sense(e, pos)) {
-            move(pos);
-        }
-        if (options.snap || options.clamp) {
-            wst = setTimeout(() => sense(e, pos) && to(ix), tm);
-        }
+        moved && sense(e, pos) && move(pos);
+        wst = options.snap || !moved
+            ? setTimeout(() => sense(e, pos) && to(ix), tm)
+            : undefined;
     }
 
     function winWheel(e: WheelEvent): void {
@@ -260,8 +259,8 @@ export function slidy(
         const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
         const index = (options.clamp || 1) * ((keys.indexOf(e.key) % 2) - 1 || 1);
         if (keys.indexOf(e.key) >= 0) {
-            e.preventDefault();
             to((options.index as number) + index);
+            e.preventDefault();
         }
         dispatch(node, 'keys', e.key);
     }
