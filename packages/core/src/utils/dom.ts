@@ -23,8 +23,8 @@ export function dom(node: Slidy, options: Options) {
         const pos = child(index)[coord] - diff;
         const indented = child(index)[size] + gap * 2 < node[size];
         const indent = indented ? options.indent : offset / 2 / gap;
-        const start = (!options.loop && index === 0) || snap === 'start';
-        const end = (!options.loop && index === length - 1) || snap === 'end';
+        const start = (!options.loop && index <= 0) || snap === 'start';
+        const end = (!options.loop && index >= length - 1) || snap === 'end';
         const edge = start ? -indent : end ? indent : 0;
         return pos + gap * edge;
     }
@@ -44,17 +44,23 @@ export function dom(node: Slidy, options: Options) {
         edges(index = 0, position = 0, direction = 0): boolean {
             return (
                 !options.loop &&
-                ((index === 0 && direction <= 0 && position <= start) ||
-                    (index === length - 1 && direction >= 0 && position >= end))
+                ((index <= 0 && direction <= 0 && position <= start) ||
+                    (index >= length - 1 && direction >= 0 && position >= end))
             );
         },
         snap(index: number): 'center' | 'end' | 'start' | undefined {
-            if (!options.loop && options.snap) {
+            if (options.snap) {
                 const active = distance(index, options.snap);
-                const onstart = index === 0 || active <= start;
-                const onend = index === length - 1 || active >= end;
+                const onstart = index <= 0 || active <= start;
+                const onend = index >= length - 1 || active >= end;
 
-                return onstart ? 'start' : onend ? 'end' : options.snap;
+                return !options.loop
+                    ? onstart
+                        ? 'start'
+                        : onend
+                            ? 'end'
+                            : options.snap
+                    : options.snap;
             }
         },
         history(direction: number): number {
@@ -66,8 +72,8 @@ export function dom(node: Slidy, options: Options) {
             return direction > 0
                 ? node.append(nodes[0])
                 : direction < 0
-                ? node.prepend(nodes[length - 1])
-                : undefined;
+                    ? node.prepend(nodes[length - 1])
+                    : undefined;
         },
         replace(): number {
             const rotate = (array: Array<Node | string>, key: number) => {
