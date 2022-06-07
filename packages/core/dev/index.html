@@ -1,53 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=auto" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=auto"
+        />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
 
-        <link href="assets/splashscreens/iphone5_splash.png"
+        <link
+            href="assets/splashscreens/iphone5_splash.png"
             media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphone6_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphone6_splash.png"
             media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphoneplus_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphoneplus_splash.png"
             media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphonex_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphonex_splash.png"
             media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphonexr_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphonexr_splash.png"
             media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphonexsmax_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphonexsmax_splash.png"
             media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/iphone12_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/iphone12_splash.png"
             media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/ipad_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/ipad_splash.png"
             media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/ipadpro1_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/ipadpro1_splash.png"
             media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/ipadpro3_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/ipadpro3_splash.png"
             media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
-        <link href="assets/splashscreens/ipadpro2_splash.png"
+            rel="apple-touch-startup-image"
+        />
+        <link
+            href="assets/splashscreens/ipadpro2_splash.png"
             media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
-            rel="apple-touch-startup-image" />
+            rel="apple-touch-startup-image"
+        />
 
-        <link rel="apple-touch-icon" type="image/png" sizes="any" href="assets/apple-touch-icon.png" />
-        <link rel="apple-touch-icon-precomposed" type="image/png" sizes="any"
-            href="assets/apple-touch-icon-precomposed.png" />
+        <link
+            rel="apple-touch-icon"
+            type="image/png"
+            sizes="any"
+            href="assets/apple-touch-icon.png"
+        />
+        <link
+            rel="apple-touch-icon-precomposed"
+            type="image/png"
+            sizes="any"
+            href="assets/apple-touch-icon-precomposed.png"
+        />
         <link rel="icon" type="image/png" href="assets/favicon.png" />
         <link rel="stylesheet" href="dev.css" />
 
@@ -87,7 +119,7 @@
                 clamp: 0,
                 indent: 1,
                 length: 9,
-                sensity: 0,
+                sensity: 5,
                 gravity: 1.2,
                 duration: 375,
                 loop: false,
@@ -124,10 +156,17 @@
             <img id="slidy-logo" alt="Slidy" width="50" height="50" src="assets/favicon.png" />
             <h3 id="header"></h3>
             <a href="https://github.com/Valexr/Slidy" id="github">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
                     <path
                         d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                        fill="currentColor" />
+                        fill="currentColor"
+                    />
                 </svg>
             </a>
         </header>
@@ -163,7 +202,10 @@
                 <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
                     loop
                 </button>
-                <button id="vertical" onclick="slidy.update({ vertical: options.vertical = !options.vertical})">
+                <button
+                    id="vertical"
+                    onclick="slidy.update({ vertical: options.vertical = !options.vertical})"
+                >
                     vertical
                 </button>
             </nav>
@@ -171,53 +213,117 @@
             <form>
                 <fieldset>
                     <label title="snap">
-                        <select id="snap" name="snap" onchange="slidy.update({ snap: this.value })"></select>
+                        <select
+                            id="snap"
+                            name="snap"
+                            onchange="slidy.update({ snap: this.value })"
+                        ></select>
                     </label>
                     <label title="easing">
-                        <select id="easing" name="easing"
-                            onchange="slidy.update({ easing: easings[this.value] })"></select>
+                        <select
+                            id="easing"
+                            name="easing"
+                            onchange="slidy.update({ easing: easings[this.value] })"
+                        ></select>
                     </label>
                 </fieldset>
             </form>
 
             <form>
                 <fieldset>
-                    <label title="clamp">clamp
-                        <input id="clamp" onchange="slidy.update({ clamp: +this.value })" name="clamp" type="number"
-                            size="1" step="1" min="0" max="3" />
+                    <label title="clamp"
+                        >clamp
+                        <input
+                            id="clamp"
+                            onchange="slidy.update({ clamp: +this.value })"
+                            name="clamp"
+                            type="number"
+                            size="1"
+                            step="1"
+                            min="0"
+                            max="3"
+                        />
                     </label>
-                    <label title="sensity">sensity
-                        <input id="sensity" onchange="slidy.update({ sensity: +this.value })" name="sensity"
-                            type="number" size="2" step="1" min="0" max="100" />
+                    <label title="sensity"
+                        >sensity
+                        <input
+                            id="sensity"
+                            onchange="slidy.update({ sensity: +this.value })"
+                            name="sensity"
+                            type="number"
+                            size="2"
+                            step="1"
+                            min="0"
+                            max="100"
+                        />
                     </label>
-                    <label title="indent">indent
-                        <input id="indent" onchange="slidy.update({ indent: +this.value })" name="indent" type="number"
-                            size="1" step="0.1" min="-2" max="2" />
+                    <label title="indent"
+                        >indent
+                        <input
+                            id="indent"
+                            onchange="slidy.update({ indent: +this.value })"
+                            name="indent"
+                            type="number"
+                            size="1"
+                            step="0.1"
+                            min="-2"
+                            max="2"
+                        />
                     </label>
-                    <label title="duration">duration
-                        <input id="duration" onchange="slidy.update({ duration: +this.value })" name="duration"
-                            type="number" size="2" step="1" min="100" max="1000" />
+                    <label title="duration"
+                        >duration
+                        <input
+                            id="duration"
+                            onchange="slidy.update({ duration: +this.value })"
+                            name="duration"
+                            type="number"
+                            size="2"
+                            step="1"
+                            min="100"
+                            max="1000"
+                        />
                     </label>
-                    <label title="gravity">gravity
-                        <input id="gravity" onchange="slidy.update({ gravity: +this.value })" name="gravity"
-                            type="number" size="1" step="0.1" min="0.1" max="2" />
+                    <label title="gravity"
+                        >gravity
+                        <input
+                            id="gravity"
+                            onchange="slidy.update({ gravity: +this.value })"
+                            name="gravity"
+                            type="number"
+                            size="1"
+                            step="0.1"
+                            min="0.1"
+                            max="2"
+                        />
                     </label>
                 </fieldset>
             </form>
 
             <form>
                 <fieldset>
-                    <label title="length">length
-                        <input id="length" onchange="utils.changeLength(this)" name="length" type="number" size="1"
-                            step="1" min="1" max="50" />
+                    <label title="length"
+                        >length
+                        <input
+                            id="length"
+                            onchange="utils.changeLength(this)"
+                            name="length"
+                            type="number"
+                            size="1"
+                            step="1"
+                            min="1"
+                            max="50"
+                        />
                     </label>
-                    <label title="width">width
+                    <label title="width"
+                        >width
                         <input onchange="utils.setVar(this)" name="width" size="4" />
                     </label>
-                    <label title="height">height
+                    <label title="height"
+                        >height
                         <input onchange="utils.setVar(this)" name="height" size="5" />
                     </label>
-                    <label title="gap">gap
+                    <label title="gap"
+                        >gap
                         <input onchange="utils.setVar(this)" name="gap" size="4" />
                     </label>
                 </fieldset>
@@ -226,8 +332,15 @@
             <form>
                 <fieldset>
                     <label title="range">
-                        <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
-                            max="4" />
+                        <input
+                            onchange="change(this)"
+                            oninput="input(this)"
+                            name="index"
+                            type="range"
+                            step="1"
+                            min="0"
+                            max="4"
+                        />
                     </label>
                 </fieldset>
             </form>
@@ -279,5 +392,4 @@
             </code></pre>
         </article>
     </body>
-
 </html>

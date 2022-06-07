@@ -7,7 +7,7 @@ export interface Options {
     gravity?: number;
     duration?: number;
     easing: Easing;
-    animation?: Animation;
+    animation: Animation;
     snap?: 'start' | 'center' | 'end';
     vertical?: boolean;
     loop?: boolean;
@@ -32,7 +32,7 @@ export interface UniqEvent extends PointerEvent {
 
 export type EventMap = [string, EventListener, AddEventListenerOptions?][];
 
-export type DispathDetail =
+export type Detail =
     | { [key: string]: any }
     | CustomEventInit<unknown>
     | HTMLCollectionOf<Child>
@@ -49,4 +49,9 @@ export type DispathDetail =
  */
 export type Easing = (t: number) => number;
 
-export type Animation = (position: number, index: number) => number;
+export type Animation = (
+    node: HTMLElement,
+    position: number,
+    options: Options,
+    index?: number
+) => void;

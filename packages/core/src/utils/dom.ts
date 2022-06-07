@@ -42,9 +42,9 @@ export function dom(node: HTMLElement, options: Options) {
             });
         },
         edges(index = 0, position = 0, direction = 0): boolean {
-            const st = index <= 0 && direction <= 0 && position <= start;
-            const ed = index >= length - 1 && direction >= 0 && position >= end;
-            return !options.loop && (st || ed);
+            const stE = index <= 0 && direction <= 0 && position <= start;
+            const edE = index >= length - 1 && direction >= 0 && position >= end;
+            return !options.loop && (stE || edE);
         },
         snap(index: number): Options['snap'] | undefined {
             if (options.snap) {

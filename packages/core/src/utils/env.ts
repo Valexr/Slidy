@@ -1,6 +1,6 @@
-import type { Child, DispathDetail, Options, UniqEvent, EventMap } from '../types';
+import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-function mount(node: HTMLElement): Promise<HTMLCollectionOf<Child>> {
+function mount(node: HTMLElement) {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -25,12 +25,15 @@ function mount(node: HTMLElement): Promise<HTMLCollectionOf<Child>> {
     });
 }
 
-function init(node: HTMLElement): HTMLCollectionOf<Child> {
-    const childs = node.children as HTMLCollectionOf<Child>;
-    for (let index = 0; index < node.children.length; index++) {
-        childs[index].index = index;
+function init(node: HTMLElement) {
+    return loop(node.children, (item, i) => (item.index = i));
+}
+
+function loop(array: (string | any[] | HTMLCollection | Array<Partial<Options>>), cb: (item: any, i: number) => void) {
+    for (let i = 0; i < array.length; i++) {
+        cb(array[i], i);
     }
-    return childs;
+    return array;
 }
 
 function indexing(node: HTMLElement, index: number, options: Options): number {
@@ -40,8 +43,8 @@ function indexing(node: HTMLElement, index: number, options: Options): number {
 
 function coordinate(e: UniqEvent, options: Options): number {
     if (e.type === 'wheel') {
-        const DELTA = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        return DELTA ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+        const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
+        return X ? e.deltaX : e.shiftKey ? e.deltaY : 0;
     } else {
         const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
         return options.vertical ? mix(e).pageY : mix(e).pageX;
@@ -52,15 +55,16 @@ function clamp(min: number, val: number, max: number): number {
     return Math.min(max, Math.max(min, val));
 }
 
-function dispatch(node: HTMLElement, name: string, detail?: DispathDetail): void {
+function dispatch(node: HTMLElement, name: string, detail?: Detail): void {
     node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
 }
 
 function listen(node: Window | HTMLElement, events: EventMap, on = true): void {
-    for (const [event, handle, options] of events) {
+    loop(events, (item) => {
         const state = on ? 'addEventListener' : 'removeEventListener';
-        if (node) node[state](event, handle, options);
-    }
+        const [event, handle, options] = item;
+        node[state](event, handle, options);
+    });
 }
 
 function throttle(
@@ -82,4 +86,4 @@ function throttle(
         : (args) => fn(args);
 }
 
-export { init, mount, clamp, listen, dispatch, throttle, indexing, coordinate };
+export { init, mount, clamp, listen, dispatch, throttle, indexing, coordinate, loop };

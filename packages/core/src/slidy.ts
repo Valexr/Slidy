@@ -1,5 +1,6 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen } from './utils/env';
 import { dom } from './utils/dom';
+import { translate } from './utils/animation';
 import type { Options, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -14,11 +15,11 @@ export function slidy(
         index: 0,
         clamp: 0,
         indent: 1,
-        sensity: 0,
+        sensity: 5,
         gravity: 1.2,
         duration: 375,
         easing: (t) => t,
-        animation: undefined,
+        animation: translate,
         snap: undefined,
         vertical: false,
         loop: false,
@@ -35,10 +36,10 @@ export function slidy(
         shifted = false,
         scrolled = false,
         wst: NodeJS.Timeout | undefined,
-        SNAP = options.snap,
-        GRAVITY = options.gravity as number,
+        DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
-        DURATION = (options.duration as number) / 2;
+        GRAVITY = options.gravity as number,
+        SNAP = options.snap
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -51,11 +52,11 @@ export function slidy(
         ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
-        ['contextmenu', () => to(options.index)],
-        ['dragstart', (e) => e.preventDefault()],
         ['touchstart', onDown as EventListener, { passive: false }],
         ['mousedown', onDown as EventListener],
         ['keydown', onKeys as EventListener],
+        ['contextmenu', () => to(options.index)],
+        ['dragstart', (e) => e.preventDefault()],
     ];
 
     const RO = new ResizeObserver(() => {
@@ -64,11 +65,9 @@ export function slidy(
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
-        return !e.shiftKey
-            ? options.vertical && e.type === 'touchmove'
-                ? !dom(node, options).edges(options.index, position, Math.sign(pos))
-                : Math.abs(pos) > SENSITY
-            : true;
+        return options.vertical && e.type === 'touchmove'
+            ? !dom(node, options).edges(options.index, position, Math.sign(pos))
+            : Math.abs(pos) >= SENSITY;
     }
 
     mount(node)
@@ -95,12 +94,12 @@ export function slidy(
         position = edging(position);
         options.index = dom(node, options).index(position, SNAP);
 
+        SENSITY = 0;
         GRAVITY = dom(node, options).edges(options.index, position, direction)
             ? 1.8
             : (options.gravity as number);
-        SENSITY = -1;
 
-        moving(node.children);
+        options.animation(node, position, options);
         dispatch(node, 'move', { index: options.index, position });
 
         function positioning(pos: number): number {
@@ -113,18 +112,6 @@ export function slidy(
                 dispatch(node, 'index', { index });
             }
             return dom(node, options).scrollable ? pos : 0;
-        }
-
-        function moving(childs: HTMLCollection): void {
-            for (const child of childs) {
-                const el = child as HTMLElement;
-                el.style.transform = translate(options.vertical);
-            }
-        }
-
-        function translate(vertical?: boolean): string {
-            const axis = vertical ? `0, ${-position}px` : `${-position}px, 0`;
-            return `translate(${axis})`;
         }
 
         function edging(position: number): number {
@@ -175,6 +162,7 @@ export function slidy(
     function onDown(e: UniqEvent): void {
         clear();
 
+        SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;
@@ -183,7 +171,7 @@ export function slidy(
     }
 
     function onMove(e: UniqEvent): void {
-        const pos = hip - coordinate(e, options);
+        const pos = (hip - coordinate(e, options)) * (2 - GRAVITY);
         const elapsed = e.timeStamp - ets;
         const speed = (1000 * pos) / (GRAVITY + elapsed);
 
@@ -195,7 +183,7 @@ export function slidy(
             to(options.index);
             GRAVITY = 2;
         } else if (sense(e, pos)) {
-            move(pos * (2 - GRAVITY), options.index);
+            move(pos, options.index);
             e.preventDefault();
         }
     }
@@ -234,7 +222,7 @@ export function slidy(
         const moved = !options.clamp && !e.shiftKey;
 
         moved && sense(e, pos) && move(pos, options.index);
-        wst = options.snap || !moved ? setTimeout(() => sense(e, pos) && to(ix), tm) : undefined;
+        wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
     }
 
     function winWheel(e: WheelEvent): void {
@@ -253,7 +241,7 @@ export function slidy(
 
     function onKeys(e: KeyboardEvent): void {
         const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-        const index = (options.clamp || 1) * ((keys.indexOf(e.key) % 2) - 1 || 1);
+        const index = ((keys.indexOf(e.key) % 2) - 1 || 1) * (options.clamp || 1);
         if (keys.indexOf(e.key) >= 0) {
             to((options.index as number) + index);
             e.preventDefault();

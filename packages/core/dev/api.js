@@ -14,7 +14,7 @@ export async function getPhotos(node, page, limit) {
 
                 createSlides(photos).then(() => {
                     slidy = slidyCore(node, options);
-                    slidyT = slidyCore(thumbs, { gravity: 1 });
+                    slidyT = slidyCore(thumbs);
                 });
             } else {
                 node.style.transform = '';
@@ -51,7 +51,7 @@ export async function getPhotos(node, page, limit) {
                 p.id
             }/${100 * window.devicePixelRatio}/${
                 100 * window.devicePixelRatio
-            }.jpg)" width="100" height="100" alt="${p.author}">${i}</button>`;
+            }.jpg)" width="100" height="100">${i}</button>`;
 
             dots.innerHTML += `<button id="${i}">${i}</button>`;
         });
