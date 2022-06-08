@@ -1,4 +1,4 @@
-import { clamp, coordinate, indexing, dispatch, mount, throttle, listen } from './utils/env';
+import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, loop } from './utils/env';
 import { dom } from './utils/dom';
 import { translate } from './utils/animation';
 import type { Options, UniqEvent, EventMap } from './types';
@@ -38,8 +38,7 @@ export function slidy(
         wst: NodeJS.Timeout | undefined,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
-        GRAVITY = options.gravity as number,
-        SNAP = options.snap
+        GRAVITY = options.gravity as number;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -61,6 +60,7 @@ export function slidy(
 
     const RO = new ResizeObserver(() => {
         to(options.index);
+        position = dom(node, options).scrollable ? position : 0;
         dispatch(node, 'resize', { node, options });
     });
 
@@ -92,7 +92,7 @@ export function slidy(
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
-        options.index = dom(node, options).index(position, SNAP);
+        options.index = dom(node, options).index(position);
 
         SENSITY = 0;
         GRAVITY = dom(node, options).edges(options.index, position, direction)
@@ -106,7 +106,6 @@ export function slidy(
             if (hix !== options.index) {
                 if (options.loop) {
                     pos -= dom(node, options).history(direction);
-                    dom(node, options).shuffle(direction);
                 }
                 hix = options.index as number;
                 dispatch(node, 'index', { index });
@@ -122,29 +121,27 @@ export function slidy(
     }
 
     function scroll(index: number, amplitude: number, _duration = 0): void {
-        SNAP = dom(node, options).snap(index);
-
         const time = performance.now();
         const snaped =
             options.snap || options.loop || dom(node, options).edges(index, position, direction);
         const target = snaped
-            ? dom(node, options).distance(index, SNAP)
+            ? dom(node, options).distance(index)
             : clamp(dom(node, options).start, position + amplitude, dom(node, options).end);
         const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
 
         amplitude = target - position;
 
-        requestAnimationFrame(function loop() {
+        requestAnimationFrame(function animate() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const delta = amplitude * options.easing(T);
-            const current = options.loop ? dom(node, options).distance(index, SNAP) : target;
+            const current = options.loop ? dom(node, options).distance(index) : target;
             const pos = current - position - delta;
 
             move(pos, index);
 
             if (Math.abs(delta) >= 0.36) {
-                raf = requestAnimationFrame(loop);
+                raf = requestAnimationFrame(animate);
             } else {
                 SENSITY = options.sensity as number;
                 clear();
@@ -154,8 +151,8 @@ export function slidy(
 
     function to(index = 0, duration = DURATION): void {
         clear();
-        index = indexing(node, index, options);
-        const pos = dom(node, options).distance(index, SNAP) - position;
+        index = indexing(node, options, index);
+        const pos = dom(node, options).distance(index) - position;
         scroll(index, pos, duration);
     }
 
@@ -192,7 +189,7 @@ export function slidy(
         clear();
 
         const amplitude = track * (2 - GRAVITY);
-        const index = dom(node, options).index(position + amplitude, SNAP);
+        const index = dom(node, options).index(position + amplitude);
 
         scroll(clamping(index, options), amplitude);
 
@@ -200,23 +197,18 @@ export function slidy(
             const range = (options.clamp as number) * direction;
             index =
                 options.clamp && Math.abs(index - hix) ? (options.index as number) + range : index;
-            return indexing(node, index, options);
+            return indexing(node, options, index);
         }
     }
 
     function onWheel(e: UniqEvent): void {
         clear();
-        SNAP = dom(node, options).snap(options.index as number);
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
-        const clamped =
-            options.clamp ||
-            e.shiftKey ||
-            dom(node, options).edges(options.index, position, Math.sign(coord));
-        const pos = dom(node, options).edges(options.index, position, Math.sign(coord))
-            ? coord / 9
-            : coord;
+        const edged = dom(node, options).edges(options.index, position, Math.sign(coord));
+        const clamped = options.clamp || e.shiftKey || edged;
+        const pos = edged ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
         const tm = clamped ? 0 : DURATION / 2;
         const moved = !options.clamp && !e.shiftKey;
@@ -258,45 +250,41 @@ export function slidy(
     }
 
     function update(opts: Partial<Options>): void {
-        for (const key in opts) {
-            if (opts[key as keyof Options] !== options[key as keyof Options]) {
+        loop(Object.entries(opts), ([key, value]: [key: keyof Options, value: any]) => {
+            if (value !== options[key]) {
                 switch (key) {
                     case 'index':
-                        options[key] = indexing(node, opts[key] as number, options);
+                        options[key] = indexing(node, options, value);
                         to(options[key]);
                         break;
                     case 'gravity':
-                        GRAVITY = options[key] = clamp(0, opts[key] as number, 2);
+                        GRAVITY = options[key] = clamp(0, value, 2);
                         break;
                     case 'duration':
-                        options[key] = opts[key];
-                        DURATION = (options[key] as number) / 2;
+                        options[key] = value;
+                        DURATION = value / 2;
                         break;
                     case 'sensity':
-                        SENSITY = options[key] = opts[key] as number;
-                        break;
-                    case 'snap':
-                        SNAP = options[key] = opts[key];
-                        to(options.index);
+                        SENSITY = options[key] = value;
                         break;
                     case 'clamp':
-                        options[key] = opts[key];
-                        node.onwheel = throttle(onWheel, DURATION, opts[key]);
+                        options[key] = value;
+                        node.onwheel = throttle(onWheel, DURATION, value);
                         break;
                     case 'loop':
                     case 'vertical':
-                        options[key] = opts[key];
+                        options[key] = value;
                         position = dom(node, options).replace();
                         to(options.index);
                         break;
 
                     default:
-                        options[key as keyof Options] = opts[key as keyof Options] as never;
+                        options[key] = value as never;
                         break;
                 }
                 dispatch(node, 'update', opts);
             }
-        }
+        });
     }
 
     function destroy(): void {
