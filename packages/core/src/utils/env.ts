@@ -9,8 +9,8 @@ function mount(node: HTMLElement) {
                 if (count >= 69) {
                     count = 0;
                     clearInterval(mounting);
-                    reject(`Slidy haven't items`);
-                } else if (node.children.length > 2) {
+                    reject('few slides');
+                } else if (node.children.length) {
                     const mounted = Array.from(node.children).every(
                         (child) => child && child.isConnected
                     );

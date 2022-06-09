@@ -60,14 +60,23 @@ export function slidy(
 
     const RO = new ResizeObserver(() => {
         to(options.index);
-        position = dom(node, options).scrollable ? position : 0;
         dispatch(node, 'resize', { node, options });
+        position = dom(node, options).position(false);
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.vertical && e.type === 'touchmove'
-            ? !dom(node, options).edges(options.index, position, Math.sign(pos))
+            ? !edges(options.index, pos)
             : Math.abs(pos) >= SENSITY;
+    }
+
+    function edges(index = 0, dir = direction, pos = position): boolean {
+        const start = index <= 0 && dir <= 0 && pos <= dom(node, options).start;
+        const end =
+            index >= node.children.length - 1 &&
+            dir >= 0 &&
+            pos >= dom(node, options).end;
+        return !options.loop && (start || end);
     }
 
     mount(node)
@@ -79,14 +88,14 @@ export function slidy(
             node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, options.clamp);
 
-            position = dom(node, options).replace();
+            position = dom(node, options).position();
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
             listen(window, WINDOW_NATIVE_EVENTS);
             dispatch(node, 'mount', { childs, options });
         })
-        .catch((error: Error) => console.error(error));
+        .catch((error: Error) => console.error('Slidy:', error));
 
     function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
@@ -95,17 +104,15 @@ export function slidy(
         options.index = dom(node, options).index(position);
 
         SENSITY = 0;
-        GRAVITY = dom(node, options).edges(options.index, position, direction)
-            ? 1.8
-            : (options.gravity as number);
+        GRAVITY = edges(options.index) ? 1.8 : (options.gravity as number);
 
         options.animation(node, position, options);
         dispatch(node, 'move', { index: options.index, position });
 
         function positioning(pos: number): number {
-            if (hix !== options.index) {
+            if ((options.index as number) - hix) {
                 if (options.loop) {
-                    pos -= dom(node, options).history(direction);
+                    pos -= dom(node, options).history((options.index as number) - hix);
                 }
                 hix = options.index as number;
                 dispatch(node, 'index', { index });
@@ -122,8 +129,7 @@ export function slidy(
 
     function scroll(index: number, amplitude: number, _duration = 0): void {
         const time = performance.now();
-        const snaped =
-            options.snap || options.loop || dom(node, options).edges(index, position, direction);
+        const snaped = options.snap || options.loop || edges(index);
         const target = snaped
             ? dom(node, options).distance(index)
             : clamp(dom(node, options).start, position + amplitude, dom(node, options).end);
@@ -195,8 +201,7 @@ export function slidy(
 
         function clamping(index: number, options: Options): number {
             const range = (options.clamp as number) * direction;
-            index =
-                options.clamp && Math.abs(index - hix) ? (options.index as number) + range : index;
+            index = options.clamp && index - hix ? (options.index as number) + range : index;
             return indexing(node, options, index);
         }
     }
@@ -206,7 +211,7 @@ export function slidy(
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
-        const edged = dom(node, options).edges(options.index, position, Math.sign(coord));
+        const edged = edges(options.index, Math.sign(coord));
         const clamped = options.clamp || e.shiftKey || edged;
         const pos = edged ? coord / 9 : coord;
         const ix = clamped ? index : options.index;
@@ -274,7 +279,7 @@ export function slidy(
                     case 'loop':
                     case 'vertical':
                         options[key] = value;
-                        position = dom(node, options).replace();
+                        position = dom(node, options).position();
                         to(options.index);
                         break;
 
