@@ -19,7 +19,7 @@ export function slidy(
         gravity: 1.2,
         duration: 375,
         easing: (t) => t,
-        animation: matrix,
+        animation: translate,
         layout: 'reel',
         snap: undefined,
         vertical: false,
@@ -60,7 +60,7 @@ export function slidy(
     ];
 
     const RO = new ResizeObserver(() => {
-        dom(node, options).init()
+        // dom(node, options).init();
         to(options.index);
         dispatch(node, 'resize', { node, options });
         position = dom(node, options).position(false);
@@ -74,10 +74,7 @@ export function slidy(
 
     function edges(index = 0, dir = direction, pos = position): boolean {
         const start = index <= 0 && dir <= 0 && pos <= dom(node, options).start;
-        const end =
-            index >= node.children.length - 1 &&
-            dir >= 0 &&
-            pos >= dom(node, options).end;
+        const end = index >= node.children.length - 1 && dir >= 0 && pos >= dom(node, options).end;
         return !options.loop && (start || end);
     }
 
@@ -112,7 +109,7 @@ export function slidy(
         if (dom(node, options).scrollable) {
             loop(node.children, (child: Child, i) => {
                 options.animation({ node, options, child, i, position, pos });
-            })
+            });
             dispatch(node, 'move', { index: options.index, position });
         }
 
@@ -124,7 +121,7 @@ export function slidy(
                 hix = options.index as number;
                 dispatch(node, 'index', { index });
             }
-            return pos
+            return pos;
         }
 
         function edging(position: number): number {
@@ -287,6 +284,7 @@ export function slidy(
                     case 'vertical':
                         options[key] = value;
                         position = dom(node, options).position();
+                        // dom(node, options).init();
                         to(options.index);
                         break;
 
