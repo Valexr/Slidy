@@ -1,5 +1,5 @@
 import type { Child, Options } from '../types';
-import { loop } from './env';
+import { loop, clamp } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
@@ -16,19 +16,20 @@ export function dom(node: HTMLElement, options: Options) {
         const indent = indented ? options.indent : offset(index) / 2 / gap;
         const snap = options.loop ? options.snap : snapping()
 
-        return active(index, snap);
+        return position(index, snap);
 
-        function active(index: number, snap: Options['snap']): number {
-            const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5
-            const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
-
+        function position(index: number, snap: Options['snap']): number {
+            const start = snap === 'start' || index === 0
+            const end = snap === 'end' || index === last
+            const part = start ? 0 : end ? 1 : 0.5
+            const edge = start ? -indent : end ? indent : 0;
             return child(index)[coord] - offset(index) * part + gap * edge
         }
 
-        function snapping() {
-            const start = active(index, options.snap) <= active(0, 'start')
-            const end = active(index, options.snap) >= active(last, 'end')
-            return start ? 'start' : end ? 'end' : options.snap;
+        function snapping(): Options['snap'] {
+            const start = position(index, options.snap) <= position(0, 'start')
+            const end = position(index, options.snap) >= position(last, 'end')
+            return options.snap ? start ? 'start' : end ? 'end' : options.snap : options.snap
         }
 
         function offset(index: number) { return node[size] - child(index)[size]; }
