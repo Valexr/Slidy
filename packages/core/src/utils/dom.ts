@@ -1,4 +1,5 @@
 import type { Child, Options } from '../types';
+import { loop } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
@@ -11,21 +12,30 @@ export function dom(node: HTMLElement, options: Options) {
     const gap = length > 1 ? nodes[1][coord] - nodes[0][coord] - nodes[0][size] : 0;
 
     function distance(index: number) {
-        const child = (index: number) => {
-            return nodes.find((child: Child) => child.index === index) || nodes[0];
-        };
-        const snap = (index: number) => {
-            return index === 0 ? 'start' : index === last ? 'end' : options.snap;
-        };
-        const SNAP = !options.loop ? snap(index) : options.snap;
-        const offset = node[size] - child(index)[size];
-        const part = SNAP === 'start' ? 0 : SNAP === 'end' ? 1 : 0.5;
-        const pos = child(index)[coord] - offset * part;
         const indented = child(index)[size] + gap * 2 < node[size];
-        const indent = indented ? options.indent : offset / 2 / gap;
-        const edge = SNAP === 'start' ? -indent : SNAP === 'end' ? indent : 0;
+        const indent = indented ? options.indent : offset(index) / 2 / gap;
+        const snap = options.loop ? options.snap : snapping()
 
-        return pos + gap * edge;
+        return active(index, snap);
+
+        function active(index: number, snap: Options['snap']): number {
+            const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5
+            const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
+
+            return child(index)[coord] - offset(index) * part + gap * edge
+        }
+
+        function snapping() {
+            const start = active(index, options.snap) <= active(0, 'start')
+            const end = active(index, options.snap) >= active(last, 'end')
+            return start ? 'start' : end ? 'end' : options.snap;
+        }
+
+        function offset(index: number) { return node[size] - child(index)[size]; }
+
+        function child(index: number) {
+            return nodes.find((child: Child) => child.indx === index) || nodes[0];
+        }
     }
 
     return {
@@ -33,6 +43,15 @@ export function dom(node: HTMLElement, options: Options) {
         start: distance(0),
         end: distance(last),
         scrollable: Math.abs(distance(last) - distance(0)) > gap * 2,
+        init() {
+            return loop(node.children, (item: Child, i) => {
+                item.indx = i
+                item.gap = gap
+                item.size = nodes[i][size] + gap * 2
+                item.dist = distance(i)
+                item.style.position = options.layout === 'stack' ? 'absolute' : 'relative'
+            });
+        },
         index(target: number): number {
             const dist = (index: number) => Math.abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev));

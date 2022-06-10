@@ -8,9 +8,11 @@ export interface Options {
     duration?: number;
     easing: Easing;
     animation: Animation;
-    snap?: 'start' | 'center' | 'end' | undefined;
+    snap?: 'start' | 'center' | 'end';
+    layout?: 'reel' | 'stack';
     vertical?: boolean;
     loop?: boolean;
+    position?: number;
 }
 
 // export interface Slidy extends HTMLElement {
@@ -21,9 +23,10 @@ export interface Options {
 // }
 
 export interface Child extends HTMLElement {
-    index: number;
+    indx: number;
     size: number;
     dist: number;
+    gap: number;
 }
 
 export interface UniqEvent extends PointerEvent {
@@ -51,12 +54,17 @@ export type Detail =
  */
 export type Easing = (t: number) => number;
 
-export type Animation = (
-    node: HTMLElement,
-    position: number,
-    options: Options,
-    index?: number
-) => void;
+export type AnimationArgs = {
+    node: HTMLElement;
+    options: Options;
+    child: Child;
+    i: number;
+    position: number;
+    pos: number;
+    index?: number;
+};
+
+export type Animation = (args: AnimationArgs) => void;
 
 export type FunctionDom =
     | (() => {

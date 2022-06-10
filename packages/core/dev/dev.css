@@ -117,7 +117,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 
@@ -261,7 +261,8 @@ section {
 nav#thumbs {
     list-style: none;
     margin: auto;
-    padding: calc(var(--gap) / 1.5) 0;
+    /* padding: calc(var(--gap) / 1.5) 0; */
+    padding: 0;
     display: flex;
     flex-flow: var(--flow) nowrap;
     gap: var(--gap);
@@ -289,6 +290,10 @@ nav#thumbs button {
     /* will-change: transform; */
     /* backface-visibility: hidden; */
     /* transform-style: preserve-3d; */
+}
+
+#node li {
+    max-height: calc(100% - (var(--gap) * 2));
 }
 
 nav#thumbs {

@@ -1,6 +1,7 @@
+import { dom } from './dom';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-function mount(node: HTMLElement) {
+function mount(node: HTMLElement, options: Options) {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -17,7 +18,7 @@ function mount(node: HTMLElement) {
                     if (mounted) {
                         count = 0;
                         clearInterval(mounting);
-                        resolve(init(node));
+                        resolve(dom(node, options).init());
                     }
                 }
             }, 16);
@@ -25,9 +26,11 @@ function mount(node: HTMLElement) {
     });
 }
 
-function init(node: HTMLElement) {
-    return loop(node.children, (item, i) => (item.index = i));
-}
+// function init(node: HTMLElement) {
+//     return loop(node.children, (item, i) => {
+//         item.index = i
+//     });
+// }
 
 function loop(
     array: string | any[] | HTMLCollection | Array<Partial<Options>>,
@@ -89,4 +92,4 @@ function throttle(
         : (args) => fn(args);
 }
 
-export { init, mount, clamp, listen, dispatch, throttle, indexing, coordinate, loop };
+export { mount, clamp, listen, dispatch, throttle, indexing, coordinate, loop };

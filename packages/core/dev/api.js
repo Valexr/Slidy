@@ -5,8 +5,8 @@ export async function getPhotos(node, page, limit) {
     slidyT?.destroy();
     node.style.transform = '';
     node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
-
-    fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
+    //38 - END ,  61 - START
+    fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${38}`)
         .then(async (res) => {
             const photos = await res.json();
             if (photos.length && node.isConnected) {
@@ -47,11 +47,9 @@ export async function getPhotos(node, page, limit) {
                 'height'
             )}" alt="${p.author}"/></li>`;
 
-            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${
-                p.id
-            }/${100 * window.devicePixelRatio}/${
-                100 * window.devicePixelRatio
-            }.jpg)" width="100" height="100">${i}</button>`;
+            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${p.id
+                }/${100 * window.devicePixelRatio}/${100 * window.devicePixelRatio
+                }.jpg)" width="100" height="100">${i}</button>`;
 
             dots.innerHTML += `<button id="${i}">${i}</button>`;
         });

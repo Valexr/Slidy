@@ -1,7 +1,7 @@
 import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, loop } from './utils/env';
 import { dom } from './utils/dom';
-import { translate } from './utils/animation';
-import type { Options, UniqEvent, EventMap } from './types';
+import { fade, matrix, translate } from './utils/animation';
+import type { Options, UniqEvent, EventMap, Child } from './types';
 
 export function slidy(
     node: HTMLElement,
@@ -19,7 +19,8 @@ export function slidy(
         gravity: 1.2,
         duration: 375,
         easing: (t) => t,
-        animation: translate,
+        animation: fade,
+        layout: 'reel',
         snap: undefined,
         vertical: false,
         loop: false,
@@ -59,6 +60,7 @@ export function slidy(
     ];
 
     const RO = new ResizeObserver(() => {
+        dom(node, options).init()
         to(options.index);
         dispatch(node, 'resize', { node, options });
         position = dom(node, options).position(false);
@@ -79,7 +81,7 @@ export function slidy(
         return !options.loop && (start || end);
     }
 
-    mount(node)
+    mount(node, options)
         .then((childs) => {
             node.style.outline = 'none';
             node.style.overflow = 'hidden';
@@ -102,12 +104,17 @@ export function slidy(
         position += positioning(pos);
         position = edging(position);
         options.index = dom(node, options).index(position);
+        // options.position = position ???
 
         SENSITY = 0;
         GRAVITY = edges(options.index) ? 1.8 : (options.gravity as number);
 
-        options.animation(node, position, options);
-        dispatch(node, 'move', { index: options.index, position });
+        if (dom(node, options).scrollable) {
+            loop(node.children, (child: Child, i) => {
+                options.animation({ node, options, child, i, position, pos });
+            })
+            dispatch(node, 'move', { index: options.index, position });
+        }
 
         function positioning(pos: number): number {
             if ((options.index as number) - hix) {
@@ -117,7 +124,7 @@ export function slidy(
                 hix = options.index as number;
                 dispatch(node, 'index', { index });
             }
-            return dom(node, options).scrollable ? pos : 0;
+            return pos
         }
 
         function edging(position: number): number {

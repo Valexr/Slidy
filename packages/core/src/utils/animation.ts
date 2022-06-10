@@ -1,19 +1,29 @@
 import { dom } from './dom';
-import { loop } from './env';
 
-import type { Options } from '../types';
+import type { AnimationArgs } from '../types';
 
-function fade(node: HTMLElement, position: number, options: Options) {
-    loop(node.children, (item) => {
-        item.style.opacity = `${position / dom(node, options).end}`;
-    });
-}
-
-function translate(node: HTMLElement, position: number, options: Options) {
+function fade({ node, child, i, options, position, pos }: AnimationArgs) {
     const axis = options.vertical ? `0, ${-position}px` : `${-position}px, 0`;
-    loop(node.children, (item) => {
-        item.style.transform = `translate(${axis})`;
-    });
+    const nodeSize = options.vertical ? 'offsetHeight' : 'offsetWidth';
+    const { indx, gap, size, dist } = child;
+    const diff = position - child.dist;
+    const opacity = (size - Math.abs(diff)) / size;
+    const scale = (size - Math.abs(diff / 5)) / size;
+    const turn = diff / size;
+    // i === options.index && console.log(opacity, pos);
+    child.style.opacity = `${opacity}`;
+    child.style.transform = `translate(${axis}) scale(${scale})`;
 }
 
-export { fade, translate };
+function translate({ node, child, i, options, position }: AnimationArgs) {
+    const axis = options.vertical ? `0, ${-position}px` : `${-position}px, 0`;
+    child.style.transform = `translate(${axis})`;
+}
+
+function matrix({ node, child, i, options, position }: AnimationArgs) {
+    // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
+    const axis = options.vertical ? `1,0,0,1,0, ${-position}` : `1,0,0,1, ${-position}, 0`;
+    child.style.transform = `matrix(${axis})`;
+}
+
+export { fade, matrix, translate };
