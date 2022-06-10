@@ -5,8 +5,8 @@ export async function getPhotos(node, page, limit) {
     slidyT?.destroy();
     node.style.transform = '';
     node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
-    //38 - END ,  61 - START
-    fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${38}`)
+    //page: 38 - END,  61 - START
+    fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`)
         .then(async (res) => {
             const photos = await res.json();
             if (photos.length && node.isConnected) {

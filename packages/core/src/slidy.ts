@@ -19,7 +19,7 @@ export function slidy(
         gravity: 1.2,
         duration: 375,
         easing: (t) => t,
-        animation: fade,
+        animation: matrix,
         layout: 'reel',
         snap: undefined,
         vertical: false,
