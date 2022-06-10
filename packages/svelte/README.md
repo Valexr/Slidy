@@ -64,7 +64,7 @@ By default component works with images. Image object should contain `width` and 
 | :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- | ------ | ----------------------------------- |
 | `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
 | `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
-| `clamp`       |      false       | `Boolean`  | Controls the scroll inertia.                                          |
+| `clamp`       |        0         |  `number`  | Clamps sliding index as `{clamp} - {index} + {clamp}`                 |
 | `className`   |        ""        |  `string`  | Passes the `class` to the parent node.                                |
 | `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter.                                   |
 | `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter.                               |

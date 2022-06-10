@@ -15,7 +15,7 @@ export type GetSrc<T> = (item: T) => string;
 export interface SlidyOptions {
 	arrows?: boolean;
 	background?: boolean;
-	clamp?: boolean;
+	clamp?: number;
 	className?: string;
 	dots?: boolean;
 	duration?: number;

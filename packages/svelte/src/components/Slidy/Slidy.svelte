@@ -14,7 +14,7 @@
 	export let arrows = true;
 	export let background = false;
 	export let counter = true;
-	export let clamp = false;
+	export let clamp = 0;
 	export let className: $$Props["className"] = "";
 	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
 	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => getImgSrc(item);
@@ -95,11 +95,13 @@
 		}}
 		on:destroy
 		on:index
+		on:index={({ detail }) => {
+			index = detail.index;
+		}}
 		on:keys
 		on:mount
 		on:move
 		on:move={({ detail }) => {
-			index = detail.index;
 			position = detail.position;
 		}}
 		on:resize
@@ -150,7 +152,6 @@
 		<slot name="thumbnail">
 			<nav class="slidy-thumbnail">
 				<svelte:self
-					clamp={true}
 					arrows={false}
 					counter={false}
 					navigation={false}
