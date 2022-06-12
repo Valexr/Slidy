@@ -32,6 +32,9 @@
 	export let thumbnail = false;
 	export let vertical = false;
 
+	// thumb active index
+	export let _indexActive = index;
+
 	const dispatch = createEventDispatcher();
 
 	$: length = slides.length;
@@ -95,20 +98,16 @@
 		}}
 		on:destroy
 		on:index
-		on:index={({ detail }) => {
-			index = detail.index;
-		}}
+		on:index={e => goto(e.detail.index)}
 		on:keys
 		on:mount
 		on:move
-		on:move={({ detail }) => {
-			position = detail.position;
-		}}
+		on:move={e => position = e.detail.position}
 		on:resize
 		on:update
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-			{@const active = i === index}
+			{@const active = i === (!thumbnail ? _indexActive : index)}
 			{@const bgURL = background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
 			<li
 				aria-current={active ? "true" : undefined}
@@ -160,10 +159,10 @@
 					{background}
 					{duration}
 					{vertical}
-					{gravity}
+					gravity={0.75}
 					{slides}
-					{index}
-					on:select={event => index = event.detail.index}
+					on:select={event => goto(event.detail.index)}
+					_indexActive={index}
 				/>
 			</nav>
 		</slot>
