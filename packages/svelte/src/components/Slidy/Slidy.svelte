@@ -32,8 +32,12 @@
 	export let thumbnail = false;
 	export let vertical = false;
 
-	// thumb active index
+	/**
+	 * To prevent infinite loop the thumb index has separate variable
+	 * Also, the current index passed into thumbs as it may be dragged away.
+	 */
 	export let _indexActive = index;
+	export let _indexThumb = index;
 
 	const dispatch = createEventDispatcher();
 
@@ -98,7 +102,10 @@
 		}}
 		on:destroy
 		on:index
-		on:index={e => goto(e.detail.index)}
+		on:index={e => {
+			goto(e.detail.index);
+			_indexThumb = e.detail.index;
+		}}
 		on:keys
 		on:mount
 		on:move
@@ -163,6 +170,7 @@
 					{slides}
 					on:select={event => goto(event.detail.index)}
 					_indexActive={index}
+					index={_indexThumb}
 				/>
 			</nav>
 		</slot>
