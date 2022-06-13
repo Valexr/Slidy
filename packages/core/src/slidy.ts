@@ -34,11 +34,14 @@ export function slidy(
         position = 0,
         direction = 0,
         shifted = false,
-        scrolled = false,
         wst: NodeJS.Timeout | undefined,
+        INDEX = options.index || 0,
+        CLAMP = options.clamp as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number;
+
+    const $ = () => dom(node, options);
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -48,31 +51,30 @@ export function slidy(
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
-        ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
         ['touchstart', onDown as EventListener, { passive: false }],
         ['mousedown', onDown as EventListener],
         ['keydown', onKeys as EventListener],
-        ['contextmenu', () => to(options.index)],
+        ['contextmenu', () => to(INDEX)],
         ['dragstart', (e) => e.preventDefault()],
     ];
 
     const RO = new ResizeObserver(() => {
-        to(options.index);
+        to(INDEX);
         dispatch(node, 'resize', { node, options });
-        position = dom(node, options).position(false);
+        position = $().position(false);
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.vertical && e.type === 'touchmove'
-            ? !edges(options.index, pos)
+            ? !edges(INDEX, pos)
             : Math.abs(pos) >= SENSITY;
     }
 
     function edges(index = 0, dir = direction): boolean {
-        const start = index <= 0 && dir <= 0 && position <= dom(node, options).start;
-        const end = index >= node.children.length - 1 && dir >= 0 && position >= dom(node, options).end;
+        const start = index <= 0 && dir <= 0 && position <= $().start;
+        const end = index >= node.children.length - 1 && dir >= 0 && position >= $().end;
         return !options.loop && (start || end);
     }
 
@@ -83,9 +85,9 @@ export function slidy(
             node.style.position = 'relative';
             node.style.userSelect = 'none';
             node.style.webkitUserSelect = 'none';
-            node.onwheel = throttle(onWheel, DURATION, options.clamp);
+            node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            position = dom(node, options).position();
+            position = $().position();
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
@@ -98,27 +100,25 @@ export function slidy(
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
-        options.index = dom(node, options).index(position);
+        INDEX = options.index = $().index(position);
 
         SENSITY = 0;
-        GRAVITY = edges(options.index) ? 1.8 : (options.gravity as number);
+        GRAVITY = edges(INDEX) ? 1.8 : (options.gravity as number);
 
-        dom(node, options).animate(options.animation, position);
-        dispatch(node, 'move', { index: options.index, position });
+        $().animate(options.animation, position);
+        dispatch(node, 'move', { index: INDEX, position });
 
         function positioning(pos: number): number {
-            if ((options.index as number) - hix) {
-                pos = options.loop ? (pos - dom(node, options).history((options.index as number) - hix)) : pos;
-                hix = options.index as number;
+            if (INDEX - hix) {
+                pos = options.loop ? pos - $().history(INDEX - hix) : pos;
+                hix = INDEX;
                 dispatch(node, 'index', { index });
             }
-            return dom(node, options).scrollable ? pos : 0;
+            return $().scrollable ? pos : 0;
         }
 
         function edging(position: number): number {
-            return !options.snap && !options.loop
-                ? clamp(dom(node, options).start, position, dom(node, options).end)
-                : position;
+            return !options.snap && !options.loop ? clamp($().start, position, $().end) : position;
         }
     }
 
@@ -126,8 +126,8 @@ export function slidy(
         const time = performance.now();
         const snaped = options.snap || options.loop || edges(index);
         const target = snaped
-            ? dom(node, options).distance(index)
-            : clamp(dom(node, options).start, position + amplitude, dom(node, options).end);
+            ? $().distance(index)
+            : clamp($().start, position + amplitude, $().end);
         const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
 
         amplitude = target - position;
@@ -136,7 +136,7 @@ export function slidy(
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const delta = amplitude * options.easing(T);
-            const current = options.loop ? dom(node, options).distance(index) : target;
+            const current = options.loop ? $().distance(index) : target;
             const pos = current - position - delta;
 
             move(pos, index);
@@ -153,12 +153,12 @@ export function slidy(
     function to(index = 0, duration = DURATION): void {
         clear();
         index = indexing(node, options, index);
-        const pos = dom(node, options).distance(index) - position;
+        const pos = $().distance(index) - position;
         scroll(index, pos, duration);
     }
 
     function onDown(e: UniqEvent): void {
-        clear();
+        clear(e);
 
         SENSITY = options.sensity as number;
         hip = coordinate(e, options);
@@ -166,8 +166,6 @@ export function slidy(
         track = 0;
 
         listen(window, WINDOW_EVENTS);
-
-        !edges(options.index) && e.stopPropagation()
     }
 
     function onMove(e: UniqEvent): void {
@@ -179,11 +177,10 @@ export function slidy(
         hip = coordinate(e, options);
         track = (2 - GRAVITY) * speed + (GRAVITY - 1) * track;
 
-        if (scrolled) {
-            to(options.index);
-            GRAVITY = 2;
-        } else if (sense(e, pos)) {
-            move(pos, options.index);
+        window.onscroll = () => { to(INDEX), GRAVITY = 2 }
+
+        if (sense(e, pos)) {
+            move(pos, INDEX);
             e.preventDefault();
         }
     }
@@ -192,33 +189,31 @@ export function slidy(
         clear();
 
         const amplitude = track * (2 - GRAVITY);
-        const index = dom(node, options).index(position + amplitude);
+        const index = $().index(position + amplitude);
 
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = (options.clamp as number) * direction;
-            index = options.clamp && index - hix ? (options.index as number) + range : index;
+            const range = CLAMP * direction;
+            index = CLAMP && index - hix ? INDEX + range : index;
             return indexing(node, options, index);
         }
     }
 
     function onWheel(e: UniqEvent): void {
-        clear();
+        clear(e);
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
-        const index = (options.index as number) + Math.sign(coord) * (options.clamp || 1);
-        const edged = edges(options.index, Math.sign(coord));
-        const clamped = options.clamp || e.shiftKey || edged;
+        const index = INDEX + Math.sign(coord) * (CLAMP || 1);
+        const edged = edges(INDEX, Math.sign(coord));
+        const clamped = CLAMP || e.shiftKey || edged;
         const pos = edged ? coord / 9 : coord;
-        const ix = clamped ? index : options.index;
+        const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
-        const moved = !options.clamp && !e.shiftKey;
+        const moved = !CLAMP && !e.shiftKey;
 
-        moved && sense(e, pos) && move(pos, options.index);
+        moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
-
-        !edges(options.index) && e.stopPropagation()
     }
 
     function winWheel(e: WheelEvent): void {
@@ -231,26 +226,22 @@ export function slidy(
         }
     }
 
-    function winScroll(): void {
-        scrolled = true;
-    }
-
     function onKeys(e: KeyboardEvent): void {
         const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-        const index = ((keys.indexOf(e.key) % 2) - 1 || 1) * (options.clamp || 1);
+        const index = ((keys.indexOf(e.key) % 2) - 1 || 1) * (CLAMP || 1);
         if (keys.indexOf(e.key) >= 0) {
-            to((options.index as number) + index);
+            to(INDEX + index);
             e.preventDefault();
         }
         dispatch(node, 'keys', e.key);
     }
 
-    function clear(): void {
-        scrolled = false;
+    function clear(e?: UniqEvent): void {
         clearTimeout(wst);
         cancelAnimationFrame(raf);
         GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
+        !edges(INDEX) && e && e.stopPropagation();
     }
 
     function update(opts: Partial<Options>): void {
@@ -258,7 +249,7 @@ export function slidy(
             if (value !== options[key]) {
                 switch (key) {
                     case 'index':
-                        options[key] = indexing(node, options, value);
+                        INDEX = options[key] = indexing(node, options, value);
                         to(options[key]);
                         break;
                     case 'gravity':
@@ -272,20 +263,20 @@ export function slidy(
                         SENSITY = options[key] = value;
                         break;
                     case 'clamp':
-                        options[key] = value;
+                        CLAMP = options[key] = value;
                         node.onwheel = throttle(onWheel, DURATION, value);
                         break;
                     case 'loop':
                     case 'layout':
                     case 'vertical':
                         options[key] = value;
-                        position = dom(node, options).position();
-                        to(options.index);
+                        position = $().position();
+                        to(INDEX);
                         break;
 
                     default:
                         options[key] = value as never;
-                        to(options.index);
+                        to(INDEX);
                         break;
                 }
                 dispatch(node, 'update', opts);

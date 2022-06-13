@@ -46,7 +46,7 @@ function clamp(min: number, val: number, max: number): number {
 }
 
 function dispatch(node: HTMLElement, name: string, detail?: Detail): void {
-    node.dispatchEvent(new CustomEvent(name, { detail: detail as CustomEventInit<unknown> }));
+    node.dispatchEvent(new CustomEvent(name, { detail }));
 }
 
 function listen(node: Window | HTMLElement, events: EventMap, on = true): void {
@@ -66,13 +66,13 @@ function throttle(
 ): (args: any) => void {
     return th
         ? (args) => {
-            if (!wait) {
-                fn(args);
-                wait = true;
-                clearTimeout(tm);
-                tm = setTimeout(() => (wait = false), ms);
-            }
-        }
+              if (!wait) {
+                  fn(args);
+                  wait = true;
+                  clearTimeout(tm);
+                  tm = setTimeout(() => (wait = false), ms);
+              }
+          }
         : (args) => fn(args);
 }
 

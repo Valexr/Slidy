@@ -43,7 +43,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1>* {
+section#s1 > * {
     /* flex: 1 0 50% */
 }
 
@@ -52,8 +52,8 @@ section#s2 {
     display: flex;
 }
 
-section#s2>* {
-    flex: 1 0 30%
+section#s2 > * {
+    flex: 1 0 30%;
 }
 
 input,
@@ -139,7 +139,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 

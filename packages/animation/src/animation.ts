@@ -8,7 +8,7 @@ function fade({ child, translate }: AnimationArgs) {
 }
 
 function scale({ child, translate, vertical }: AnimationArgs) {
-    const scale = !vertical ? `${child.exp}, 1` : `1, ${child.exp}`
+    const scale = !vertical ? `${child.exp}, 1` : `1, ${child.exp}`;
     return {
         transform: `${translate} scale(${child.exp})`,
     };
@@ -29,30 +29,30 @@ function perspective({ child, translate }: AnimationArgs) {
 }
 
 function shuffle({ child, translate, vertical }: AnimationArgs) {
-    const axis = !vertical ? `${-child.track}px, 0` : `0, ${-child.track}px`
+    const axis = !vertical ? `${-child.track}px, 0` : `0, ${-child.track}px`;
     return {
         transform: `${child.active ? `${translate} translate(${axis})` : `${translate}`}`,
-        zIndex: child.zindex
-    }
+        zIndex: child.zindex,
+    };
 }
 
 function translate({ translate }: AnimationArgs) {
-    return { transform: translate }
+    return { transform: translate };
 }
 
 function matrix({ child, vertical }: AnimationArgs) {
     // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
-    const axis = !vertical ? `${-child.pos}, 0` : `0 ${-child.pos}`
-    const scaleX = child.exp
-    const skewY = -child.turn
-    const skewX = -child.turn
-    const scaleY = child.exp
-    const translateX = -child.pos
-    const translateY = -child.turn
+    const axis = !vertical ? `${-child.pos}, 0` : `0 ${-child.pos}`;
+    const scaleX = child.exp;
+    const skewY = -child.turn;
+    const skewX = -child.turn;
+    const scaleY = child.exp;
+    const translateX = -child.pos;
+    const translateY = -child.turn;
 
     return {
-        transform: `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, ${translateX}, ${translateY})`
-    }
+        transform: `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, ${translateX}, ${translateY})`,
+    };
 }
 
 export { fade, matrix, perspective, rotate, scale, shuffle, translate };

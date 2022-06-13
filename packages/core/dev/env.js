@@ -47,19 +47,27 @@ export function setEvents() {
                     }
 
                     const eases = [
-                        'linear',
-                        'sine',
-                        'quad',
-                        'cubic',
-                        'quart',
-                        'quint',
-                        'expo',
-                        'circ',
-                        'back',
-                        'elastic',
-                        'bounce',
-                    ],
-                        animates = ['fade', 'matrix', 'perspective', 'rotate', 'scale', 'shuffle', 'translate'],
+                            'linear',
+                            'sine',
+                            'quad',
+                            'cubic',
+                            'quart',
+                            'quint',
+                            'expo',
+                            'circ',
+                            'back',
+                            'elastic',
+                            'bounce',
+                        ],
+                        animates = [
+                            'fade',
+                            'matrix',
+                            'perspective',
+                            'rotate',
+                            'scale',
+                            'shuffle',
+                            'translate',
+                        ],
                         snaps = ['unset', 'start', 'center', 'end'],
                         layouts = ['reel', 'stack', 'grid'];
                     snap.innerHTML = snaps.map(
@@ -78,10 +86,7 @@ export function setEvents() {
                     options.easing = easings[easing.value];
 
                     animation.innerHTML = animates.map((e) => `<option value="${e}">${e}</option>`);
-                    animation.value =
-                        !options.animation
-                            ? 'translate'
-                            : options.animation.name;
+                    animation.value = !options.animation ? 'translate' : options.animation.name;
                     options.animation = animations[animation.value];
                     break;
 
@@ -114,7 +119,7 @@ export function setEvents() {
                             }
                         }
                     }
-                    // console.log(e);
+                    console.log(e.detail);
                     break;
 
                 default:

@@ -53,11 +53,7 @@ type AnimationArgs = {
     vertical?: boolean; // vertical axis for coordinate
 };
 
-type Styles = {
-    [key: string]: string
-}
-
-type AnimationFunc = (args: AnimationArgs) => Styles;
+type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 ```
 
 

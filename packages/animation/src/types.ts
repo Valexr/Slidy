@@ -17,8 +17,4 @@ export type AnimationArgs = {
     vertical?: boolean;
 };
 
-type Styles = {
-    [key: string]: string
-}
-
-export type AnimationFunc = (args: AnimationArgs) => Styles;
+export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
