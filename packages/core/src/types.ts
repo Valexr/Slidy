@@ -8,8 +8,8 @@ export interface Options {
     duration?: number;
     animation?: AnimationFunc;
     easing: Easing;
-    layout?: 'reel' | 'stack' | 'grid';
-    snap?: 'start' | 'center' | 'end';
+    layout?: Layout;
+    snap?: Snap;
     vertical?: boolean;
     loop?: boolean;
 }
@@ -17,8 +17,8 @@ export interface Options {
 // type Keys = keyof typeof opts;
 // type Values = typeof opts[Keys];
 
-// export type Layout = 'reel' | 'stack' | 'grid'
-// export type Snap = 'start' | 'center' | 'end'
+export type Layout = 'reel' | 'stack' | 'grid'
+export type Snap = 'start' | 'center' | 'end'
 
 // export type OptionsValue = number | boolean | Easing | AnimationFunc | Layout
 

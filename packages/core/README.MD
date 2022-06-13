@@ -115,9 +115,9 @@ All `options` are optional, but mount `node` required:
 | `sensity`    | `5`                | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Sliding duration in ms |
-| `animation`  | `translate`        | `function` | Sliding custom animation function: `AnimationFunc = (args: AnimationArgs) => Styles`.[Animations](#animations) |
+| `animation`  | `translate`        | `function` | Sliding custom animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
 | `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
-| `layout`     | `reel`             | `string`   | Animation lauout: `'reel' | 'stack' | 'grid'` |
+| `layout`     | `reel`             | `string`   | Animation lauout: `'reel', 'stack', 'grid'` |
 | `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding `to(index)` snap by `center` & prevent sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
