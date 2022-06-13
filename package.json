@@ -14,6 +14,7 @@
         "dev:svelte": "pnpm --filter=@slidy/svelte... --parallel dev:svelte",
         "dev:media": "pnpm --filter=@slidy/media dev",
         "dev:easing": "pnpm --filter=@slidy/easing dev",
+        "dev:animation": "pnpm --filter=@slidy/animation dev",
         "build:wc": "pnpm --filter=@slidy/wc build",
         "build:vue": "pnpm --filter=@slidy/vue build",
         "build:www": "pnpm --filter=@slidy/www build",
@@ -24,10 +25,12 @@
         "build:svelte": "pnpm --filter=@slidy/svelte build",
         "build:media": "pnpm --filter=@slidy/media build",
         "build:easing": "pnpm --filter=@slidy/easing build",
+        "build:animation": "pnpm --filter=@slidy/animation build",
         "format": "prettier --ignore-path .gitignore packages/svelte --write '**/*.{js,ts,md,json,html,css,md}'",
         "deploy": "pnpm build:www && gh-pages -d www/build",
         "pub": "pnpm -r pub",
         "pub:core": "pnpm --filter=@slidy/core pub",
+        "pub:animation": "pnpm --filter=@slidy/animation pub",
         "up:all": "pnpm up -r"
     },
     "repository": {
@@ -81,7 +84,7 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.3",
-        "@types/node": "^17.0.41",
+        "@types/node": "^17.0.42",
         "@typescript-eslint/eslint-plugin": "^5.27.1",
         "@typescript-eslint/parser": "^5.27.1",
         "derver": "^0.5.3",

@@ -3,6 +3,7 @@
 -   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
 -   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
 -   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
+-   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 -   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
