@@ -15,7 +15,7 @@ export function dom(node: HTMLElement, options: Options) {
         const offset = (index: number) => node[size] - child(index)[size];
 
         const indented = child(index)[size] + gap * 2 < node[size];
-        const indent = indented ? options.indent : offset(index) / 2 / gap;
+        const indent = indented ? options.indent : offset(index) / 2 / gap || 0;
         const start = pos(index, snap) <= pos(0, 'start');
         const end = pos(index, snap) >= pos(nodes.length - 1, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
@@ -36,7 +36,7 @@ export function dom(node: HTMLElement, options: Options) {
         distance,
         start: distance(0, 'start'),
         end: distance(nodes.length - 1, 'end'),
-        scrollable: Math.abs(distance(nodes.length - 1, 'end') - distance(0, 'start')) > gap * 2,
+        scrollable: Math.abs(distance(nodes.length - 1, 'end') - distance(0, 'start')) >= gap * 2,
         init() {
             return loop(node.children, (item: Child, i) => (item.index = i));
         },

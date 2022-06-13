@@ -36,6 +36,26 @@ label {
     /* text-align: center; */
 }
 
+section#s1 {
+    /* gap: 1rem; */
+    display: flex;
+    flex-flow: row nowrap;
+    max-height: 300px;
+}
+
+section#s1>* {
+    /* flex: 1 0 50% */
+}
+
+section#s2 {
+    flex: 1 0 50%;
+    display: flex;
+}
+
+section#s2>* {
+    flex: 1 0 30%
+}
+
 input,
 button,
 select,

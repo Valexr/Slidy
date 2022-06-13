@@ -47,7 +47,7 @@ export function slidy(
         ['mouseup', onUp as EventListener],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
-        ['wheel', winWheel as EventListener, { passive: false }],
+        ['wheel', winWheel as EventListener, { passive: false, capture: true }],
         ['scroll', winScroll as EventListener],
     ];
     const NODE_EVENTS: EventMap = [
@@ -70,9 +70,9 @@ export function slidy(
             : Math.abs(pos) >= SENSITY;
     }
 
-    function edges(index = 0, dir = direction, pos = position): boolean {
-        const start = index <= 0 && dir <= 0 && pos <= dom(node, options).start;
-        const end = index >= node.children.length - 1 && dir >= 0 && pos >= dom(node, options).end;
+    function edges(index = 0, dir = direction): boolean {
+        const start = index <= 0 && dir <= 0 && position <= dom(node, options).start;
+        const end = index >= node.children.length - 1 && dir >= 0 && position >= dom(node, options).end;
         return !options.loop && (start || end);
     }
 
@@ -166,6 +166,8 @@ export function slidy(
         track = 0;
 
         listen(window, WINDOW_EVENTS);
+
+        !edges(options.index) && e.stopPropagation()
     }
 
     function onMove(e: UniqEvent): void {
@@ -215,6 +217,8 @@ export function slidy(
 
         moved && sense(e, pos) && move(pos, options.index);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
+
+        !edges(options.index) && e.stopPropagation()
     }
 
     function winWheel(e: WheelEvent): void {

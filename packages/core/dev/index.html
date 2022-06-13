@@ -54,6 +54,7 @@
         <title id="title"></title>
 
         <script type="module">
+            import { slidy as slidyCore } from './build/core.js';
             import { media as mediaStorage } from './build/media.js';
             import * as easings from './build/easing.js';
             import * as animations from './build/animation.js';
@@ -80,6 +81,10 @@
             mediaQ.subscribe((matches) => {
                 window.media = matches;
             });
+
+            let slidy1, slidy2;
+            slidy1 = slidyCore(s1);
+            slidy2 = slidyCore(s2);
 
             window.utils = utils;
             window.easings = easings;
@@ -109,7 +114,7 @@
             //     changing = !changing;
             // };
 
-            console.log('window:', window);
+            console.log('window:', window, s1);
 
             fetch('https://unpkg.com/@slidy/core/package.json')
                 .then(async (res) => await res.json())
@@ -240,6 +245,17 @@
                 </fieldset>
             </form> -->
         </footer>
+
+        <section id="s1">
+            <img src="https://picsum.photos/id/10/1280/800.jpg" alt="10" />
+            <section id="s2">
+                <img src="https://picsum.photos/id/13/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/14/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/15/1280/800.jpg" alt="10" />
+            </section>
+            <img src="https://picsum.photos/id/11/1280/800.jpg" alt="10" />
+            <img src="https://picsum.photos/id/12/1280/800.jpg" alt="10" />
+        </section>
 
         <article>
             <h1>@Slidy</h1>
