@@ -26,22 +26,6 @@ function mount(node: HTMLElement, options: Options) {
     });
 }
 
-// function init(node: HTMLElement) {
-//     return loop(node.children, (item, i) => {
-//         item.index = i
-//     });
-// }
-
-function loop(
-    array: string | any[] | HTMLCollection | Array<Partial<Options>>,
-    cb: (item: any, i: number) => void
-) {
-    for (let i = 0; i < array.length; i++) {
-        cb(array[i], i);
-    }
-    return array;
-}
-
 function indexing(node: HTMLElement, options: Options, index: number): number {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
@@ -82,14 +66,24 @@ function throttle(
 ): (args: any) => void {
     return th
         ? (args) => {
-              if (!wait) {
-                  fn(args);
-                  wait = true;
-                  clearTimeout(tm);
-                  tm = setTimeout(() => (wait = false), ms);
-              }
-          }
+            if (!wait) {
+                fn(args);
+                wait = true;
+                clearTimeout(tm);
+                tm = setTimeout(() => (wait = false), ms);
+            }
+        }
         : (args) => fn(args);
+}
+
+function loop(
+    array: string | any[] | HTMLCollection | Array<Partial<Options>>,
+    cb: (item: any, i: number) => void
+) {
+    for (let i = 0; i < array.length; i++) {
+        cb(array[i], i);
+    }
+    return array;
 }
 
 export { mount, clamp, listen, dispatch, throttle, indexing, coordinate, loop };

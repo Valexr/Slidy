@@ -47,27 +47,42 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
-                        snaps = ['unset', 'start', 'center', 'end'];
-                    easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
+                        animates = ['fade', 'matrix', 'perspective', 'rotate', 'scale', 'shuffle', 'translate'],
+                        snaps = ['unset', 'start', 'center', 'end'],
+                        layouts = ['reel', 'stack', 'grid'];
                     snap.innerHTML = snaps.map(
                         (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
                     );
+                    snap.value = options.snap;
+
+                    layout.innerHTML = layouts.map(
+                        (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
+                    );
+                    layout.value = options.layout;
+
+                    easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
                     easing.value =
                         options.easing.name === 'easing' ? 'linear' : options.easing.name;
                     options.easing = easings[easing.value];
-                    snap.value = options.snap;
+
+                    animation.innerHTML = animates.map((e) => `<option value="${e}">${e}</option>`);
+                    animation.value =
+                        !options.animation
+                            ? 'translate'
+                            : options.animation.name;
+                    options.animation = animations[animation.value];
                     break;
 
                 case 'move':
@@ -93,7 +108,7 @@ export function setEvents() {
                                     );
                             } else {
                                 target.value =
-                                    target.id === 'easing'
+                                    target.id === 'easing' || target.id === 'animation'
                                         ? e.detail[option].name
                                         : e.detail[option];
                             }

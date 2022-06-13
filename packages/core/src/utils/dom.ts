@@ -1,5 +1,5 @@
-import type { Child, Options } from '../types';
-import { loop } from './env';
+import type { AnimationFunc, Child, Options } from '../types';
+import { clamp, loop } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
@@ -11,18 +11,21 @@ export function dom(node: HTMLElement, options: Options) {
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
-            nodes.find(({ indx }: Child) => indx === index) || nodes[0];
+            nodes.find((child: Child) => child.index === index) || nodes[0];
         const offset = (index: number) => node[size] - child(index)[size];
 
         const indented = child(index)[size] + gap * 2 < node[size];
         const indent = indented ? options.indent : offset(index) / 2 / gap;
-        const start = position(index, snap) <= position(0, 'start');
-        const end = position(index, snap) >= position(nodes.length - 1, 'end');
+        const start = pos(index, snap) <= pos(0, 'start');
+        const end = pos(index, snap) >= pos(nodes.length - 1, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
-        return position(index, !options.loop && options.snap ? SNAP : snap);
+        return pos(
+            index,
+            !options.loop && options.snap && options.layout !== 'stack' ? SNAP : snap
+        );
 
-        function position(index: number, snap: Options['snap']): number {
+        function pos(index: number, snap: Options['snap']): number {
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
             const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
             return child(index)[coord] - offset(index) * part + gap * edge;
@@ -33,15 +36,9 @@ export function dom(node: HTMLElement, options: Options) {
         distance,
         start: distance(0, 'start'),
         end: distance(nodes.length - 1, 'end'),
-        scrollable: Math.abs(distance(nodes.length - 1) - distance(0)) > gap * 2,
+        scrollable: Math.abs(distance(nodes.length - 1, 'end') - distance(0, 'start')) > gap * 2,
         init() {
-            return loop(node.children, (item: Child, i) => {
-                item.indx = i;
-                // item.gap = gap;
-                item.size = nodes[i][size] + gap * 2;
-                item.dist = distance(i);
-                // item.style.position = options.layout === 'stack' ? 'absolute' : 'relative';
-            });
+            return loop(node.children, (item: Child, i) => (item.index = i));
         },
         index(target: number): number {
             const dist = (index: number) => Math.abs(distance(index) - target);
@@ -61,6 +58,29 @@ export function dom(node: HTMLElement, options: Options) {
                 node.replaceChildren(...childs);
             }
             return this.scrollable ? distance(options.index as number) : 0;
+        },
+        animate(animation?: AnimationFunc, position = 0) {
+            loop(nodes, (child: Child) => {
+                child.active = child.index === options.index
+                child.size = child[size] + gap;
+                child.dist = distance(child.index);
+                child.pos = options.layout === 'stack' ? child.dist : position;
+                child.track = position - child.dist
+                child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1)
+                child.turn = clamp(-1, child.track / child.size, 1)
+                child.zindex = child.active
+                    ? nodes.length - child.index : child.index < (options.index as number)
+                        ? -1 - child.index : nodes.length - child.index
+                // child.clampTrack = clamp(-child.size / 2, child.track, child.size / 2)
+                // child.clampTurn = clamp(-1, child.clampTrack / child.size, 1)
+
+                const translate = options.vertical ? `translateY(${-child.pos}px)` : `translateX(${-child.pos}px)`;
+                const style = animation
+                    ? animation({ child, position, translate, vertical: options.vertical })
+                    : { transform: translate }
+
+                Object.assign(child.style, style)
+            });
         },
     };
 }

@@ -12,7 +12,9 @@ const esbuildBase = {
     minify: !DEV && !CORE,
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
-    entryPoints: CORE ? ['@slidy/core', '@slidy/media', '@slidy/easing'] : ['src/index.ts'],
+    entryPoints: CORE
+        ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation']
+        : ['src/index.ts'],
     outdir: CORE ? 'dev/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
@@ -23,7 +25,13 @@ const derverConfig = {
     dir: 'dev',
     port: 3330,
     host: '0.0.0.0',
-    watch: ['dev', 'src', 'node_modules/@slidy/media', 'node_modules/@slidy/easing'],
+    watch: [
+        'dev',
+        'src',
+        'node_modules/@slidy/media',
+        'node_modules/@slidy/easing',
+        'node_modules/@slidy/animation',
+    ],
 };
 const builds = {
     cjs: {

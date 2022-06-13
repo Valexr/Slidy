@@ -15,6 +15,7 @@ article {
 article {
     display: grid;
     gap: var(--size-3);
+    margin-inline: max(var(--size-fluid-2), 50% - 800px/2);
 }
 
 a {
@@ -32,6 +33,7 @@ a:visited {
 
 label {
     display: block;
+    /* text-align: center; */
 }
 
 input,
@@ -117,7 +119,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -261,7 +263,6 @@ section {
 nav#thumbs {
     list-style: none;
     margin: auto;
-    /* padding: calc(var(--gap) / 1.5) 0; */
     padding: 0;
     display: flex;
     flex-flow: var(--flow) nowrap;
@@ -270,7 +271,6 @@ nav#thumbs {
     height: 100%;
     height: var(--height, 375px);
     -webkit-tap-highlight-color: transparent;
-    /* will-change: transform; */
 }
 
 #node li,
@@ -287,9 +287,6 @@ nav#thumbs button {
     box-shadow: var(--shadow-3);
     background: var(--surface-1);
     border-radius: var(--radius-3);
-    /* will-change: transform; */
-    /* backface-visibility: hidden; */
-    /* transform-style: preserve-3d; */
 }
 
 #node li {
@@ -297,11 +294,11 @@ nav#thumbs button {
 }
 
 nav#thumbs {
-    height: 100%;
     gap: 1rem;
-    justify-content: center;
-    max-width: max-content;
+    height: auto;
     flex-flow: row;
+    max-width: fit-content;
+    margin: var(--size-fluid-2) auto;
 }
 
 nav#thumbs button {

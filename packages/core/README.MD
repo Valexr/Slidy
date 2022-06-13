@@ -115,8 +115,9 @@ All `options` are optional, but mount `node` required:
 | `sensity`    | `5`                | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Sliding duration in ms |
-| `animation`  | `?`                | `function` | Sliding custom animation: ...in progress 👨🏻‍💻 |
-| `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing](https://github.com/Valexr/Slidy/tree/master/packages/easing).|
+| `animation`  | `translate`        | `function` | Sliding custom animation function: `AnimationFunc = (args: AnimationArgs) => Styles`.[Animations](#animations) |
+| `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
+| `layout`     | `reel`             | `string`   | Animation lauout: `'reel' | 'stack' | 'grid'` |
 | `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding `to(index)` snap by `center` & prevent sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
@@ -243,7 +244,45 @@ All `options` are optional, but mount `node` required:
 
 ## Animations
 
-...in progress 👨🏻‍💻
+You can provide custom animation or use presets from [@slidy/animation] package.
+
+```ts
+interface Child extends HTMLElement {
+    active: boolean; // `child.index === options.index`
+    index: number; // index
+    zindex: number; // zindex in `options.layout === 'stack'` mode
+    size: number; // `size + gap` by axis
+    dist: number; // distance to snap position
+    pos: number; // position
+    track: number; // move to the size of the slide from its snap point +/- in the direction
+    exp: number; // interpolated child.track `0 <- exp -> 1`
+    turn: number; // `-1 <- child.track / child.size -> 1`
+}
+
+type AnimationArgs = {
+    child: Child; // extended childNode object
+    position: number; // slidy position
+    translate: string; // basic translate needed in any function `{transform: translate}`
+    vertical?: boolean; // vertical axis for coordinate
+};
+
+type Styles = {
+    [key: string]: string
+}
+
+type AnimationFunc = (args: AnimationArgs) => Styles;
+```
+
+Like exmaple `fade()` function. More info in [@slidy/animation].
+
+```ts
+function fade({ child, translate }: AnimationArgs) {
+    return {
+        opacity: child.exp,
+        transform: translate,
+    };
+}
+```
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 
@@ -251,3 +290,5 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 [NPM]: https://www.npmjs.com/package/@slidy/core
 [CDN]: https://unpkg.com/@slidy/core/
 [REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
+[@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
+[@slidy/animation]: https://github.com/Valexr/Slidy/tree/master/packages/animation
