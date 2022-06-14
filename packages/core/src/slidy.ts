@@ -100,9 +100,9 @@ export function slidy(
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
-        INDEX = options.index = $().index(position);
 
         SENSITY = 0;
+        INDEX = options.index = $().index(position);
         GRAVITY = edges(INDEX) ? 1.8 : (options.gravity as number);
 
         $().animate(options.animation, position);
@@ -158,14 +158,15 @@ export function slidy(
     }
 
     function onDown(e: UniqEvent): void {
-        clear(e);
+        clear();
 
         SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
-        track = 0;
+        track = direction = 0;
 
         listen(window, WINDOW_EVENTS);
+        !edges(INDEX) && e.stopPropagation()
     }
 
     function onMove(e: UniqEvent): void {
@@ -201,7 +202,7 @@ export function slidy(
     }
 
     function onWheel(e: UniqEvent): void {
-        clear(e);
+        clear();
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
@@ -214,6 +215,8 @@ export function slidy(
 
         moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
+
+        !edges(INDEX) && e.stopPropagation()
     }
 
     function winWheel(e: WheelEvent): void {
@@ -236,12 +239,11 @@ export function slidy(
         dispatch(node, 'keys', e.key);
     }
 
-    function clear(e?: UniqEvent): void {
+    function clear(): void {
         clearTimeout(wst);
         cancelAnimationFrame(raf);
         GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
-        !edges(INDEX) && e && e.stopPropagation();
     }
 
     function update(opts: Partial<Options>): void {
