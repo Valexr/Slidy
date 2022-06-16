@@ -18,7 +18,7 @@ export interface Child extends HTMLElement {
 export type AnimationArgs = {
     node: HTMLElement;
     child: Child;
-    options: Options;
+    options: Partial<Options>;
     position: number;
     translate: string;
 };
