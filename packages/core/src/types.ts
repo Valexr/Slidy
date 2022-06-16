@@ -1,3 +1,5 @@
+import type { AnimationFunc } from "@slidy/animation";
+
 /** Slidy options object [docs](https://github.com/Valexr/slidy/tree/master/packages/core#options)*/
 export interface Options {
     index?: number;
@@ -56,16 +58,6 @@ export type Detail =
  * @see https://easings.net
  */
 export type Easing = (t: number) => number;
-
-export type AnimationArgs = {
-    node: HTMLElement;
-    options: Partial<Options>;
-    child: Child;
-    position: number;
-    translate: string;
-};
-
-export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
 export type FunctionDom =
     | (() => {

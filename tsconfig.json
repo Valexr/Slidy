@@ -2,7 +2,9 @@
     "compilerOptions": {
         "baseUrl": "./packages",
         "paths": {
+            "@slidy/animation": ["animation/src"],
             "@slidy/core": ["core/src"],
+            "@slidy/easing": ["easing/src"],
             "@slidy/react": ["react/src"],
             "@slidy/svelte": ["svelte/src"],
             "@slidy/malina": ["malina/src"],
