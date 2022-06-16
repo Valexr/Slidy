@@ -17,11 +17,6 @@
 -   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
 -   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
--   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
--   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
--   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
--   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
--   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
@@ -36,12 +31,12 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 
 ## Todo
 
--   Demo docs site based on SvelteKit
--   @slidy/wc - WebComponent template
--   @slidy/malina - MalinaJS template
--   @slidy/solid - SolidJS template
--   @slidy/react - ReactJS template
--   @slidy/vue - VueJS template
+-   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
+-   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
+-   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
+-   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
+-   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
+-   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 ## Thanks 🎉
 
