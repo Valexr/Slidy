@@ -1,6 +1,6 @@
 {
     "name": "@slidy/animation",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Simple animation functions for inertion scrolling",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",

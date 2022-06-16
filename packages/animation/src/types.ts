@@ -1,7 +1,12 @@
+type Layout = 'deck' | 'grid' | 'reel' | 'stack';
+type Options = {
+    index: number;
+    vertical: boolean;
+    layout: Layout;
+};
 export interface Child extends HTMLElement {
     active: boolean;
     index: number;
-    zindex: number;
     size: number;
     dist: number;
     pos: number;
@@ -11,10 +16,11 @@ export interface Child extends HTMLElement {
 }
 
 export type AnimationArgs = {
+    node: HTMLElement;
     child: Child;
+    options: Options;
     position: number;
     translate: string;
-    vertical?: boolean;
 };
 
 export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
