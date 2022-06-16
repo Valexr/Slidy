@@ -166,7 +166,7 @@ export function slidy(
         track = direction = 0;
 
         listen(window, WINDOW_EVENTS);
-        !edges(INDEX) && e.stopPropagation()
+        !edges(INDEX) && e.stopPropagation();
     }
 
     function onMove(e: UniqEvent): void {
@@ -178,7 +178,10 @@ export function slidy(
         hip = coordinate(e, options);
         track = (2 - GRAVITY) * speed + (GRAVITY - 1) * track;
 
-        window.onscroll = () => { to(INDEX), GRAVITY = 2 }
+        window.onscroll = () => {
+            to(INDEX);
+            GRAVITY = 2;
+        };
 
         if (sense(e, pos)) {
             move(pos, INDEX);
@@ -216,7 +219,7 @@ export function slidy(
         moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
-        !edges(INDEX) && e.stopPropagation()
+        !edges(INDEX) && e.stopPropagation();
     }
 
     function winWheel(e: WheelEvent): void {

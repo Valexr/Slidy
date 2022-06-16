@@ -17,7 +17,7 @@ export interface Options {
 // type Keys = keyof typeof opts;
 // type Values = typeof opts[Keys];
 
-export type Layout = 'reel' | 'stack' | 'grid';
+export type Layout = 'deck' | 'grid' | 'reel' | 'stack';
 export type Snap = 'start' | 'center' | 'end';
 
 // export type OptionsValue = number | boolean | Easing | AnimationFunc | Layout
@@ -30,10 +30,6 @@ export interface Child extends HTMLElement {
     dist: number;
     pos: number;
     track: number;
-    clamp: {
-        track: number;
-        turn: number;
-    };
     exp: number;
     turn: number;
 }
@@ -62,10 +58,11 @@ export type Detail =
 export type Easing = (t: number) => number;
 
 export type AnimationArgs = {
+    node: HTMLElement;
+    options: Partial<Options>;
     child: Child;
     position: number;
     translate: string;
-    vertical?: boolean;
 };
 
 export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;

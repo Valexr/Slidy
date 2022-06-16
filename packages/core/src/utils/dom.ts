@@ -22,10 +22,7 @@ export function dom(node: HTMLElement, options: Options) {
         const end = pos(index, snap) >= pos(last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
-        return pos(
-            index,
-            !options.loop && options.snap && options.layout !== 'stack' ? SNAP : snap
-        );
+        return pos(index, !options.loop && options.snap && options.layout !== 'deck' ? SNAP : snap);
 
         function pos(index: number, snap: Options['snap']): number {
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
@@ -62,19 +59,17 @@ export function dom(node: HTMLElement, options: Options) {
             return this.scrollable ? distance(options.index as number) : 0;
         },
         animate(animation?: AnimationFunc, position = 0) {
+            node.style.perspective = `${node[size]}px`;
+            // node.style.transformStyle = `preserve-3d`;
+
             loop(nodes, (child: Child) => {
-                child.active = child.index === options.index;
+                child.active = child.index === options.index
                 child.size = child[size] + gap;
                 child.dist = distance(child.index);
-                child.pos = options.layout === 'stack' ? child.dist : position;
+                child.pos = options.layout === 'deck' ? child.dist : position;
                 child.track = position - child.dist;
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
                 child.turn = clamp(-1, child.track / child.size, 1);
-                child.zindex = child.active
-                    ? length - child.index
-                    : child.index < (options.index as number)
-                        ? -1 - child.index
-                        : length - child.index;
                 // child.clampTrack = clamp(-child.size / 2, child.track, child.size / 2)
                 // child.clampTurn = clamp(-1, child.clampTrack / child.size, 1)
 
@@ -82,7 +77,13 @@ export function dom(node: HTMLElement, options: Options) {
                     ? `translateY(${-child.pos}px)`
                     : `translateX(${-child.pos}px)`;
                 const style = animation
-                    ? animation({ child, position, translate, vertical: options.vertical })
+                    ? animation({
+                        node,
+                        child,
+                        options,
+                        position,
+                        translate,
+                    })
                     : { transform: translate };
 
                 Object.assign(child.style, style);

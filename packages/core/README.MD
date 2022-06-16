@@ -252,7 +252,6 @@ You can provide custom animation or use presets from [@slidy/animation] package.
 interface Child extends HTMLElement {
     active: boolean; // `child.index === options.index`
     index: number; // index
-    zindex: number; // zindex in `options.layout === 'stack'` mode
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
     pos: number; // position

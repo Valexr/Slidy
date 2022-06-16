@@ -12,6 +12,7 @@ export function setEvents() {
                         } else if (!isNaN(button.id)) {
                             let duration = 0;
                             button.onpointerdown = (e) => {
+                                e.preventDefault();
                                 duration = e.timeStamp;
                                 e.target.onpointermove = null;
                                 e.target.onpointermove = (e) => {
@@ -60,16 +61,19 @@ export function setEvents() {
                             'bounce',
                         ],
                         animates = [
+                            'deck',
                             'fade',
+                            'flip',
                             'matrix',
                             'perspective',
                             'rotate',
                             'scale',
                             'shuffle',
+                            'stairs',
                             'translate',
                         ],
                         snaps = ['unset', 'start', 'center', 'end'],
-                        layouts = ['reel', 'stack', 'grid'];
+                        layouts = ['deck', 'grid', 'reel', 'stack'];
                     snap.innerHTML = snaps.map(
                         (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
                     );
@@ -119,7 +123,6 @@ export function setEvents() {
                             }
                         }
                     }
-                    console.log(e.detail);
                     break;
 
                 default:

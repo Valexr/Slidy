@@ -36,22 +36,26 @@ export async function getPhotos(node, page, limit) {
     async function createSlides(photos) {
         photos.forEach((p, i) => {
             const aspect = (value, ratio = false) => {
-                const pr = ratio ? window.devicePixelRatio : 1;
-                return aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * pr;
+                const pr = ratio ? devicePixelRatio : 1;
+                return Math.round(
+                    aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * pr
+                );
             };
-
-            node.innerHTML += `<li id="${i}"><img src="https://picsum.photos/id/${p.id}/${aspect(
-                'width',
+            const src = `https://picsum.photos/id/${p.id}/${aspect('width', true)}/${aspect(
+                'height',
                 true
-            )}/${aspect('height', true)}.jpg" width="${aspect('width')}" height="${aspect(
-                'height'
-            )}" alt="${p.author}"/></li>`;
+            )}.jpg`;
+            const background = `background-image: url(https://picsum.photos/id/${p.id}/${
+                100 * devicePixelRatio
+            }/${100 * devicePixelRatio}.jpg)`;
 
-            thumbs.innerHTML += `<button id="${i}" style="background-image: url(https://picsum.photos/id/${
-                p.id
-            }/${100 * window.devicePixelRatio}/${
-                100 * window.devicePixelRatio
-            }.jpg)" width="100" height="100">${i}</button>`;
+            node.innerHTML += `<li id="${i}">
+                <img src="${src}" width="${aspect('width')}" height="${aspect('height')}" alt="${
+                p.author
+            }"/>
+            </li>`;
+
+            thumbs.innerHTML += `<button id="${i}" style="${background}" width="100" height="100">${i}</button>`;
 
             dots.innerHTML += `<button id="${i}">${i}</button>`;
         });
