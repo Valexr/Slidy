@@ -11,6 +11,7 @@
 <script lang="ts">
 	type $$Props = SlidyOptions;
 
+	export let animation: $$Props["animation"] = undefined;
 	export let arrows = true;
 	export let background = false;
 	export let counter = true;
@@ -92,6 +93,7 @@
 		aria-live="polite"
 		tabindex="0"
 		use:slidy={{
+			animation,
 			clamp,
 			duration,
 			easing,

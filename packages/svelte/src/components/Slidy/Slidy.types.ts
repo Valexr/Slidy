@@ -1,3 +1,5 @@
+import type { AnimationFunc } from "@slidy/animation";
+
 /**
  * Common Image interface.
  */
@@ -13,6 +15,7 @@ export interface Slide {
 export type GetSrc<T> = (item: T) => string;
 
 export interface SlidyOptions {
+	animation?: AnimationFunc; 
 	arrows?: boolean;
 	background?: boolean;
 	clamp?: number;

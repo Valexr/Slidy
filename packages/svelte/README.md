@@ -62,6 +62,7 @@ By default component works with images. Image object should contain `width` and 
 
 | Property      |     Default      |    Type    | Description                                                           |
 | :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- | ------ | ----------------------------------- |
+| `animation`   |    undefined     | `AnimationFunc ` | Custom slide animation.                                         |
 | `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
 | `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
 | `clamp`       |        0         |  `number`  | Clamps sliding index as `{clamp} - {index} + {clamp}`                 |
