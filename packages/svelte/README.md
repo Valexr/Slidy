@@ -66,6 +66,7 @@ By default component works with images. Image object should contain `width` and 
 | `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
 | `clamp`       |        0         |  `number`  | Clamps sliding index as `{clamp} - {index} + {clamp}`                 |
 | `className`   |        ""        |  `string`  | Passes the `class` to the parent node.                                |
+| `easing`      |    undefined     | `(t: number => number)` | Inertion scroll easing behaviour.                        |
 | `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter.                                   |
 | `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter.                               |
 | `navigation`  |       true       | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
