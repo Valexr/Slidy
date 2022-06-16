@@ -1,3 +1,2 @@
 export { slidy } from './slidy';
-export type { Options, Easing, Child } from './types';
-export type { AnimationFunc } from "@slidy/animation";
+export type { Options, Easing, AnimationFunc, AnimationArgs, Child } from './types';
