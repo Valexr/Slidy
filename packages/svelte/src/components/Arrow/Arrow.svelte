@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { getContext } from "svelte/internal";
 	import "./arrow.module.css";
+	import type { SlidyStyles } from "../Slidy/Slidy.types";
 
 	// describes slide management the direction: previous / next
 	export let type: -1 | 1 | number = 1;
@@ -7,6 +9,8 @@
 	export let index: number;
 	export let items: number;
 	export let vertical = false;
+
+	const classNames = getContext<SlidyStyles>("classNames");
 
 	$: disabled = type < 1
 		? index === 0 && !loop
@@ -19,7 +23,7 @@
 
 <button
 	aria-label={ariaLabel}
-	class="slidy-arrow"
+	class="{classNames.arrow}"
 	class:prev={type < 0}
 	class:vertical
 	data-step={type}

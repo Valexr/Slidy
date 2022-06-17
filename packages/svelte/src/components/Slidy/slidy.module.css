@@ -95,15 +95,16 @@
 	display: grid;
 	grid-template: auto minmax(0, 1fr) auto / minmax(0, 1fr) auto auto;
 	grid-template-areas:
-		"prev-slide thumbnail dots"
-		"slides thumbnail dots"
-		"next-slide thumbnail dots";
+		"prev-slide dots"
+		"slides dots"
+		"next-slide dots"
+		"thumbnail thumbnail";
 	height: var(--slidy-height, 100%);
 	width: var(--slidy-width, 100%);
 }
 
-.slidy.vertical .slidy-slides {
-	grid-row: 1 / -1;
+.slidy.vertical  > .slidy-slides {
+	grid-row: 1 / -2;
 	grid-column: 1;
 
 	flex-flow: column nowrap;
@@ -111,7 +112,7 @@
 	height: var(--slidy-slide-height, auto);
 }
 
-.slidy.vertical .slidy-nav {
+.slidy.vertical > .slidy-nav {
 	width: auto;
 	height: max-content;
 }
@@ -126,11 +127,6 @@
 
 .slidy.thumbnail:not(.vertical) {
 	--slidy-height: var(--slidy-thumbnail-size, 50px);
-}
-
-.slidy.thumbnail.vertical {
-	--slidy-width: var(--slidy-thumbnail-size, 50px);
-	--slidy-slide-height: auto;
 }
 
 .slidy.thumbnail .slidy-slide:not(.active) {

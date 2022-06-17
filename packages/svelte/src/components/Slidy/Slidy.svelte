@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
-	import { createEventDispatcher } from "svelte/internal";
+	import { createEventDispatcher, setContext } from "svelte/internal";
 	import { slidy } from "@slidy/core";
 	import { Arrow, Image, Navigation, Progress } from "../";
 	import { clamp as clampValue } from "../../helpers";
+
+	import { classNames as classNamesDefault } from "./slidy.styles";
 	import "./slidy.module.css";
 
 	import type { Slide, SlidyOptions, GetSrc } from "./Slidy.types";
@@ -16,7 +18,7 @@
 	export let background = false;
 	export let counter = true;
 	export let clamp = 0;
-	export let className: $$Props["className"] = "";
+	export let classNames: $$Props["classNames"] = classNamesDefault;
 	export let easing: $$Props["easing"] = (t: number): number => t;
 	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
 	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => getImgSrc(item);
@@ -40,14 +42,14 @@
 	 */
 	export let _indexActive = index;
 	export let _indexThumb = index;
+	/* thumbnail flag */
+	export let _thumbnail = false;
 
+	setContext("classNames", classNames);
 	const dispatch = createEventDispatcher();
 
 	$: length = slides.length;
 
-	/**
-	 * Route to the desired slide index.
-	 */
 	const goto = (slide: number): void => {
 		if (typeof slide === "number" && !Number.isNaN(slide)) {
 			index = clampValue(slide, 0, length - 1);
@@ -73,15 +75,16 @@
 
 <section
 	aria-roledescription="carousel"
-	class="slidy {className}"
+	class="{classNames?.root}"
+	class:thumbnail={_thumbnail}
 	class:vertical
 	{id}
 	on:click={handleClick}
 >
 	{#if counter || $$slots.overlay}
-		<div class="slidy-overlay">
+		<div class="{classNames?.overlay}">
 			{#if counter}
-				<output class="slidy-counter">
+				<output class="{classNames?.counter}">
 					{index + 1} / {length}
 				</output>
 			{/if}
@@ -89,7 +92,7 @@
 		</div>
 	{/if}
 	<ul
-		class="slidy-slides"
+		class="{classNames?.slides}"
 		aria-live="polite"
 		tabindex="0"
 		use:slidy={{
@@ -124,7 +127,7 @@
 				aria-current={active ? "true" : undefined}
 				aria-label={`${i} of ${length}`}
 				aria-roledescription="slide"
-				class="slidy-slide"
+				class="{classNames?.slide}"
 				class:active
 				class:background
 				on:click={() => dispatch("select", { index: i })}
@@ -160,7 +163,7 @@
 
 	{#if thumbnail}
 		<slot name="thumbnail">
-			<nav class="slidy-thumbnail">
+			<nav class="{classNames?.thumbnail}">
 				<svelte:self
 					arrows={false}
 					counter={false}
@@ -169,10 +172,11 @@
 					getImgSrc={getThumbSrc}
 					{background}
 					{duration}
-					{vertical}
 					gravity={0.75}
 					{slides}
+					vertical={false}
 					on:select={event => goto(event.detail.index)}
+					_thumbnail
 					_indexActive={index}
 					index={_indexThumb}
 				/>

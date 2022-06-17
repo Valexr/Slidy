@@ -1,4 +1,4 @@
-.slidy-image {
+.slidy-img {
 	position: relative;
 	display: block;
 	width: var(--slidy-slide-width, auto);
@@ -8,7 +8,7 @@
 	background-color: var(--slidy-slide-bg-color, darkgray);
 }
 
-.slidy-image::before {
+.slidy-img::before {
 	content: "Image failed to load:" " " attr(alt);
 	position: absolute;
 	top: 0;
