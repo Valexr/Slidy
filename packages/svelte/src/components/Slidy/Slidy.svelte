@@ -17,7 +17,7 @@
 	export let counter = true;
 	export let clamp = 0;
 	export let className: $$Props["className"] = "";
-	export let easing: $$Props["easing"] = undefined;
+	export let easing: $$Props["easing"] = (t: number): number => t;
 	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
 	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => getImgSrc(item);
 	export let navigation = true;
