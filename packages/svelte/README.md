@@ -61,7 +61,7 @@ By default component works with images. Image object should contain `width` and 
 ## API
 
 | Property      |     Default      |    Type    | Description                                                           |
-| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- | ------ | ----------------------------------- |
+| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- |
 | `animation`   |    undefined     | `AnimationFunc ` | Custom slide animation.                                         |
 | `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
 | `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
@@ -80,7 +80,7 @@ By default component works with images. Image object should contain `width` and 
 | `position`    |        0         |  `number`  | The current position value of the carousel.                           |
 | `progress`    |      false       | `boolean`  | Renders the progress bar.                                             |
 | `slides`      |       [ ]        | `Slides[]` | An array of objects with image metadata.                              |
-| `snap`        |    undefined     |  `"start"  | "center"                                                              | "end"` | Enforces the scroll stop positions. |
+| `snap`        |    undefined     |  `"start"  | "center" | "end"` | Enforces the scroll stop positions.               |
 | `thumbnail`   |      false       | `boolean`  | Renders the thumbnail navigation panel.                               |
 | `vertical`    |      false       | `boolean`  | Sets the component into the vertical orientation.                     |
 
