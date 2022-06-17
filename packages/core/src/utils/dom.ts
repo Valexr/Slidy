@@ -2,7 +2,6 @@ import type { AnimationFunc, Child, Options } from '../types';
 import { clamp, loop } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
-    console.log(node.children)
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
     const length = nodes.length;
     const last = length - 1;
