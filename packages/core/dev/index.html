@@ -83,10 +83,10 @@
             });
 
             let slidy1, slidy2, slidy3, slidy4;
-            slidy1 = slidyCore(s1, { snap: 'center' });
-            slidy2 = slidyCore(s2, { snap: 'center' });
-            slidy3 = slidyCore(s3, { snap: 'center' });
-            slidy4 = slidyCore(s4, { snap: 'center' });
+            // slidy1 = slidyCore(s1, { snap: 'center' });
+            // slidy2 = slidyCore(s2, { snap: 'center' });
+            // slidy3 = slidyCore(s3, { snap: 'center' });
+            // slidy4 = slidyCore(s4, { snap: 'center' });
 
             window.utils = utils;
             window.easings = easings;
@@ -99,7 +99,7 @@
                 sensity: 5,
                 gravity: 1.2,
                 duration: 375,
-                loop: false,
+                loop: true,
                 vertical: false,
                 snap: 'center',
                 layout: 'reel',
@@ -127,6 +127,7 @@
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
                     getPhotos(node, utils.randomQ(1, 69), options.length).then(setEvents);
                 });
+
         </script>
     </head>
 
@@ -143,18 +144,7 @@
             </a>
         </header>
         <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
-            <ul id="node" tabindex="0">
-                <!-- <li id="0"><img src="https://picsum.photos/id/10/1280/800.jpg" alt="alt" /></li>
-                <li id="1"><img src="https://picsum.photos/id/11/1280/800.jpg" alt="alt" /></li>
-                <li id="2"><img src="https://picsum.photos/id/12/1280/800.jpg" alt="alt" /></li>
-                <li id="3"><img src="https://picsum.photos/id/13/1280/800.jpg" alt="alt" /></li>
-                <li id="4"><img src="https://picsum.photos/id/14/1280/800.jpg" alt="alt" /></li>
-                <li id="5"><img src="https://picsum.photos/id/15/1280/800.jpg" alt="alt" /></li>
-                <li id="6"><img src="https://picsum.photos/id/17/1280/800.jpg" alt="alt" /></li>
-                <li id="7"><img src="https://picsum.photos/id/18/1280/800.jpg" alt="alt" /></li>
-                <li id="8"><img src="https://picsum.photos/id/19/1280/800.jpg" alt="alt" /></li> -->
-                <!-- <li style="display: grid; place-items: center">Loading... 🚀</li> -->
-            </ul>
+            <ul id="node" tabindex="0"></ul>
             <nav id="thumbs"></nav>
         </main>
 
@@ -250,26 +240,23 @@
             </form> -->
         </footer>
 
-        <section id="s1">
-            <!-- <img src="https://picsum.photos/id/10/1280/800.jpg" alt="10" /> -->
+        <!-- <section id="s1">
             <section id="s2">
                 <img src="https://picsum.photos/id/13/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/14/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/15/1280/800.jpg" alt="10" />
             </section>
-            <!-- <img src="https://picsum.photos/id/11/1280/800.jpg" alt="10" /> -->
             <section id="s3">
                 <img src="https://picsum.photos/id/16/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/17/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/18/1280/800.jpg" alt="10" />
             </section>
-            <!-- <img src="https://picsum.photos/id/12/1280/800.jpg" alt="10" /> -->
             <section id="s4">
                 <img src="https://picsum.photos/id/19/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/20/1280/800.jpg" alt="10" />
                 <img src="https://picsum.photos/id/21/1280/800.jpg" alt="10" />
             </section>
-        </section>
+        </section> -->
 
         <article>
             <h1>@Slidy</h1>

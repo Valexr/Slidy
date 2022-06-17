@@ -23,7 +23,7 @@ type Snap = 'start' | 'center' | 'end';
 // export type OptionsValue = number | boolean | Easing | AnimationFunc | Layout
 
 export interface Child extends HTMLElement {
-    active: boolean;
+    active: number;
     index: number;
     zindex: number;
     size: number;
@@ -32,6 +32,7 @@ export interface Child extends HTMLElement {
     track: number;
     exp: number;
     turn: number;
+    i: number;
 }
 
 export interface UniqEvent extends PointerEvent {

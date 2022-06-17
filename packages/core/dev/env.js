@@ -12,7 +12,7 @@ export function setEvents() {
                         } else if (!isNaN(button.id)) {
                             let duration = 0;
                             button.onpointerdown = (e) => {
-                                e.preventDefault();
+                                // e.preventDefault();
                                 duration = e.timeStamp;
                                 e.target.onpointermove = null;
                                 e.target.onpointermove = (e) => {
@@ -48,18 +48,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'deck',
                             'fade',

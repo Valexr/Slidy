@@ -7,8 +7,8 @@ export function slidy(
     opts: Partial<Options>
 ): {
     update: (options: Options) => void;
+    to: (index: number) => void;
     destroy: () => void;
-    to: (index: number, target?: number) => void;
 } {
     const options: Options = {
         index: 0,
@@ -35,7 +35,7 @@ export function slidy(
         direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = options.index || 0,
+        INDEX = hix = options.index as number,
         CLAMP = options.clamp as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
@@ -62,8 +62,8 @@ export function slidy(
 
     const RO = new ResizeObserver(() => {
         to(INDEX);
-        dispatch(node, 'resize', { node, options });
         position = $().position(false);
+        dispatch(node, 'resize', { node, options });
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
@@ -87,7 +87,7 @@ export function slidy(
             node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            position = $().position();
+            position = $().position(options.loop);
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
@@ -152,8 +152,10 @@ export function slidy(
 
     function to(index = 0, duration = DURATION): void {
         clear();
+
         index = indexing(node, options, index);
         const pos = $().distance(index) - position;
+
         scroll(index, pos, duration);
     }
 
@@ -200,6 +202,7 @@ export function slidy(
         function clamping(index: number, options: Options): number {
             const range = CLAMP * direction;
             index = CLAMP && index - hix ? INDEX + range : index;
+
             return indexing(node, options, index);
         }
     }

@@ -2,6 +2,7 @@ import type { AnimationFunc, Child, Options } from '../types';
 import { clamp, loop } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
+    console.log(node.children)
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
     const length = nodes.length;
     const last = length - 1;
@@ -22,7 +23,7 @@ export function dom(node: HTMLElement, options: Options) {
         const end = pos(index, snap) >= pos(last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
-        return pos(index, !options.loop && options.snap && options.layout !== 'deck' ? SNAP : snap);
+        return pos(index, (!options.loop && options.snap && options.layout !== 'deck') ? SNAP : snap);
 
         function pos(index: number, snap: Options['snap']): number {
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
@@ -37,33 +38,38 @@ export function dom(node: HTMLElement, options: Options) {
         end: distance(last, 'end'),
         scrollable: Math.abs(distance(last, 'end') - distance(0, 'start')) > gap * 2,
         init() {
-            return loop(node.children, (item: Child, i) => (item.index = i));
+            return loop(nodes, (child: Child, i) => (child.index = i));
         },
         index(target: number): number {
             const dist = (index: number) => Math.abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev));
         },
+        position(replace = true): number {
+            if (replace) {
+                const index = options.index as number
+                const key = options.loop ? index - cix : cix - index
+                const childs = nodes.slice(key).concat(nodes.slice(0, key))
+
+                node.replaceChildren(...childs);
+            }
+            return this.scrollable ? distance(options.index as number) : 0
+        },
         history(dir: number): number {
             const direction = length % dir ? Math.sign(-dir) : dir;
             const edge = direction > 0 ? 0 : last;
+
             if (edge) node.prepend(nodes[edge]);
             else node.append(nodes[edge]);
+
             return (nodes[edge][size] + gap) * direction;
-        },
-        position(replace = true): number {
-            if (replace) {
-                const key = options.loop ? (options.index as number) - cix : 0;
-                const childs = nodes.slice(key).concat(nodes.slice(0, key));
-                node.replaceChildren(...childs);
-            }
-            return this.scrollable ? distance(options.index as number) : 0;
         },
         animate(animation?: AnimationFunc, position = 0) {
             node.style.perspective = `${node[size]}px`;
             // node.style.transformStyle = `preserve-3d`;
 
-            loop(nodes, (child: Child) => {
-                child.active = child.index === options.index
+            loop(nodes, (child: Child, i: number) => {
+                child.i = i
+                child.active = options.loop ? cix : options.index as number
                 child.size = child[size] + gap;
                 child.dist = distance(child.index);
                 child.pos = options.layout === 'deck' ? child.dist : position;
