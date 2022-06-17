@@ -5,7 +5,7 @@ type Options = {
     layout: Layout;
 };
 export interface Child extends HTMLElement {
-    active: boolean;
+    active: number;
     index: number;
     size: number;
     dist: number;
@@ -13,6 +13,7 @@ export interface Child extends HTMLElement {
     track: number;
     exp: number;
     turn: number;
+    i: number;
 }
 
 export type AnimationArgs = {

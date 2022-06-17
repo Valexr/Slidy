@@ -15,9 +15,10 @@ function scale({ options, child, translate }: AnimationArgs) {
 }
 
 function rotate({ child, options, translate }: AnimationArgs) {
+    const active = child.index === options.index;
     return {
         transform: `${translate} rotate(${child.turn}turn)`,
-        zIndex: child.active ? 0 : -1,
+        zIndex: active ? 0 : -1,
     };
 }
 
@@ -30,8 +31,9 @@ function perspective({ child, translate }: AnimationArgs) {
 }
 
 function shuffle({ node, options, child, translate }: AnimationArgs) {
+    const active = child.index === options.index;
     const axis = !options.vertical ? `${-child.track}px, 0` : `0, ${-child.track}px`;
-    const zIndex = child.active
+    const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
             ? child.index - node.children.length
@@ -59,7 +61,7 @@ function matrix({ node, options, child, translate }: AnimationArgs) {
     const translateX = -child.pos;
     const translateY = -child.turn;
     const translateZ = -Math.abs(child.track);
-    const zIndex = child.active
+    const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
             ? child.index - node.children.length
@@ -81,12 +83,9 @@ function matrix({ node, options, child, translate }: AnimationArgs) {
 }
 
 function stairs({ node, options, child, translate }: AnimationArgs) {
-    // const active = child.index === options.index;
-    const zIndex = child.active
-        ? node.children.length - child.index
-        : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+    const active = child.i === child.active;
+    const zIndex = active ? child.active : child.i > child.active
+        ? child.active - child.i : child.i - child.active;
     return {
         transform: `${translate} translateZ(${-Math.abs(child.track)}px)`,
         zIndex,
@@ -105,16 +104,16 @@ function flip({ node, options, child, translate }: AnimationArgs) {
 }
 
 function deck({ node, options, child, translate }: AnimationArgs) {
-    // const active = child.index === options.index;
+    const active = child.index === options.index;
     const D = child.size / 10;
     const diff = Math.abs(child.track * 2) >= child.size / 2;
-    const coord = child.active ? (diff ? child.size + child.track : -child.track * 2) : -child.track / D;
+    const coord = active ? (diff ? child.size + child.track : -child.track * 2) : -child.track / D;
     const X = options.vertical ? 0 : coord,
         Y = options.vertical ? coord : 0,
         Z = -Math.abs(child.track) / (D / 2),
-        R = child.active ? -child.track / D : -child.track / (D * 2),
-        S = child.active ? (child.size - Math.abs(child.track / 2)) / child.size : 1;
-    const zIndex = child.active
+        R = active ? -child.track / D : -child.track / (D * 2),
+        S = active ? (child.size - Math.abs(child.track / 2)) / child.size : 1;
+    const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
             ? child.index - node.children.length
