@@ -84,7 +84,44 @@ By default component works with images. Image object should contain `width` and 
 | `thumbnail`   |      false       | `boolean`  | Renders the thumbnail navigation panel.                               |
 | `vertical`    |      false       | `boolean`  | Sets the component into the vertical orientation.                     |
 
-## Custom Properties API
+## Styling
+
+### Extending/Overriding classes
+
+To extend default component styles use `classNames` property. Default classes are available via object, that can be extended or overridden:
+
+```svelte
+<script>
+	import { Slidy, classNames } from "@slidy/svelte";
+</script>
+
+<Slidy
+	classNames={{
+		root: `${classNames.root} custom-class`,
+		...classNames
+	}}
+/>
+```
+
+The `classNames` consist of `{ target: className }` pairs: 
+
+| Target    | Default class     | Description |
+| :-------- | :---------------: | :-----------|
+| arrow     | `slidy-arrow`     | Arrow controls. |
+| counter   | `slidy-counter`   | Slide progress counter. |
+| img       | `slidy-img`       | Slide image node. |
+| nav       | `slidy-nav`       | Slide navigation panel. |
+| nav-item  | `slidy-nav-item`  | Navigtion panel item. |
+| overlay   | `slidy-overlay`   | Slides overlay node. |
+| progress  | `slidy-progress`  | Slide progress bar. |
+| root      | `slidy`           | Component's root node. |
+| slide     | `slidy-slide`     | Slide item node. |
+| slides    | `slidy-slides`    | Slides list node. |
+| thumbnail | `slidy-thumbnail` | Thumbnails bar. |
+
+The `classNames` object is available via [context](https://svelte.dev/docs#run-time-svelte-getcontext) using `classNames` key.
+
+### Custom Properties API
 
 For easier style customization `Slidy` provides a set of predefined custom properties to inherit:
 
@@ -110,7 +147,7 @@ List of available public custom properties:
 
 There are two options:
 
-### --style-props
+#### --style-props
 
 Svelte supports passing down custom properties to component via [`--style-props`][svelte-custom-props]:
 
@@ -120,7 +157,7 @@ Svelte supports passing down custom properties to component via [`--style-props`
 
 Bear in mind that this way Svelte wraps the component in extra `<div />` with `display: contents`.
 
-### Inherited custom properties
+#### Inherited custom properties
 
 More optimal way is to use cascade. All supported custom properties starts with `--slidy-`. For example, to recolor navigation controls, let the component inherit a `--slidy-nav-item-color` custom property from any parent:
 
@@ -139,67 +176,21 @@ More optimal way is to use cascade. All supported custom properties starts with 
 Or just pass a class with a set of custom properties:
 
 ```svelte
-<Slidy className="some-class" />
+<script>
+	import { Slidy, classNames } from "@slidy/svelte";
+</script>
+
+<Slidy
+	classNames={{
+		root: `${classNames.root} .some-class`,
+		...classNames
+	}}
+/>
 
 <style>
 	.some-class {
 		--slidy-navigation-color: red;
 		--slidy-nav-item-size: 1rem;
-	}
-</style>
-```
-
-## Overriding the styles
-
-In cases where the custom properties are not enough, Svelte provides a `:global()` modifier. To customize default `Slidy` markup styles, provide an `id` or `className` attribute and use `:global()` modifier to get necessary specifity.
-
-```svelte
-<script>
-	import { Slidy } from "svelte-slidy";
-
-	export let id = "unique-id";
-</script>
-
-<Slidy {id} />
-
-<style>
-	:global(#unique-id) {
-		/* your CSS styles */
-	}
-</style>
-```
-
-To target specific parts of the markup, use the component's internal markup classes:
-
-```html
-<section class="slidy">
-    <output class="slidy-counter">
-        <!-- slide counter -->
-    </output>
-    <ul class="slidy-slides">
-        <li class="slidy-slide">
-            <!-- slide -->
-        </li>
-    </ul>
-    <button class="slidy-arrow left">
-        <!-- previous slide control node -->
-    </button>
-    <button class="slidy-arrow right">
-        <!-- next slide control node -->
-    </button>
-    <fieldset class="slidy-navigation">
-        <!-- slidy dot controls -->
-        <button class="slidy-navigation-item" />
-    </ul>
-</section>
-```
-
-For example, to override styles of specific section, use the classes described above:
-
-```svelte
-<style>
-	:global(.slidy .slidy-arrow) {
-		/* your custom CSS styles */
 	}
 </style>
 ```
