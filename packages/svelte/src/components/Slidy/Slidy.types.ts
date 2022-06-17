@@ -12,6 +12,21 @@ export interface Slide {
 	[key: string]: unknown;
 }
 
+type SlidyNodes =
+	| "arrow"
+	| "counter"
+	| "img"
+	| "nav"
+	| "nav-item"
+	| "overlay"
+	| "progress"
+	| "root"
+	| "slide"
+	| "slides"
+	| "thumbnail";
+
+export type SlidyStyles = Record<SlidyNodes, string>;
+
 export type GetSrc<T> = (item: T) => string;
 
 export interface SlidyOptions {
@@ -19,7 +34,7 @@ export interface SlidyOptions {
 	arrows?: boolean;
 	background?: boolean;
 	clamp?: number;
-	className?: string;
+	classNames?: SlidyStyles;
 	dots?: boolean;
 	duration?: number;
 	easing?: (t: number) => number;
