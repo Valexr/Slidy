@@ -69,12 +69,17 @@ export function dom(node: HTMLElement, options: Options) {
                 child.active = options.loop ? cix : (options.index as number);
                 child.size = child[size] + gap;
                 child.i = i;
-                // child.dist = distance(child.index);
+                child.dist = distance(child.index);
                 child.track = position - distance(child.index);
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
                 child.turn = clamp(-1, child.track / child.size, 1);
                 // child.clampTrack = clamp(-child.size / 2, child.track, child.size / 2)
                 // child.clampTurn = clamp(-1, child.clampTrack / child.size, 1)
+                // child.zIndex = child.i === child.active
+                //     ? child.active
+                //     : child.i > child.active
+                //         ? child.active - child.i
+                //         : child.i - child.active
 
                 const translate = options.vertical
                     ? `translateY(${-pos}px)`
