@@ -19,6 +19,7 @@
 		"progress progress progress"
 		"thumbnail thumbnail thumbnail"
 		"dots dots dots";
+	gap: 0.75rem;
 	height: var(--slidy-height, 100%);
 	width: var(--slidy-width, 100%);
 	overflow: hidden;
@@ -93,12 +94,12 @@
 
 .slidy.vertical {
 	display: grid;
-	grid-template: auto minmax(0, 1fr) auto / minmax(0, 1fr) auto auto;
+	grid-template: auto minmax(0, 1fr) auto auto / minmax(0, 1fr) auto auto;
 	grid-template-areas:
-		"prev-slide dots"
-		"slides dots"
-		"next-slide dots"
-		"thumbnail thumbnail";
+		"prev-slide progress dots"
+		"slides progress dots"
+		"next-slide progress dots"
+		"thumbnail thumbnail thumbnail";
 	height: var(--slidy-height, 100%);
 	width: var(--slidy-width, 100%);
 }
@@ -122,7 +123,10 @@
 .slidy-thumbnail {
 	grid-area: thumbnail;
 	justify-self: center;
-	padding: 1em;
+}
+
+.slidy.thumbnail {
+	gap: unset;
 }
 
 .slidy.thumbnail:not(.vertical) {

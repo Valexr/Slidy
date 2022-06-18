@@ -3,12 +3,17 @@
 	import { ControlPanel, Sidemenu } from "./components";
 	import { createSlidesStore } from "./scripts/slide-store";
 	import { version } from "../../package.json";
+
+	import { stairs } from "@slidy/animation";
+	import { linear } from "@slidy/easing";
 </script>
 
 <script lang="ts">
 	import { darkTheme } from "./scripts/theme-store";
 	import "./app.module.css";
 
+	let animation = stairs;
+	let easing = linear;
 	let position = 0;
 	let limit = 15;
 	let index = 4;
@@ -63,7 +68,9 @@
 	{#await slidesPromise}
 		loading...
 	{:then}
-		<Slidy 
+		<Slidy
+			{animation}
+			{easing}
 			bind:index
 			bind:position
 			slides={$slides}

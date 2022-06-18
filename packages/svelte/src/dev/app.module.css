@@ -1,6 +1,7 @@
 main {
 	--slidy-nav-item-color: var(--accent);
 	max-width: 100%;
+	padding: 1rem;
 }
 
 .header {
