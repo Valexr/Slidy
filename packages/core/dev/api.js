@@ -9,11 +9,9 @@ export async function getPhotos(node, page, limit) {
         const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`);
         const photos = await res.json();
         if (photos.length === limit && node.isConnected) {
-
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
             dots.innerHTML = createSlides(dots, photos);
-            console.log('getPhotos', node.innerHTML, node.children, limit, slidy);
 
             if (node.children.length === limit) {
                 const mounted = Array.from(node.children).every(
@@ -24,7 +22,6 @@ export async function getPhotos(node, page, limit) {
                     slidyT = slidyCore(thumbs);
                 }
             }
-
         } else {
             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
         }
@@ -32,7 +29,7 @@ export async function getPhotos(node, page, limit) {
         (error) => {
             console.error(error);
         };
-    };
+    }
 
     function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
         let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
@@ -43,22 +40,30 @@ export async function getPhotos(node, page, limit) {
     }
 
     function createSlides(node, photos) {
-        console.log('createSlides', node.children);
+        return photos
+            .map((p, i) => {
+                const aspect = (value, ratio = false) => {
+                    const pr = ratio ? devicePixelRatio : 1;
+                    const asp =
+                        aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * pr;
+                    return Math.round(asp);
+                };
+                const src = `https://picsum.photos/id/${p.id}/${aspect('width', true)}/${aspect(
+                    'height',
+                    true
+                )}.jpg`;
+                const background = `background-image: url(https://picsum.photos/id/${p.id}/${
+                    100 * devicePixelRatio
+                }/${100 * devicePixelRatio}.jpg)`;
 
-        return photos.map((p, i) => {
-            const aspect = (value, ratio = false) => {
-                const pr = ratio ? devicePixelRatio : 1;
-                const asp = aspectQ(p.width, p.height, node.clientWidth, node.clientHeight)[value] * pr;
-                return Math.round(asp);
-            };
-            const src = `https://picsum.photos/id/${p.id}/${aspect('width', true)}/${aspect('height', true)}.jpg`;
-            const background = `background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio}/${100 * devicePixelRatio}.jpg)`;
-
-            if (node.id === 'node') {
-                return `<li id="${i}"><img src="${src}" width="${aspect('width')}" height="${aspect('height')}" alt="${p.author}"/></li>`;
-            } else if (node.id === 'thumbs') {
-                return `<button id="${i}" style="${background}" width="100" height="100">${i}</button>`;
-            } else return `<button id="${i}">${i}</button>`;
-        }).join('');
+                if (node.id === 'node') {
+                    return `<li id="${i}"><img src="${src}" width="${aspect(
+                        'width'
+                    )}" height="${aspect('height')}" alt="${p.author}"/></li>`;
+                } else if (node.id === 'thumbs') {
+                    return `<button id="${i}" style="${background}" width="100" height="100">${i}</button>`;
+                } else return `<button id="${i}">${i}</button>`;
+            })
+            .join('');
     }
 }

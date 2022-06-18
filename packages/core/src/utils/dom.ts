@@ -4,8 +4,8 @@ import { clamp, loop } from './env';
 export function dom(node: HTMLElement, options: Options) {
     const nodes: Child[] = Array.from(node.children as HTMLCollectionOf<Child>);
     const length = nodes.length;
-    const last = length - 1;
     const indexes = Array.from(Array(length).keys());
+    const last = length - 1;
     const cix = Math.floor(length / 2);
     const coord = options.vertical ? 'offsetTop' : 'offsetLeft';
     const size = options.vertical ? 'offsetHeight' : 'offsetWidth';
@@ -22,7 +22,7 @@ export function dom(node: HTMLElement, options: Options) {
         const end = pos(index, snap) >= pos(last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
-        return pos(index, (!options.loop && options.snap && options.layout !== 'deck') ? SNAP : snap);
+        return pos(index, !options.loop && options.snap && options.layout !== 'deck' ? SNAP : snap);
 
         function pos(index: number, snap: Options['snap']): number {
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
@@ -45,13 +45,14 @@ export function dom(node: HTMLElement, options: Options) {
         },
         position(replace = true): number {
             if (replace) {
-                const index = options.index as number
-                const key = options.loop ? index - cix : cix - index
-                const childs = nodes.slice(key).concat(nodes.slice(0, key))
+                const key = options.loop
+                    ? (options.index as number) - cix
+                    : cix - (options.index as number);
+                const childs = nodes.slice(key).concat(nodes.slice(0, key));
 
                 node.replaceChildren(...childs);
             }
-            return this.scrollable ? distance(options.index as number) : 0
+            return this.scrollable ? distance(options.index as number) : 0;
         },
         history(dir: number): number {
             const direction = length % dir ? Math.sign(-dir) : dir;
@@ -67,8 +68,8 @@ export function dom(node: HTMLElement, options: Options) {
             // node.style.transformStyle = `preserve-3d`;
 
             loop(nodes, (child: Child, i: number) => {
-                child.i = i
-                child.active = options.loop ? cix : options.index as number
+                child.i = i;
+                child.active = options.loop ? cix : (options.index as number);
                 child.size = child[size] + gap;
                 child.dist = distance(child.index);
                 child.pos = options.layout === 'deck' ? child.dist : position;

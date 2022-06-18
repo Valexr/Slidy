@@ -163,10 +163,10 @@ All `options` are optional, but mount `node` required:
 
 | Name     | Detail               | Description                                                                       |
 | :------- | :------------------- | :-------------------------------------------------------------------------------- |
-| `mount`  | `{childs,options}`   | Fires when `node.children.length > 2` & childNodes connected |
-| `resize` | `{node,options}`     | Fires on resize target node |
-| `move`   | `{index,position}`   | Fires on any sliding: `index === every.index` |
-| `index`  | `{index}`            | Fires on each index change: `index === target.index` |
+| `mount`  | `{options}`          | Fires when `node.children.length` & node.children isConnected |
+| `resize` | `{roe}`              | Fires on resize target node `roe: ResizeObserverEntry[]`|
+| `move`   | `{index,position}`   | Fires on any sliding |
+| `index`  | `{index}`            | Fires on each index change: `index === changed.index` |
 | `keys`   | `{e.key}`            | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |
 | `update` | `{updated.options}`  | Fires on each options update |
 | `destroy`| `{node}`             | Fires when [`destroy()`](#methods) is done or before target node unmounted from the DOM |

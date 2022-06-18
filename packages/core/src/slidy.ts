@@ -27,15 +27,15 @@ export function slidy(
     };
 
     let hix = 0,
+        hip = 0,
         raf = 0,
         ets = 0,
-        hip = 0,
         track = 0,
         position = 0,
         direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index as number,
+        INDEX = (hix = options.index as number),
         CLAMP = options.clamp as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
@@ -60,10 +60,10 @@ export function slidy(
         ['dragstart', (e) => e.preventDefault()],
     ];
 
-    const RO = new ResizeObserver(() => {
+    const RO = new ResizeObserver((roe) => {
         to(INDEX);
         position = $().position(false);
-        dispatch(node, 'resize', { node, options });
+        dispatch(node, 'resize', { roe });
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
@@ -79,7 +79,7 @@ export function slidy(
     }
 
     mount(node, options)
-        .then((childs) => {
+        .then(() => {
             node.style.outline = 'none';
             node.style.overflow = 'hidden';
             node.style.position = 'relative';
@@ -92,11 +92,11 @@ export function slidy(
             RO.observe(node);
             listen(node, NODE_EVENTS);
             listen(window, WINDOW_NATIVE_EVENTS);
-            dispatch(node, 'mount', { childs, options });
+            dispatch(node, 'mount', { options });
         })
         .catch((error: Error) => console.error('Slidy:', error));
 
-    function move(pos: number, index?: number): void {
+    function move(pos: number): void {
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
@@ -112,7 +112,7 @@ export function slidy(
             if (INDEX - hix) {
                 pos = options.loop ? pos - $().history(INDEX - hix) : pos;
                 hix = INDEX;
-                dispatch(node, 'index', { index });
+                dispatch(node, 'index', { index: INDEX });
             }
             return $().scrollable ? pos : 0;
         }
@@ -128,21 +128,21 @@ export function slidy(
         const target = snaped
             ? $().distance(index)
             : clamp($().start, position + amplitude, $().end);
-        const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
+        const duration = _duration || DURATION * clamp(1, index - hix, 2);
 
         amplitude = target - position;
 
-        requestAnimationFrame(function animate() {
+        requestAnimationFrame(function loop() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const delta = amplitude * options.easing(T);
             const current = options.loop ? $().distance(index) : target;
             const pos = current - position - delta;
 
-            move(pos, index);
+            move(pos);
 
-            if (Math.abs(delta) >= 0.36) {
-                raf = requestAnimationFrame(animate);
+            if (Math.round(delta)) {
+                raf = requestAnimationFrame(loop);
             } else {
                 SENSITY = options.sensity as number;
                 clear();
@@ -186,7 +186,7 @@ export function slidy(
         };
 
         if (sense(e, pos)) {
-            move(pos, INDEX);
+            move(pos);
             e.preventDefault();
         }
     }
@@ -219,7 +219,7 @@ export function slidy(
         const tm = clamped ? 0 : DURATION / 2;
         const moved = !CLAMP && !e.shiftKey;
 
-        moved && sense(e, pos) && move(pos, INDEX);
+        moved && sense(e, pos) && move(pos);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
         !edges(INDEX) && e.stopPropagation();
