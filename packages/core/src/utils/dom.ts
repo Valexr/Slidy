@@ -45,9 +45,8 @@ export function dom(node: HTMLElement, options: Options) {
         },
         position(replace = true): number {
             if (replace) {
-                const key = options.loop
-                    ? (options.index as number) - cix
-                    : cix - (options.index as number);
+                const index = options.index as number
+                const key = options.loop ? index - cix : cix - index
                 const childs = nodes.slice(key).concat(nodes.slice(0, key));
 
                 node.replaceChildren(...childs);

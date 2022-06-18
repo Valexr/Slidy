@@ -66,13 +66,13 @@ function throttle(
 ): (args: any) => void {
     return th
         ? (args) => {
-              if (!wait) {
-                  fn(args);
-                  wait = true;
-                  clearTimeout(tm);
-                  tm = setTimeout(() => (wait = false), ms);
-              }
-          }
+            if (!wait) {
+                fn(args);
+                wait = true;
+                clearTimeout(tm);
+                tm = setTimeout(() => (wait = false), ms);
+            }
+        }
         : (args) => fn(args);
 }
 

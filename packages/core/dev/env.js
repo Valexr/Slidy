@@ -48,18 +48,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'deck',
                             'fade',
@@ -96,6 +96,7 @@ export function setEvents() {
 
                 case 'resize':
                     // slidyT.to(options.index);
+                    console.log(e.detail);
                     break;
 
                 case 'move':

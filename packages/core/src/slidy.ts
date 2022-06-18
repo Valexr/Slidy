@@ -60,10 +60,10 @@ export function slidy(
         ['dragstart', (e) => e.preventDefault()],
     ];
 
-    const RO = new ResizeObserver((roe) => {
+    const RO = new ResizeObserver((ROE) => {
         to(INDEX);
         position = $().position(false);
-        dispatch(node, 'resize', { roe });
+        dispatch(node, 'resize', { ROE });
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
@@ -87,7 +87,7 @@ export function slidy(
             node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            position = $().position();
+            position = $().position(options.loop);
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
