@@ -11,7 +11,7 @@ export async function getPhotos(node, page, limit) {
         if (photos.length === limit && node.isConnected) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            dots.innerHTML = createSlides(dots, photos);
+            // dots.innerHTML = createSlides(dots, photos);
 
             if (node.children.length === limit) {
                 const mounted = Array.from(node.children).every(
