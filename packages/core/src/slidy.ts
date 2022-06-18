@@ -35,7 +35,7 @@ export function slidy(
         direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = (hix = options.index as number),
+        INDEX = hix = options.index as number,
         CLAMP = options.clamp as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
@@ -87,7 +87,7 @@ export function slidy(
             node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            position = $().position(options.loop);
+            position = $().position();
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
@@ -96,7 +96,7 @@ export function slidy(
         })
         .catch((error: Error) => console.error('Slidy:', error));
 
-    function move(pos: number): void {
+    function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
         position += positioning(pos);
         position = edging(position);
@@ -112,7 +112,7 @@ export function slidy(
             if (INDEX - hix) {
                 pos = options.loop ? pos - $().history(INDEX - hix) : pos;
                 hix = INDEX;
-                dispatch(node, 'index', { index: INDEX });
+                dispatch(node, 'index', { index });
             }
             return $().scrollable ? pos : 0;
         }
@@ -128,7 +128,7 @@ export function slidy(
         const target = snaped
             ? $().distance(index)
             : clamp($().start, position + amplitude, $().end);
-        const duration = _duration || DURATION * clamp(1, index - hix, 2);
+        const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
 
         amplitude = target - position;
 
@@ -139,7 +139,7 @@ export function slidy(
             const current = options.loop ? $().distance(index) : target;
             const pos = current - position - delta;
 
-            move(pos);
+            move(pos, index);
 
             if (Math.round(delta)) {
                 raf = requestAnimationFrame(loop);
@@ -186,7 +186,7 @@ export function slidy(
         };
 
         if (sense(e, pos)) {
-            move(pos);
+            move(pos, INDEX);
             e.preventDefault();
         }
     }
@@ -219,7 +219,7 @@ export function slidy(
         const tm = clamped ? 0 : DURATION / 2;
         const moved = !CLAMP && !e.shiftKey;
 
-        moved && sense(e, pos) && move(pos);
+        moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
         !edges(INDEX) && e.stopPropagation();
