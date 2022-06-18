@@ -3,15 +3,12 @@
 
 	export let value;
 	export let max;
+	export let vertical;
 </script>
 
-<label class="slidy-progress-bar">
-  <span class="slidy-sr-only">Carousel progress</span>
-  <progress
-		class="slidy-progress"
-		intermidiate
-		{max}
-		tabindex="-1"
-		{value}
+<div class="slidy-progress" class:vertical>
+	<span
+		style:--_slidy-progress-size={`${Math.ceil(100 / max)}%`}
+		style:--_slidy-progress="{Math.ceil(value * 100 / max)}%"
 	/>
-</label>
+</div>

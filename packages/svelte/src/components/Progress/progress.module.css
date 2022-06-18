@@ -1,49 +1,43 @@
-.slidy-progress-bar {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	grid-area: progress;
-	width: 100%;
-	padding: 0.5em;
-}
-
 .slidy-progress {
-	appearance: none;
-	border: none;
-	width: 100%;
-	height: var(--slidy-progress-track-size, 5px);
-	border-radius: 1e3px;
-	overflow: hidden;
-}
-
-.slidy-progress-bar:focus {
-	outline-color: 1px dashed red;
-	outline-offset: 5px;
-}
-
-.slidy-progress::-webkit-progress-bar {
+	grid-area: progress;
+	position: relative;
+	justify-self: center;
+	display: flex;
+	width: calc(100% - 1rem);
+	justify-content: center;
 	background-color: var(--slidy-progress-track-color, rgb(150 150 150 / 0.5));
 }
 
-.slidy-progress::-webkit-progress-value {
-	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
-}
-
-.slidy-progress::-moz-progress-bar {
-	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
-}
-
-.slidy-progress[value]::-webkit-progress-value {
-	transition: inline-size 0.25s ease-out;
-}
-
-.slidy-sr-only {
-	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: inset(50%);
-	height: 1px;
-	width: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
+.slidy-progress > span {
 	position: absolute;
+	top: 0;
+	left: calc( var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
+	width: var(--_slidy-progress-size);
+	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
+	transition: left 450ms ease-in-out;
+}
+
+.slidy-progress,
+.slidy-progress > span {
+	height: var(--slidy-progress-track-size, 5px);
+	border-radius: 5px;
+}
+
+/* vertical mode */
+
+.slidy-progress.vertical {
+	height: calc(100% - 1rem);
+}
+
+.slidy-progress.vertical > span {
+	top: calc( var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
+	left: 0;
+	height: var(--_slidy-progress-size);
+	width: 100%;
+	transition: top 450ms ease-in-out;
+}
+
+.slidy-progress.vertical,
+.slidy-progress.vertical > span {
+	width: var(--slidy-progress-track-size, 5px);
 }

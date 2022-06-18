@@ -158,7 +158,11 @@
 	{/if}
 
 	{#if progress}
-		<Progress value={index + 1} max={length} />
+		<Progress
+			value={index + 1}
+			max={length}
+			{vertical}
+		/>
 	{/if}
 
 	{#if thumbnail}
