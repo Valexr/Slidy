@@ -7,8 +7,7 @@ function fade({ child, translate }: AnimationArgs) {
     };
 }
 
-function scale({ options, child, translate }: AnimationArgs) {
-    const scale = !options.vertical ? `${child.exp}, 1` : `1, ${child.exp}`;
+function scale({ child, translate }: AnimationArgs) {
     return {
         transform: `${translate} scale(${child.exp})`,
     };
@@ -31,15 +30,21 @@ function perspective({ child, translate }: AnimationArgs) {
 }
 
 function shuffle({ node, options, child, translate }: AnimationArgs) {
-    const active = child.index === options.index;
-    const axis = !options.vertical ? `${-child.track}px, 0` : `0, ${-child.track}px`;
-    const zIndex = active
-        ? node.children.length - child.index
-        : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+    // const active = child.i === child.active
+    const dir = Math.sign(child.track);
+    const active = Math.abs(child.track) < child.size && child.i === child.active;
+    const half = Math.abs(child.track) < child.size / 2;
+    const X = half ? -child.track : Math.abs(child.track) - child.size;
+
+    const axis = !options.vertical ? `${X}px, ${dir}px` : `0, ${-child.track}px`;
+    const zIndex =
+        child.i === child.active
+            ? child.active
+            : child.i > child.active
+            ? child.active - child.i
+            : -(child.i - child.active + node.children.length);
     return {
-        transform: child.active ? `${translate} translate(${axis})` : `${translate}`,
+        transform: active ? `${translate} translate(${axis})` : `${translate}`,
         zIndex,
     };
 }
@@ -53,7 +58,6 @@ function translate({ child, translate }: AnimationArgs) {
 function matrix({ node, options, child, translate }: AnimationArgs) {
     // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
     const active = child.index === options.index;
-    const axis = !options.vertical ? `${-child.pos}, 0` : `0 ${-child.pos}`;
     const scaleX = child.exp;
     const skewY = -child.turn;
     const skewX = -child.turn;
@@ -64,8 +68,8 @@ function matrix({ node, options, child, translate }: AnimationArgs) {
     const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+        ? child.index - node.children.length
+        : node.children.length - child.index - 1;
 
     // let theta = 360 / node.children.length;
     // let radius = Math.round((child.size / 2) / Math.tan(Math.PI / node.children.length));
@@ -82,18 +86,25 @@ function matrix({ node, options, child, translate }: AnimationArgs) {
     };
 }
 
-function stairs({ node, options, child, translate }: AnimationArgs) {
+function stairs({ options, child, translate }: AnimationArgs) {
     const active = child.i === child.active;
-    const zIndex = active ? child.active : child.i > child.active
-        ? child.active - child.i : child.i - child.active;
+    const zIndex = active
+        ? child.active
+        : child.i > child.active
+        ? child.active - child.i
+        : child.i - child.active;
+    const stairs =
+        options.layout === 'deck'
+            ? `scale(${child.exp})`
+            : `translateZ(${-Math.abs(child.track)}px)`;
     return {
-        transform: `${translate} translateZ(${-Math.abs(child.track)}px)`,
+        transform: translate + stairs,
         zIndex,
     };
 }
 
-function flip({ node, options, child, translate }: AnimationArgs) {
-    const turn = options.layout === 'deck' ? child.turn / 2 : -child.turn / 4;
+function flip({ options, child, translate }: AnimationArgs) {
+    const turn = child.turn / (options.layout === 'deck' ? -2 : -4);
     const rotate = options.vertical ? `rotateX(${turn}turn)` : `rotateY(${-turn}turn)`;
     const active = Math.abs(turn) < 0.25;
     return {
@@ -116,8 +127,8 @@ function deck({ node, options, child, translate }: AnimationArgs) {
     const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+        ? child.index - node.children.length
+        : node.children.length - child.index - 1;
     return {
         transform: translate + `translate3d(${X}px, ${Y}px, ${Z}px) rotateZ(${R}deg) scale(${S})`,
         // zIndex: active ? 0 : -(node.children.length - child.index)
