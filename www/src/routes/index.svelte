@@ -41,7 +41,6 @@
 			thumbnail
 			index={4}
 			{slides}
-			clamp
 		/>
 	{/await}
 </main>
