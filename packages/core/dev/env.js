@@ -79,14 +79,13 @@ export function setEvents() {
                     );
                     snap.value = options.snap;
 
-                    layout.innerHTML = layouts.map(
-                        (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
-                    );
-                    layout.value = options.layout;
+                    // layout.innerHTML = layouts.map(
+                    //     (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
+                    // );
+                    // layout.value = !options.layout ? 'reel' : options.layout;
 
                     easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
-                    easing.value =
-                        options.easing.name === 'easing' ? 'linear' : options.easing.name;
+                    easing.value = !options.easing ? 'linear' : options.easing.name;
                     options.easing = easings[easing.value];
 
                     animation.innerHTML = animates.map((e) => `<option value="${e}">${e}</option>`);
@@ -96,7 +95,7 @@ export function setEvents() {
 
                 case 'resize':
                     // slidyT.to(options.index);
-                    console.log(e.detail);
+                    // console.log(e.detail);
                     break;
 
                 case 'move':

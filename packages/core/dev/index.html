@@ -102,8 +102,8 @@
                 loop: false,
                 vertical: false,
                 snap: 'center',
-                layout: 'reel',
-                animation: animations.stairs,
+                // layout: 'reel',
+                // animation: animations.stairs,
             };
             window.position = 0;
             window.slidy = null;
@@ -162,6 +162,9 @@
                 <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
                     loop
                 </button>
+                <button id="deck" onclick="slidy.update({ deck: options.deck = !options.deck})">
+                    deck
+                </button>
                 <button id="vertical" onclick="slidy.update({ vertical: options.vertical = !options.vertical})">
                     vertical
                 </button>
@@ -172,9 +175,9 @@
                     <label title="snap">snap
                         <select id="snap" name="snap" onchange="slidy.update({ snap: this.value })"></select>
                     </label>
-                    <label title="layout">layout
+                    <!-- <label title="layout">layout
                         <select id="layout" name="layout" onchange="slidy.update({ layout: this.value })"></select>
-                    </label>
+                    </label> -->
                     <label title="animation">animation
                         <select id="animation" name="animation"
                             onchange="slidy.update({ animation: animations[this.value] })"></select>

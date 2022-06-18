@@ -1,8 +1,7 @@
-type Layout = 'deck' | 'grid' | 'reel' | 'stack';
 type Options = {
     index: number;
     vertical: boolean;
-    layout: Layout;
+    deck: boolean;
 };
 export interface Child extends HTMLElement {
     active: number;

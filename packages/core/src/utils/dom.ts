@@ -17,12 +17,12 @@ export function dom(node: HTMLElement, options: Options) {
         const offset = (index: number) => node[size] - child(index)[size];
 
         const indented = child(index)[size] + gap * 2 < node[size];
-        const indent = indented ? options.indent : offset(index) / 2 / gap || 0;
+        const indent = indented ? options.indent as number : offset(index) / 2 / gap || 0;
         const start = pos(index, snap) <= pos(0, 'start');
         const end = pos(index, snap) >= pos(last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
-        return pos(index, !options.loop && options.snap && options.layout !== 'deck' ? SNAP : snap);
+        return pos(index, options.snap && !options.loop && !options.deck ? SNAP : snap);
 
         function pos(index: number, snap: Options['snap']): number {
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
@@ -63,24 +63,22 @@ export function dom(node: HTMLElement, options: Options) {
             return (nodes[edge][size] + gap) * direction;
         },
         animate(animation?: AnimationFunc, position = 0) {
-            node.style.perspective = `${node[size]}px`;
-            // node.style.transformStyle = `preserve-3d`;
-
             loop(nodes, (child: Child, i: number) => {
-                child.i = i;
+                const pos = options.deck ? distance(child.index) : position;
+
                 child.active = options.loop ? cix : (options.index as number);
                 child.size = child[size] + gap;
-                child.dist = distance(child.index);
-                child.pos = options.layout === 'deck' ? child.dist : position;
-                child.track = position - child.dist;
+                child.i = i;
+                // child.dist = distance(child.index);
+                child.track = position - distance(child.index);
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
                 child.turn = clamp(-1, child.track / child.size, 1);
                 // child.clampTrack = clamp(-child.size / 2, child.track, child.size / 2)
                 // child.clampTurn = clamp(-1, child.clampTrack / child.size, 1)
 
                 const translate = options.vertical
-                    ? `translateY(${-child.pos}px)`
-                    : `translateX(${-child.pos}px)`;
+                    ? `translateY(${-pos}px)`
+                    : `translateX(${-pos}px)`;
                 const style = animation
                     ? animation({
                         node,

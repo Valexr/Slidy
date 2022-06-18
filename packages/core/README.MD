@@ -116,10 +116,11 @@ All `options` are optional, but mount `node` required:
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Sliding duration in ms |
 | `animation`  | `undefuned`        | `function` | Sliding custom animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
-| `easing`     | `(t) => t`         | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
-| `layout`     | `reel`             | `string`   | Animation lauout: `'reel', 'stack', 'grid'` |
+| `easing`     | `undefined`        | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
+<!-- | `layout`     | `reel`             | `string`   | Animation layout: `'deck', 'grid', 'reel', 'stack'` | -->
 | `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding `to(index)` snap by `center` & prevent sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
+| `deck`       | `false`            | `boolean`  | Animation deck layout |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
 
 ### Usage
@@ -250,8 +251,9 @@ You can provide custom animation or use presets from [@slidy/animation] package.
 
 ```ts
 interface Child extends HTMLElement {
-    active: boolean; // `child.index === options.index`
-    index: number; // index
+    active: boolean; // `options.loop ? cix : options.index`
+    index: number; // child index
+    i: number; // child index in array
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
     pos: number; // position
@@ -260,11 +262,18 @@ interface Child extends HTMLElement {
     turn: number; // `-1 <- child.track / child.size -> 1`
 }
 
+type Options = {
+    index: number;
+    vertical: boolean;
+    deck: boolean;
+};
+
 type AnimationArgs = {
+    node: HTMLElement; // slidy(node)
     child: Child; // extended childNode object
+    options: Partial<Options> // slidy(options)
     position: number; // slidy position
     translate: string; // basic translate needed in any function `{transform: translate}`
-    vertical?: boolean; // vertical axis for coordinate
 };
 
 type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;

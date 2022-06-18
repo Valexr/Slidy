@@ -17,11 +17,11 @@ export function slidy(
         sensity: 5,
         gravity: 1.2,
         duration: 375,
-        easing: (t) => t,
         animation: undefined,
-        layout: 'reel',
+        easing: undefined,
         snap: undefined,
         vertical: false,
+        deck: false,
         loop: false,
         ...opts,
     };
@@ -135,7 +135,8 @@ export function slidy(
         requestAnimationFrame(function loop() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
-            const delta = amplitude * options.easing(T);
+            const easing = options.easing ? options.easing(T) : T
+            const delta = amplitude * easing;
             const current = options.loop ? $().distance(index) : target;
             const pos = current - position - delta;
 
@@ -275,8 +276,6 @@ export function slidy(
                         node.onwheel = throttle(onWheel, DURATION, value);
                         break;
                     case 'loop':
-                    case 'layout':
-                    case 'vertical':
                         options[key] = value;
                         position = $().position();
                         to(INDEX);
@@ -284,6 +283,7 @@ export function slidy(
 
                     default:
                         options[key] = value as never;
+                        position = $().position(false)
                         to(INDEX);
                         break;
                 }

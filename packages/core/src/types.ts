@@ -2,22 +2,22 @@
 export interface Options {
     index?: number;
     clamp?: number;
-    indent: number;
+    indent?: number;
     sensity?: number;
     gravity?: number;
     duration?: number;
     animation?: AnimationFunc;
-    easing: EasingFunc;
-    layout?: Layout;
+    easing?: EasingFunc;
     snap?: Snap;
     vertical?: boolean;
+    deck?: boolean;
     loop?: boolean;
 }
 
 // type Keys = keyof typeof opts;
 // type Values = typeof opts[Keys];
 
-type Layout = 'deck' | 'grid' | 'reel' | 'stack';
+// type Layout = 'deck' | 'grid' | 'reel' | 'stack';
 type Snap = 'start' | 'center' | 'end';
 
 // export type OptionsValue = number | boolean | Easing | AnimationFunc | Layout
@@ -60,37 +60,37 @@ export type EasingFunc = (t: number) => number;
 
 export type AnimationArgs = {
     node: HTMLElement;
-    options: Partial<Options>;
     child: Child;
+    options: Partial<Options>;
     position: number;
     translate: string;
 };
 
-export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
+export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
 
 export type FunctionDom =
     | (() => {
-          gap(): number;
-          end(): number;
-          start(): number;
-          scrollable(): boolean;
-          distance(index: number, snap?: 'start' | 'center' | 'end' | undefined): number;
-          index(target: number, snap?: 'start' | 'center' | 'end' | undefined): number;
-          edges(index?: number, position?: number, direction?: number): boolean;
-          snap(index: number): 'start' | 'center' | 'end' | undefined;
-          history(direction: number): number;
-          replace(): number;
-      })
+        gap(): number;
+        end(): number;
+        start(): number;
+        scrollable(): boolean;
+        distance(index: number, snap?: 'start' | 'center' | 'end' | undefined): number;
+        index(target: number, snap?: 'start' | 'center' | 'end' | undefined): number;
+        edges(index?: number, position?: number, direction?: number): boolean;
+        snap(index: number): 'start' | 'center' | 'end' | undefined;
+        history(direction: number): number;
+        replace(): number;
+    })
     | (() => {
-          (): any;
-          new (): any;
-          edges: { (arg0: number | undefined, arg1: number, arg2: number): any; new (): any };
-          replace: { (): number; new (): any };
-          index: { (arg0: number, arg1: string | undefined): number | undefined; new (): any };
-          history: { (arg0: number): number; new (): any };
-          scrollable: { (): any; new (): any };
-          start: { (): number; new (): any };
-          end: { (): number; new (): any };
-          snap: { (arg0: number): string | undefined; new (): any };
-          distance: { (arg0: number, arg1: string | undefined): number; new (): any };
-      });
+        (): any;
+        new(): any;
+        edges: { (arg0: number | undefined, arg1: number, arg2: number): any; new(): any };
+        replace: { (): number; new(): any };
+        index: { (arg0: number, arg1: string | undefined): number | undefined; new(): any };
+        history: { (arg0: number): number; new(): any };
+        scrollable: { (): any; new(): any };
+        start: { (): number; new(): any };
+        end: { (): number; new(): any };
+        snap: { (arg0: number): string | undefined; new(): any };
+        distance: { (arg0: number, arg1: string | undefined): number; new(): any };
+    });

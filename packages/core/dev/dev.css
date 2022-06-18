@@ -43,7 +43,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1 > * {
+section#s1>* {
     flex: 1 0 50%;
     /* width: 50%; */
 }
@@ -55,9 +55,9 @@ section#s4 {
     display: flex;
 }
 
-section#s2 > *,
-section#s3 > *,
-section#s4 > * {
+section#s2>*,
+section#s3>*,
+section#s4>* {
     flex: 1 0 30%;
 }
 
@@ -144,7 +144,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -288,7 +288,7 @@ section {
 nav#thumbs {
     list-style: none;
     margin: auto;
-    padding: 0;
+    padding: var(--gap) 0;
     display: flex;
     flex-flow: var(--flow) nowrap;
     gap: var(--gap);
@@ -315,7 +315,7 @@ nav#thumbs button {
 }
 
 #node li {
-    max-height: calc(100% - (var(--gap) * 2));
+    /* max-height: calc(100% - (var(--gap) * 2)); */
 }
 
 nav#thumbs {
@@ -323,6 +323,7 @@ nav#thumbs {
     height: auto;
     flex-flow: row;
     max-width: fit-content;
+    padding: 0;
     margin: var(--size-fluid-2) auto;
 }
 
