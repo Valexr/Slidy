@@ -33,9 +33,9 @@ For monorepos behavior @slidy use `pnpm workspaces`.
 
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
+-   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 -   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
--   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 ## Thanks 🎉
