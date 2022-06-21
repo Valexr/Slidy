@@ -92,7 +92,7 @@
             window.easings = easings;
             window.animations = animations;
             window.options = {
-                index: 4,
+                index: 0,
                 clamp: 0,
                 indent: 1,
                 length: 9,
@@ -100,11 +100,11 @@
                 gravity: 1.2,
                 duration: 375,
                 loop: false,
-                deck: false,
+                deck: true,
                 vertical: false,
                 snap: 'center',
-                animation: animations.stairs,
-                easing: easings.lenear
+                animation: animations.shuffle,
+                easing: easings.lenear,
             };
             window.position = 0;
             window.slidy = null;
@@ -143,7 +143,7 @@
                 </svg>
             </a>
         </header>
-        <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
+        <main id="main" style="--gap: 2rem; --flow: row; --width: 50%; --height: 375px">
             <ul id="node" tabindex="0"></ul>
             <nav id="thumbs"></nav>
         </main>

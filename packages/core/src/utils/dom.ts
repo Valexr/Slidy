@@ -17,7 +17,7 @@ export function dom(node: HTMLElement, options: Options) {
         const offset = (index: number) => node[size] - child(index)[size];
 
         const indented = child(index)[size] + gap * 2 < node[size];
-        const indent = indented ? options.indent as number : offset(index) / 2 / gap || 0;
+        const indent = indented ? (options.indent as number) : offset(index) / 2 / gap || 0;
         const start = pos(index, snap) <= pos(0, 'start');
         const end = pos(index, snap) >= pos(last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
@@ -45,8 +45,8 @@ export function dom(node: HTMLElement, options: Options) {
         },
         position(replace = true): number {
             if (replace) {
-                const index = options.index as number
-                const key = options.loop ? index - cix : cix - index
+                const index = options.index as number;
+                const key = options.loop ? index - cix : cix - index;
                 const childs = nodes.slice(key).concat(nodes.slice(0, key));
 
                 node.replaceChildren(...childs);
@@ -73,25 +73,18 @@ export function dom(node: HTMLElement, options: Options) {
                 child.track = position - distance(child.index);
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
                 child.turn = clamp(-1, child.track / child.size, 1);
-                // child.clampTrack = clamp(-child.size / 2, child.track, child.size / 2)
-                // child.clampTurn = clamp(-1, child.clampTrack / child.size, 1)
-                // child.zIndex = child.i === child.active
-                //     ? child.active
-                //     : child.i > child.active
-                //         ? child.active - child.i
-                //         : child.i - child.active
 
                 const translate = options.vertical
                     ? `translateY(${-pos}px)`
                     : `translateX(${-pos}px)`;
                 const style = animation
                     ? animation({
-                        node,
-                        child,
-                        options,
-                        position,
-                        translate,
-                    })
+                          node,
+                          child,
+                          options,
+                          position,
+                          translate,
+                      })
                     : { transform: translate };
 
                 Object.assign(child.style, style);

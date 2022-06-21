@@ -49,13 +49,13 @@ function shuffle({ node, options, child, translate }: AnimationArgs) {
     };
 }
 
-function translate({ child, translate }: AnimationArgs) {
+function translate({ translate }: AnimationArgs) {
     return {
         transform: translate,
     };
 }
 
-function matrix({ node, options, child, position, translate }: AnimationArgs) {
+function matrix({ node, options, child, position }: AnimationArgs) {
     // node.style.perspective = `${node.offsetWidth}px`;
     // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
     const active = child.index === options.index;
@@ -65,7 +65,7 @@ function matrix({ node, options, child, position, translate }: AnimationArgs) {
     const scaleY = child.exp;
     const translateX = -position;
     const translateY = -child.turn;
-    const translateZ = -Math.abs(child.track);
+    // const translateZ = -Math.abs(child.track);
     const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
@@ -95,11 +95,8 @@ function stairs({ node, options, child, translate }: AnimationArgs) {
         ? child.active
         : child.i > child.active
             ? child.active - child.i
-            : child.i - child.active;
-    const stairs =
-        options.deck
-            ? `scale(${child.exp})`
-            : `translateZ(${-Math.abs(child.track)}px)`;
+            : child.i - node.children.length + 1;
+    const stairs = options.deck ? `scale(${child.exp})` : `translateZ(${-Math.abs(child.track)}px)`;
     return {
         transform: translate + stairs,
         zIndex,
@@ -132,10 +129,10 @@ function deck({ node, options, child, translate }: AnimationArgs) {
         R = active ? -child.track / D : -child.track / (D * 2),
         S = active ? (child.size - Math.abs(child.track / 2)) / child.size : 1;
     const zIndex = active
-        ? node.children.length - child.index
-        : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+        ? child.active
+        : child.i > child.active
+            ? child.active - child.i
+            : 1 - node.children.length - child.i;
     return {
         transform: translate + `translate3d(${X}px, ${Y}px, ${Z}px) rotateZ(${R}deg) scale(${S})`,
         // zIndex: active ? 0 : -(node.children.length - child.index)

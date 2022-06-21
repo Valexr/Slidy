@@ -52,8 +52,9 @@ export async function getPhotos(node, page, limit) {
                     'height',
                     true
                 )}.jpg`;
-                const background = `background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio
-                    }/${100 * devicePixelRatio}.jpg)`;
+                const background = `background-image: url(https://picsum.photos/id/${p.id}/${
+                    100 * devicePixelRatio
+                }/${100 * devicePixelRatio}.jpg)`;
 
                 if (node.id === 'node') {
                     return `<li id="${i}"><img src="${src}" width="${aspect(

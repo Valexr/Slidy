@@ -35,7 +35,7 @@ export function slidy(
         direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index as number,
+        INDEX = (hix = options.index as number),
         CLAMP = options.clamp as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
@@ -135,7 +135,7 @@ export function slidy(
         requestAnimationFrame(function loop() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
-            const easing = options.easing ? options.easing(T) : T
+            const easing = options.easing ? options.easing(T) : T;
             const delta = amplitude * easing;
             const current = options.loop ? $().distance(index) : target;
             const pos = current - position - delta;
@@ -283,7 +283,7 @@ export function slidy(
 
                     default:
                         options[key] = value as never;
-                        position = $().position(false)
+                        position = $().position(false);
                         to(INDEX);
                         break;
                 }
