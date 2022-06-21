@@ -110,15 +110,14 @@ All `options` are optional, but mount `node` required:
 | Property     | Default            | Type       | Description |
 | :----------- | :----------------- | :--------- | :---------- |
 | `index`      | `0`                | `number`   | Start index |
-| `clamp`      | `0`                | `number`   | Clamping sliding by index: `clamp - < index > + clamp` |
+| `clamp`      | `0`                | `number`   | Clamping sliding by index: `clamp - index + clamp` |
 | `indent`     | `1`                | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
 | `sensity`    | `5`                | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
 | `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`   | `375`              | `number`   | Sliding duration in ms |
-| `animation`  | `undefuned`        | `function` | Sliding custom animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
+| `animation`  | `undefuned`        | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
 | `easing`     | `undefined`        | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
-<!-- | `layout`     | `reel`             | `string`   | Animation layout: `'deck', 'grid', 'reel', 'stack'` | -->
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default, sliding `to(index)` snap by `center` & prevent sliding by edges. |
+| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default clamp sliding by edges. |
 | `vertical`   | `false`            | `boolean`  | Vertical flow axis |
 | `deck`       | `false`            | `boolean`  | Animation deck layout |
 | `loop`       | `false`            | `boolean`  | Infinite loop mode |
@@ -130,20 +129,20 @@ All `options` are optional, but mount `node` required:
     <script type="module">
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
         import { linear } from 'https://unpkg.com/@slidy/easing/dist/index.mjs'
+        import { fade } from 'https://unpkg.com/@slidy/animation/dist/index.mjs'
 
         const options = {
-                step: 1,
                 index: 0,
-                indent: 0,
-                sensity: 0,
+                clamp: 0,
+                indent: 1,
+                sensity: 5,
                 gravity: 1.2,
                 duration: 375,
-                animation: undefined,
-                easing: (t) => t,
-                layout: 'reel',
+                animation: fade,
+                easing: linear,
                 snap: 'center',
                 vertical: false,
-                clamp: false,
+                deck: false,
                 loop: false,
             }
 
@@ -206,7 +205,7 @@ All `options` are optional, but mount `node` required:
 | Name        | Arguments                 | Description |
 | :---------- | :------------------------ | :---------- |
 | `to()`      | `(index,duration)`        | Scroll to `index` with `duration` |
-| `update()`  | `({options.prop:value})`  | Update any property in options |
+| `update()`  | `({option:value})`        | Update any property in options |
 | `destroy()` | `()`                      | Remove event listners, observers & defaulted props on `slidy()` instance |
 
 ### Usage
