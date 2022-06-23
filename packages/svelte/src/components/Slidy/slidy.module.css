@@ -62,12 +62,13 @@
 	flex-shrink: 0;
 	width: var(--slidy-slide-width, auto);
 	height: var(--slidy-slide-height, 100%);
+	aspect-ratio: var(--slidy-slide-aspect-ratio, unset);
 	transition: opacity var(--slidy-duration, 450);
 	max-width: 100%;
 }
 
 .slidy-slide.background {
-	background-image: var(--slidy-slide-bg);
+	background-image: var(--_slidy-slide-bg);
 	background-repeat: no-repeat;
 	background-attachment: scroll;
 	background-position: center;

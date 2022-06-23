@@ -122,7 +122,6 @@
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			{@const active = i === (!thumbnail ? _indexActive : index)}
-			{@const bgURL = background ? `--slidy-slide-bg: url(${getImgSrc(item)});` : undefined}
 			<li
 				aria-current={active ? "true" : undefined}
 				aria-label={`${i} of ${length}`}
@@ -131,8 +130,8 @@
 				class:active
 				class:background
 				on:click={() => dispatch("select", { index: i })}
-				style={bgURL}
 				role="group"
+				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
 			>
 				<slot {item}>
 					{#if !background}
