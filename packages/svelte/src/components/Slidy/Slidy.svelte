@@ -31,6 +31,7 @@
 	export let loop = false;
 	export let position = 0;
 	export let progress = false;
+	export let sensity = 5;
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
@@ -104,6 +105,7 @@
 			indent,
 			index,
 			loop,
+			sensity,
 			snap,
 			vertical
 		}}
