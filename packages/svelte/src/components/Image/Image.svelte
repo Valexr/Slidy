@@ -2,13 +2,12 @@
 	import { getContext } from "svelte/internal";
 	import type { SlidyStyles } from "../Slidy/Slidy.types";
 
+	export let alt = "";
+	export let decoding: "sync" | "async" | "auto" = "auto";
+	export let height: number | string | undefined = undefined;
+	export let lazy = false;
 	export let src = "";
 	export let width: number | string | undefined = undefined;
-	export let height: number | string | undefined = undefined;
-	export let alt = "";
-	export let lazy = false;
-	export let style = "";
-	export let className = "";
 
 	import "./image.module.css";
 
@@ -17,11 +16,11 @@
 
 <img
 	{alt}
-	class="{classNames["img"]} {className}"
+	class="{classNames["img"]}"
+	{decoding}
 	loading={lazy ? "lazy" : undefined}
 	{src}
 	{width}
 	{height}
-	{style}
 	{...$$restProps}
 />

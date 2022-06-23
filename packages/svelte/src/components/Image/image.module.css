@@ -4,6 +4,7 @@
 	width: var(--slidy-slide-width, auto);
 	height: var(--slidy-slide-height, 100%);
 	object-fit: var(--slidy-slide-object-fit, cover);
+	object-position: center;
 	min-width: 100%;
 	background-color: var(--slidy-slide-bg-color, darkgray);
 }
