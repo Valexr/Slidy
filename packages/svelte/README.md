@@ -141,6 +141,7 @@ List of available public custom properties:
 | `--slidy-nav-item-size`               |          16px          | `<length>`  | The navigation elements size.                        |
 | `--slidy-nav-item-radius`             |          50%           | `<length>`  | The navigation elements border radius.               |
 | `--slidy-nav-item-color`              |         white          | `<color>`   | The navigation elements color.                       |
+| `--slidy-thumbnail-radius`            |         0.5rem         | `<length>`  | The thumbnail `border-radius` value.                 |
 | `--slidy-thumbnail-size`              |          50px          | `<length>`  | The thumbnail panel size.                            |
 | `--slidy-arrow-size`                  |          24px          | `<length>`  | The arrow controls size.                             |
 | `--slidy-progress-track-size`         |          5px           | `<length>`  | The progress bar height.                             |

@@ -124,19 +124,24 @@
 .slidy-thumbnail {
 	grid-area: thumbnail;
 	justify-self: center;
+
+	--slidy-slide-aspect-ratio: 1 / 1;
+	--slidy-height: var(--slidy-thumbnail-size, 50px);
+	--slidy-width: 100%;
+	--slidy-slide-gap: 0.5rem;
 }
 
 .slidy.thumbnail {
 	gap: unset;
 }
 
-.slidy.thumbnail:not(.vertical) {
-	--slidy-height: var(--slidy-thumbnail-size, 50px);
-}
-
 .slidy.thumbnail .slidy-slide:not(.active) {
 	transition: opacity 0.25s linear;
 	opacity: 0.35;
+}
+
+.slidy.thumbnail img {
+	border-radius: var(--slidy-thumbnail-radius, 0.5rem);
 }
 
 /* media */
