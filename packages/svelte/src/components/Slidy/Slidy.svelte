@@ -41,7 +41,7 @@
 	 * Also, the current index passed into thumbs as it may be dragged away.
 	 */
 	export let _indexActive = index;
-	export let _indexThumb = index;
+	export let indexThumb = index;
 
 	setContext("classNames", classNames);
 
@@ -105,7 +105,7 @@
 		on:index
 		on:index={e => {
 			goto(e.detail.index);
-			_indexThumb = e.detail.index;
+			indexThumb = e.detail.index;
 		}}
 		on:keys
 		on:mount
@@ -163,22 +163,18 @@
 	{#if thumbnail}
 		<slot name="thumbnail">
 			<Thumbnail
+				active={indexThumb}
 				{background}
 				{duration}
 				{easing}
 				getImgSrc={getThumbSrc}
 				{indent}
-				index={_indexThumb}
+				index={indexThumb}
 				{loop}
 				{sensity}
 				{slides}
 				on:index
-				on:index={e => {
-					goto(e.detail.index);
-					_indexThumb = e.detail.index;
-				}}
 				on:select={event => goto(event.detail.index)}
-				_indexActive={index}
 			/>
 		</slot>
 	{/if}

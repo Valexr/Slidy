@@ -11,6 +11,7 @@
 <script lang="ts">
 	type $$Props = SlidyThumbOptions;
 	
+	export let active = 0;
 	export let animation: $$Props["animation"] = undefined;
 	export let background = false;
 	export let clamp = 0;
@@ -48,13 +49,12 @@
 	on:index={e => e.detail.index}
 >
 	{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-		{@const active = i === index}
 		<button
-			aria-current={active ? "true" : undefined}
+			aria-current={i === active ? "true" : undefined}
 			aria-label={`${i} of ${slides.length}`}
 			aria-roledescription="slide"
 			class="{classNames.thumbnail}"
-			class:active
+			class:active={i === active}
 			class:bg={background}
 			role="group"
 			style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
