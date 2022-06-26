@@ -1,4 +1,4 @@
-import type { AnimationFunc } from "@slidy/animation";
+import type { SlidyCoreOptions } from "../Core/Core.types";
 
 /**
  * Common Image interface.
@@ -23,33 +23,22 @@ type SlidyNodes =
 	| "root"
 	| "slide"
 	| "slides"
-	| "thumbnail";
+	| "thumbnail"
+	| "thumbnails";
 
 export type SlidyStyles = Record<SlidyNodes, string>;
 
 export type GetSrc<T> = (item: T) => string;
 
-export interface SlidyOptions {
-	animation?: AnimationFunc; 
+export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
 	background?: boolean;
-	clamp?: number;
-	classNames?: SlidyStyles;
+	classNames: SlidyStyles;
 	dots?: boolean;
-	duration?: number;
-	easing?: (t: number) => number;
-	getImgSrc?: (item: any) => string;
-	getThumbSrc?: (item: any) => string;
-	gravity?: number;
+	getImgSrc: (item: unknown | Slide) => string;
+	getThumbSrc: (item: unknown | Slide ) => string;
 	id?: string;
-	indent?: number;
-	index?: number;
-	loop?: boolean;
-	position?: number;
 	progress?: boolean;
-	sensity?: number;
 	slides: Slide[];
-	snap?: "start" | "center" | "end";
 	thumbnail?: boolean;
-	vertical?: boolean;
 }

@@ -1,13 +1,12 @@
 <script lang="ts" context="module">
-	import { createEventDispatcher, setContext } from "svelte/internal";
-	import { slidy } from "@slidy/core";
-	import { Arrow, Image, Navigation, Progress } from "../";
+	import { setContext } from "svelte/internal";
+	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../";
 	import { clamp as clampValue } from "../../helpers";
 
 	import { classNames as classNamesDefault } from "./slidy.styles";
 	import "./slidy.module.css";
 
-	import type { Slide, SlidyOptions, GetSrc } from "./Slidy.types";
+	import type { SlidyOptions } from "./Slidy.types";
 </script>
 
 <script lang="ts">
@@ -19,11 +18,11 @@
 	export let counter = true;
 	export let clamp = 0;
 	export let classNames: $$Props["classNames"] = classNamesDefault;
-	export let easing: $$Props["easing"] = (t: number): number => t;
-	export let getImgSrc: GetSrc<Slide> = (item: Slide) => item.src ?? "";
-	export let getThumbSrc: GetSrc<Slide> = (item: Slide) => getImgSrc(item);
-	export let navigation = true;
 	export let duration = 450;
+	export let easing: $$Props["easing"] = (t: number): number => t;
+	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src ?? "";
+	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
+	export let navigation = true;
 	export let gravity = 1.2;
 	export let id: $$Props["id"] = undefined;
 	export let indent: $$Props["indent"] = 2;
@@ -43,11 +42,8 @@
 	 */
 	export let _indexActive = index;
 	export let _indexThumb = index;
-	/* thumbnail flag */
-	export let _thumbnail = false;
 
 	setContext("classNames", classNames);
-	const dispatch = createEventDispatcher();
 
 	$: length = slides.length;
 
@@ -77,7 +73,6 @@
 <section
 	aria-roledescription="carousel"
 	class="{classNames?.root}"
-	class:thumbnail={_thumbnail}
 	class:vertical
 	{id}
 	on:click={handleClick}
@@ -92,23 +87,20 @@
 			<slot name="overlay" />
 		</div>
 	{/if}
-	<ul
-		class="{classNames?.slides}"
-		aria-live="polite"
-		tabindex="0"
-		use:slidy={{
-			animation,
-			clamp,
-			duration,
-			easing,
-			gravity,
-			indent,
-			index,
-			loop,
-			sensity,
-			snap,
-			vertical
-		}}
+
+	<Core
+		{animation}
+		{clamp}
+		className={classNames?.slides}
+		{duration}
+		{easing}
+		{gravity}
+		{indent}
+		{index}
+		{loop}
+		{sensity}
+		{snap}
+		{vertical}
 		on:destroy
 		on:index
 		on:index={e => {
@@ -118,22 +110,24 @@
 		on:keys
 		on:mount
 		on:move
-		on:move={e => position = e.detail.position}
+		on:move={e => {
+			position = e.detail.position;
+		}}
 		on:resize
 		on:update
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-			{@const active = i === (!thumbnail ? _indexActive : index)}
+			{@const active = i === index}
 			<li
 				aria-current={active ? "true" : undefined}
-				aria-label={`${i} of ${length}`}
+				aria-label={`${index} of ${slides.length}`}
 				aria-roledescription="slide"
 				class="{classNames?.slide}"
 				class:active
-				class:background
-				on:click={() => dispatch("select", { index: i })}
+				class:bg={background}
 				role="group"
-				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
+				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
+				on:click
 			>
 				<slot {item}>
 					{#if !background}
@@ -142,7 +136,7 @@
 				</slot>
 			</li>
 		{/each}
-	</ul>
+	</Core>
 
 	{#if arrows}
 		<slot name="arrows">
@@ -168,24 +162,24 @@
 
 	{#if thumbnail}
 		<slot name="thumbnail">
-			<nav class="{classNames?.thumbnail}">
-				<svelte:self
-					arrows={false}
-					counter={false}
-					navigation={false}
-					className="thumbnail"
-					getImgSrc={getThumbSrc}
-					{background}
-					{duration}
-					gravity={0.75}
-					{slides}
-					vertical={false}
-					on:select={event => goto(event.detail.index)}
-					_thumbnail
-					_indexActive={index}
-					index={_indexThumb}
-				/>
-			</nav>
+			<Thumbnail
+				{background}
+				{duration}
+				{easing}
+				getImgSrc={getThumbSrc}
+				{indent}
+				index={_indexThumb}
+				{loop}
+				{sensity}
+				{slides}
+				on:index
+				on:index={e => {
+					goto(e.detail.index);
+					_indexThumb = e.detail.index;
+				}}
+				on:select={event => goto(event.detail.index)}
+				_indexActive={index}
+			/>
 		</slot>
 	{/if}
 

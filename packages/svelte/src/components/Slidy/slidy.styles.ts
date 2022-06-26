@@ -9,5 +9,6 @@ export const classNames = {
 	"root": "slidy",
 	"slide": "slidy-slide",
 	"slides": "slidy-slides",
-	"thumbnail": "slidy-thumbnail"
+	"thumbnail": "slidy-thumbnail",
+	"thumbnails": "slidy-thumbnails"
 };
