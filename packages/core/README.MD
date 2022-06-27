@@ -107,20 +107,19 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
-| Property     | Default            | Type       | Description |
-| :----------- | :----------------- | :--------- | :---------- |
-| `index`      | `0`                | `number`   | Start index |
-| `clamp`      | `0`                | `number`   | Clamping sliding by index: `clamp - index + clamp` |
-| `indent`     | `1`                | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
-| `sensity`    | `5`                | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
-| `gravity`    | `1.2`              | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
-| `duration`   | `375`              | `number`   | Sliding duration in ms |
-| `animation`  | `undefuned`        | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
-| `easing`     | `undefined`        | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
-| `snap`       | `undefined`        | `string`   | Snapping side: `'start', 'center', 'end', undefined`. Default clamp sliding by edges. |
-| `vertical`   | `false`            | `boolean`  | Vertical flow axis |
-| `deck`       | `false`            | `boolean`  | Animation deck layout |
-| `loop`       | `false`            | `boolean`  | Infinite loop mode |
+| Property    | Default     | Type       | Description |
+| :---------- | :---------- | :--------- | :---------- |
+| `index`     | `0`         | `number`   | Start index |
+| `clamp`     | `0`         | `number`   | Clamping sliding by index: `clamp - index + clamp` |
+| `indent`    | `1`         | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
+| `sensity`   | `5`         | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
+| `gravity`   | `1.2`       | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
+| `duration`  | `375`       | `number`   | Sliding duration in ms |
+| `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
+| `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
+| `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
+| `axis`      | `x`         | `string`   | Control coordinate axis: `'x', 'y', 'both'` |
+| `loop`      | `false`     | `boolean`  | Infinite loop mode |
 
 ### Usage
 
@@ -141,8 +140,7 @@ All `options` are optional, but mount `node` required:
                 animation: fade,
                 easing: linear,
                 snap: 'center',
-                vertical: false,
-                deck: false,
+                axis: 'x',
                 loop: false,
             }
 
@@ -161,15 +159,15 @@ All `options` are optional, but mount `node` required:
 
 ## Events
 
-| Name     | Detail               | Description                                                                       |
-| :------- | :------------------- | :-------------------------------------------------------------------------------- |
-| `mount`  | `{options}`          | Fires when `node.children.length` & node.children isConnected |
-| `resize` | `{ROE}`              | Fires on resize target node `ROE: ResizeObserverEntry[]`|
-| `move`   | `{index,position}`   | Fires on any sliding |
-| `index`  | `{index}`            | Fires on each index change: `index === changed.index` |
-| `keys`   | `{e.key}`            | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |
-| `update` | `{updated.options}`  | Fires on each options update |
-| `destroy`| `{node}`             | Fires when [`destroy()`](#methods) is done or before target node unmounted from the DOM |
+| Name      | Detail              | Description                                                                       |
+| :-------- | :------------------ | :-------------------------------------------------------------------------------- |
+| `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
+| `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
+| `move`    | `{index,position}`  | Fires on any sliding |
+| `index`   | `{index}`           | Fires on each index change: `index === changed.index` |
+| `keys`    | `{e.key}`           | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |
+| `update`  | `{updated.options}` | Fires on each options update |
+| `destroy` | `{node}`            | Fires when [`destroy()`](#methods) is done or before target node unmounted from the DOM |
 
 ### Usage
 
@@ -202,11 +200,11 @@ All `options` are optional, but mount `node` required:
 
 ## Methods
 
-| Name        | Arguments                 | Description |
-| :---------- | :------------------------ | :---------- |
-| `to()`      | `(index,duration)`        | Scroll to `index` with `duration` |
-| `update()`  | `({option:value})`        | Update any property in options |
-| `destroy()` | `()`                      | Remove event listners, observers & defaulted props on `slidy()` instance |
+| Name        | Arguments          | Description |
+| :---------- | :----------------- | :---------- |
+| `to()`      | `(index,duration)` | Scroll to `index` with `duration` |
+| `update()`  | `({option:value})` | Update any property in options |
+| `destroy()` | `()`               | Remove event listners, observers & defaulted props on `slidy()` instance |
 
 ### Usage
 
@@ -255,7 +253,6 @@ interface Child extends HTMLElement {
     i: number; // child index in array
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
-    pos: number; // position
     track: number; // move to the size of the slide from its snap point +/- in the direction
     exp: number; // interpolated child.track `0 <- exp -> 1`
     turn: number; // `-1 <- child.track / child.size -> 1`

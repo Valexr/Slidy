@@ -43,7 +43,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1 > * {
+section#s1>* {
     flex: 1 0 50%;
     /* width: 50%; */
 }
@@ -55,9 +55,9 @@ section#s4 {
     display: flex;
 }
 
-section#s2 > *,
-section#s3 > *,
-section#s4 > * {
+section#s2>*,
+section#s3>*,
+section#s4>* {
     flex: 1 0 30%;
 }
 
@@ -144,7 +144,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -290,18 +290,25 @@ nav#thumbs {
     margin: auto;
     padding: var(--gap) 0;
     display: flex;
-    flex-flow: var(--flow) nowrap;
+    flex-flow: var(--flow);
     gap: var(--gap);
     width: 100%;
-    height: 100%;
     height: var(--height, 375px);
     -webkit-tap-highlight-color: transparent;
+}
+
+#node.grid {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(4, 50%);
+    grid-template-rows: repeat(4, 100%);
 }
 
 #node li,
 nav#thumbs button {
     flex: 1 0 var(--width, auto);
     width: var(--width, auto);
+    min-height: 100%;
     height: 100%;
     max-width: 85%;
     max-height: 100%;

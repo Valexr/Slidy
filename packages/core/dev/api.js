@@ -6,12 +6,12 @@ export async function getPhotos(node, page, limit) {
     node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
     //page: 38 - END,  61 - START, 28
     try {
-        const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`);
+        const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`, { mode: 'cors' });
         const photos = await res.json();
         if (photos.length === limit && node.isConnected) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            // dots.innerHTML = createSlides(dots, photos);
+            dots.innerHTML = createSlides(dots, photos);
 
             if (node.children.length === limit) {
                 const mounted = Array.from(node.children).every(
@@ -40,7 +40,7 @@ export async function getPhotos(node, page, limit) {
     }
 
     function createSlides(node, photos) {
-        return photos
+        const nodes = photos
             .map((p, i) => {
                 const aspect = (value, ratio = false) => {
                     const pr = ratio ? devicePixelRatio : 1;
@@ -52,9 +52,8 @@ export async function getPhotos(node, page, limit) {
                     'height',
                     true
                 )}.jpg`;
-                const background = `background-image: url(https://picsum.photos/id/${p.id}/${
-                    100 * devicePixelRatio
-                }/${100 * devicePixelRatio}.jpg)`;
+                const background = `background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio
+                    }/${100 * devicePixelRatio}.jpg)`;
 
                 if (node.id === 'node') {
                     return `<li id="${i}"><img src="${src}" width="${aspect(
@@ -63,7 +62,7 @@ export async function getPhotos(node, page, limit) {
                 } else if (node.id === 'thumbs') {
                     return `<button id="${i}" style="${background}" width="100" height="100">${i}</button>`;
                 } else return `<button id="${i}">${i}</button>`;
-            })
-            .join('');
+            });
+        return nodes.join('');
     }
 }

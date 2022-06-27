@@ -48,19 +48,20 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
+                            'blur',
                             'deck',
                             'fade',
                             'flip',
@@ -72,17 +73,25 @@ export function setEvents() {
                             'stairs',
                             'translate',
                         ],
-                        snaps = ['unset', 'start', 'center', 'end'],
-                        layouts = ['deck', 'grid', 'reel', 'stack'];
+                        snaps = ['unset', 'start', 'center', 'end', 'deck'],
+                        coords = ['x', 'y', 'both'],
+                        flows = ['row', 'row-reverse', 'column', 'column-reverse', 'grid'];
+
+                    axis.innerHTML = coords.map(
+                        (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
+                    );
+                    axis.value = options.axis || 'x';
+
+                    // flow.innerHTML = flows.map(
+                    //     (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
+                    // );
+                    utils.setFlow(flow.value);
+                    // flow.value = !options.flow ? 'row' : options.flow;
+
                     snap.innerHTML = snaps.map(
                         (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
                     );
                     snap.value = options.snap;
-
-                    // layout.innerHTML = layouts.map(
-                    //     (s) => `<option value="${s === 'unset' ? '' : s}">${s}</option>`
-                    // );
-                    // layout.value = !options.layout ? 'reel' : options.layout;
 
                     easing.innerHTML = eases.map((e) => `<option value="${e}">${e}</option>`);
                     easing.value = !options.easing ? 'linear' : options.easing.name;
@@ -108,17 +117,19 @@ export function setEvents() {
 
                 case 'update':
                     Object.assign(options, e.detail);
-
+                    // const { key: value } = e.detail;
+                    // console.log(e.detail, key, value);
                     for (const option in e.detail) {
                         const target = document.getElementById(option);
                         if (target) {
                             if (target.tagName === 'BUTTON') {
                                 target.classList.toggle('active');
-                                target.id === 'vertical' &&
-                                    main.style.setProperty(
-                                        `--flow`,
-                                        e.detail[option] ? 'column' : 'row'
-                                    );
+                                // if (option === 'reverse') {
+                                //     console.log(option);
+                                //     const nodes = [...node.children];
+                                //     node.replaceChildren(...nodes.reverse());
+                                // }
+                                // getPhotos(node, utils.randomQ(1, 69), options.length)
                             } else {
                                 target.value =
                                     target.id === 'easing' || target.id === 'animation'
@@ -128,7 +139,8 @@ export function setEvents() {
                         }
                     }
                     break;
-
+                case 'keys':
+                // console.log(e);
                 default:
                     // console.log(e);
                     break;
