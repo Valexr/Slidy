@@ -1,12 +1,17 @@
-<script>
+<script lang="ts">
+	import { getContext } from "svelte/internal";
 	import "./progress.module.css";
 
-	export let value;
-	export let max;
-	export let vertical;
+	import type { SlidyStyles } from "../Slidy/Slidy.types";
+
+	export let value = 0;
+	export let max = 1;
+	export let vertical = false;
+
+	const classNames = getContext<SlidyStyles>("classNames");
 </script>
 
-<div class="slidy-progress" class:vertical>
+<div class="{classNames.progress}" class:vertical>
 	<span
 		style:--_slidy-progress-size={`${Math.ceil(100 / max)}%`}
 		style:--_slidy-progress="{Math.ceil(value * 100 / max)}%"
