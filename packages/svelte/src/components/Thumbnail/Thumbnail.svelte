@@ -13,6 +13,7 @@
 	
 	export let active = 0;
 	export let animation: $$Props["animation"] = undefined;
+	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let clamp = 0;
 	export let duration: $$Props["duration"] = 250;
@@ -25,7 +26,6 @@
 	export let sensity = 5;
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
-	export let vertical = false;
 
 	const dispatch = createEventDispatcher();
 	const classNames = getContext<SlidyStyles>("classNames");
@@ -33,6 +33,7 @@
 
 <Core
 	{animation}
+	{axis}
 	{clamp}
 	className="{classNames?.thumbnails}"
 	{duration}
@@ -43,7 +44,6 @@
 	{loop}
 	{sensity}
 	{snap}
-	{vertical}
 	tag="nav"
 	on:index
 	on:index={e => e.detail.index}

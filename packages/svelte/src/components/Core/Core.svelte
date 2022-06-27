@@ -5,6 +5,7 @@
 	type $$Props = SlidyCoreOptions;
 
 	export let animation: $$Props["animation"] = undefined;
+	export let axis: $$Props["axis"] = "x";
 	export let clamp = 0;
 	export let className = "";
 	export let duration = 450;
@@ -17,7 +18,6 @@
 	export let sensity = 5;
 	export let snap: $$Props["snap"] = undefined;
 	export let tag = "ol";
-	export let vertical = false;
 </script>
 
 <svelte:element
@@ -27,6 +27,7 @@
 	this={tag}
 	use:slidy={{
 		animation,
+		axis,
 		clamp,
 		duration,
 		easing,
@@ -35,8 +36,7 @@
 		index,
 		loop,
 		sensity,
-		snap,
-		vertical
+		snap
 	}}
 	on:destroy
 	on:index

@@ -14,6 +14,7 @@
 
 	export let animation: $$Props["animation"] = undefined;
 	export let arrows = true;
+	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let counter = true;
 	export let clamp = 0;
@@ -34,7 +35,6 @@
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
-	export let vertical = false;
 
 	/**
 	 * To prevent infinite loop the thumb index has separate variable
@@ -46,6 +46,7 @@
 	setContext("classNames", classNames);
 
 	$: length = slides.length;
+	$: vertical = axis === "y";
 
 	const goto = (slide: number): void => {
 		if (typeof slide === "number" && !Number.isNaN(slide)) {
@@ -90,6 +91,7 @@
 
 	<Core
 		{animation}
+		{axis}
 		{clamp}
 		className={classNames?.slides}
 		{duration}
@@ -100,7 +102,6 @@
 		{loop}
 		{sensity}
 		{snap}
-		{vertical}
 		on:destroy
 		on:index
 		on:index={e => {
