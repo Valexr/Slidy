@@ -13,5 +13,5 @@ export interface SlidyCoreOptions {
 	loop?: boolean;
 	position?: number;
 	sensity?: number;
-	snap?: "start" | "center" | "end";
+	snap?: "deck" | "start" | "center" | "end";
 }
