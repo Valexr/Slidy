@@ -43,7 +43,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1>* {
+section#s1 > * {
     flex: 1 0 50%;
     /* width: 50%; */
 }
@@ -55,9 +55,9 @@ section#s4 {
     display: flex;
 }
 
-section#s2>*,
-section#s3>*,
-section#s4>* {
+section#s2 > *,
+section#s3 > *,
+section#s4 > * {
     flex: 1 0 30%;
 }
 
@@ -144,7 +144,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 

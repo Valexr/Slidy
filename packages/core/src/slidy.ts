@@ -111,7 +111,7 @@ export function slidy(
         }
 
         function edging(position: number): number {
-            const clamped = clamp($().start, position, $().end)
+            const clamped = clamp($().start, position, $().end);
             return !options.snap && !options.loop ? clamped : position;
         }
     }
@@ -222,8 +222,11 @@ export function slidy(
 
     function winWheel(e: WheelEvent): void {
         if (e.composedPath().includes(node)) {
-            if (Math.abs(e.deltaX) >= Math.abs(e.deltaY) || e.shiftKey
-                || ((options.axis === 'y') && !$().edges(INDEX, direction, position)))
+            if (
+                Math.abs(e.deltaX) >= Math.abs(e.deltaY) ||
+                e.shiftKey ||
+                (options.axis === 'y' && !$().edges(INDEX, direction, position))
+            )
                 e.preventDefault();
             if (e.shiftKey !== shifted) {
                 node.onwheel = throttle(onWheel, DURATION, e.shiftKey);
@@ -245,7 +248,6 @@ export function slidy(
     function clear(): void {
         clearTimeout(wst);
         cancelAnimationFrame(raf);
-        GRAVITY = options.gravity as number;
         listen(window, WINDOW_EVENTS, false);
     }
 
@@ -255,7 +257,7 @@ export function slidy(
                 switch (key) {
                     case 'index':
                         INDEX = options[key] = indexing(node, options, value);
-                        to(options[key]);
+                        to(INDEX);
                         break;
                     case 'gravity':
                         GRAVITY = options[key] = clamp(0, value, 2);
