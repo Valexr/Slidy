@@ -107,6 +107,9 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
+> Since v3.4.9 @slidy/core automated calculate direction from rendered children flow 🤓
+> In template just needed css rules, like: flex-flow: row-reverse, direction: rtl or html attribute on target node dir="rtl"... that's it 🤷🏻‍♂️
+
 | Property    | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
 | `index`     | `0`         | `number`   | Start index |
@@ -118,7 +121,7 @@ All `options` are optional, but mount `node` required:
 | `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
 | `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
 | `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
-| `axis`      | `x`         | `string`   | Control coordinate axis: `'x', 'y', 'both'` |
+| `axis`      | `x`         | `string`   | Control coordinate axis: `'x', 'y'` |
 | `loop`      | `false`     | `boolean`  | Infinite loop mode |
 
 ### Usage
