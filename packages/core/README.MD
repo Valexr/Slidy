@@ -107,8 +107,9 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
-> Since v3.4.9 @slidy/core automated calculate direction from rendered children flow 🤓
-> In template just needed css rules, like: flex-flow: row-reverse, direction: rtl or html attribute on target node dir="rtl"... that's it 🤷🏻‍♂️
+Since v3.4.9 @slidy/core automated calculate direction from rendered children flow 🤓  
+In template just needed css rules on target node, like: `flex-flow: row-reverse`, `direction: rtl` or html attribute `dir="rtl"`...  
+That's it 🤷🏻‍♂️
 
 | Property    | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
