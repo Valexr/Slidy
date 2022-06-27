@@ -24,7 +24,7 @@
 	export let loop = false;
 	export let sensity = 5;
 	export let slides: $$Props["slides"] = [];
-	export let snap: $$Props["snap"] = "center";
+	export let snap: $$Props["snap"] = undefined;
 	export let vertical = false;
 
 	const dispatch = createEventDispatcher();

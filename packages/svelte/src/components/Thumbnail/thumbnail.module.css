@@ -1,12 +1,13 @@
 .slidy-thumbnails {
 	--slidy-slide-aspect-ratio: 1 / 1;
 	--slidy-height: var(--slidy-thumbnail-size, 50px);
-	--slidy-width: 100%;
 	--slidy-slide-gap: 0.5rem;
+	--slidy-width: auto;
 
 	grid-area: thumbnail;
 	min-height: 0;
 	position: relative;
+	justify-self: center;
 
 	display: flex;
 	flex-flow: row nowrap;
