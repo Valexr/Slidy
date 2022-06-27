@@ -1,9 +1,12 @@
 type Options = {
     index: number;
     vertical: boolean;
-    deck: boolean;
+    snap: Snap;
 };
-export interface Child extends HTMLElement {
+
+type Snap = 'start' | 'center' | 'end' | 'deck';
+
+interface Child extends HTMLElement {
     active: number;
     index: number;
     size: number;

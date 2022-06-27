@@ -43,11 +43,11 @@ type Options = {
 }
 
 interface Child extends HTMLElement {
-    active: boolean; // `child.index === options.index`
-    index: number; // index
+    active: boolean; // `options.loop ? cix : options.index`
+    index: number; // child index
+    i: number; // child index in array
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
-    pos: number; // position
     track: number; // move to the size of the slide from its snap point +/- in the direction
     exp: number; // interpolated child.track `0 <- exp -> 1`
     turn: number; // `-1 <- child.track / child.size -> 1`

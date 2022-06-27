@@ -1,4 +1,5 @@
 export {
+    blur,
     deck,
     fade,
     flip,

@@ -7,6 +7,21 @@ function fade({ child, translate }: AnimationArgs) {
     };
 }
 
+function blur({ child, translate }: AnimationArgs) {
+    const active = child.i === child.active
+    const zIndex = active
+        ? child.active
+        : child.i > child.active
+            ? child.active - child.i
+            : child.i - child.active;
+    return {
+        opacity: child.exp,
+        filter: `blur(${1 - child.exp}ex`,
+        transform: translate,
+        zIndex
+    };
+}
+
 function scale({ child, translate }: AnimationArgs) {
     return {
         transform: `${translate} scale(${child.exp})`,
@@ -31,6 +46,7 @@ function perspective({ child, translate }: AnimationArgs) {
 
 function shuffle({ node, options, child, translate }: AnimationArgs) {
     // const active = child.i === child.active
+    // options.snap = 'deck'
     const dir = Math.sign(child.track);
     const active = Math.abs(child.track) < child.size && child.i === child.active;
     const half = Math.abs(child.track) < child.size / 2;
@@ -90,13 +106,14 @@ function matrix({ node, options, child, position }: AnimationArgs) {
 function stairs({ node, options, child, translate }: AnimationArgs) {
     node.style.perspective = `${node.offsetWidth}px`;
     // node.style.transformStyle = `preserve-3d`;
+    const deck = options.snap === 'deck'
     const active = child.i === child.active;
     const zIndex = active
         ? child.active
         : child.i > child.active
             ? child.active - child.i
             : child.i - node.children.length + 1;
-    const stairs = options.deck ? `scale(${child.exp})` : `translateZ(${-Math.abs(child.track)}px)`;
+    const stairs = deck ? `scale(${child.exp})` : `translateZ(${-Math.abs(child.track)}px)`;
     return {
         transform: translate + stairs,
         zIndex,
@@ -106,13 +123,14 @@ function stairs({ node, options, child, translate }: AnimationArgs) {
 function flip({ node, options, child, translate }: AnimationArgs) {
     node.style.perspective = `${node.offsetWidth}px`;
 
-    const turn = child.turn / (options.deck ? -2 : -4);
+    const deck = options.snap === 'deck'
+    const turn = child.turn / (deck ? -2 : -4);
     const rotate = options.vertical ? `rotateX(${turn}turn)` : `rotateY(${-turn}turn)`;
     const active = Math.abs(turn) < 0.25;
     return {
         transform: translate + rotate,
         zIndex: active ? 0 : -1,
-        opacity: active || !options.deck ? 1 : 0,
+        opacity: active || !deck ? 1 : 0,
     };
 }
 
@@ -140,4 +158,4 @@ function deck({ node, options, child, translate }: AnimationArgs) {
     };
 }
 
-export { deck, fade, flip, matrix, perspective, rotate, scale, shuffle, stairs, translate };
+export { blur, deck, fade, flip, matrix, perspective, rotate, scale, shuffle, stairs, translate };
