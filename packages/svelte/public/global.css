@@ -37,24 +37,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-input,
-button,
-select,
-textarea {
-	font-family: inherit;
-	font-size: inherit;
-	border-radius: 0.25rem;
-	color: var(--color);
-	background-color: var(--back);
-	accent-color: var(--accent);
-	padding: var(--space-xs);
-	border: none;
-}
-
-button {
-	outline: none;
-}
-
 label > span {
 	font-size: 0.9rem;
 	color: rgb(212, 212, 212);
@@ -64,25 +46,6 @@ input:disabled {
 	color: #ccc;
 }
 
-button {
-	color: var(--color);
-	background-color: var(--back);
-	outline: none;
-	cursor: pointer;
-}
-
-button:disabled {
-	color: #999;
-}
-
-button:not(:disabled):active {
-	background-color: var(--color);
-	color: var(--back);
-}
-
-button:focus {
-	border-color: var(--accent);
-}
 
 fieldset {
 	border: none;
