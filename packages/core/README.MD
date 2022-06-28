@@ -251,29 +251,32 @@ That's it 🤷🏻‍♂️
 You can provide custom animation or use presets from [@slidy/animation] package.
 
 ```ts
+type Options = {
+    index: number, // current active slide index
+    position: number; // current position
+    vertical: boolean, // node children flow
+    reverse: boolean, // node children reverse flow
+    snap: Snap; // snapping side
+}
+
+type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
+
 interface Child extends HTMLElement {
-    active: boolean; // `options.loop ? cix : options.index`
-    index: number; // child index
     i: number; // child index in array
+    index: number; // child index
+    active: boolean; // `options.loop ? cix : options.index`
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
     track: number; // move to the size of the slide from its snap point +/- in the direction
-    exp: number; // interpolated child.track `0 <- exp -> 1`
     turn: number; // `-1 <- child.track / child.size -> 1`
+    exp: number; // interpolated child.track `0 <- exp -> 1`
 }
 
-type Options = {
-    index: number;
-    vertical: boolean;
-    deck: boolean;
-};
-
 type AnimationArgs = {
-    node: HTMLElement; // slidy(node)
+    node: HTMLElement; // target slidy node
     child: Child; // extended childNode object
-    options: Partial<Options> // slidy(options)
-    position: number; // slidy position
-    translate: string; // basic translate needed in any function `{transform: translate}`
+    options: Options; // options: index, position, vertical, reverse, snap
+    translate: string; // basic translate needed in any function `{ transform: translate }`
 };
 
 type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;

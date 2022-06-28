@@ -12,6 +12,7 @@ export function slidy(
 } {
     const options: Options = {
         index: 0,
+        position: 0,
         clamp: 0,
         indent: 1,
         sensity: 5,
@@ -30,15 +31,15 @@ export function slidy(
         raf = 0,
         ets = 0,
         track = 0,
-        position = 0,
         direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
-        CLAMP = options.clamp as number,
+        POSITION = options.position as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
-        GRAVITY = options.gravity as number;
+        GRAVITY = options.gravity as number,
+        CLAMP = options.clamp as number;
 
     const $ = () => dom(node, options);
 
@@ -61,13 +62,13 @@ export function slidy(
 
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
-        position = $().position(false);
+        POSITION = $().position(false);
         dispatch(node, 'resize', { ROE });
     });
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.axis === 'y' && e.type === 'touchmove'
-            ? !$().edges(INDEX, pos, position)
+            ? !$().edges(INDEX, pos)
             : Math.abs(pos) >= SENSITY;
     }
 
@@ -80,7 +81,7 @@ export function slidy(
             node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            position = $().position();
+            POSITION = $().position();
 
             RO.observe(node);
             listen(node, NODE_EVENTS);
@@ -91,15 +92,15 @@ export function slidy(
 
     function move(pos: number, index?: number): void {
         direction = Math.sign(pos);
-        position += positioning(pos);
-        position = edging(position);
+        POSITION += positioning(pos);
+        POSITION = options.position = edging(POSITION);
 
         SENSITY = 0;
-        INDEX = options.index = $().index(position);
-        GRAVITY = $().edges(INDEX, direction, position) ? 1.8 : (options.gravity as number);
+        INDEX = options.index = $().index(POSITION);
+        GRAVITY = $().edges(INDEX, direction) ? 1.8 : (options.gravity as number);
 
-        $().animate(options.animation, position);
-        dispatch(node, 'move', { index: INDEX, position });
+        $().animate(options.animation);
+        dispatch(node, 'move', { index: INDEX, position: POSITION });
 
         function positioning(pos: number): number {
             if (INDEX - hix) {
@@ -118,13 +119,13 @@ export function slidy(
 
     function scroll(index: number, amplitude: number, _duration = 0): void {
         const time = performance.now();
-        const snaped = options.snap || options.loop || $().edges(index, direction, position);
+        const snaped = options.snap || options.loop || $().edges(index, direction);
         const target = snaped
             ? $().distance(index)
-            : clamp($().start, position + amplitude, $().end);
+            : clamp($().start, POSITION + amplitude, $().end);
         const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
 
-        amplitude = target - position;
+        amplitude = target - POSITION;
 
         requestAnimationFrame(function loop() {
             const elapsed = time - performance.now();
@@ -132,7 +133,7 @@ export function slidy(
             const easing = options.easing ? options.easing(T) : T;
             const delta = amplitude * easing;
             const current = options.loop ? $().distance(index) : target;
-            const pos = current - position - delta;
+            const pos = current - POSITION - delta;
 
             move(pos, index);
 
@@ -149,7 +150,7 @@ export function slidy(
         clear();
 
         index = indexing(node, options, index);
-        const pos = $().distance(index) - position;
+        const pos = $().distance(index) - POSITION;
 
         scroll(index, pos, duration);
     }
@@ -163,7 +164,7 @@ export function slidy(
         track = direction = 0;
 
         listen(window, WINDOW_EVENTS);
-        !$().edges(INDEX, direction, position) && e.stopPropagation();
+        !$().edges(INDEX, direction) && e.stopPropagation();
     }
 
     function onMove(e: UniqEvent): void {
@@ -190,7 +191,7 @@ export function slidy(
         clear();
 
         const amplitude = track * (2 - GRAVITY);
-        const index = $().index(position + amplitude);
+        const index = $().index(POSITION + amplitude);
 
         scroll(clamping(index, options), amplitude);
 
@@ -207,7 +208,7 @@ export function slidy(
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const edged = $().edges(INDEX, Math.sign(coord), position);
+        const edged = $().edges(INDEX, Math.sign(coord));
         const clamped = CLAMP || e.shiftKey;
         const pos = edged ? coord / 9 : coord;
         const ix = clamped ? index : INDEX;
@@ -217,7 +218,7 @@ export function slidy(
         moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
-        !$().edges(INDEX, direction, position) && e.stopPropagation();
+        !$().edges(INDEX, direction) && e.stopPropagation();
     }
 
     function winWheel(e: WheelEvent): void {
@@ -225,7 +226,7 @@ export function slidy(
             if (
                 Math.abs(e.deltaX) >= Math.abs(e.deltaY) ||
                 e.shiftKey ||
-                (options.axis === 'y' && !$().edges(INDEX, direction, position))
+                (options.axis === 'y' && !$().edges(INDEX, direction))
             )
                 e.preventDefault();
             if (e.shiftKey !== shifted) {
@@ -276,7 +277,7 @@ export function slidy(
 
                     default:
                         options[key] = value as never;
-                        position = $().position(false);
+                        POSITION = options.position = $().position(false);
                         to(INDEX);
                         break;
                 }
