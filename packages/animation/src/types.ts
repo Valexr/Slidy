@@ -1,28 +1,28 @@
 type Options = {
     index: number;
-    vertical: boolean;
+    position: number;
+    vertical: number;
+    reverse: number;
     snap: Snap;
 };
 
 type Snap = 'start' | 'center' | 'end' | 'deck';
 
 interface Child extends HTMLElement {
-    active: number;
+    i: number;
     index: number;
+    active: number;
     size: number;
     dist: number;
-    pos: number;
     track: number;
-    exp: number;
     turn: number;
-    i: number;
+    exp: number;
 }
 
 export type AnimationArgs = {
     node: HTMLElement;
     child: Child;
     options: Partial<Options>;
-    position: number;
     translate: string;
 };
 

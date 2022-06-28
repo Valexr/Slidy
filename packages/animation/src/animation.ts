@@ -44,7 +44,7 @@ function perspective({ child, translate }: AnimationArgs) {
     };
 }
 
-function shuffle({ node, options, child, translate }: AnimationArgs) {
+function shuffle({ node, child, options, translate }: AnimationArgs) {
     // const active = child.i === child.active
     // options.snap = 'deck'
     const dir = Math.sign(child.track);
@@ -71,7 +71,7 @@ function translate({ translate }: AnimationArgs) {
     };
 }
 
-function matrix({ node, options, child, position }: AnimationArgs) {
+function matrix({ node, child, options }: AnimationArgs) {
     // node.style.perspective = `${node.offsetWidth}px`;
     // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
     const active = child.index === options.index;
@@ -79,7 +79,7 @@ function matrix({ node, options, child, position }: AnimationArgs) {
     const skewY = -child.turn;
     const skewX = -child.turn;
     const scaleY = child.exp;
-    const translateX = -position;
+    const translateX = -(options.position as number);
     const translateY = -child.turn;
     // const translateZ = -Math.abs(child.track);
     const zIndex = active
@@ -103,7 +103,7 @@ function matrix({ node, options, child, position }: AnimationArgs) {
     };
 }
 
-function stairs({ node, options, child, translate }: AnimationArgs) {
+function stairs({ node, child, options, translate }: AnimationArgs) {
     node.style.perspective = `${node.offsetWidth}px`;
     // node.style.transformStyle = `preserve-3d`;
     const deck = options.snap === 'deck';
@@ -120,7 +120,7 @@ function stairs({ node, options, child, translate }: AnimationArgs) {
     };
 }
 
-function flip({ node, options, child, translate }: AnimationArgs) {
+function flip({ node, child, options, translate }: AnimationArgs) {
     node.style.perspective = `${node.offsetWidth}px`;
 
     const deck = options.snap === 'deck';
@@ -134,7 +134,7 @@ function flip({ node, options, child, translate }: AnimationArgs) {
     };
 }
 
-function deck({ node, options, child, translate }: AnimationArgs) {
+function deck({ node, child, options, translate }: AnimationArgs) {
     node.style.perspective = `${node.offsetWidth}px`;
 
     const active = child.index === options.index;

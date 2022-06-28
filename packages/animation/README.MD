@@ -34,30 +34,31 @@ Animation functions available via named import as `MJS/CJS` module or via global
 Includes `fade, matrix, perspective, rotate, scale, shuffle, translate` as functions. 
 
 ```ts
-type Layout = 'deck' | 'grid' | 'reel' | 'stack';
-
 type Options = {
     index: number, // current active slide index
-    vertical: boolean, // animation axis
-    layout: Layout, // layout
+    position: number; // current position
+    vertical: boolean, // node children flow
+    reverse: boolean, // node children reverse flow
+    snap: Snap; // snapping side
 }
 
+type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
+
 interface Child extends HTMLElement {
-    active: boolean; // `options.loop ? cix : options.index`
-    index: number; // child index
     i: number; // child index in array
+    index: number; // child index
+    active: boolean; // `options.loop ? cix : options.index`
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
     track: number; // move to the size of the slide from its snap point +/- in the direction
-    exp: number; // interpolated child.track `0 <- exp -> 1`
     turn: number; // `-1 <- child.track / child.size -> 1`
+    exp: number; // interpolated child.track `0 <- exp -> 1`
 }
 
 type AnimationArgs = {
     node: HTMLElement; // target slidy node
     child: Child; // extended childNode object
-    options: Options; // options: index, vertical, layout
-    position: number; // slidy position
+    options: Options; // options: index, position, vertical, reverse, snap
     translate: string; // basic translate needed in any function `{ transform: translate }`
 };
 
