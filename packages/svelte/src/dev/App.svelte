@@ -4,7 +4,7 @@
 	import { createSlidesStore } from "./scripts/slide-store";
 	import { version } from "../../package.json";
 
-	import { stairs } from "@slidy/animation";
+	import { translate } from "@slidy/animation";
 	import { linear } from "@slidy/easing";
 </script>
 
@@ -12,24 +12,29 @@
 	import { darkTheme } from "./scripts/theme-store";
 	import "./app.module.css";
 
-	let animation = stairs;
+	let animation = translate;
+	let axis = "x";
 	let easing = linear;
 	let position = 0;
 	let limit = 15;
 	let index = 4;
 	let vertical = false;
-	let clamp = true;
+	let clamp = 0;
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";
 	let snap: "start" | "center" | "end" = "center";
 	let loop = false;
 	let gap = 15;
+	let indent = 0;
+	let background = false;
 
 	let controlPanel = false;
 
 	const slides = createSlidesStore();
 	let slidesPromise = slides.init(limit);
+
+	$: vertical = axis === "y";
 </script>
 
 <header class="header">
@@ -70,6 +75,8 @@
 	{:then}
 		<Slidy
 			{animation}
+			{axis}
+			{background}
 			{easing}
 			bind:index
 			bind:position
@@ -77,11 +84,11 @@
 			{clamp}
 			{duration}
 			{gravity}
+			{indent}
 			{snap}
 			{loop}
 			thumbnail
 			progress
-			{vertical}
 		/>
 	{/await}
 </main>
@@ -89,3 +96,9 @@
 <Sidemenu bind:open={controlPanel}>
 	<ControlPanel bind:vertical bind:clamp bind:snap bind:duration bind:gravity bind:width bind:loop bind:gap />
 </Sidemenu>
+
+<!-- <style>
+	main :global(.slidy-slide) {
+		--slidy-slide-aspect-ratio: 1/1;
+	}
+</style> -->
