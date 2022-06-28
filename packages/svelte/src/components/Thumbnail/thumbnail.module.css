@@ -31,6 +31,9 @@
 	aspect-ratio: var(--slidy-slide-aspect-ratio, unset);
 	transition: opacity var(--slidy-duration, 450);
 	max-width: 100%;
+	border: none;
+	outline: none;
+	cursor: pointer;
 }
 
 .slidy-thumbnail.bg {
@@ -53,7 +56,7 @@
 }
 
 .slidy-thumbnail:focus-visible {
-	outline: 2px solid white;
+	outline: 2px solid var(--slidy-focus-ring-color, #c9c9c9e6);
 	outline-style: dashed;
 	outline-offset: 2px;
 	opacity: 0.75;

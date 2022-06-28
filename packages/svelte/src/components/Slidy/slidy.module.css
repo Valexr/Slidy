@@ -119,6 +119,14 @@
 	height: max-content;
 }
 
+/* state */
+
+.slidy-slides:focus-visible > *.active img {
+	outline: 4px solid var(--slidy-focus-ring-color, #c9c9c9e6);
+	outline-style: dashed;
+	outline-offset: -5px;
+}
+
 /* media */
 
 @media (hover: hover) {
@@ -138,6 +146,6 @@
 
 @media (prefers-reduced-motion: no-preference) {
 	.slidy *:focus-visible {
-		transition: outline-offset 0.25s linear;
+		transition: outline-offset 0.25s ease;
 	}
 }
