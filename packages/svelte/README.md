@@ -128,26 +128,31 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                              |        Default         |    Type     | Description                                          |
-| :------------------------------------ | :--------------------: | :---------: | :--------------------------------------------------- |
-| `--slidy-height`                      |          100%          | `<length>`  | The height of the component's node.                  |
-| `--slidy-width`                       |          100%          | `<length>`  | The width of the component's node.                   |
-| `--slidy-slide-aspect-ratio`          |         unset          | `<int/int>` | Defines the slide aspect-ratio.                      |
-| `--slidy-slide-gap`                   |          1rem          | `<length>`  | The gap between items in carousel.                   |
-| `--slidy-slide-height`                |          100%          | `<length>`  | The carousel items height.                           |
-| `--slidy-slide-width`                 |          auto          | `<length>`  | The carousel items width.                            |
-| `--slidy-slide-object-fit`            |         cover          |     -       | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-bg-color`              |        darkgray        | `<color>`   | The placeholder background color for loading images. |
-| `--slidy-slide-radius`                |          1rem          | `<length>`  | The slide's border radius value.                     |
-| `--slidy-nav-item-size`               |          16px          | `<length>`  | The navigation elements size.                        |
-| `--slidy-nav-item-radius`             |          50%           | `<length>`  | The navigation elements border radius.               |
-| `--slidy-nav-item-color`              |         white          | `<color>`   | The navigation elements color.                       |
-| `--slidy-thumbnail-radius`            |         0.5rem         | `<length>`  | The thumbnail `border-radius` value.                 |
-| `--slidy-thumbnail-size`              |          50px          | `<length>`  | The thumbnail panel size.                            |
-| `--slidy-arrow-size`                  |          24px          | `<length>`  | The arrow controls size.                             |
-| `--slidy-progress-track-size`         |          5px           | `<length>`  | The progress bar height.                             |
-| `--slidy-progress-track-color`        | rgb(150 150 150 / 0.5) | `<color>`   | The progress bar track color.                        |
-| `--slidy-progress-track-active-color` |     rgb(196 79 97)     | `<color>`   | The progress bar active track color.                 |
+| Property                       |  Default   |    Type     | Description                                          |
+| :----------------------------- | :--------: | :---------: | :--------------------------------------------------- |
+| `--slidy-arrow-bg`             |  #4e4e4ebf | `<color>`   | The arrow control background color.                  |
+| `--slidy-arrow-bg-hover`       |  #4e4e4e54 | `<color>`   | The arrow control hover background color.            |
+| `--slidy-arrow-icon-color`     |  currentColor | `<color>`   | The arrow control icon fill color.                |
+| `--slidy-arrow-size`           |  24px      | `<length>`  | The arrow controls size.                             |
+| `--slidy-counter-bg`           |  #4e4e4ebf | `<color>`   | The counter's background color.                      |
+| `--slidy-focus-ring-color`     |  #c9c9c9e6 | `<color>`   | Focus ring color for all focusable elements.         |
+| `--slidy-height`               |  100%      | `<length>`  | The height of the component's node.                  |
+| `--slidy-nav-item-color`       |  white     | `<color>`   | The navigation elements color.                       |
+| `--slidy-nav-item-radius`      |  50%       | `<length>`  | The navigation elements border radius.               |
+| `--slidy-nav-item-size`        |  16px      | `<length>`  | The navigation elements size.                        |
+| `--slidy-progress-thumb-color` |  #c44f61   | `<color>`   | The progress bar active track color.                 |
+| `--slidy-progress-track-color` |  #96969680 | `<color>`   | The progress bar track color.                        |
+| `--slidy-progress-track-size`  |  5px       | `<length>`  | The progress bar height.                             |
+| `--slidy-slide-aspect-ratio`   |  unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
+| `--slidy-slide-bg-color`       |  darkgray  | `<color>`   | The placeholder background color for loading images. |
+| `--slidy-slide-gap`            |  1rem      | `<length>`  | The gap between items in carousel.                   |
+| `--slidy-slide-height`         |  100%      | `<length>`  | The carousel items height.                           |
+| `--slidy-slide-object-fit`     |  cover     |     -       | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-radius`         |  1rem      | `<length>`  | The slide's border radius value.                     |
+| `--slidy-slide-width`          |  auto      | `<length>`  | The carousel items width.                            |
+| `--slidy-thumbnail-radius`     |  0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
+| `--slidy-thumbnail-size`       |  50px      | `<length>`  | The thumbnail panel size.                            |
+| `--slidy-width`                |  100%      | `<length>`  | The width of the component's node.                   |
 
 There are two options:
 

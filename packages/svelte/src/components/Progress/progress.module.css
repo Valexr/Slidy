@@ -5,7 +5,7 @@
 	display: flex;
 	width: calc(100% - 1rem);
 	justify-content: center;
-	background-color: var(--slidy-progress-track-color, rgb(150 150 150 / 0.5));
+	background-color: var(--slidy-progress-track-color, #96969680);
 }
 
 .slidy-progress > span {
@@ -13,7 +13,7 @@
 	top: 0;
 	left: calc( var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
 	width: var(--_slidy-progress-size);
-	background-color: var(--slidy-progress-track-active-color, rgb(196 79 97));
+	background-color: var(--slidy-progress-thumb-color, #c44f61);
 	transition: left 450ms ease-in-out;
 }
 

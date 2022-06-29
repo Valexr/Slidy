@@ -86,7 +86,8 @@
 	width: fit-content;
 	height: min-content;
 	font-family: inherit;
-	background-color: rgb(59 78 78 / 0.75);
+	color: currentColor;
+	background-color: var(--slidy-counter-bg, #4e4e4ebf);
 	padding: 0.25em 0.5em;
 	border-radius: 10px;
 	user-select: none;
