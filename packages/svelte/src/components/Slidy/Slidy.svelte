@@ -23,7 +23,7 @@
 	export let easing: $$Props["easing"] = (t: number): number => t;
 	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src ?? "";
 	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
-	export let navigation = true;
+	export let navigation = false;
 	export let gravity = 1.2;
 	export let id: $$Props["id"] = undefined;
 	export let indent: $$Props["indent"] = 2;

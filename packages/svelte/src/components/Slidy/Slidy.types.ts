@@ -34,10 +34,9 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
 	background?: boolean;
 	classNames: SlidyStyles;
-	dots?: boolean;
 	getImgSrc: (item: unknown | Slide) => string;
 	getThumbSrc: (item: unknown | Slide ) => string;
-	id?: string;
+	navigation?: boolean;
 	progress?: boolean;
 	slides: Slide[];
 	thumbnail?: boolean;

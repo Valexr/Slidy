@@ -14,4 +14,5 @@ export interface SlidyCoreOptions {
 	position?: number;
 	sensity?: number;
 	snap?: "deck" | "start" | "center" | "end";
+	tag: string;
 }
