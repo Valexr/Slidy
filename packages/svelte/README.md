@@ -37,7 +37,7 @@ REPL is available [here](REPL).
 
 ## Usage
 
-`Slidy` component is available via named import. All props are optional. The only preperty to get started is `slides` - an array of objects with image related data:
+The most simple way to get started is to use named import of `<Slidy />` component:
 
 ```svelte
 <script>
@@ -56,34 +56,64 @@ REPL is available [here](REPL).
 <Slidy {slides} />
 ```
 
-By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility, all these attributes are _required_.
+All props are optional. The only property to get started is `slides` - an array of objects with image related data.
 
-## API
+## Core Component
 
-| Property      |     Default      |    Type    | Description                                                           |
-| :------------ | :--------------: | :--------: | :-------------------------------------------------------------------- |
-| `animation`   |    undefined     | `AnimationFunc ` | Custom slide animation.                                         |
-| `arrows`      |       true       | `boolean`  | Renders the arrow button controls for accessible slide navigation.    |
-| `background`  |      false       | `boolean`  | Sets `background-image` instead `<img />` elements to display slides. |
-| `clamp`       |        0         |  `number`  | Clamps sliding index as `{clamp} - {index} + {clamp}`                 |
-| `className`   |        ""        |  `string`  | Passes the `class` to the parent node.                                |
-| `easing`      |    undefined     | `(t: number => number)` | Inertion scroll easing behaviour.                        |
-| `getImgSrc`   | item => item.src | `function` | The slide's `src` attribute getter.                                   |
-| `getThumbSrc` | item => item.src | `function` | The thumbnail's `src` attribute getter.                               |
-| `navigation`  |       true       | `boolean`  | Renders the navigation controls for pagination-like slide navigation. |
-| `duration`    |       450        |  `number`  | Slide transitions duration value.                                     |
-| `gravity`     |       1.2        |  `number`  | Scroll inertia value.                                                 |
-| `id`          |    undefined     |  `string`  | Passes the `id` attribute to the parent node.                         |
-| `indent`      |        0         |  `number`  | Custom scroll indent value, calculates as `gap * indent`.             |
-| `index`       |        0         |  `number`  | The index of the initial slide.                                       |
-| `loop`        |      false       | `boolean`  | Makes the slideshow continious.                                       |
-| `position`    |        0         |  `number`  | The current position value of the carousel.                           |
-| `progress`    |      false       | `boolean`  | Renders the progress bar.                                             |
-| `sensity`     |        5         |  `number`  | Defines the sliding sensity as the number of pixels required to drag. |
-| `slides`      |       [ ]        | `Slides[]` | An array of objects with image metadata.                              |
-| `snap`        |    undefined     |  `"start"  | "center" | "end"` | Enforces the scroll stop positions.               |
-| `thumbnail`   |      false       | `boolean`  | Renders the thumbnail navigation panel.                               |
-| `vertical`    |      false       | `boolean`  | Sets the component into the vertical orientation.                     |
+`Core` is a wrapper component for [@slidy/core][core-package] available via named import. It is best to use to build up the custom component for specific needs or when just the basic functionality is needed.
+
+```svelte
+<script>
+	import { Core } from "@slidy/svelte";
+</script>
+
+<Core>
+	<!-- your carousel items passed via slot -->
+</Core>
+```
+
+### Core Component API
+
+| Property      |     Default      |    Type    | Description |
+| :------------ | :--------------: | :--------: | :------------------ |
+| `animation` | `undefined` | `AnimationFunc ` | Custom slide animation. |
+| `axis` | `"x"` | `"x" | "y"` | The scroll direction. |
+| `clamp` | `0` | `number` | Clamps sliding index as `{clamp} - {index} + {clamp}` |
+| `className` | `""` | `string` | Passes the `class` to the node. |
+| `duration` | `450` | `number` | Slide transitions duration value. |
+| `easing` | `undefined` | `(t: number => number)` | Inertion scroll easing behaviour. |
+| `gravity` | `1.2` | `number` | Scroll inertia value. |
+| `indent` | `0` | `number` | Custom scroll indent value, calculates as `gap * indent`. |
+| `index` | `0` | `number` | The index of the initial slide. |
+| `loop` | `false` | `boolean` | Makes the slideshow continious. |
+| `position` | `0` | `number` | The current position value of the carousel. |
+| `sensity`| `5` | `number` | Defines the sliding sensity as the number of pixels required to drag. |
+| `snap` | `undefined` | `"start"  | "center" | "end" | "deck"` | Enforces the scroll stop positions. |
+| `tag` | `"ol"` | `string`  | The HTML tag name to render. |
+
+For TypeScript users there is the `SlidyCoreOptions` interface available via named import.
+
+## Slidy Component
+
+`<Slidy />` component uses `<Core />` internally and provides more features expected from carousel.
+
+### Slidy Component API
+
+The `<Slidy />` component interface extends the `<Core />`. There are a list of additional options available:
+
+| Property | Default | Type | Description |
+| :------- | :-----: | :--: | :---------- |
+| `arrows` | `true` | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
+| `background` | `false` | `boolean` | Sets `background-image` instead of `<img />` elements to display slides. |
+| `classNames` | `SlidyStyles` | `SlidyStylesDefault` | The class names object used over the component. |
+| `getImgSrc` | `item => item.src` | `function` | The slide's `src` attribute getter. |
+| `getThumbSrc` | `item => item.src` | `function` | The thumbnail's `src` attribute getter. |
+| `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
+| `progress` | `false` | `boolean` | Renders the progress bar. |
+| `slides` | `[]` | `Slides[]` | An array of objects with image metadata. |
+| `thumbnail` | `false` | `boolean`  | Renders the thumbnail navigation panel. |
+
+By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 
 ## Styling
 
@@ -106,19 +136,20 @@ To extend default component styles use `classNames` property. Default classes ar
 
 The `classNames` consist of `{ target: className }` pairs: 
 
-| Target    | Default class     | Description |
-| :-------- | :---------------: | :-----------|
-| arrow     | `slidy-arrow`     | Arrow controls. |
-| counter   | `slidy-counter`   | Slide progress counter. |
-| img       | `slidy-img`       | Slide image node. |
-| nav       | `slidy-nav`       | Slide navigation panel. |
-| nav-item  | `slidy-nav-item`  | Navigtion panel item. |
-| overlay   | `slidy-overlay`   | Slides overlay node. |
-| progress  | `slidy-progress`  | Slide progress bar. |
-| root      | `slidy`           | Component's root node. |
-| slide     | `slidy-slide`     | Slide item node. |
-| slides    | `slidy-slides`    | Slides list node. |
-| thumbnail | `slidy-thumbnail` | Thumbnails bar. |
+| Target    | Default class      | Description |
+| :-------- | :----------------: | :-----------|
+| arrow     | `slidy-arrow`      | Arrow controls. |
+| counter   | `slidy-counter`    | Slide progress counter. |
+| img       | `slidy-img`        | Slide image node. |
+| nav       | `slidy-nav`        | Slide navigation panel. |
+| nav-item  | `slidy-nav-item`   | Navigtion panel item. |
+| overlay   | `slidy-overlay`    | Slides overlay node. |
+| progress  | `slidy-progress`   | Slide progress bar. |
+| root      | `slidy`            | Component's root node. |
+| slide     | `slidy-slide`      | Slide item node. |
+| slides    | `slidy-slides`     | Slides list node. |
+| thumbnail | `slidy-thumbnail`  | Thumbnail item. |
+| thumbnail | `slidy-thumbnails` | Thumbnails bar. |
 
 The `classNames` object is available via [context](https://svelte.dev/docs#run-time-svelte-getcontext) using `classNames` key.
 
@@ -294,7 +325,6 @@ The component forwards custom events:
 | `move`    | Navigation occurs.               | `{ index: number, position: number }` |
 | `resize`  | Component's dimentions changes.  |          `{ node, options }`          |
 | `update`  | Component's props changes.       |               `options`               |
-| `select`  | User clicked on specific slide.  |          `{ index: number }`          |
 
 ## Recipes
 
@@ -321,7 +351,7 @@ There are two variables available to control the component externally: `index` a
 
 ## Possible issues
 
-- Slides should not have `absolute` positioning, otherwise the `@slidy/core` script won't get correct dimentions;
+- Slides should not have `absolute` positioning, otherwise the [core-package][] script won't get correct dimentions;
 - Using the `background` option usually is not recommended. In case you need to use it, specify the slide sizes with custom properties: `width` and `height`, or just `aspect-ratio`.
 
 ## License
