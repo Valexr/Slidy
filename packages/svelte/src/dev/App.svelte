@@ -85,6 +85,7 @@
 			{duration}
 			{gravity}
 			{indent}
+			navigation
 			{snap}
 			{loop}
 			thumbnail
@@ -97,8 +98,16 @@
 	<ControlPanel bind:vertical bind:clamp bind:snap bind:duration bind:gravity bind:width bind:loop bind:gap />
 </Sidemenu>
 
-<!-- <style>
-	main :global(.slidy-slide) {
-		--slidy-slide-aspect-ratio: 1/1;
+<style>
+	main {
+		--slidy-arrow-bg: #655aa39a;
+		--slidy-arrow-bg-hover: #655aa39a;
+		--slidy-arrow-icon-color: white;
+		--slidy-counter-bg: #655aa3;
+		--slidy-focus-ring-color: #655aa3dc;
+		--slidy-nav-item-color: #655aa3;
+		--slidy-progress-thumb-color: #655aa3;
+		--slidy-progress-track-color: #a79cd3;
+		--slidy-slide-bg-color: #655aa3;
 	}
-</style> -->
+</style>
