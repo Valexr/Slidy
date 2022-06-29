@@ -3,6 +3,7 @@
 	display: block;
 	width: var(--slidy-slide-width, auto);
 	height: var(--slidy-slide-height, 100%);
+	border-radius: var(--slidy-slide-radius, 1rem);
 	object-fit: var(--slidy-slide-object-fit, cover);
 	object-position: center;
 	min-width: 100%;

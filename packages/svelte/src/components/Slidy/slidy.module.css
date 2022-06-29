@@ -74,6 +74,7 @@
 	background-position: center;
 	background-size: var(--slidy-slide-object-fit, cover);
 	background-color: transparent;
+	border-radius: var(--slidy-slide-radius, 1rem);
 }
 
 /* counter */

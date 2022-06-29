@@ -138,6 +138,7 @@ List of available public custom properties:
 | `--slidy-slide-width`                 |          auto          | `<length>`  | The carousel items width.                            |
 | `--slidy-slide-object-fit`            |         cover          |     -       | The carousel items (images) resize behaviour.        |
 | `--slidy-slide-bg-color`              |        darkgray        | `<color>`   | The placeholder background color for loading images. |
+| `--slidy-slide-radius`                |          1rem          | `<length>`  | The slide's border radius value.                     |
 | `--slidy-nav-item-size`               |          16px          | `<length>`  | The navigation elements size.                        |
 | `--slidy-nav-item-radius`             |          50%           | `<length>`  | The navigation elements border radius.               |
 | `--slidy-nav-item-color`              |         white          | `<color>`   | The navigation elements color.                       |
