@@ -32,7 +32,7 @@ export function slidy(
         raf = 0,
         ets = 0,
         track = 0,
-        direction = 0,
+        // direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
@@ -71,7 +71,7 @@ export function slidy(
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.axis === 'y' && e.type === 'touchmove'
-            ? !$().edges(INDEX, pos)
+            ? !$().edges
             : Math.abs(pos) >= SENSITY;
     }
 
@@ -94,12 +94,12 @@ export function slidy(
         .catch((error: Error) => console.error('Slidy:', error));
 
     function move(pos: number, index?: number): void {
-        direction = Math.sign(pos);
+        options.direction = Math.sign(pos);
         POSITION += positioning(pos);
         POSITION = options.position = edging(POSITION);
         INDEX = options.index = $().index(POSITION);
 
-        GRAVITY = $().edges(INDEX, direction) ? 1.8 : (options.gravity as number);
+        GRAVITY = $().edges ? 1.8 : (options.gravity as number);
         SENSITY = 0;
 
         $().animate();
@@ -122,7 +122,7 @@ export function slidy(
 
     function scroll(index: number, amplitude: number, _duration = 0): void {
         const time = performance.now();
-        const snaped = options.snap || options.loop || $().edges(index, direction);
+        const snaped = options.snap || options.loop || $().edges;
         const target = snaped
             ? $().distance(index)
             : clamp($().start, POSITION + amplitude, $().end);
@@ -164,10 +164,10 @@ export function slidy(
         SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
-        track = direction = 0;
+        track = 0;
 
         listen(window, WINDOW_EVENTS);
-        !$().edges(INDEX, direction) && e.stopPropagation();
+        !$().edges && e.stopPropagation();
     }
 
     function onMove(e: UniqEvent): void {
@@ -199,7 +199,7 @@ export function slidy(
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = CLAMP * direction;
+            const range = CLAMP * (options.direction as number);
             index = CLAMP && index - hix ? INDEX + range : index;
 
             return indexing(node, options, index);
@@ -211,7 +211,7 @@ export function slidy(
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const edged = $().edges(INDEX, Math.sign(coord));
+        const edged = $().edges;
         const clamped = CLAMP || e.shiftKey;
         const pos = edged ? coord / 9 : coord;
         const ix = clamped ? index : INDEX;
@@ -221,7 +221,7 @@ export function slidy(
         moved && sense(e, pos) && move(pos, INDEX);
         wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
-        !$().edges(INDEX, direction) && e.stopPropagation();
+        !$().edges && e.stopPropagation();
     }
 
     function winWheel(e: WheelEvent): void {
@@ -229,7 +229,7 @@ export function slidy(
             if (
                 Math.abs(e.deltaX) >= Math.abs(e.deltaY) ||
                 e.shiftKey ||
-                (options.axis === 'y' && !$().edges(INDEX, direction))
+                (options.axis === 'y' && !$().edges)
             )
                 e.preventDefault();
             if (e.shiftKey !== shifted) {

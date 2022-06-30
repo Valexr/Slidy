@@ -114,7 +114,7 @@
                 window.media = matches;
             });
 
-            let slidy1, slidy2, slidy3, slidy4;
+            // let slidy1, slidy2, slidy3, slidy4;
             // slidy1 = slidyCore(s1, { snap: 'center' });
             // slidy2 = slidyCore(s2, { snap: 'center' });
             // slidy3 = slidyCore(s3, { snap: 'center' });
@@ -124,7 +124,7 @@
             window.easings = easings;
             window.animations = animations;
             window.options = {
-                index: 4,
+                index: 0,
                 clamp: 0,
                 indent: 1,
                 length: 9,
@@ -132,27 +132,21 @@
                 gravity: 1.2,
                 duration: 375,
                 loop: false,
-                snap: 'deck',
+                snap: 'center',
                 axis: undefined,
-                animation: animations.shuffle,
+                animation: animations.stairs,
                 easing: easings.lenear,
             };
             window.position = 0;
             window.slidy = null;
             window.slidyT = null;
             window.getPhotos = getPhotos;
-            // window.changing = false;
-            // window.input = (node) => {
-            //     changing = true;
-            //     slidy.to(node.value);
-            // };
-            // window.change = () => {
-            //     changing = !changing;
-            // };
 
             console.log('window:', window);
 
-            fetch('https://unpkg.com/@slidy/core/package.json', { mode: 'cors' })
+            fetch('https://unpkg.com/@slidy/core/package.json', {
+                mode: 'cors',
+            })
                 .then(async (res) => await res.json())
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;
@@ -202,12 +196,6 @@
                 <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
                     loop
                 </button>
-                <!-- <button id="reverse" onclick="slidy.update({ reverse: options.reverse = !options.reverse})">
-                    reverse
-                </button> -->
-                <!-- <button id="vertical" onclick="slidy.update({ vertical: options.vertical = !options.vertical})">
-                    vertical
-                </button> -->
             </nav>
 
             <form>
@@ -220,9 +208,6 @@
                             onchange="slidy.update({ axis: this.value })"
                         ></select>
                     </label>
-                    <!-- <label title="direct">direct
-                        <select id="direct" name="direct" onchange="slidy.update({ direct: this.value })"></select>
-                    </label> -->
                     <label title="snap"
                         >snap
                         <select
@@ -358,15 +343,6 @@
                     </label>
                 </fieldset>
             </form>
-
-            <!-- <form>
-                <fieldset>
-                    <label title="range">
-                        <input onchange="change(this)" oninput="input(this)" name="index" type="range" step="1" min="0"
-                            max="4" />
-                    </label>
-                </fieldset>
-            </form> -->
         </footer>
 
         <!-- <section id="s1">

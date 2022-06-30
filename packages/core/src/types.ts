@@ -14,6 +14,7 @@ export interface Options {
     position?: number;
     vertical?: number;
     reverse?: number;
+    direction?: number;
 }
 
 // type Keys = keyof typeof opts;

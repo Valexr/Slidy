@@ -14,12 +14,20 @@ export function dom(node: HTMLElement, options: Options) {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-              nodes[last - 1][coord] * reverse -
-              nodes[last - Math.max(reverse, 0)][size]
+            nodes[last - 1][coord] * reverse -
+            nodes[last - Math.max(reverse, 0)][size]
             : 0;
     const start = distance(reverse < 0 ? last : 0, 'start');
     const end = distance(reverse < 0 ? 0 : last, 'end');
     const scrollable = Math.abs(end - start) > gap * 2;
+    const edges = options.loop
+        ? false
+        : ((reverse < 0 ? options.index === last : !options.index) &&
+            (options.direction as number) < 0 &&
+            (options.position as number) < start) ||
+        ((reverse < 0 ? !options.index : options.index === last) &&
+            (options.direction as number) > 0 &&
+            (options.position as number) > end);
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
@@ -44,6 +52,7 @@ export function dom(node: HTMLElement, options: Options) {
     return {
         end,
         start,
+        edges,
         distance,
         scrollable,
         index(target: number): number {
@@ -67,18 +76,6 @@ export function dom(node: HTMLElement, options: Options) {
 
             return (nodes[edge][size] + gap) * (direction * reverse);
         },
-        edges(index = 0, dir = 0): boolean {
-            const onstart =
-                (reverse < 0 ? index >= last : index <= 0) &&
-                dir <= 0 &&
-                (options.position as number) <= start;
-            const onend =
-                (reverse < 0 ? index <= 0 : index >= last) &&
-                dir >= 0 &&
-                (options.position as number) >= end;
-
-            return !options.loop && (onstart || onend);
-        },
         animate(): void {
             loop(nodes, (child: Child, i: number) => {
                 child.i = i;
@@ -93,11 +90,14 @@ export function dom(node: HTMLElement, options: Options) {
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const style = options.animation
                     ? options.animation({
-                          node,
-                          child,
-                          options: Object.assign(options, { vertical, reverse }),
-                          translate,
-                      })
+                        node,
+                        child,
+                        options: Object.assign(options, {
+                            vertical,
+                            reverse,
+                        }),
+                        translate,
+                    })
                     : { transform: translate };
 
                 Object.assign(child.style, style);
