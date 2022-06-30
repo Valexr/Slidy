@@ -13,7 +13,6 @@ export function slidy(
 } {
     const options: Options = {
         index: 0,
-        position: 0,
         clamp: 0,
         indent: 1,
         sensity: 5,
@@ -78,9 +77,7 @@ export function slidy(
         .then(() => {
             node.style.outline = 'none';
             node.style.overflow = 'hidden';
-            node.style.position = 'relative';
             node.style.userSelect = 'none';
-            node.style.webkitUserSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
             POSITION = $().position();
