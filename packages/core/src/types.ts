@@ -1,7 +1,6 @@
 /** Slidy options object [docs](https://github.com/Valexr/slidy/tree/master/packages/core#options)*/
 export interface Options {
-    index: number;
-    position: number;
+    index?: number;
     clamp?: number;
     indent?: number;
     sensity?: number;
@@ -12,6 +11,7 @@ export interface Options {
     axis?: Axis;
     snap?: Snap;
     loop?: boolean;
+    position?: number;
     vertical?: number;
     reverse?: number;
 }

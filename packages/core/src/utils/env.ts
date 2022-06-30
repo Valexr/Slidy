@@ -1,7 +1,6 @@
-import { dom } from './dom';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-function mount(node: HTMLElement, options: Options) {
+function mount(node: HTMLElement) {
     return new Promise((resolve, reject) => {
         let count = 0;
         if (node) {
@@ -18,12 +17,16 @@ function mount(node: HTMLElement, options: Options) {
                     if (mounted) {
                         count = 0;
                         clearInterval(mounting);
-                        resolve(dom(node, options).init());
+                        resolve(init(node));
                     }
                 }
             }, 16);
         }
     });
+}
+
+function init(node: HTMLElement) {
+    return loop(node.children, (child, i) => (child.index = i));
 }
 
 function indexing(node: HTMLElement, options: Options, index: number): number {

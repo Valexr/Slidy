@@ -132,10 +132,10 @@
                 gravity: 1.2,
                 duration: 375,
                 loop: false,
-                snap: 'center',
-                // axis: undefined,
-                animation: animations.stairs,
-                // easing: easings.lenear,
+                snap: 'deck',
+                axis: undefined,
+                animation: animations.shuffle,
+                easing: easings.lenear,
             };
             window.position = 0;
             window.slidy = null;
@@ -181,6 +181,7 @@
                 </svg>
             </a>
         </header>
+
         <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
             <ul id="node" tabindex="0"></ul>
             <nav id="thumbs"></nav>

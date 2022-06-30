@@ -41,8 +41,6 @@ export function slidy(
         GRAVITY = options.gravity as number,
         CLAMP = options.clamp as number;
 
-    const $ = () => dom(node, options);
-
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
@@ -60,11 +58,14 @@ export function slidy(
         ['dragstart', (e) => e.preventDefault()],
     ];
 
+
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
         POSITION = $().position(false);
         dispatch(node, 'resize', { ROE });
     });
+
+    function $() { return dom(node, options) }
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.axis === 'y' && e.type === 'touchmove'
@@ -72,7 +73,7 @@ export function slidy(
             : Math.abs(pos) >= SENSITY;
     }
 
-    mount(node, options)
+    mount(node)
         .then(() => {
             node.style.outline = 'none';
             node.style.overflow = 'hidden';
@@ -94,12 +95,12 @@ export function slidy(
         direction = Math.sign(pos);
         POSITION += positioning(pos);
         POSITION = options.position = edging(POSITION);
-
-        SENSITY = 0;
         INDEX = options.index = $().index(POSITION);
-        GRAVITY = $().edges(INDEX, direction) ? 1.8 : (options.gravity as number);
 
-        $().animate(options.animation);
+        GRAVITY = $().edges(INDEX, direction) ? 1.8 : (options.gravity as number);
+        SENSITY = 0;
+
+        $().animate();
         dispatch(node, 'move', { index: INDEX, position: POSITION });
 
         function positioning(pos: number): number {

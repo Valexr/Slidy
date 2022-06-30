@@ -31,7 +31,8 @@ or from [CDN]:
 ## Usage
 
 Animation functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
-Includes `fade, matrix, perspective, rotate, scale, shuffle, translate` as functions. 
+
+Includes `blur, deck, fade, flip, matrix, perspective, rotate, scale, shuffle, stairs, translate` as functions. 
 
 ```ts
 type Options = {

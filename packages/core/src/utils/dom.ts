@@ -1,4 +1,4 @@
-import type { AnimationFunc, Child, Options } from '../types';
+import type { Child, Options } from '../types';
 import { clamp, loop } from './env';
 
 export function dom(node: HTMLElement, options: Options) {
@@ -14,9 +14,10 @@ export function dom(node: HTMLElement, options: Options) {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-              nodes[last - 1][coord] * reverse -
-              nodes[last - Math.max(reverse, 0)][size]
+            nodes[last - 1][coord] * reverse -
+            nodes[last - Math.max(reverse, 0)][size]
             : 0;
+    const position = options.position as number;
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
@@ -45,9 +46,6 @@ export function dom(node: HTMLElement, options: Options) {
         scrollable() {
             return Math.abs(this.end - this.start) > gap * 2;
         },
-        init() {
-            return loop(nodes, (child: Child, i) => (child.index = i));
-        },
         index(target: number): number {
             const dist = (index: number) => Math.abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 0);
@@ -71,37 +69,32 @@ export function dom(node: HTMLElement, options: Options) {
         },
         edges(index = 0, dir = 0): boolean {
             const start =
-                (reverse < 0 ? index >= last : index <= 0) &&
-                dir <= 0 &&
-                (options.position as number) <= this.start;
+                (reverse < 0 ? index >= last : index <= 0) && dir <= 0 && position <= this.start;
             const end =
-                (reverse < 0 ? index <= 0 : index >= last) &&
-                dir >= 0 &&
-                (options.position as number) >= this.end;
+                (reverse < 0 ? index <= 0 : index >= last) && dir >= 0 && position >= this.end;
 
             return !options.loop && (start || end);
         },
-        animate(animation?: AnimationFunc) {
+        animate(): void {
             loop(nodes, (child: Child, i: number) => {
-                const pos =
-                    options.snap === 'deck' ? distance(child.index) : (options.position as number);
+                const pos = options.snap === 'deck' ? distance(child.index) : position;
 
+                child.i = i;
                 child.active = options.loop ? cix : (options.index as number);
                 child.size = child[size] + gap;
-                child.i = i;
                 child.dist = distance(child.index);
-                child.track = (options.position as number) - child.dist;
-                child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
+                child.track = position - child.dist;
                 child.turn = clamp(-1, child.track / child.size, 1);
+                child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
 
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
-                const style = animation
-                    ? animation({
-                          node,
-                          child,
-                          options: { ...options, vertical, reverse },
-                          translate,
-                      })
+                const style = options.animation
+                    ? options.animation({
+                        node,
+                        child,
+                        options: { ...options, vertical, reverse },
+                        translate,
+                    })
                     : { transform: translate };
 
                 Object.assign(child.style, style);
