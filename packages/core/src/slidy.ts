@@ -1,5 +1,6 @@
-import { clamp, coordinate, indexing, dispatch, mount, throttle, listen, loop } from './utils/env';
-import { dom } from './utils/dom';
+import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
+import { clamp, loop, throttle } from './lib/utils';
+import { dom } from './lib/dom';
 import type { Options, UniqEvent, EventMap } from './types';
 
 export function slidy(
@@ -58,14 +59,15 @@ export function slidy(
         ['dragstart', (e) => e.preventDefault()],
     ];
 
-
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
         POSITION = $().position(false);
         dispatch(node, 'resize', { ROE });
     });
 
-    function $() { return dom(node, options) }
+    function $() {
+        return dom(node, options);
+    }
 
     function sense(e: UniqEvent, pos: number): boolean {
         return options.axis === 'y' && e.type === 'touchmove'
@@ -109,7 +111,7 @@ export function slidy(
                 hix = INDEX;
                 dispatch(node, 'index', { index });
             }
-            return $().scrollable() ? pos : 0;
+            return $().scrollable ? pos : 0;
         }
 
         function edging(position: number): number {
