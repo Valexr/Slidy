@@ -32,7 +32,6 @@ export function slidy(
         raf = 0,
         ets = 0,
         track = 0,
-        // direction = 0,
         shifted = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
