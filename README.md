@@ -6,7 +6,7 @@
 
 # @Slidy
 
-### <img align="right" width="150" src="Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & some useful plugins.
+### <img align="right" width="120" src="Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & some useful plugins.
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
