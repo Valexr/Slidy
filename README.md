@@ -27,7 +27,9 @@
 
 ## Development
 
-For monorepos behavior @slidy use `pnpm workspaces`.
+- `pnpm workspaces` - monorepos
+- `esbuild` - bundling & packaging
+- `derver` - dev server
 
 ## Todo
 
