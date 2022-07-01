@@ -12,9 +12,9 @@ export interface Options {
     snap?: Snap;
     loop?: boolean;
     position?: number;
+    direction?: number;
     vertical?: number;
     reverse?: number;
-    direction?: number;
 }
 
 // type Keys = keyof typeof opts;
