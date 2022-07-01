@@ -26,7 +26,7 @@
         "build:media": "pnpm --filter=@slidy/media build",
         "build:easing": "pnpm --filter=@slidy/easing build",
         "build:animation": "pnpm --filter=@slidy/animation build",
-        "format": "prettier --ignore-path .gitignore packages/svelte --write '**/*.{js,ts,md,json,html,css,md}'",
+        "format": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
         "deploy": "pnpm build:www && gh-pages -d www/build",
         "pub": "pnpm -r pub",
         "pub:core": "pnpm --filter=@slidy/core pub",
