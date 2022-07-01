@@ -110,7 +110,7 @@ All `options` are optional, but mount `node` required:
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
 
-| Property    | Default     | Type       | Description |
+| Key         | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
 | `index`     | `0`         | `number`   | Start index |
 | `clamp`     | `0`         | `number`   | Clamping sliding by index: `clamp - index + clamp` |
@@ -126,12 +126,12 @@ If you need reversed flow use css rules on target node, like: `flex-flow: row-re
 
 ### Internal - readonly
 
-| Name        | Type      | Description |
+| Key         | Type      | Description |
 | :---------- | :-------- | :---------- |
 | `position`  | `number`  | Current position |
 | `direction` | `number`  | Children move direction |
-| `vertical`  | `number`  | Children axis flow: `0 || Number` |
-| `reverse`   | `number`  | Children reverse flow: `-1 || 1` |
+| `vertical`  | `number`  | Children axis flow: `0` or any `Number` |
+| `reverse`   | `number`  | Children reverse flow: `-1` or `1` |
 
 ### Usage
 

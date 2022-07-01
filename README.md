@@ -20,7 +20,7 @@
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
-> ## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
+## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
 
 > Version 2 is no longer supported, but have packages on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/).  
 > Source files temporally live in [`./tmp/_v2`](https://github.com/Valexr/slidy/tree/master/tmp/_v2) folder.
