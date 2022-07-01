@@ -12,6 +12,8 @@ Simple animation functions for inertion scrolling.
 
 > - [Getting started](#getting-started-)
 > - [Usage](#usage)
+> - [Arguments](#arguments)
+> - [Custom](#custom)
 
 
 ## Getting started 🚀
@@ -48,7 +50,7 @@ type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
 interface Child extends HTMLElement {
     i: number; // child index in array
     index: number; // child index
-    active: boolean; // `options.loop ? cix : options.index`
+    active: number; // `options.loop ? cix : options.index`
     size: number; // `size + gap` by axis
     dist: number; // distance to snap position
     track: number; // move to the size of the slide from its snap point +/- in the direction
@@ -65,7 +67,6 @@ type AnimationArgs = {
 
 type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 ```
-
 
 ### MJS/CJS module import
 
@@ -101,6 +102,53 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
     <Slidy animation={fade} />
 </script>
+```
+
+
+## Arguments
+
+| Name        | Type          | Description |
+| :---------- | :------------ | :---------- |
+| `node`      | `HTMLElement` | Target slidy Node |
+| `child`     | `Child`       | Extended childNode object |
+| `options`   | `Options`     | Helped options from @slidy/core |
+| `translate` | `string`      | Basic translate needed in any function `{ transform: translate }` |
+
+### Child
+
+| Name     | Type     | Description |
+| :------- | :------- | :---------- |
+| `i`      | `number` | Index in array |
+| `index`  | `number` | Index in core |
+| `active` | `number` | `options.loop ? cix : options.index` |
+| `size`   | `number` | `size + gap` by options.vertical |
+| `dist`   | `number` | Distance to snap position |
+| `track`  | `number` | Move by slide size from its snap point +/- in the direction |
+| `turn`   | `number` | `-1 <- child.track / child.size -> 1` |
+| `exp`    | `number` | Interpolated child.track `0 <- exp -> 1` |
+
+### Options
+
+| Name       | Type      | Description |
+| :--------- | :-------- | :---------- |
+| `index`    | `number`  | Current active slide index |
+| `position` | `number`  | Current position |
+| `vertical` | `number`  | Children axis flow: `0 || Number` |
+| `reverse`  | `number`  | Children reverse flow: `-1 || 1` |
+| `snap`     | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
+
+
+## Custom
+
+Like exmaple `fade()` function.
+
+```ts
+function fade({ child, translate }: AnimationArgs) {
+    return {
+        opacity: child.exp,
+        transform: translate,
+    };
+}
 ```
 
 
