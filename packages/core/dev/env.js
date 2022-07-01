@@ -48,18 +48,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'blur',
                             'deck',
@@ -74,7 +74,7 @@ export function setEvents() {
                             'translate',
                         ],
                         snaps = ['unset', 'start', 'center', 'end', 'deck'],
-                        coords = ['x', 'y', 'both'],
+                        coords = ['x', 'y'],
                         flows = ['row', 'row-reverse', 'column', 'column-reverse', 'grid'];
 
                     axis.innerHTML = coords.map(
