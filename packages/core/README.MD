@@ -37,8 +37,7 @@ Playground is available in svelte [REPL].
 
 ## Usage
 
-Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
-
+Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
 All `options` are optional, but mount `node` required:
 
 ### MJS/CJS module import
@@ -110,7 +109,7 @@ All `options` are optional, but mount `node` required:
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
 
-> ⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
+⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
 
 
 | Key         | Default     | Type       | Description |
