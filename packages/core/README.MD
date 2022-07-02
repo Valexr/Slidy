@@ -106,9 +106,12 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
-> ⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes.
+@slidy/core does not style the DOM, but uses the browser render, except for 3 rules for target node: `outline: none, overflow: hidden, user-select: none`.
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
+
+> ⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
+
 
 | Key         | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
@@ -124,14 +127,14 @@ If you need reversed flow use css rules on target node, like: `flex-flow: row-re
 | `axis`      | `undefined` | `string`   | Control coordinate axis: `'x', 'y'`. |
 | `loop`      | `false`     | `boolean`  | Infinite loop mode |
 
-### Internal - readonly
+### Internal calculated - readonly
 
-| Key         | Type      | Description |
-| :---------- | :-------- | :---------- |
-| `position`  | `number`  | Current position |
-| `direction` | `number`  | Children move direction |
-| `vertical`  | `number`  | Children axis flow: `0` or any `Number` |
-| `reverse`   | `number`  | Children reverse flow: `-1` or `1` |
+| Key         | Type     | Description |
+| :---------- | :------- | :---------- |
+| `position`  | `number` | Current position |
+| `direction` | `number` | Children move direction |
+| `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
+| `reverse`   | `number` | Children reverse flow: `-1` or `1` |
 
 ### Usage
 
@@ -171,8 +174,8 @@ If you need reversed flow use css rules on target node, like: `flex-flow: row-re
 
 ## Events
 
-| Name      | Detail              | Description                                                                       |
-| :-------- | :------------------ | :-------------------------------------------------------------------------------- |
+| Name      | Detail              | Description |
+| :-------- | :------------------ | :---------- |
 | `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
 | `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
 | `move`    | `{index,position}`  | Fires on any sliding |
