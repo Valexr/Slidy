@@ -83,14 +83,14 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "@types/eslint": "^8.4.3",
+        "@types/eslint": "^8.4.5",
         "@types/node": "^18.0.0",
-        "@typescript-eslint/eslint-plugin": "^5.30.0",
-        "@typescript-eslint/parser": "^5.30.0",
+        "@typescript-eslint/eslint-plugin": "^5.30.3",
+        "@typescript-eslint/parser": "^5.30.3",
         "derver": "^0.5.3",
         "esbuild": "^0.14.48",
         "esbuild-plugin-eslinter": "^0.1.2",
-        "eslint": "^8.18.0",
+        "eslint": "^8.19.0",
         "gh-pages": "^4.0.0",
         "open-props": "^1.4.0",
         "prettier": "^2.7.1",
