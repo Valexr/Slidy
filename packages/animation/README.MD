@@ -34,7 +34,7 @@ or from [CDN]:
 
 Animation functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
 
-Includes `blur, deck, fade, flip, matrix, perspective, rotate, scale, shuffle, stairs, translate` as functions. 
+Includes `fade, flip, matrix, rotate, scale, stairs, translate` & `blur, deck, shuffle` in progress as functions. 
 
 ```ts
 type Options = {
@@ -133,8 +133,8 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 | :--------- | :-------- | :---------- |
 | `index`    | `number`  | Current active slide index |
 | `position` | `number`  | Current position |
-| `vertical` | `number`  | Children axis flow: `0 || Number` |
-| `reverse`  | `number`  | Children reverse flow: `-1 || 1` |
+| `vertical` | `number`  | Children axis flow: `0` or any `Number` as `true` |
+| `reverse`  | `number`  | Children reverse flow: `-1` or `1` |
 | `snap`     | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
 
 
