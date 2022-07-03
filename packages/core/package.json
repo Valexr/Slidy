@@ -53,8 +53,8 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/core",
     "devDependencies": {
-        "@slidy/media": "workspace:*",
+        "@slidy/animation": "workspace:*",
         "@slidy/easing": "workspace:*",
-        "@slidy/animation": "workspace:*"
+        "@slidy/media": "workspace:*"
     }
 }
