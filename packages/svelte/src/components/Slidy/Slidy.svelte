@@ -40,7 +40,6 @@
 	 * To prevent infinite loop the thumb index has separate variable
 	 * Also, the current index passed into thumbs as it may be dragged away.
 	 */
-	export let _indexActive = index;
 	export let indexThumb = index;
 
 	setContext("classNames", classNames);
