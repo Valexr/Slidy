@@ -1,12 +1,19 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json"
-	// "compilerOptions": {
-	// "resolveJsonModule": true
-	// 	"paths": {
-	// 		"$lib": ["src/lib"],
-	// 		"$lib/*": ["src/lib/*"],
-	// 		"@slidy/svelte": ["../packages/svelte/src"],
-	// 		"@slidy/media": ["../packages/media/src"]
-	// 	}
-	// }
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"resolveJsonModule": true,
+		"paths": {
+			"$app/*": [ ".svelte/dev/runtime/app/*", ".svelte/build/runtime/app/*" ],
+			"@components": [ "src/lib/components/index.ts" ],
+      "@components/*": [ "src/lib/components/*" ],
+			"$lib/*": [ "src/lib/*" ],
+			"@lib/*": [ "src/lib/*" ],
+			"@paths": [ "src/core/paths.ts" ],
+      "@stores": [ "src/lib/stores/index.ts" ],
+      "@stores/*": [ "src/lib/stores/*" ],
+			"@styles/*": [ "src/lib/styles/*" ],
+			"@types": [ "src/types/index.ts" ],
+      "@utils/*": [ "src/lib/utils/*" ]
+		}
+	}
 }

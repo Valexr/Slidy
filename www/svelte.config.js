@@ -1,33 +1,42 @@
 import adapter from "@sveltejs/adapter-static";
 import preprocess from "svelte-preprocess";
 import { mdsvex } from "mdsvex";
+import path from "path";
+
+const aliases = [
+	{ name: "@components", path: "./src/lib/components" },
+	{ name: "$lib", path: "./src/lib" },
+	{ name: "@lib", path: "./src/lib" },
+	{ name: "@paths", path: "./src/core/paths.ts" },
+	{ name: "@styles", path: "./src/lib/styles" },
+	{ name: "@stores", path: "./src/lib/stores" },
+	{ name: "@utils", path: "./src/lib/utils" },
+	{ name: "@types", path: "./src/types" }
+];
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
 	preprocess: [
 		mdsvex(),
 		preprocess()
 	],
 	extensions: [ ".svelte", ".svx" ],
 	kit: {
-		// alias: {
-		//     "@slidy/svelte": path.resolve("../packages/svelte/src/index.ts"),
-		//     "@slidy/media": path.resolve("../packages/media/src/index.ts")
-		// },
 		adapter: adapter({
-			// default options are shown
 			pages: "build",
 			assets: "build",
 			fallback: null,
 			precompress: false
 		}),
 		prerender: {
-			// This can be false if you"re using a fallback (i.e. SPA mode)
 			default: false
 		},
 		vite: {
+			resolve: {
+				alias: Object.fromEntries(aliases.map(alias => (
+					[ alias.name, path.resolve(alias.path) ]
+				)))
+			},
 			server: {
 				port: 3339
 			}
