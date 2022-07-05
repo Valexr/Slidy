@@ -1,5 +1,29 @@
 # Changelog
 
+## 3.5.0 - modulated & fully rethinkin
+
+### Simple, configurable, nested & reusable sliding action script with templates, animations, easings & some useful plugins.
+
+Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
+
+### Packages
+
+-   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
+-   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
+-   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
+-   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
+-   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
+
+### Todo
+
+-   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
+-   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
+-   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
+-   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
+-   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
+-   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
+
+
 ## 2.8.2
 
 -   fix index on stop;

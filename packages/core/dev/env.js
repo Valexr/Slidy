@@ -74,7 +74,7 @@ export function setEvents() {
                             'translate',
                         ],
                         snaps = ['unset', 'start', 'center', 'end', 'deck'],
-                        coords = ['x', 'y', 'both'],
+                        coords = ['x', 'y'],
                         flows = ['row', 'row-reverse', 'column', 'column-reverse', 'grid'];
 
                     axis.innerHTML = coords.map(

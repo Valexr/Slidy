@@ -17,7 +17,6 @@
 > - [Options](#options)
 > - [Events](#events)
 > - [Methods](#methods)
-> - [Animations](#animations)
 
 
 ## Getting started
@@ -38,8 +37,7 @@ Playground is available in svelte [REPL].
 
 ## Usage
 
-Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
-
+Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
 All `options` are optional, but mount `node` required:
 
 ### MJS/CJS module import
@@ -107,11 +105,14 @@ All `options` are optional, but mount `node` required:
 
 ## Options
 
-Since v3.4.9 @slidy/core automated calculate direction from rendered children flow 🤓  
-In template just needed css rules on target node, like: `flex-flow: row-reverse`, `direction: rtl` or html attribute `dir="rtl"`...  
-That's it 🤷🏻‍♂️
+@slidy/core does not style the DOM, but uses the browser render, except for 3 rules for target node: `outline: none, overflow: hidden, user-select: none`.
 
-| Property    | Default     | Type       | Description |
+If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
+
+⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
+
+
+| Key         | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
 | `index`     | `0`         | `number`   | Start index |
 | `clamp`     | `0`         | `number`   | Clamping sliding by index: `clamp - index + clamp` |
@@ -119,11 +120,20 @@ That's it 🤷🏻‍♂️
 | `sensity`   | `5`         | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
 | `gravity`   | `1.2`       | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`  | `375`       | `number`   | Sliding duration in ms |
-| `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles`. [Animations](#animations) |
-| `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing].|
+| `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
+| `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. |
 | `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
-| `axis`      | `x`         | `string`   | Control coordinate axis: `'x', 'y'` |
+| `axis`      | `undefined` | `string`   | Control coordinate axis: `'x', 'y'`. |
 | `loop`      | `false`     | `boolean`  | Infinite loop mode |
+
+### Internal calculated - readonly
+
+| Key         | Type     | Description |
+| :---------- | :------- | :---------- |
+| `position`  | `number` | Current position |
+| `direction` | `number` | Children move direction |
+| `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
+| `reverse`   | `number` | Children reverse flow: `-1` or `1` |
 
 ### Usage
 
@@ -163,8 +173,8 @@ That's it 🤷🏻‍♂️
 
 ## Events
 
-| Name      | Detail              | Description                                                                       |
-| :-------- | :------------------ | :-------------------------------------------------------------------------------- |
+| Name      | Detail              | Description |
+| :-------- | :------------------ | :---------- |
 | `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
 | `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
 | `move`    | `{index,position}`  | Fires on any sliding |
@@ -245,53 +255,6 @@ That's it 🤷🏻‍♂️
 </nav>
 ```
 
-
-## Animations
-
-You can provide custom animation or use presets from [@slidy/animation] package.
-
-```ts
-type Options = {
-    index: number, // current active slide index
-    position: number; // current position
-    vertical: boolean, // node children flow
-    reverse: boolean, // node children reverse flow
-    snap: Snap; // snapping side
-}
-
-type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
-
-interface Child extends HTMLElement {
-    i: number; // child index in array
-    index: number; // child index
-    active: boolean; // `options.loop ? cix : options.index`
-    size: number; // `size + gap` by axis
-    dist: number; // distance to snap position
-    track: number; // move to the size of the slide from its snap point +/- in the direction
-    turn: number; // `-1 <- child.track / child.size -> 1`
-    exp: number; // interpolated child.track `0 <- exp -> 1`
-}
-
-type AnimationArgs = {
-    node: HTMLElement; // target slidy node
-    child: Child; // extended childNode object
-    options: Options; // options: index, position, vertical, reverse, snap
-    translate: string; // basic translate needed in any function `{ transform: translate }`
-};
-
-type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
-```
-
-Like exmaple `fade()` function. More info in [@slidy/animation].
-
-```ts
-function fade({ child, translate }: AnimationArgs) {
-    return {
-        opacity: child.exp,
-        transform: translate,
-    };
-}
-```
 
 MIT &copy; [Valexr](https://github.com/Valexr)
 

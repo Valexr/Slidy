@@ -6,9 +6,13 @@
 
 # @Slidy
 
-### <img align="right" width="150" src="Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & some useful plugins.
+### <img align="right" width="120" src="Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & plugins.
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
+
+<img src="flip.gif">
+
+## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
 
 ## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
@@ -20,14 +24,11 @@
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
-> ## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
-
-> Version 2 is no longer supported, but have packages on [npm](https://www.npmjs.com/package/svelte-slidy) or [cdn](https://unpkg.com/browse/svelte-slidy@2.8.7/).  
-> Source files temporally live in [`./tmp/_v2`](https://github.com/Valexr/slidy/tree/master/tmp/_v2) folder.
-
 ## Development
 
-For monorepos behavior @slidy use `pnpm workspaces`.
+- `pnpm workspaces` - monorepos
+- `esbuild` - bundling & packaging
+- `derver` - dev server
 
 ## Todo
 
