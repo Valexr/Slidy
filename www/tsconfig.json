@@ -6,6 +6,7 @@
 			"$app/*": [ ".svelte/dev/runtime/app/*", ".svelte/build/runtime/app/*" ],
 			"@components": [ "src/lib/components/index.ts" ],
       "@components/*": [ "src/lib/components/*" ],
+			"$lib": [ "src/lib" ],
 			"$lib/*": [ "src/lib/*" ],
 			"@lib/*": [ "src/lib/*" ],
 			"@paths": [ "src/core/paths.ts" ],
