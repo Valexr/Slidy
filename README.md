@@ -10,6 +10,8 @@
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
+<img src="flip.gif">
+
 ## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
 -   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
