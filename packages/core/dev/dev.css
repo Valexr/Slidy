@@ -6,8 +6,7 @@
 }
 
 header,
-footer,
-article {
+footer {
     margin: var(--size-fluid-2) auto;
     width: fit-content;
 }
@@ -441,4 +440,16 @@ nav#thumbs button.active {
     text-indent: -9999px;
     vertical-align: super;
     width: 1em;
+}
+
+#github {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--accent);
+    mask-image: url(assets/gh.svg);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url(assets/gh.svg);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
 }
