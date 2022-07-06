@@ -1,9 +1,6 @@
-<script lang="ts" context="module">
-	import { Slidy } from '@slidy/svelte/src';
-	import '@slidy/svelte/slidy.css';
+<!-- <script lang="ts" context="module">
 	import { media, type Queries } from '$lib/media';
-	import { getPhotos } from '$lib/api';
-
+	
 	export async function load({ session }) {
 		let { theme = JSON.stringify(media.matches) } = session.user;
 
@@ -13,44 +10,50 @@
 			}
 		};
 	}
-</script>
+</script> -->
 
 <script lang="ts">
-	let main: HTMLElement,
-		page = Math.trunc(Math.random() * 99);
-
-	export let theme: Queries = media.matches;
+	import { randomSlides } from "@stores/slides";
+	import { Slidy } from "@slidy/svelte";
+	import "@slidy/svelte/slidy.css";
+	
+	//export let theme: Queries = media.matches;
+	const slides1 = randomSlides(5);
+	const slides2 = randomSlides(5);
 </script>
 
 <svelte:head>
 	<title>Slidy 3.1.0 - SvelteKit</title>
 </svelte:head>
 
-<header>
-	<h1 style="color: {theme.dark ? 'inherit' : 'red'}">Welcome to Slidy SvelteKit!</h1>
-	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-</header>
-
-<main bind:this={main}>
-	{#await getPhotos(page, main) then slides}
+<main>
 		<Slidy
-			getImgSrc={(item) => item.download_url}
 			duration={450}
 			gravity={1.45}
 			snap="center"
 			thumbnail
 			index={4}
-			{slides}
+			slides={$slides1}
+			navigation
+			arrows
 		/>
-	{/await}
+		<Slidy
+			duration={450}
+			gravity={1.45}
+			snap="center"
+			thumbnail
+			index={4}
+			slides={$slides2}
+			navigation
+			arrows
+		/>
 </main>
 
-<style lang="scss">
-	header {
-		padding: var(--size-fluid-2);
-	}
+<style>
 	main {
-		height: var(--slidy-height);
+		--slidy-height: 75vh;
+		--slidy-nav-item-color: white;
+
 		padding: var(--size-fluid-2) 0;
 	}
 </style>
