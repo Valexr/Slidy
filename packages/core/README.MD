@@ -216,7 +216,7 @@ If you need reversed flow use css rules on target node, like: `flex-flow: row-re
 
 | Name        | Arguments          | Description |
 | :---------- | :----------------- | :---------- |
-| `to()`      | `(index,duration)` | Scroll to `index` with `duration` |
+| `to()`      | `(index)`          | Scroll to `index` |
 | `update()`  | `({option:value})` | Update any property in options |
 | `destroy()` | `()`               | Remove event listners, observers & defaulted props on `slidy()` instance |
 

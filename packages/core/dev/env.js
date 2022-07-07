@@ -10,18 +10,7 @@ export function setEvents() {
                         if (options[button.id]) {
                             button.classList.add('active');
                         } else if (!isNaN(button.id)) {
-                            let duration = 0;
-                            button.onpointerdown = (e) => {
-                                // e.preventDefault();
-                                duration = e.timeStamp;
-                                e.target.onpointermove = null;
-                                e.target.onpointermove = (e) => {
-                                    e.target.onpointerup = null;
-                                };
-                                e.target.onpointerup = (e) => {
-                                    slidy.to(+e.target.id, e.timeStamp - duration);
-                                };
-                            };
+                            button.onclick = (e) => slidy.to(+e.target.id);
                         }
                     }
 
@@ -48,18 +37,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'blur',
                             'deck',

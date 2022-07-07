@@ -116,13 +116,13 @@ export function slidy(
         }
     }
 
-    function scroll(index: number, amplitude: number, _duration = 0): void {
+    function scroll(index: number, amplitude: number): void {
         const time = performance.now();
         const snaped = options.snap || options.loop || $().edges;
         const target = snaped
             ? $().distance(index)
             : clamp($().start, POSITION + amplitude, $().end);
-        const duration = _duration || DURATION * clamp(1, Math.abs(index - hix), 2);
+        const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
 
         amplitude = target - POSITION;
 
@@ -145,13 +145,13 @@ export function slidy(
         });
     }
 
-    function to(index = 0, duration = DURATION): void {
+    function to(index = 0): void {
         clear();
 
         index = indexing(node, options, index);
         const pos = $().distance(index) - POSITION;
 
-        scroll(index, pos, duration);
+        scroll(index, pos);
     }
 
     function onDown(e: UniqEvent): void {
