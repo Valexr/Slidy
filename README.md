@@ -12,6 +12,8 @@
 
 <img src="flip.gif">
 
+`{ snap: 'deck', animation: flip }`
+
 ## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
 
 ## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
