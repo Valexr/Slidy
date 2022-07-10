@@ -1,8 +1,8 @@
 [![npm version](https://img.shields.io/npm/v/@slidy/animation)](https://www.npmjs.com/package/@slidy/animation)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@slidy/animation?label=minzip)](https://bundlephobia.com/package/@slidy/animation)
-[![npm license](https://img.shields.io/npm/l/@slidy/animation)](https://www.npmjs.com/package/@slidy/animation)
 [![npm downloads](https://img.shields.io/npm/dt/@slidy/animation)](https://www.npmjs.com/package/@slidy/animation)
 [![github issues](https://img.shields.io/github/issues/valexr/slidy)](https://github.com/Valexr/slidy/issues)
+[![npm license](https://img.shields.io/npm/l/@slidy/animation)](https://www.npmjs.com/package/@slidy/animation)
 
 # @slidy/animation
 
