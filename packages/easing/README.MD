@@ -1,8 +1,8 @@
 [![npm version](https://img.shields.io/npm/v/@slidy/easing)](https://www.npmjs.com/package/@slidy/easing)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@slidy/easing?label=minzip)](https://bundlephobia.com/package/@slidy/easing)
-[![npm license](https://img.shields.io/npm/l/@slidy/easing)](https://www.npmjs.com/package/@slidy/easing)
 [![npm downloads](https://img.shields.io/npm/dt/@slidy/easing)](https://www.npmjs.com/package/@slidy/easing)
 [![github issues](https://img.shields.io/github/issues/valexr/slidy)](https://github.com/Valexr/slidy/issues)
+[![npm license](https://img.shields.io/npm/l/@slidy/easing)](https://www.npmjs.com/package/@slidy/easing)
 
 # @slidy/easing
 
