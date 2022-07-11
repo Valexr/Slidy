@@ -1,0 +1,43 @@
+name: build-and-deploy
+on:
+  push:
+    paths:
+      - www/**
+  pull_request:
+    paths:
+      - www/**
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+      - name: Install and build
+        run: |
+          npm i pnpm -g
+          pnpm install
+          pnpm run build:www
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: project
+          path: www/build
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+      - name: Download Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: project 
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: project
+          clean: true
+          clean-exclude: |
+            .nojekyll
+            CNAME
