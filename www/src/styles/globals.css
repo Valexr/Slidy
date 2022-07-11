@@ -54,7 +54,7 @@ sup {
 		transition: outline-offset 0.25s ease;
 	}
 
-	/* :focus:not(:active) {
+	:focus:not(:active) {
 		outline-offset: 5px;
-	} */
+	}
 }
