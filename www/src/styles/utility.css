@@ -1,0 +1,4 @@
+.max-width-m {
+	max-width: var(--size-15);
+	margin: 0 auto;
+}

@@ -5,7 +5,6 @@
 @import "open-props/normalize"; */
 
 :root {
-	--slidy-height: 75vh;
 	--link: #ff3e80;
 	font-family: var(--font-sans);
 }
