@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-      - run: npm i pnpm -g
-      - run: pnpm ci
-      - run: pnpm run build:www
+      - run: cd www
+      - run: npm ci
+      - run: npm run build
       - uses: actions/upload-artifact@v3
         with:
           name: build
