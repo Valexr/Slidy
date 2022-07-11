@@ -34,7 +34,7 @@ jobs:
                   cd www
                   npm run prepare
                   npm run build
-                  ls
+                  ls -a
             - name: Deploy 🚀
               uses: JamesIves/github-pages-deploy-action@v4
               with:
