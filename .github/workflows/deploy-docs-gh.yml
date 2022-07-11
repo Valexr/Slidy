@@ -13,46 +13,34 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
-      - name: setup node
-        uses: actions/setup-node@master
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
+          node-version: 16
+          cache: 'npm'
       - run: npm i pnpm -g
-      - run: pnpm run build:www
+      - run: pnpm i
+      - run: pnpm build:www
       - uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: docs
           path: www/build/
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: www/build
   
   deploy:
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.1
-      - name: Download Artifacts
-        uses: actions/download-artifact@v1
+      - uses: actions/checkout@v3
         with:
-          name: build        
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+          ref: gh-pages
+      - run: rm -rf *
+      - uses: actions/download-artifact@v3
         with:
-          branch: gh-pages
-          folder: build
-          clean: true
-          clean-exclude: |
-            .nojekyll
+          name: docs
+      - uses: EndBug/add-and-commit@v9.0.0
+        with:
+          default_author: github_actions
+          message: Deployment
