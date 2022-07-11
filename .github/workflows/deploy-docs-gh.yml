@@ -16,13 +16,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-      - run: cd www
-      - run: npm ci
-      - run: npm run build
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: 16
+#           cache: 'npm'
+      - run: npm i pnpm -g
+      - run: pnpm i
+      - run: pnpm build:www
       - uses: actions/upload-artifact@v3
         with:
           name: build
