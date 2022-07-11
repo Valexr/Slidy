@@ -15,32 +15,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: true
+
+      - name: Setup NodeJS
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-      - run: npm i pnpm -g
-      - run: pnpm i
-      - run: pnpm build:www
-      - uses: actions/upload-artifact@v3
+          cache: pnpm
+      
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:www
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: www/build/
   
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
+      - name: Deploy Docs
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          ref: gh-pages
-      - run: rm -rf *
-      - uses: actions/download-artifact@v3
-        with:
-          name: docs
-      - uses: EndBug/add-and-commit@v9.0.0
-        with:
-          default_author: github_actions
-          message: Deployment
+          branch: gh-pages
+          clean: true
+          folder: www/build
