@@ -1,5 +1,5 @@
 # @slidy/www
 
-> 👨🏻‍💻 Work in progess!!!
+> 👨🏻‍💻 Work in progess...
 
 Demo docs site about @Slidy based on SvelteKit.
