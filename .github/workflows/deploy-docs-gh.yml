@@ -2,11 +2,11 @@ name: build-and-deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['master']
     paths:
       - www/**
   pull_request:
-    branches: ['main']
+    branches: ['master']
     paths:
       - www/**
 
