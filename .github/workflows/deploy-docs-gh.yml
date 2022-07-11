@@ -22,7 +22,7 @@ jobs:
 #           cache: 'npm'
       - run: npm i pnpm -g
       - run: pnpm i
-      - run: pnpm build:www
+      - run: cd www && pnpm build
       - uses: actions/upload-artifact@v3
         with:
           name: build
