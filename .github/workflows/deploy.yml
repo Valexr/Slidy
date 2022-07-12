@@ -1,0 +1,31 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - www/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+
+      - name: Install and Build 🔧
+        run: |
+          npm run build:www
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./www/build
