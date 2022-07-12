@@ -1,6 +1,6 @@
 {
     "name": "slidy",
-    "description": "Simple, configurable & reusable carousel",
+    "description": "Sliding action script",
     "private": true,
     "type": "module",
     "scripts": {
@@ -12,9 +12,6 @@
         "dev:solid": "pnpm --filter=@slidy/solid... --parallel dev",
         "dev:malina": "pnpm --filter=@slidy/malina... --parallel dev",
         "dev:svelte": "pnpm --filter=@slidy/svelte... --parallel dev:svelte",
-        "dev:media": "pnpm --filter=@slidy/media dev",
-        "dev:easing": "pnpm --filter=@slidy/easing dev",
-        "dev:animation": "pnpm --filter=@slidy/animation dev",
         "build:wc": "pnpm -C packages/wc build",
         "build:vue": "pnpm -C packages/vue build",
         "build:react": "pnpm -C packages/react build",
