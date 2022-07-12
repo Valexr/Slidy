@@ -1,6 +1,7 @@
 {
     "name": "@slidy/www",
     "version": "1.0.0",
+    "type": "module",
     "scripts": {
         "dev": "vite dev",
         "build": "vite build",
@@ -27,6 +28,5 @@
         "svelte-check": "^2.8.0",
         "svelte-preprocess": "^4.10.7",
         "vite": "^2.9.14"
-    },
-    "type": "module"
+    }
 }
