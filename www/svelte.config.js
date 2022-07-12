@@ -2,7 +2,7 @@ import adapter from "@sveltejs/adapter-static";
 import preprocess from "svelte-preprocess";
 import { mdsvex } from "mdsvex";
 
-const dev = process.env.npm_lifecycle_event === 'dev';
+const dev = process.env.npm_lifecycle_event === "dev";
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
@@ -21,9 +21,9 @@ const config = {
         prerender: {
             default: true
         },
-        trailingSlash: 'always',
+        trailingSlash: "always",
         paths: {
-            base: dev ? '' : '/Slidy',
+            base: dev ? "" : "/Slidy",
         }
     }
 };
