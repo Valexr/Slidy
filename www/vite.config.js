@@ -1,5 +1,5 @@
-import path from "path";
 import { sveltekit } from "@sveltejs/kit/vite";
+import path from "path";
 
 const aliases = [
     { name: "@components", path: "./src/lib/components" },
