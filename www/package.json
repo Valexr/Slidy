@@ -1,6 +1,6 @@
 {
     "name": "@slidy/www",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite dev",
