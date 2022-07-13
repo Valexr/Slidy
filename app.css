@@ -1,0 +1,10 @@
+/* app.css */
+@import 'https://unpkg.com/open-props';
+@import 'https://unpkg.com/open-props/normalize.min.css';
+/* @import "open-props/style";
+@import "open-props/normalize"; */
+
+:root {
+	--link: #ff3e80;
+	font-family: var(--font-sans);
+}
