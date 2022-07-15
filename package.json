@@ -92,7 +92,7 @@
         "esbuild-plugin-eslinter": "^0.1.2",
         "eslint": "^8.19.0",
         "gh-pages": "^4.0.0",
-        "open-props": "^1.4.2",
+        "open-props": "^1.4.3",
         "prettier": "^2.7.1",
         "sass": "^1.53.0",
         "tslib": "^2.4.0",
