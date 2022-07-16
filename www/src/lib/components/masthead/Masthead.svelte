@@ -7,7 +7,7 @@
 	import styles from './masthead.module.css';
 </script>
 
-<header class={`container ${styles.masthead}`}>
+<header class={`contents ${styles.masthead}`}>
 	<section label="logo">
 		<Link href="{base}/">
 			<Icon viewBox="0 0 36 36">
@@ -30,6 +30,7 @@
 	<section label="navigation">
 		<Navigation.Container>
 			<Navigation.Item href="{base}/" pattern={/\/home/}>Home</Navigation.Item>
+			<Navigation.Item href="{base}/playground" pattern={/\/playground/}>Playground</Navigation.Item>
 			<Navigation.Item href="{base}/docs" pattern={/\/docs/}>Docs</Navigation.Item>
 		</Navigation.Container>
 	</section>
