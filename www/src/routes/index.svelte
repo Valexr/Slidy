@@ -14,7 +14,8 @@
 
 <script lang="ts">
 	import { Slidy } from "@slidy/svelte";
-	import { Icon, Link } from "@components";
+	import { stairs } from "@slidy/animation";
+	import { Header, Icon, Link } from "@components";
 	import {
 		pathPackageAnimation,
 		pathPackageCore,
@@ -38,7 +39,7 @@
 </svelte:head>
 
 <main>
-	<section class="surface-2">
+	<Header className="surface-2">
 		<Icon viewBox="0 0 36 36">
 			<path fill="#e94280" d="M25.05,27,11,32.88c-.85.34-1.53-.08-1.53-.93V25.16A2.62,2.62,0,0,1,11,23l14.1-5.78c.85-.34,1.53.09,1.53.94V24.9A2.49,2.49,0,0,1,25.05,27Z" />
 			<path fill="#655aa3" d="M9.42,17.87v-6.8c0-.85.68-1.27,1.53-.93l14.1,5.77a2.62,2.62,0,0,1,1.53,2.21v6.79c0,.85-.68,1.28-1.53.94L11,20A2.5,2.5,0,0,1,9.42,17.87Z" />
@@ -46,19 +47,18 @@
 		</Icon>
 		<h1>Slidy</h1>
 		<p>
-			Simple, configurable, nested & reusable sliding action script with templates, animations, easings & plugins.
+			Simple, configurable, nested & reusable sliding action script with rich ecosystem: templates, animations, easings & plugins.
 		</p>
-	</section>
+	</Header>
 	<section>
 		<h2>Packages</h2>
 		<Slidy
+			animation={stairs}
 			slides={packages}
 			counter={false}
 			duration={450}
 			gravity={1.45}
 			snap="center"
-			loop
-			index={0}
 			arrows
 			let:item
 		>
