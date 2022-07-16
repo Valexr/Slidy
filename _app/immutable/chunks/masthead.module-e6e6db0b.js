@@ -1,0 +1,1 @@
+const s="_hero_142dc_1",t="_title_142dc_11",l={hero:s,title:t},e="_link_1cp30_1",o="_disabled_1cp30_10",i={link:e,disabled:o},_="_footer_vkpop_1",n="_wrapper_vkpop_10",r={footer:_,wrapper:n},c="_icon_mrh0n_1",p={icon:c},d={"menu-items":"_menu-items_hkwkp_1","menu-item":"_menu-item_hkwkp_1"},a="_masthead_1rgr2_1",m={masthead:a};export{d as a,m as b,p as c,i as d,l as e,r as s};

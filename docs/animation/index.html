@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link rel="icon" href="/Slidy/favicon.png" />
+		<link rel="stylesheet" href="/Slidy/app.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="content-security-policy" content="">
+	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/__layout-b4e07755.css">
+	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/masthead-eb837c4a.css">
+	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/__layout-7250eef1.css">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/start-b1d539f6.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-2e946c61.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-feab1f67.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-1c47712a.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/preload-helper-65e0770a.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/__layout.svelte-14d6ca24.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/slides-dd3caa08.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/masthead.module-e6e6db0b.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/Icon-d6da7089.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/Link-0438ac1f.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/stores-4937b0e7.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/docs/__layout.svelte-96eed57f.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/Header-0c235115.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/docs/_section_/index.svelte-f062fe9c.js">
+	</head>
+
+	<body>
+		
+
+
+<header class="contents _masthead_1rgr2_1"><section label="logo"><a class="_link_1cp30_1 " href="/Slidy/" rel="">
+
+<svg class="_icon_mrh0n_1 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" role="presentation"><path fill="#e94280" d="M25.05,27,11,32.88c-.85.34-1.53-.08-1.53-.93V25.16A2.62,2.62,0,0,1,11,23l14.1-5.78c.85-.34,1.53.09,1.53.94V24.9A2.49,2.49,0,0,1,25.05,27Z"></path>
+				<path fill="#655aa3" d="M9.42,17.87v-6.8c0-.85.68-1.27,1.53-.93l14.1,5.77a2.62,2.62,0,0,1,1.53,2.21v6.79c0,.85-.68,1.28-1.53.94L11,20A2.5,2.5,0,0,1,9.42,17.87Z"></path>
+				<path fill="#fdc21a" d="M25.05,13,11,18.83c-.85.34-1.53-.09-1.53-.94V11.1A2.62,2.62,0,0,1,11,8.89l14.1-5.77c.85-.34,1.53.08,1.53.93v6.79A2.5,2.5,0,0,1,25.05,13Z"></path></svg>
+			Slidy
+		</a></section>
+	<section label="navigation"><nav><ul class="_menu-items_hkwkp_1"><li class="_menu-item_hkwkp_1"><a class="_link_1cp30_1 " href="/Slidy/" rel="">Home</a></li>
+			<li class="_menu-item_hkwkp_1"><a class="_link_1cp30_1 " href="/Slidy/playground" rel="">Playground</a></li>
+			<li class="_menu-item_hkwkp_1"><a class="_link_1cp30_1 " href="/Slidy/docs" rel="">Docs</a></li></ul></nav></section></header>
+<main class="_main_4g9es_1"><header class="_hero_142dc_1 surface-2"><h1 class="_title_142dc_11">animation</h1>
+	</header>
+	<nav class="surface-2 _nav_4g9es_19"><section><h2>Core Script</h2>
+				<ul><li><a class="_link_1cp30_1 " href="/Slidy/docs/core" rel="">Core
+							</a>
+						</li></ul>
+			</section><section><h2>Integrations</h2>
+				<ul><li><a class="_link_1cp30_1 " href="/Slidy/docs/svelte" rel="">Svelte
+							</a>
+						</li></ul>
+			</section><section><h2>Extensions</h2>
+				<ul><li><a class="_link_1cp30_1 " href="/Slidy/docs/animation" rel="">Animation
+							</a>
+						</li><li><a class="_link_1cp30_1 " href="/Slidy/docs/easing" rel="">Easing
+							</a>
+						</li><li><a class="_link_1cp30_1 " href="/Slidy/docs/media" rel="">Media
+							</a>
+						</li></ul>
+			</section></nav>
+	<article class="_article_vc2ay_1"><p>Simple animation functions for inertion scrolling.</p>
+<h2 id="try-the-demo">Try the [DEMO]</h2>
+<blockquote><ul><li><a class="_link_1cp30_1 " href="#getting-started-" rel="">Getting started</a></li>
+<li><a class="_link_1cp30_1 " href="#usage" rel="">Usage</a></li>
+<li><a class="_link_1cp30_1 " href="#arguments" rel="">Arguments</a></li>
+<li><a class="_link_1cp30_1 " href="#custom" rel="">Custom</a></li></ul></blockquote>
+<h2 id="getting-started-">Getting started 🚀</h2>
+<p>The package is available via [NPM]:</p>
+<pre class="language-sh"><!-- HTML_TAG_START --><code class="language-sh">npm i -D @slidy/animation</code><!-- HTML_TAG_END --></pre>
+<p>or from [CDN]:</p>
+<pre class="language-html"><!-- HTML_TAG_START --><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://unpkg.com/@slidy/animation<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code><!-- HTML_TAG_END --></pre><h2 id="usage">Usage</h2>
+<p>Animation functions available via named import as <code>MJS/CJS</code> module or via global <code>Window.Slidy</code> object props as <code>IIFE</code>.  </p>
+<p>Includes <code>fade, flip, matrix, rotate, scale, stairs, translate</code> &amp; <code>blur, deck, shuffle</code> in progress as functions. </p>
+<pre class="language-ts"><!-- HTML_TAG_START --><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Options</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> <span class="token comment">// current active slide index</span>
+    position<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// current position</span>
+    vertical<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// node children flow</span>
+    reverse<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span> <span class="token comment">// node children reverse flow</span>
+    snap<span class="token operator">:</span> Snap<span class="token punctuation">;</span> <span class="token comment">// snapping side</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Snap</span> <span class="token operator">=</span> <span class="token string">'start'</span> <span class="token operator">|</span> <span class="token string">'center'</span> <span class="token operator">|</span> <span class="token string">'end'</span> <span class="token operator">|</span> <span class="token string">'deck'</span> <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Child</span> <span class="token keyword">extends</span> <span class="token class-name">HTMLElement</span> <span class="token punctuation">&#123;</span>
+    i<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// child index in array</span>
+    index<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// child index</span>
+    active<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// &#96;options.loop ? cix : options.index&#96;</span>
+    size<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// &#96;size + gap&#96; by axis</span>
+    dist<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// distance to snap position</span>
+    track<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// move to the size of the slide from its snap point +/- in the direction</span>
+    turn<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// &#96;-1 &lt;- child.track / child.size -> 1&#96;</span>
+    exp<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// interpolated child.track &#96;0 &lt;- exp -> 1&#96;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">AnimationArgs</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    node<span class="token operator">:</span> HTMLElement<span class="token punctuation">;</span> <span class="token comment">// target slidy node</span>
+    child<span class="token operator">:</span> Child<span class="token punctuation">;</span> <span class="token comment">// extended childNode object</span>
+    options<span class="token operator">:</span> Options<span class="token punctuation">;</span> <span class="token comment">// options: index, position, vertical, reverse, snap</span>
+    translate<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span> <span class="token comment">// basic translate needed in any function &#96;&#123; transform: translate &#125;&#96;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">AnimationFunc</span> <span class="token operator">=</span> <span class="token punctuation">(</span>args<span class="token operator">:</span> AnimationArgs<span class="token punctuation">)</span> <span class="token operator">=></span> CSSStyleDeclaration<span class="token punctuation">;</span></code><!-- HTML_TAG_END --></pre>
+<h3 id="mjscjs-module-import">MJS/CJS module import</h3>
+<pre class="language-html"><!-- HTML_TAG_START --><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+        <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> animation <span class="token keyword">from</span> <span class="token string">'https://unpkg.com/@slidy/animation/dist/index.mjs'</span><span class="token punctuation">;</span> <span class="token comment">// MJS module</span>
+        <span class="token comment">// OR</span>
+        <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> animation <span class="token keyword">from</span> <span class="token string">'https://unpkg.com/@slidy/animation/dist/index.cjs'</span><span class="token punctuation">;</span> <span class="token comment">// CJS module</span>
+    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></code><!-- HTML_TAG_END --></pre>
+<h3 id="iife-as-window-object">IIFE as <code>Window</code> Object</h3>
+<pre class="language-html"><!-- HTML_TAG_START --><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://unpkg.com/@slidy/animation<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+    window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> animation <span class="token operator">=</span> Slidy<span class="token punctuation">.</span><span class="token function">matrix</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code><!-- HTML_TAG_END --></pre>
+<h3 id="as-third-party-module-in-any-frameworks">As third party module in any frameworks</h3>
+<pre class="language-svelte"><!-- HTML_TAG_START --><code class="language-svelte"><span class="token comment">&lt;!-- Svelte --></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">import</span> <span class="token punctuation">&#123;</span> fade <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'@slidy/animation'</span><span class="token punctuation">;</span>
+
+    <span class="token operator">&lt;</span>Slidy animation<span class="token operator">=</span><span class="token punctuation">&#123;</span>fade<span class="token punctuation">&#125;</span> <span class="token operator">/</span><span class="token operator">></span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code><!-- HTML_TAG_END --></pre><h2 id="arguments">Arguments</h2>
+<table><thead><tr><th align="left">Name</th>
+<th align="left">Type</th>
+<th align="left">Description</th></tr></thead>
+<tbody><tr><td align="left"><code>node</code></td>
+<td align="left"><code>HTMLElement</code></td>
+<td align="left">Target slidy Node</td></tr>
+<tr><td align="left"><code>child</code></td>
+<td align="left"><code>Child</code></td>
+<td align="left">Extended childNode object</td></tr>
+<tr><td align="left"><code>options</code></td>
+<td align="left"><code>Options</code></td>
+<td align="left">Helped options from @slidy/core</td></tr>
+<tr><td align="left"><code>translate</code></td>
+<td align="left"><code>string</code></td>
+<td align="left">Basic translate needed in any function <code>{ transform: translate }</code></td></tr></tbody></table>
+<h3 id="child">Child</h3>
+<table><thead><tr><th align="left">Name</th>
+<th align="left">Type</th>
+<th align="left">Description</th></tr></thead>
+<tbody><tr><td align="left"><code>i</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Index in array</td></tr>
+<tr><td align="left"><code>index</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Index in core</td></tr>
+<tr><td align="left"><code>active</code></td>
+<td align="left"><code>number</code></td>
+<td align="left"><code>options.loop ? cix : options.index</code></td></tr>
+<tr><td align="left"><code>size</code></td>
+<td align="left"><code>number</code></td>
+<td align="left"><code>size + gap</code> by options.vertical</td></tr>
+<tr><td align="left"><code>dist</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Distance to snap position</td></tr>
+<tr><td align="left"><code>track</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Move by slide size from its snap point +/- in the direction</td></tr>
+<tr><td align="left"><code>turn</code></td>
+<td align="left"><code>number</code></td>
+<td align="left"><code>-1 &lt;- child.track / child.size -&gt; 1</code></td></tr>
+<tr><td align="left"><code>exp</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Interpolated child.track <code>0 &lt;- exp -&gt; 1</code></td></tr></tbody></table>
+<h3 id="options">Options</h3>
+<table><thead><tr><th align="left">Name</th>
+<th align="left">Type</th>
+<th align="left">Description</th></tr></thead>
+<tbody><tr><td align="left"><code>index</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Current active slide index</td></tr>
+<tr><td align="left"><code>position</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Current position</td></tr>
+<tr><td align="left"><code>vertical</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Children axis flow: <code>0</code> or any <code>Number</code> as <code>true</code></td></tr>
+<tr><td align="left"><code>reverse</code></td>
+<td align="left"><code>number</code></td>
+<td align="left">Children reverse flow: <code>-1</code> or <code>1</code></td></tr>
+<tr><td align="left"><code>snap</code></td>
+<td align="left"><code>Snap</code></td>
+<td align="left">Snapping side: <code>&#39;start&#39;, &#39;center&#39;, &#39;end&#39;, &#39;deck&#39;, undefined</code></td></tr></tbody></table><h2 id="custom">Custom</h2>
+<p>Like exmaple <code>fade()</code> function. More in <a class="_link_1cp30_1 " href="https://github.com/Valexr/Slidy/blob/master/packages/animation/src/animation.ts" target="_blank" rel="nofollow">animation.ts</a> file.</p>
+<pre class="language-ts"><!-- HTML_TAG_START --><code class="language-ts"><span class="token keyword">function</span> <span class="token function">fade</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> child<span class="token punctuation">,</span> translate <span class="token punctuation">&#125;</span><span class="token operator">:</span> AnimationArgs<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        opacity<span class="token operator">:</span> child<span class="token punctuation">.</span>exp<span class="token punctuation">,</span> <span class="token comment">// custom fade by exp</span>
+        transform<span class="token operator">:</span> translate<span class="token punctuation">,</span> <span class="token comment">// basic translate for coordinates</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code><!-- HTML_TAG_END --></pre></article></main>
+<footer class="_footer_vkpop_1 surface-2"><div class="container wrapper"><section label="user"><span><a class="_link_1cp30_1 " href="https://github.com/Valexr/Slidy" target="_blank" rel="noopener noreferrer">Slidy</a> is released under the <a class="_link_1cp30_1 " href="https://github.com/Valexr/Slidy/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT licence</a></span>
+      <span>© 2022 <a class="_link_1cp30_1 " href="https://github.com/Valexr" target="_blank" rel="noopener noreferrer">Alexander Volkov</a></span></section></div></footer>
+
+
+		<script type="module" data-sveltekit-hydrate="1p3fytq">
+		import { start } from "/Slidy/_app/immutable/start-b1d539f6.js";
+		start({
+			target: document.querySelector('[data-sveltekit-hydrate="1p3fytq"]').parentNode,
+			paths: {"base":"/Slidy","assets":"/Slidy"},
+			session: {user:{theme:void 0}},
+			route: true,
+			spa: false,
+			trailing_slash: "always",
+			hydrate: {
+				status: 200,
+				error: null,
+				nodes: [0, 2, 3],
+				params: {section:"animation"},
+				routeId: "docs/[section]"
+			}
+		});
+	</script>
+	</body>
+</html>
