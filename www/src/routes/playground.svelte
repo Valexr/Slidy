@@ -15,11 +15,11 @@
 <script lang="ts">
 	import { slides } from "@stores/slides";
 	import { Slidy } from "@slidy/svelte";
+	import { stairs } from "@slidy/animation";
 	import "@slidy/svelte/slidy.css";
 	
 	//export let theme: Queries = media.matches;
 	$: contents = slides.getRandomSlides(10);
-	$: console.log(contents);
 </script>
 
 <svelte:head>
@@ -28,6 +28,7 @@
 
 <main>
 		<Slidy
+			animation={stairs}
 			duration={450}
 			gravity={1.45}
 			snap="center"
