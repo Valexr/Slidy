@@ -1,0 +1,85 @@
+## Options
+
+All arguments are optional, only `queries` required.
+
+```ts
+interface Options {
+    queries?: Queries,
+    getter?: Getter,
+    cookie?: boolean
+}
+```
+
+### Queries
+
+Media queries rules object like `{ dark: '(prefers-color-scheme: dark)' }`. Support multiple conditions like `'(max-width: 840px) or (prefers-color-scheme: light)'` more `@media` rules on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#logical_operators)
+
+```ts
+type Queries = {
+    [key: string]: boolean | string | undefined;
+};
+```
+
+```html
+<head>
+    <script type="module">
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const queries: MediaQuery = {
+            xs: '(max-width: 480px)',
+            sm: '(max-width: 600px)',
+            md: '(max-width: 840px)',
+            lg: '(max-width: 960px)',
+            xl: '(max-width: 1280px)',
+            xxl: '(min-width: 1281px)',
+            landscape: '(orientation: landscape)',
+            portrait: '(orientation: portrait)',
+            dark: '(prefers-color-scheme: dark)',
+            light: '(prefers-color-scheme: light)',
+            mouse: '(hover: hover)',
+            touch: '(hover: none)'
+        }
+        const media = mediaStore({ queries })
+    </script>
+</head>
+```
+
+
+### Getter
+
+Callback function with matches object results.
+
+```ts
+type Getter = (matches: Queries) => void
+```
+
+```html
+<head>
+    <script type="module">
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const getter = (mqs) => console.log(mqs)
+
+        const media = mediaStore({ getter })
+    </script>
+</head>
+```
+
+
+### Cookie
+
+Persist media-query matches object in browser cookie like JSON string. Cookie key `media`.
+
+```ts
+const cookie: boolean
+```
+
+```html
+<head>
+    <script type="module">
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs';
+
+        const media = mediaStore({ cookie: true })
+    </script>
+</head>
+```

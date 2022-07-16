@@ -1,0 +1,66 @@
+## Usage
+
+Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
+All `options` are optional, but mount `node` required:
+
+### MJS/CJS module import
+
+```html
+<head>
+   <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs'; // MJS module
+        // OR
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.cjs'; // CJS module
+
+        slidy(node)
+    </script>
+</head>
+
+<section>
+    <ul id="node">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
+
+### IIFE as `Window` Object
+
+```html
+<head>
+    <script src="https://unpkg.com/@slidy/core"></script>
+</head>
+
+<script>
+    let slidy = null,
+        node = document.querySelector('#slidy'),
+
+        window.onload = () => {
+            slidy = Slidy.core(node);
+        }
+</script>
+
+<section>
+    <ul id="slidy">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```
+
+### As third party module in any frameworks
+
+```svelte
+<!-- Svelte -->
+
+<script>
+    import { slidy } from '@slidy/core';
+</script>
+
+<section>
+    <ul use:slidy>
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```

@@ -1,0 +1,66 @@
+## Options
+
+@slidy/core does not style the DOM, but uses the browser render, except for 3 rules for target node: `outline: none, overflow: hidden, user-select: none`.
+
+If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
+
+⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
+
+
+| Key         | Default     | Type       | Description |
+| :---------- | :---------- | :--------- | :---------- |
+| index     | 0         | number   | Start index |
+| clamp     | 0         | number   | Clamping sliding by index: `clamp - index + clamp` |
+| indent    | 1         | number   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
+| sensity   | 5         | number   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
+| gravity   | 1.2       | number   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
+| duration  | 375       | number   | Sliding duration in ms |
+| animation | undefuned | function | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
+| easing    | undefined | function | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. |
+| snap      | undefined | string   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
+| axis      | undefined | string   | Control coordinate axis: `'x', 'y'`. |
+| loop      | false     | boolean  | Infinite loop mode |
+
+### Internal calculated - readonly
+
+| Key         | Type     | Description |
+| :---------- | :------- | :---------- |
+| `position`  | `number` | Current position |
+| `direction` | `number` | Children move direction |
+| `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
+| `reverse`   | `number` | Children reverse flow: `-1` or `1` |
+
+### Usage
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
+        import { linear } from 'https://unpkg.com/@slidy/easing/dist/index.mjs'
+        import { fade } from 'https://unpkg.com/@slidy/animation/dist/index.mjs'
+
+        const options = {
+                index: 0,
+                clamp: 0,
+                indent: 1,
+                sensity: 5,
+                gravity: 1.2,
+                duration: 375,
+                animation: fade,
+                easing: linear,
+                snap: 'center',
+                axis: 'x',
+                loop: false,
+            }
+
+        slidy(node, options)
+    </script>
+</head>
+
+<section>
+    <ul id="node">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```

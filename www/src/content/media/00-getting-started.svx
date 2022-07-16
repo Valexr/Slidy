@@ -1,0 +1,27 @@
+# @slidy/media
+
+Simple, observable & cookie-persisted media-query store enspired by svelte/stores.  
+SSR compartible.
+
+#### Try the [DEMO]
+
+> - [Getting started](#getting-started-)
+> - [Usage](#usage)
+> - [Options](#options)
+>   - [Queries](#queries)
+>   - [Getter](#getter)
+>   - [Cookie](#cookie)
+
+
+## Getting started 🚀
+
+The package is available via [NPM]:
+
+```sh
+npm i -D @slidy/media
+```
+or from [CDN]:
+
+```html
+<script src="https://unpkg.com/@slidy/media"></script>
+```

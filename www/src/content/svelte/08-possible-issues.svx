@@ -1,0 +1,4 @@
+## Possible issues
+
+- Slides should not have `absolute` positioning, otherwise the [core-package][] script won't get correct dimentions;
+- Using the `background` option usually is not recommended. In case you need to use it, specify the slide sizes with custom properties: `width` and `height`, or just `aspect-ratio`.

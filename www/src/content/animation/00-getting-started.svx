@@ -1,0 +1,26 @@
+---
+title: Getting started
+---
+
+Simple animation functions for inertion scrolling.
+
+## Try the [DEMO]
+
+> - [Getting started](#getting-started-)
+> - [Usage](#usage)
+> - [Arguments](#arguments)
+> - [Custom](#custom)
+
+
+## Getting started 🚀
+
+The package is available via [NPM]:
+
+```sh
+npm i -D @slidy/animation
+```
+or from [CDN]:
+
+```html
+<script src="https://unpkg.com/@slidy/animation"></script>
+```

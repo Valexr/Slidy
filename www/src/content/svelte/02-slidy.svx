@@ -1,0 +1,21 @@
+## Slidy Component
+
+`<Slidy />` component uses `<Core />` internally and provides more features expected from carousel.
+
+### Slidy Component API
+
+The `<Slidy />` component interface extends the `<Core />`. There are a list of additional options available:
+
+| Property | Default | Type | Description |
+| :------- | :-----: | :--: | :---------- |
+| `arrows` | `true` | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
+| `background` | `false` | `boolean` | Sets `background-image` instead of `<img />` elements to display slides. |
+| `classNames` | `SlidyStyles` | `SlidyStylesDefault` | The class names object used over the component. |
+| `getImgSrc` | `item => item.src` | `function` | The slide's `src` attribute getter. |
+| `getThumbSrc` | `item => item.src` | `function` | The thumbnail's `src` attribute getter. |
+| `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
+| `progress` | `false` | `boolean` | Renders the progress bar. |
+| `slides` | `[]` | `Slides[]` | An array of objects with image metadata. |
+| `thumbnail` | `false` | `boolean`  | Renders the thumbnail navigation panel. |
+
+By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.

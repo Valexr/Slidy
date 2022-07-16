@@ -1,0 +1,22 @@
+# @slidy/easing
+
+Simple easings function for inertion scrolling.
+
+#### Try the [DEMO]
+
+> - [Getting started](#getting-started-)
+> - [Usage](#usage)
+
+
+## Getting started 🚀
+
+The package is available via [NPM]:
+
+```sh
+npm i -D @slidy/easing
+```
+or from [CDN]:
+
+```html
+<script src="https://unpkg.com/@slidy/easing"></script>
+```

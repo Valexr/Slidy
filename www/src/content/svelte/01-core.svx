@@ -1,0 +1,34 @@
+## Core Component
+
+`Core` is a wrapper component for [@slidy/core][core-package] available via named import. It is best to use to build up the custom component for specific needs or when just the basic functionality is needed.
+
+```svelte
+<script>
+	import { Core } from "@slidy/svelte";
+</script>
+
+<Core>
+	<!-- your carousel items passed via slot -->
+</Core>
+```
+
+### Core Component API
+
+| Property      |     Default      |    Type    | Description |
+| :------------ | :--------------: | :--------: | :------------------ |
+| `animation` | `undefined` | `AnimationFunc ` | Custom slide animation. |
+| `axis` | `"x"` | `"x" | "y"` | The scroll direction. |
+| `clamp` | `0` | `number` | Clamps sliding index as `{clamp} - {index} + {clamp}` |
+| `className` | `""` | `string` | Passes the `class` to the node. |
+| `duration` | `450` | `number` | Slide transitions duration value. |
+| `easing` | `undefined` | `(t: number => number)` | Inertion scroll easing behaviour. |
+| `gravity` | `1.2` | `number` | Scroll inertia value. |
+| `indent` | `0` | `number` | Custom scroll indent value, calculates as `gap * indent`. |
+| `index` | `0` | `number` | The index of the initial slide. |
+| `loop` | `false` | `boolean` | Makes the slideshow continious. |
+| `position` | `0` | `number` | The current position value of the carousel. |
+| `sensity`| `5` | `number` | Defines the sliding sensity as the number of pixels required to drag. |
+| `snap` | `undefined` | `"start"  | "center" | "end" | "deck"` | Enforces the scroll stop positions. |
+| `tag` | `"ol"` | `string`  | The HTML tag name to render. |
+
+For TypeScript users there is the `SlidyCoreOptions` interface available via named import.

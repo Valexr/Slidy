@@ -1,0 +1,119 @@
+## Styling
+
+### Extending/Overriding classes
+
+To extend default component styles use `classNames` property. Default classes are available via object, that can be extended or overridden:
+
+```svelte
+<script>
+	import { Slidy, classNames } from "@slidy/svelte";
+</script>
+
+<Slidy
+	classNames={{
+		root: `${classNames.root} custom-class`,
+		...classNames
+	}}
+/>
+```
+
+The `classNames` consist of `{ target: className }` pairs: 
+
+| Target    | Default class      | Description |
+| :-------- | :----------------: | :-----------|
+| arrow     | `slidy-arrow`      | Arrow controls. |
+| counter   | `slidy-counter`    | Slide progress counter. |
+| img       | `slidy-img`        | Slide image node. |
+| nav       | `slidy-nav`        | Slide navigation panel. |
+| nav-item  | `slidy-nav-item`   | Navigtion panel item. |
+| overlay   | `slidy-overlay`    | Slides overlay node. |
+| progress  | `slidy-progress`   | Slide progress bar. |
+| root      | `slidy`            | Component's root node. |
+| slide     | `slidy-slide`      | Slide item node. |
+| slides    | `slidy-slides`     | Slides list node. |
+| thumbnail | `slidy-thumbnail`  | Thumbnail item. |
+| thumbnail | `slidy-thumbnails` | Thumbnails bar. |
+
+The `classNames` object is available via [context](https://svelte.dev/docs#run-time-svelte-getcontext) using `classNames` key.
+
+### Custom Properties API
+
+For easier style customization `Slidy` provides a set of predefined custom properties to inherit:
+
+List of available public custom properties:
+
+| Property                       |  Default   |    Type     | Description                                          |
+| :----------------------------- | :--------: | :---------: | :--------------------------------------------------- |
+| `--slidy-arrow-bg`             |  #4e4e4ebf | `<color>`   | The arrow control background color.                  |
+| `--slidy-arrow-bg-hover`       |  #4e4e4e54 | `<color>`   | The arrow control hover background color.            |
+| `--slidy-arrow-icon-color`     |  currentColor | `<color>`   | The arrow control icon fill color.                |
+| `--slidy-arrow-size`           |  24px      | `<length>`  | The arrow controls size.                             |
+| `--slidy-counter-bg`           |  #4e4e4ebf | `<color>`   | The counter's background color.                      |
+| `--slidy-focus-ring-color`     |  #c9c9c9e6 | `<color>`   | Focus ring color for all focusable elements.         |
+| `--slidy-height`               |  100%      | `<length>`  | The height of the component's node.                  |
+| `--slidy-nav-item-color`       |  white     | `<color>`   | The navigation elements color.                       |
+| `--slidy-nav-item-radius`      |  50%       | `<length>`  | The navigation elements border radius.               |
+| `--slidy-nav-item-size`        |  16px      | `<length>`  | The navigation elements size.                        |
+| `--slidy-progress-thumb-color` |  #c44f61   | `<color>`   | The progress bar active track color.                 |
+| `--slidy-progress-track-color` |  #96969680 | `<color>`   | The progress bar track color.                        |
+| `--slidy-progress-track-size`  |  5px       | `<length>`  | The progress bar height.                             |
+| `--slidy-slide-aspect-ratio`   |  unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
+| `--slidy-slide-bg-color`       |  darkgray  | `<color>`   | The placeholder background color for loading images. |
+| `--slidy-slide-gap`            |  1rem      | `<length>`  | The gap between items in carousel.                   |
+| `--slidy-slide-height`         |  100%      | `<length>`  | The carousel items height.                           |
+| `--slidy-slide-object-fit`     |  cover     |     -       | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-radius`         |  1rem      | `<length>`  | The slide's border radius value.                     |
+| `--slidy-slide-width`          |  auto      | `<length>`  | The carousel items width.                            |
+| `--slidy-thumbnail-radius`     |  0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
+| `--slidy-thumbnail-size`       |  50px      | `<length>`  | The thumbnail panel size.                            |
+| `--slidy-width`                |  100%      | `<length>`  | The width of the component's node.                   |
+
+There are two options:
+
+#### --style-props
+
+Svelte supports passing down custom properties to component via [`--style-props`][svelte-custom-props]:
+
+```svelte
+<Slidy --slidy-slide-gap="1rem" />
+```
+
+Bear in mind that this way Svelte wraps the component in extra `<div />` with `display: contents`.
+
+#### Inherited custom properties
+
+More optimal way is to use cascade. All supported custom properties starts with `--slidy-`. For example, to recolor navigation controls, let the component inherit a `--slidy-nav-item-color` custom property from any parent:
+
+```svelte
+<div class="parent">
+	<Slidy />
+</div>
+
+<style>
+	.parent {
+		--slidy-navigation-color: red;
+	}
+</style>
+```
+
+Or just pass a class with a set of custom properties:
+
+```svelte
+<script>
+	import { Slidy, classNames } from "@slidy/svelte";
+</script>
+
+<Slidy
+	classNames={{
+		root: `${classNames.root} .some-class`,
+		...classNames
+	}}
+/>
+
+<style>
+	.some-class {
+		--slidy-navigation-color: red;
+		--slidy-nav-item-size: 1rem;
+	}
+</style>
+```

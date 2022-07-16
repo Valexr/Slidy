@@ -1,0 +1,26 @@
+Simple, configurable, nested & reusable sliding action script.  
+
+Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity, easings, custom animations & infinite loop mode.
+
+Try the [DEMO]
+
+- [Getting started](#getting-started)
+- [Usage](#usage)
+- [Options](#options)
+- [Events](#events)
+- [Methods](#methods)
+
+## Getting started
+
+The package is available via [NPM]:
+
+```sh
+npm i -D @slidy/core
+```
+or from [CDN]:
+
+```html
+<script src="https://unpkg.com/@slidy/core"></script>
+```
+
+Playground is available in svelte [REPL].

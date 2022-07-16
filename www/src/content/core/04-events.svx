@@ -1,0 +1,39 @@
+## Events
+
+| Name      | Detail              | Description |
+| :-------- | :------------------ | :---------- |
+| `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
+| `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
+| `move`    | `{index,position}`  | Fires on any sliding |
+| `index`   | `{index}`           | Fires on each index change: `index === changed.index` |
+| `keys`    | `{e.key}`           | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |
+| `update`  | `{updated.options}` | Fires on each options update |
+| `destroy` | `{node}`            | Fires when [`destroy()`](#methods) is done or before target node unmounted from the DOM |
+
+### Usage
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';
+
+        slidy(node)
+
+        node.addEventListener('mount', (e) => console.log(e))
+
+        node.onupdate = (e) => console.log(e.detail)
+
+        function onMove(e) {
+            const { index, position } = e.detail
+            console.log(index, position)
+        }
+    </script>
+</head>
+
+<section>
+    <ul id="node" onmove="onMove" tabindex="0">
+        <li>...</li>
+        ...
+    </ul>
+</section>
+```

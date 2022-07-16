@@ -1,0 +1,13 @@
+## Events
+
+The component forwards custom events:
+
+| Name      | Description                      |             Event detail              |
+| :-------- | :------------------------------- | :-----------------------------------: |
+| `destroy` | Component is destroyed.          |                `node`                 |
+| `index`   | The current slide index changes. | `{ index: number, position: number }` |
+| `keys`    | The key pressed on focus.        |             `event.code`              |
+| `mount`   | Component is mounted to the DOM. |         `{ childs, options }`         |
+| `move`    | Navigation occurs.               | `{ index: number, position: number }` |
+| `resize`  | Component's dimentions changes.  |          `{ node, options }`          |
+| `update`  | Component's props changes.       |               `options`               |

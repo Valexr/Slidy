@@ -1,0 +1,22 @@
+## Recipes
+
+### External controls
+
+It is possible to control the navigation of the `Slidy` instance from the parent component via binding.
+
+There are two variables available to control the component externally: `index` and `position`. Declare the variables to hold the values and bind them to the instance for the carousel control.
+
+```svelte
+<script>
+	import { Slidy } from "svelte-slidy";
+
+	let index = 0;
+	let position = 0;
+</script>
+
+<button on:click={() => (index += 1)}> Next slide </button>
+
+<button on:click={() => (position += 50)}> Move </button>
+
+<Slidy bind:index bind:position />
+```

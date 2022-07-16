@@ -1,0 +1,45 @@
+## Usage
+
+Function `media({ queries, getter, cookie })` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`. 
+
+### MJS/CJS module import
+
+```html
+<head>
+   <script type="module">
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.mjs'; // MJS module
+        // OR
+        import { media as mediaStore } from 'https://unpkg.com/@slidy/media/dist/index.cjs'; // CJS module
+
+        const media = mediaStore()
+    </script>
+</head>
+```
+
+### IIFE as `Window` Object
+
+```html
+<head>
+    <script src="https://unpkg.com/@slidy/media"></script>
+</head>
+
+<script>
+    let mediaQueries = null
+
+    window.onload = () => media = Slidy.media()
+</script>
+```
+
+### As third party module in any frameworks
+
+```svelte
+<!-- Svelte -->
+
+<script>
+    import { media as mediaStore } from '@slidy/media';
+
+    const media = mediaStore()
+
+    $: console.log($media)
+</script>
+```

@@ -1,0 +1,35 @@
+## What is @slidy/svelte?
+
+@slidy/svelte - configurable, reusable and accessible SvelteJS carousel component built on top of [@slidy/core][core-package].
+
+## Getting started
+
+The components are available via [npm][]:
+
+```
+npm i @slidy/core @slidy/svelte
+```
+
+The easiest way to get started is to use `<Slidy />` component:
+
+```svelte
+<script>
+	import { Slidy } from "@slidy/svelte";
+
+	const slides = [
+		{
+			id: 1,
+			width: 800,
+			height: 1200,
+			src: "static/img/some-image.webp",
+		},
+	];
+</script>
+
+<Slidy {slides} />
+```
+
+All props are optional, the only property required to get started is `slides` - an array of items, usually it is an array of image related data.
+
+[core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
+[npm]: https://www.npmjs.com/package/@slidy/svelte
