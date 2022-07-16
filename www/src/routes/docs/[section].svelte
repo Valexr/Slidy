@@ -6,7 +6,7 @@
 		const pages = [];
 
 		try {
-			let contents = import.meta.glob(`/src/content/**/*.svx`);
+			let contents = import.meta.glob("/src/content/**/*.svx");
 
 			for await (const [ filename, module ] of Object.entries(contents)) {
 				if (filename.includes(`/${section}`)) {
