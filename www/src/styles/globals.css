@@ -16,6 +16,8 @@ body {
 	min-height: 100vh;
 	line-height: 1.4;
 	transition: background-color 0.2s linear;
+  background-color: var(--surface-1);
+  color: var(--text-1);
 }
 
 a {

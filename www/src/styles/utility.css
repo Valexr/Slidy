@@ -1,4 +1,4 @@
-.max-width-m {
-	max-width: var(--size-15);
+.contents {
+	width: min(100% - 2 * var(--size-2), 1080px);
 	margin: 0 auto;
 }
