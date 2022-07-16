@@ -1,0 +1,250 @@
+code[class*="language-"],
+pre[class*="language-"] {
+	background-color: var(--surface-2);
+  color: var(--text-2);
+	font-family: monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+	tab-size: 2;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+
+	max-inline-size: none;
+}
+
+code[class*="language-"]::-moz-selection,
+pre[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection,
+pre[class*="language-"] ::-moz-selection {
+	background: var(--code-selection-bg);
+	color: var(--code-selection-color);
+}
+
+code[class*="language-"]::selection,
+pre[class*="language-"]::selection,
+code[class*="language-"] ::selection,
+pre[class*="language-"] ::selection {
+	background: var(--code-selection-bg);
+	color: var(--code-selection-color);
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	position: relative;
+	width: 100%;
+	padding: calc(1.5 * var(--size-2));
+	overflow: auto;
+	border-radius: var(--radius-conditional-2);
+	border: var(--border-size-2) solid var(--surface-3);
+	box-shadow: var(--shadow-1);
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background-color: var(--surface-2);
+  color: var(--text-2);
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"],
+:not(pre) > code {
+	background-color: var(--surface-2);
+  color: var(--text-2);
+	padding: var(--space-xs) var(--space-s);
+	border-radius: var(--radius-conditional-2);
+	border: var(--border-size-1) solid var(--surface-3);
+	box-shadow: var(--shadow-1);
+}
+
+/* scroll */
+pre[class*="language-"] {
+  scrollbar-width: 4px;
+  scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+pre[class*="language-"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-track {
+  background: var(--scroll-track-color);
+	border-radius: var(--scroll-thumb-radius);
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb-color);
+	border-radius: var(--scroll-thumb-radius);
+	border: 4px solid var(--scroll-track-color);
+}
+
+/* tokens */
+
+.token.atrule {
+	color: var(--code-atrule);
+}
+
+.token.attr-name {
+	color: var(--code-attr-name);
+}
+
+.token.attr-value {
+	color: var(--code-attr-value);
+}
+
+.token.attribute {
+	color: var(--code-attribute);
+}
+
+.token.boolean {
+	color: var(--code-boolean);
+}
+
+.token.builtin {
+	color: var(--code-builtin);
+}
+
+.token.cdata {
+	color: var(--code-cdata);
+}
+
+.token.char {
+	color: var(--code-char);
+}
+
+.token.class {
+	color: var(--code-class);
+}
+
+.token.class-name {
+	color: var(--code-class-name);
+	text-decoration: underline;
+}
+
+.token.comment {
+	color: var(--code-comment);
+}
+
+.token.constant {
+	color: var(--code-constant);
+}
+
+.token.deleted {
+	color: var(--code-deleted);
+}
+
+.token.doctype {
+	color: var(--code-doctype);
+}
+
+.token.entity {
+	color: var(--code-entity);
+	cursor: help;
+}
+
+.token.function {
+	color: var(--code-function);
+}
+
+.token.hexcode {
+	color: var(--code-hexcode);
+}
+
+.token.id {
+	color: var(--code-id);
+	font-weight: bold;
+}
+
+.token.important {
+	color: var(--code-important);
+}
+
+.token.inserted {
+	color: var(--code-inserted);
+}
+
+.token.keyword {
+	color: var(--code-keyword);
+}
+
+.token.number {
+	color: var(--code-number);
+}
+
+.token.operator {
+	color: var(--code-operator);
+}
+
+.token.prolog {
+	color: var(--code-prolog);
+}
+
+.token.property {
+	color: var(--code-property);
+}
+
+.token.pseudo-class {
+	color: var(--code-pseudo-class);
+}
+
+.token.pseudo-element {
+	color: var(--code-pseudo-element);
+}
+
+.token.punctuation {
+	color: var(--code-punctuation);
+}
+
+.token.regex {
+	color: var(--code-regex);
+}
+
+.token.selector {
+	color: var(--code-selector);
+}
+
+.token.string {
+	color: var(--code-string);
+}
+
+.token.symbol {
+	color: var(--code-symbol);
+}
+
+.token.tag {
+	color: var(--code-tag);
+}
+
+.token.unit {
+	color: var(--code-unit);
+}
+
+.token.url {
+	color: var(--code-url);
+}
+
+.token.variable {
+	color: var(--code-variable);
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
