@@ -1,0 +1,142 @@
+.article {
+	display: grid;
+	grid-template-columns: 1fr min(calc(100% - 2 * var(--size-1)), 80ch) 1fr;
+	justify-self: center;
+	gap: var(--size-2);
+	line-height: 1.4;
+	width: 100%;
+	margin-bottom: 25vh;
+}
+
+.article > * {
+	grid-column: 2;
+}
+
+.article > :global(.wide) {
+	width: 100%;
+	grid-column: 1 / 4;
+}
+
+.article :is(h2, h3, h4, h5, h6) {
+	color: var(--brand);
+	margin-top: var(--size-3);
+	padding-bottom: var(--size-2);
+}
+
+.article h2 {
+	font-size: var(--font-size-6);
+}
+
+.article h3 {
+	font-size: var(--font-size-5);
+}
+
+.article h4 {
+	font-size: var(--font-size-4);
+}
+
+.article h5 {
+	font-size: var(--font-size-3);
+}
+
+.article h6 {
+	font-size: var(--font-size-2);
+}
+
+.article ul:not([class]) {
+	list-style: initial;
+	list-style-position: outside;
+}
+
+.article ul li:not([class]) {
+	padding-inline-start: 1ch;
+	margin-left: 1ch;
+}
+
+.article ul li:not([class])::marker {
+	content: "»";
+	color: var(--brand);
+	font-size: 1.5em;
+}
+
+.article ol:not([class]) {
+	list-style: decimal;
+	list-style-position: outside;
+}
+
+.article ol li:not([class]) {
+	margin-left: 1.5ch;
+}
+
+.article ol li:not([class]):not(:last-child) {
+	margin-bottom: var(--space-xs);
+}
+
+.article ol li:not([class])::marker {
+	color: var(--color-blue-400);
+}
+
+.article abbr {
+	text-decoration: green dashed underline;
+	text-underline-offset: var(--space-xs);
+}
+
+.article pre {
+	margin: var(--size-2) 0;
+}
+
+.article table {
+	border-collapse: collapse;
+	width: 100%;
+	border-radius: var(--radius-2);
+	/* display: block;
+	width: 100%;
+	max-width: 100%;
+	overflow: auto; */
+
+	max-inline-size: 100%;
+}
+
+article table 
+
+.article table td {
+	word-wrap:break-word;
+}
+
+.article table tr:last-child td:first-child {
+	border-bottom-left-radius: var(--radius-2);
+}
+
+.article table tr:last-child td:last-child {
+	border-bottom-right-radius: var(--radius-2);
+}
+
+.article table thead th:first-child {
+	border-top-left-radius: var(--radius-2);
+}
+
+.article table thead th:last-child {
+	border-top-right-radius: var(--radius-2);
+}
+
+.article table thead th {
+	background-color: var(--surface-2);
+}
+
+.article table tr,
+.article table td {
+	padding: var(--size-1);
+}
+
+.article table th,
+.article table td {
+	text-align: center;
+	/* overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap; */
+}
+
+.article table th,
+.article table td {
+	border: var(--border-size-2) solid var(--surface-3);
+}
