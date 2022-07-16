@@ -31,7 +31,7 @@
 </script>
 
 <script>
-	export let pages;
+	export let pages = [];
 </script>
 
 {#key pages}

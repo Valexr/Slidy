@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from "$app/paths";
 	import { page } from "$app/stores";
 	import { Header, Link } from "@components";
 	import styles from "./.docs.module.css";
@@ -40,7 +41,7 @@
 				<ul>
 					{#each items as { title, href }}
 						<li>
-							<Link {href}>
+							<Link href="{base}{href}">
 								{title}
 							</Link>
 						</li>
