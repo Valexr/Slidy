@@ -90,7 +90,7 @@
         "derver": "^0.5.3",
         "esbuild": "^0.14.49",
         "esbuild-plugin-eslinter": "^0.1.2",
-        "eslint": "^8.19.0",
+        "eslint": "^8.20.0",
         "gh-pages": "^4.0.0",
         "open-props": "^1.4.3",
         "prettier": "^2.7.1",
