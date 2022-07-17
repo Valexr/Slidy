@@ -58,9 +58,9 @@ pre[class*="language-"] {
 /* Inline code */
 :not(pre) > code[class*="language-"],
 :not(pre) > code {
-	background-color: var(--surface-2);
-  color: var(--text-2);
-	padding: var(--space-xs) var(--space-s);
+	background-color: var(--surface-3);
+  color: var(--grape-2);
+	padding: 0.1em 0.25em;
 	border-radius: var(--radius-conditional-2);
 	border: var(--border-size-1) solid var(--surface-3);
 	box-shadow: var(--shadow-1);
