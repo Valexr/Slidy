@@ -18,6 +18,7 @@ body {
 	transition: background-color 0.2s linear;
   background-color: var(--surface-1);
   color: var(--text-1);
+  font-family: var(--font-main);
 }
 
 a {
