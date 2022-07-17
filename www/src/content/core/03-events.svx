@@ -1,0 +1,38 @@
+## Events
+
+| Name      | Detail              | Description |
+| :-------- | :------------------ | :---------- |
+| `mount`   | `{options}`         | `node.children.length` and `node.children` are connected. |
+| `resize`  | `{ROE}`             | The target node changed it's size: `ROE: ResizeObserverEntry[]`|
+| `move`    | `{index,position}`  | The sliding occured. |
+| `index`   | `{index}`           | The index was changed. |
+| `keys`    | `{e.key}`           | The key is pressed during the target node focus. Arrow keys behaviour is predefined for navigation with `preventDefault` used on them. To get the focus use `tabIndex=0` attribute on the target node. |
+| `update`  | `{updated.options}` | Options were changed. |
+| `destroy` | `{node}`            | Targed node is unmounted from the DOM or [`destroy()`](#methods) method was used. |
+
+Example of using the events:
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from "https://unpkg.com/@slidy/core/dist/index.mjs";
+
+        const node = document.querySelector("#node");
+        slidy(node);
+
+        node.addEventListener("mount", e => console.log(e));
+        node.onupdate = e => console.log(e.detail);
+
+        function onMove(e) {
+            const { index, position } = e.detail
+            console.log(index, position)
+        }
+    </script>
+</head>
+
+<section>
+    <ul id="node" onmove="onMove" tabindex="0">
+        <!-- items -->
+    </ul>
+</section>
+```

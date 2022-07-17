@@ -1,9 +1,14 @@
 ## Usage
 
-Function `slidy(node, options)` is available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
-All `options` are optional, but mount `node` required:
+There are several options how to get `Slidy` into your project:
 
-### MJS/CJS module import
+- [module](#module), both ESM and CJS are available;
+- [Global property](#window) on `Window` object;
+- [IIFE](#iife);
+
+The only option *required* is the DOM `node`.
+
+### Module
 
 ```html
 <head>
@@ -12,14 +17,14 @@ All `options` are optional, but mount `node` required:
         // OR
         import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.cjs'; // CJS module
 
+        const node = document.querySelector("#node");
         slidy(node)
     </script>
 </head>
 
 <section>
     <ul id="node">
-        <li>...</li>
-        ...
+        <!-- slidy items -->
     </ul>
 </section>
 ```

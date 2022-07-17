@@ -1,0 +1,47 @@
+## Methods
+
+| Name                        | Description |
+| :-------------------------- | :---------- |
+| `to(index: number)`         | Scrolls to `index`. |
+| `update({ option: value })` | Update property in options. |
+| `destroy()`                 | Remove event listners, observers and default properties on `slidy` instance. |
+
+Example of usage:
+
+```html
+<head>
+    <script type="module">
+        import { slidy } from "https://unpkg.com/@slidy/core/dist/index.mjs";
+
+        const node = document.querySelector("#node");
+        const prev = document.querySelector("#prev");
+        const next = document.querySelector("#next");
+
+        slidy(node);
+        slidy.update({ snap: "center" });
+
+        prev.onclick = () => slidy.to(index - 1);
+        next.onclick = () => slidy.to(index + 1);
+    </script>
+</head>
+
+<section>
+    <ul id="node">
+        <!-- items -->
+    </ul>
+</section>
+
+<nav>
+    <button id="prev">←</button>
+    <button id="next">→</button>
+</nav>
+
+<!--
+    If `slidy()` is defined in global scope, use global event handlers as attribures:
+
+    <nav>
+        <button onclick="slidy.to(index - 1)">←</button>
+        <button onclick="slidy.to(index + 1)">→</button>
+    </nav>
+-->
+```

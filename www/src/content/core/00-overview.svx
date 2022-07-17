@@ -1,0 +1,29 @@
+---
+title: Core
+description: Simple, configurable, nested & reusable sliding action script.
+---
+
+Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity, easings, custom animations & infinite loop mode.
+
+Try the [DEMO].
+
+## Getting started
+
+The package is available via [NPM]:
+
+```sh
+npm i -D @slidy/core
+```
+
+or via [CDN]:
+
+```html
+<script src="https://unpkg.com/@slidy/core"></script>
+```
+
+Playground is available in svelte [REPL].
+
+[DEMO]: https://slidy-core.surge.sh
+[NPM]: https://www.npmjs.com/package/@slidy/core
+[CDN]: https://unpkg.com/@slidy/core/
+[REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
