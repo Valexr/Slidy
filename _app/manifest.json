@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "immutable/start-2d431b60.js",
+    "file": "immutable/start-00802f98.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -446,17 +446,9 @@
     "file": "immutable/assets/__layout-cc4fc130.css",
     "src": "src/routes/__layout.css"
   },
-  "src/routes/playground.css": {
-    "file": "immutable/assets/playground-cdd662b1.css",
-    "src": "src/routes/playground.css"
-  },
   "src/routes/index.css": {
     "file": "immutable/assets/index-3b884912.css",
     "src": "src/routes/index.css"
-  },
-  "index.css": {
-    "file": "immutable/assets/index-344271e2.css",
-    "src": "index.css"
   },
   "src/routes/docs/__layout.css": {
     "file": "immutable/assets/__layout-94ab9333.css",
@@ -465,5 +457,13 @@
   "masthead.css": {
     "file": "immutable/assets/masthead-b473bbe1.css",
     "src": "masthead.css"
+  },
+  "src/routes/playground.css": {
+    "file": "immutable/assets/playground-cdd662b1.css",
+    "src": "src/routes/playground.css"
+  },
+  "index.css": {
+    "file": "immutable/assets/index-344271e2.css",
+    "src": "index.css"
   }
 }
