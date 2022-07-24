@@ -1,7 +1,7 @@
-import { get, writable } from "svelte/store";
-import { fetchPhotos } from "$lib/api";
-import { randInt, clamp } from "@utils/helpers";
-import type { Slide } from "@types";
+import { get, writable } from 'svelte/store';
+import { fetchPhotos } from '$lib/api';
+import { randInt, clamp } from '@utils/helpers';
+import type { Slide } from '@types';
 
 /**
  * Global slides store (singleton).
@@ -13,7 +13,7 @@ function createSlidesStore() {
 	async function fetchSlides(limit: number) {
 		return await fetchPhotos({
 			limit: clamp(limit, 3, 25),
-			page: randInt(0, 90),
+			page: randInt(0, 90)
 		});
 	}
 

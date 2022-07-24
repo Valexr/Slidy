@@ -1,1 +1,1 @@
-export { default as Masthead } from "./Masthead.svelte";
+export { default as Masthead } from './Masthead.svelte';

@@ -23,7 +23,6 @@
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
-
 ## 2.8.2
 
 -   fix index on stop;

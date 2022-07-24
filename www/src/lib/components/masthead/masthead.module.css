@@ -6,11 +6,11 @@
 	width: 100%;
 }
 
-.masthead > section[label="logo"] {
+.masthead > section[label='logo'] {
 	--icon-size: var(--font-size-5);
 	font-size: var(--font-size-4);
 }
 
-.masthead > section[label="navigation"] {
+.masthead > section[label='navigation'] {
 	font-size: var(--font-size-1);
 }

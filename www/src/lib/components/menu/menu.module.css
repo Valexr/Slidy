@@ -4,7 +4,7 @@
 	place-content: center start;
 	grid-auto-flow: column;
 	gap: var(--font-size-fluid-0);
-	
+
 	width: fit-content;
 	height: 100%;
 }

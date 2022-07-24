@@ -28,9 +28,9 @@
 
 ## Development
 
-- `pnpm workspaces` - monorepos
-- `esbuild` - bundling & packaging
-- `derver` - dev server
+-   `pnpm workspaces` - monorepos
+-   `esbuild` - bundling & packaging
+-   `derver` - dev server
 
 ## Todo
 

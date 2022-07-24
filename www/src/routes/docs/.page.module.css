@@ -42,7 +42,7 @@
 }
 
 .article ul li:not([class])::marker {
-	content: "»";
+	content: '»';
 	color: var(--brand);
 	font-size: 1.5em;
 }
@@ -85,10 +85,8 @@
 	max-inline-size: 100%;
 }
 
-article table 
-
-.article table td {
-	word-wrap:break-word;
+article table .article table td {
+	word-wrap: break-word;
 }
 
 .article table tr:last-child td:first-child {

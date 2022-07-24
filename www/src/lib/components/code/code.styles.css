@@ -1,7 +1,7 @@
-code[class*="language-"],
-pre[class*="language-"] {
+code[class*='language-'],
+pre[class*='language-'] {
 	background-color: var(--surface-2);
-  color: var(--text-2);
+	color: var(--text-2);
 	font-family: monospace;
 	direction: ltr;
 	text-align: left;
@@ -22,24 +22,24 @@ pre[class*="language-"] {
 	max-inline-size: none;
 }
 
-code[class*="language-"]::-moz-selection,
-pre[class*="language-"]::-moz-selection,
-code[class*="language-"] ::-moz-selection,
-pre[class*="language-"] ::-moz-selection {
+code[class*='language-']::-moz-selection,
+pre[class*='language-']::-moz-selection,
+code[class*='language-'] ::-moz-selection,
+pre[class*='language-'] ::-moz-selection {
 	background: var(--code-selection-bg);
 	color: var(--code-selection-color);
 }
 
-code[class*="language-"]::selection,
-pre[class*="language-"]::selection,
-code[class*="language-"] ::selection,
-pre[class*="language-"] ::selection {
+code[class*='language-']::selection,
+pre[class*='language-']::selection,
+code[class*='language-'] ::selection,
+pre[class*='language-'] ::selection {
 	background: var(--code-selection-bg);
 	color: var(--code-selection-color);
 }
 
 /* Code blocks */
-pre[class*="language-"] {
+pre[class*='language-'] {
 	position: relative;
 	width: 100%;
 	padding: calc(1.5 * var(--size-2));
@@ -49,17 +49,17 @@ pre[class*="language-"] {
 	box-shadow: var(--shadow-1);
 }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
 	background-color: var(--surface-2);
-  color: var(--text-2);
+	color: var(--text-2);
 }
 
 /* Inline code */
-:not(pre) > code[class*="language-"],
+:not(pre) > code[class*='language-'],
 :not(pre) > code {
 	background-color: var(--surface-3);
-  color: var(--grape-2);
+	color: var(--grape-2);
 	padding: 0.1em 0.25em;
 	border-radius: var(--radius-conditional-2);
 	border: var(--border-size-1) solid var(--surface-3);
@@ -67,23 +67,23 @@ pre[class*="language-"] {
 }
 
 /* scroll */
-pre[class*="language-"] {
-  scrollbar-width: 4px;
-  scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+pre[class*='language-'] {
+	scrollbar-width: 4px;
+	scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
 }
 
 /* Works on Chrome, Edge, and Safari */
-pre[class*="language-"]::-webkit-scrollbar {
-  width: 4px;
+pre[class*='language-']::-webkit-scrollbar {
+	width: 4px;
 }
 
-pre[class*="language-"]::-webkit-scrollbar-track {
-  background: var(--scroll-track-color);
+pre[class*='language-']::-webkit-scrollbar-track {
+	background: var(--scroll-track-color);
 	border-radius: var(--scroll-thumb-radius);
 }
 
-pre[class*="language-"]::-webkit-scrollbar-thumb {
-  background-color: var(--scroll-thumb-color);
+pre[class*='language-']::-webkit-scrollbar-thumb {
+	background-color: var(--scroll-thumb-color);
 	border-radius: var(--scroll-thumb-radius);
 	border: 4px solid var(--scroll-track-color);
 }
@@ -238,7 +238,7 @@ pre[class*="language-"]::-webkit-scrollbar-thumb {
 }
 
 .namespace {
-	opacity: .7;
+	opacity: 0.7;
 }
 
 .token.bold {

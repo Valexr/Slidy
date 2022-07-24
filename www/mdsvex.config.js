@@ -1,8 +1,8 @@
-import slug from "rehype-slug";
+import slug from 'rehype-slug';
 
 export const mdsvexConfig = {
-	rehypePlugins: [ slug ],
+	rehypePlugins: [slug],
 	layout: {
-		"_": "./src/lib/components/page/Page.svelte"
+		_: './src/lib/components/page/Page.svelte'
 	}
 };

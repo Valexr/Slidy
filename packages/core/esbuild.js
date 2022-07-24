@@ -21,6 +21,7 @@ const esbuildBase = {
     globalName: 'Slidy',
     format: 'esm',
 };
+
 const derverConfig = {
     dir: 'dev',
     port: 3330,
@@ -47,21 +48,23 @@ const builds = {
 };
 
 if (DEV || CORE) {
-    build({
-        ...esbuildBase,
-    }).then((bundle) => {
-        if (DEV) console.log('watching @slidy/core...');
-        else
-            derver({
-                ...derverConfig,
-                onwatch: async (lr, item) => {
-                    if (item !== 'dev') {
-                        lr.prevent();
-                        bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                    }
-                },
-            });
-    });
+    build(esbuildBase)
+        .then((bundle) => {
+            if (DEV) console.log('watching @slidy/core...');
+            else
+                derver({
+                    ...derverConfig,
+                    onwatch: async (lr, item) => {
+                        if (item !== 'dev') {
+                            lr.prevent();
+                            bundle
+                                .rebuild()
+                                .catch((err) => lr.error(err.message, 'TS compile error'));
+                        }
+                    },
+                });
+        })
+        .catch(() => process.exit(1));
 } else {
     for (const key in builds) {
         build({
