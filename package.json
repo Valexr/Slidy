@@ -88,7 +88,7 @@
         "@typescript-eslint/eslint-plugin": "^5.30.7",
         "@typescript-eslint/parser": "^5.30.7",
         "derver": "^0.5.3",
-        "esbuild": "^0.14.49",
+        "esbuild": "^0.14.50",
         "esbuild-plugin-eslinter": "^0.1.2",
         "eslint": "^8.20.0",
         "gh-pages": "^4.0.0",
