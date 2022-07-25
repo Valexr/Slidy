@@ -20,7 +20,7 @@
 		"@slidy/media": "workspace:*",
 		"@slidy/svelte": "workspace:*",
 		"@sveltejs/adapter-static": "^1.0.0-next.38",
-		"@sveltejs/kit": "^1.0.0-next.392",
+		"@sveltejs/kit": "^1.0.0-next.393",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"mdsvex": "^0.10.6",
@@ -29,6 +29,6 @@
 		"svelte": "^3.49.0",
 		"svelte-check": "^2.8.0",
 		"svelte-preprocess": "^4.10.7",
-		"vite": "^3.0.2"
+		"vite": "^3.0.3"
 	}
 }
