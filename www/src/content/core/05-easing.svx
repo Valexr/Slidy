@@ -1,0 +1,15 @@
+## Easing
+
+Easing is an animation function, also known as *timing* function. It allows to create smooth sliding transitions.
+
+```ts
+/** Both input and output are numbers in range [0, 1].
+type Easing = (t: number) => number;
+```
+
+By default an easing function is `linear`. Examples of easing function can be seen [here][easings].
+
+The set of predefined easing functions is available as [@slidy/easing][separate package].
+
+[@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
+[easings]: https://easings.net/
