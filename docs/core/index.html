@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/__layout-126f7533.css">
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/masthead-375e332d.css">
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/__layout-6f5bb464.css">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/start-b2591b04.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/start-f5090969.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-a4e35989.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-b913c13c.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-b9644fda.js">
@@ -23,7 +23,7 @@
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/stores-42e1f141.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/docs/__layout.svelte-1cdaf5e2.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/Header-ccc5436f.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/docs/_section_/index.svelte-894e9c75.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/pages/docs/_section_/index.svelte-8d69b768.js">
 	</head>
 
 	<body>
@@ -319,18 +319,23 @@
         &lt;button onclick="slidy.to(index - 1)">←&lt;/button>
         &lt;button onclick="slidy.to(index + 1)">→&lt;/button>
     &lt;/nav>
---></span></code><!-- HTML_TAG_END --></pre></article></main>
+--></span></code><!-- HTML_TAG_END --></pre><h2 id="easing">Easing</h2>
+<p>Easing is an animation function, also known as <em>timing</em> function. It allows to create smooth sliding transitions.</p>
+<pre class="language-ts"><!-- HTML_TAG_START --><code class="language-ts"><span class="token comment">/** Both input and output are numbers in range [0, 1].
+type Easing = (t: number) => number;</span></code><!-- HTML_TAG_END --></pre>
+<p>By default an easing function is <code>linear</code>. Examples of easing function can be seen <a class="_link_14qjn_1 " href="https://easings.net/" target="_blank" rel="nofollow">here</a>.</p>
+<p>The set of predefined easing functions is available as [@slidy/easing][separate package].</p></article></main>
 <footer class="_footer_3ch4a_1 surface-2"><div class="container wrapper"><section label="user"><span><a class="_link_14qjn_1 " href="https://github.com/Valexr/Slidy" target="_blank" rel="noopener noreferrer">Slidy</a> is released under the <a class="_link_14qjn_1 " href="https://github.com/Valexr/Slidy/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT licence</a></span>
       <span>© 2022 <a class="_link_14qjn_1 " href="https://github.com/Valexr" target="_blank" rel="noopener noreferrer">Alexander Volkov</a></span></section></div></footer>
 
 
-		<script type="module" data-sveltekit-hydrate="jwunpw">
-		import { set_public_env, start } from "/Slidy/_app/immutable/start-b2591b04.js";
+		<script type="module" data-sveltekit-hydrate="56tqha">
+		import { set_public_env, start } from "/Slidy/_app/immutable/start-f5090969.js";
 
 		set_public_env({});
 
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="jwunpw"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="56tqha"]').parentNode,
 			paths: {"base":"/Slidy","assets":"/Slidy"},
 			session: {user:{theme:void 0}},
 			route: true,
