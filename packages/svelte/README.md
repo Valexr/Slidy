@@ -302,9 +302,9 @@ Slot to display content overlaid content. It covers the slides area and can be c
 
 ```svelte
 <Slidy>
-	<slot name="overlay">
+	<svelte:fragment slot="overlay">
 		<button> Share </button>
-	</slot>
+	</svelte:fragment>
 </Slidy>
 ```
 
