@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/masthead-375e332d.css">
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/index-3b884912.css">
 	<link rel="stylesheet" href="/Slidy/_app/immutable/assets/index-344271e2.css">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/start-c07bed3c.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/start-b2591b04.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-a4e35989.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-b913c13c.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-b9644fda.js">
@@ -92,7 +92,10 @@
 
 
 		<script type="module" data-sveltekit-hydrate="95fcet">
-		import { start } from "/Slidy/_app/immutable/start-c07bed3c.js";
+		import { set_public_env, start } from "/Slidy/_app/immutable/start-b2591b04.js";
+
+		set_public_env({});
+
 		start({
 			target: document.querySelector('[data-sveltekit-hydrate="95fcet"]').parentNode,
 			paths: {"base":"/Slidy","assets":"/Slidy"},
