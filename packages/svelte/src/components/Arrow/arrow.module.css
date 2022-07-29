@@ -55,7 +55,7 @@
 	transform: rotate(90deg);
 }
 
-.slidy-arrow.vertical:not(.prev) slidy-arrow-icon {
+.slidy-arrow.vertical:not(.prev) .slidy-arrow-icon {
 	transform: rotate(90deg);
 }
 
