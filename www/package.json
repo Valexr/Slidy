@@ -15,12 +15,12 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.24.1",
+		"@playwright/test": "^1.24.2",
 		"@slidy/animation": "workspace:*",
 		"@slidy/media": "workspace:*",
 		"@slidy/svelte": "workspace:*",
 		"@sveltejs/adapter-static": "^1.0.0-next.38",
-		"@sveltejs/kit": "^1.0.0-next.396",
+		"@sveltejs/kit": "^1.0.0-next.398",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"mdsvex": "^0.10.6",
@@ -29,6 +29,6 @@
 		"svelte": "^3.49.0",
 		"svelte-check": "^2.8.0",
 		"svelte-preprocess": "^4.10.7",
-		"vite": "^3.0.3"
+		"vite": "^3.0.4"
 	}
 }
