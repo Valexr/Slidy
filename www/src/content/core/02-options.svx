@@ -1,24 +1,8 @@
-## Options
+## API
 
-`@slidy/core` does not style the DOM, there only some inline properties applied to the target node:
+`slidy` have two arguments: required `node` and optional `options`. 
 
-```css
-{
-    outline: none;
-    overflow: hidden;
-    user-select: none;
-}
-```
-
-In case you need the reversed flow:
-
-- `flex-flow: row-reverse | column-reverse` property;
-- `direction: rtl` property;
-- `dir="rtl"` attribute. 
-
-⚠️ Do not apply absolute positioning to the children. As the script uses coordinates from the `childNodes` the functionality won't work properly.
-
-For deck flow use `options.snap: 'deck'`.
+### Options
 
 | Key         | Default     | Type       | Description |
 | :---------- | :----------: | :--------- | :---------- |
@@ -34,7 +18,7 @@ For deck flow use `options.snap: 'deck'`.
 | `axis`      | undefined | `"x"` or `"y"` | Defines the flow direction. |
 | `loop`      | false     | boolean  | Activated the infinite sliding mode. |
 
-Readonly properties:
+### Readonly properties:
 
 | Key         | Type     | Description |
 | :---------- | :------- | :---------- |
@@ -43,14 +27,24 @@ Readonly properties:
 | `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
 | `reverse`   | `number` | Children reverse flow: `-1` or `1` |
 
+### Flow
+
+To control the flow direction use one of the options on the parent node:
+
+- `flex-flow: row-reverse | column-reverse` CSS property;
+- `direction: rtl` CSS property;
+- `dir="rtl"` HTML attribute. 
+
+To use `deck` flow use the `snap: "deck"` option, it may be required for some animations.
+
 ### Usage example
 
 ```html
 <head>
     <script type="module">
-        import { slidy } from 'https://unpkg.com/@slidy/core/dist/index.mjs';;
-        import { linear } from 'https://unpkg.com/@slidy/easing/dist/index.mjs';
-        import { fade } from 'https://unpkg.com/@slidy/animation/dist/index.mjs';
+        import { slidy } from '@slidy/core';;
+        import { linear } from '@slidy/easing';
+        import { fade } from '@slidy/animation';
 
         const options = {
             index: 0,
