@@ -1,0 +1,52 @@
+## Animation
+
+`animation` function allows to define a custom sliding animation.
+
+```ts
+interface AnimationArgs {
+	node: HTMLElement;
+  child: Child;
+  options: Options;
+  translate: string;
+}
+
+type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
+```
+
+Functions receives 4 arguments:
+
+| Name        | Type          | Description |
+| :---------- | :------------ | :---------- |
+| `node`      | `HTMLElement` | `slidy` instance root DOM node. |
+| `child`     | `Child`       | Extended `childNode` object. |
+| `options`   | `Options`     | `@slidy/core` options subset. |
+| `translate` | `string`      | Basic translate required for any function `{ transform: translate }` |
+
+### `child`
+
+| Name     | Type     | Description |
+| :------- | :------- | :---------- |
+| `i`      | `number` | Child index in array. |
+| `index`  | `number` | Child index in core script. |
+| `active` | `number` | Calculated as `options.loop ? cix : options.index`. |
+| `size`   | `number` | Calculated as `size + gap` by `options.vertical`. |
+| `dist`   | `number` | Snap position distance. |
+| `track`  | `number` | Move by slide size from its snap point in specified direction. |
+| `turn`   | `number` | Calculated as `-1 <- child.track / child.size -> 1` |
+| `exp`    | `number` | Interpolated `child.track` as `0 <- exp -> 1`. |
+
+### `options`
+
+| Name       | Type      | Description |
+| :--------- | :-------- | :---------- |
+| `index`    | `number`  | Active slide index. |
+| `position` | `number`  | Current position value. |
+| `vertical` | `number`  | Children flow, calculated as `0` or any `Number` as `true`. |
+| `reverse`  | `number`  | The children reverse flow state: `-1 | 1`. |
+| `snap`     | `Snap`    | The `snap` position value: `"start", "center", "end", "deck", undefined`. |
+
+### Animation presets
+
+Predefined custom animations are available as [separate package][@slidy/animation].
+
+[@slidy/animation]: https://github.com/Valexr/Slidy/tree/master/packages/easing
