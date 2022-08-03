@@ -1,26 +1,24 @@
 ---
-title: Getting started
+title: Animation
+description: Set of predefined custom animations.
 ---
 
-Simple animation functions for inertion scrolling.
+Simple animation functions for inertion scrolling. Try the [DEMO][].
 
-## Try the [DEMO]
-
-> - [Getting started](#getting-started-)
-> - [Usage](#usage)
-> - [Arguments](#arguments)
-> - [Custom](#custom)
-
-
-## Getting started 🚀
+## Getting started
 
 The package is available via [NPM]:
 
 ```sh
 npm i -D @slidy/animation
 ```
-or from [CDN]:
+
+or via [CDN]:
 
 ```html
 <script src="https://unpkg.com/@slidy/animation"></script>
 ```
+
+[DEMO]: https://slidy-core.surge.sh
+[NPM]: https://www.npmjs.com/package/@slidy/animation
+[CDN]: https://unpkg.com/@slidy/animation/
