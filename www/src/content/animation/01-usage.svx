@@ -1,53 +1,23 @@
----
-title: Usage
----
+## Usage Examples
 
-## Usage
+There are several options to use predefined animation functions in your project:
 
-Animation functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
-
-Includes `fade, flip, matrix, rotate, scale, stairs, translate` & `blur, deck, shuffle` in progress as functions. 
-
-```ts
-type Options = {
-    index: number, // current active slide index
-    position: number; // current position
-    vertical: boolean, // node children flow
-    reverse: boolean, // node children reverse flow
-    snap: Snap; // snapping side
-}
-
-type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
-
-interface Child extends HTMLElement {
-    i: number; // child index in array
-    index: number; // child index
-    active: number; // `options.loop ? cix : options.index`
-    size: number; // `size + gap` by axis
-    dist: number; // distance to snap position
-    track: number; // move to the size of the slide from its snap point +/- in the direction
-    turn: number; // `-1 <- child.track / child.size -> 1`
-    exp: number; // interpolated child.track `0 <- exp -> 1`
-}
-
-type AnimationArgs = {
-    node: HTMLElement; // target slidy node
-    child: Child; // extended childNode object
-    options: Options; // options: index, position, vertical, reverse, snap
-    translate: string; // basic translate needed in any function `{ transform: translate }`
-};
-
-type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
-```
-
-### MJS/CJS module import
+### ES Module Import
 
 ```html
 <head>
    <script type="module">
-        import * as animation from 'https://unpkg.com/@slidy/animation/dist/index.mjs'; // MJS module
-        // OR
-        import * as animation from 'https://unpkg.com/@slidy/animation/dist/index.cjs'; // CJS module
+        import * as animation from "https://unpkg.com/@slidy/animation/dist/index.mjs";
+    </script>
+</head>
+```
+
+### CommonJS Require
+
+```html
+<head>
+   <script type="module">
+        import * as animation from "https://unpkg.com/@slidy/animation/dist/index.cjs";
     </script>
 </head>
 ```
@@ -64,11 +34,9 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 </script>
 ```
 
-### As third party module in any frameworks
+### SvelteJS Framework
 
 ```svelte
-<!-- Svelte -->
-
 <script>
     import { fade } from '@slidy/animation';
 

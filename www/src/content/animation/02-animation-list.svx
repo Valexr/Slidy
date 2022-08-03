@@ -1,0 +1,15 @@
+## Available animations:
+
+- `fade`;
+- `flip`;
+- `matrix`
+- `rotate`;
+- `scale`;
+- `stairs`;
+- `translate`;
+
+TODO:
+
+- `blur`;
+- `deck`;
+- `shuffle`;

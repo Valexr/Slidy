@@ -4,6 +4,7 @@ description: Set of predefined custom animations.
 ---
 
 Simple animation functions for inertion scrolling. Try the [DEMO][].
+To learn more how to create your own, read the [core-animation-section][] section.
 
 ## Getting started
 
@@ -22,3 +23,4 @@ or via [CDN]:
 [DEMO]: https://slidy-core.surge.sh
 [NPM]: https://www.npmjs.com/package/@slidy/animation
 [CDN]: https://unpkg.com/@slidy/animation/
+[core-animation-section]: /docs/core#animation
