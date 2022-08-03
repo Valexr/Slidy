@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "_app/immutable/start-2d6aab58.js",
+    "file": "_app/immutable/start-8b659358.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -65,7 +65,7 @@
     ]
   },
   "src/routes/docs/[section]/index.svelte": {
-    "file": "_app/immutable/pages/docs/_section_/index.svelte-8d69b768.js",
+    "file": "_app/immutable/pages/docs/_section_/index.svelte-fc8a5edd.js",
     "src": "src/routes/docs/[section]/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -76,14 +76,15 @@
     "dynamicImports": [
       "src/content/animation/00-getting-started.svx",
       "src/content/animation/01-usage.svx",
-      "src/content/animation/02-arguments.svx",
-      "src/content/animation/03-custom.svx",
+      "src/content/animation/02-animation-list.svx",
       "src/content/core/00-overview.svx",
       "src/content/core/01-usage.svx",
       "src/content/core/02-options.svx",
       "src/content/core/03-events.svx",
       "src/content/core/04-methods.svx",
       "src/content/core/05-easing.svx",
+      "src/content/core/06-animation.svx",
+      "src/content/core/07-limitations.svx",
       "src/content/easing/00-getting-started.svx",
       "src/content/easing/01-usage.svx",
       "src/content/media/00-getting-started.svx",
@@ -205,12 +206,13 @@
     ]
   },
   "src/content/animation/00-getting-started.svx": {
-    "file": "_app/immutable/chunks/00-getting-started-373889bd.js",
+    "file": "_app/immutable/chunks/00-getting-started-3350af1b.js",
     "src": "src/content/animation/00-getting-started.svx",
     "isDynamicEntry": true,
     "imports": [
       "_index-a4e35989.js",
       "_Page-0e14739b.js",
+      "_paths-b9644fda.js",
       "_Link-46410f29.js",
       "_masthead.module-88889344.js"
     ]
@@ -223,7 +225,7 @@
     ]
   },
   "src/content/animation/01-usage.svx": {
-    "file": "_app/immutable/chunks/01-usage-ab6fc52e.js",
+    "file": "_app/immutable/chunks/01-usage-1f0f097c.js",
     "src": "src/content/animation/01-usage.svx",
     "isDynamicEntry": true,
     "imports": [
@@ -232,24 +234,13 @@
       "_masthead.module-88889344.js"
     ]
   },
-  "src/content/animation/02-arguments.svx": {
-    "file": "_app/immutable/chunks/02-arguments-1a1c706e.js",
-    "src": "src/content/animation/02-arguments.svx",
+  "src/content/animation/02-animation-list.svx": {
+    "file": "_app/immutable/chunks/02-animation-list-98c4814d.js",
+    "src": "src/content/animation/02-animation-list.svx",
     "isDynamicEntry": true,
     "imports": [
       "_index-a4e35989.js",
       "_Page-0e14739b.js",
-      "_masthead.module-88889344.js"
-    ]
-  },
-  "src/content/animation/03-custom.svx": {
-    "file": "_app/immutable/chunks/03-custom-de1b4b7e.js",
-    "src": "src/content/animation/03-custom.svx",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index-a4e35989.js",
-      "_Page-0e14739b.js",
-      "_Link-46410f29.js",
       "_masthead.module-88889344.js"
     ]
   },
@@ -265,7 +256,7 @@
     ]
   },
   "src/content/core/01-usage.svx": {
-    "file": "_app/immutable/chunks/01-usage-a3630ef1.js",
+    "file": "_app/immutable/chunks/01-usage-d4fcea4d.js",
     "src": "src/content/core/01-usage.svx",
     "isDynamicEntry": true,
     "imports": [
@@ -276,7 +267,7 @@
     ]
   },
   "src/content/core/02-options.svx": {
-    "file": "_app/immutable/chunks/02-options-d94de145.js",
+    "file": "_app/immutable/chunks/02-options-7761c7f0.js",
     "src": "src/content/core/02-options.svx",
     "isDynamicEntry": true,
     "imports": [
@@ -287,7 +278,7 @@
     ]
   },
   "src/content/core/03-events.svx": {
-    "file": "_app/immutable/chunks/03-events-fe17947b.js",
+    "file": "_app/immutable/chunks/03-events-a9975ebb.js",
     "src": "src/content/core/03-events.svx",
     "isDynamicEntry": true,
     "imports": [
@@ -298,7 +289,7 @@
     ]
   },
   "src/content/core/04-methods.svx": {
-    "file": "_app/immutable/chunks/04-methods-09ab4ac8.js",
+    "file": "_app/immutable/chunks/04-methods-8165ddd4.js",
     "src": "src/content/core/04-methods.svx",
     "isDynamicEntry": true,
     "imports": [
@@ -315,6 +306,27 @@
       "_index-a4e35989.js",
       "_Page-0e14739b.js",
       "_Link-46410f29.js",
+      "_masthead.module-88889344.js"
+    ]
+  },
+  "src/content/core/06-animation.svx": {
+    "file": "_app/immutable/chunks/06-animation-4092389e.js",
+    "src": "src/content/core/06-animation.svx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-a4e35989.js",
+      "_Page-0e14739b.js",
+      "_Link-46410f29.js",
+      "_masthead.module-88889344.js"
+    ]
+  },
+  "src/content/core/07-limitations.svx": {
+    "file": "_app/immutable/chunks/07-limitations-79277926.js",
+    "src": "src/content/core/07-limitations.svx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-a4e35989.js",
+      "_Page-0e14739b.js",
       "_masthead.module-88889344.js"
     ]
   },
@@ -462,6 +474,10 @@
     "file": "_app/immutable/assets/__layout-6f5bb464.css",
     "src": "src/routes/docs/__layout.css"
   },
+  "masthead.css": {
+    "file": "_app/immutable/assets/masthead-375e332d.css",
+    "src": "masthead.css"
+  },
   "src/routes/index.css": {
     "file": "_app/immutable/assets/index-3b884912.css",
     "src": "src/routes/index.css"
@@ -469,10 +485,6 @@
   "index.css": {
     "file": "_app/immutable/assets/index-d3ada6e6.css",
     "src": "index.css"
-  },
-  "masthead.css": {
-    "file": "_app/immutable/assets/masthead-375e332d.css",
-    "src": "masthead.css"
   },
   "src/routes/playground.css": {
     "file": "_app/immutable/assets/playground-cdd662b1.css",
