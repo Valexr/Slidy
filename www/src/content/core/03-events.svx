@@ -10,15 +10,15 @@
 | `update`  | `{updated.options}` | Options were changed. |
 | `destroy` | `{node}`            | Targed node is unmounted from the DOM or [`destroy()`](#methods) method was used. |
 
-Example of using the events:
+### Events Usage Example:
 
 ```html
 <head>
     <script type="module">
-        import { slidy } from "https://unpkg.com/@slidy/core/dist/index.mjs";
+        import { slidy } from "@slidy/core";
 
         const node = document.querySelector("#node");
-        slidy(node);
+        slidy(document.querySelector("#node"));
 
         node.addEventListener("mount", e => console.log(e));
         node.onupdate = e => console.log(e.detail);
