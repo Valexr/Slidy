@@ -1,0 +1,13 @@
+## Limitations
+
+1. Children (slide items) `absolute` positioning should not be applied. While the script uses coordinates from the `childNode`, it breaks the script functionality completely;
+
+2. `@slidy/core` does not style the DOM, but keep in mind that there are some inline properties applied to the target node to provide functionality:
+
+```css
+{
+    outline: none;
+    overflow: hidden;
+    user-select: none;
+}
+```
