@@ -1,3 +1,7 @@
+<script>
+	import { base } from "$app/paths"
+</script>
+
 ---
 title: Animation
 description: Set of predefined custom animations.
@@ -23,4 +27,4 @@ or via [CDN]:
 [DEMO]: https://slidy-core.surge.sh
 [NPM]: https://www.npmjs.com/package/@slidy/animation
 [CDN]: https://unpkg.com/@slidy/animation/
-[core-animation-section]: /docs/core#animation
+[core-animation-section]: {base}/docs/core#animation
