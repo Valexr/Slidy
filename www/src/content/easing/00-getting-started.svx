@@ -1,20 +1,20 @@
-# @slidy/easing
+---
+title: slidy/easing
+description: Predefined set of custom easing functions.
+---
 
 Simple easings function for inertion scrolling.
 
-#### Try the [DEMO]
+Try the [DEMO]
 
-> - [Getting started](#getting-started-)
-> - [Usage](#usage)
-
-
-## Getting started 🚀
+## Getting started
 
 The package is available via [NPM]:
 
 ```sh
 npm i -D @slidy/easing
 ```
+
 or from [CDN]:
 
 ```html

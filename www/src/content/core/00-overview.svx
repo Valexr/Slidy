@@ -1,5 +1,5 @@
 ---
-title: Core
+title: slidy/core
 description: Simple, configurable, nested & reusable sliding action script.
 ---
 

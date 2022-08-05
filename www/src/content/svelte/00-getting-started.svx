@@ -1,4 +1,9 @@
-## What is @slidy/svelte?
+---
+title: slidy/svelte
+description: configurable, reusable and accessible SvelteJS carousel component.
+---
+
+## What is slidy-svelte?
 
 @slidy/svelte - configurable, reusable and accessible SvelteJS carousel component built on top of [@slidy/core][core-package].
 

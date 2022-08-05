@@ -1,4 +1,4 @@
-## Usage
+## Usage Examples
 
 Easing functions available via named import as `MJS/CJS` module or via global `Window.Slidy` object props as `IIFE`.  
 Includes `linear, quad, cubic, quart, quint, bounce, sine, expo, elastic, circ, back` as EaseIn functions.  
@@ -15,15 +15,22 @@ More info: https://easings.net.
 type Easing = (t: number) => number;
 ```
 
-
-### MJS/CJS module import
+### ES Module import
 
 ```html
 <head>
    <script type="module">
-        import * as easing from 'https://unpkg.com/@slidy/easing/dist/index.mjs'; // MJS module
-        // OR
-        import * as easing from 'https://unpkg.com/@slidy/easing/dist/index.cjs'; // CJS module
+        import * as easing from "https://unpkg.com/@slidy/easing/dist/index.mjs";
+    </script>
+</head>
+```
+
+### CommonJS Require
+
+```html
+<head>
+   <script type="module">
+        import * as easing from "https://unpkg.com/@slidy/easing/dist/index.cjs";
     </script>
 </head>
 ```
@@ -36,15 +43,15 @@ type Easing = (t: number) => number;
 </head>
 
 <script>
-    window.onload = () => easing = Slidy.linear()
+    window.onload = () => {
+        easing = Slidy.linear()
+    }
 </script>
 ```
 
-### As third party module in any frameworks
+### SvelteJS
 
 ```svelte
-<!-- Svelte -->
-
 <script>
     import { linear } from '@slidy/easing';
 

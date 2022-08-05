@@ -1,11 +1,11 @@
+---
+title: slidy/animation
+description: Predefined set of custom animations.
+---
+
 <script>
 	import { base } from "$app/paths"
 </script>
-
----
-title: Animation
-description: Set of predefined custom animations.
----
 
 Simple animation functions for inertion scrolling. Try the [DEMO][].
 To learn more how to create your own, read the [core-animation-section][] section.

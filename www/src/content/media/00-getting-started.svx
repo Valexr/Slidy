@@ -1,6 +1,10 @@
+---
+title: @slidy/media
+description: Simple, observable & cookie-persisted media-query store enspired by svelte/stores.
+---
+
 # @slidy/media
 
-Simple, observable & cookie-persisted media-query store enspired by svelte/stores.  
 SSR compartible.
 
 #### Try the [DEMO]

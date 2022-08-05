@@ -10,7 +10,7 @@
 | `update`  | `{updated.options}` | Options were changed. |
 | `destroy` | `{node}`            | Targed node is unmounted from the DOM or [`destroy()`](#methods) method was used. |
 
-### Events Usage Example:
+### Events Usage Example
 
 ```html
 <head>

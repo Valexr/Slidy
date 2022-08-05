@@ -70,7 +70,7 @@ List of available public custom properties:
 
 There are two options:
 
-#### --style-props
+#### Custom style props
 
 Svelte supports passing down custom properties to component via [`--style-props`][svelte-custom-props]:
 

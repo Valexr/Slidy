@@ -6,7 +6,7 @@
 | `update({ option: value })` | Update property in options. |
 | `destroy()`                 | Remove event listners, observers and default properties on `slidy` instance. |
 
-### Methods Usage Example:
+### Methods Usage Example
 
 ```html
 <head>
