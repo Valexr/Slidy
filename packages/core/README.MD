@@ -117,7 +117,7 @@ If you need reversed flow use css rules on target node, like: `flex-flow: row-re
 | `index`     | `0`         | `number`   | Start index |
 | `clamp`     | `0`         | `number`   | Clamping sliding by index: `clamp - index + clamp` |
 | `indent`    | `1`         | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
-| `sensity`   | `5`         | `number`   | Sliding sensity: how many pixels to drag in the RAF to start move, `0` when sliding |
+| `sensity`   | `5`         | `number`   | Sliding sensity: how many pixels to drag in the RAF `~16ms` to start move, `0` when sliding |
 | `gravity`   | `1.2`       | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`  | `375`       | `number`   | Sliding duration in ms |
 | `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |

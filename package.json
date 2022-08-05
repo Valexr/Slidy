@@ -84,7 +84,7 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.5",
-        "@types/node": "^18.6.3",
+        "@types/node": "^18.6.4",
         "@typescript-eslint/eslint-plugin": "^5.32.0",
         "@typescript-eslint/parser": "^5.32.0",
         "derver": "^0.5.3",
@@ -94,7 +94,7 @@
         "gh-pages": "^4.0.0",
         "open-props": "^1.4.5",
         "prettier": "^2.7.1",
-        "sass": "^1.54.1",
+        "sass": "^1.54.3",
         "tslib": "^2.4.0",
         "typescript": "^4.7.4"
     }
