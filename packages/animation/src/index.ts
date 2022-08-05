@@ -7,6 +7,7 @@ export {
     perspective,
     rotate,
     scale,
+    shade,
     shuffle,
     stairs,
     translate,
