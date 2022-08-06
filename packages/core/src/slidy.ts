@@ -103,7 +103,7 @@ export function slidy(
 
         function positioning(pos: number): number {
             if (INDEX - hix) {
-                pos -= options.loop ? $().history(INDEX - hix) : 0;
+                pos -= options.loop ? $().swap(INDEX - hix) : 0;
                 hix = INDEX;
                 dispatch(node, 'index', { index });
             }
