@@ -34,12 +34,12 @@
 	margin-left: calc((var(--toc-level) - 2) * 0.75em);
 }
 
-.nav li[data-level="2"] {
+.nav li[data-level='2'] {
 	color: var(--gray-2);
 	font-size: var(--font-size-2);
 }
 
-.nav li[data-level="2"]:not(:first-of-type) {
+.nav li[data-level='2']:not(:first-of-type) {
 	margin-top: var(--size-2);
 }
 

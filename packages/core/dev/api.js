@@ -27,18 +27,8 @@ export async function getPhotos(node, page, limit) {
         } else {
             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
         }
-    } catch {
-        (error) => {
-            console.error(error);
-        };
-    }
-
-    function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
-        let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-        return {
-            width: Math.round(srcWidth * ratio),
-            height: Math.round(srcHeight * ratio),
-        };
+    } catch (error) {
+        console.error(error);
     }
 
     function createSlides(node, photos) {
@@ -66,5 +56,13 @@ export async function getPhotos(node, page, limit) {
             } else return `<button id="${i}">${i}</button>`;
         });
         return nodes.join('');
+    }
+
+    function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
+        let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+        return {
+            width: Math.round(srcWidth * ratio),
+            height: Math.round(srcHeight * ratio),
+        };
     }
 }

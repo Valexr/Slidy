@@ -207,15 +207,13 @@ export function slidy(
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const edged = $().edges;
         const clamped = CLAMP || e.shiftKey;
-        const pos = edged ? coord / 9 : coord;
+        const pos = $().edges ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
-        const moved = !CLAMP && !e.shiftKey;
 
-        moved && sense(e, pos) && move(pos, INDEX);
-        wst = (options.snap || !moved) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
+        !clamped && sense(e, pos) && move(pos, INDEX);
+        wst = (options.snap || clamped) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
 
         !$().edges && e.stopPropagation();
     }
