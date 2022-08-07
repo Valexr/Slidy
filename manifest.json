@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "_app/immutable/start-53eaf704.js",
+    "file": "_app/immutable/start-012e218e.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -104,13 +104,13 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "_app/immutable/pages/index.svelte-4c6fd27d.js",
+    "file": "_app/immutable/pages/index.svelte-87fe9d53.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-a4e35989.js",
-      "_index-1b22ab2f.js",
+      "_index-c61f3d33.js",
       "_masthead.module-dfa8173f.js",
       "_Header-3682a5ef.js",
       "_Icon-6bbd9f1d.js"
@@ -120,14 +120,14 @@
     ]
   },
   "src/routes/playground.svelte": {
-    "file": "_app/immutable/pages/playground.svelte-e05a1ff0.js",
+    "file": "_app/immutable/pages/playground.svelte-62a95d12.js",
     "src": "src/routes/playground.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-a4e35989.js",
       "_slides-b87c1bf3.js",
-      "_index-1b22ab2f.js",
+      "_index-c61f3d33.js",
       "_index-b913c13c.js"
     ],
     "css": [
@@ -185,8 +185,8 @@
       "_masthead.module-dfa8173f.js"
     ]
   },
-  "_index-1b22ab2f.js": {
-    "file": "_app/immutable/chunks/index-1b22ab2f.js",
+  "_index-c61f3d33.js": {
+    "file": "_app/immutable/chunks/index-c61f3d33.js",
     "imports": [
       "_index-a4e35989.js"
     ],
@@ -450,24 +450,24 @@
     "file": "_app/immutable/assets/index-3b884912.css",
     "src": "src/routes/index.css"
   },
-  "src/routes/docs/[section]/index.css": {
-    "file": "_app/immutable/assets/index-47c4eef3.css",
-    "src": "src/routes/docs/[section]/index.css"
-  },
   "index.css": {
     "file": "_app/immutable/assets/index-d3ada6e6.css",
     "src": "index.css"
   },
-  "src/routes/playground.css": {
-    "file": "_app/immutable/assets/playground-cdd662b1.css",
-    "src": "src/routes/playground.css"
+  "masthead.css": {
+    "file": "_app/immutable/assets/masthead-0eceb451.css",
+    "src": "masthead.css"
+  },
+  "src/routes/docs/[section]/index.css": {
+    "file": "_app/immutable/assets/index-47c4eef3.css",
+    "src": "src/routes/docs/[section]/index.css"
   },
   "src/routes/docs/index.css": {
     "file": "_app/immutable/assets/index-b2768e6e.css",
     "src": "src/routes/docs/index.css"
   },
-  "masthead.css": {
-    "file": "_app/immutable/assets/masthead-0eceb451.css",
-    "src": "masthead.css"
+  "src/routes/playground.css": {
+    "file": "_app/immutable/assets/playground-cdd662b1.css",
+    "src": "src/routes/playground.css"
   }
 }
