@@ -140,7 +140,7 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
 ## Custom
 
-Like exmaple `fade()` function. More in [animation.ts](https://github.com/Valexr/Slidy/blob/master/packages/animation/src/animation.ts) file.
+Like example `fade()` function. More in [animation.ts](https://github.com/Valexr/Slidy/blob/master/packages/animation/src/animation.ts) file.
 
 ```ts
 function fade({ child, translate }: AnimationArgs) {
