@@ -14,7 +14,7 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.24.2",
+		"@playwright/test": "^1.25.0",
 		"@slidy/animation": "workspace:*",
 		"@slidy/media": "workspace:*",
 		"@slidy/svelte": "workspace:*",
