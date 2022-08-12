@@ -1,19 +1,3 @@
-<script context="module" lang="ts">
-	import { slides } from "@stores/slides";
-	import { browser } from "$app/env";
-	import type { Load } from "@sveltejs/kit";
-
-	export const load: Load = async () => {
-		if (browser) {
-			await slides.init(25);
-		}
-
-		return {
-			status: 200
-		};
-	};
-</script>
-
 <script>
 	import { Footer, Masthead } from "@components";
 
@@ -24,5 +8,5 @@
 </script>
 
 <Masthead />
-<slot />
+	<slot />
 <Footer />

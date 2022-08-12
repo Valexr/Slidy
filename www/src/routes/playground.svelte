@@ -13,13 +13,12 @@
 </script> -->
 
 <script lang="ts">
-	import { slides } from "@stores/slides";
+	import { getRandomSlides } from "@stores/slides";
 	import { Slidy } from "@slidy/svelte";
 	import { stairs } from "@slidy/animation";
 	import "@slidy/svelte/slidy.css";
 	
 	//export let theme: Queries = media.matches;
-	$: contents = slides.getRandomSlides(10);
 </script>
 
 <svelte:head>
@@ -27,6 +26,7 @@
 </svelte:head>
 
 <main>
+	{#await getRandomSlides(10) then slides}
 		<Slidy
 			animation={stairs}
 			duration={450}
@@ -34,9 +34,10 @@
 			snap="center"
 			thumbnail
 			index={4}
-			slides={contents}
+			{slides}
 			arrows
 		/>
+	{/await}
 </main>
 
 <style>
