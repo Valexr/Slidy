@@ -12,7 +12,7 @@
         <Link href="{pathGithub}">Slidy</Link> is released under the <Link href="{pathLicence}">MIT licence</Link>
       </span>
       <span>
-        © {new Date().getFullYear()} <Link href="{pathAuthor}">Alexander Volkov</Link>
+        © {new Date().getFullYear()} <Link href="{pathAuthor}">Alexander Volkov & Slidy Contributors</Link>
       </span>
     </section>
   </div>
