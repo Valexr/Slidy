@@ -4,21 +4,13 @@
     "description": "Simple, observable & cookie-persisted media-query store",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
-    "browser": "dist/index.js",
+    "cdn": "dist/index.js",
+    "unpkg": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "files": [
         "dist/*"
     ],
-    "exports": {
-        ".": {
-            "import": "./dist/index.mjs",
-            "module": "./dist/index.mjs",
-            "require": "./dist/index.cjs",
-            "browser": "./dist/index.js"
-        },
-        "./package.json": "./package.json"
-    },
     "scripts": {
         "dev": "node esbuild --dev",
         "dev:core": "node esbuild --dev",

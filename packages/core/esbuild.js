@@ -18,7 +18,6 @@ const esbuildBase = {
     outdir: CORE ? 'dev/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
-    globalName: 'Slidy',
     format: 'esm',
 };
 
@@ -44,6 +43,7 @@ const builds = {
     iife: {
         entryPoints: ['src/iife.ts'],
         outfile: 'dist/index.js',
+        globalName: 'Slidy',
     },
 };
 
