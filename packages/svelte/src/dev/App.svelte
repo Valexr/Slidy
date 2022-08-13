@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { Slidy } from "@slidy/svelte";
 	import { ControlPanel, Sidemenu } from "./components";
-	import { createSlidesStore } from "./scripts/slide-store";
+	import { getRandomSlides } from "./scripts/slide-store";
 	import { version } from "../../package.json";
 
 	import { translate } from "@slidy/animation";
@@ -31,8 +31,7 @@
 
 	let controlPanel = false;
 
-	const slides = createSlidesStore();
-	let slidesPromise = slides.init(limit);
+	const slides = getRandomSlides(10);
 
 	$: vertical = axis === "y";
 </script>
@@ -70,9 +69,7 @@
 </header>
 
 <main>
-	{#await slidesPromise}
-		loading...
-	{:then}
+	{#await getRandomSlides(10) then slides}
 		<Slidy
 			{animation}
 			{axis}
@@ -80,7 +77,7 @@
 			{easing}
 			bind:index
 			bind:position
-			slides={$slides}
+			{slides}
 			{clamp}
 			{duration}
 			{gravity}
