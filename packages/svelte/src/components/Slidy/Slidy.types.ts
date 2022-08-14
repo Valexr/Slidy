@@ -32,10 +32,12 @@ export type GetSrc<T> = (item: T) => string;
 
 export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
+	autoplay?: boolean;
 	background?: boolean;
 	classNames: SlidyStyles;
 	getImgSrc: (item: unknown | Slide) => string;
 	getThumbSrc: (item: unknown | Slide ) => string;
+	interval?: number;
 	navigation?: boolean;
 	progress?: boolean;
 	slides: Slide[];
