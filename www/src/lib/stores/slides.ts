@@ -16,7 +16,5 @@ export async function getRandomSlides(items = 10) {
 		await initSlides();
 	}
 
-	return slides
-		.sort(() => 0.5 - Math.random())
-		.slice(0, items);
+	return slides.sort(() => 0.5 - Math.random()).slice(0, items);
 }
