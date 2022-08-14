@@ -13,7 +13,7 @@
 	import "./app.module.css";
 
 	let animation = translate;
-	let axis = "x";
+	let axis: "x" | "y" = "x";
 	let easing = linear;
 	let position = 0;
 	let limit = 15;
@@ -31,7 +31,7 @@
 
 	let controlPanel = false;
 
-	const slides = getRandomSlides(10);
+	let items = getRandomSlides(limit);
 
 	$: vertical = axis === "y";
 </script>
@@ -44,7 +44,7 @@
 		Slidy <small>v.{version}</small>
 	</h1>
 	<fieldset class="nav-controls">
-		<button on:click={() => (slidesPromise = slides.init(limit))} title="Shuffle slides">
+		<button on:click={() => items = getRandomSlides(limit)} title="Shuffle slides">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 				<path
 					d="M3.56,10.56H9a3.62,3.62,0,0,1,2.88,1.55,12.14,12.14,0,0,1,1.85-2.58A6.61,6.61,0,0,0,9,7.44H3.56a1.56,1.56,0,0,0,0,3.12Zm12,4.84c.86-2.58,3.51-4.84,5.68-4.84h2.86l-2,2a1.57,1.57,0,0,0,0,2.2,1.59,1.59,0,0,0,1.1.45,1.55,1.55,0,0,0,1.1-.45L30,9,24.23,3.23A1.56,1.56,0,0,0,22,5.43l2,2H21.19c-3.54,0-7.33,3.06-8.63,7l-.74,2.2c-1,3-3.22,4.83-4.38,4.83H3.56a1.56,1.56,0,0,0,0,3.12H7.44c2.86,0,6-3,7.34-7ZM22,17.23a1.57,1.57,0,0,0,0,2.2l2,2H20.41a4.44,4.44,0,0,1-4.19-3.27,14.51,14.51,0,0,1-1.69,3.39,7.4,7.4,0,0,0,5.88,3h3.64l-2,2a1.57,1.57,0,0,0,0,2.2,1.59,1.59,0,0,0,1.1.45,1.55,1.55,0,0,0,1.1-.45L30,23l-5.77-5.77A1.57,1.57,0,0,0,22,17.23Z"
@@ -69,8 +69,10 @@
 </header>
 
 <main>
-	{#await getRandomSlides(10) then slides}
+	{#await items then slides}
 		<Slidy
+			autoplay={true}
+			interval={2000}
 			{animation}
 			{axis}
 			{background}
@@ -84,7 +86,7 @@
 			{indent}
 			navigation
 			{snap}
-			{loop}
+			loop={false}
 			thumbnail
 			progress
 		/>

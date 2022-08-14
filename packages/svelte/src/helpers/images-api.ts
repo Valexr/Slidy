@@ -2,9 +2,15 @@ import type { Slide } from "../components/Slidy/Slidy.types";
 import type { ImageSchema, GetPhotos, Size } from "../types";
 
 export const getPhotos: GetPhotos<Slide> = async ({ limit = 5, page = 1, width = 1280, height = 800 }) => {
-	const url = `https://picsum.photos/v2/list?limit=${limit}&page=${page}`;
-	const response = await fetch(url, { mode: "cors" });
-	const data: ImageSchema[] = await response.json();
+	let data: ImageSchema[] = [];
+
+	try {
+		const url = `https://picsum.photos/v2/list?limit=${limit}&page=${page}`;
+		const response = await fetch(url, { mode: "cors" });
+		data = await response.json();
+	} catch (error) {
+		console.error(`Could not fetch photos: ${error}`);
+	}
 
 	return data.map((item) => {
 		const size = applyRatio({ width: item.width, height: item.height }, { width, height });
