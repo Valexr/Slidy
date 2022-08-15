@@ -5,12 +5,14 @@ import './button-autoplay.module.css';
 import type { Component, Accessor, Setter } from 'solid-js';
 
 interface Options {
+    active: boolean;
     status: Accessor<boolean>;
     setStatus?: Setter<boolean>;
     disabled: boolean;
 }
 
 const defaultProps: Options = {
+    active: false,
     status: () => false,
     disabled: false,
 };
@@ -18,15 +20,11 @@ const defaultProps: Options = {
 const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const active = () => props.status();
+    const swap = () => props.setStatus?.((v) => !v);
 
     return (
-        <Show when={active()}>
-            <button
-                class="slidy-autoplay"
-                disabled={props.disabled}
-                onClick={() => props.setStatus?.((s) => !s)}
-            >
+        <Show when={props.active}>
+            <button type="button" class="slidy-autoplay" disabled={props.disabled} onClick={swap}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d={

@@ -7,6 +7,7 @@ import {
     For,
     createEffect,
     onCleanup,
+    onMount,
 } from 'solid-js';
 import { classNames as classNamesDefault } from './slidy.styles';
 import { clamp as clampValue } from '../../helpers';
@@ -138,22 +139,19 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
     };
 
-    const action = (
-        el: HTMLElement,
-        options: Accessor<Required<Parameters<typeof autoplayAction>>[1]>
-    ) => {
-        const instance = autoplayAction(el, options());
+    let section!: HTMLElement;
 
-        createEffect(() => instance.update?.(options()));
-        onCleanup(() => instance.destroy?.());
-    };
-
-    const useAutoplay = (el: HTMLElement) => {
-        action(el, () => ({
+    onMount(() => {
+        const options = () => ({
             status: autoplay(),
             interval: props.interval,
-        }));
-    };
+        });
+
+        const instance = autoplayAction(section, options());
+
+        createEffect(() => instance.update({ status: autoplay() }));
+        onCleanup(instance.destroy);
+    });
 
     return (
         <ClassNamesContext.Provider value={props.classNames}>
@@ -163,10 +161,10 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 classList={{ vertical: vertical() }}
                 id={props.id}
                 onClick={handleClick}
-                ref={useAutoplay}
-                // on:play={handleAutoplay} <------ does not work for now
-                // on:stop={() => setAutoplay(false)}
-                // on:pause={() => {}}
+                ref={section}
+                on:play={handleAutoplay}
+                on:stop={() => setAutoplay(false)}
+                on:pause={null}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
@@ -175,6 +173,12 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                 {index() + 1} / {length()}
                             </output>
                         </Show>
+                        <ButtonAutoplay
+                            active={props.autoplay}
+                            status={autoplay}
+                            setStatus={setAutoplay}
+                            disabled={index() + 1 >= length() && !props.loop}
+                        />
                         {props.overlay instanceof Function && props.overlay()}
                     </div>
                 </Show>

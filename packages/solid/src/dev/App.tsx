@@ -36,12 +36,12 @@ const App: Component = () => {
 
     const slides = createSlidesStore();
 
-    const [loaded, setLoaded] = createSignal(false);
+    const loaded = channel(false);
 
     let slidesPromise = null as null | Promise<void>;
 
     function setupSlides() {
-        setLoaded(false);
+        loaded(false);
 
         slidesPromise = slides.init(limit());
 
@@ -49,7 +49,7 @@ const App: Component = () => {
             if (slides.slides().length === 0) {
                 setupSlides();
             } else {
-                setLoaded(true);
+                loaded(true);
             }
         });
     }
