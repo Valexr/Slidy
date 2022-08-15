@@ -10,14 +10,14 @@ const esbuildBase = {
     incremental: DEV,
     legalComments: 'none',
     plugins: [solidPlugin()],
-    entryPoints: ['src/slidy.tsx'],
+    entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
 };
 const derverConfig = {
     port: 3336,
     host: '0.0.0.0',
-    dir: 'dev/public',
-    watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
+    dir: 'public',
+    watch: ['public', 'src/dev/', 'src', 'src/components', 'node_modules/@slidy/core'],
 };
 const builds = {
     cjs: {
@@ -35,14 +35,14 @@ const builds = {
 if (DEV) {
     build({
         ...esbuildBase,
-        entryPoints: ['dev/src/index.tsx'],
-        outfile: 'dev/public/build/bundle.js',
+        entryPoints: ['src/dev/index.tsx'],
+        outfile: 'public/build/bundle.js',
         loader: { '.svg': 'dataurl' },
     }).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev/public') {
+                if (item !== 'public') {
                     lr.prevent();
                     bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                 }

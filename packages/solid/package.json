@@ -43,6 +43,8 @@
     },
     "devDependencies": {
         "@slidy/core": "workspace:*",
+        "@slidy/animation": "workspace:*",
+        "@slidy/easing": "workspace:*",
         "esbuild-plugin-solid": "^0.4.2"
     }
 }
