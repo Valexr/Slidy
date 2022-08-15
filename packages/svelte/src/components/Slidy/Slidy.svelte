@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { setContext } from "svelte/internal";
-	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../";
-	import { autoplayable } from "../../actions/autoplay";
+	import { Arrow, ButtonAutoplay, Core, Image, Navigation, Progress, Thumbnail } from "../";
+	import { autoplay as autoplayAction } from "../../actions/autoplay";
 	import { clamp as clampValue } from "../../helpers";
 	import { classNames as classNamesDefault } from "./slidy.styles";
 	import "./slidy.module.css";
@@ -71,11 +71,6 @@
 		}
 	};
 
-	/**
-	 * Store initial value to show autoplay controls even if it is over.
-	 */
-	let autoplayControl = autoplay;
-
 	const handleAutoplay = () => {
 		if (loop) {
 			index += 1;
@@ -93,9 +88,12 @@
 	class:vertical
 	{id}
 	on:click={handleClick}
-	on:autoplay={handleAutoplay}
-	on:autoplay-stop={() => autoplay = false}
-	use:autoplayable={{	status: autoplay,	interval }}
+	on:play={handleAutoplay}
+	on:stop={() => autoplay = false}
+	use:autoplayAction={{	status: autoplay,	interval }}
+	on:play
+	on:pause
+	on:stop
 >
 	{#if counter || $$slots.overlay}
 		<div class="{classNames?.overlay}">
@@ -104,17 +102,10 @@
 					{index + 1} / {length}
 				</output>
 			{/if}
-			{#if autoplayControl}
-				<button class="slidy-autoplay" on:click="{() => autoplay = !autoplay}">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-						<path d="{
-							autoplay
-								? "M5.75,3A1.75,1.75,0,0,0,4,4.75v14.5A1.75,1.75,0,0,0,5.75,21h3.5A1.75,1.75,0,0,0,11,19.25V4.75A1.75,1.75,0,0,0,9.25,3ZM5.5,4.75a.25.25,0,0,1,.25-.25h3.5a.25.25,0,0,1,.25.25v14.5a.25.25,0,0,1-.25.25H5.75a.25.25,0,0,1-.25-.25ZM14.75,3A1.75,1.75,0,0,0,13,4.75v14.5A1.75,1.75,0,0,0,14.75,21h3.5A1.75,1.75,0,0,0,20,19.25V4.75A1.75,1.75,0,0,0,18.25,3ZM14.5,4.75a.25.25,0,0,1,.25-.25h3.5a.25.25,0,0,1,.25.25v14.5a.25.25,0,0,1-.25.25h-3.5a.25.25,0,0,1-.25-.25Z"
-								: "M7.61,4.61a.75.75,0,0,0-1.11.66V18.73a.75.75,0,0,0,1.11.65L20,12.66a.75.75,0,0,0,0-1.32ZM5,5.27a2.25,2.25,0,0,1,3.33-2L20.69,10a2.26,2.26,0,0,1,0,4L8.33,20.7a2.25,2.25,0,0,1-3.33-2Z"
-						}" />
-					</svg>
-				</button>
-			{/if}
+			<ButtonAutoplay
+				bind:status="{autoplay}"
+				disabled={index + 1 >= length && !loop}
+			/>
 			<slot name="overlay" />
 		</div>
 	{/if}
