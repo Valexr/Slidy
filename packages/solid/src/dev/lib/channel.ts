@@ -14,7 +14,8 @@ function channel<T>(init: T): Channel<T> {
         if (arguments.length === 0) {
             return get();
         } else {
-            return set((prev) => (setter instanceof Function ? setter(prev) : setter));
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return set((prev) => (setter instanceof Function ? setter(prev) : setter!));
         }
     }
 

@@ -19,6 +19,17 @@ import './slidy.module.css';
 import type { Slide, SlidyOptions } from './Slidy.types';
 import type { Component, JSX, Setter, Accessor } from 'solid-js';
 
+declare module 'solid-js' {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace JSX {
+        interface CustomEvents {
+            play: CustomEvent;
+            stop: CustomEvent;
+            pause: CustomEvent;
+        }
+    }
+}
+
 const ClassNamesContext = createContext(classNamesDefault);
 
 const useClassNames = () => useContext(ClassNamesContext);
@@ -162,9 +173,10 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 id={props.id}
                 onClick={handleClick}
                 ref={section}
+                /** @todo: let it go up */
                 on:play={handleAutoplay}
                 on:stop={() => setAutoplay(false)}
-                on:pause={null}
+                on:pause={undefined}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
