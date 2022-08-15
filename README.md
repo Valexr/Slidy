@@ -24,14 +24,6 @@
 - [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
 - [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 
-## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
-
-## Development
-
-- `pnpm workspaces` - monorepo
-- `esbuild` - bundling & packaging
-- `derver` - dev server
-
 ## Todo
 
 - [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
@@ -43,6 +35,14 @@
 
 - [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 - [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
+
+## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
+
+## Development
+
+- `pnpm workspaces` - monorepo
+- `esbuild` - bundling & packaging
+- `derver` - dev server
 
 ## Thanks 🎉
 
