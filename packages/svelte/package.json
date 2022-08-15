@@ -56,7 +56,7 @@
 	"devDependencies": {
 		"@slidy/core": "workspace:*",
 		"@tsconfig/svelte": "^3.0.0",
-		"css-tree": "^2.2.0",
+		"css-tree": "^2.2.1",
 		"esbuild-svelte": "^0.7.1",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"prettier-plugin-svelte": "^2.7.0",
