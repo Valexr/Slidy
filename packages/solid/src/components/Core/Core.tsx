@@ -1,9 +1,9 @@
 import { slidy } from '@slidy/core';
-import { mergeProps, createEffect, onCleanup } from 'solid-js';
+import { mergeProps, createEffect, onCleanup, onMount } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import type { SlidyCoreOptions } from './Core.types';
-import type { JSX, FlowComponent, Accessor, Setter } from 'solid-js';
+import type { JSX, FlowComponent, Setter } from 'solid-js';
 
 interface Options {
     animation: SlidyCoreOptions['animation'];
@@ -50,23 +50,13 @@ const defaultProps: Options = {
     className: '',
 };
 
-const action = (el: HTMLElement, options: Accessor<Omit<SlidyCoreOptions, 'duration' | 'tag'>>) => {
-    const init = () => {
-        const instance = slidy(el, options());
-
-        createEffect(() => instance.update(options() as Required<SlidyCoreOptions>));
-
-        onCleanup(instance.destroy);
-    };
-
-    Promise.resolve().then(init);
-};
-
 const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const useAction = (el: HTMLElement) => {
-        action(el, () => ({
+    let el!: HTMLElement;
+
+    onMount(() => {
+        const options = () => ({
             animation: props.animation,
             axis: props.axis,
             clamp: props.clamp,
@@ -78,8 +68,13 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             loop: props.loop,
             sensity: props.sensity,
             snap: props.snap,
-        }));
-    };
+        });
+
+        const instance = slidy(el, options());
+
+        createEffect(() => instance.update(options()));
+        onCleanup(instance.destroy);
+    });
 
     return (
         <Dynamic
@@ -87,7 +82,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             class={props.className}
             aria-live="polite"
             tabindex="0"
-            ref={useAction}
+            ref={el}
             on:destroy={(event: any) => props.onDestroy?.(event)}
             on:index={(event: any) => props.onIndex?.(event)}
             on:keys={(event: any) => props.onKeys?.(event)}

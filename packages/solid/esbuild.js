@@ -13,7 +13,7 @@ const esbuildBase = {
     plugins: [solidPlugin()],
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
-    external: ['solid-js'],
+    external: DEV ? [] : ['solid-js'],
 };
 const derverConfig = {
     port: 3336,
