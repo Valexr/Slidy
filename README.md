@@ -24,17 +24,17 @@
 - [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
 - [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 
+## In progress... 👨🏻‍💻
+
+- [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
+- [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
+
 ## Todo
 
 - [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 - [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 - [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
 - [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
-
-## In progress... 👨🏻‍💻
-
-- [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
-- [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
