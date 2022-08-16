@@ -1,10 +1,24 @@
 import { slidy } from '@slidy/core';
-import { mergeProps, createEffect, onCleanup, onMount } from 'solid-js';
-import { Dynamic } from 'solid-js/web';
+import { mergeProps, createEffect, onCleanup } from 'solid-js';
 import { execute } from '../../shared';
 
 import type { SlidyCoreOptions } from './Core.types';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
+
+declare module 'solid-js' {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace JSX {
+        interface CustomEvents {
+            destroy: CustomEvent;
+            index: CustomEvent;
+            keys: CustomEvent;
+            mount: CustomEvent;
+            move: CustomEvent;
+            resize: CustomEvent;
+            update: CustomEvent;
+        }
+    }
+}
 
 interface Options {
     animation: SlidyCoreOptions['animation'];
@@ -69,16 +83,15 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
     });
 
     const useSlidy = (el: HTMLElement) => {
-        let instance!: ReturnType<typeof slidy>;
+        const instance = slidy(el, options());
 
-        onMount(() => (instance = slidy(el, options())));
         createEffect(() => instance.update(options()));
-        onCleanup(() => instance.destroy());
+
+        onCleanup(instance.destroy);
     };
 
     return (
-        <Dynamic
-            component={props.tag}
+        <ol
             class={props.className}
             aria-live="polite"
             tabindex="0"
@@ -92,7 +105,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             on:update={execute(props.onUpdate)}
         >
             {props.children}
-        </Dynamic>
+        </ol>
     );
 };
 
