@@ -11,6 +11,7 @@ import {
 } from 'solid-js';
 import { classNames as classNamesDefault } from './slidy.styles';
 import { clamp as clampValue } from '../../helpers';
+import { execute } from '../../shared';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { autoplay as autoplayAction } from '../../actions/autoplay';
 
@@ -36,31 +37,79 @@ const useClassNames = () => useContext(ClassNamesContext);
 
 interface Options {
     animation?: SlidyOptions['animation'];
+    /**
+     * @default 'x'
+     */
     axis?: SlidyOptions['axis'];
+    /**
+     * @default false
+     */
     background?: boolean;
+    /**
+     * @default true
+     */
     counter?: boolean;
+    /**
+     * @default 0
+     */
     clamp?: number;
     classNames?: SlidyOptions['classNames'];
+    /**
+     * @default 450
+     */
     duration?: number;
     easing?: SlidyOptions['easing'];
     getImgSrc?: SlidyOptions['getImgSrc'];
     getThumbSrc?: SlidyOptions['getThumbSrc'];
+    /**
+     * @default false
+     */
     navigation?: boolean;
+    /**
+     * @default 1.2
+     */
     gravity?: number;
     id?: string;
+    /**
+     * @default 2
+     */
     indent?: SlidyOptions['indent'];
+    /**
+     * @default false
+     */
     loop?: boolean;
+    /**
+     * @default false
+     */
     progress?: boolean;
+    /**
+     * @default 5
+     */
     sensity?: number;
+    /**
+     * @default []
+     */
     slides?: SlidyOptions['slides'];
     snap?: SlidyOptions['snap'];
+    /**
+     * @default false
+     */
     autoplay?: boolean;
+    /**
+     * @default 1500
+     */
     interval?: number;
 
     index: Accessor<number>;
     position: Accessor<number>;
 
+    /**
+     * Control the index from outside
+     */
     setIndex?: Setter<number>;
+    /**
+     * Control the position from outside
+     */
     setPosition?: Setter<number>;
 
     overlay?: () => JSX.Element;
@@ -68,12 +117,50 @@ interface Options {
     arrows?: (() => JSX.Element) | boolean;
     arrow?: () => JSX.Element;
     children?: (item: Slide) => JSX.Element;
+
+    /**
+     * Autoplay Play
+     */
+    onPlay?: () => void;
+    /**
+     * Autoplay Stop
+     */
+    onStop?: () => void;
+    /**
+     * Autoplay Pause
+     */
+    onPause?: () => void;
+
+    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
+    onMount?: (event: CustomEvent<Options>) => void;
+    onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
+    onIndex?: (event: CustomEvent<{ index: number }>) => void;
+    onKeys?: (event: CustomEvent<string>) => void;
+    onUpdate?: (event: CustomEvent<Options>) => void;
+    onDestroy?: (event: CustomEvent<HTMLElement>) => void;
 }
 
 const defaultProps: Required<
     Omit<
         Options,
-        'animation' | 'id' | 'snap' | 'setIndex' | 'setPosition' | 'overlay' | 'arrow' | 'children'
+        | 'animation'
+        | 'id'
+        | 'snap'
+        | 'setIndex'
+        | 'setPosition'
+        | 'overlay'
+        | 'arrow'
+        | 'children'
+        | 'onPlay'
+        | 'onStop'
+        | 'onPause'
+        | 'onResize'
+        | 'onMount'
+        | 'onMove'
+        | 'onIndex'
+        | 'onKeys'
+        | 'onUpdate'
+        | 'onDestroy'
     >
 > = {
     arrows: true,
@@ -140,6 +227,14 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
     };
 
+    const onIndex: Options['onIndex'] = (e) => {
+        goto(e.detail.index);
+    };
+
+    const onMove: Options['onMove'] = (e) => {
+        setPosition?.(e.detail.position);
+    };
+
     const handleAutoplay = () => {
         if (props.loop) {
             setIndex((prev) => prev + 1);
@@ -150,15 +245,17 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
     };
 
+    const onStop = () => setAutoplay(false);
+
     let section!: HTMLElement;
 
     onMount(() => {
-        const options = () => ({
+        const options = {
             status: autoplay(),
             interval: props.interval,
-        });
+        };
 
-        const instance = autoplayAction(section, options());
+        const instance = autoplayAction(section, options);
 
         createEffect(() => instance.update({ status: autoplay() }));
         onCleanup(instance.destroy);
@@ -173,10 +270,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 id={props.id}
                 onClick={handleClick}
                 ref={section}
-                /** @todo: let it go up */
-                on:play={handleAutoplay}
-                on:stop={() => setAutoplay(false)}
-                on:pause={undefined}
+                on:play={execute(handleAutoplay, props.onPlay)}
+                on:stop={execute(onStop, props.onStop)}
+                on:pause={execute(props.onPause)}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
@@ -208,12 +304,13 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     sensity={props.sensity}
                     snap={props.snap}
                     position={position()}
-                    onIndex={(e) => {
-                        goto(e.detail.index);
-                    }}
-                    onMove={(e) => {
-                        setPosition?.(e.detail.position);
-                    }}
+                    onResize={execute(props.onResize)}
+                    onMount={execute(props.onMount)}
+                    onMove={execute(onMove, props.onMove)}
+                    onIndex={execute(onIndex, props.onIndex)}
+                    onKeys={execute(props.onKeys)}
+                    onUpdate={execute(props.onUpdate)}
+                    onDestroy={execute(props.onDestroy)}
                 >
                     <For each={props.slides}>
                         {(item, i) => {
@@ -236,7 +333,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                     role="group"
                                     style={{
                                         '--_slidy-slide-bg': props.background
-                                            ? `url(${props.getImgSrc(item)})`
+                                            ? `url("${props.getImgSrc(item)}")`
                                             : undefined,
                                     }}
                                 >

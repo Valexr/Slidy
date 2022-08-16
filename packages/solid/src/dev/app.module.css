@@ -36,3 +36,8 @@ main {
 .nav-controls svg {
     fill: var(--accent);
 }
+
+.nav-controls button {
+    border: none;
+    border-radius: 10px;
+}

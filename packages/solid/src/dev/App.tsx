@@ -46,20 +46,14 @@ const App: Component = () => {
         slidesPromise = slides.init(limit());
 
         slidesPromise.then(() => {
-            if (slides.slides().length === 0) {
-                setupSlides();
-            } else {
-                loaded(true);
-            }
+            slides.slides().length === 0 ? setupSlides() : loaded(true);
         });
     }
 
     setupSlides();
 
     createEffect(() => {
-        if (axis() === 'y' && !vertical()) {
-            vertical(true);
-        }
+        if (axis() === 'y' && !vertical()) vertical(true);
     });
 
     return (
@@ -118,7 +112,7 @@ const App: Component = () => {
                         // bind:position
                         position={position}
                         setPosition={setPosition}
-                        autoplay
+                        autoplay={true}
                     />
                 </Show>
             </main>

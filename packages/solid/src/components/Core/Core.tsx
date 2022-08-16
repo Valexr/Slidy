@@ -1,6 +1,7 @@
 import { slidy } from '@slidy/core';
 import { mergeProps, createEffect, onCleanup, onMount } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
+import { execute } from '../../shared';
 
 import type { SlidyCoreOptions } from './Core.types';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
@@ -83,13 +84,13 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             aria-live="polite"
             tabindex="0"
             ref={el}
-            on:destroy={(event: any) => props.onDestroy?.(event)}
-            on:index={(event: any) => props.onIndex?.(event)}
-            on:keys={(event: any) => props.onKeys?.(event)}
-            on:mount={(event: any) => props.onMount?.(event)}
-            on:move={(event: any) => props.onMove?.(event)}
-            on:resize={(event: any) => props.onResize?.(event)}
-            on:update={(event: any) => props.onUpdate?.(event)}
+            on:destroy={execute(props.onDestroy)}
+            on:index={execute(props.onIndex)}
+            on:keys={execute(props.onKeys)}
+            on:mount={execute(props.onMount)}
+            on:move={execute(props.onMove)}
+            on:resize={execute(props.onResize)}
+            on:update={execute(props.onUpdate)}
         >
             {props.children}
         </Dynamic>
