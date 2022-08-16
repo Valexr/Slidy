@@ -1,19 +1,8 @@
-import {
-    createContext,
-    mergeProps,
-    useContext,
-    createSignal,
-    Show,
-    For,
-    createEffect,
-    onCleanup,
-    onMount,
-} from 'solid-js';
+import { createContext, mergeProps, useContext, createSignal, Show, For } from 'solid-js';
 import { classNames as classNamesDefault } from './slidy.styles';
 import { clamp as clampValue } from '../../helpers';
 import { execute } from '../../shared';
-import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
-import { autoplay as autoplayAction } from '../../actions/autoplay';
+import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 
 import './slidy.module.css';
 
@@ -92,10 +81,6 @@ interface Options {
     slides?: SlidyOptions['slides'];
     snap?: SlidyOptions['snap'];
     /**
-     * @default false
-     */
-    autoplay?: boolean;
-    /**
      * @default 1500
      */
     interval?: number;
@@ -117,19 +102,6 @@ interface Options {
     arrows?: (() => JSX.Element) | boolean;
     arrow?: () => JSX.Element;
     children?: (item: Slide) => JSX.Element;
-
-    /**
-     * Autoplay Play
-     */
-    onPlay?: () => void;
-    /**
-     * Autoplay Stop
-     */
-    onStop?: () => void;
-    /**
-     * Autoplay Pause
-     */
-    onPause?: () => void;
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
     onMount?: (event: CustomEvent<Options>) => void;
@@ -164,7 +136,6 @@ const defaultProps: Required<
     >
 > = {
     arrows: true,
-    autoplay: false,
     interval: 1500,
     axis: 'x',
     background: false,
@@ -200,8 +171,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             ? [props.position, props.setPosition]
             : createSignal(props.position());
 
-    const [autoplay, setAutoplay] = createSignal(props.autoplay);
-
     const length = () => props.slides.length;
     const vertical = () => props.axis === 'y';
 
@@ -235,32 +204,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         setPosition?.(e.detail.position);
     };
 
-    const handleAutoplay = () => {
-        if (props.loop) {
-            setIndex((prev) => prev + 1);
-        } else if (index() + 1 < props.slides.length) {
-            setIndex((prev) => prev + 1);
-        } else {
-            setAutoplay(false);
-        }
-    };
-
-    const onStop = () => setAutoplay(false);
-
-    let section!: HTMLElement;
-
-    onMount(() => {
-        const options = {
-            status: autoplay(),
-            interval: props.interval,
-        };
-
-        const instance = autoplayAction(section, options);
-
-        createEffect(() => instance.update({ status: autoplay() }));
-        onCleanup(instance.destroy);
-    });
-
     return (
         <ClassNamesContext.Provider value={props.classNames}>
             <section
@@ -269,10 +212,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 classList={{ vertical: vertical() }}
                 id={props.id}
                 onClick={handleClick}
-                ref={section}
-                on:play={execute(handleAutoplay, props.onPlay)}
-                on:stop={execute(onStop, props.onStop)}
-                on:pause={execute(props.onPause)}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
@@ -281,12 +220,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                 {index() + 1} / {length()}
                             </output>
                         </Show>
-                        <ButtonAutoplay
-                            active={props.autoplay}
-                            status={autoplay}
-                            setStatus={setAutoplay}
-                            disabled={index() + 1 >= length() && !props.loop}
-                        />
                         {props.overlay instanceof Function && props.overlay()}
                     </div>
                 </Show>

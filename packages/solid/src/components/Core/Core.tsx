@@ -54,9 +54,6 @@ const defaultProps: Options = {
 const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    let el!: HTMLElement;
-    let instance!: ReturnType<typeof slidy>;
-
     const options = () => ({
         animation: props.animation,
         axis: props.axis,
@@ -71,9 +68,13 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
         snap: props.snap,
     });
 
-    onMount(() => (instance = slidy(el, options())));
-    createEffect(() => instance.update(options()));
-    onCleanup(() => instance.destroy());
+    const useSlidy = (el: HTMLElement) => {
+        let instance!: ReturnType<typeof slidy>;
+
+        onMount(() => (instance = slidy(el, options())));
+        createEffect(() => instance.update(options()));
+        onCleanup(() => instance.destroy());
+    };
 
     return (
         <Dynamic
@@ -81,7 +82,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             class={props.className}
             aria-live="polite"
             tabindex="0"
-            ref={el}
+            ref={useSlidy}
             on:destroy={execute(props.onDestroy)}
             on:index={execute(props.onIndex)}
             on:keys={execute(props.onKeys)}

@@ -112,7 +112,6 @@ const App: Component = () => {
                         // bind:position
                         position={position}
                         setPosition={setPosition}
-                        autoplay={false}
                     />
                 </Show>
             </main>
