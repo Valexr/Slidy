@@ -1,3 +1,24 @@
+<div align="center">
+    <a href="https://www.npmjs.com/package/@slidy/solid">
+        <img alt="npm package version" src="https://img.shields.io/npm/v/@slidy/solid?style=flat-square" />
+    </a>
+    <a href="https://www.npmjs.com/package/@slidy/solid">
+        <img alt="types included" src="https://img.shields.io/npm/types/@slidy/solid?style=flat-square" />
+    </a>
+    <a href="https://www.npmjs.com/package/@slidy/solid">
+        <img alt="downloads count" src="https://img.shields.io/npm/dm/@slidy/solid?style=flat-square" />
+    </a>
+    <a href="https://www.npmjs.com/package/@slidy/solid">
+        <img alt="licence" src="https://img.shields.io/npm/l/@slidy/solid?style=flat-square" />
+    </a>
+    <a href="https://img.shields.io/bundlephobia/minzip/@slidy/solid?style=flat-square">
+        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/solid/" />
+    </a>
+    <a href="https://bundlephobia.com/package/@slidy/solid">
+        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/solid/" />
+    </a>
+</div>
+
 # @slidy/solid
 
 Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core][core-package].
@@ -253,3 +274,4 @@ MIT &copy; [EricRovell](https://github.com/EricRovell)
 
 [core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
 [npm]: https://www.npmjs.com/package/@slidy/solid
+
