@@ -1,0 +1,43 @@
+main {
+    --slidy-nav-item-color: var(--accent);
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.header {
+    display: flex;
+    padding: var(--space-s);
+    align-items: center;
+
+    font-size: 0.8rem;
+}
+
+.header > :last-child {
+    margin-left: auto;
+}
+
+.header small {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.nav-controls {
+    display: flex;
+    gap: var(--space-s);
+}
+
+.nav-controls > * {
+    background-color: var(--surface-2);
+    padding: 4px;
+    width: 30px;
+    height: 30px;
+}
+
+.nav-controls svg {
+    fill: var(--accent);
+}
+
+.nav-controls button {
+    border: none;
+    border-radius: 10px;
+}
