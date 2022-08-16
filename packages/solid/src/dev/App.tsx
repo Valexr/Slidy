@@ -27,7 +27,7 @@ const App: Component = () => {
     const loop = channel(false);
     const gap = channel(15);
 
-    const [index, setIndex] = createSignal(4);
+    const [index, setIndex] = createSignal(0);
     const [position, setPosition] = createSignal(0);
 
     const controlPanel = channel(false);
@@ -112,7 +112,7 @@ const App: Component = () => {
                         // bind:position
                         position={position}
                         setPosition={setPosition}
-                        autoplay={true}
+                        autoplay={false}
                     />
                 </Show>
             </main>

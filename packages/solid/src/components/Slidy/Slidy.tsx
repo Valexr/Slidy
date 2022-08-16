@@ -392,9 +392,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                         loop={props.loop}
                         sensity={props.sensity}
                         slides={props.slides}
-                        onSelect={(index) => {
-                            goto(index);
-                        }}
+                        onSelect={(index) => goto(index)}
                     />
                 </Show>
                 <Show when={props.navigation}>

@@ -55,27 +55,25 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
     let el!: HTMLElement;
+    let instance!: ReturnType<typeof slidy>;
 
-    onMount(() => {
-        const options = () => ({
-            animation: props.animation,
-            axis: props.axis,
-            clamp: props.clamp,
-            duration: props.duration,
-            easing: props.easing,
-            gravity: props.gravity,
-            indent: props.indent,
-            index: props.index,
-            loop: props.loop,
-            sensity: props.sensity,
-            snap: props.snap,
-        });
-
-        const instance = slidy(el, options());
-
-        createEffect(() => instance.update(options()));
-        onCleanup(instance.destroy);
+    const options = () => ({
+        animation: props.animation,
+        axis: props.axis,
+        clamp: props.clamp,
+        duration: props.duration,
+        easing: props.easing,
+        gravity: props.gravity,
+        indent: props.indent,
+        index: props.index,
+        loop: props.loop,
+        sensity: props.sensity,
+        snap: props.snap,
     });
+
+    onMount(() => (instance = slidy(el, options())));
+    createEffect(() => instance.update(options()));
+    onCleanup(() => instance.destroy());
 
     return (
         <Dynamic

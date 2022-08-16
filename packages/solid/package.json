@@ -1,11 +1,11 @@
 {
     "name": "@slidy/solid",
-    "version": "1.0.0",
+    "version": "3.5.1-preview.1",
     "description": "Simple, configurable & reusable carousel component built with SolidJS",
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
-    "types": "dist/index.d.ts",
+    "types": "dist/src/index.d.ts",
     "type": "module",
     "files": [
         "dist/*"
