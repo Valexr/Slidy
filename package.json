@@ -31,6 +31,7 @@
         "pub:easing": "pnpm --filter=@slidy/easing pub",
         "pub:animation": "pnpm --filter=@slidy/animation pub",
         "pub:svelte": "pnpm --filter=@slidy/svelte pub",
+        "pub:solid": "pnpm --filter=@slidy/solid pub",
         "up:all": "pnpm up -r"
     },
     "repository": {
@@ -38,18 +39,19 @@
         "url": "https://github.com/Valexr/Slidy.git"
     },
     "keywords": [
-        "Svelte",
-        "Malina",
-        "React",
-        "Vue",
-        "WebComponent",
         "Slidy",
         "Slider",
         "Carousel",
         "Action",
         "Script",
         "Js",
-        "Ts"
+        "Ts",
+        "Svelte",
+        "Solid",
+        "React",
+        "Vue",
+        "WebComponent",
+        "Malina"
     ],
     "author": "Valexr",
     "license": "MIT",
