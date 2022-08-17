@@ -1,15 +1,3 @@
-<!-- <script lang="ts" context="module">
-	import { media, type Queries } from '$lib/media';
-	
-	export async function load({ session }) {
-		let { theme = JSON.stringify(media.matches) } = session.user;
-		return {
-			props: {
-				theme: JSON.parse(theme)
-			}
-		};
-	}
-</script> -->
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { Slidy } from '@slidy/svelte';
@@ -22,7 +10,6 @@
 		pathPackageMedia,
 		pathPackageSvelte
 	} from '$lib/paths';
-	//export let theme: Queries = media.matches;
 
 	const packages = [
 		{ id: 0, name: '@slidy/animation', href: pathPackageAnimation },
