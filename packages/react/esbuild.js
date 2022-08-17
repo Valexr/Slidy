@@ -14,8 +14,8 @@ const esbuildBase = {
 const derverConfig = {
     port: 3332,
     host: '0.0.0.0',
-    dir: 'dev/public',
-    watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
+    dir: 'public',
+    watch: ['public', 'src', 'node_modules/@slidy/core'],
 };
 const builds = {
     cjs: {
@@ -33,8 +33,8 @@ const builds = {
 if (DEV) {
     build({
         ...esbuildBase,
-        entryPoints: ['dev/src/app.tsx'],
-        outfile: 'dev/public/build/bundle.js',
+        entryPoints: ['public/app.tsx'],
+        outfile: 'public/build/bundle.js',
     }).then((bundle) => {
         derver({
             ...derverConfig,

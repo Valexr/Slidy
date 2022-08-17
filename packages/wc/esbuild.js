@@ -14,21 +14,21 @@ const esbuildBase = {
     sourcemap: DEV ? 'inline' : false,
 };
 const derverConfig = {
-    dir: 'dev',
+    dir: 'public',
     port: 3333,
     host: '0.0.0.0',
-    watch: ['dev', 'src', 'node_modules/@slidy/core'],
+    watch: ['public', 'src', 'node_modules/@slidy/core'],
 };
 
 if (DEV) {
     build({
         ...esbuildBase,
-        outfile: 'dev/dev.js',
+        outfile: 'public/build/dev.js',
     }).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev') {
+                if (item !== 'public') {
                     lr.prevent();
                     bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                 }

@@ -17,8 +17,8 @@ const esbuildBase = {
 const derverConfig = {
     port: 3335,
     host: '0.0.0.0',
-    dir: 'dev/public',
-    watch: ['dev/public', 'dev/src/', 'src', 'node_modules/@slidy/core'],
+    dir: 'public',
+    watch: ['public', 'src', 'node_modules/@slidy/core'],
 };
 const builds = {
     cjs: {
@@ -36,14 +36,14 @@ const builds = {
 if (DEV) {
     build({
         ...esbuildBase,
-        entryPoints: ['dev/src/app.ts'],
-        outfile: 'dev/public/build/bundle.js',
+        entryPoints: ['public/app.ts'],
+        outfile: 'public/build/bundle.js',
         loader: { '.svg': 'file' },
     }).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev/public') {
+                if (item !== 'public') {
                     lr.prevent();
                     bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Header, Main, Footer } from './components'
-import { Slidy } from '../../src';
+import { Slidy } from '../src';
 import { getImgs } from './api'
 
 // defineProps<{

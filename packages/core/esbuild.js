@@ -15,18 +15,18 @@ const esbuildBase = {
     entryPoints: CORE
         ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation']
         : ['src/index.ts'],
-    outdir: CORE ? 'dev/build' : '',
+    outdir: CORE ? 'public/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
     format: 'esm',
 };
 
 const derverConfig = {
-    dir: 'dev',
+    dir: 'public',
     port: 3330,
     host: '0.0.0.0',
     watch: [
-        'dev',
+        'public',
         'src',
         'node_modules/@slidy/media',
         'node_modules/@slidy/easing',
@@ -55,7 +55,7 @@ if (DEV || CORE) {
                 derver({
                     ...derverConfig,
                     onwatch: async (lr, item) => {
-                        if (item !== 'dev') {
+                        if (item !== 'public') {
                             lr.prevent();
                             bundle
                                 .rebuild()
