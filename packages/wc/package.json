@@ -10,15 +10,6 @@
     "files": [
         "dist/*"
     ],
-    "exports": {
-        ".": {
-            "import": "./dist/slidy.mjs",
-            "module": "./dist/slidy.mjs",
-            "require": "./dist/slidy.cjs",
-            "browser": "./dist/slidy.js"
-        },
-        "./package.json": "./package.json"
-    },
     "scripts": {
         "dev": "node esbuild --dev",
         "build": "rm -rf dist && node esbuild && tsc",

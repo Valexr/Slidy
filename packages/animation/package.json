@@ -4,8 +4,7 @@
     "description": "Simple animation functions for inertion scrolling",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
-    "cdn": "dist/index.js",
-    "unpkg": "dist/index.js",
+    "browser": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "files": [
