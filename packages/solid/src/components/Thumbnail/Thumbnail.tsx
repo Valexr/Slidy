@@ -72,7 +72,7 @@ const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
                             role="group"
                             style={{
                                 '--_slidy-slide-bg': props.background
-                                    ? `url(${props.getImgSrc(item)}`
+                                    ? `url(${props.getImgSrc(item)})`
                                     : '',
                             }}
                             onClick={() => props.onSelect?.(i())}
