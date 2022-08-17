@@ -26,4 +26,4 @@ export type AnimationArgs = {
     translate: string;
 };
 
-export type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
+export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
