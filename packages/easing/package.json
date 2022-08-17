@@ -1,10 +1,9 @@
 {
     "name": "@slidy/easing",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Simple easing functions for inertion scrolling",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
-    "browser": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "files": [
