@@ -36,6 +36,7 @@
         "@slidy/core": "workspace:*",
         "@slidy/animation": "workspace:*",
         "@slidy/easing": "workspace:*",
+        "@slidy/assets": "workspace:*",
         "esbuild-plugin-solid": "^0.4.2"
     }
 }

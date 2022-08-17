@@ -1,8 +1,8 @@
 import type { FlowComponent } from 'solid-js';
-import type { Channel } from '../lib/channel';
+import type { Channel } from '../lib';
 import { onMount, onCleanup } from 'solid-js';
 
-import './side-menu.module.css';
+import '@slidy/assets/dev/components/side-menu.module.css';
 
 interface Props {
     controlPanel: Channel<boolean>;

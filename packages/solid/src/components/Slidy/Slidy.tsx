@@ -1,12 +1,12 @@
 import { createContext, mergeProps, useContext, createSignal, Show, For } from 'solid-js';
-import { classNames as classNamesDefault } from './slidy.styles';
-import { clamp as clampValue } from '../../helpers';
+import { classNames as classNamesDefault } from '@slidy/assets/components/Slidy/slidy.styles';
+import { clamp as clampValue } from '@slidy/assets/helpers';
 import { execute } from '../../shared';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 
-import './slidy.module.css';
+import '@slidy/assets/components/Slidy/slidy.module.css';
 
-import type { Slide, SlidyOptions } from './Slidy.types';
+import type { Slide, SlidyOptions } from '@slidy/assets/components/Slidy/Slidy.types';
 import type { Component, JSX, Setter, Accessor } from 'solid-js';
 
 declare module 'solid-js' {

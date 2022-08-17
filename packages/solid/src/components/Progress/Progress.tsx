@@ -1,7 +1,8 @@
 import { useClassNames } from '../Slidy/Slidy';
 import { mergeProps } from 'solid-js';
 
-import './progress.module.css';
+import '@slidy/assets/components/Progress/progress.module.css';
+
 import type { VoidComponent } from 'solid-js';
 
 interface Props {

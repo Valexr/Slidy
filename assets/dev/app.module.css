@@ -12,7 +12,7 @@ main {
     font-size: 0.8rem;
 }
 
-.header> :last-child {
+.header > :last-child {
     margin-left: auto;
 }
 
@@ -26,7 +26,7 @@ main {
     gap: var(--space-s);
 }
 
-.nav-controls>* {
+.nav-controls > * {
     background-color: var(--surface-2);
     padding: 4px;
     width: 30px;
@@ -35,4 +35,9 @@ main {
 
 .nav-controls svg {
     fill: var(--accent);
+}
+
+.nav-controls button {
+    border: none;
+    border-radius: 10px;
 }

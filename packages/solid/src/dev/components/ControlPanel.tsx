@@ -1,4 +1,4 @@
-import './control-panel.module.css';
+import '@slidy/assets/dev/components/control-panel.module.css';
 
 import type { Component } from 'solid-js';
 import type { Channel } from '../lib';
