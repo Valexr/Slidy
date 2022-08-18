@@ -1,6 +1,7 @@
 import { slidy } from '@slidy/core';
 import { mergeProps, createEffect, onCleanup } from 'solid-js';
 import { execute } from '../../shared';
+import { Dynamic } from '..';
 
 import type { SlidyCoreOptions } from '@slidy/assets/components/Core/Core.types';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
@@ -91,7 +92,8 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
     };
 
     return (
-        <ol
+        <Dynamic
+            component={props.tag}
             class={props.className}
             aria-live="polite"
             tabindex="0"
@@ -105,7 +107,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             on:update={execute(props.onUpdate)}
         >
             {props.children}
-        </ol>
+        </Dynamic>
     );
 };
 
