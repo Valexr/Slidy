@@ -167,7 +167,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             : createSignal(props.index());
 
     const [position, setPosition] =
-        props.setIndex instanceof Function
+        props.setPosition instanceof Function
             ? [props.position, props.setPosition]
             : createSignal(props.position());
 
@@ -176,7 +176,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
 
     const goto = (slide: number): void => {
         if (typeof slide === 'number' && !Number.isNaN(slide)) {
-            setIndex(clampValue(slide, 0, length() - 1));
+            const value = clampValue(slide, 0, length() - 1);
+
+            if (index() !== value) setIndex(value);
         }
     };
 
@@ -201,7 +203,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
     };
 
     const onMove: Options['onMove'] = (e) => {
-        setPosition?.(e.detail.position);
+        setPosition(e.detail.position);
     };
 
     return (
