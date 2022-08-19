@@ -21,48 +21,44 @@
 
 # @slidy/solid
 
-Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core][core-package].
+Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core).
 
-Try the [demo][].
+Try the [demo](https://playground.solidjs.com/?hash=-1777461998&version=1.4.1).
 
 ## Getting started
 
-The package is available via [npm][]:
+The package is available via [npm](https://www.npmjs.com/package/@slidy/solid):
 
 ```
 npm i @slidy/solid
 ```
 
-REPL is available [here](REPL).
-
 ## Usage
 
 The most simple way to get started is to use named import of `<Slidy />` component:
 
-```tsx
-import { Slidy } from "@slidy/solid";
+```jsx
+import { Slidy } from '@slidy/solid';
 
 const slides = [
     {
         id: 1,
         width: 800,
         height: 1200,
-        src: "static/img/some-image.webp",
+        src: 'static/img/some-image.webp',
     },
 ];
 
-
 export default () => {
-    return <Slidy {slides} />
-}
-
+    return <Slidy slides={slides} />;
+};
 ```
 
 All props are optional. The only property to get started is `slides` - an array of objects with image related data.
 
 ## Core Component
 
-`Core` is a wrapper component for [@slidy/core][core-package] available via named import. It is best to use to build up the custom component for specific needs or when just the basic functionality is needed.
+`Core` is a wrapper component for [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) available via named import. It is best to use to build up the custom component for specific needs or when just the basic functionality is needed.
 
 ```tsx
 import { Core } from '@slidy/solid';
@@ -89,6 +85,7 @@ export default () => {
 | `position`  |     `0`     |              `number`              | The current position value of the carousel.                           |
 | `sensity`   |     `5`     |              `number`              | Defines the sliding sensity as the number of pixels required to drag. |
 | `snap`      | `undefined` | `"start", "center", "end", "deck"` | Enforces the scroll stop positions.                                   |
+| `tag`       |    `ol`     |              `string`              | The HTML tag name to render.                                          |
 
 For TypeScript users there is the `SlidyCoreOptions` interface available via named import.
 
@@ -123,7 +120,7 @@ By default component works with images. Image object should contain `width` and 
 
 To extend default component styles use `classNames` property. Default classes are available via object, that can be extended or overridden:
 
-```tsx
+```jsx
 import { Slidy, classNames } from '@slidy/solid';
 
 export default () => {
@@ -191,48 +188,42 @@ List of available public custom properties:
 
 All supported custom properties starts with `--slidy-`. For example, to recolor navigation controls, let the component inherit a `--slidy-nav-item-color` custom property from any parent:
 
+```css
+.parent {
+    --slidy-navigation-color: red;
+}
+```
+
 ```jsx
 export default () => {
     return (
-        <>
-            <div class="parent">
-                <Slidy />
-            </div>
-            <style>
-                {`
-                .parent {
-                    --slidy-navigation-color: red;
-                }
-                `}
-            </style>
-        </>
+        <div class="parent">
+            <Slidy />
+        </div>
     );
 };
 ```
 
 Or just pass a class with a set of custom properties:
 
+```css
+.some-class {
+    --slidy-navigation-color: red;
+    --slidy-nav-item-size: 1rem;
+}
+```
+
 ```jsx
 import { Slidy, classNames } from '@slidy/solid';
 
 export default () => {
     return (
-        <>
-            <Slidy
-                classNames={{
-                    root: `${classNames.root} .some-class`,
-                    ...classNames,
-                }}
-            />
-            <style>
-                {`
-                .some-class {
-                    --slidy-navigation-color: red;
-                    --slidy-nav-item-size: 1rem;
-                }
-                `}
-            </style>
-        </>
+        <Slidy
+            classNames={{
+                root: `${classNames.root} .some-class`,
+                ...classNames,
+            }}
+        />
     );
 };
 ```
@@ -246,7 +237,7 @@ It is possible to control the navigation of the `Slidy` instance from the parent
 There are two variables available to control the component externally: `index` and `position`. Declare the variables to hold the values and bind them to the instance for the carousel control.
 
 ```jsx
-import { Slidy } from "@slidy/solid";
+import { Slidy } from '@slidy/solid';
 import { createSignal } from 'solid-js';
 
 export default () => {
@@ -255,23 +246,24 @@ export default () => {
 
     return (
         <>
-            <Slidy index={index} setIndex={setIndex} position={position} setPosition={setPosition}>
-            <button onClick={() => setIndex(prev => prev + 1)}> Next slide </button>
-            <button onClick={() => setPosition(prev => prev + 50)}> Move </button>
+            <Slidy
+                index={index}
+                setIndex={setIndex}
+                position={position}
+                setPosition={setPosition}
+            />
+            <button onClick={() => setIndex((prev) => prev + 1)}>Next slide</button>
+            <button onClick={() => setPosition((prev) => prev + 50)}>Move</button>
         </>
-    )
-}
+    );
+};
 ```
 
 ## Possible issues
 
--   Slides should not have `absolute` positioning, otherwise the [core-package][] script won't get correct dimentions;
+-   Slides should not have `absolute` positioning, otherwise the core script won't get correct dimentions;
 -   Using the `background` option usually is not recommended. In case you need to use it, specify the slide sizes with custom properties: `width` and `height`, or just `aspect-ratio`.
 
 ## License
 
-MIT &copy; [EricRovell](https://github.com/EricRovell)
-
-[core-package]: https://github.com/Valexr/slidy/tree/master/packages/core
-[npm]: https://www.npmjs.com/package/@slidy/solid
-
+MIT

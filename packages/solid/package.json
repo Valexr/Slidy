@@ -23,7 +23,18 @@
         "Carousel",
         "Solid-plugin"
     ],
-    "author": "EricRovell",
+    "author": "Artemy Schukin",
+    "contributors": [
+        {
+            "name": "Valexr",
+            "email": "valexr@gmail.com",
+            "url": "https://github.com/Valexr"
+        },
+        {
+            "name": "Artemy Schukin",
+            "url": "https://github.com/Artemis69"
+        }
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
