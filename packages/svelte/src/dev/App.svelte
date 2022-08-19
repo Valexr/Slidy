@@ -72,6 +72,7 @@
 	{#await items then slides}
 		<Slidy
 			autoplay={true}
+			autoplayControl
 			interval={2000}
 			{animation}
 			{axis}

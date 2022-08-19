@@ -104,10 +104,13 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | Property | Default | Type | Description |
 | :------- | :-----: | :--: | :---------- |
 | `arrows` | `true` | `boolean`  | Renders the arrow button controls for accessible slide navigation. |
+| `autoplay` | `false` | `boolean` | Set's up automatic sliding of the carousel items. |
+| `autoplayControl` | `false` | `boolean` | Renders the autoplay control and indicator. |
 | `background` | `false` | `boolean` | Sets `background-image` instead of `<img />` elements to display slides. |
 | `classNames` | `SlidyStyles` | `SlidyStylesDefault` | The class names object used over the component. |
 | `getImgSrc` | `item => item.src` | `function` | The slide's `src` attribute getter. |
 | `getThumbSrc` | `item => item.src` | `function` | The thumbnail's `src` attribute getter. |
+| `interval` | `1500` | `number` | Defines the autoplay interval time in ms. |
 | `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
 | `progress` | `false` | `boolean` | Renders the progress bar. |
 | `slides` | `[]` | `Slides[]` | An array of objects with image metadata. |
@@ -139,6 +142,7 @@ The `classNames` consist of `{ target: className }` pairs:
 | Target    | Default class      | Description |
 | :-------- | :----------------: | :-----------|
 | arrow     | `slidy-arrow`      | Arrow controls. |
+| autoplay  | `slidy-autoplay`   | Autoplay control. |
 | counter   | `slidy-counter`    | Slide progress counter. |
 | img       | `slidy-img`        | Slide image node. |
 | nav       | `slidy-nav`        | Slide navigation panel. |
@@ -165,6 +169,7 @@ List of available public custom properties:
 | `--slidy-arrow-bg-hover`       |  #4e4e4e54 | `<color>`   | The arrow control hover background color.            |
 | `--slidy-arrow-icon-color`     |  currentColor | `<color>`   | The arrow control icon fill color.                |
 | `--slidy-arrow-size`           |  24px      | `<length>`  | The arrow controls size.                             |
+| `--slidy-autoplay-control-size`|  
 | `--slidy-counter-bg`           |  #4e4e4ebf | `<color>`   | The counter's background color.                      |
 | `--slidy-focus-ring-color`     |  #c9c9c9e6 | `<color>`   | Focus ring color for all focusable elements.         |
 | `--slidy-height`               |  100%      | `<length>`  | The height of the component's node.                  |
@@ -323,7 +328,10 @@ The component forwards custom events:
 | `keys`    | The key pressed on focus.        |             `event.code`              |
 | `mount`   | Component is mounted to the DOM. |         `{ childs, options }`         |
 | `move`    | Navigation occurs.               | `{ index: number, position: number }` |
+| `pause`   | Autoplay is paused.              |                  -                    |
+| `play`    | Autoplay interval had passed.    |                  -                    |
 | `resize`  | Component's dimentions changes.  |          `{ node, options }`          |
+| `stop`    | Autoplay is stopped.             |                  -                    |
 | `update`  | Component's props changes.       |               `options`               |
 
 ## Recipes

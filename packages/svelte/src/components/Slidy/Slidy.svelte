@@ -15,6 +15,7 @@
 	export let animation: $$Props["animation"] = undefined;
 	export let arrows = true;
 	export let autoplay = false;
+	export let autoplayControl = false;
 	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let counter = true;
@@ -26,7 +27,6 @@
 	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
 	export let navigation = false;
 	export let gravity = 1.2;
-	export let id: $$Props["id"] = undefined;
 	export let indent: $$Props["indent"] = 2;
 	export let index = 0;
 	export let interval = 1500;
@@ -37,6 +37,11 @@
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
+
+	/**
+	 * Indicate the paused autoplay.
+	 */
+	let autoplayState: "play" | "pause" | "stop" = "stop";
 
 	/**
 	 * To prevent infinite loop the thumb index has separate variable
@@ -72,6 +77,7 @@
 	};
 
 	const handleAutoplay = () => {
+		autoplayState = "play";
 		if (loop) {
 			index += 1;
 		}	else if (index + 1 < slides.length) {
@@ -80,20 +86,40 @@
 			autoplay = false;
 		}
 	};
+
+	const handleAutoplayPause = () => {
+		autoplayState = "pause";
+	};
+
+	const handleAutoplayStop = () => {
+		autoplayState = "stop";
+		autoplay = false;
+	};
+
+	const handleAutoplayControl = () => {
+		if (autoplayState === "play" || autoplayState === "pause") {
+			autoplay = false;
+			autoplayState = "stop";
+		} else if (autoplayState === "stop") {
+			autoplay = true;
+			autoplayState = "play";
+		}
+	};
 </script>
 
 <section
 	aria-roledescription="carousel"
 	class="{classNames?.root}"
 	class:vertical
-	{id}
 	on:click={handleClick}
 	on:play={handleAutoplay}
-	on:stop={() => autoplay = false}
+	on:pause={handleAutoplayPause}
+	on:stop={handleAutoplayStop}
 	use:autoplayAction={{	status: autoplay,	interval }}
 	on:play
 	on:pause
 	on:stop
+	style:--slidy-autoplay-interval="{interval}ms"
 >
 	{#if counter || $$slots.overlay}
 		<div class="{classNames?.overlay}">
@@ -102,10 +128,13 @@
 					{index + 1} / {length}
 				</output>
 			{/if}
-			<ButtonAutoplay
-				bind:status="{autoplay}"
-				disabled={index + 1 >= length && !loop}
-			/>
+			{#if autoplayControl}
+				<ButtonAutoplay
+					state={autoplayState}
+					disabled={index + 1 >= length && !loop}
+					on:click={handleAutoplayControl}
+				/>
+			{/if}			
 			<slot name="overlay" />
 		</div>
 	{/if}

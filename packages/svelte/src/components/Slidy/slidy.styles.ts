@@ -1,5 +1,6 @@
 export const classNames = {
 	"arrow": "slidy-arrow",
+	"autoplay": "slidy-autoplay",
 	"counter": "slidy-counter",
 	"img": "slidy-img",
 	"nav": "slidy-nav",

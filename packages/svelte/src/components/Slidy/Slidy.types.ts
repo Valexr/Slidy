@@ -14,6 +14,7 @@ export interface Slide {
 
 type SlidyNodes =
 	| "arrow"
+	| "autoplay"
 	| "counter"
 	| "img"
 	| "nav"
@@ -33,6 +34,7 @@ export type GetSrc<T> = (item: T) => string;
 export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
 	autoplay?: boolean;
+	autoplayControl?: boolean;
 	background?: boolean;
 	classNames: SlidyStyles;
 	getImgSrc: (item: unknown | Slide) => string;
