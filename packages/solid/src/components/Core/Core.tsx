@@ -4,6 +4,7 @@ import { execute } from '../../shared';
 import { Dynamic } from '..';
 
 import type { SlidyCoreOptions } from '@slidy/assets/components/Core/Core.types';
+import type { Options as SlidyOptions } from '@slidy/core';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
 
 declare module 'solid-js' {
@@ -47,6 +48,8 @@ interface Options {
 
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;
+
+    getInstance?: (instance: ReturnType<typeof slidy>) => void;
 }
 
 const defaultProps: Options = {
@@ -69,23 +72,33 @@ const defaultProps: Options = {
 const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const options = () => ({
-        animation: props.animation,
-        axis: props.axis,
-        clamp: props.clamp,
-        duration: props.duration,
-        easing: props.easing,
-        gravity: props.gravity,
-        indent: props.indent,
-        index: props.index,
-        loop: props.loop,
-        sensity: props.sensity,
-        snap: props.snap,
-    });
+    const options = (full = false) => {
+        const obj: Partial<SlidyOptions> = {
+            animation: props.animation,
+            axis: props.axis,
+            clamp: props.clamp,
+            duration: props.duration,
+            easing: props.easing,
+            gravity: props.gravity,
+            indent: props.indent,
+            loop: props.loop,
+            sensity: props.sensity,
+            snap: props.snap,
+        };
+
+        if (full) obj.index = props.index;
+
+        return obj as SlidyOptions;
+    };
 
     const useSlidy = (el: HTMLElement) => {
-        const instance = slidy(el, options());
+        const instance = slidy(el, options(true));
 
+        props.getInstance?.(instance);
+
+        /**
+         * 'index' does not trigger update
+         */
         createEffect(() => instance.update(options()));
 
         onCleanup(instance.destroy);

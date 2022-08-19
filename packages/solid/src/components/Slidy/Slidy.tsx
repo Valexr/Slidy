@@ -1,4 +1,12 @@
-import { createContext, mergeProps, useContext, createSignal, Show, For } from 'solid-js';
+import {
+    createContext,
+    mergeProps,
+    useContext,
+    createEffect,
+    createSignal,
+    Show,
+    For,
+} from 'solid-js';
 import { classNames as classNamesDefault } from '@slidy/assets/components/Slidy/slidy.styles';
 import { clamp as clampValue } from '@slidy/assets/helpers';
 import { execute } from '../../shared';
@@ -8,6 +16,7 @@ import '@slidy/assets/components/Slidy/slidy.module.css';
 
 import type { Slide, SlidyOptions } from '@slidy/assets/components/Slidy/Slidy.types';
 import type { Component, JSX, Setter, Accessor } from 'solid-js';
+import type { slidy } from '@slidy/core';
 
 declare module 'solid-js' {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -79,14 +88,17 @@ interface Options {
      * @default []
      */
     slides?: SlidyOptions['slides'];
+    /**
+     * @default undefined
+     */
     snap?: SlidyOptions['snap'];
     /**
      * @default 1500
      */
     interval?: number;
 
-    index: Accessor<number>;
-    position: Accessor<number>;
+    index?: Accessor<number>;
+    position?: Accessor<number>;
 
     /**
      * Control the index from outside
@@ -171,14 +183,24 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             ? [props.position, props.setPosition]
             : createSignal(props.position());
 
+    /**
+     * Slidy instance for imperative manipulations
+     */
+    const [instance, setInstance] = createSignal<null | ReturnType<typeof slidy>>(null);
+
     const length = () => props.slides.length;
     const vertical = () => props.axis === 'y';
 
     const goto = (slide: number): void => {
-        if (typeof slide === 'number' && !Number.isNaN(slide)) {
+        const action = instance();
+
+        if (action && typeof slide === 'number' && !Number.isNaN(slide)) {
             const value = clampValue(slide, 0, length() - 1);
 
-            if (index() !== value) setIndex(value);
+            const apply = () => action.to(value);
+
+            // todo: figure out why promise is neccessary here
+            Promise.resolve().then(apply);
         }
     };
 
@@ -188,18 +210,20 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         if (element.nodeName !== 'BUTTON') return;
 
         if (element.dataset.index) {
-            goto(parseInt(element.dataset.index));
+            setIndex(parseInt(element.dataset.index));
             return;
         }
 
         if (element.dataset.step) {
-            goto(parseInt(element.dataset.step) + index());
+            setIndex(parseInt(element.dataset.step) + index());
             return;
         }
     };
 
+    createEffect(() => goto(index()));
+
     const onIndex: Options['onIndex'] = (e) => {
-        goto(e.detail.index);
+        setIndex(e.detail.index);
     };
 
     const onMove: Options['onMove'] = (e) => {
@@ -246,6 +270,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     onKeys={execute(props.onKeys)}
                     onUpdate={execute(props.onUpdate)}
                     onDestroy={execute(props.onDestroy)}
+                    getInstance={setInstance}
                 >
                     <For each={props.slides}>
                         {(item, i) => {
@@ -327,7 +352,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                         loop={props.loop}
                         sensity={props.sensity}
                         slides={props.slides}
-                        onSelect={(index) => goto(index)}
+                        onSelect={setIndex}
                     />
                 </Show>
                 <Show when={props.navigation}>
