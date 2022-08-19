@@ -4,7 +4,7 @@ export function media<T extends string>({ queries, getter, cookie }: Partial<Opt
     const subscribers: Set<(matches: Queries<T>) => void> = new Set();
     const matches = {} as Queries<T>;
 
-    if (typeof window === 'object') {
+    if (window instanceof Object) {
         for (const query in queries) {
             const media = window.matchMedia(queries[query] as string);
             set(media, query);
