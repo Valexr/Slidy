@@ -21,7 +21,7 @@
 
 # @slidy/solid
 
-Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core).
+Simple, configurable & reusable carousel component built with SolidJS based on [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core).
 
 Try the [demo](https://playground.solidjs.com/?hash=-1777461998&version=1.4.1).
 
