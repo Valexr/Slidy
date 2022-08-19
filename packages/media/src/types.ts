@@ -1,12 +1,10 @@
-type Queries = {
-    [key: string]: boolean | string | undefined;
-};
+type Queries<T extends string> = Record<T, string | boolean | undefined>;
 
-type Getter = (matches: Queries) => void;
+type Getter<T extends string> = (matches: Queries<T>) => void;
 
-interface Options {
-    queries: Queries;
-    getter: Getter;
+interface Options<T extends string> {
+    queries: Queries<T>;
+    getter: Getter<T>;
     cookie: boolean;
 }
 
