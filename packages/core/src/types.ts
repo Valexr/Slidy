@@ -121,3 +121,18 @@ export type AnimationArgs = {
  * @see https://github.com/Valexr/Slidy/tree/master/packages/animation
  */
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
+
+export interface SlidyInstance {
+    /**
+     * Update any property in options
+     */
+    update: (options: Options) => void;
+    /**
+     * Scroll to `index`
+     */
+    to: (index: number) => void;
+    /**
+     * Remove event listners, observers & defaulted props on `slidy()` instance
+     */
+    destroy: () => void;
+}

@@ -1,22 +1,7 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
 import { clamp, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
-import type { Options, UniqEvent, EventMap } from './types';
-
-interface SlidyInstance {
-    /**
-     * Update any property in options
-     */
-    update: (options: Options) => void;
-    /**
-     * Scroll to `index`
-     */
-    to: (index: number) => void;
-    /**
-     * Remove event listners, observers & defaulted props on `slidy()` instance
-     */
-    destroy: () => void;
-}
+import type { Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
 /**
  * Simple, configurable, nested & reusable sliding action script
