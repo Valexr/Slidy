@@ -1,4 +1,4 @@
-import type { AnimationFunc } from "@slidy/animation";
+import type { AnimationFunc } from "@slidy/core";
 
 export interface SlidyCoreOptions {
 	animation?: AnimationFunc;
