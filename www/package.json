@@ -19,7 +19,7 @@
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "1.0.0-next.39",
-        "@sveltejs/kit": "^1.0.0-next.423",
+        "@sveltejs/kit": "^1.0.0-next.427",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.0",
@@ -30,6 +30,6 @@
         "svelte-check": "^2.8.1",
         "svelte-preprocess": "^4.10.7",
         "unist-util-visit": "^4.1.0",
-        "vite": "^3.0.8"
+        "vite": "^3.0.9"
     }
 }

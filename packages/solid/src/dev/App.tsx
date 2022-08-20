@@ -1,4 +1,4 @@
-import { createEffect, Show, createSignal } from 'solid-js';
+import { createEffect, Show, createSignal, from } from 'solid-js';
 import { Slidy } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
@@ -9,8 +9,8 @@ import { version } from '../../package.json';
 import logo from '@slidy/assets/img/Slidy.svg';
 import '@slidy/assets/dev/app.module.css';
 
-import { themeStore } from './scripts';
 import { getRandomSlides } from '@slidy/assets/dev/scripts/slide-store';
+import { darkTheme } from '@slidy/assets/dev/scripts/theme-store';
 
 import type { AnimationFunc } from '@slidy/animation';
 import type { Slide } from '..';
@@ -36,7 +36,7 @@ const App: Component = () => {
 
     const controlPanel = channel(false);
 
-    const [theme, switchTheme] = themeStore();
+    const theme = from(darkTheme);
 
     const slides = channel<Slide[]>([]);
     const loaded = channel(false);
@@ -76,7 +76,7 @@ const App: Component = () => {
                         </svg>
                     </button>
                     <button
-                        onClick={switchTheme}
+                        onClick={darkTheme.switch}
                         classList={{
                             active: theme(),
                         }}

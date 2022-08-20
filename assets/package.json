@@ -4,7 +4,9 @@
     "description": "Slidy assets",
     "main": "index.js",
     "devDependencies": {
-        "@slidy/animation": "workspace:*"
+        "@slidy/animation": "workspace:*",
+        "@slidy/media": "workspace:*",
+        "svelte": "^3.49.0"
     },
     "keywords": [],
     "author": "",
