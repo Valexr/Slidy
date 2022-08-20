@@ -197,10 +197,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         if (action && typeof slide === 'number' && !Number.isNaN(slide)) {
             const value = clampValue(slide, 0, length() - 1);
 
-            const apply = () => action.to(value);
-
-            // todo: figure out why promise is neccessary here
-            Promise.resolve().then(apply);
+            Promise.resolve(value).then(action.to);
         }
     };
 
