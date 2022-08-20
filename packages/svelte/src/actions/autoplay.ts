@@ -31,27 +31,48 @@ export function autoplay(node: HTMLElement, parameters: Options = defaults): Ret
 	};
 
 	const play = () => {
+		status = true;
+		window.clearInterval(timerInterval);
 		timerInterval = window.setInterval(() => {
-			if (status) {
-				dispatch("play");
-			}
+			console.log(status);
+			dispatch("play");
 		}, interval);
 	};
 
 	const pause = () => {
-		status = false;
+		window.clearInterval(timerInterval);
 		dispatch("pause");
 	};
 
-	const handlePointerover = () => pause();
-	const handlePointerout = () => status = true;
-	const handleFocusin = () => pause();
-	const handleFocusout = () => status = true;
+	const handlePointerover = () => {
+		if (status) {
+			pause();
+		}
+	};
+
+	const handlePointerout = () => {
+		if (status) {
+			play();
+		}
+	};
+
+	const handleFocusin = () => {
+		if (status) {
+			pause();
+		}
+	};
+
+	const handleFocusout = () => {
+		if (status) {
+			play();
+		}
+	};
+
 	const handleVisibilityChange = () => {
-		if (document.visibilityState === "hidden") {
+		if (!status && document.visibilityState === "hidden") {
 			pause();
 		} else {
-			status = true;
+			play();
 		}
 	};
 
@@ -78,6 +99,7 @@ export function autoplay(node: HTMLElement, parameters: Options = defaults): Ret
 	};
 
 	const stop = () => {
+		status = false;
 		disconnectEvents();
 		dispatch("stop");
 	};
@@ -88,9 +110,11 @@ export function autoplay(node: HTMLElement, parameters: Options = defaults): Ret
 
 	return {
 		update({ status }: Options) {
-			status
-				? start()
-				: stop();
+			if (status) {
+				start();
+			} else {
+				stop();
+			}
 		},
 		destroy() {
 			stop();
