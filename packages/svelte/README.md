@@ -169,7 +169,8 @@ List of available public custom properties:
 | `--slidy-arrow-bg-hover`       |  #4e4e4e54 | `<color>`   | The arrow control hover background color.            |
 | `--slidy-arrow-icon-color`     |  currentColor | `<color>`   | The arrow control icon fill color.                |
 | `--slidy-arrow-size`           |  24px      | `<length>`  | The arrow controls size.                             |
-| `--slidy-autoplay-control-size`|  
+| `--slidy-autoplay-control-size`|  2.25em    | `<length>`  | The autoplay control size.                           |
+| `--slidy-autoplay-indicator-accent` | lightpink | <color> | The autoplay control indicator ring color.           |
 | `--slidy-counter-bg`           |  #4e4e4ebf | `<color>`   | The counter's background color.                      |
 | `--slidy-focus-ring-color`     |  #c9c9c9e6 | `<color>`   | Focus ring color for all focusable elements.         |
 | `--slidy-height`               |  100%      | `<length>`  | The height of the component's node.                  |
