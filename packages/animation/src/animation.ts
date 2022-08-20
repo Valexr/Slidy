@@ -1,63 +1,67 @@
-import type { AnimationArgs } from './types';
+import type { AnimationFunc } from './types';
 
-function fade({ child, translate }: AnimationArgs) {
+const fade: AnimationFunc = ({ child, translate }) => {
     return {
-        opacity: child.exp,
+        opacity: child.exp as unknown as string,
         transform: translate,
     };
-}
+};
 
-function shade({ child, options, translate }: AnimationArgs) {
+const shade: AnimationFunc = ({ child, options, translate }) => {
     const active = child.i === child.active;
     const full = Math.abs(child.track) <= child.size;
     const zIndex = active ? 0 : 1;
     const paralax = `${child.track / 0.5}px, 0`;
+
     if (child.index === 4) console.log(child.index, full);
+
     return {
         // opacity: full ? child.exp : 1,
-        transform: active ? `${translate} translate(${paralax})` : `${translate}`,
-        zIndex,
+        transform: active ? `${translate} translate(${paralax})` : (translate as unknown as string),
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function blur({ child, translate }: AnimationArgs) {
+const blur: AnimationFunc = ({ child, translate }) => {
     const active = child.i === child.active;
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : child.i - child.active;
+        ? child.active - child.i
+        : child.i - child.active;
     return {
-        opacity: child.exp,
+        opacity: child.exp as unknown as string,
         filter: `blur(${1 - child.exp}ex`,
         transform: translate,
-        zIndex,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function scale({ child, translate }: AnimationArgs) {
+const scale: AnimationFunc = ({ child, translate }) => {
     return {
         transform: `${translate} scale(${child.exp})`,
     };
-}
+};
 
-function rotate({ child, options, translate }: AnimationArgs) {
+const rotate: AnimationFunc = ({ child, options, translate }) => {
     const active = child.index === options.index;
+    const zIndex = active ? 0 : -1;
+
     return {
         transform: `${translate} rotate(${child.turn}turn)`,
-        zIndex: active ? 0 : -1,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function perspective({ child, translate }: AnimationArgs) {
+const perspective: AnimationFunc = ({ child, translate }) => {
     // child.style.transformStyle = 'preserve-3d';
     return {
         transform: `${translate} perspective(${-child.turn}px)`,
         // zIndex: child.zindex
     };
-}
+};
 
-function shuffle({ node, child, options, translate }: AnimationArgs) {
+const shuffle: AnimationFunc = ({ node, child, options, translate }) => {
     // const active = child.i === child.active
     // options.snap = 'deck'
     const dir = Math.sign(child.track);
@@ -70,21 +74,21 @@ function shuffle({ node, child, options, translate }: AnimationArgs) {
         child.i === child.active
             ? child.active
             : child.i > child.active
-                ? child.active - child.i
-                : -(child.i - child.active + node.children.length);
+            ? child.active - child.i
+            : -(child.i - child.active + node.children.length);
     return {
         transform: active ? `${translate} translate(${axis})` : `${translate}`,
-        zIndex,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function translate({ translate }: AnimationArgs) {
+const translate: AnimationFunc = ({ translate }) => {
     return {
         transform: translate,
     };
-}
+};
 
-function matrix({ node, child, options }: AnimationArgs) {
+const matrix: AnimationFunc = ({ node, child, options }) => {
     // node.style.perspective = `${node.offsetWidth}px`;
     // matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )
     const active = child.index === options.index;
@@ -98,8 +102,8 @@ function matrix({ node, child, options }: AnimationArgs) {
     const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+        ? child.index - node.children.length
+        : node.children.length - child.index - 1;
 
     // let theta = 360 / node.children.length;
     // let radius = Math.round((child.size / 2) / Math.tan(Math.PI / node.children.length));
@@ -112,11 +116,11 @@ function matrix({ node, child, options }: AnimationArgs) {
     return {
         transform: `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, ${translateX}, ${translateY})`,
         // transform: translate + `translateZ(${radius}px) rotateY(${cellAngle}deg)`,
-        zIndex,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function stairs({ node, child, options, translate }: AnimationArgs) {
+const stairs: AnimationFunc = ({ node, child, options, translate }) => {
     node.style.perspective = `${node.offsetWidth}px`;
     // node.style.transformStyle = `preserve-3d`;
     const deck = options.snap === 'deck';
@@ -124,30 +128,31 @@ function stairs({ node, child, options, translate }: AnimationArgs) {
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : child.i - node.children.length + 1;
+        ? child.active - child.i
+        : child.i - node.children.length + 1;
     const stairs = deck ? `scale(${child.exp})` : `translateZ(${-Math.abs(child.track)}px)`;
     return {
         transform: translate + stairs,
-        zIndex,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
-function flip({ node, child, options, translate }: AnimationArgs) {
+const flip: AnimationFunc = ({ node, child, options, translate }) => {
     node.style.perspective = `${node.offsetWidth}px`;
 
     const deck = options.snap === 'deck';
     const turn = child.turn / (deck ? -2 : -4);
     const rotate = options.vertical ? `rotateX(${turn}turn)` : `rotateY(${-turn}turn)`;
     const active = Math.abs(turn) < 0.25;
+
     return {
         transform: translate + rotate,
-        zIndex: active ? 0 : -1,
-        opacity: active || !deck ? 1 : 0,
+        zIndex: (active ? 0 : -1) as unknown as string,
+        opacity: (active || !deck ? 1 : 0) as unknown as string,
     };
-}
+};
 
-function deck({ node, child, options, translate }: AnimationArgs) {
+const deck: AnimationFunc = ({ node, child, options, translate }) => {
     node.style.perspective = `${node.offsetWidth}px`;
 
     const active = child.index === options.index;
@@ -162,14 +167,14 @@ function deck({ node, child, options, translate }: AnimationArgs) {
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : 1 - node.children.length - child.i;
+        ? child.active - child.i
+        : 1 - node.children.length - child.i;
     return {
         transform: translate + `translate3d(${X}px, ${Y}px, ${Z}px) rotateZ(${R}deg) scale(${S})`,
         // zIndex: active ? 0 : -(node.children.length - child.index)
-        zIndex,
+        zIndex: zIndex as unknown as string,
     };
-}
+};
 
 export {
     blur,
