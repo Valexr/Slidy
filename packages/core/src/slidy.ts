@@ -3,14 +3,26 @@ import { clamp, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
 import type { Options, UniqEvent, EventMap } from './types';
 
-export function slidy(
-    node: HTMLElement,
-    opts: Partial<Options>
-): {
+interface SlidyInstance {
+    /**
+     * Update any property in options
+     */
     update: (options: Options) => void;
+    /**
+     * Scroll to `index`
+     */
     to: (index: number) => void;
+    /**
+     * Remove event listners, observers & defaulted props on `slidy()` instance
+     */
     destroy: () => void;
-} {
+}
+
+/**
+ * Simple, configurable, nested & reusable sliding action script
+ * @see https://github.com/Valexr/slidy/tree/master/packages/core
+ */
+export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance {
     const options: Options = {
         index: 0,
         clamp: 0,

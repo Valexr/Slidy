@@ -1,19 +1,73 @@
-/** Slidy options object [docs](https://github.com/Valexr/slidy/tree/master/packages/core#options)*/
+/**
+ * Slidy options object
+ * @see https://github.com/Valexr/slidy/tree/master/packages/core#options
+ */
 export interface Options {
+    /**
+     * Start index
+     */
     index: number;
+    /**
+     * Clamping sliding by index: `clamp - index + clamp`
+     */
     clamp?: number;
+    /**
+     * Part of gap padding both start/end edges of slide `gap * indent`
+     */
     indent?: number;
+    /**
+     * How many pixels to drag in the RAF `~16ms` to start move, `0` when sliding
+     */
     sensity?: number;
+    /**
+     * Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)`
+     */
     gravity?: number;
+    /**
+     * Sliding duration in ms
+     */
     duration?: number;
+    /**
+     * Custom slide animation.
+     * @see https://github.com/Valexr/Slidy/tree/master/packages/animation
+     */
     animation?: AnimationFunc;
+    /**
+     * Inertion scroll easing behaviour.
+     * @see https://github.com/Valexr/Slidy/tree/master/packages/easing
+     */
     easing?: EasingFunc;
+    /**
+     * Control coordinate axis: `'x'`, `'y'`.
+     */
     axis?: Axis;
+    /**
+     * Default clamp sliding by edges.
+     */
     snap?: Snap;
+    /**
+     * Makes the slideshow continious.
+     */
     loop?: boolean;
+    /**
+     * Current position
+     * @readonly
+     */
     position?: number;
+    /**
+     * Children move direction
+     * @readonly
+     */
     direction?: number;
+    /**
+     * Children axis flow: `0` or any `Number` as `true`
+     * @readonly
+     */
     vertical?: number;
+    /**
+     * Children reverse flow: `-1` or `1`
+     * @readonly
+     */
     reverse?: number;
 }
 
@@ -21,6 +75,9 @@ export interface Options {
 // type Values = typeof opts[Keys];
 
 type Axis = 'x' | 'y' | 'both';
+/**
+ * Clamp sliding by edges.
+ */
 type Snap = 'start' | 'center' | 'end' | 'deck';
 
 export interface UniqEvent extends PointerEvent {
@@ -31,12 +88,7 @@ export interface UniqEvent extends PointerEvent {
 
 export type EventMap = [string, EventListener, AddEventListenerOptions?][];
 
-export type Detail =
-    | { [key: string]: any }
-    | HTMLCollectionOf<Child>
-    | HTMLElement
-    | Options
-    | string;
+export type Detail = Record<string, any> | HTMLCollectionOf<Child> | HTMLElement | Options | string;
 
 /** Easing function.
  * @param t value from 0 to 1
@@ -64,4 +116,8 @@ export type AnimationArgs = {
     translate: string;
 };
 
+/**
+ * Animation function
+ * @see https://github.com/Valexr/Slidy/tree/master/packages/animation
+ */
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
