@@ -98,12 +98,11 @@
 
 	const handleAutoplayControl = () => {
 		if (autoplayState === "play" || autoplayState === "pause") {
-			autoplay = false;
 			autoplayState = "stop";
 		} else if (autoplayState === "stop") {
-			autoplay = true;
 			autoplayState = "play";
 		}
+		autoplay = !autoplay;
 	};
 </script>
 
