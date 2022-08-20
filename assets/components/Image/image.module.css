@@ -1,28 +1,28 @@
 .slidy-img {
-	position: relative;
-	display: block;
-	width: var(--slidy-slide-width, auto);
-	height: var(--slidy-slide-height, 100%);
-	border-radius: var(--slidy-slide-radius, 1rem);
-	object-fit: var(--slidy-slide-object-fit, cover);
-	object-position: center;
-	min-width: 100%;
-	background-color: var(--slidy-slide-bg-color, darkgray);
+    position: relative;
+    display: block;
+    width: var(--slidy-slide-width, auto);
+    height: var(--slidy-slide-height, 100%);
+    border-radius: var(--slidy-slide-radius, 1rem);
+    object-fit: var(--slidy-slide-object-fit, cover);
+    object-position: center;
+    min-width: 100%;
+    background-color: var(--slidy-slide-bg-color, darkgray);
 }
 
 .slidy-img::before {
-	content: "Image failed to load:" " " attr(alt);
-	position: absolute;
-	top: 0;
-	left: 0;
+    content: 'Image failed to load:' ' ' attr(alt);
+    position: absolute;
+    top: 0;
+    left: 0;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	width: 100%;
-	height: 100%;
-	padding: var(--space-m);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-m);
 
-	background-color: var(--slidy-slide-bg-color, darkgray);
+    background-color: var(--slidy-slide-bg-color, darkgray);
 }

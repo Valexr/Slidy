@@ -5,7 +5,7 @@
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
-    "types": "dist/src/index.d.ts",
+    "types": "dist/index.d.ts",
     "type": "module",
     "files": [
         "dist/*"

@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { Slidy } from "@slidy/svelte";
+	import Slidy from "../components/Slidy/Slidy.svelte";
 	import { ControlPanel, Sidemenu } from "./components";
 	import { getRandomSlides } from "./scripts/slide-store";
 	import { version } from "../../package.json";

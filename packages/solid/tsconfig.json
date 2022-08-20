@@ -2,18 +2,14 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
-        "declarationDir": "dist/",
+        "declarationDir": "dist",
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "preserveValueImports": true
     },
-    "include": ["src/*", "src/dev/*"]
-    // "exclude": [
-    // "src/utils/*",
-    // "src/index.ts"
-    // ],
-    // "files": [
-    //     "src/slidy.ts",
-    //     "src/types.ts"
-    // ]
+    "include": ["src/*"],
+    "exclude": ["dist", "public"]
 }

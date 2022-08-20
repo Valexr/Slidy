@@ -15,10 +15,10 @@
     display: grid;
     grid-template: minmax(0, 1fr) / auto minmax(0, 1fr) auto;
     grid-template-areas:
-        "prev-slide slides next-slide"
-        "progress progress progress"
-        "thumbnail thumbnail thumbnail"
-        "dots dots dots";
+        'prev-slide slides next-slide'
+        'progress progress progress'
+        'thumbnail thumbnail thumbnail'
+        'dots dots dots';
     gap: 0.75rem;
     height: var(--slidy-height, 100%);
     width: var(--slidy-width, 100%);
@@ -99,15 +99,15 @@
     display: grid;
     grid-template: auto minmax(0, 1fr) auto auto / minmax(0, 1fr) auto auto;
     grid-template-areas:
-        "prev-slide progress dots"
-        "slides progress dots"
-        "next-slide progress dots"
-        "thumbnail thumbnail thumbnail";
+        'prev-slide progress dots'
+        'slides progress dots'
+        'next-slide progress dots'
+        'thumbnail thumbnail thumbnail';
     height: var(--slidy-height, 100%);
     width: var(--slidy-width, 100%);
 }
 
-.slidy.vertical>.slidy-slides {
+.slidy.vertical > .slidy-slides {
     grid-row: 1 / -2;
     grid-column: 1;
 
@@ -116,14 +116,14 @@
     height: var(--slidy-slide-height, auto);
 }
 
-.slidy.vertical>.slidy-nav {
+.slidy.vertical > .slidy-nav {
     width: auto;
     height: max-content;
 }
 
 /* state */
 
-.slidy-slides:focus-visible>*.active img {
+.slidy-slides:focus-visible > *.active img {
     outline: 4px solid var(--slidy-focus-ring-color, #c9c9c9e6);
     outline-style: dashed;
     outline-offset: -5px;
@@ -132,7 +132,6 @@
 /* media */
 
 @media (hover: hover) {
-
     /* as slides container has 'pointer-events: none', we have to use it on slidy */
     .slidy:hover {
         cursor: grab;

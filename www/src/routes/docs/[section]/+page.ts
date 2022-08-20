@@ -1,5 +1,5 @@
-import { error } from "@sveltejs/kit";
-import type { PageLoad } from "./$types";
+import { error } from '@sveltejs/kit';
+import type { PageLoad } from './$types';
 
 interface Data {
 	title: string;
@@ -9,22 +9,21 @@ interface Data {
 		title: string;
 		id: string;
 	}[];
-	pages: unknown[]
+	pages: unknown[];
 }
-
 
 export const load: PageLoad = async ({ params }) => {
 	const { section } = params;
 	const pages = [];
 
-	const toc: Data["toc"] = [];
-	let title: Data["title"] = null;
-	let description: Data["description"] = null;
+	const toc: Data['toc'] = [];
+	let title: Data['title'] = null;
+	let description: Data['description'] = null;
 
 	try {
-		const contents = import.meta.glob("/src/content/**/*.svx");
+		const contents = import.meta.glob('/src/content/**/*.svx');
 
-		for await (const [ filename, module ] of Object.entries(contents)) {
+		for await (const [filename, module] of Object.entries(contents)) {
 			if (filename.includes(`/${section}`)) {
 				const page = await module();
 				const { metadata } = page;
@@ -46,8 +45,7 @@ export const load: PageLoad = async ({ params }) => {
 			description,
 			toc
 		} as Data;
-
 	} catch (err) {
-		throw error(404, `Not Found: ${err.message}`)
+		throw error(404, `Not Found: ${err.message}`);
 	}
 };

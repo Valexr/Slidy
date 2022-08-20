@@ -1,43 +1,43 @@
 .slidy-progress {
-	grid-area: progress;
-	position: relative;
-	justify-self: center;
-	display: flex;
-	width: calc(100% - 1rem);
-	justify-content: center;
-	background-color: var(--slidy-progress-track-color, #96969680);
+    grid-area: progress;
+    position: relative;
+    justify-self: center;
+    display: flex;
+    width: calc(100% - 1rem);
+    justify-content: center;
+    background-color: var(--slidy-progress-track-color, #96969680);
 }
 
 .slidy-progress > span {
-	position: absolute;
-	top: 0;
-	left: calc( var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
-	width: var(--_slidy-progress-size);
-	background-color: var(--slidy-progress-thumb-color, #c44f61);
-	transition: left 450ms ease-in-out;
+    position: absolute;
+    top: 0;
+    left: calc(var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
+    width: var(--_slidy-progress-size);
+    background-color: var(--slidy-progress-thumb-color, #c44f61);
+    transition: left 450ms ease-in-out;
 }
 
 .slidy-progress,
 .slidy-progress > span {
-	height: var(--slidy-progress-track-size, 5px);
-	border-radius: 5px;
+    height: var(--slidy-progress-track-size, 5px);
+    border-radius: 5px;
 }
 
 /* vertical mode */
 
 .slidy-progress.vertical {
-	height: calc(100% - 1rem);
+    height: calc(100% - 1rem);
 }
 
 .slidy-progress.vertical > span {
-	top: calc( var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
-	left: 0;
-	height: var(--_slidy-progress-size);
-	width: 100%;
-	transition: top 450ms ease-in-out;
+    top: calc(var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
+    left: 0;
+    height: var(--_slidy-progress-size);
+    width: 100%;
+    transition: top 450ms ease-in-out;
 }
 
 .slidy-progress.vertical,
 .slidy-progress.vertical > span {
-	width: var(--slidy-progress-track-size, 5px);
+    width: var(--slidy-progress-track-size, 5px);
 }

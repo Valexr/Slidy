@@ -1,66 +1,66 @@
 .slidy-arrow {
-	height: 100%;
-	width: auto;
-	padding: calc(var(--slidy-arrow-size, 28px) * 0.5) !important;
-	z-index: 2;
-	background-color: unset;
-	outline: none;
-	border: none;
-	cursor: pointer;
+    height: 100%;
+    width: auto;
+    padding: calc(var(--slidy-arrow-size, 28px) * 0.5) !important;
+    z-index: 2;
+    background-color: unset;
+    outline: none;
+    border: none;
+    cursor: pointer;
 }
 
 .slidy-arrow:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .slidy-arrow-icon {
-	height: var(--slidy-arrow-size, 28px);
-	width: var(--slidy-arrow-size, 28px);
-	fill: var(--slidy-arrow-icon-color, currentColor);
-	pointer-events: none;
-	transition: transform 0.15s ease-in-out;
-	background-color: var(--slidy-arrow-bg, #4e4e4ebf);
-	border-radius: 50%;
+    height: var(--slidy-arrow-size, 28px);
+    width: var(--slidy-arrow-size, 28px);
+    fill: var(--slidy-arrow-icon-color, currentColor);
+    pointer-events: none;
+    transition: transform 0.15s ease-in-out;
+    background-color: var(--slidy-arrow-bg, #4e4e4ebf);
+    border-radius: 50%;
 }
 
 .slidy-arrow:active {
-	background-color: #4e4e4eef;
+    background-color: #4e4e4eef;
 }
 
 .slidy-arrow:focus-visible {
-	background-color: var(--slidy-arrow-bg, #4e4e4ebf);
+    background-color: var(--slidy-arrow-bg, #4e4e4ebf);
 }
 
 .slidy-arrow:focus-visible .slidy-arrow-icon {
-	outline: 2px dashed var(--slidy-focus-ring-color, #c9c9c9e6);
-	outline-offset: -2px;
-	border-radius: 50%;
+    outline: 2px dashed var(--slidy-focus-ring-color, #c9c9c9e6);
+    outline-offset: -2px;
+    border-radius: 50%;
 }
 
 .slidy-arrow:active .slidy-arrow-icon {
-	transform: scale(0.9);
+    transform: scale(0.9);
 }
 
 .slidy-arrow.prev {
-	grid-area: prev-slide;
+    grid-area: prev-slide;
 }
 
 .slidy-arrow:not(.prev) {
-	grid-area: next-slide;
-	transform: rotate(180deg);
+    grid-area: next-slide;
+    transform: rotate(180deg);
 }
 
 .slidy-arrow.prev.vertical .slidy-arrow-icon {
-	transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 .slidy-arrow.vertical:not(.prev) .slidy-arrow-icon {
-	transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 @media (hover: hover) {
-	.slidy-arrow:hover {
-		background-color: var(--slidy-arrow-bg-hover, #4e4e4e54);
-	}
+    .slidy-arrow:hover {
+        background-color: var(--slidy-arrow-bg-hover, #4e4e4e54);
+    }
 }

@@ -1,12 +1,21 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"baseUrl": ".",
+		"declarationDir": "dist",
 		"sourceMap": true,
-		"declarationDir": "dist/",
 		"skipLibCheck": true,
 		"preserveValueImports": true,
-		"types": ["svelte", "node"]
+		"types": [
+			"svelte",
+			"node"
+		]
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "public"]
+	"include": [
+		"src/*"
+	],
+	"exclude": [
+		"dist",
+		"public",
+	]
 }

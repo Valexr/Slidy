@@ -18,31 +18,31 @@
 
 ## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
-- [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
-- [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
-- [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
-- [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
-- [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
-- [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
+-   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
+-   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
+-   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
+-   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
+-   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
+-   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 ### 👨🏻‍💻 in progress...
 
-- [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
+-   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 
 ### 📝 todo...
 
-- [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
-- [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
-- [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
-- [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
+-   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
+-   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
+-   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
+-   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
 ## Development
 
-- `pnpm workspaces` - monorepo
-- `esbuild` - bundling & packaging
-- `derver` - dev server
+-   `pnpm workspaces` - monorepo
+-   `esbuild` - bundling & packaging
+-   `derver` - dev server
 
 ## Thanks 🎉
 

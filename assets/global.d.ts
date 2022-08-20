@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { SlidyOptions as Options } from "./components/Slidy/Slidy.types";
+import type { SlidyOptions as Options } from './components/Slidy/Slidy.types';
 
 interface Position {
     index: number;

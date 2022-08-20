@@ -1,35 +1,35 @@
 .slidy-autoplay {
-	pointer-events: all;
-	position: absolute;
-	bottom: 1em;
-	right: calc(1em);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 2.5em;
-	height: 2.5em;
-	font-family: inherit;
-	fill: var(--slidy-arrow-icon-color, currentColor);
-	background-color: var(--slidy-arrow-bg, #4e4e4ebf);
-	padding: 0.5em;
-	border-radius: 1em;
-	border: none;
-	cursor: pointer;
-	outline: none;
+    pointer-events: all;
+    position: absolute;
+    bottom: 1em;
+    right: calc(1em);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5em;
+    height: 2.5em;
+    font-family: inherit;
+    fill: var(--slidy-arrow-icon-color, currentColor);
+    background-color: var(--slidy-arrow-bg, #4e4e4ebf);
+    padding: 0.5em;
+    border-radius: 1em;
+    border: none;
+    cursor: pointer;
+    outline: none;
 }
 
 .slidy-autoplay svg {
-	width: 2em;
-	height: 2em;
+    width: 2em;
+    height: 2em;
 }
 
 .slidy-autoplay:disabled {
-	opacity: 0.75;
-	cursor: not-allowed;
+    opacity: 0.75;
+    cursor: not-allowed;
 }
 
 @media (hover: hover) {
-	.slidy-autoplay:hover {
-		background-color: var(--slidy-arrow-bg-hover, #4e4e4e54);
-	}
+    .slidy-autoplay:hover {
+        background-color: var(--slidy-arrow-bg-hover, #4e4e4e54);
+    }
 }

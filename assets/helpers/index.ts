@@ -1,2 +1,2 @@
-export { clamp, randInt } from "./utils";
-export { getPhotos } from "./images-api";
+export { clamp, randInt } from './utils';
+export { getPhotos } from './images-api';
