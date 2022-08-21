@@ -6,8 +6,8 @@ import { flip } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
 
-import logo from '@slidy/assets/img/Slidy.svg';
-import '@slidy/assets/dev/app.module.css';
+import logo from '@slidy/assets/static/Slidy.svg';
+import '@slidy/assets/styles/dev/app.module.css';
 
 import { getRandomSlides } from '@slidy/assets/scripts/slide-store';
 import { darkTheme } from '@slidy/assets/scripts/theme-store';

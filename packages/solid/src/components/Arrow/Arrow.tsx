@@ -1,7 +1,7 @@
 import { mergeProps } from 'solid-js';
 import { useClassNames } from '../Slidy/Slidy';
 
-import '@slidy/assets/components/Arrow/arrow.module.css';
+import '@slidy/assets/styles/arrow.module.css';
 
 import type { FlowComponent } from 'solid-js';
 

@@ -1,7 +1,7 @@
 import { useClassNames } from '../Slidy/Slidy';
 import { splitProps, mergeProps } from 'solid-js';
 
-import '@slidy/assets/components/Image/image.module.css';
+import '@slidy/assets/styles/image.module.css';
 
 import type { JSX, Component } from 'solid-js';
 

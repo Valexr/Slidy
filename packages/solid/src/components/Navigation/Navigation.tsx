@@ -1,8 +1,8 @@
-import { generateIndexes } from '@slidy/assets/components/Navigation/Navigation.helpers';
+import { generateIndexes } from './Navigation.helpers';
 import { useClassNames } from '../Slidy/Slidy';
 import { mergeProps, For } from 'solid-js';
 
-import '@slidy/assets/components/Navigation/navigation.module.css';
+import '@slidy/assets/styles/navigation.module.css';
 
 import type { VoidComponent } from 'solid-js';
 

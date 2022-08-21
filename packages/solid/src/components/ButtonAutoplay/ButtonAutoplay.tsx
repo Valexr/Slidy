@@ -1,6 +1,6 @@
 import { mergeProps, Show } from 'solid-js';
 
-import '@slidy/assets/components/ButtonAutoplay/button-autoplay.module.css';
+import '@slidy/assets/styles/button-autoplay.module.css';
 
 import type { Component, Accessor, Setter } from 'solid-js';
 

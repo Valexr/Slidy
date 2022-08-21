@@ -25,12 +25,16 @@ export interface SlideParams {
     height?: number;
 }
 
+/**
+ * Common Image interface.
+ */
 export interface Slide {
-    id?: number;
-    width: number;
-    height: number;
-    alt: string;
-    src: string;
+    id?: string | number;
+    src?: string;
+    alt?: string;
+    width?: string | number;
+    height?: string | number;
+    [key: string]: unknown;
 }
 
 export type GetPhotos<T> = (params: SlideParams) => Promise<T[]>;

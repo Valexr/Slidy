@@ -1,4 +1,4 @@
-import '@slidy/assets/dev/components/control-panel.module.css';
+import '@slidy/assets/styles/dev/control-panel.module.css';
 
 import type { Component } from 'solid-js';
 import type { Channel } from '../lib';
@@ -62,7 +62,7 @@ const ControlPanel: Component<Options> = (props) => {
                             type="number"
                             value={props.duration()}
                             onInput={(e) => props.duration(e.currentTarget.valueAsNumber)}
-                            size="5"
+                            size={5}
                             step="1"
                             min="100"
                             max="1000"
@@ -74,7 +74,7 @@ const ControlPanel: Component<Options> = (props) => {
                             type="number"
                             value={props.gravity()}
                             onInput={(e) => props.gravity(e.currentTarget.valueAsNumber)}
-                            size="5"
+                            size={5}
                             step="0.1"
                             min="0.1"
                             max="2"
@@ -112,7 +112,7 @@ const ControlPanel: Component<Options> = (props) => {
                         <input
                             value={props.width()}
                             onInput={(e) => props.width(e.currentTarget.value)}
-                            size="5"
+                            size={5}
                             width="auto"
                         />
                     </label>
@@ -122,7 +122,7 @@ const ControlPanel: Component<Options> = (props) => {
                             type="number"
                             value={props.gap()}
                             onInput={(e) => props.gravity(e.currentTarget.valueAsNumber)}
-                            size="5"
+                            size={5}
                         />
                     </label>
                 </fieldset>

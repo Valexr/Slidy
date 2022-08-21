@@ -6,7 +6,7 @@ import { useClassNames } from '../Slidy/Slidy';
 import type { SlidyThumbOptions } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';
 
-import '@slidy/assets/components/Thumbnail/thumbnail.module.css';
+import '@slidy/assets/styles/thumbnail.module.css';
 
 interface Options {
     active: number;
