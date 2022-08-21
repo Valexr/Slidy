@@ -1,7 +1,6 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"declarationDir": "dist",
 		"sourceMap": true,
 		"skipLibCheck": true,
@@ -14,8 +13,4 @@
 	"include": [
 		"src/*"
 	],
-	"exclude": [
-		"dist",
-		"public",
-	]
 }
