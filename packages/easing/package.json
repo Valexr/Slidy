@@ -32,7 +32,11 @@
         "Js",
         "Ts"
     ],
-    "author": "Valexr",
+    "author": {
+        "name": "Valexr",
+        "email": "valexr@gmail.com",
+        "url": "https://github.com/Valexr"
+    },
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Valexr/Slidy/issues"

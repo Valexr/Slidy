@@ -1,6 +1,6 @@
 {
     "name": "@slidy/assets",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Slidy assets",
     "main": "index.js",
     "devDependencies": {
@@ -8,6 +8,20 @@
         "@slidy/media": "workspace:*"
     },
     "keywords": [],
-    "author": "",
+    "author": {
+        "name": "Artemiy Schukin",
+        "url": "https://github.com/yhdgms1"
+    },
+    "contributors": [
+        {
+            "name": "Valexr",
+            "email": "valexr@gmail.com",
+            "url": "https://github.com/Valexr"
+        },
+        {
+            "name": "Eric Rovell",
+            "url": "https://github.com/EricRovell"
+        }
+    ],
     "license": "MIT"
 }

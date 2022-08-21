@@ -6,13 +6,17 @@
     "module": "dist/slidy.mjs",
     "browser": "dist/slidy.js",
     "types": "dist/index.d.ts",
+    "style": "dist/slidy.css",
     "type": "module",
     "files": [
         "dist/*"
     ],
+    "exports": {
+        "./slidy.css": "./dist/slidy.css"
+    },
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc -project tsconfig.build.json --emitDeclarationOnly --outDir dist && node postbuild.js",
+        "build": "rm -rf dist && node esbuild && tsc --project tsconfig.build.json && node cleanup",
         "build:local": "pnpm build -r --filter=@slidy/react...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
@@ -32,7 +36,7 @@
         },
         {
             "name": "Artemiy Schukin",
-            "url": "https://github.com/Artemis69"
+            "url": "https://github.com/yhdgms1"
         }
     ],
     "license": "MIT",
