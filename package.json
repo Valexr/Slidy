@@ -53,7 +53,11 @@
         "WebComponent",
         "Malina"
     ],
-    "author": "Valexr",
+    "author": "Valexr <valexr@gmail.com> (https://valexr.github.io)",
+    "contributors": [
+        "EricRovell (https://github.com/EricRovell)",
+        "yhdgms1 (https://github.com/yhdgms1)"
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
