@@ -26,7 +26,7 @@
 
 <main>
 	<Header className="surface-2">
-		<img src="{base}/Slidy.svg" width="128" height="128" />
+		<img src="{base}/Slidy.svg" alt="Slidy" width="128" height="128" />
 		<h1>Slidy</h1>
 		<p>
 			Simple, configurable, nested & reusable sliding action script with rich ecosystem:

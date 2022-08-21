@@ -9,7 +9,7 @@
 <header class={`contents ${styles.masthead}`}>
 	<section label="logo">
 		<Link href="{base}/">
-			<img src="{base}/Slidy.svg" width="32" height="32" />
+			<img src="{base}/Slidy.svg" alt="Slidy" width="32" height="32" />
 			Slidy
 		</Link>
 	</section>
