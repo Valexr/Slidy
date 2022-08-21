@@ -1,7 +1,6 @@
-import { getPhotos, randInt, clamp } from '../../helpers';
-import type { Slide } from '../../components/Slidy/Slidy.types';
+import { getPhotos, randInt, clamp } from '.';
 
-let slides: Slide[] = [];
+let slides: Awaited<ReturnType<typeof getPhotos>> = [];
 
 export async function initSlides(limit = 50) {
     slides = await getPhotos({

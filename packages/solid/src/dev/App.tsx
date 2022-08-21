@@ -9,8 +9,8 @@ import { version } from '../../package.json';
 import logo from '@slidy/assets/img/Slidy.svg';
 import '@slidy/assets/dev/app.module.css';
 
-import { getRandomSlides } from '@slidy/assets/dev/scripts/slide-store';
-import { darkTheme } from '@slidy/assets/dev/scripts/theme-store';
+import { getRandomSlides } from '@slidy/assets/scripts/slide-store';
+import { darkTheme } from '@slidy/assets/scripts/theme-store';
 
 import type { AnimationFunc } from '@slidy/animation';
 import type { Slide } from '..';

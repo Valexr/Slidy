@@ -1,9 +1,9 @@
 import { slidy } from '@slidy/core';
 import { mergeProps, createEffect, onCleanup } from 'solid-js';
-import { execute } from '../../shared';
+import { execute } from '../../helpers';
 import { Dynamic } from '..';
 
-import type { SlidyCoreOptions } from '@slidy/assets/components/Core/Core.types';
+import type { SlidyCoreOptions } from './Core.types';
 import type { Options as SlidyOptions } from '@slidy/core';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
 

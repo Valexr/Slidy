@@ -5,8 +5,7 @@
     "main": "index.js",
     "devDependencies": {
         "@slidy/animation": "workspace:*",
-        "@slidy/media": "workspace:*",
-        "svelte": "^3.49.0"
+        "@slidy/media": "workspace:*"
     },
     "keywords": [],
     "author": "",

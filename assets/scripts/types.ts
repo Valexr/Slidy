@@ -25,4 +25,12 @@ export interface SlideParams {
     height?: number;
 }
 
+export interface Slide {
+    id?: number;
+    width: number;
+    height: number;
+    alt: string;
+    src: string;
+}
+
 export type GetPhotos<T> = (params: SlideParams) => Promise<T[]>;

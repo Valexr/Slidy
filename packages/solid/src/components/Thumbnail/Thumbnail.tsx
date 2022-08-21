@@ -3,7 +3,7 @@ import { Core, Image } from '..';
 import { mergeProps, For, Show } from 'solid-js';
 import { useClassNames } from '../Slidy/Slidy';
 
-import type { SlidyThumbOptions } from '@slidy/assets/components/Thumbnail/thumbnail.types';
+import type { SlidyThumbOptions } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';
 
 import '@slidy/assets/components/Thumbnail/thumbnail.module.css';
