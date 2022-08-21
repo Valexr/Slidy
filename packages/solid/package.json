@@ -1,6 +1,6 @@
 {
     "name": "@slidy/solid",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Simple, configurable & reusable carousel component built with SolidJS",
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
@@ -11,9 +11,6 @@
     "files": [
         "dist/*"
     ],
-    "exports": {
-        "./slidy.css": "./dist/slidy.css"
-    },
     "scripts": {
         "dev": "node esbuild --dev",
         "build": "rm -rf dist && node esbuild && tsc --project tsconfig.build.json && node cleanup",
@@ -27,7 +24,10 @@
         "Carousel",
         "Solid-plugin"
     ],
-    "author": "Artemiy Schukin",
+    "author": {
+        "name": "Artemiy Schukin",
+        "url": "https://github.com/yhdgms1"
+    },
     "contributors": [
         {
             "name": "Valexr",
