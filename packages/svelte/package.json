@@ -47,7 +47,21 @@
 		"sveltejs",
 		"svelte-plugin"
 	],
-	"author": "Valexr",
+	"author": {
+		"name": "Eric Rovell",
+		"url": "https://github.com/EricRovell"
+	},
+	"contributors": [
+		{
+			"name": "Eric Rovell",
+			"url": "https://github.com/EricRovell"
+		},
+		{
+			"name": "Valexr",
+			"email": "valexr@gmail.com",
+			"url": "https://github.com/Valexr"
+		}
+	],
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Valexr/slidy/issues"
