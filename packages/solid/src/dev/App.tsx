@@ -9,15 +9,13 @@ import { version } from '../../package.json';
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
 
-import { getRandomSlides } from '@slidy/assets/scripts/slide-store';
-import { darkTheme } from '@slidy/assets/scripts/theme-store';
+import { getRandomSlides, darkTheme } from '@slidy/assets/scripts';
 
-import type { AnimationFunc } from '@slidy/animation';
 import type { Slide } from '..';
 import type { Component } from 'solid-js';
 
 const App: Component = () => {
-    const animation = channel<AnimationFunc>(flip as unknown as AnimationFunc);
+    const animation = channel(flip);
     const axis = channel<'x' | 'y'>('x');
     const easing = channel(linear);
     const limit = channel(15);
