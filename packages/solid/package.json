@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist",
+        "build": "rm -rf dist && node esbuild && tsc -project tsconfig.build.json --emitDeclarationOnly --outDir dist && node postbuild.js",
         "build:local": "pnpm build -r --filter=@slidy/react...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
@@ -44,10 +44,11 @@
         "solid-js": "^1.4.8"
     },
     "devDependencies": {
-        "@slidy/core": "workspace:*",
         "@slidy/animation": "workspace:*",
-        "@slidy/easing": "workspace:*",
         "@slidy/assets": "workspace:*",
-        "esbuild-plugin-solid": "^0.4.2"
+        "@slidy/core": "workspace:*",
+        "@slidy/easing": "workspace:*",
+        "esbuild-plugin-solid": "^0.4.2",
+        "fast-glob": "^3.2.11"
     }
 }
