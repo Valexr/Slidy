@@ -4,8 +4,7 @@
 	import Image from "../Image/Image.svelte";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
 	import type { SlidyStyles } from "../Slidy/Slidy.types";
-
-	import "./thumbnail.module.css";
+	import "@slidy/assets/styles/thumbnail.module.css";
 </script>
 
 <script lang="ts">

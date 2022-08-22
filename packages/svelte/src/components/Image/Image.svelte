@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
 	import type { SlidyStyles } from "../Slidy/Slidy.types";
+	import "@slidy/assets/styles/image.module.css";
 
 	export let alt = "";
 	export let decoding: "sync" | "async" | "auto" = "auto";
@@ -8,8 +9,6 @@
 	export let lazy = false;
 	export let src = "";
 	export let width: number | string | undefined = undefined;
-
-	import "./image.module.css";
 
 	const classNames = getContext<SlidyStyles>("classNames");
 </script>

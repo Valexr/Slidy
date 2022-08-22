@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": "./packages",
         "paths": {
+            "@slidy/assets/*": ["../assets/*"],
             "@slidy/animation": ["animation/src"],
             "@slidy/core": ["core/src"],
             "@slidy/easing": ["easing/src"],

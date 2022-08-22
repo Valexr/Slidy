@@ -1,7 +1,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <script lang="ts">
-	import "./side-menu.module.css";
+	import "@slidy/assets/styles/dev/side-menu.module.css";
 
 	export let open = false;
 
