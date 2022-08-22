@@ -13,7 +13,7 @@ import {
 import { classNames as classNamesDefault } from './slidy.styles';
 import { execute, clamp, isFunction } from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
-import { autoplay as autoplayAction } from '../../actions/autoplay';
+import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 
 import '@slidy/assets/styles/slidy.module.css';
 
