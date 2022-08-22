@@ -11,7 +11,7 @@ import {
     untrack,
 } from 'solid-js';
 import { classNames as classNamesDefault } from './slidy.styles';
-import { execute, clamp, isFunction } from '../../helpers';
+import { execute, isFunction } from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 
@@ -19,7 +19,6 @@ import '@slidy/assets/styles/slidy.module.css';
 
 import type { Slide, SlidyOptions } from './Slidy.types';
 import type { Component, JSX, Setter, Accessor } from 'solid-js';
-import type { slidy } from '@slidy/core';
 
 declare module 'solid-js' {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -199,23 +198,8 @@ const Slidy: Component<Partial<Options>> = ($props) => {
      */
     const [autoplayState, setAutoplayState] = createSignal<'play' | 'pause' | 'stop'>('stop');
 
-    /**
-     * Slidy instance for imperative manipulations
-     */
-    const [instance, setInstance] = createSignal<null | ReturnType<typeof slidy>>(null);
-
     const length = () => props.slides.length;
     const vertical = () => props.axis === 'y';
-
-    const goto = (slide: number): void => {
-        const action = instance();
-
-        if (action && typeof slide === 'number' && !Number.isNaN(slide)) {
-            const value = clamp(slide, 0, length() - 1);
-
-            Promise.resolve(value).then(action.to);
-        }
-    };
 
     const handleClick = (event: Event): void => {
         const element = event.target as HTMLElement;
@@ -233,8 +217,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
     };
 
-    createEffect(() => goto(index()));
-
     const onIndex: Options['onIndex'] = (e) => {
         setIndex(e.detail.index);
     };
@@ -249,7 +231,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
 
             if (props.loop) {
                 setIndex((prev) => prev + 1);
-            } else if (untrack(index) + 1 < props.slides.length) {
+            } else if (untrack(index) + 1 < length()) {
                 setIndex((prev) => prev + 1);
             } else {
                 setAutoplay(false);
@@ -329,6 +311,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     gravity={props.gravity}
                     indent={props.indent}
                     index={index()}
+                    slides={props.slides}
                     loop={props.loop}
                     sensity={props.sensity}
                     snap={props.snap}
@@ -340,7 +323,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     onKeys={execute(props.onKeys)}
                     onUpdate={execute(props.onUpdate)}
                     onDestroy={execute(props.onDestroy)}
-                    getInstance={setInstance}
                 >
                     <For each={props.slides}>
                         {(item, i) => {
@@ -353,7 +335,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                             return (
                                 <li
                                     aria-current={active() ? 'true' : undefined}
-                                    aria-label={`${i() + 1} of ${props.slides.length}`}
+                                    aria-label={`${i() + 1} of ${length()}`}
                                     aria-roledescription="slide"
                                     class={props.classNames?.slide}
                                     classList={{

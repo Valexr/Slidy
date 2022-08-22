@@ -1,8 +1,9 @@
 import { slidy } from '@slidy/core';
 import { mergeProps, createEffect, onCleanup } from 'solid-js';
-import { execute } from '../../helpers';
+import { execute, clamp } from '../../helpers';
 import { Dynamic } from '..';
 
+import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
 import type { Options as SlidyOptions } from '@slidy/core';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
@@ -36,6 +37,7 @@ interface Options {
     sensity: number;
     snap: SlidyCoreOptions['snap'];
     tag: keyof JSX.IntrinsicElements | (string & Record<never, never>);
+    slides: Slide[];
     className: string;
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
@@ -48,8 +50,6 @@ interface Options {
 
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;
-
-    getInstance?: (instance: ReturnType<typeof slidy>) => void;
 }
 
 const defaultProps: Options = {
@@ -61,6 +61,7 @@ const defaultProps: Options = {
     gravity: 1.2,
     indent: 2,
     index: 0,
+    slides: [],
     loop: false,
     position: 0,
     sensity: 5,
@@ -94,7 +95,16 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
     const useSlidy = (el: HTMLElement) => {
         const instance = slidy(el, options(true));
 
-        props.getInstance?.(instance);
+        const index = () => props.index;
+
+        /**
+         * Update 'index' in next tick
+         */
+        createEffect(() => {
+            const value = clamp(index(), 0, props.slides.length - 1);
+
+            Promise.resolve(value).then(instance.to);
+        });
 
         /**
          * 'index' does not trigger update
