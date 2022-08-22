@@ -1,6 +1,6 @@
 import { slidy } from '@slidy/core';
 import { mergeProps, createEffect, onCleanup } from 'solid-js';
-import { execute, clamp } from '../../helpers';
+import { execute } from '../../helpers';
 import { Dynamic } from '..';
 
 import type { Slide } from '../Slidy/Slidy.types';
@@ -100,11 +100,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
         /**
          * Update 'index' in next tick
          */
-        createEffect(() => {
-            const value = clamp(index(), 0, props.slides.length - 1);
-
-            Promise.resolve(value).then(instance.to);
-        });
+        createEffect(() => Promise.resolve(index()).then(instance.to));
 
         /**
          * 'index' does not trigger update

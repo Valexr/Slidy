@@ -93,7 +93,6 @@ export default () => {
 | `onKeys`    | `undefined` |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                              |
 | `onUpdate`  | `undefined` |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                            |
 | `onDestroy` | `undefined` |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                           |
-| `slides`    |    `[]`     |                             `Slides[]`                              | An array of objects with image metadata.                              |
 
 For TypeScript users there is the `SlidyCoreOptions` interface available via named import.
 

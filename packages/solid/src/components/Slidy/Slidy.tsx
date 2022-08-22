@@ -311,7 +311,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     gravity={props.gravity}
                     indent={props.indent}
                     index={index()}
-                    slides={props.slides}
                     loop={props.loop}
                     sensity={props.sensity}
                     snap={props.snap}
