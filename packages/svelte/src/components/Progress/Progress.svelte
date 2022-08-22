@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import "./progress.module.css";
+	import "@slidy/assets/styles/progress.module.css";
 
 	import type { SlidyStyles } from "../Slidy/Slidy.types";
 

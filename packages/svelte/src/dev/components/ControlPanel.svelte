@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "./control-panel.module.css";
+	import "@slidy/assets/styles/dev/control-panel.module.css";
 
 	//export let limit = 9;
 	export let vertical = false;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import "./arrow.module.css";
 	import type { SlidyStyles } from "../Slidy/Slidy.types";
+	import "@slidy/assets/styles/arrow.module.css";
 
 	// describes slide management the direction: previous / next
 	export let type: -1 | 1 | number = 1;

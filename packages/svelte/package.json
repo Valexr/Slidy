@@ -68,6 +68,7 @@
 	},
 	"homepage": "https://github.com/Valexr/Slidy/tree/master/packages/svelte",
 	"devDependencies": {
+		"@slidy/assets": "workspace:*",
 		"@slidy/core": "workspace:*",
 		"@tsconfig/svelte": "^3.0.0",
 		"css-tree": "^2.2.1",

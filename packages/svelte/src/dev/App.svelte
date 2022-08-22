@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import Slidy from "../components/Slidy/Slidy.svelte";
 	import { ControlPanel, Sidemenu } from "./components";
-	import { getRandomSlides } from "./scripts/slide-store";
+	import { getRandomSlides} from "@slidy/assets/scripts";
 	import { version } from "../../package.json";
 
 	import { translate } from "@slidy/animation";
@@ -9,8 +9,8 @@
 </script>
 
 <script lang="ts">
-	import { darkTheme } from "./scripts/theme-store";
-	import "./app.module.css";
+	import { darkTheme} from "@slidy/assets/scripts";
+	import "@slidy/assets/styles/dev/app.module.css";
 
 	let animation = translate;
 	let axis: "x" | "y" = "x";

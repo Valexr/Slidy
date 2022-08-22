@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "./button-autoplay.module.css";
+	import "@slidy/assets/styles/button-autoplay.module.css";
 
 	export let disabled = false;
 	export let state: "play" | "pause" | "stop";

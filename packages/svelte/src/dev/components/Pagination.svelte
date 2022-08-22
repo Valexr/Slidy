@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "./pagination.module.css";
+	import "@slidy/assets/styles/dev/pagination.module.css";
 
 	export let current: number;
 	export let pages: number;
