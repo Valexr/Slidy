@@ -4,12 +4,16 @@ import {
     useContext,
     createEffect,
     createSignal,
+    onCleanup,
     Show,
     For,
+    batch,
+    untrack,
 } from 'solid-js';
 import { classNames as classNamesDefault } from './slidy.styles';
-import { execute, clamp as clampValue } from '../../helpers';
-import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
+import { execute, clamp, isFunction } from '../../helpers';
+import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
+import { autoplay as autoplayAction } from '../../actions/autoplay';
 
 import '@slidy/assets/styles/slidy.module.css';
 
@@ -95,6 +99,9 @@ interface Options {
      * @default 1500
      */
     interval?: number;
+    autoplay?: Accessor<boolean>;
+    setAutoplay?: Setter<boolean>;
+    autoplayControl?: boolean;
 
     index?: Accessor<number>;
     position?: Accessor<number>;
@@ -131,6 +138,7 @@ const defaultProps: Required<
         | 'snap'
         | 'setIndex'
         | 'setPosition'
+        | 'setAutoplay'
         | 'overlay'
         | 'arrow'
         | 'children'
@@ -167,20 +175,29 @@ const defaultProps: Required<
     thumbnail: false,
     index: () => 0,
     position: () => 0,
+    autoplay: () => false,
+    autoplayControl: false,
 };
 
 const Slidy: Component<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const [index, setIndex] =
-        props.setIndex instanceof Function
-            ? [props.index, props.setIndex]
-            : createSignal(props.index());
+    const [index, setIndex] = isFunction(props.setIndex)
+        ? [props.index, props.setIndex]
+        : createSignal(props.index());
 
-    const [position, setPosition] =
-        props.setPosition instanceof Function
-            ? [props.position, props.setPosition]
-            : createSignal(props.position());
+    const [position, setPosition] = isFunction(props.setPosition)
+        ? [props.position, props.setPosition]
+        : createSignal(props.position());
+
+    const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
+        ? [props.autoplay, props.setAutoplay]
+        : createSignal(props.autoplay());
+
+    /**
+     * Indicate the paused autoplay.
+     */
+    const [autoplayState, setAutoplayState] = createSignal<'play' | 'pause' | 'stop'>('stop');
 
     /**
      * Slidy instance for imperative manipulations
@@ -194,7 +211,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         const action = instance();
 
         if (action && typeof slide === 'number' && !Number.isNaN(slide)) {
-            const value = clampValue(slide, 0, length() - 1);
+            const value = clamp(slide, 0, length() - 1);
 
             Promise.resolve(value).then(action.to);
         }
@@ -211,7 +228,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
 
         if (element.dataset.step) {
-            setIndex(parseInt(element.dataset.step) + index());
+            setIndex(parseInt(element.dataset.step) + untrack(index));
             return;
         }
     };
@@ -226,14 +243,64 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         setPosition(e.detail.position);
     };
 
+    const handleAutoplay = () => {
+        batch(() => {
+            setAutoplayState('play');
+
+            if (props.loop) {
+                setIndex((prev) => prev + 1);
+            } else if (untrack(index) + 1 < props.slides.length) {
+                setIndex((prev) => prev + 1);
+            } else {
+                setAutoplay(false);
+            }
+        });
+    };
+
+    const handleAutoplayPause = () => {
+        setAutoplayState('pause');
+    };
+
+    const handleAutoplayStop = () => {
+        batch(() => {
+            setAutoplayState('stop');
+            setAutoplay(false);
+        });
+    };
+
+    const handleAutoplayControl = () => {
+        const state = untrack(autoplayState);
+
+        batch(() => {
+            setAutoplayState(state === 'stop' ? 'play' : 'stop');
+            setAutoplay((prev) => !prev);
+        });
+    };
+
+    const useAutoplay = (el: HTMLElement) => {
+        const { update, destroy } = autoplayAction(el, {
+            status: untrack(autoplay),
+            interval: props.interval,
+        });
+
+        onCleanup(destroy);
+
+        createEffect(() => update({ status: autoplay() }));
+    };
+
     return (
         <ClassNamesContext.Provider value={props.classNames}>
             <section
                 aria-roledescription="carousel"
                 class={props.classNames?.root}
                 classList={{ vertical: vertical() }}
+                style={{ '--slidy-autoplay-interval': props.interval + 'ms' }}
                 id={props.id}
                 onClick={handleClick}
+                on:play={handleAutoplay}
+                on:pause={handleAutoplayPause}
+                on:stop={handleAutoplayStop}
+                ref={useAutoplay}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
@@ -242,7 +309,14 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                 {index() + 1} / {length()}
                             </output>
                         </Show>
-                        {props.overlay instanceof Function && props.overlay()}
+                        <Show when={props.autoplayControl}>
+                            <ButtonAutoplay
+                                state={autoplayState()}
+                                disabled={index() + 1 >= length() && !props.loop}
+                                onClick={handleAutoplayControl}
+                            />
+                        </Show>
+                        {isFunction(props.overlay) && props.overlay()}
                     </div>
                 </Show>
                 <Core
@@ -293,7 +367,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                             : undefined,
                                     }}
                                 >
-                                    <Image {...item} src={props.getImgSrc(item)} />
+                                    <Show when={!props.background}>
+                                        <Image {...item} src={props.getImgSrc(item)} />
+                                    </Show>
                                 </li>
                             );
                         }}
@@ -301,7 +377,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 </Core>
                 <Show
                     when={props.arrows === true}
-                    fallback={typeof props.arrows === 'function' && props.arrows()}
+                    fallback={isFunction(props.arrows) && props.arrows()}
                 >
                     <For each={[-1, 1]}>
                         {(type) => (
@@ -314,13 +390,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                             >
                                 <Show
                                     when={!props.arrow}
-                                    fallback={typeof props.arrow === 'function' && props.arrow()}
+                                    fallback={isFunction(props.arrow) && props.arrow()}
                                 >
-                                    <svg
-                                        class="slidy-arrow-icon"
-                                        viewBox="0 0 32 32"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                    <svg class="slidy-arrow-icon" viewBox="0 0 32 32">
                                         <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
                                     </svg>
                                 </Show>
@@ -335,7 +407,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
 
                 <Show
                     when={props.thumbnail === true}
-                    fallback={typeof props.thumbnail === 'function' && props.thumbnail()}
+                    fallback={isFunction(props.thumbnail) && props.thumbnail()}
                 >
                     <Thumbnail
                         active={index()}

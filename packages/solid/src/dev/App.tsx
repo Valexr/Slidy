@@ -31,6 +31,7 @@ const App: Component = () => {
 
     const [index, setIndex] = createSignal(0);
     const [position, setPosition] = createSignal(0);
+    const [autoplay, setAutoplay] = createSignal(true);
 
     const controlPanel = channel(false);
 
@@ -114,6 +115,10 @@ const App: Component = () => {
                         // bind:position
                         position={position}
                         setPosition={setPosition}
+                        // bind:autoplay
+                        autoplay={autoplay}
+                        setAutoplay={setAutoplay}
+                        autoplayControl
                     />
                 </Show>
             </main>
