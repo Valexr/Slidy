@@ -6,11 +6,11 @@
 
 # @Slidy
 
-### <img align="right" width="120" src="Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & plugins.
+### <img align="right" width="120" src="assets/static/Slidy.png"> Simple, configurable, nested & reusable sliding action script with templates, animations, easings & plugins.
 
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
-<img src="flip.gif">
+<img src="assets/static/flip.gif">
 
 `{ snap: 'deck', animation: flip }`
 

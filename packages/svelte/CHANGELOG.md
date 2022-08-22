@@ -4,13 +4,13 @@
 
 - [fix] className typo resulting in not correctly displayed `next` arrow  in vertical direction, [3b24ab8df9f940c11fc04f7b28a9a30cc2fafecc], thanks [@yuan-kuan];
 
-# 3.1.1
+## 3.1.1
 
 - [fix]: className typo resulting in not correctly displayed arrows in vertical direction [cd71fefc2ade71336a3ee5d55d61196d836241ec], thanks [@yuan-kuan];
 - [fix]: update the information about `overlay` slot correct usage [f68d65522e810c5c7b639a6070bdfd03c05c5a25], thanks [@yuan-kuan];
 - [fix]: remove usused variable resulting in eslint warning;
 
-# 3.1.0
+## 3.1.0
 
 - Using the `@slidy/core` action script to provide basic sliding functionality. The template is rewritten from the ground with updated semantics and accessibility. Template comes up with more features like supporting thumbnails, progress indicators and more.
 
