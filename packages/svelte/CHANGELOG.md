@@ -10,7 +10,7 @@
 - [fix]: update the information about `overlay` slot correct usage [f68d65522e810c5c7b639a6070bdfd03c05c5a25], thanks [@yuan-kuan];
 - [fix]: remove usused variable resulting in eslint warning;
 
-# 3.1.0
+## 3.1.0
 
 - Using the `@slidy/core` action script to provide basic sliding functionality. The template is rewritten from the ground with updated semantics and accessibility. Template comes up with more features like supporting thumbnails, progress indicators and more.
 
