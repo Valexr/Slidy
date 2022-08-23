@@ -29,7 +29,7 @@ const App: Component = () => {
     const loop = channel(false);
     const gap = channel(15);
 
-    const [index, setIndex] = createSignal(0);
+    const [index, setIndex] = createSignal(7);
     const [position, setPosition] = createSignal(0);
     const [autoplay, setAutoplay] = createSignal(true);
 

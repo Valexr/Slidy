@@ -1,4 +1,4 @@
-import { generateIndexes } from './Navigation.helpers';
+import { generateIndexes } from '@slidy/assets/scripts';
 import { useClassNames } from '../Slidy/Slidy';
 import { mergeProps, For } from 'solid-js';
 
