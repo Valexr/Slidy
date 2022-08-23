@@ -110,6 +110,7 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `classNames` | `SlidyStyles` | `SlidyStylesDefault` | The class names object used over the component. |
 | `getImgSrc` | `item => item.src` | `function` | The slide's `src` attribute getter. |
 | `getThumbSrc` | `item => item.src` | `function` | The thumbnail's `src` attribute getter. |
+| `i18n` | `i18nDefaults` | `I18NDict` | The i18n localization dictionary. |
 | `interval` | `1500` | `number` | Defines the autoplay interval time in ms. |
 | `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
 | `progress` | `false` | `boolean` | Renders the progress bar. |
@@ -334,6 +335,23 @@ The component forwards custom events:
 | `resize`  | Component's dimentions changes.  |          `{ node, options }`          |
 | `stop`    | Autoplay is stopped.             |                  -                    |
 | `update`  | Component's props changes.       |               `options`               |
+
+## i18n
+
+To modify all texts used in the component use pass the dictionary as `i18n` prop. For the sake of accessibility, it is recommended translating defaults:
+
+| Key       | Default                         |             Event detail              |
+| :-------- | :------------------------------ | :-----------------------------------: |
+| `carousel`| "carousel"                      | `aria-label` of a root element.       |
+| `counter` | "%s of %s"                      | `aria-label` of each slide as {slide number} of {slide length} |
+| `first`   | "Go to the first slide"         | `aria-label` of the first item at the navigation. |
+| `last`    | "Go to the last slide"          | `aria-label` of the last item at the navigation. |
+| `next`    | "Go to the next slide"          | `aria-label` of the arrow control. |
+| `play`    | "Start autoplay"                | `aria-label` of the autoplay control. |
+| `prev`    | "Return back to previous slide" | `aria-label` of the arrow control. |
+| `slide`   | "Slide"                         | `aria-roledescription` of each slide item. |
+| `slideN`  | "Go to the slide %s"            | `aria-label` of pagination of each slide item. |
+| `stop`    | "Stop autoplay"                 | `aria-label` of the autoplay control. |
 
 ## Recipes
 
