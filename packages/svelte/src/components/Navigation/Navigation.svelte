@@ -3,6 +3,7 @@
   import { generateIndexes } from "@slidy/assets/scripts";
   import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
   import "@slidy/assets/styles/navigation.module.css";
+import { fillTemplate } from "../Slidy/i18n";
 
   export let current: number;
   export let start: number;
@@ -16,13 +17,13 @@
   const i18n = getContext<I18NDict>("i18n");
 
   const setTitle = (i: number) => {
-    if (i === start) {
-      return i18n.first;
-    } else if (i === end) {
-      return i18n.last;
-    } else {
-      return i18n.slideN.replace("%s", i.toString());
-    }
+  	if (i === start) {
+  		return i18n.first;
+  	} else if (i === end) {
+  		return i18n.last;
+  	} else {
+  		return fillTemplate(i18n.slideN, [ i.toString() ]);
+  	}
   };
 
   // Too many items -> should be ordinal for accessibility and responsiveness

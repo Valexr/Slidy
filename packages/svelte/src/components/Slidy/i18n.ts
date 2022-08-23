@@ -12,3 +12,11 @@ export const i18nDefaults: I18NDict = {
 	"slideN": "Go to the slide %s",
 	"stop": "Stop autoplay",
 };
+
+export const fillTemplate = (input: string, values: string[]) => {
+	let result = input;
+	for (const value of values) {
+		result = result.replace("%s", value);
+	}
+	return result;
+};

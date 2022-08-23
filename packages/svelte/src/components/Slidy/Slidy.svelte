@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-	import { i18nDefaults } from "./i18n";
+	import { fillTemplate, i18nDefaults } from "./i18n";
 
 	type $$Props = SlidyOptions;
 
@@ -128,10 +128,7 @@
 		<div class="{classNames?.overlay}">
 			{#if counter}
 				<output class="{classNames?.counter}">
-					{i18n.counter
-						.replace("%s", `${index + 1}`)
-						.replace("%s", length.toString())
-					}
+					{fillTemplate(i18n.counter, [ `${index + 1}`, length.toString() ])}
 				</output>
 			{/if}
 			{#if autoplayControl}
@@ -177,7 +174,7 @@
 			{@const active = i === index}
 			<li
 				aria-current={active ? "true" : undefined}
-				aria-label={`${index} of ${slides.length}`}
+				aria-label="{fillTemplate(i18n.counter, [ i.toString(), length.toString() ])}"
 				aria-roledescription="{i18n.slide}"
 				class="{classNames?.slide}"
 				class:active
