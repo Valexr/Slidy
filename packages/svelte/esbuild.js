@@ -4,6 +4,7 @@ import sveltePlugin from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
 import cssmodules from "./cssmodules.js";
 import transpile from "./transpilator.js";
+import copy from './copy.js';
 
 const DEV = process.argv.includes("--dev");
 const SVELTE = process.argv.includes("--svelte");
@@ -39,7 +40,13 @@ const esbuildBase = {
 	entryPoints: ["src/index.ts"],
 	sourcemap: (DEV || SVELTE) && "inline",
 	external: !SVELTE ? ["svelte", "svelte/*"] : [],
-	plugins: [sveltePlugin(svelteOptions), cssmodules(cssModulesOptions)],
+	plugins: [
+		sveltePlugin(svelteOptions),
+		cssmodules(cssModulesOptions),
+		// copy([
+		// 	{ from: '../../assets/actions', to: 'actions' }
+		// ]),
+	],
 };
 
 const derverConfig = {
@@ -95,13 +102,19 @@ if (DEV) {
 				format: key,
 			});
 		}
+		await build({
+			...esbuildBase,
+			entryPoints: ["@slidy/assets/actions", "@slidy/assets/scripts"],
+			outdir: "dist/assets",
+			format: "esm",
+		});
 	})().then(() => {
 		transpile({
 			input: "./src/",
 			output: "./dist/",
 			ext: [".svelte", ".ts"],
 			exclude: ["dev", "types.ts", "images-api.ts"],
-			replace: [["./slidy.module.css", "../../slidy.css"]],
+			replace: [["./slidy.module.css", "../../slidy.css"], ["@slidy/assets", "../../assets"]],
 			remove: ["images-api", "module.css"],
 		});
 	});

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte/internal";
-  import { generateIndexes } from "./Navigation.helpers";
+  import { generateIndexes } from "@slidy/assets/scripts";
   import type { SlidyStyles } from "../Slidy/Slidy.types";
   import "@slidy/assets/styles/navigation.module.css";
 
