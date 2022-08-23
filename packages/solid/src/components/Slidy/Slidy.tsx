@@ -183,15 +183,15 @@ const Slidy: Component<Partial<Options>> = ($props) => {
 
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
-        : createSignal(props.index());
+        : createSignal(untrack(props.index));
 
     const [position, setPosition] = isFunction(props.setPosition)
         ? [props.position, props.setPosition]
-        : createSignal(props.position());
+        : createSignal(untrack(props.position));
 
     const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
         ? [props.autoplay, props.setAutoplay]
-        : createSignal(props.autoplay());
+        : createSignal(untrack(props.autoplay));
 
     /**
      * Indicate the paused autoplay.
@@ -218,7 +218,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
     };
 
     const onIndex: Options['onIndex'] = (e) => {
-        setIndex(e.detail.index);
+        Promise.resolve(e.detail.index).then(setIndex);
     };
 
     const onMove: Options['onMove'] = (e) => {

@@ -73,8 +73,8 @@ const defaultProps: Options = {
 const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const options = (full = false) => {
-        const obj: Partial<SlidyOptions> = {
+    const options = () => {
+        const obj: SlidyOptions = {
             animation: props.animation,
             axis: props.axis,
             clamp: props.clamp,
@@ -85,29 +85,17 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             loop: props.loop,
             sensity: props.sensity,
             snap: props.snap,
+            index: props.index,
         };
 
-        if (full) obj.index = props.index;
-
-        return obj as SlidyOptions;
+        return obj;
     };
 
     const useSlidy = (el: HTMLElement) => {
-        const instance = slidy(el, options(true));
+        const { destroy, update } = slidy(el, options());
 
-        const index = () => props.index;
-
-        /**
-         * Update 'index' in next tick
-         */
-        createEffect(() => Promise.resolve(index()).then(instance.to));
-
-        /**
-         * 'index' does not trigger update
-         */
-        createEffect(() => instance.update(options()));
-
-        onCleanup(instance.destroy);
+        createEffect(() => update(options()));
+        onCleanup(destroy);
     };
 
     return (
