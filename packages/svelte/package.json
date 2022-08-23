@@ -1,6 +1,6 @@
 {
 	"name": "@slidy/svelte",
-	"version": "3.1.3",
+	"version": "3.1.4",
 	"description": "Simple, configurable & reusable carousel component built with SvelteJS",
 	"main": "dist/slidy.cjs",
 	"module": "dist/slidy.mjs",
@@ -12,19 +12,6 @@
 	"files": [
 		"dist/*"
 	],
-	"exports": {
-		".": {
-			"import": "./dist/slidy.mjs",
-			"module": "./dist/slidy.mjs",
-			"require": "./dist/slidy.cjs",
-			"browser": "./dist/slidy.js",
-			"svelte": "./dist/index.js",
-			"style": "./dist/slidy.css"
-		},
-		"./src": "./dist/slidy.mjs",
-		"./slidy.css": "./dist/slidy.css",
-		"./package.json": "./package.json"
-	},
 	"scripts": {
 		"dev": "node esbuild --dev",
 		"dev:svelte": "node esbuild --svelte",

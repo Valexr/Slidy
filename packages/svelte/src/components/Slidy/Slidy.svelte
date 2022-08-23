@@ -3,7 +3,7 @@
 	import { Arrow, ButtonAutoplay, Core, Image, Navigation, Progress, Thumbnail } from "../";
 	import { autoplay as autoplayAction } from "@slidy/assets/actions";
 	import { clamp as clampValue } from "@slidy/assets/scripts";
-	import { classNames as classNamesDefault } from "@slidy/assets/scripts";
+	import { classNames as classNamesDefault } from "./slidy.styles";
 	import "@slidy/assets/styles/slidy.module.css";
 
 	import type { SlidyOptions } from "./Slidy.types";
