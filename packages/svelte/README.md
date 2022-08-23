@@ -23,17 +23,17 @@
 
 Simple, configurable & reusable carousel component built with SvelteJS based on [@slidy/core][core-package].
 
-Try the [demo][].
+Try the [demo].
 
 ## Getting started
 
-The package is available via [npm][]:
+The package is available via [npm]:
 
 ```
 npm i @slidy/svelte
 ```
 
-REPL is available [here](REPL).
+Playground is available in [REPL].
 
 ## Usage
 
@@ -138,7 +138,7 @@ To extend default component styles use `classNames` property. Default classes ar
 />
 ```
 
-The `classNames` consist of `{ target: className }` pairs: 
+The `classNames` consist of `{ target: className }` pairs:
 
 | Target    | Default class      | Description |
 | :-------- | :----------------: | :-----------|
