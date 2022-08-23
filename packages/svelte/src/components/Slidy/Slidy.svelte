@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import { setContext } from "svelte/internal";
-	import { Arrow, ButtonAutoplay, Core, Image, Navigation, Progress, Thumbnail } from "../";
+	import { Arrow, ButtonAutoplay, Core, Image, Navigation, Progress, Thumbnail } from "../index";
 	import { autoplay as autoplayAction } from "@slidy/assets/actions";
 	import { clamp as clampValue } from "@slidy/assets/scripts";
 	import { classNames as classNamesDefault } from "./slidy.styles";
