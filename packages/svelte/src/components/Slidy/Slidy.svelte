@@ -178,7 +178,7 @@
 			<li
 				aria-current={active ? "true" : undefined}
 				aria-label={`${index} of ${slides.length}`}
-				aria-roledescription="slide"
+				aria-roledescription="{i18n.slide}"
 				class="{classNames?.slide}"
 				class:active
 				class:bg={background}

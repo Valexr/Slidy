@@ -8,7 +8,7 @@ export const i18nDefaults: I18NDict = {
 	"next": "Go to the next slide",
 	"play": "Start autoplay",
 	"prev": "Return back to previous slide",
-	"slide": "Slide",
+	"slide": "slide",
 	"slideN": "Go to the slide %s",
 	"stop": "Stop autoplay",
 };
