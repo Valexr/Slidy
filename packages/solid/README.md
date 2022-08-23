@@ -56,6 +56,12 @@ export default () => {
 
 All props are optional. The only property to get started is `slides` - an array of objects with image related data.
 
+> **You will also have to import css styles:**
+
+```jsx
+import '@slidy/solid/dist/slidy.css';
+```
+
 ## Core Component
 
 `Core` is a wrapper component for [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) available via named import. It is best to use to build up the custom component for specific needs or when just the basic functionality is needed.
@@ -104,27 +110,30 @@ For TypeScript users there is the `SlidyCoreOptions` interface available via nam
 
 The `<Slidy />` component interface extends the `<Core />`. There are a list of additional options available:
 
-| Property      |      Default       |                                Type                                 | Description                                                              |
-| :------------ | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
-| `arrows`      |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
-| `arrow`       |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
-| `children`    |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
-| `overlay`     |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
-| `background`  |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
-| `classNames`  |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
-| `getImgSrc`   | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
-| `getThumbSrc` | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
-| `navigation`  |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
-| `progress`    |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
-| `slides`      |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
-| `thumbnail`   |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
-| `onResize`    |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
-| `onMount`     |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                                |
-| `onMove`      |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
-| `onIndex`     |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
-| `onKeys`      |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
-| `onUpdate`    |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                               |
-| `onDestroy`   |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
+| Property          |      Default       |                                Type                                 | Description                                                              |
+| :---------------- | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
+| `arrows`          |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
+| `arrow`           |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
+| `children`        |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
+| `overlay`         |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
+| `background`      |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
+| `classNames`      |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
+| `getImgSrc`       | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
+| `getThumbSrc`     | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
+| `navigation`      |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
+| `progress`        |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
+| `slides`          |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
+| `thumbnail`       |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
+| `onResize`        |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
+| `onMount`         |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                                |
+| `onMove`          |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
+| `onIndex`         |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
+| `onKeys`          |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
+| `onUpdate`        |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                               |
+| `onDestroy`       |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
+| `autoplay`        | `Accessor<false>`  |                         `Accessor<boolean>`                         | Set's up automatic sliding of the carousel items.                        |
+| `setAutoplay`     |    `undefined`     |                          `Setter<boolean>`                          | Set's up automatic sliding of the carousel items.                        |
+| `autoplayControl` |      `false`       |                              `boolean`                              | Renders the autoplay control and indicator.                              |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 
@@ -154,6 +163,7 @@ The `classNames` consist of `{ target: className }` pairs:
 | Target    |   Default class    | Description             |
 | :-------- | :----------------: | :---------------------- |
 | arrow     |   `slidy-arrow`    | Arrow controls.         |
+| autoplay  |  `slidy-autoplay`  | Autoplay control.       |
 | counter   |  `slidy-counter`   | Slide progress counter. |
 | img       |    `slidy-img`     | Slide image node.       |
 | nav       |    `slidy-nav`     | Slide navigation panel. |
@@ -172,31 +182,33 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                       |   Default    |    Type     | Description                                          |
-| :----------------------------- | :----------: | :---------: | :--------------------------------------------------- |
-| `--slidy-arrow-bg`             |  #4e4e4ebf   |  `<color>`  | The arrow control background color.                  |
-| `--slidy-arrow-bg-hover`       |  #4e4e4e54   |  `<color>`  | The arrow control hover background color.            |
-| `--slidy-arrow-icon-color`     | currentColor |  `<color>`  | The arrow control icon fill color.                   |
-| `--slidy-arrow-size`           |     24px     | `<length>`  | The arrow controls size.                             |
-| `--slidy-counter-bg`           |  #4e4e4ebf   |  `<color>`  | The counter's background color.                      |
-| `--slidy-focus-ring-color`     |  #c9c9c9e6   |  `<color>`  | Focus ring color for all focusable elements.         |
-| `--slidy-height`               |     100%     | `<length>`  | The height of the component's node.                  |
-| `--slidy-nav-item-color`       |    white     |  `<color>`  | The navigation elements color.                       |
-| `--slidy-nav-item-radius`      |     50%      | `<length>`  | The navigation elements border radius.               |
-| `--slidy-nav-item-size`        |     16px     | `<length>`  | The navigation elements size.                        |
-| `--slidy-progress-thumb-color` |   #c44f61    |  `<color>`  | The progress bar active track color.                 |
-| `--slidy-progress-track-color` |  #96969680   |  `<color>`  | The progress bar track color.                        |
-| `--slidy-progress-track-size`  |     5px      | `<length>`  | The progress bar height.                             |
-| `--slidy-slide-aspect-ratio`   |    unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
-| `--slidy-slide-bg-color`       |   darkgray   |  `<color>`  | The placeholder background color for loading images. |
-| `--slidy-slide-gap`            |     1rem     | `<length>`  | The gap between items in carousel.                   |
-| `--slidy-slide-height`         |     100%     | `<length>`  | The carousel items height.                           |
-| `--slidy-slide-object-fit`     |    cover     |      -      | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-radius`         |     1rem     | `<length>`  | The slide's border radius value.                     |
-| `--slidy-slide-width`          |     auto     | `<length>`  | The carousel items width.                            |
-| `--slidy-thumbnail-radius`     |    0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
-| `--slidy-thumbnail-size`       |     50px     | `<length>`  | The thumbnail panel size.                            |
-| `--slidy-width`                |     100%     | `<length>`  | The width of the component's node.                   |
+| Property                            |   Default    |    Type     | Description                                          |
+| :---------------------------------- | :----------: | :---------: | :--------------------------------------------------- |
+| `--slidy-arrow-bg`                  |  #4e4e4ebf   |  `<color>`  | The arrow control background color.                  |
+| `--slidy-arrow-bg-hover`            |  #4e4e4e54   |  `<color>`  | The arrow control hover background color.            |
+| `--slidy-arrow-icon-color`          | currentColor |  `<color>`  | The arrow control icon fill color.                   |
+| `--slidy-arrow-size`                |     24px     | `<length>`  | The arrow controls size.                             |
+| `--slidy-autoplay-control-size`     |    2.25em    | `<length>`  | The autoplay control size.                           |
+| `--slidy-autoplay-indicator-accent` |  lightpink   |   <color>   | The autoplay control indicator ring color.           |
+| `--slidy-counter-bg`                |  #4e4e4ebf   |  `<color>`  | The counter's background color.                      |
+| `--slidy-focus-ring-color`          |  #c9c9c9e6   |  `<color>`  | Focus ring color for all focusable elements.         |
+| `--slidy-height`                    |     100%     | `<length>`  | The height of the component's node.                  |
+| `--slidy-nav-item-color`            |    white     |  `<color>`  | The navigation elements color.                       |
+| `--slidy-nav-item-radius`           |     50%      | `<length>`  | The navigation elements border radius.               |
+| `--slidy-nav-item-size`             |     16px     | `<length>`  | The navigation elements size.                        |
+| `--slidy-progress-thumb-color`      |   #c44f61    |  `<color>`  | The progress bar active track color.                 |
+| `--slidy-progress-track-color`      |  #96969680   |  `<color>`  | The progress bar track color.                        |
+| `--slidy-progress-track-size`       |     5px      | `<length>`  | The progress bar height.                             |
+| `--slidy-slide-aspect-ratio`        |    unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
+| `--slidy-slide-bg-color`            |   darkgray   |  `<color>`  | The placeholder background color for loading images. |
+| `--slidy-slide-gap`                 |     1rem     | `<length>`  | The gap between items in carousel.                   |
+| `--slidy-slide-height`              |     100%     | `<length>`  | The carousel items height.                           |
+| `--slidy-slide-object-fit`          |    cover     |      -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-radius`              |     1rem     | `<length>`  | The slide's border radius value.                     |
+| `--slidy-slide-width`               |     auto     | `<length>`  | The carousel items width.                            |
+| `--slidy-thumbnail-radius`          |    0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
+| `--slidy-thumbnail-size`            |     50px     | `<length>`  | The thumbnail panel size.                            |
+| `--slidy-width`                     |     100%     | `<length>`  | The width of the component's node.                   |
 
 #### Inherited custom properties
 
@@ -239,6 +251,74 @@ export default () => {
             }}
         />
     );
+};
+```
+
+## Slots
+
+### `arrow`
+
+Customizes the content of the default arrow controls.
+
+### `arrows`
+
+Provides a slot for custom arrow buttons.
+
+If the nodes are `<button /> ` and the `data-step` attribute is present, the event listener is not needed. Just provide the values `-1` and `1` for `data-step` on custom buttons.
+
+Also, there are `grid-area` is present in the layout for this custom controls: `prev-slide` and `next-slide` respectively.
+
+```css
+button:first-of-type {
+    grid-area: prev-slide;
+}
+
+button:last-of-type {
+    grid-area: next-slide;
+}
+```
+
+```jsx
+export default () => {
+    return (
+        <Slidy
+            arrows={() => (
+                <>
+                    <button data-step="-1"> Show the previous slide </button>
+                    <button data-step="1"> Show the next slide </button>
+                </>
+            )}
+        />
+    );
+};
+```
+
+### `default`
+
+Usually the default markup is not enough. The `default` slot solves this problem. To use custom slide markup slot expose each `slides` prop item `item` argument.
+
+```jsx
+export default () => {
+    return (
+        <Slidy>
+            {(item) => (
+                <figure>
+                    <img src={item.src} alt={item.figcaption} />
+                    <figcaption>{item.figcaption}</figcaption>
+                </figure>
+            )}
+        </Slidy>
+    );
+};
+```
+
+### `overlay`
+
+Slot to display content overlaid content. It covers the slides area and can be customized by overriding the `.slidy-overlay`. For example, it is used to display the counter.
+
+```jsx
+export default () => {
+    return <Slidy overlay={() => <button> Share </button>} />;
 };
 ```
 
