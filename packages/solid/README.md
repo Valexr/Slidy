@@ -39,6 +39,7 @@ The most simple way to get started is to use named import of `<Slidy />` compone
 
 ```jsx
 import { Slidy } from '@slidy/solid';
+import '@slidy/solid/dist/slidy.css';
 
 const slides = [
     {
@@ -145,6 +146,7 @@ To extend default component styles use `classNames` property. Default classes ar
 
 ```jsx
 import { Slidy, classNames } from '@slidy/solid';
+import '@slidy/solid/dist/slidy.css';
 
 export default () => {
     return (
@@ -241,6 +243,7 @@ Or just pass a class with a set of custom properties:
 
 ```jsx
 import { Slidy, classNames } from '@slidy/solid';
+import '@slidy/solid/dist/slidy.css';
 
 export default () => {
     return (
@@ -333,6 +336,8 @@ There are two variables available to control the component externally: `index` a
 ```jsx
 import { Slidy } from '@slidy/solid';
 import { createSignal } from 'solid-js';
+
+import '@slidy/solid/dist/slidy.css';
 
 export default () => {
     const [index, setIndex] = createSignal(0);
