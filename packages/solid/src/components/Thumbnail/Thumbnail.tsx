@@ -1,7 +1,7 @@
 import { Core, Image } from '..';
-
 import { mergeProps, For, Show } from 'solid-js';
-import { useClassNames } from '../Slidy/Slidy';
+import { format } from '../../helpers';
+import { useSlidy } from '../Slidy/Slidy';
 
 import type { SlidyThumbOptions } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';
@@ -50,19 +50,21 @@ const defaultProps: Options = {
 const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const classNames = useClassNames();
+    const { classNames, i18n } = useSlidy();
 
     return (
         <Core {...props} tag="nav" className={classNames?.thumbnails}>
             <For each={props.slides}>
                 {(item, i) => {
                     const active = () => props.active === i();
+                    const title = () => format(i18n.slideN, i() + 1);
 
                     return (
                         <button
                             type="button"
                             aria-current={active() ? 'true' : undefined}
-                            aria-label={`${i() + 1} of ${props.slides.length}`}
+                            aria-label={title()}
+                            title={title()}
                             aria-roledescription="slide"
                             class={classNames.thumbnail}
                             classList={{

@@ -1,5 +1,6 @@
 import { generateIndexes } from '@slidy/assets/scripts';
-import { useClassNames } from '../Slidy/Slidy';
+import { useSlidy } from '../Slidy/Slidy';
+import { format } from '../../helpers';
 import { mergeProps, For } from 'solid-js';
 
 import '@slidy/assets/styles/navigation.module.css';
@@ -29,7 +30,17 @@ type Props = Pick<Options, 'start' | 'current' | 'end'> &
 const Navigation: VoidComponent<Props> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const classNames = useClassNames();
+    const { i18n, classNames } = useSlidy();
+
+    const getTitle = (i: number) => {
+        if (i === props.start) {
+            return i18n.first;
+        } else if (i === props.end) {
+            return i18n.last;
+        } else {
+            return format(i18n.slideN, i);
+        }
+    };
 
     const ordinal = () => {
         return props.end - props.start + 1 > props.limit && true;
@@ -56,7 +67,7 @@ const Navigation: VoidComponent<Props> = ($props) => {
                     const active = () => props.current === item;
                     const contents = () => (item < 0 ? '…' : item);
                     const ellipsis = () => item < 0;
-                    const title = () => (item < 0 ? undefined : `Show to item #${item}`);
+                    const title = () => getTitle(item);
 
                     return (
                         <button

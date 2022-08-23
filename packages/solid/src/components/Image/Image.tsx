@@ -1,4 +1,4 @@
-import { useClassNames } from '../Slidy/Slidy';
+import { useSlidy } from '../Slidy/Slidy';
 import { splitProps, mergeProps } from 'solid-js';
 
 import '@slidy/assets/styles/image.module.css';
@@ -21,7 +21,7 @@ const Image: Component<ImgNativeAttrs> = ($props) => {
     const props = mergeProps(defaultProps, $props);
     const [it, rest] = splitProps(props, ['lazy', 'id']);
 
-    const classNames = useClassNames();
+    const { classNames } = useSlidy();
 
     return (
         <img

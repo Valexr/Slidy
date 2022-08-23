@@ -1,12 +1,15 @@
 import { mergeProps } from 'solid-js';
+import { useSlidy } from '../Slidy/Slidy';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
 import type { Component } from 'solid-js';
 
+type State = 'play' | 'pause' | 'stop';
+
 interface Options {
     disabled: boolean;
-    state: 'play' | 'pause' | 'stop';
+    state: State;
 
     onClick: () => void;
 }
@@ -37,6 +40,16 @@ const d = `M ${r + stroke / 2}, ${r + stroke / 2} m -${r}, 0 a ${r},${r} 0 1,0 $
 const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
+    const { i18n } = useSlidy();
+
+    const setTitle = (state: State) => {
+        if (state === 'play') {
+            return i18n.stop;
+        } else if (state === 'stop') {
+            return i18n.play;
+        }
+    };
+
     return (
         <div class="slidy-autoplay" style={{ '--slidy-autoplay-stroke-length': 2 * Math.PI * r }}>
             <svg viewBox={viewBox}>
@@ -54,7 +67,7 @@ const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
                     d={d}
                 />
             </svg>
-            <button disabled={props.disabled} onClick={props.onClick}>
+            <button disabled={props.disabled} onClick={props.onClick} title={setTitle(props.state)}>
                 <svg viewBox="0 0 24 24">
                     <path d={iconPath[props.state]} />
                 </svg>

@@ -1,2 +1,2 @@
 export { execute } from './execute';
-export { clamp, isFunction } from './utils';
+export { clamp, isFunction, format } from './utils';

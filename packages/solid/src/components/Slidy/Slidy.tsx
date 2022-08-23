@@ -1,19 +1,12 @@
-import {
-    createContext,
-    mergeProps,
-    useContext,
-    createEffect,
-    createSignal,
-    onCleanup,
-    Show,
-    For,
-    batch,
-    untrack,
-} from 'solid-js';
-import { classNames as classNamesDefault } from './slidy.styles';
-import { execute, isFunction } from '../../helpers';
+import { mergeProps, createEffect, createSignal, onCleanup, batch, untrack } from 'solid-js';
+import { execute, isFunction, format } from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
+import { Show, For } from 'solid-js';
+import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
+
+import { i18nDefaults } from './i18n';
+import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
 
@@ -30,10 +23,6 @@ declare module 'solid-js' {
         }
     }
 }
-
-const ClassNamesContext = createContext(classNamesDefault);
-
-const useClassNames = () => useContext(ClassNamesContext);
 
 interface Options {
     animation?: SlidyOptions['animation'];
@@ -54,6 +43,7 @@ interface Options {
      */
     clamp?: number;
     classNames?: SlidyOptions['classNames'];
+    i18n?: SlidyOptions['i18n'];
     /**
      * @default 450
      */
@@ -129,37 +119,13 @@ interface Options {
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
 }
 
-const defaultProps: Required<
-    Omit<
-        Options,
-        | 'animation'
-        | 'id'
-        | 'snap'
-        | 'setIndex'
-        | 'setPosition'
-        | 'setAutoplay'
-        | 'overlay'
-        | 'arrow'
-        | 'children'
-        | 'onPlay'
-        | 'onStop'
-        | 'onPause'
-        | 'onResize'
-        | 'onMount'
-        | 'onMove'
-        | 'onIndex'
-        | 'onKeys'
-        | 'onUpdate'
-        | 'onDestroy'
-    >
-> = {
+const defaultProps: Options = {
     arrows: true,
     interval: 1500,
     axis: 'x',
     background: false,
     counter: true,
     clamp: 0,
-    classNames: classNamesDefault,
     duration: 450,
     easing: (t) => t,
     getImgSrc: (item) => (item as unknown as { src: string }).src ?? '',
@@ -176,10 +142,12 @@ const defaultProps: Required<
     position: () => 0,
     autoplay: () => false,
     autoplayControl: false,
+    classNames: classNamesDefaults,
+    i18n: i18nDefaults,
 };
 
 const Slidy: Component<Partial<Options>> = ($props) => {
-    const props = mergeProps(defaultProps, $props);
+    const props = mergeProps(defaultProps as unknown as Required<Options>, $props);
 
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
@@ -271,9 +239,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
     };
 
     return (
-        <ClassNamesContext.Provider value={props.classNames}>
+        <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
-                aria-roledescription="carousel"
+                aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
                 classList={{ vertical: vertical() }}
                 style={{ '--slidy-autoplay-interval': props.interval + 'ms' }}
@@ -334,8 +302,8 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                             return (
                                 <li
                                     aria-current={active() ? 'true' : undefined}
-                                    aria-label={`${i() + 1} of ${length()}`}
-                                    aria-roledescription="slide"
+                                    aria-label={format(props.i18n.counter, index() + 1, length())}
+                                    aria-roledescription={props.i18n.slide}
                                     class={props.classNames?.slide}
                                     classList={{
                                         active: active(),
@@ -413,9 +381,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     />
                 </Show>
             </section>
-        </ClassNamesContext.Provider>
+        </SlidyContext.Provider>
     );
 };
 
-export { useClassNames };
+export { useSlidy };
 export default Slidy;
