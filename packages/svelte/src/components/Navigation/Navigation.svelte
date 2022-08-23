@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from "svelte/internal";
   import { generateIndexes } from "@slidy/assets/scripts";
-  import type { SlidyStyles } from "../Slidy/Slidy.types";
+  import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
   import "@slidy/assets/styles/navigation.module.css";
 
   export let current: number;
@@ -13,6 +13,17 @@
   export let siblings = 1;
 
   const classNames = getContext<SlidyStyles>("classNames");
+  const i18n = getContext<I18NDict>("i18n");
+
+  const setTitle = (i: number) => {
+    if (i === start) {
+      return i18n.first;
+    } else if (i === end) {
+      return i18n.last;
+    } else {
+      return i18n.slideN.replace("%s", i.toString());
+    }
+  };
 
   // Too many items -> should be ordinal for accessibility and responsiveness
   $: ordinal = end - start + 1 > limit && true;
@@ -24,7 +35,7 @@
     {@const active = current === item}
     {@const contents = item < 0 ? "…" : item}
     {@const ellipsis = item < 0}
-    {@const title = item < 0 ? undefined : `Show to item #${item}`}
+    {@const title = setTitle(item)}
     <slot name="nav-item" index={item} active={item === current}>
       <button
         aria-current={active ? "true" : undefined}

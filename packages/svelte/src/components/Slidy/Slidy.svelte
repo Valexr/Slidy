@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+	import { i18nDefaults } from "./i18n";
+
 	type $$Props = SlidyOptions;
 
 	export let animation: $$Props["animation"] = undefined;
@@ -27,6 +29,7 @@
 	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
 	export let navigation = false;
 	export let gravity = 1.2;
+	export let i18n: $$Props["i18n"] = i18nDefaults;
 	export let indent: $$Props["indent"] = 2;
 	export let index = 0;
 	export let interval = 1500;
@@ -50,6 +53,7 @@
 	export let indexThumb = index;
 
 	setContext("classNames", classNames);
+	setContext("i18n", i18n);
 
 	$: length = slides.length;
 	$: vertical = axis === "y";
@@ -107,7 +111,7 @@
 </script>
 
 <section
-	aria-roledescription="carousel"
+	aria-roledescription="{i18n.carousel}"
 	class="{classNames?.root}"
 	class:vertical
 	on:click={handleClick}
@@ -124,7 +128,10 @@
 		<div class="{classNames?.overlay}">
 			{#if counter}
 				<output class="{classNames?.counter}">
-					{index + 1} / {length}
+					{i18n.counter
+						.replace("%s", `${index + 1}`)
+						.replace("%s", length.toString())
+					}
 				</output>
 			{/if}
 			{#if autoplayControl}

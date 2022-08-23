@@ -3,7 +3,7 @@
 	import Core from "../Core/Core.svelte";
 	import Image from "../Image/Image.svelte";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
-	import type { SlidyStyles } from "../Slidy/Slidy.types";
+	import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
 	import "@slidy/assets/styles/thumbnail.module.css";
 </script>
 
@@ -28,6 +28,7 @@
 
 	const dispatch = createEventDispatcher();
 	const classNames = getContext<SlidyStyles>("classNames");
+	const i18n = getContext<I18NDict>("i18n");
 </script>
 
 <Core
@@ -48,15 +49,17 @@
 	on:index={e => e.detail.index}
 >
 	{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
+		{@const title = i18n.slideN.replace("%s", (i + 1).toString())}
 		<button
 			aria-current={i === active ? "true" : undefined}
-			aria-label={`${i} of ${slides.length}`}
+			aria-label={title}
 			aria-roledescription="slide"
 			class="{classNames.thumbnail}"
 			class:active={i === active}
 			class:bg={background}
 			role="group"
 			style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
+			{title}
 			on:click={() => dispatch("select", { index: i })}
 		>
 			{#if !background}

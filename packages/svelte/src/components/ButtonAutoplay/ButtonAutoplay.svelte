@@ -1,11 +1,27 @@
+<script lang="ts" context="module">
+	type State = "play" | "pause" | "stop";
+</script>
+
 <script lang="ts">
+	import { getContext } from "svelte/internal";
+	import type { I18NDict } from "../Slidy/Slidy.types";
 	import "@slidy/assets/styles/button-autoplay.module.css";
 
 	export let disabled = false;
-	export let state: "play" | "pause" | "stop";
+	export let state: State;
+
+	const i18n = getContext<I18NDict>("i18n");
 
 	let r = 15;
 	let stroke = 2;
+
+	const setTitle = (state: State) => {
+		if (state === "play") {
+			return i18n.stop;
+		} else if (state === "stop") {
+			return i18n.play;
+		}
+	};
 
 	const iconPath = {
 		"play": "M7.61,4.61a.75.75,0,0,0-1.11.66V18.73a.75.75,0,0,0,1.11.65L20,12.66a.75.75,0,0,0,0-1.32ZM5,5.27a2.25,2.25,0,0,1,3.33-2L20.69,10a2.26,2.26,0,0,1,0,4L8.33,20.7a2.25,2.25,0,0,1-3.33-2Z",
@@ -34,6 +50,7 @@
 	<button
 		{disabled}
 		on:click
+		title={setTitle(state)}
 	>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 			<path d="{iconPath[state]}" />
