@@ -1,4 +1,4 @@
-import { useClassNames } from '../Slidy/Slidy';
+import { useSlidy } from '../Slidy/Slidy';
 import { mergeProps } from 'solid-js';
 
 import '@slidy/assets/styles/progress.module.css';
@@ -20,7 +20,7 @@ const defaultProps: Props = {
 const Progress: VoidComponent<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const classNames = useClassNames();
+    const { classNames } = useSlidy();
 
     return (
         <div class={classNames.progress} classList={{ vertical: props.vertical }}>

@@ -1,12 +1,12 @@
 import { mergeProps } from 'solid-js';
-import { useClassNames } from '../Slidy/Slidy';
+import { useSlidy } from '../Slidy/Slidy';
 
 import '@slidy/assets/styles/arrow.module.css';
 
 import type { FlowComponent } from 'solid-js';
 
 interface Props {
-    type: -1 | 1;
+    type: -1 | 1 | (number & Record<never, never>);
     loop?: boolean;
     index: number;
     items?: number;
@@ -22,7 +22,7 @@ const defaultProps: Props = {
 const Arrow: FlowComponent<Props> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
-    const classNames = useClassNames();
+    const { classNames, i18n } = useSlidy();
 
     const disabled = () => {
         return props.type < 1
@@ -30,13 +30,13 @@ const Arrow: FlowComponent<Props> = ($props) => {
             : props.index === props.items! - 1 && !props.loop;
     };
 
-    const ariaLabel = () => {
-        return `Go to the ${props.type < 1 ? 'previous' : 'next'} slide: #${props.index}`;
+    const title = () => {
+        return props.type < 1 ? i18n.prev : i18n.next;
     };
 
     return (
         <button
-            aria-label={ariaLabel()}
+            aria-label={title()}
             class={classNames.arrow}
             classList={{
                 vertical: props.vertical,
@@ -44,6 +44,7 @@ const Arrow: FlowComponent<Props> = ($props) => {
             }}
             data-step={props.type}
             disabled={disabled()}
+            title={title()}
         >
             {props.children}
         </button>

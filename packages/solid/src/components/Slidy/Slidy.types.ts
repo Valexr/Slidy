@@ -37,9 +37,24 @@ export interface SlidyOptions extends SlidyCoreOptions {
     classNames: SlidyStyles;
     getImgSrc: (item: unknown | Slide) => string;
     getThumbSrc: (item: unknown | Slide) => string;
+    i18n: I18NDict;
     interval?: number;
     navigation?: boolean;
     progress?: boolean;
     slides: Slide[];
     thumbnail?: boolean;
 }
+
+type i18nKey =
+    | 'carousel'
+    | 'counter'
+    | 'first'
+    | 'last'
+    | 'next'
+    | 'play'
+    | 'prev'
+    | 'slide'
+    | 'slideN'
+    | 'stop';
+
+export type I18NDict = Record<i18nKey, string>;

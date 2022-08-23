@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { getRandomSlides } from "@stores/slides";
-	import { Slidy } from "@slidy/svelte";
-	import { stairs } from "@slidy/animation";
-	import "@slidy/svelte/slidy.css";
+	import { getRandomSlides } from '@stores/slides';
+	import { Slidy } from '@slidy/svelte';
+	import { stairs } from '@slidy/animation';
+	import '@slidy/svelte/dist/slidy.css';
 </script>
 
 <svelte:head>
