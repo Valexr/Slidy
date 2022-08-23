@@ -1,4 +1,4 @@
-import type { ImageSchema, GetPhotos, Size, Slide } from './types';
+import type { ImageSchema, GetPhotos, Size, Slide } from '../types';
 
 export const getPhotos: GetPhotos<Slide> = async ({
     limit = 5,

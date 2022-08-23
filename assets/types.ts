@@ -48,3 +48,17 @@ export interface IndexGeneratorParams {
 }
 
 export type IndexGenerator = (params: IndexGeneratorParams) => number[];
+
+type i18nKey =
+    | 'carousel'
+    | 'counter'
+    | 'first'
+    | 'last'
+    | 'next'
+    | 'play'
+    | 'prev'
+    | 'slide'
+    | 'slideN'
+    | 'stop';
+
+export type I18NDict = Record<i18nKey, string>;

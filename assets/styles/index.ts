@@ -11,5 +11,5 @@ export const classNames = {
     slide: 'slidy-slide',
     slides: 'slidy-slides',
     thumbnail: 'slidy-thumbnail',
-    thumbnails: 'slidy-thumbnails',
+    thumbnails: 'slidy-thumbnails'
 };

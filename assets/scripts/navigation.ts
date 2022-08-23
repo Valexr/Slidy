@@ -1,4 +1,4 @@
-import type { IndexGenerator } from "./types";
+import type { IndexGenerator } from "../types";
 
 /**
  * Generates an array of numbers in given range [ start, start + 1, ... );

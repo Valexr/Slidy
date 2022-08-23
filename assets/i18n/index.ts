@@ -1,4 +1,4 @@
-import type { I18NDict } from "./Slidy.types";
+import type { I18NDict } from "../types";
 
 export const i18nDefaults: I18NDict = {
     "carousel": "carousel",
