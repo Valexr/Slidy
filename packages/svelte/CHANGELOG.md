@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.3 - 3.1.5
+
+- testing releases
+
 ## 3.1.2
 
 - [fix] className typo resulting in not correctly displayed `next` arrow  in vertical direction, [3b24ab8df9f940c11fc04f7b28a9a30cc2fafecc], thanks [@yuan-kuan];
