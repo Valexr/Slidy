@@ -25,13 +25,7 @@ const derverConfig = {
     dir: 'public',
     port: 3330,
     host: '0.0.0.0',
-    watch: [
-        'public',
-        'src',
-        'node_modules/@slidy/media',
-        'node_modules/@slidy/easing',
-        'node_modules/@slidy/animation',
-    ],
+    watch: ['public', 'src', 'node_modules/@slidy',],
 };
 const builds = {
     cjs: {
