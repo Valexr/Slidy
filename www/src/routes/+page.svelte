@@ -10,6 +10,7 @@
 		pathPackageMedia,
 		pathPackageSvelte
 	} from '$lib/paths';
+	import '@slidy/svelte/slidy.css';
 
 	const packages = [
 		{ id: 0, name: '@slidy/animation', href: pathPackageAnimation },
