@@ -21,7 +21,7 @@
     },
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc --emitDeclarationOnly --outDir dist",
+        "build": "node esbuild && tsc --emitDeclarationOnly --outDir dist",
         "build:local": "pnpm build -r --filter=@slidy/react...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"

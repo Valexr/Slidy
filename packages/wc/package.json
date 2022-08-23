@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "rm -rf dist && node esbuild && tsc",
+        "build": "node esbuild && tsc",
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",
