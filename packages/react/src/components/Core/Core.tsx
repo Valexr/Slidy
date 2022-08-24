@@ -1,3 +1,4 @@
+import React, { type LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
 import { listen, unlisten, execute } from '../../helpers';
@@ -124,7 +125,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
     const Tag = props.tag as 'ol';
 
     return (
-        <Tag className={props.className} tabIndex={0} aria-live="polite" ref={el}>
+        <Tag className={props.className} tabIndex={0} aria-live="polite" ref={el as LegacyRef<HTMLOListElement>}>
             {props.children}
         </Tag>
     );

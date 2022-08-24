@@ -45,7 +45,7 @@ if (DEV) {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
-                if (item !== 'dev/public') {
+                if (item !== 'public') {
                     lr.prevent();
                     bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                 }

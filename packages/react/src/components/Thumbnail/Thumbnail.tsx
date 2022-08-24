@@ -7,6 +7,7 @@ import type { SlidyThumbOptions } from './thumbnail.types';
 import type { FC, CSSProperties } from 'react';
 
 import '@slidy/assets/styles/thumbnail.module.css';
+import React from 'react';
 
 interface Options {
     active: number;

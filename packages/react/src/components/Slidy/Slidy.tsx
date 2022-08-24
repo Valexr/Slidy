@@ -12,6 +12,7 @@ import '@slidy/assets/styles/slidy.module.css';
 
 import type { Slide, SlidyOptions } from './Slidy.types';
 import type { FC, SetStateAction, Dispatch, CSSProperties } from 'react';
+import React from 'react';
 
 interface Options {
     animation?: SlidyOptions['animation'];
@@ -244,7 +245,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 style={{ '--slidy-autoplay-interval': props.interval + 'ms' } as CSSProperties}
                 id={props.id}
                 onClick={handleClick}
-                // ref={section}
+            // ref={section}
             >
                 {(props.counter || props.overlay) && (
                     <div className={props.classNames?.overlay}>
