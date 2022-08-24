@@ -4,8 +4,8 @@ let slides: Awaited<ReturnType<typeof getPhotos>> = [];
 
 export async function initSlides(limit = 50) {
     slides = await getPhotos({
-        limit: clamp(limit, 3, 25),
-        page: randInt(0, 90),
+        limit: clamp(limit, 3, 10),
+        page: randInt(0, 100),
     });
 }
 

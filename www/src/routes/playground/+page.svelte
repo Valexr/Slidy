@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getRandomSlides } from '@stores/slides';
+	import { getRandomSlides } from '@slidy/assets/scripts';
 	import { Slidy } from '@slidy/svelte';
 	import { stairs } from '@slidy/animation';
 	import '@slidy/svelte/dist/slidy.css';

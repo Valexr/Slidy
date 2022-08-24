@@ -16,7 +16,7 @@
 	let axis: "x" | "y" = "x";
 	let easing = linear;
 	let position = 0;
-	let limit = 15;
+	let limit = 10;
 	let index = 4;
 	let vertical = false;
 	let clamp = 0;

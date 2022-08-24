@@ -98,8 +98,9 @@
         "singleQuote": true
     },
     "devDependencies": {
+        "@slidy/assets": "workspace:*",
         "@types/eslint": "^8.4.6",
-        "@types/node": "^18.7.12",
+        "@types/node": "^18.7.13",
         "@typescript-eslint/eslint-plugin": "^5.34.0",
         "@typescript-eslint/parser": "^5.34.0",
         "derver": "^0.5.3",
