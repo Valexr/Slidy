@@ -1,6 +1,6 @@
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
-import { listen, unlisten } from '../../helpers';
+import { listen, unlisten, execute } from '../../helpers';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
@@ -66,11 +66,24 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         index: props.index,
     };
 
-    const el = useRef(null);
+    const el = useRef<HTMLElement | null>(null);
     const action = useRef<null | ReturnType<typeof slidy>>(null);
 
     useEffect(() => {
         if (!el.current) return;
+
+        const node = el.current;
+
+        if (node) {
+            node.ondestroy = execute(props.onDestroy);
+            // node.onindex = execute(props.onIndex);
+            node.onindex = (e) => props.onIndex?.(e); // <-- так тоже не работает
+            node.onkeys = execute(props.onKeys);
+            node.onmount = execute(props.onMount);
+            node.onmove = execute(props.onMove);
+            node.onresize = execute(props.onResize);
+            node.onupdate = execute(props.onUpdate);
+        }
 
         listen(el.current, 'destroy', props.onDestroy);
         listen(el.current, 'index', props.onIndex);
@@ -93,19 +106,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         };
     }, []);
 
-    useEffect(() => {
-        if (!el.current) return;
-
-        if (!action.current) {
-            action.current = slidy(el.current, options);
-
-            return;
-        }
-
-        action.current.update(options);
-
-        return () => action.current?.destroy();
-    }, [
+    const dependencies = [
         props.animation,
         props.easing,
         props.axis,
@@ -117,7 +118,21 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         props.sensity,
         props.snap,
         props.index,
-    ]);
+    ];
+
+    useEffect(() => {
+        if (!el.current) return () => console.log('EARLY');
+
+        if (!action.current) {
+            action.current = slidy(el.current, options);
+
+            return;
+        }
+
+        action.current.update(options);
+    }, [...dependencies]);
+
+    useEffect(() => () => action.current?.destroy(), []);
 
     const Tag = props.tag as 'ol';
 

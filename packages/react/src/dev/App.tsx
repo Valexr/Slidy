@@ -66,7 +66,7 @@ const App: FC = () => {
                 <Slidy
                     animation={flip}
                     easing={linear}
-                    axis={'y'}
+                    axis={'x'}
                     background={false}
                     slides={slides}
                     clamp={clamp() ? 1 : 0}
@@ -76,7 +76,7 @@ const App: FC = () => {
                     navigation
                     snap={snap()}
                     loop={loop()}
-                    thumbnail
+                    thumbnail={false}
                     progress
                     // bind:index
                     index={index}
