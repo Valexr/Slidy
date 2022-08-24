@@ -1,7 +1,7 @@
-import { generateIndexes } from '@slidy/assets/scripts';
-import { useSlidy } from '../Slidy/Slidy';
-import { format } from '../../helpers';
 import { mergeProps, For } from 'solid-js';
+import { useSlidy } from '../Slidy/Slidy';
+
+import { generateIndexes, format } from '@slidy/assets/scripts';
 
 import '@slidy/assets/styles/navigation.module.css';
 

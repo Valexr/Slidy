@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
 
@@ -34,11 +35,13 @@ if (DEV) {
         format: 'esm',
     }).then(() => console.log('watching @slidy/animation...'));
 } else {
-    for (const key in builds) {
-        build({
-            ...esbuildBase,
-            ...builds[key],
-            format: key,
-        });
-    }
+    prepare().then(() => {
+        for (const key in builds) {
+            build({
+                ...esbuildBase,
+                ...builds[key],
+                format: key,
+            });
+        }
+    });
 }

@@ -1,9 +1,10 @@
-import { mergeProps, createEffect, createSignal, onCleanup, batch, untrack } from 'solid-js';
-import { execute, isFunction, format } from '../../helpers';
+import { Show, For, mergeProps, createEffect, createSignal, onCleanup, batch, untrack } from 'solid-js';
+
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
-import { Show, For } from 'solid-js';
 import { SlidyContext, useSlidy } from '../Context/Context';
-import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
+
+import { execute, isFunction, format } from '@slidy/assets/scripts';
+import { autoplay as autoplayAction } from '@slidy/assets/actions';
 
 import { i18nDefaults } from './i18n';
 import { classNames as classNamesDefaults } from './slidy.styles';

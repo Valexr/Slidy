@@ -4,7 +4,7 @@ import sveltePlugin from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
 import cssmodules from "./cssmodules.js";
 import transpile from "./transpilator.js";
-import copy from './copy.js';
+import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes("--dev");
 const SVELTE = process.argv.includes("--svelte");
@@ -95,6 +95,8 @@ if (DEV) {
 	});
 } else {
 	(async () => {
+		await prepare();
+
 		for (const key in builds) {
 			await build({
 				...esbuildBase,
@@ -102,13 +104,16 @@ if (DEV) {
 				format: key,
 			});
 		}
+
 		await build({
 			...esbuildBase,
 			entryPoints: ["@slidy/assets/actions", "@slidy/assets/scripts"],
 			outdir: "dist/assets",
 			format: "esm",
 		});
+
 	})().then(() => {
+
 		transpile({
 			input: "./src/",
 			output: "./dist/",
@@ -117,5 +122,6 @@ if (DEV) {
 			replace: [["./slidy.module.css", "../../slidy.css"], ["@slidy/assets", "../../assets"]],
 			remove: ["images-api", "module.css"],
 		});
+
 	});
 }

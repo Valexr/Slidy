@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
 import { solidPlugin } from 'esbuild-plugin-solid';
+import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
 
@@ -52,11 +53,13 @@ if (DEV) {
         });
     });
 } else {
-    for (const key in builds) {
-        build({
-            ...esbuildBase,
-            ...builds[key],
-            format: key,
-        });
-    }
+    prepare().then(() => {
+        for (const key in builds) {
+            build({
+                ...esbuildBase,
+                ...builds[key],
+                format: key,
+            });
+        }
+    });
 }

@@ -60,7 +60,7 @@
 
 	const goto = (slide: number): void => {
 		if (typeof slide === "number" && !Number.isNaN(slide)) {
-			index = clampValue(slide, 0, length - 1);
+			index = clampValue(0, slide, length - 1);
 		}
 	};
 

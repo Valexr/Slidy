@@ -6,6 +6,7 @@
 	"exclude": [
 		"dist",
 		"public",
-		"src/dev/*"
+		"src/dev/*",
+		"src/global.d.ts"
 	]
 }
