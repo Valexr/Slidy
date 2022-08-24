@@ -66,24 +66,11 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         index: props.index,
     };
 
-    const el = useRef<HTMLElement | null>(null);
+    const el = useRef<HTMLOListElement | null>(null);
     const action = useRef<null | ReturnType<typeof slidy>>(null);
 
     useEffect(() => {
         if (!el.current) return;
-
-        const node = el.current;
-
-        if (node) {
-            node.ondestroy = execute(props.onDestroy);
-            // node.onindex = execute(props.onIndex);
-            node.onindex = (e) => props.onIndex?.(e); // <-- так тоже не работает
-            node.onkeys = execute(props.onKeys);
-            node.onmount = execute(props.onMount);
-            node.onmove = execute(props.onMove);
-            node.onresize = execute(props.onResize);
-            node.onupdate = execute(props.onUpdate);
-        }
 
         listen(el.current, 'destroy', props.onDestroy);
         listen(el.current, 'index', props.onIndex);
@@ -121,7 +108,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
     ];
 
     useEffect(() => {
-        if (!el.current) return () => console.log('EARLY');
+        if (!el.current) return;
 
         if (!action.current) {
             action.current = slidy(el.current, options);
@@ -132,7 +119,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         action.current.update(options);
     }, [...dependencies]);
 
-    useEffect(() => () => action.current?.destroy(), []);
+    useEffect(() => action.current?.destroy, []);
 
     const Tag = props.tag as 'ol';
 
