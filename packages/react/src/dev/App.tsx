@@ -66,7 +66,7 @@ const App: FC = () => {
                 <Slidy
                     animation={flip}
                     easing={linear}
-                    axis={'x'}
+                    axis={'y'}
                     background={false}
                     slides={slides}
                     clamp={clamp() ? 1 : 0}

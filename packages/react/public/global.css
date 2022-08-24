@@ -22,6 +22,10 @@ body {
         'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+main {
+    height: calc(100vh - 4rem);
+}
+
 input[type='checkbox'] {
     cursor: pointer;
     width: 1em;
