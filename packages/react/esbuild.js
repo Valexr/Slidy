@@ -3,20 +3,26 @@ import { derver } from 'derver';
 
 const DEV = process.argv.includes('--dev');
 
+/** @type {import('esbuild').BuildOptions} */
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
     incremental: DEV,
     legalComments: 'none',
-    entryPoints: ['src/slidy.tsx'],
+    entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
+    jsx: 'automatic',
+    loader: {
+        '.svg': 'dataurl',
+    },
 };
 const derverConfig = {
     port: 3332,
     host: '0.0.0.0',
     dir: 'public',
-    watch: ['public', 'src', 'node_modules/@slidy/core'],
+    watch: ['src', 'node_modules/@slidy/core'],
 };
+
 const builds = {
     cjs: {
         outfile: './dist/slidy.cjs',
@@ -33,7 +39,7 @@ const builds = {
 if (DEV) {
     build({
         ...esbuildBase,
-        entryPoints: ['public/app.tsx'],
+        entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
     }).then((bundle) => {
         derver({
