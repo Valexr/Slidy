@@ -8,7 +8,8 @@
 		pathPackageCore,
 		pathPackageEasing,
 		pathPackageMedia,
-		pathPackageSvelte
+		pathPackageSvelte,
+		pathPackageSolid
 	} from '$lib/paths';
 	import '@slidy/svelte/dist/slidy.css';
 
@@ -17,7 +18,8 @@
 		{ id: 1, name: '@slidy/core', href: pathPackageCore },
 		{ id: 2, name: '@slidy/easing', href: pathPackageEasing },
 		{ id: 3, name: '@slidy/media', href: pathPackageMedia },
-		{ id: 4, name: '@slidy/svelte', href: pathPackageSvelte }
+		{ id: 4, name: '@slidy/svelte', href: pathPackageSvelte },
+		{ id: 5, name: '@slidy/solid', href: pathPackageSolid }
 	];
 </script>
 
