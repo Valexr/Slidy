@@ -1,7 +1,7 @@
 import { mergeProps, createEffect, onCleanup } from 'solid-js';
 import { Dynamic } from '..';
 import { slidy } from '@slidy/core';
-import { execute } from '@slidy/assets/scripts';
+import { execute } from '@slidy/assets/scripts/utils';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';

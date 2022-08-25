@@ -1,7 +1,7 @@
 import { mergeProps, For, Show } from 'solid-js';
 import { Core, Image } from '..';
 import { useSlidy } from '../Slidy/Slidy';
-import { format } from '@slidy/assets/scripts';
+import { format } from '@slidy/assets/scripts/utils';
 
 import type { SlidyThumbOptions } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';

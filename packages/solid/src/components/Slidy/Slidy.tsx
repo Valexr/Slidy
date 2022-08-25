@@ -3,7 +3,7 @@ import { Show, For, mergeProps, createEffect, createSignal, onCleanup, batch, un
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 
-import { execute, isFunction, format } from '@slidy/assets/scripts';
+import { execute, isFunction, format } from '@slidy/assets/scripts/utils';
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
 
 import { i18nDefaults } from './i18n';

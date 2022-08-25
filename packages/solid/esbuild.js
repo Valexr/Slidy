@@ -8,7 +8,7 @@ const DEV = process.argv.includes('--dev');
 /** @type { import('esbuild').BuildOptions } */
 const esbuildBase = {
     bundle: true,
-    minify: !DEV,
+    minify: DEV,
     incremental: DEV,
     legalComments: 'none',
     plugins: [solidPlugin()],
