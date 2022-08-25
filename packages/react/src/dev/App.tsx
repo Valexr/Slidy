@@ -9,7 +9,7 @@ import { version } from '../../package.json';
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
 
-import { darkTheme } from '@slidy/assets/scripts';
+import { darkTheme } from '@slidy/assets/scripts/theme-store';
 
 import type { Slide } from '..';
 import type { FC } from 'react';

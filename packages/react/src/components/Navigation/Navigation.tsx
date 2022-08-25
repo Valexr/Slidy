@@ -1,4 +1,4 @@
-import { generateIndexes } from '@slidy/assets/scripts';
+import { generateIndexes } from '@slidy/assets/scripts/navigation';
 import { useSlidy } from '../Context';
 import { format } from '../../helpers';
 import { useMemo } from 'react';
