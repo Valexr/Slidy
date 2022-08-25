@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
+import { eslintPlugin } from 'esbuild-plugin-eslinter';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -10,6 +11,7 @@ const esbuildBase = {
     minify: !DEV,
     incremental: DEV,
     legalComments: 'none',
+    plugins: [eslintPlugin()],
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['react', 'react-dom'],

@@ -29,6 +29,7 @@
         "pub:media": "pnpm --filter=@slidy/media pub",
         "pub:easing": "pnpm --filter=@slidy/easing pub",
         "pub:animation": "pnpm --filter=@slidy/animation pub",
+        "pub:react": "pnpm --filter=@slidy/react pub",
         "pub:svelte": "pnpm --filter=@slidy/svelte pub",
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "up:all": "pnpm up -r"
