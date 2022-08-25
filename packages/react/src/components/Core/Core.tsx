@@ -2,6 +2,7 @@ import React, { type LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
 import { listen, unlisten } from '../../helpers';
+import { useEventListener } from 'usehooks-ts';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
@@ -69,33 +70,20 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
     const el = useRef<HTMLOListElement | null>(null);
     const action = useRef<null | ReturnType<typeof slidy>>(null);
 
-    const events = {
-        destroy: props.onDestroy,
-        index: props.onIndex,
-        keys: props.onKeys,
-        mount: props.onMount,
-        move: props.onMove,
-        resize: props.onResize,
-        update: props.onUpdate,
-    };
-
-    useEffect(() => {
-        if (!el.current) return;
-
-        const entries = Object.entries(events);
-
-        for (const [event, handler] of entries) {
-            listen(el.current, event, handler);
-        }
-
-        return () => {
-            if (!el.current) return;
-
-            for (const [event, handler] of entries) {
-                unlisten(el.current, event, handler);
-            }
-        };
-    }, []);
+    // @ts-ignore
+    useEventListener('destroy', props.onDestroy, el);
+    // @ts-ignore
+    useEventListener('index', props.onIndex, el);
+    // @ts-ignore
+    useEventListener('keys', props.onKeys, el);
+    // @ts-ignore
+    useEventListener('mount', props.onMount, el);
+    // @ts-ignore
+    useEventListener('move', props.onMove, el);
+    // @ts-ignore
+    useEventListener('resize', props.onResize, el);
+    // @ts-ignore
+    useEventListener('update', props.onUpdate, el);
 
     const dependencies = [
         props.animation,

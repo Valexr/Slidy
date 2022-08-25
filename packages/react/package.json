@@ -39,9 +39,9 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/react",
     "devDependencies": {
+        "@slidy/animation": "workspace:*",
         "@slidy/assets": "workspace:*",
         "@slidy/core": "workspace:*",
-        "@slidy/animation": "workspace:*",
         "@slidy/easing": "workspace:*",
         "@types/react": "^18.0.17",
         "@types/react-dom": "^18.0.6",
@@ -49,6 +49,7 @@
         "react-dom": "^18.2.0"
     },
     "dependencies": {
-        "clsx": "^1.2.1"
+        "clsx": "^1.2.1",
+        "usehooks-ts": "^2.6.0"
     }
 }

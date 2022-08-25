@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
-import { execute, isFunction, format, listen, unlisten, not, increment } from '../../helpers';
+import { useState, useEffect, useRef } from 'react';
+import { execute, isFunction, format, not, increment } from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 import { clsx } from 'clsx';
+import { useEventListener } from 'usehooks-ts';
 
 import { i18nDefaults } from './i18n';
 import { classNames as classNamesDefaults } from './slidy.styles';
@@ -169,10 +170,13 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         setIndex(e.detail.index);
     };
 
+    const handleAutoplayControl = () => {
+        setAutoplayState(autoplayState === 'stop' ? 'play' : 'stop');
+        setAutoplay(not);
+    };
+
     const handleAutoplay = () => {
         setAutoplayState('play');
-
-        console.log(index); //
 
         if (props.loop) {
             setIndex(increment);
@@ -192,43 +196,13 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         setAutoplay(false);
     };
 
-    const handleAutoplayControl = () => {
-        setAutoplayState(autoplayState === 'stop' ? 'play' : 'stop');
-        setAutoplay(not);
-    };
-
     const section = useRef<HTMLElement>(null);
     const autoplayRef = useRef<null | ReturnType<typeof autoplayAction>>(null);
 
-    const events = {
-        play: handleAutoplay,
-        pause: handleAutoplayPause,
-        stop: handleAutoplayStop,
-    };
-
-    const entries = Object.entries(events);
-
-    useEffect(() => {
-        if (!section.current) return;
-
-        for (const [event, handler] of entries) {
-            listen(section.current, event, handler);
-        }
-
-        /**
-         * !! Нужно чтобы просиходила отписка, а то события вызываются множество раз.
-         *
-         * В данный момент не работает отписка 🤷‍♂️
-         */
-
-        () => {
-            if (!section.current) return;
-
-            for (const [event, handler] of entries) {
-                unlisten(section.current, event, handler);
-            }
-        };
-    }, []);
+    useEventListener('play', handleAutoplay, section);
+    useEventListener('pause', handleAutoplayPause, section);
+    // @ts-ignore
+    useEventListener('stop', handleAutoplayStop, section);
 
     useEffect(() => {
         if (!section.current) return;
