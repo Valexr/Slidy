@@ -265,10 +265,17 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 >
                     {props.slides.map((item, i) => {
                         const active = index === i;
+                        const key = props.getImgSrc(item) ?? i;
+
+                        const Children = props.children;
+
+                        if (isFunction(Children)) {
+                            return <Children key={key} {...item} />;
+                        }
 
                         return (
                             <li
-                                key={props.getImgSrc(item) ?? i}
+                                key={key}
                                 aria-current={active ? 'true' : undefined}
                                 aria-label={format(props.i18n.counter, i + 1, length)}
                                 aria-roledescription={props.i18n.slide}
