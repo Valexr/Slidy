@@ -1,6 +1,6 @@
 {
     "name": "@slidy/react",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Simple, configurable & reusable carousel component built with ReactJS",
     "main": "dist/slidy.cjs",
     "module": "dist/slidy.mjs",
