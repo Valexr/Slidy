@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSlidy } from '../Context';
 import { clsx } from 'clsx';
 

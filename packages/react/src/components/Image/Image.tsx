@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSlidy } from '../Context';
 
 import '@slidy/assets/styles/image.module.css';

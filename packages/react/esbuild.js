@@ -12,6 +12,7 @@ const esbuildBase = {
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     jsx: 'automatic',
+    external: !DEV ? ['react', 'react-dom'] : [],
     loader: {
         '.svg': 'dataurl',
     },
@@ -20,7 +21,7 @@ const derverConfig = {
     port: 3332,
     host: '0.0.0.0',
     dir: 'public',
-    watch: ['src', 'node_modules/@slidy/core'],
+    watch: ['public', 'src', 'node_modules/@slidy/core'],
 };
 
 const builds = {

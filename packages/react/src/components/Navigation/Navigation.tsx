@@ -1,4 +1,3 @@
-import React from 'react';
 import { generateIndexes } from '@slidy/assets/scripts';
 import { useSlidy } from '../Context';
 import { format } from '../../helpers';

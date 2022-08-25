@@ -1,4 +1,4 @@
-import React, { type LegacyRef } from 'react';
+import type { LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
 import { useEventListener, execute } from '../../helpers';

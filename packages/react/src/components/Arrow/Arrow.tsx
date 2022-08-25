@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 import '@slidy/assets/styles/arrow.module.css';
 
 import type { FC, PropsWithChildren } from 'react';
-import React from 'react';
 
 interface Props {
     type: -1 | 1 | (number & Record<never, never>);

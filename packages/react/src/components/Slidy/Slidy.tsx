@@ -12,7 +12,6 @@ import '@slidy/assets/styles/slidy.module.css';
 
 import type { Slide, SlidyOptions } from './Slidy.types';
 import type { FC, SetStateAction, Dispatch, CSSProperties } from 'react';
-import React from 'react';
 
 interface Options {
     animation?: SlidyOptions['animation'];
