@@ -3,13 +3,16 @@ import { derver } from 'derver';
 
 const DEV = process.argv.includes('--dev');
 
+/** @type {import('esbuild').BuildOptions} */
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
     incremental: DEV,
     legalComments: 'none',
-    entryPoints: ['src/slidy.tsx'],
+    entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
+    external: DEV ? [] : ['react', 'react-dom'],
+    jsx: 'automatic',
 };
 const derverConfig = {
     port: 3332,
@@ -33,8 +36,9 @@ const builds = {
 if (DEV) {
     build({
         ...esbuildBase,
-        entryPoints: ['public/app.tsx'],
+        entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
+        loader: { '.svg': 'dataurl' },
     }).then((bundle) => {
         derver({
             ...derverConfig,
