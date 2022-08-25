@@ -51,8 +51,7 @@
         "@slidy/animation": "workspace:*",
         "@slidy/assets": "workspace:*",
         "@slidy/core": "workspace:*",
-        "@slidy/easing": "workspace:*",
-        "eslint-config-react-app": "^7.0.1"
+        "@slidy/easing": "workspace:*"
     },
     "dependencies": {
         "@types/react": "^18.0.17",
