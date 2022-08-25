@@ -11,11 +11,8 @@ const esbuildBase = {
     legalComments: 'none',
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
+    external: DEV ? [] : ['react', 'react-dom'],
     jsx: 'automatic',
-    external: !DEV ? ['react', 'react-dom'] : [],
-    loader: {
-        '.svg': 'dataurl',
-    },
 };
 const derverConfig = {
     port: 3332,
@@ -23,7 +20,6 @@ const derverConfig = {
     dir: 'public',
     watch: ['public', 'src', 'node_modules/@slidy/core'],
 };
-
 const builds = {
     cjs: {
         outfile: './dist/slidy.cjs',
@@ -42,6 +38,7 @@ if (DEV) {
         ...esbuildBase,
         entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
+        loader: { '.svg': 'dataurl' },
     }).then((bundle) => {
         derver({
             ...derverConfig,
