@@ -43,8 +43,8 @@ const App: FC = () => {
     return (
         <>
             <header className="header">
-                <picture aria-hidden="true">
-                    <img alt="slidy" width="35" height="35" src={logo} />
+                <picture>
+                    <img aria-hidden={true} alt="slidy" width="35" height="35" src={logo} />
                 </picture>
                 <h1>
                     Slidy <small>v.{version}</small>

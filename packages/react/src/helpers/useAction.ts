@@ -24,6 +24,7 @@ const useAction = <T, K extends HTMLElement | null>(action: Action<T>, options: 
 
       instance.current.update(options);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     dependencies
   );
 

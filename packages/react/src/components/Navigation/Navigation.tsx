@@ -1,7 +1,6 @@
 import { generateIndexes } from '@slidy/assets/scripts/navigation';
 import { useSlidy } from '../Context';
 import { format } from '../../helpers';
-import { useMemo } from 'react';
 import { clsx } from 'clsx';
 
 import '@slidy/assets/styles/navigation.module.css';
@@ -43,15 +42,13 @@ const Navigation: FC<Props> = (props) => {
 
     const ordinal = props.end - props.start + 1 > props.limit! && true;
 
-    const indices = useMemo(() => {
-        return generateIndexes({
-            current: props.current,
-            start: props.start,
-            end: props.end,
-            limit: props.limit!,
-            siblings: props.siblings!,
-        });
-    }, [props.current, props.start, props.end, props.limit, props.siblings]);
+    const indices = generateIndexes({
+        current: props.current,
+        start: props.start,
+        end: props.end,
+        limit: props.limit!,
+        siblings: props.siblings!,
+    });
 
     return (
         <nav

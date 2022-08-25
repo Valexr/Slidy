@@ -1,7 +1,5 @@
 /**
- * credits: https://github.com/juliencrn/usehooks-ts
- *
- * @todo: better credits
+ * The `useEventListener` is authored by  https://github.com/juliencrn/usehooks-ts
  */
 
 import { useEffect, useLayoutEffect, useRef } from 'react';
@@ -11,13 +9,15 @@ const browser = typeof window !== 'undefined';
 
 const useIsomorphicLayoutEffect = browser ? useLayoutEffect : useEffect;
 
-/**
- * No type-safety here!
- */
-type AnyFunction = (...args: any[]) => unknown;
+type AnyFunction = (..._: any[]) => unknown;
+
+interface Listenable {
+    addEventListener(name: string, handler: AnyFunction): any;
+    removeEventListener(name: string, handler: AnyFunction): any;
+}
 
 // prettier-ignore
-const useEventListener = <T extends HTMLElement>(eventName: string, handler: AnyFunction, element: RefObject<T>) => {
+const useEventListener = <T extends Listenable>(eventName: string, handler: AnyFunction, element: RefObject<T>) => {
     const savedHandler = useRef(handler);
 
     useIsomorphicLayoutEffect(() => {

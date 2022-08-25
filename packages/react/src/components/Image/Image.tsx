@@ -26,6 +26,7 @@ const Image: FC<Props> = (props) => {
             {...rest}
             className={classNames['img']}
             id={id ? String(id) : undefined}
+            alt={rest.alt}
             loading={lazy ? 'lazy' : undefined}
         />
     );

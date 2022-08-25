@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { not } from '../../helpers';
+import { not, useEventListener } from '../../helpers';
 import { clsx } from 'clsx';
 
 import type { FC, PropsWithChildren } from 'react';
@@ -20,11 +19,7 @@ const Sidemenu: FC<PropsWithChildren<Props>> = (props) => {
         return event.code === 'Escape' && close();
     };
 
-    useEffect(() => {
-        addEventListener('keydown', handleKeydown);
-
-        return () => removeEventListener('keydown', handleKeydown);
-    }, []);
+    useEventListener('keydown', handleKeydown, { current: window });
 
     return (
         <aside className={clsx('side-menu', controlPanel() && 'open')}>

@@ -140,13 +140,17 @@ const defaultProps: Options = {
 const Slidy: FC<Partial<Options>> = ($props) => {
     const props = $props as Required<Options>;
 
+    const localIndex = useState(props.index);
+
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
-        : useState(props.index);
+        : localIndex;
+
+    const localAutoplay = useState(props.autoplay);
 
     const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
         ? [props.autoplay, props.setAutoplay]
-        : useState(props.autoplay);
+        : localAutoplay;
 
     /**
      * Indicate the paused autoplay.
