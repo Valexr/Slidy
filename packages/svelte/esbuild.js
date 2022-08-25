@@ -43,9 +43,6 @@ const esbuildBase = {
 	plugins: [
 		sveltePlugin(svelteOptions),
 		cssmodules(cssModulesOptions),
-		// copy([
-		// 	{ from: '../../assets/actions', to: 'actions' }
-		// ]),
 	],
 };
 
@@ -54,10 +51,12 @@ const derverConfig = {
 	port: 3331,
 	host: "0.0.0.0",
 	watch: [
-		"src",
-		"public",
-		"node_modules/@slidy/assets",
-		"node_modules/@slidy/core",
+		'src',
+		'public',
+		'node_modules/@slidy/animation',
+		'node_modules/@slidy/assets',
+		'node_modules/@slidy/core',
+		'node_modules/@slidy/easing',
 	],
 };
 
