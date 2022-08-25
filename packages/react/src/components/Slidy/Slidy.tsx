@@ -137,14 +137,14 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         ? [props.index, props.setIndex]
         : useState(props.index);
 
-    // const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
-    //     ? [props.autoplay, props.setAutoplay]
-    //     : useState(props.autoplay);
+    const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
+        ? [props.autoplay, props.setAutoplay]
+        : useState(props.autoplay);
 
-    // /**
-    //  * Indicate the paused autoplay.
-    //  */
-    // const [autoplayState, setAutoplayState] = useState<'play' | 'pause' | 'stop'>('stop');
+    /**
+     * Indicate the paused autoplay.
+     */
+    const [autoplayState, setAutoplayState] = useState<'play' | 'pause' | 'stop'>('stop');
 
     const length = props.slides.length;
     const vertical = props.axis === 'y';
@@ -166,76 +166,91 @@ const Slidy: FC<Partial<Options>> = ($props) => {
     };
 
     const onIndex: Options['onIndex'] = (e) => {
-        Promise.resolve(e.detail.index).then(setIndex);
+        setIndex(e.detail.index);
     };
 
-    // const handleAutoplay = () => {
-    //     setAutoplayState('play');
+    const handleAutoplay = () => {
+        setAutoplayState('play');
 
-    //     if (props.loop) {
-    //         setIndex(increment);
-    //     } else if (index + 1 < length) {
-    //         setIndex(increment);
-    //     } else {
-    //         setAutoplay(false);
-    //     }
-    // };
+        console.log(index); //
 
-    // const handleAutoplayPause = () => {
-    //     setAutoplayState('pause');
-    // };
+        if (props.loop) {
+            setIndex(increment);
+        } else if (index + 1 < length) {
+            setIndex(increment);
+        } else {
+            setAutoplay(false);
+        }
+    };
 
-    // const handleAutoplayStop = () => {
-    //     setAutoplayState('stop');
-    //     setAutoplay(false);
-    // };
+    const handleAutoplayPause = () => {
+        setAutoplayState('pause');
+    };
 
-    // const handleAutoplayControl = () => {
-    //     setAutoplayState(autoplayState === 'stop' ? 'play' : 'stop');
-    //     setAutoplay(not);
-    // };
+    const handleAutoplayStop = () => {
+        setAutoplayState('stop');
+        setAutoplay(false);
+    };
 
-    // const section = useRef<HTMLElement>(null);
-    // const autoplayRef = useRef<null | ReturnType<typeof autoplayAction>>(null);
+    const handleAutoplayControl = () => {
+        setAutoplayState(autoplayState === 'stop' ? 'play' : 'stop');
+        setAutoplay(not);
+    };
 
-    // useEffect(() => {
-    //     if (!section.current) return;
+    const section = useRef<HTMLElement>(null);
+    const autoplayRef = useRef<null | ReturnType<typeof autoplayAction>>(null);
 
-    //     listen(section.current, 'play', handleAutoplay);
-    //     listen(section.current, 'pause', handleAutoplayPause);
-    //     listen(section.current, 'stop', handleAutoplayStop);
+    const events = {
+        play: handleAutoplay,
+        pause: handleAutoplayPause,
+        stop: handleAutoplayStop,
+    };
 
-    //     return () => {
-    //         if (!section.current) return;
+    const entries = Object.entries(events);
 
-    //         unlisten(section.current, 'play', handleAutoplay);
-    //         unlisten(section.current, 'pause', handleAutoplayPause);
-    //         unlisten(section.current, 'stop', handleAutoplayStop);
-    //     };
-    // }, [section]);
+    useEffect(() => {
+        if (!section.current) return;
 
-    /**
-     * In StrictMode useEffect's fires twice, this lead's to issues 😿
-     *
-     * And also there is a error: press on autoplay button twice, it wont play again
-     */
+        for (const [event, handler] of entries) {
+            listen(section.current, event, handler);
+        }
 
-    // useEffect(() => {
-    //     if (!section.current) return;
+        /**
+         * !! Нужно чтобы просиходила отписка, а то события вызываются множество раз.
+         *
+         * В данный момент не работает отписка 🤷‍♂️
+         */
 
-    //     if (!autoplayRef.current) {
-    //         autoplayRef.current = autoplayAction(section.current, {
-    //             status: autoplay,
-    //             interval: props.interval,
-    //         });
+        () => {
+            if (!section.current) return;
 
-    //         return;
-    //     }
+            for (const [event, handler] of entries) {
+                unlisten(section.current, event, handler);
+            }
+        };
+    }, []);
 
-    //     autoplayRef.current.update({ status: autoplay });
+    useEffect(() => {
+        if (!section.current) return;
 
-    //     return () => autoplayRef.current?.destroy();
-    // }, [autoplay]);
+        if (!autoplayRef.current) {
+            autoplayRef.current = autoplayAction(section.current, {
+                status: autoplay,
+                interval: props.interval,
+            });
+
+            return;
+        }
+
+        autoplayRef.current.update({ status: autoplay });
+    }, [autoplay]);
+
+    useEffect(
+        () => () => {
+            autoplayRef.current?.destroy();
+        },
+        []
+    );
 
     return (
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
@@ -245,7 +260,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 style={{ '--slidy-autoplay-interval': props.interval + 'ms' } as CSSProperties}
                 id={props.id}
                 onClick={handleClick}
-            // ref={section}
+                ref={section}
             >
                 {(props.counter || props.overlay) && (
                     <div className={props.classNames?.overlay}>
@@ -254,13 +269,13 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                                 {index + 1} / {length}
                             </output>
                         )}
-                        {/* {props.autoplayControl && (
+                        {props.autoplayControl && (
                             <ButtonAutoplay
                                 state={autoplayState}
                                 disabled={index + 1 >= length && !props.loop}
                                 onClick={handleAutoplayControl}
                             />
-                        )} */}
+                        )}
                         {isFunction(props.overlay) && props.overlay()}
                     </div>
                 )}

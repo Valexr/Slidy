@@ -1,11 +1,10 @@
 import React, { type LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
-import { listen, unlisten, execute } from '../../helpers';
+import { listen, unlisten } from '../../helpers';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
-import type { Options as SlidyOptions } from '@slidy/core';
 import type { FC, PropsWithChildren } from 'react';
 
 interface Options {
@@ -70,27 +69,31 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
     const el = useRef<HTMLOListElement | null>(null);
     const action = useRef<null | ReturnType<typeof slidy>>(null);
 
+    const events = {
+        destroy: props.onDestroy,
+        index: props.onIndex,
+        keys: props.onKeys,
+        mount: props.onMount,
+        move: props.onMove,
+        resize: props.onResize,
+        update: props.onUpdate,
+    };
+
     useEffect(() => {
         if (!el.current) return;
 
-        listen(el.current, 'destroy', props.onDestroy);
-        listen(el.current, 'index', props.onIndex);
-        listen(el.current, 'keys', props.onKeys);
-        listen(el.current, 'mount', props.onMount);
-        listen(el.current, 'move', props.onMove);
-        listen(el.current, 'resize', props.onResize);
-        listen(el.current, 'update', props.onUpdate);
+        const entries = Object.entries(events);
+
+        for (const [event, handler] of entries) {
+            listen(el.current, event, handler);
+        }
 
         return () => {
             if (!el.current) return;
 
-            unlisten(el.current, 'destroy', props.onDestroy);
-            unlisten(el.current, 'index', props.onIndex);
-            unlisten(el.current, 'keys', props.onKeys);
-            unlisten(el.current, 'mount', props.onMount);
-            unlisten(el.current, 'move', props.onMove);
-            unlisten(el.current, 'resize', props.onResize);
-            unlisten(el.current, 'update', props.onUpdate);
+            for (const [event, handler] of entries) {
+                unlisten(el.current, event, handler);
+            }
         };
     }, []);
 
@@ -106,7 +109,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         props.sensity,
         props.snap,
         props.index,
-    ];
+    ] as const;
 
     useEffect(() => {
         if (!el.current) return;
@@ -118,14 +121,19 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         }
 
         action.current.update(options);
-    }, [...dependencies]);
+    }, dependencies);
 
-    useEffect(() => action.current?.destroy, []);
+    useEffect(() => () => action.current?.destroy(), []);
 
     const Tag = props.tag as 'ol';
 
     return (
-        <Tag className={props.className} tabIndex={0} aria-live="polite" ref={el as LegacyRef<HTMLOListElement>}>
+        <Tag
+            className={props.className}
+            tabIndex={0}
+            aria-live="polite"
+            ref={el as LegacyRef<HTMLOListElement>}
+        >
             {props.children}
         </Tag>
     );

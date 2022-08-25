@@ -25,7 +25,7 @@ const App: FC = () => {
     const gap = useChannel(15);
 
     const [index, setIndex] = useState(3);
-    const [autoplay, setAutoplay] = useState(false);
+    const [autoplay, setAutoplay] = useState(true);
 
     const controlPanel = useChannel(false);
 
