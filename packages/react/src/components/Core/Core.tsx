@@ -1,7 +1,6 @@
 import React, { type LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
 import { useRef, useEffect } from 'react';
-import { listen, unlisten } from '../../helpers';
 import { useEventListener } from 'usehooks-ts';
 
 import type { Slide } from '../Slidy/Slidy.types';
