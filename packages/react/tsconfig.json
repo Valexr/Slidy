@@ -10,7 +10,8 @@
         "preserveValueImports": true,
     },
     "include": [
-        "src/*"
+        "src/*",
+        "src/dev/*"
     ],
     "exclude": [
         "dist",

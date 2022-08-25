@@ -1,4 +1,3 @@
-import React from 'react';
 import { Slidy } from '../components';
 import { useState } from 'react';
 import { useChannel } from './lib';

@@ -54,8 +54,8 @@ const derverConfig = {
 	port: 3331,
 	host: "0.0.0.0",
 	watch: [
-		"public",
 		"src",
+		"public",
 		"node_modules/@slidy/assets",
 		"node_modules/@slidy/core",
 	],

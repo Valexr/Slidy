@@ -21,8 +21,8 @@ const derverConfig = {
     host: '0.0.0.0',
     dir: 'public',
     watch: [
-        'public',
         'src',
+        'public',
         'node_modules/@slidy/animation',
         'node_modules/@slidy/assets',
         'node_modules/@slidy/core',

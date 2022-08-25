@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
+import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
 
@@ -12,13 +13,21 @@ const esbuildBase = {
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['react', 'react-dom'],
+    // inject: ['./react-shim.ts'],
     jsx: 'automatic',
 };
 const derverConfig = {
     port: 3332,
     host: '0.0.0.0',
     dir: 'public',
-    watch: ['public', 'src', 'node_modules/@slidy/core'],
+    watch: [
+        'src',
+        'public',
+        'node_modules/@slidy/animation',
+        'node_modules/@slidy/assets',
+        'node_modules/@slidy/core',
+        'node_modules/@slidy/easing',
+    ],
 };
 const builds = {
     cjs: {
@@ -51,11 +60,13 @@ if (DEV) {
         });
     });
 } else {
-    for (const key in builds) {
-        build({
-            ...esbuildBase,
-            ...builds[key],
-            format: key,
-        });
-    }
+    prepare().then(() => {
+        for (const key in builds) {
+            build({
+                ...esbuildBase,
+                ...builds[key],
+                format: key,
+            });
+        }
+    });
 }

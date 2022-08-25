@@ -27,8 +27,8 @@ const derverConfig = {
     port: 3330,
     host: '0.0.0.0',
     watch: [
-        'public',
         'src',
+        'public',
         'node_modules/@slidy/animation',
         'node_modules/@slidy/easing',
         'node_modules/@slidy/media',
@@ -51,16 +51,13 @@ const builds = {
 if (DEV || CORE) {
     build(esbuildBase)
         .then((bundle) => {
-            if (DEV) console.log('watching @slidy/core...');
-            else
-                derver({
+            DEV ? console.log('watching @slidy/core...')
+                : derver({
                     ...derverConfig,
                     onwatch: async (lr, item) => {
                         if (item !== 'public') {
                             lr.prevent();
-                            bundle
-                                .rebuild()
-                                .catch((err) => lr.error(err.message, 'TS compile error'));
+                            bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
                         }
                     },
                 });
