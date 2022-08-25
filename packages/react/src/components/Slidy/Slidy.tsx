@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { execute, isFunction, format, not, increment } from '../../helpers';
+import { execute, isFunction, format, not, increment, useEventListener } from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 import { clsx } from 'clsx';
-import { useEventListener } from 'usehooks-ts';
 
 import { i18nDefaults } from './i18n';
 import { classNames as classNamesDefaults } from './slidy.styles';
@@ -201,7 +200,6 @@ const Slidy: FC<Partial<Options>> = ($props) => {
 
     useEventListener('play', handleAutoplay, section);
     useEventListener('pause', handleAutoplayPause, section);
-    // @ts-ignore
     useEventListener('stop', handleAutoplayStop, section);
 
     useEffect(() => {
