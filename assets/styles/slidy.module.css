@@ -109,7 +109,7 @@
     width: var(--slidy-width, 100%);
 }
 
-.slidy.vertical>.slidy-slides {
+.slidy.vertical > .slidy-slides {
     grid-row: 1 / -2;
     grid-column: 1;
 
@@ -118,14 +118,14 @@
     height: var(--slidy-slide-height, auto);
 }
 
-.slidy.vertical>.slidy-nav {
+.slidy.vertical > .slidy-nav {
     width: auto;
     height: max-content;
 }
 
 /* state */
 
-.slidy-slides:focus-visible>*.active img {
+.slidy-slides:focus-visible > *.active img {
     outline: 4px solid var(--slidy-focus-ring-color, #c9c9c9e6);
     outline-style: dashed;
     outline-offset: -5px;
@@ -134,7 +134,6 @@
 /* media */
 
 @media (hover: hover) {
-
     /* as slides container has 'pointer-events: none', we have to use it on slidy */
     .slidy:hover {
         cursor: grab;

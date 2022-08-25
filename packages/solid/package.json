@@ -53,5 +53,8 @@
         "@slidy/core": "workspace:*",
         "@slidy/easing": "workspace:*",
         "esbuild-plugin-solid": "^0.4.2"
+    },
+    "peerDependencies": {
+        "solid-js": "^1.4.8"
     }
 }

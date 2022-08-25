@@ -1,18 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./packages",
-        "paths": {
-            "@slidy/assets/*": ["../assets/*"],
-            "@slidy/animation": ["animation/src"],
-            "@slidy/core": ["core/src"],
-            "@slidy/easing": ["easing/src"],
-            "@slidy/react": ["react/src"],
-            "@slidy/svelte": ["svelte/src"],
-            "@slidy/malina": ["malina/src"],
-            "@slidy/wc": ["wc/src"],
-            "@slidy/vue": ["vue/src"],
-            "@slidy/media": ["media/src"]
-        },
+        "baseUrl": ".",
         "declaration": true,
         "emitDeclarationOnly": true,
         "moduleResolution": "Node",
@@ -25,6 +13,5 @@
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
-    // "include": [],
     "exclude": ["node_modules/*"]
 }

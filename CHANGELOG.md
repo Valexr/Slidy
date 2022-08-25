@@ -5,17 +5,19 @@
 ### @slidycore
 
 #### 3.5.1
-- [remove duration from to() function](https://github.com/Valexr/Slidy/commit/f4b0226305755a6e2736ba184022924684294f3a)
+
+-   [remove duration from to() function](https://github.com/Valexr/Slidy/commit/f4b0226305755a6e2736ba184022924684294f3a)
 
 ### @slidy/svelte
 
 #### 3.1.2
-- [correct classname for arrow orientation](https://github.com/Valexr/Slidy/commit/55c9f4bd195b4ad038c53eebe1bff470a56b9fe5)
+
+-   [correct classname for arrow orientation](https://github.com/Valexr/Slidy/commit/55c9f4bd195b4ad038c53eebe1bff470a56b9fe5)
 
 #### 3.1.1
-- [update overlay slot description](https://github.com/Valexr/Slidy/commit/f68d65522e810c5c7b639a6070bdfd03c05c5a25)
-- [typo within a classname](https://github.com/Valexr/Slidy/commit/cd71fefc2ade71336a3ee5d55d61196d836241ec)
 
+-   [update overlay slot description](https://github.com/Valexr/Slidy/commit/f68d65522e810c5c7b639a6070bdfd03c05c5a25)
+-   [typo within a classname](https://github.com/Valexr/Slidy/commit/cd71fefc2ade71336a3ee5d55d61196d836241ec)
 
 ## 3.5.0 - modulated & fully rethinkin
 
@@ -39,7 +41,6 @@
 -   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
-
 
 ## 2.8.2
 

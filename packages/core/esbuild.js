@@ -51,16 +51,19 @@ const builds = {
 if (DEV || CORE) {
     build(esbuildBase)
         .then((bundle) => {
-            DEV ? console.log('watching @slidy/core...')
+            DEV
+                ? console.log('watching @slidy/core...')
                 : derver({
-                    ...derverConfig,
-                    onwatch: async (lr, item) => {
-                        if (item !== 'public') {
-                            lr.prevent();
-                            bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                        }
-                    },
-                });
+                      ...derverConfig,
+                      onwatch: async (lr, item) => {
+                          if (item !== 'public') {
+                              lr.prevent();
+                              bundle
+                                  .rebuild()
+                                  .catch((err) => lr.error(err.message, 'TS compile error'));
+                          }
+                      },
+                  });
         })
         .catch(() => process.exit(1));
 } else {

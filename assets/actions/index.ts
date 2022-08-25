@@ -1,1 +1,1 @@
-export { autoplay } from "./autoplay";
+export { autoplay } from './autoplay';

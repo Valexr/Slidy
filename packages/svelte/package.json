@@ -55,8 +55,10 @@
 	},
 	"homepage": "https://github.com/Valexr/Slidy/tree/master/packages/svelte",
 	"devDependencies": {
+		"@slidy/animation": "workspace:*",
 		"@slidy/assets": "workspace:*",
 		"@slidy/core": "workspace:*",
+		"@slidy/easing": "workspace:*",
 		"@tsconfig/svelte": "^3.0.0",
 		"css-tree": "^2.2.1",
 		"esbuild-svelte": "^0.7.1",

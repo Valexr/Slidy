@@ -1,4 +1,4 @@
-import { rm } from "fs/promises";
+import { rm } from 'fs/promises';
 
 export default async function remove(path = 'dist') {
     try {

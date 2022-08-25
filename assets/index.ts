@@ -9,6 +9,6 @@ export {
     getRandomSlides,
     initSlides,
     generateIndexes,
-    range
+    range,
 } from './scripts';
-export { autoplay } from './actions'
+export { autoplay } from './actions';
