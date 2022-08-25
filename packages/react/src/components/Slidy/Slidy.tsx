@@ -1,5 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { execute, isFunction, format, not, increment, useEventListener } from '../../helpers';
+import { useState, useRef } from 'react';
+import {
+    execute,
+    isFunction,
+    format,
+    not,
+    increment,
+    useEventListener,
+    useAction,
+} from '../../helpers';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
@@ -195,33 +203,17 @@ const Slidy: FC<Partial<Options>> = ($props) => {
     };
 
     const section = useRef<HTMLElement>(null);
-    const autoplayRef = useRef<null | ReturnType<typeof autoplayAction>>(null);
 
     useEventListener('play', handleAutoplay, section);
     useEventListener('pause', handleAutoplayPause, section);
     useEventListener('stop', handleAutoplayStop, section);
 
-    useEffect(() => {
-        if (!section.current) return;
+    const options = {
+        status: autoplay,
+        interval: props.interval,
+    };
 
-        if (!autoplayRef.current) {
-            autoplayRef.current = autoplayAction(section.current, {
-                status: autoplay,
-                interval: props.interval,
-            });
-
-            return;
-        }
-
-        autoplayRef.current.update({ status: autoplay });
-    }, [autoplay]);
-
-    useEffect(
-        () => () => {
-            autoplayRef.current?.destroy();
-        },
-        []
-    );
+    useAction(autoplayAction, options, section, [autoplay]);
 
     return (
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>

@@ -1,11 +1,10 @@
-import type { LegacyRef } from 'react';
 import { slidy } from '@slidy/core';
-import { useRef, useEffect } from 'react';
-import { useEventListener, execute } from '../../helpers';
+import { useRef } from 'react';
+import { useEventListener, useAction, execute } from '../../helpers';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, LegacyRef } from 'react';
 
 interface Options {
     animation: SlidyCoreOptions['animation'];
@@ -67,7 +66,6 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
     };
 
     const el = useRef<HTMLOListElement | null>(null);
-    const action = useRef<null | ReturnType<typeof slidy>>(null);
 
     useEventListener('destroy', execute(props.onDestroy), el);
     useEventListener('index', execute(props.onIndex), el);
@@ -91,19 +89,7 @@ const Core: FC<PropsWithChildren<Partial<Options>>> = ($props) => {
         props.index,
     ] as const;
 
-    useEffect(() => {
-        if (!el.current) return;
-
-        if (!action.current) {
-            action.current = slidy(el.current, options);
-
-            return;
-        }
-
-        action.current.update(options);
-    }, dependencies);
-
-    useEffect(() => () => action.current?.destroy(), []);
+    useAction(slidy, options, el, dependencies);
 
     const Tag = props.tag as 'ol';
 
