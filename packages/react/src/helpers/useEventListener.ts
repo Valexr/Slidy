@@ -4,7 +4,8 @@
  * @todo: better credits
  */
 
-import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
+import type { RefObject } from 'react';
 
 const browser = typeof window !== 'undefined';
 
