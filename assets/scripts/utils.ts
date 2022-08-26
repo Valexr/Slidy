@@ -21,7 +21,7 @@ export const execute = (...quenue: (undefined | ((arg: any) => void))[]) => {
     return (arg: any) => quenue.forEach((fn) => fn?.(arg));
 };
 
-export const noop = (...args: any[]) => {
+export const noop = () => {
     // this function serves no purpose
 };
 
