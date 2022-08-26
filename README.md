@@ -49,10 +49,10 @@
 [@ariya](https://github.com/ariya) for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles  
 [@argyleink](https://github.com/argyleink) for [open-props](https://github.com/argyleink/open-props) - Open Source CSS Variables  
 [@evanw](https://github.com/evanw) for [esbuild](https://github.com/evanw/esbuild) - an extremely fast JS bundler  
-[@rodshtein](https://github.com/rodshtein) for the idea of implementing the action function  
-[@EricRovell](https://github.com/EricRovell) for collaboration & ideas of modulating `@slidy`  
-[@ArtemiySchukin](https://github.com/yhdgms1) for collaboration & `SolidJS` implementation  
 [@AlexxNB](https://github.com/AlexxNB) for [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server  
 [@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactive updates of options object
+[@rodshtein](https://github.com/rodshtein) for the idea of implementing the action function  
+[@EricRovell](https://github.com/EricRovell) for collaboration & ideas of modulating `@slidy`  
+[@ArtemiySchukin](https://github.com/yhdgms1) for collaboration & `SolidJS` & `RactJS` implementations
 
 MIT &copy; [Valexr](https://github.com/Valexr)
