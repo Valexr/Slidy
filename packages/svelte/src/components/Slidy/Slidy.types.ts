@@ -42,6 +42,7 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	i18n: I18NDict;
 	interval?: number;
 	navigation?: boolean;
+	packed?: number;
 	progress?: boolean;
 	slides: Slide[];
 	thumbnail?: boolean;

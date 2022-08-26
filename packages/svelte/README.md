@@ -113,6 +113,7 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `i18n` | `i18nDefaults` | `I18NDict` | The i18n localization dictionary. |
 | `interval` | `1500` | `number` | Defines the autoplay interval time in ms. |
 | `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
+| `packed` | `0` | `number` | Controls the number of items displayed pew viewport. | 
 | `progress` | `false` | `boolean` | Renders the progress bar. |
 | `slides` | `[]` | `Slides[]` | An array of objects with image metadata. |
 | `thumbnail` | `false` | `boolean`  | Renders the thumbnail navigation panel. |

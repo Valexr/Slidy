@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- [feat]: implement `packed` prop to control the number of items displayed pre viewport.
+- [fix]: inherit `clamp` value by control buttons;
+
 ## 3.2.0
 
 - [feat]: `autoplay` functionality with `autoplay`, `autoplayControl`, and `interval` props. Autoplay will be paused on hover and during focus and stopped at the last slide item if `loop` mode was not activated.
