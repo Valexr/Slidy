@@ -1,9 +1,10 @@
 import { useSlidy } from '../Slidy/Slidy';
 import { mergeProps } from 'solid-js';
+import { s } from '../../utils';
 
 import '@slidy/assets/styles/progress.module.css';
 
-import type { VoidComponent, JSX } from 'solid-js';
+import type { VoidComponent } from 'solid-js';
 
 interface Props {
     value: number;
@@ -25,12 +26,10 @@ const Progress: VoidComponent<Partial<Props>> = ($props) => {
     return (
         <div class={classNames.progress} classList={{ vertical: props.vertical }}>
             <span
-                style={
-                    {
-                        '--_slidy-progress-size': `${Math.ceil(100 / props.max)}%`,
-                        '--_slidy-progress': `${Math.ceil((props.value * 100) / props.max)}%`,
-                    } as JSX.CSSProperties
-                }
+                style={s({
+                    '--_slidy-progress-size': `${Math.ceil(100 / props.max)}%`,
+                    '--_slidy-progress': `${Math.ceil((props.value * 100) / props.max)}%`,
+                })}
             />
         </div>
     );

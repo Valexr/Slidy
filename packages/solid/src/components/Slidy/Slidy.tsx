@@ -16,6 +16,8 @@ import { execute, isFunction, format } from '@slidy/assets/scripts/utils';
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
 
 import { i18nDefaults } from './i18n';
+import { s } from '../../utils';
+import { not, increment } from '@slidy/assets/scripts/utils';
 import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
@@ -213,9 +215,9 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             setAutoplayState('play');
 
             if (props.loop) {
-                setIndex((prev) => prev + 1);
+                setIndex(increment);
             } else if (untrack(index) + 1 < length()) {
-                setIndex((prev) => prev + 1);
+                setIndex(increment);
             } else {
                 setAutoplay(false);
             }
@@ -238,7 +240,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
 
         batch(() => {
             setAutoplayState(state === 'stop' ? 'play' : 'stop');
-            setAutoplay((prev) => !prev);
+            setAutoplay(not);
         });
     };
 
@@ -259,12 +261,10 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
                 classList={{ vertical: vertical(), packed: props.packed > 1 }}
-                style={
-                    {
-                        '--slidy-autoplay-interval': props.interval + 'ms',
-                        '--slidy-pack-size': props.packed,
-                    } as JSX.CSSProperties
-                }
+                style={s({
+                    '--slidy-autoplay-interval': props.interval + 'ms',
+                    '--slidy-pack-size': props.packed,
+                })}
                 id={props.id}
                 onClick={handleClick}
                 on:play={handleAutoplay}
@@ -330,13 +330,11 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                         bg: props.background,
                                     }}
                                     role="group"
-                                    style={
-                                        {
-                                            '--_slidy-slide-bg': props.background
-                                                ? `url("${props.getImgSrc(item)}")`
-                                                : undefined,
-                                        } as JSX.CSSProperties
-                                    }
+                                    style={s({
+                                        '--_slidy-slide-bg': props.background
+                                            ? `url("${props.getImgSrc(item)}")`
+                                            : undefined,
+                                    })}
                                 >
                                     <Show when={!props.background}>
                                         <Image {...item} src={props.getImgSrc(item)} />

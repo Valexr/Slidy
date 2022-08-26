@@ -1,9 +1,11 @@
 import { mergeProps } from 'solid-js';
 import { useSlidy } from '../Slidy/Slidy';
+import { noop } from '@slidy/assets/scripts/utils';
+import { s } from '../../utils';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
-import type { Component, JSX } from 'solid-js';
+import type { Component } from 'solid-js';
 
 type State = 'play' | 'pause' | 'stop';
 
@@ -17,9 +19,7 @@ interface Options {
 const defaultProps: Options = {
     disabled: false,
     state: 'stop',
-    onClick: () => {
-        //
-    },
+    onClick: noop,
 };
 
 const r = 15;
@@ -53,7 +53,7 @@ const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
     return (
         <div
             class="slidy-autoplay"
-            style={{ '--slidy-autoplay-stroke-length': 2 * Math.PI * r } as JSX.CSSProperties}
+            style={s({ '--slidy-autoplay-stroke-length': 2 * Math.PI * r })}
         >
             <svg viewBox={viewBox}>
                 <path
