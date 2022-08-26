@@ -4,7 +4,7 @@ import { useSlidy } from '../Slidy/Slidy';
 import { format } from '@slidy/assets/scripts/utils';
 
 import type { SlidyThumbOptions } from './thumbnail.types';
-import type { VoidComponent } from 'solid-js';
+import type { VoidComponent, JSX } from 'solid-js';
 
 import '@slidy/assets/styles/thumbnail.module.css';
 
@@ -72,11 +72,13 @@ const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
                                 bg: props.background,
                             }}
                             role="group"
-                            style={{
-                                '--_slidy-slide-bg': props.background
-                                    ? `url(${props.getImgSrc(item)})`
-                                    : '',
-                            }}
+                            style={
+                                {
+                                    '--_slidy-slide-bg': props.background
+                                        ? `url(${props.getImgSrc(item)})`
+                                        : '',
+                                } as JSX.CSSProperties
+                            }
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>

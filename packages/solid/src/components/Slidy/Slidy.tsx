@@ -1,4 +1,13 @@
-import { Show, For, mergeProps, createEffect, createSignal, onCleanup, batch, untrack } from 'solid-js';
+import {
+    Show,
+    For,
+    mergeProps,
+    createEffect,
+    createSignal,
+    onCleanup,
+    batch,
+    untrack,
+} from 'solid-js';
 
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
@@ -245,7 +254,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
                 classList={{ vertical: vertical() }}
-                style={{ '--slidy-autoplay-interval': props.interval + 'ms' }}
+                style={{ '--slidy-autoplay-interval': props.interval + 'ms' } as JSX.CSSProperties}
                 id={props.id}
                 onClick={handleClick}
                 on:play={handleAutoplay}
@@ -311,11 +320,13 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                         bg: props.background,
                                     }}
                                     role="group"
-                                    style={{
-                                        '--_slidy-slide-bg': props.background
-                                            ? `url("${props.getImgSrc(item)}")`
-                                            : undefined,
-                                    }}
+                                    style={
+                                        {
+                                            '--_slidy-slide-bg': props.background
+                                                ? `url("${props.getImgSrc(item)}")`
+                                                : undefined,
+                                        } as JSX.CSSProperties
+                                    }
                                 >
                                     <Show when={!props.background}>
                                         <Image {...item} src={props.getImgSrc(item)} />

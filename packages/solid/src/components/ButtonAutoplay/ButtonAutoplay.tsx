@@ -3,7 +3,7 @@ import { useSlidy } from '../Slidy/Slidy';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
-import type { Component } from 'solid-js';
+import type { Component, JSX } from 'solid-js';
 
 type State = 'play' | 'pause' | 'stop';
 
@@ -51,7 +51,10 @@ const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
     };
 
     return (
-        <div class="slidy-autoplay" style={{ '--slidy-autoplay-stroke-length': 2 * Math.PI * r }}>
+        <div
+            class="slidy-autoplay"
+            style={{ '--slidy-autoplay-stroke-length': 2 * Math.PI * r } as JSX.CSSProperties}
+        >
             <svg viewBox={viewBox}>
                 <path
                     stroke="var(--slidy-counter-bg, #4e4e4ebf)"
