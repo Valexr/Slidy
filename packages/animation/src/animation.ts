@@ -7,7 +7,7 @@ const fade: AnimationFunc = ({ child, translate }) => {
     };
 };
 
-const shade: AnimationFunc = ({ child, translate }) => {
+const shade: AnimationFunc = ({ child, options, translate }) => {
     const active = child.i === child.active;
     const full = Math.abs(child.track) <= child.size;
     const zIndex = active ? 0 : 1;

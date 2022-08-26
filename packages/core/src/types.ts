@@ -42,7 +42,7 @@ export interface Options {
      */
     axis?: Axis;
     /**
-     * Default clamp sliding by edges.
+     * Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges.
      */
     snap?: Snap;
     /**
