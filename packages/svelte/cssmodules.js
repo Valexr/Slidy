@@ -1,6 +1,6 @@
 import * as Path from "path";
 import * as csstree from "css-tree";
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 
 /**
  * @param options - an object like `Options` (explained below)
@@ -15,8 +15,8 @@ export default (options = {}) => ({
 	name: "simple-css-modules",
 	async setup(build) {
 		const transform = async (path) => {
-			const content = readFileSync(path).toString();
-			const ast = csstree.parse(content);
+			const content = await readFile(path);
+			const ast = csstree.parse(content.toString());
 			const styles = {};
 
 			const namespace = Path.relative(process.cwd(), path)
@@ -51,7 +51,7 @@ export default (options = {}) => ({
 
 			return {
 				contents: `
-				import "${importPath}"; 
+				import "${importPath}";
 				export default ${JSON.stringify(styles)}
 				`,
 			};
