@@ -19,7 +19,7 @@
 	let limit = 10;
 	let index = 4;
 	let vertical = false;
-	let clamp = 0;
+	let clamp = 1;
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";
@@ -71,8 +71,6 @@
 <main>
 	{#await items then slides}
 		<Slidy
-			autoplay={true}
-			autoplayControl
 			interval={2000}
 			{animation}
 			{axis}
@@ -90,6 +88,7 @@
 			loop={false}
 			thumbnail
 			progress
+			packed={0}
 		/>
 	{/await}
 </main>
