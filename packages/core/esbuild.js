@@ -49,23 +49,24 @@ const builds = {
 };
 
 if (DEV || CORE) {
-    build(esbuildBase)
-        .then((bundle) => {
-            DEV
-                ? console.log('watching @slidy/core...')
-                : derver({
-                      ...derverConfig,
-                      onwatch: async (lr, item) => {
-                          if (item !== 'public') {
-                              lr.prevent();
-                              bundle
-                                  .rebuild()
-                                  .catch((err) => lr.error(err.message, 'TS compile error'));
-                          }
-                      },
-                  });
-        })
-        .catch(() => process.exit(1));
+    prepare(CORE ? 'public/build' : 'dist').then(() => {
+        build(esbuildBase)
+            .then((bundle) => {
+                if (DEV) console.log('watching @slidy/core...');
+                else derver({
+                    ...derverConfig,
+                    onwatch: async (lr, item) => {
+                        if (item !== 'public') {
+                            lr.prevent();
+                            bundle
+                                .rebuild()
+                                .catch((err) => lr.error(err.message, 'TS compile error'));
+                        }
+                    },
+                });
+            })
+            .catch(() => process.exit(1));
+    });
 } else {
     prepare().then(() => {
         for (const key in builds) {

@@ -1,10 +1,49 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "paths": {
+            "@slidy/assets/*": [
+                "assets/*"
+            ],
+            "@slidy/animation": [
+                "packages/animation/src"
+            ],
+            "@slidy/core": [
+                "packages/core/src"
+            ],
+            "@slidy/easing": [
+                "packages/easing/src"
+            ],
+            "@slidy/media": [
+                "packages/media/src"
+            ],
+            "@slidy/react": [
+                "packages/react/src"
+            ],
+            "@slidy/solid": [
+                "packages/solid/src"
+            ],
+            "@slidy/svelte": [
+                "packages/svelte/src"
+            ],
+            "@slidy/malina": [
+                "packages/malina/src"
+            ],
+            "@slidy/wc": [
+                "packages/wc/src"
+            ],
+            "@slidy/vue": [
+                "packages/vue/src"
+            ],
+        },
         "declaration": true,
         "emitDeclarationOnly": true,
         "moduleResolution": "Node",
-        "lib": ["DOM", "ESNext", "DOM.Iterable"],
+        "lib": [
+            "DOM",
+            "ESNext",
+            "DOM.Iterable"
+        ],
         "module": "ESNext",
         "target": "ESNext",
         "strict": true,
@@ -13,5 +52,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
-    "exclude": ["node_modules/*"]
+    "exclude": [
+        "node_modules/*"
+    ]
 }
