@@ -4,7 +4,7 @@
 	import "@slidy/assets/styles/arrow.module.css";
 
 	// describes slide management the direction: previous / next
-	export let type: -1 | 1 | number = 1;
+	export let clamp = 1;
 	export let loop: boolean;
 	export let index: number;
 	export let items: number;
@@ -13,11 +13,13 @@
 	const classNames = getContext<SlidyStyles>("classNames");
 	const i18n = getContext<I18NDict>("i18n");
 
-	$: disabled = type < 1
+	$: type = clamp < 0;
+
+	$: disabled = type
 		? index === 0 && !loop
 		: index === items - 1 && !loop;
 
-	$: title = type < 1
+	$: title = type
 		? i18n.prev
 		: i18n.next;
 </script>
@@ -25,9 +27,9 @@
 <button
 	aria-label={title}
 	class="{classNames.arrow}"
-	class:prev={type < 0}
+	class:prev={type}
 	class:vertical
-	data-step={type}
+	data-step={clamp}
 	{disabled}
 	{title}
 >
