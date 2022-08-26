@@ -52,7 +52,7 @@
 [@AlexxNB](https://github.com/AlexxNB) for [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server  
 [@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactive updates of options object  
 [@rodshtein](https://github.com/rodshtein) for the idea of implementing the action function  
-[@EricRovell](https://github.com/EricRovell) for collaboration & ideas of modulating `@slidy`  
+[@EricRovell](https://github.com/EricRovell) for collaboration, ideas of modulating `@Slidy`, `SvelteJS` root themplate  
 [@ArtemiySchukin](https://github.com/yhdgms1) for collaboration & `SolidJS` & `RactJS` implementations
 
 MIT &copy; [Valexr](https://github.com/Valexr)
