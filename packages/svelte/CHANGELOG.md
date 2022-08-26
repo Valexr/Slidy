@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.0
+
+- [feat]: `autoplay` functionality with `autoplay`, `autoplayControl`, and `interval` props. Autoplay will be paused on hover and during focus and stopped at the last slide item if `loop` mode was not activated.
+- [feat]: `i18n` disctionary can be passed as prop to localize aria attributes and control titles. 
+
 ## 3.1.3 - 3.1.5
 
 - testing releases
