@@ -1,6 +1,7 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
         "declarationDir": "dist",
         "jsx": "react-jsx",
         "allowSyntheticDefaultImports": true,
@@ -8,6 +9,12 @@
         "skipLibCheck": true,
         "preserveValueImports": true
     },
-    "include": ["src/*", "src/dev/*"],
-    "exclude": ["dist", "public"]
+    "include": [
+        "src/*",
+        "src/dev/*"
+    ],
+    "exclude": [
+        "dist",
+        "public"
+    ]
 }

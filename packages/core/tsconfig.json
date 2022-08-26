@@ -1,8 +1,13 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
         "declarationDir": "dist"
     },
-    "include": ["src/*"],
-    "exclude": ["src/iife.ts"]
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        "src/iife.ts"
+    ]
 }
