@@ -2,9 +2,9 @@ import { getPhotos, randInt, clamp } from '.';
 
 let slides: Awaited<ReturnType<typeof getPhotos>> = [];
 
-export async function initSlides(limit = 50) {
+export async function initSlides(limit = 10) {
     slides = await getPhotos({
-        limit: clamp(limit, 3, 10),
+        limit: clamp(3, limit, 10),
         page: randInt(0, 100),
     });
 }
