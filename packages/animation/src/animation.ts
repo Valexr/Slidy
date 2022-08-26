@@ -27,8 +27,8 @@ const blur: AnimationFunc = ({ child, translate }) => {
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : child.i - child.active;
+        ? child.active - child.i
+        : child.i - child.active;
     return {
         opacity: child.exp as unknown as string,
         filter: `blur(${1 - child.exp}ex`,
@@ -74,8 +74,8 @@ const shuffle: AnimationFunc = ({ node, child, options, translate }) => {
         child.i === child.active
             ? child.active
             : child.i > child.active
-                ? child.active - child.i
-                : -(child.i - child.active + node.children.length);
+            ? child.active - child.i
+            : -(child.i - child.active + node.children.length);
     return {
         transform: active ? `${translate} translate(${axis})` : `${translate}`,
         zIndex: zIndex as unknown as string,
@@ -102,8 +102,8 @@ const matrix: AnimationFunc = ({ node, child, options }) => {
     const zIndex = active
         ? node.children.length - child.index
         : child.index < (options.index as number)
-            ? child.index - node.children.length
-            : node.children.length - child.index - 1;
+        ? child.index - node.children.length
+        : node.children.length - child.index - 1;
 
     // let theta = 360 / node.children.length;
     // let radius = Math.round((child.size / 2) / Math.tan(Math.PI / node.children.length));
@@ -128,8 +128,8 @@ const stairs: AnimationFunc = ({ node, child, options, translate }) => {
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : child.i - node.children.length + 1;
+        ? child.active - child.i
+        : child.i - node.children.length + 1;
     const stairs = deck ? `scale(${child.exp})` : `translateZ(${-Math.abs(child.track)}px)`;
     return {
         transform: translate + stairs,
@@ -167,8 +167,8 @@ const deck: AnimationFunc = ({ node, child, options, translate }) => {
     const zIndex = active
         ? child.active
         : child.i > child.active
-            ? child.active - child.i
-            : 1 - node.children.length - child.i;
+        ? child.active - child.i
+        : 1 - node.children.length - child.i;
     return {
         transform: translate + `translate3d(${X}px, ${Y}px, ${Z}px) rotateZ(${R}deg) scale(${S})`,
         // zIndex: active ? 0 : -(node.children.length - child.index)

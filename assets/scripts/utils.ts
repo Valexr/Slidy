@@ -28,4 +28,3 @@ export const noop = () => {
 export const not = (value: unknown) => !value;
 
 export const increment = (value: number) => value + 1;
-

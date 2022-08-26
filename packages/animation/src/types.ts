@@ -28,7 +28,7 @@ interface Options {
      * * @readonly
      */
     snap: Snap;
-};
+}
 
 type Snap = 'start' | 'center' | 'end' | 'deck';
 

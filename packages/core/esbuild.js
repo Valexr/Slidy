@@ -53,17 +53,18 @@ if (DEV || CORE) {
         build(esbuildBase)
             .then((bundle) => {
                 if (DEV) console.log('watching @slidy/core...');
-                else derver({
-                    ...derverConfig,
-                    onwatch: async (lr, item) => {
-                        if (item !== 'public') {
-                            lr.prevent();
-                            bundle
-                                .rebuild()
-                                .catch((err) => lr.error(err.message, 'TS compile error'));
-                        }
-                    },
-                });
+                else
+                    derver({
+                        ...derverConfig,
+                        onwatch: async (lr, item) => {
+                            if (item !== 'public') {
+                                lr.prevent();
+                                bundle
+                                    .rebuild()
+                                    .catch((err) => lr.error(err.message, 'TS compile error'));
+                            }
+                        },
+                    });
             })
             .catch(() => process.exit(1));
     });
