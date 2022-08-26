@@ -15,7 +15,7 @@ import type { Slide } from '..';
 import type { FC } from 'react';
 
 const App: FC = () => {
-    const clamp = useChannel(false);
+    const clamp = useChannel(1);
     const duration = useChannel(450);
     const gravity = useChannel(1.45);
     const width = useChannel('auto');
@@ -24,7 +24,7 @@ const App: FC = () => {
     const gap = useChannel(15);
 
     const [index, setIndex] = useState(3);
-    const [autoplay, setAutoplay] = useState(true);
+    const [autoplay, setAutoplay] = useState(false);
 
     const controlPanel = useChannel(false);
 
@@ -84,7 +84,8 @@ const App: FC = () => {
                     // bind:autoplay
                     autoplay={autoplay}
                     setAutoplay={setAutoplay}
-                    autoplayControl
+                    // autoplayControl
+                    packed={3}
                 />
             </main>
             <Sidemenu controlPanel={controlPanel}>

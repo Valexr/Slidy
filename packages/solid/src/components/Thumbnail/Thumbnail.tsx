@@ -2,9 +2,10 @@ import { mergeProps, For, Show } from 'solid-js';
 import { Core, Image } from '..';
 import { useSlidy } from '../Slidy/Slidy';
 import { format } from '@slidy/assets/scripts/utils';
+import { s } from '../../utils';
 
 import type { SlidyThumbOptions } from './thumbnail.types';
-import type { VoidComponent, JSX } from 'solid-js';
+import type { VoidComponent } from 'solid-js';
 
 import '@slidy/assets/styles/thumbnail.module.css';
 
@@ -72,13 +73,11 @@ const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
                                 bg: props.background,
                             }}
                             role="group"
-                            style={
-                                {
-                                    '--_slidy-slide-bg': props.background
-                                        ? `url(${props.getImgSrc(item)})`
-                                        : '',
-                                } as JSX.CSSProperties
-                            }
+                            style={s({
+                                '--_slidy-slide-bg': props.background
+                                    ? `url(${props.getImgSrc(item)})`
+                                    : '',
+                            })}
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>

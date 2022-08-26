@@ -1,10 +1,11 @@
 import { useSlidy } from '../Context';
 import { noop } from '@slidy/assets/scripts/utils';
 import { clsx } from 'clsx';
+import { s } from '../../utils';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
-import type { FC, CSSProperties } from 'react';
+import type { FC } from 'react';
 
 type State = 'play' | 'pause' | 'stop';
 
@@ -47,7 +48,7 @@ const ButtonAutoplay: FC<Options> = (props) => {
         }
     };
 
-    const style = { '--slidy-autoplay-stroke-length': 2 * Math.PI * r } as CSSProperties;
+    const style = s({ '--slidy-autoplay-stroke-length': 2 * Math.PI * r });
 
     return (
         <div className="slidy-autoplay" style={style}>

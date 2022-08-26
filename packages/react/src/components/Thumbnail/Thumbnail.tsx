@@ -2,9 +2,10 @@ import { Core, Image } from '..';
 import { format, noop } from '@slidy/assets/scripts/utils';
 import { useSlidy } from '../Context';
 import { clsx } from 'clsx';
+import { s } from '../../utils';
 
 import type { SlidyThumbOptions } from './thumbnail.types';
-import type { FC, CSSProperties } from 'react';
+import type { FC } from 'react';
 
 import '@slidy/assets/styles/thumbnail.module.css';
 
@@ -58,9 +59,9 @@ const Thumbnail: FC<Partial<Options>> = ($props) => {
                 const active = props.active === i;
                 const title = format(i18n.slideN, i + 1);
 
-                const style = {
+                const style = s({
                     '--_slidy-slide-bg': props.background ? `url(${props.getImgSrc(item)})` : '',
-                } as CSSProperties;
+                });
 
                 return (
                     <button

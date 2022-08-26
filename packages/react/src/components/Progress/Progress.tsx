@@ -1,9 +1,10 @@
 import { useSlidy } from '../Context';
 import { clsx } from 'clsx';
+import { s } from '../../utils';
 
 import '@slidy/assets/styles/progress.module.css';
 
-import type { FC, CSSProperties } from 'react';
+import type { FC } from 'react';
 
 interface Props {
     value: number;
@@ -20,10 +21,10 @@ const defaultProps: Props = {
 const Progress: FC<Props> = (props) => {
     const { classNames } = useSlidy();
 
-    const style = {
+    const style = s({
         '--_slidy-progress-size': `${Math.ceil(100 / props.max)}%`,
         '--_slidy-progress': `${Math.ceil((props.value * 100) / props.max)}%`,
-    } as CSSProperties;
+    });
 
     return (
         <div className={clsx(classNames.progress, props.vertical && 'vertical')}>

@@ -6,7 +6,7 @@ import type { Channel } from '../lib';
 import '@slidy/assets/styles/dev/control-panel.module.css';
 
 interface Options {
-    clamp: Channel<boolean>;
+    clamp: Channel<number>;
     duration: Channel<number>;
     gravity: Channel<number>;
     width: Channel<string>;
@@ -28,9 +28,9 @@ const ControlPanel: FC<Options> = (props) => {
                 <fieldset className="flex-horizontal">
                     <label>
                         <input
-                            type="checkbox"
-                            checked={props.clamp()}
-                            onChange={() => props.clamp(not)}
+                            type="number"
+                            value={props.clamp()}
+                            onChange={(e) => props.clamp(e.target.valueAsNumber)}
                         />
                         <span>Clamp</span>
                     </label>

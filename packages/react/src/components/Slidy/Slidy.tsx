@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
-import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils'
+import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
 import { useEventListener, useAction } from '../../hooks';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 import { clsx } from 'clsx';
+import { s } from '../../utils';
 
 import { i18nDefaults } from './i18n';
 import { classNames as classNamesDefaults } from './slidy.styles';
@@ -12,7 +13,7 @@ import { classNames as classNamesDefaults } from './slidy.styles';
 import '@slidy/assets/styles/slidy.module.css';
 
 import type { Slide, SlidyOptions } from './Slidy.types';
-import type { FC, SetStateAction, Dispatch, CSSProperties } from 'react';
+import type { FC, SetStateAction, Dispatch } from 'react';
 
 interface Options {
     animation?: SlidyOptions['animation'];
@@ -45,6 +46,10 @@ interface Options {
      * @default false
      */
     navigation?: boolean;
+    /**
+     * @default 0
+     */
+    packed: number;
     /**
      * @default 1.2
      */
@@ -119,6 +124,7 @@ const defaultProps: Options = {
     gravity: 1.2,
     indent: 2,
     loop: false,
+    packed: 0,
     progress: false,
     sensity: 5,
     slides: [],
@@ -216,8 +222,15 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
                 aria-roledescription={props.i18n.carousel}
-                className={clsx(props.classNames?.root, vertical && 'vertical')}
-                style={{ '--slidy-autoplay-interval': props.interval + 'ms' } as CSSProperties}
+                className={clsx(
+                    props.classNames?.root,
+                    vertical && 'vertical',
+                    props.packed > 1 && 'packed'
+                )}
+                style={s({
+                    '--slidy-autoplay-interval': props.interval + 'ms',
+                    '--slidy-pack-size': props.packed,
+                })}
                 id={props.id}
                 onClick={handleClick}
                 ref={section}
@@ -282,13 +295,11 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                                     props.background && 'bg'
                                 )}
                                 role="group"
-                                style={
-                                    {
-                                        '--_slidy-slide-bg': props.background
-                                            ? `url("${props.getImgSrc(item)}")`
-                                            : undefined,
-                                    } as CSSProperties
-                                }
+                                style={s({
+                                    '--_slidy-slide-bg': props.background
+                                        ? `url("${props.getImgSrc(item)}")`
+                                        : undefined,
+                                })}
                             >
                                 {!props.background && (
                                     <Image {...item} src={props.getImgSrc(item)} />
@@ -298,10 +309,10 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                     })}
                 </Core>
                 {props.arrows === true &&
-                    [-1, 1].map((type) => (
+                    [-props.clamp, props.clamp].map((type) => (
                         <Arrow
                             key={type}
-                            type={type as -1 | 1}
+                            clamp={type as -1 | 1}
                             index={index}
                             items={length}
                             loop={props.loop}
