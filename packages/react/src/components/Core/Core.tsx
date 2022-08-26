@@ -1,6 +1,7 @@
 import { slidy } from '@slidy/core';
 import { useRef } from 'react';
-import { useEventListener, useAction, execute } from '../../helpers';
+import { execute } from '@slidy/assets/scripts/utils'
+import { useEventListener, useAction } from '../../hooks';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';

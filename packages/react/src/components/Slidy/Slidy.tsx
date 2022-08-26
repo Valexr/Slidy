@@ -1,13 +1,6 @@
 import { useState, useRef } from 'react';
-import {
-    execute,
-    isFunction,
-    format,
-    not,
-    increment,
-    useEventListener,
-    useAction,
-} from '../../helpers';
+import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils'
+import { useEventListener, useAction } from '../../hooks';
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';

@@ -1,4 +1,5 @@
-import { not, useEventListener } from '../../helpers';
+import { not } from '@slidy/assets/scripts/utils';
+import { useEventListener } from '../../hooks'
 import { clsx } from 'clsx';
 
 import type { FC, PropsWithChildren } from 'react';

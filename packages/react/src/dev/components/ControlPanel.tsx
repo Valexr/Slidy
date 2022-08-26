@@ -1,4 +1,4 @@
-import { not } from '../../helpers';
+import { not } from '@slidy/assets/scripts/utils';
 
 import type { FC } from 'react';
 import type { Channel } from '../lib';

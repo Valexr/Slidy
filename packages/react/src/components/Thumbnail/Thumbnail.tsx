@@ -1,5 +1,5 @@
 import { Core, Image } from '..';
-import { format, noop } from '../../helpers';
+import { format, noop } from '@slidy/assets/scripts/utils';
 import { useSlidy } from '../Context';
 import { clsx } from 'clsx';
 

@@ -1,5 +1,5 @@
 import { useSlidy } from '../Context';
-import { noop } from '../../helpers';
+import { noop } from '@slidy/assets/scripts/utils';
 import { clsx } from 'clsx';
 
 import '@slidy/assets/styles/button-autoplay.module.css';

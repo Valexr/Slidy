@@ -1,6 +1,6 @@
 import { generateIndexes } from '@slidy/assets/scripts/navigation';
 import { useSlidy } from '../Context';
-import { format } from '../../helpers';
+import { format } from '@slidy/assets/scripts/utils';
 import { clsx } from 'clsx';
 
 import '@slidy/assets/styles/navigation.module.css';
