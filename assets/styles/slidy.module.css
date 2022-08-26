@@ -29,7 +29,9 @@
 }
 
 .slidy.packed .slidy-slides {
-    --_slidy-pack-size: calc((100% - var(--slidy-slide-gap, 1rem) * var(--slidy-pack-size)) / var(--slidy-pack-size));
+    --_slidy-pack-size: calc(
+        (100% - var(--slidy-slide-gap, 1rem) * var(--slidy-pack-size)) / var(--slidy-pack-size)
+    );
 }
 
 .slidy:not(.vertical).packed .slidy-slides {

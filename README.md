@@ -40,9 +40,10 @@
 
 ## Development
 
--   `pnpm workspaces` - monorepo
--   `esbuild` - bundling & packaging
--   `derver` - dev server
+- `esbuild` - bundling & packaging
+- `pnpm workspaces` - monorepo
+- `tsc` - types declaration
+- `derver` - dev server
 
 ## Thanks 🎉
 
