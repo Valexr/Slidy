@@ -21,7 +21,7 @@ const App: Component = () => {
     const limit = channel(15);
 
     const vertical = channel(false);
-    const clamp = channel(false);
+    const clamp = channel(1);
     const duration = channel(450);
     const gravity = channel(1.45);
     const width = channel('auto');
@@ -31,7 +31,7 @@ const App: Component = () => {
 
     const [index, setIndex] = createSignal(7);
     const [position, setPosition] = createSignal(0);
-    const [autoplay, setAutoplay] = createSignal(true);
+    const [autoplay, setAutoplay] = createSignal(false);
 
     const controlPanel = channel(false);
 
@@ -118,7 +118,8 @@ const App: Component = () => {
                         // bind:autoplay
                         autoplay={autoplay}
                         setAutoplay={setAutoplay}
-                        autoplayControl
+                        // autoplayControl
+                        packed={0}
                     />
                 </Show>
             </main>

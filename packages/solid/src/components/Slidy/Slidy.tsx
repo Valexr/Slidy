@@ -79,6 +79,10 @@ interface Options {
      */
     loop?: boolean;
     /**
+     * @default 0
+     */
+    packed?: number;
+    /**
      * @default false
      */
     progress?: boolean;
@@ -144,6 +148,7 @@ const defaultProps: Options = {
     gravity: 1.2,
     indent: 2,
     loop: false,
+    packed: 0,
     progress: false,
     sensity: 5,
     slides: [],
@@ -253,8 +258,13 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             <section
                 aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
-                classList={{ vertical: vertical() }}
-                style={{ '--slidy-autoplay-interval': props.interval + 'ms' } as JSX.CSSProperties}
+                classList={{ vertical: vertical(), packed: props.packed > 1 }}
+                style={
+                    {
+                        '--slidy-autoplay-interval': props.interval + 'ms',
+                        '--slidy-pack-size': props.packed,
+                    } as JSX.CSSProperties
+                }
                 id={props.id}
                 onClick={handleClick}
                 on:play={handleAutoplay}
@@ -340,10 +350,10 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     when={props.arrows === true}
                     fallback={isFunction(props.arrows) && props.arrows()}
                 >
-                    <For each={[-1, 1]}>
+                    <For each={[-props.clamp, props.clamp]}>
                         {(type) => (
                             <Arrow
-                                type={type as -1 | 1}
+                                clamp={type}
                                 index={index()}
                                 items={length()}
                                 loop={props.loop}

@@ -5,7 +5,7 @@ import type { Channel } from '../lib';
 
 interface Options {
     vertical: Channel<boolean>;
-    clamp: Channel<boolean>;
+    clamp: Channel<number>;
     duration: Channel<number>;
     gravity: Channel<number>;
     width: Channel<string>;
@@ -35,9 +35,9 @@ const ControlPanel: Component<Options> = (props) => {
                     </label>
                     <label>
                         <input
-                            type="checkbox"
-                            checked={props.clamp()}
-                            onChange={() => props.clamp((v) => !v)}
+                            type="number"
+                            value={props.clamp()}
+                            onChange={(e) => props.clamp(e.currentTarget.valueAsNumber)}
                         />
                         <span>Clamp</span>
                     </label>
