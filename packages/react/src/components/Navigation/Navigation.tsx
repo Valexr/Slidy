@@ -27,7 +27,9 @@ const defaultProps = {
 type Props = Pick<Options, 'start' | 'current' | 'end'> &
     Partial<Omit<Options, 'start' | 'current' | 'end'>>;
 
-const Navigation: FC<Props> = (props) => {
+const Navigation: FC<Props> = ($props) => {
+    const props = $props as Options;
+
     const { i18n, classNames } = useSlidy();
 
     const getTitle = (i: number) => {
@@ -40,14 +42,14 @@ const Navigation: FC<Props> = (props) => {
         }
     };
 
-    const ordinal = props.end - props.start + 1 > props.limit! && true;
+    const ordinal = props.end - props.start + 1 > props.limit && true;
 
     const indices = generateIndexes({
         current: props.current,
         start: props.start,
         end: props.end,
-        limit: props.limit!,
-        siblings: props.siblings!,
+        limit: props.limit,
+        siblings: props.siblings,
     });
 
     return (
