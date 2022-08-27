@@ -1,4 +1,11 @@
 {
+    "compilerOptions": {
+        "baseUrl": "."
+    },
     "extends": "./tsconfig.json",
-    "exclude": ["dist", "public", "src/dev/*"]
+    "exclude": [
+        "dist",
+        "public",
+        "src/dev/*"
+    ]
 }

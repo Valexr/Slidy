@@ -1,7 +1,6 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "baseUrl": ".",
         "declarationDir": "dist",
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
@@ -11,7 +10,7 @@
         "preserveValueImports": true
     },
     "include": [
-        "src/**/*",
+        "src/*",
         "src/dev/*"
     ],
     "exclude": [
