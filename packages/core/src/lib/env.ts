@@ -4,25 +4,19 @@ import type { Options, UniqEvent, Detail, EventMap } from '../types';
 function mount(node: HTMLElement) {
     return new Promise((resolve, reject) => {
         let count = 0;
-        if (node) {
-            const mounting = setInterval(() => {
-                count++;
-                if (count >= 69) {
-                    count = 0;
+        const mounting = setInterval(() => {
+            count++
+            if (count >= 69) {
+                clearInterval(mounting);
+                reject('few slides')
+            } else if (node.children.length > 1) {
+                const mounted = [...node.children].every((c) => c.isConnected);
+                if (mounted) {
                     clearInterval(mounting);
-                    reject('few slides');
-                } else if (node.children.length) {
-                    const mounted = Array.from(node.children).every(
-                        (child) => child && child.isConnected
-                    );
-                    if (mounted) {
-                        count = 0;
-                        clearInterval(mounting);
-                        resolve(init(node));
-                    }
+                    resolve(init(node))
                 }
-            }, 16);
-        }
+            }
+        }, 16);
     });
 }
 
