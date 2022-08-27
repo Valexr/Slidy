@@ -126,7 +126,7 @@ export interface SlidyInstance {
     /**
      * Update any property in options
      */
-    update: (options: Options) => void;
+    update: (options: Partial<Options>) => void;
     /**
      * Scroll to `index`
      */
