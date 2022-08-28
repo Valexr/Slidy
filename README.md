@@ -24,11 +24,11 @@
 -   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
+-   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 
 ### 👨🏻‍💻 in progress...
 
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
--   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 -   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - WebComponent template
 
 ### 📝 todo...
