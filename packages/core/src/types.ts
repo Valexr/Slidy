@@ -6,7 +6,7 @@ export interface Options {
     /**
      * Start index
      */
-    index: number;
+    index?: number;
     /**
      * Clamping sliding by index: `clamp - index + clamp`
      */

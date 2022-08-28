@@ -1,10 +1,10 @@
 {
-    "name": "@slidy/wc",
-    "version": "3.0.5",
-    "description": "Simple, configurable & reusable carousel webcomponent",
-    "main": "dist/slidy.cjs",
-    "module": "dist/slidy.mjs",
-    "browser": "dist/slidy.js",
+    "name": "@slidy/element",
+    "version": "1.0.0",
+    "description": "Simple, configurable & reusable carousel WebComponent",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
+    "browser": "dist/index.js",
     "types": "dist/types.d.ts",
     "type": "module",
     "files": [
@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "node esbuild && tsc",
+        "build": "node esbuild && tsc --project tsconfig.build.json",
         "lint": "eslint './src/**/*.{js,ts}'",
         "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "prelint": "pnpm run format",
@@ -41,8 +41,11 @@
     "bugs": {
         "url": "https://github.com/Valexr/slidy/issues"
     },
-    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/wc",
+    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/element",
     "devDependencies": {
-        "@slidy/core": "workspace:*"
+        "@slidy/animation": "workspace:*",
+        "@slidy/core": "workspace:*",
+        "@slidy/easing": "workspace:*",
+        "@slidy/media": "workspace:*"
     }
 }

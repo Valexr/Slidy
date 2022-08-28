@@ -6,12 +6,12 @@
             "@slidy/animation": ["packages/animation/src"],
             "@slidy/core": ["packages/core/src"],
             "@slidy/easing": ["packages/easing/src"],
+            "@slidy/element": ["packages/element/src"],
             "@slidy/media": ["packages/media/src"],
             "@slidy/react": ["packages/react/src"],
             "@slidy/solid": ["packages/solid/src"],
             "@slidy/svelte": ["packages/svelte/src"],
             "@slidy/malina": ["packages/malina/src"],
-            "@slidy/wc": ["packages/wc/src"],
             "@slidy/vue": ["packages/vue/src"]
         },
         "declaration": true,

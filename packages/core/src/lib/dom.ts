@@ -2,7 +2,7 @@ import { clamp, loop } from './utils';
 import type { Child, Options } from '../types';
 
 export function dom(node: HTMLElement, options: Options) {
-    const nodes: Child[] = [...node.children as HTMLCollectionOf<Child>];
+    const nodes: Child[] = [...(node.children as HTMLCollectionOf<Child>)];
     const length = nodes.length;
     const indexes = [...Array(length).keys()];
     const last = length - 1;
@@ -14,8 +14,8 @@ export function dom(node: HTMLElement, options: Options) {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-            nodes[last - 1][coord] * reverse -
-            nodes[last - Math.max(reverse, 0)][size]
+              nodes[last - 1][coord] * reverse -
+              nodes[last - Math.max(reverse, 0)][size]
             : 0;
     const start = distance(reverse < 0 ? last : 0, 'start');
     const end = distance(reverse < 0 ? 0 : last, 'end');
@@ -23,11 +23,11 @@ export function dom(node: HTMLElement, options: Options) {
     const edges = options.loop
         ? false
         : ((reverse < 0 ? options.index === last : !options.index) &&
-            (options.direction as number) <= 0 &&
-            (options.position as number) < start) ||
-        ((reverse < 0 ? !options.index : options.index === last) &&
-            (options.direction as number) > 0 &&
-            (options.position as number) > end);
+              (options.direction as number) <= 0 &&
+              (options.position as number) < start) ||
+          ((reverse < 0 ? !options.index : options.index === last) &&
+              (options.direction as number) > 0 &&
+              (options.position as number) > end);
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
@@ -90,14 +90,14 @@ export function dom(node: HTMLElement, options: Options) {
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const style = options.animation
                     ? options.animation({
-                        node,
-                        child,
-                        options: Object.assign(options, {
-                            vertical,
-                            reverse,
-                        }),
-                        translate,
-                    })
+                          node,
+                          child,
+                          options: Object.assign(options, {
+                              vertical,
+                              reverse,
+                          }),
+                          translate,
+                      })
                     : { transform: translate };
 
                 Object.assign(child.style, style);

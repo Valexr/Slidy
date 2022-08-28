@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=auto" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+
+        <link href="assets/splashscreens/iphone5_splash.png"
+            media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphone6_splash.png"
+            media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphoneplus_splash.png"
+            media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphonex_splash.png"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphonexr_splash.png"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphonexsmax_splash.png"
+            media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/iphone12_splash.png"
+            media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/ipad_splash.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/ipadpro1_splash.png"
+            media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/ipadpro3_splash.png"
+            media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+        <link href="assets/splashscreens/ipadpro2_splash.png"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+
+        <link rel="apple-touch-icon" type="image/png" sizes="any" href="assets/apple-touch-icon.png" />
+        <link rel="apple-touch-icon-precomposed" type="image/png" sizes="any"
+            href="assets/apple-touch-icon-precomposed.png" />
+        <link rel="icon" type="image/png" href="assets/favicon.png" />
+        <link rel="stylesheet" defer href="dev.css" />
+        <link rel="stylesheet" href="build/element.css" />
+        <script type="text/javascript" src="https://unpkg.com/@slidy/core/dist/index.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/@slidy/animation/dist/index.js"></script>
+
+        <title id="title"></title>
+
+        <script type="module">
+            import { slidy as slidyCore } from './build/core.js';
+            import * as easings from './build/easing.js';
+            import * as animations from './build/animation.js';
+            import * as utils from './utils.js';
+            import { getPhotos } from './api.js';
+            import { setEvents } from './env.js';
+            import './build/element.js';
+
+            window.utils = utils;
+            window.easings = easings;
+            window.animations = animations;
+            window.options = {
+                index: 4,
+                clamp: 0,
+                indent: 1,
+                length: 9,
+                sensity: 5,
+                gravity: 1.2,
+                duration: 375,
+                loop: false,
+                snap: 'center',
+                axis: undefined,
+                animation: animations.shade,
+                easing: easings.lenear,
+            };
+            window.position = 0;
+            window.slidy = null;
+            window.slidyT = null;
+            window.getPhotos = getPhotos;
+            window.updateAttribute = (attribute, cb) => {
+                const value = node.getAttribute(attribute);
+                node.setAttribute(attribute, cb(JSON.parse(value)));
+            };
+            console.log('module window:', window);
+
+            fetch('https://unpkg.com/@slidy/core/package.json', {
+                mode: 'cors',
+            })
+                .then(async (res) => await res.json())
+                .then(({ version }) => {
+                    title.innerText = `Slidy ${version} - Element`;
+                    header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
+                    getPhotos(node, utils.randomQ(1, 99), options.length)
+                        .then((length) => length && setEvents());
+                });
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <img id="slidy-logo" alt="Slidy" width="50" height="50" src="assets/favicon.png" />
+            <h3 id="header"></h3>
+            <a id="github" href="https://github.com/Valexr/Slidy"></a>
+        </header>
+
+        <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
+            <slidy-element id="node" tabindex="0" index="2" snap="center" loop="false" gravity="">
+                <!-- <img src="https://picsum.photos/id/13/1280/800.jpg" />
+                <img src="https://picsum.photos/id/14/1280/800.jpg" />
+                <img src="https://picsum.photos/id/15/1280/800.jpg" />
+                <img src="https://picsum.photos/id/16/1280/800.jpg" />
+                <img src="https://picsum.photos/id/17/1280/800.jpg" /> -->
+            </slidy-element>
+            <nav id="thumbs"></nav>
+        </main>
+        <script>
+            const element = document.querySelector('slidy-element');
+            console.log('script window:', window, Slidy, element);
+            element.options = { index: 4, animation: Slidy.stairs };
+        </script>
+
+        <footer>
+            <nav>
+                <button id="prev" onclick="updateAttribute('index', (val) => val-1)">←</button>
+                <button id="reload" onclick="getPhotos(node, utils.randomQ(1, 99), options.length)">
+                    <i class="icon icon-refresh"></i>
+                </button>
+                <button id="next" onclick="updateAttribute('index', (val) => val+1)">→</button>
+            </nav>
+
+            <nav id="dots"></nav>
+
+            <nav id="buttons">
+                <button id="loop" onclick="updateAttribute('loop', (val) => val = !val)">
+                    loop
+                </button>
+            </nav>
+
+            <form>
+                <fieldset>
+                    <label title="axis">axis
+                        <select id="axis" name="axis" onchange="node.slidy.update({ axis: this.value })"></select>
+                    </label>
+                    <label title="snap">snap
+                        <select id="snap" name="snap" onchange="node.slidy.update({ snap: this.value })"></select>
+                    </label>
+                    <label title="animation">animation
+                        <select id="animation" name="animation"
+                            onchange="node.slidy.update({ animation: animations[this.value] })"></select>
+                    </label>
+                    <label title="easing">easing
+                        <select id="easing" name="easing"
+                            onchange="node.slidy.update({ easing: easings[this.value] })"></select>
+                    </label>
+                </fieldset>
+            </form>
+
+            <form>
+                <fieldset>
+                    <label title="clamp">clamp
+                        <input id="clamp" onchange="node.slidy.update({ clamp: +this.value })" name="clamp"
+                            type="number" size="1" step="1" min="0" max="3" />
+                    </label>
+                    <label title="sensity">sensity
+                        <input id="sensity" onchange="node.slidy.update({ sensity: +this.value })" name="sensity"
+                            type="number" size="2" step="1" min="0" max="100" />
+                    </label>
+                    <label title="indent">indent
+                        <input id="indent" onchange="node.slidy.update({ indent: +this.value })" name="indent"
+                            type="number" size="1" step="0.1" min="-2" max="2" />
+                    </label>
+                    <label title="duration">duration
+                        <input id="duration" onchange="node.slidy.update({ duration: +this.value })" name="duration"
+                            type="number" size="2" step="1" min="100" max="1000" />
+                    </label>
+                    <label title="gravity">gravity
+                        <input id="gravity" onchange="node.slidy.update({ gravity: +this.value })" name="gravity"
+                            type="number" size="1" step="0.1" min="0.1" max="2" />
+                    </label>
+                </fieldset>
+            </form>
+
+            <form>
+                <fieldset>
+                    <label title="length">length
+                        <input id="length" onchange="utils.changeLength(this)" name="length" type="number" size="1"
+                            step="1" min="1" max="50" />
+                    </label>
+                    <label title="flow">flow
+                        <select id="flow" name="flow" onchange="utils.setFlow(this.value)">
+                            <option>row</option>
+                            <option>row-reverse</option>
+                            <option>column</option>
+                            <option>column-reverse</option>
+                        </select>
+                    </label>
+                    <label title="width">width
+                        <input onchange="utils.setVar(this)" name="width" size="4" />
+                    </label>
+                    <label title="height">height
+                        <input onchange="utils.setVar(this)" name="height" size="5" />
+                    </label>
+                    <label title="gap">gap
+                        <input onchange="utils.setVar(this)" name="gap" size="4" />
+                    </label>
+                </fieldset>
+            </form>
+        </footer>
+
+        <!-- <section id="s1">
+            <section id="s2">
+                <img src="https://picsum.photos/id/13/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/14/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/15/1280/800.jpg" alt="10" />
+            </section>
+            <section id="s3">
+                <img src="https://picsum.photos/id/16/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/17/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/18/1280/800.jpg" alt="10" />
+            </section>
+            <section id="s4">
+                <img src="https://picsum.photos/id/19/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/20/1280/800.jpg" alt="10" />
+                <img src="https://picsum.photos/id/21/1280/800.jpg" alt="10" />
+            </section>
+        </section> -->
+
+        <article>
+            <h1>@Slidy</h1>
+            <h3>
+                Simple, configurable, nested & reusable sliding action script with templates,
+                animations, easings & plugins.
+            </h3>
+            <p>
+                Сompletely mimics the behavior of a native scroll with mouse drag, index navigation,
+                acceleration, gravity & infinite loop mode.
+            </p>
+
+            <figure>
+                <img alt="animation Flip" src="assets/flip.gif" width="100%" />
+                <figcaption style="color: var(--surface-4)">
+                    <pre><code>{ snap: 'deck', animation: flip }</code></pre>
+                </figcaption>
+            </figure>
+
+            <h2>Packages</h2>
+            <ul>
+                <li>
+                    <a href="https://github.com/Valexr/slidy/tree/master/packages/core">@slidy/core</a>
+                    - Core sliding script
+                </li>
+                <li>
+                    <a href="https://github.com/Valexr/slidy/tree/master/packages/media">@slidy/media</a>
+                    - Observable media
+                </li>
+                <li>
+                    <a href="https://github.com/Valexr/slidy/tree/master/packages/easing">@slidy/easing</a>
+                    - Easing functions
+                </li>
+                <li>
+                    <a href="https://github.com/Valexr/slidy/tree/master/packages/animation">@slidy/animation</a>
+                    - Animation functions
+                </li>
+                <li>
+                    <a href="https://github.com/Valexr/slidy/tree/master/packages/svelte">@slidy/svelte</a>
+                    - SvelteJS template
+                </li>
+            </ul>
+
+            <h2>
+                NPM organization <a href="https://www.npmjs.com/org/slidy" rel="nofollow">@slidy</a>
+            </h2>
+
+            <h2>Development</h2>
+            <ul>
+                <li><code>pnpm workspaces</code> - monorepos</li>
+                <li><code>esbuild</code> - bundling & packaging</li>
+                <li><code>derver</code> - dev server</li>
+            </ul>
+
+            <h2>Todo</h2>
+            <ul>
+                <li>Demo docs site based on SvelteKit</li>
+                <li>@slidy/vue - VueJS template</li>
+                <li>@slidy/wc - WebComponent template</li>
+                <li>@slidy/malina - MalinaJS template</li>
+                <li>@slidy/solid - SolidJS template</li>
+            </ul>
+
+            <h2>Thanks 🎉</h2>
+            <ul>
+                <li>@ariya for kinetic - examples & explanations of scroll kinetic principles</li>
+                <li>@argyleink for open-props - Open Source CSS Variables</li>
+                <li>@evanw for esbuild - an extremely fast JS bundler</li>
+                <li>@rodshtein for the idea of implementing the action function</li>
+                <li>@EricRovell for collaboration & ideas of modulating @slidy</li>
+                <li>
+                    @AlexxNB for esbuild starter based on derver - simple but powerfull dev/prod
+                    nodejs server
+                </li>
+                <li>@PaulMaly for idea of simplifing reactive updates of options object</li>
+            </ul>
+
+            <p>MIT © <a href="https://github.com/Valexr">Valexr</a></p>
+        </article>
+        <br />
+    </body>
+
+</html>

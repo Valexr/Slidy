@@ -6,9 +6,15 @@
 }
 
 header,
-footer,
+footer {
+    margin: var(--size-fluid-2) auto;
+    width: fit-content;
+}
+
 article {
-    margin: var(--size-fluid-2);
+    display: grid;
+    gap: var(--size-3);
+    margin-inline: max(var(--size-fluid-2), 50% - 800px/2);
 }
 
 a {
@@ -26,6 +32,32 @@ a:visited {
 
 label {
     display: block;
+    /* text-align: center; */
+}
+
+section#s1 {
+    /* gap: 1rem; */
+    display: flex;
+    flex-flow: row nowrap;
+    max-height: 300px;
+}
+
+section#s1 > * {
+    flex: 1 0 50%;
+    /* width: 50%; */
+}
+
+section#s2,
+section#s3,
+section#s4 {
+    /* flex: 1 0 50%; */
+    display: flex;
+}
+
+section#s2 > *,
+section#s3 > *,
+section#s4 > * {
+    flex: 1 0 30%;
 }
 
 input,
@@ -36,7 +68,8 @@ textarea {
     font-size: inherit;
     padding: 0.4em;
     box-sizing: border-box;
-    color: var(--color);
+    color: var(--text-2);
+    /* color: var(--color); */
     background-color: var(--surface-1);
     /* border: 1px solid transparent; */
     /* border-radius: var(--radius-conditional-3); */
@@ -48,8 +81,8 @@ input:disabled {
 }
 
 button {
-    color: var(--color);
-    background-color: var(--back);
+    /* color: var(--color); */
+    /* background-color: var(--back); */
     outline: none;
     cursor: pointer;
 }
@@ -59,13 +92,13 @@ button:disabled {
 }
 
 button:not(:disabled):active {
-    background-color: var(--color);
-    border-color: var(--accent);
-    color: var(--back);
+    /* background-color: var(--color); */
+    /* border-color: var(--accent); */
+    /* color: var(--back); */
 }
 
 button:focus {
-    border-color: var(--accent);
+    /* border-color: var(--accent); */
 }
 
 nav,
@@ -102,6 +135,7 @@ fieldset {
     margin: 0;
     padding: 0;
     flex-flow: row wrap;
+    gap: 0.25em;
 }
 
 form {
@@ -116,6 +150,7 @@ form > * {
 label {
     display: flex;
     flex-flow: column;
+    color: var(--surface-4);
 }
 
 select {
@@ -160,49 +195,51 @@ footer {
     justify-content: space-between;
     flex-flow: row wrap;
     gap: 1rem;
+    margin: var(--size-fluid-2);
+    width: auto;
 }
 
 :root {
-    --color: #0a0a0a;
+    /* --color: #0a0a0a; */
     /* --back: white; */
     --accent: #ff3e80;
-    --shadow: whitesmoke;
+    /* --shadow: whitesmoke; */
 }
 
 @media (prefers-color-scheme: light) {
     :root {
         color-scheme: light;
-        --color: #0a0a0a;
+        /* --color: #0a0a0a; */
         /* --back: white; */
-        --accent: #ff3e80;
-        --shadow: whitesmoke;
+        /* --accent: #FF3E80; */
+        /* --shadow: whitesmoke; */
     }
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
-        --color: white;
+        /* --color: white; */
         /* --back: #0a0a0a; */
-        --accent: #ff3e80;
-        --shadow: #181818;
+        /* --accent: #FF3E80; */
+        /* --shadow: #181818; */
     }
 }
 
 [scheme='dark'] {
     color-scheme: dark;
-    --color: white;
+    /* --color: white; */
     /* --back: #0a0a0a; */
-    --accent: #ff3e80;
-    --shadow: #181818;
+    /* --accent: #FF3E80; */
+    /* --shadow: #181818; */
 }
 
 [scheme='light'] {
     color-scheme: light;
-    --color: #0a0a0a;
+    /* --color: #0a0a0a; */
     /* --back: white; */
-    --accent: #ff3e80;
-    --shadow: whitesmoke;
+    /* --accent: #FF3E80; */
+    /* --shadow: whitesmoke; */
 }
 
 .active,
@@ -212,7 +249,7 @@ footer {
     color: var(--accent);
     accent-color: var(--accent);
     /* outline-color: var(--accent) !important; */
-    /* will-change: transform, color; */
+    /* will-change: color; */
 }
 
 :disabled {
@@ -222,12 +259,13 @@ footer {
 }
 
 .active:not(li, :disabled) {
-    border-color: var(--accent) !important;
+    /* border-color: var(--accent) !important; */
 }
 
 main {
-    height: var(--height, 375px);
-    margin: var(--gap, 1rem) auto;
+    /* height: var(--height, 375px); */
+    /* margin: var(--gap, 1rem) auto; */
+    /* overflow: hidden; */
 }
 
 section {
@@ -247,25 +285,32 @@ section {
 
 #node,
 nav#thumbs {
+    position: relative;
     list-style: none;
-    margin: 0;
+    margin: auto;
     padding: var(--gap) 0;
     display: flex;
-    flex-flow: var(--flow) nowrap;
+    flex-flow: var(--flow);
     gap: var(--gap);
-    min-width: 0;
     width: 100%;
-    height: 100%;
-    /* overflow: visible; */
+    height: var(--height, 375px);
+    -webkit-tap-highlight-color: transparent;
 }
 
-#node li,
-#node img,
+#node.grid {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(4, 50%);
+    grid-template-rows: repeat(4, 100%);
+}
+
+#node > *,
 nav#thumbs button {
-    flex: 1 0 var(--width);
-    width: var(--width);
+    flex: 1 0 var(--width, auto);
+    width: var(--width, auto);
+    min-height: 100%;
     height: 100%;
-    max-width: 90%;
+    max-width: 85%;
     max-height: 100%;
     box-sizing: border-box;
     position: relative;
@@ -274,12 +319,19 @@ nav#thumbs button {
     box-shadow: var(--shadow-3);
     background: var(--surface-1);
     border-radius: var(--radius-3);
-    /* will-change: transform; */
+}
+
+#node > * {
+    /* max-height: calc(100% - (var(--gap) * 2)); */
 }
 
 nav#thumbs {
     gap: 1rem;
-    /* touch-action: auto; */
+    height: auto;
+    flex-flow: row;
+    max-width: fit-content;
+    padding: 0;
+    margin: var(--size-fluid-2) auto;
 }
 
 nav#thumbs button {
@@ -287,7 +339,7 @@ nav#thumbs button {
     width: 100px;
     height: 100px;
     box-shadow: none;
-    /* background-image: attr(data-src url); */
+    margin: 0;
     background-size: cover;
     background-blend-mode: luminosity;
     opacity: 0.25;
@@ -299,20 +351,21 @@ nav#thumbs button.active {
     background-blend-mode: normal;
 }
 
-#node li.active {
+#node > *.active {
     /* box-shadow: var(--shadow-3); */
     /* --shadow: var(--accent); */
 }
 
-#node li:before {
+#node > *:before {
     content: attr(id);
     position: absolute;
     z-index: 1;
     padding: 0.5rem 1rem;
     bottom: 0;
+    /* will-change: transform; */
 }
 
-#node li img {
+#node > * img {
     min-width: 100%;
     min-height: 100%;
     max-width: 100%;
@@ -387,4 +440,16 @@ nav#thumbs button.active {
     text-indent: -9999px;
     vertical-align: super;
     width: 1em;
+}
+
+#github {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--accent);
+    mask-image: url(assets/gh.svg);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url(assets/gh.svg);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
 }

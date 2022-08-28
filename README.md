@@ -29,21 +29,21 @@
 
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
+-   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - WebComponent template
 
 ### 📝 todo...
 
 -   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
--   [@slidy/wc](https://github.com/Valexr/slidy/tree/master/packages/wc) - WebComponent template
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
 
 ## NPM organization [@slidy](https://www.npmjs.com/org/slidy)
 
 ## Development
 
-- `esbuild` - bundling & packaging
-- `pnpm workspaces` - monorepo
-- `tsc` - types declaration
-- `derver` - dev server
+-   `esbuild` - bundling & packaging
+-   `pnpm workspaces` - monorepo
+-   `tsc` - types declaration
+-   `derver` - dev server
 
 ## Thanks 🎉
 

@@ -5,16 +5,13 @@ function mount(node: HTMLElement) {
     return new Promise((resolve, reject) => {
         let count = 0;
         const mounting = setInterval(() => {
-            count++
+            count++;
             if (count >= 69) {
                 clearInterval(mounting);
-                reject('few slides')
+                reject('few slides');
             } else if (node.children.length > 1) {
-                const mounted = [...node.children].every((c) => c.isConnected);
-                if (mounted) {
-                    clearInterval(mounting);
-                    resolve(init(node))
-                }
+                clearInterval(mounting);
+                resolve(init(node));
             }
         }, 16);
     });
