@@ -34,7 +34,7 @@
 	export let index = 0;
 	export let interval = 1500;
 	export let loop = false;
-	export let packed = 0;
+	export let groups = 0;
 	export let position = 0;
 	export let progress = false;
 	export let sensity = 5;
@@ -115,7 +115,7 @@
 	aria-roledescription="{i18n.carousel}"
 	class="{classNames?.root}"
 	class:vertical
-	class:packed={packed > 1}
+	class:groups={groups > 1}
 	on:click={handleClick}
 	on:play={handleAutoplay}
 	on:pause={handleAutoplayPause}
@@ -125,7 +125,7 @@
 	on:pause
 	on:stop
 	style:--slidy-autoplay-interval="{interval}ms"
-	style:--slidy-pack-size="{packed}"
+	style:--slidy-group-items="{groups}"
 >
 	{#if counter || $$slots.overlay}
 		<div class="{classNames?.overlay}">

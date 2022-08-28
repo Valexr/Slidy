@@ -39,10 +39,10 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	classNames: SlidyStyles;
 	getImgSrc: (item: unknown | Slide) => string;
 	getThumbSrc: (item: unknown | Slide ) => string;
+	groups?: number;
 	i18n: I18NDict;
 	interval?: number;
 	navigation?: boolean;
-	packed?: number;
 	progress?: boolean;
 	slides: Slide[];
 	thumbnail?: boolean;

@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- [feat]: implement `packed` prop to control the number of items displayed pre viewport.
+- [feat]: implement `groups` prop to control the number of items displayed per viewport;
 - [fix]: inherit `clamp` value by control buttons;
 
 ## 3.2.0

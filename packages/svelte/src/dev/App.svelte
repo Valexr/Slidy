@@ -13,8 +13,9 @@
 	import "@slidy/assets/styles/dev/app.module.css";
 
 	let animation = translate;
-	let axis: "x" | "y" = "x";
+	let axis: "x" | "y" = "y";
 	let easing = linear;
+	let groups = 0;
 	let position = 0;
 	let limit = 10;
 	let index = 4;
@@ -82,6 +83,7 @@
 			{clamp}
 			{duration}
 			{gravity}
+			{groups}
 			{indent}
 			navigation
 			{snap}
