@@ -2,7 +2,7 @@ import { createEffect, Show, createSignal, from } from 'solid-js';
 import { Slidy } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
-import { flip } from '@slidy/animation';
+import { translate } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
 
@@ -15,9 +15,10 @@ import type { Slide } from '..';
 import type { Component } from 'solid-js';
 
 const App: Component = () => {
-    const animation = channel(flip);
-    const axis = channel<'x' | 'y'>('x');
+    const animation = channel(translate);
+    const axis = channel<'x' | 'y'>('y');
     const easing = channel(linear);
+    const groups = channel(2);
     const limit = channel(15);
 
     const vertical = channel(false);
@@ -119,7 +120,7 @@ const App: Component = () => {
                         autoplay={autoplay}
                         setAutoplay={setAutoplay}
                         // autoplayControl
-                        packed={0}
+                        groups={groups()}
                     />
                 </Show>
             </main>

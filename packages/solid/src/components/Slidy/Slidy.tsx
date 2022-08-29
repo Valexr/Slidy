@@ -83,7 +83,7 @@ interface Options {
     /**
      * @default 0
      */
-    packed?: number;
+    groups?: number;
     /**
      * @default false
      */
@@ -150,7 +150,7 @@ const defaultProps: Options = {
     gravity: 1.2,
     indent: 2,
     loop: false,
-    packed: 0,
+    groups: 0,
     progress: false,
     sensity: 5,
     slides: [],
@@ -260,10 +260,10 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             <section
                 aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
-                classList={{ vertical: vertical(), packed: props.packed > 1 }}
+                classList={{ vertical: vertical(), groups: props.groups > 1 }}
                 style={s({
                     '--slidy-autoplay-interval': props.interval + 'ms',
-                    '--slidy-pack-size': props.packed,
+                    '--slidy-group-items': props.groups,
                 })}
                 id={props.id}
                 onClick={handleClick}
