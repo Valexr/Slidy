@@ -63,17 +63,32 @@ All `options` are optional, but mount `node` required:
 
 ### IIFE as `Window` Object
 
+window.Slidy object contain core script, [@slidy/animation],  [@slidy/easing] & [@slidy/media] functions
+
+```js
+window.Slidy = {
+    animation, // animation functions
+    core, // core script
+    easing, // easing functions
+    media // global media store
+}
+```
+
 ```html
 <head>
-    <script src="https://unpkg.com/@slidy/core"></script>
+    <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
 </head>
 
 <script>
     let slidy = null,
+        animation = null,
+        easing = null,
         node = document.querySelector('#slidy'),
 
         window.onload = () => {
-            slidy = Slidy.core(node);
+            animation = Slidy.animation.flip
+            easing = Slidy.easing.cubic
+            slidy = Slidy.core(node, { animation, easing });
         }
 </script>
 
@@ -264,3 +279,4 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 [REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
 [@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
 [@slidy/animation]: https://github.com/Valexr/Slidy/tree/master/packages/animation
+[@slidy/media]: https://github.com/Valexr/Slidy/tree/master/packages/media
