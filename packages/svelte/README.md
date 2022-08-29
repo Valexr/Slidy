@@ -110,7 +110,7 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `classNames` | `SlidyStyles` | `SlidyStylesDefault` | The class names object used over the component. |
 | `getImgSrc` | `item => item.src` | `function` | The slide's `src` attribute getter. |
 | `getThumbSrc` | `item => item.src` | `function` | The thumbnail's `src` attribute getter. |
-| `groups` | `0` | `number` | Controls the number of items displayed pew viewport. | 
+| `groups` | `0` | `number` | Controls the number of items displayed per viewport. |
 | `i18n` | `i18nDefaults` | `I18NDict` | The i18n localization dictionary. |
 | `interval` | `1500` | `number` | Defines the autoplay interval time in ms. |
 | `navigation` | `false` | `boolean` | Renders the navigation controls for pagination-like slide navigation. |
