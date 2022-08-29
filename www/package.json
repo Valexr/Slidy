@@ -28,7 +28,7 @@
 		"prettier-plugin-svelte": "^2.7.0",
 		"rehype-slug": "^5.0.1",
 		"svelte": "^3.49.0",
-		"svelte-check": "^2.8.1",
+		"svelte-check": "^2.9.0",
 		"svelte-preprocess": "^4.10.7",
 		"unist-util-visit": "^4.1.1",
 		"vite": "^3.0.9"

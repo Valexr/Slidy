@@ -65,9 +65,9 @@
 		"eslint-plugin-svelte3": "^3.4.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.49.0",
-		"svelte-check": "^2.8.1",
+		"svelte-check": "^2.9.0",
 		"svelte-preprocess": "^4.10.7",
-		"svelte2tsx": "^0.5.14"
+		"svelte2tsx": "^0.5.15"
 	},
 	"peerDependencies": {
 		"svelte": "^3.42.4"
