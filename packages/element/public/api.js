@@ -1,8 +1,4 @@
-import { slidy as slidyCore } from './build/core.js';
-
 export async function getPhotos(node, page, limit) {
-    // slidy?.destroy();
-    // slidyT?.destroy();
     node.innerHTML = `<span style="display: grid; place-items: center">Loading... 🚀</span>`;
     //page: 38 - END,  61 - START, 28
     try {
@@ -20,8 +16,6 @@ export async function getPhotos(node, page, limit) {
                     (child) => child && child.isConnected
                 );
                 if (mounted) {
-                    // slidy = slidyCore(node, options);
-                    slidyT = slidyCore(thumbs, { index: options.index });
                     return node.children.length;
                 }
             }

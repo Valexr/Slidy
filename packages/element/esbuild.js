@@ -12,7 +12,7 @@ const esbuildBase = {
     legalComments: 'none',
     plugins: [eslintPlugin()],
     entryPoints: DEV
-        ? ['@slidy/element', '@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation']
+        ? ['@slidy/element', '@slidy/easing', '@slidy/animation']
         : ['src/index.ts'],
     outdir: DEV ? 'public/build' : '',
     sourcemap: DEV ? 'inline' : false,
@@ -46,7 +46,7 @@ const builds = {
 };
 
 if (DEV) {
-    build(esbuildBase).then((bundle) => {
+    prepare('public/build').then(() => build(esbuildBase).then((bundle) => {
         derver({
             ...derverConfig,
             onwatch: async (lr, item) => {
@@ -56,7 +56,7 @@ if (DEV) {
                 }
             },
         });
-    });
+    }));
 } else {
     prepare().then(() => {
         for (const key in builds) {

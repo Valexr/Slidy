@@ -1,8 +1,5 @@
 slidy-element {
     position: relative;
-    list-style: none;
-    margin: auto;
-    padding: var(--gap, 1rem) 0;
     display: flex;
     flex-flow: var(--flow);
     gap: var(--gap, 1rem);
@@ -22,12 +19,4 @@ slidy-element>* {
     position: relative;
     margin: auto;
     overflow: hidden;
-}
-
-slidy-element>* img {
-    min-width: 100%;
-    min-height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
 }

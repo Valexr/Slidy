@@ -5,7 +5,7 @@ import { valued } from './utils'
 import './slidy.css'
 
 export default class Slidy extends HTMLElement {
-    slidy?: SlidyInstance;
+    _slidy?: SlidyInstance;
     _options?: Options;
 
     static observedAttributes = Object.keys(options);
@@ -25,7 +25,7 @@ export default class Slidy extends HTMLElement {
     }
 
     setUpAccessors() {
-        this.getAttributeNames().forEach((name) => {
+        Slidy.observedAttributes.forEach((name) => {
             Object.defineProperty(this, name, {
                 set: (value) => this.setAttribute(name, value),
                 get: () => this.getAttribute(name),
@@ -41,14 +41,31 @@ export default class Slidy extends HTMLElement {
             return acc
         }, {})
         if (this.isConnected) {
-            console.log(this.options, opts)
-            this.slidy = slidy(this, { ...this.options, ...opts });
+            console.log(this.id, this.options, opts)
+            this.init(opts);
         }
     }
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
         const option = { [name]: newValue };
-        this.slidy?.update(option);
+        this.update(option);
+    }
+
+    init(opts: Partial<Options>) {
+        this.destroy()
+        this._slidy = slidy(this, { ...this.options, ...opts });
+    }
+
+    goto(index: number) {
+        this._slidy?.to(index)
+    }
+
+    update(opts: Partial<Options>) {
+        this._slidy?.update(opts)
+    }
+
+    destroy() {
+        this._slidy?.destroy()
     }
 }
 

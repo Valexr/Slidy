@@ -14,10 +14,7 @@ export function moving(e) {
     );
 }
 export function indexing(x) {
-    // if (!changing) {
-    //     document.querySelector('input[name=index]').value = x;
-    // }
-    slidyT.to(x);
+    thumbs.goto(x);
 }
 
 export function changeLength(target) {
@@ -29,12 +26,12 @@ export function getVar(name) {
 }
 export function setVar(target) {
     main.style.setProperty(`--${target.name}`, target.value);
-    return node.slidy.to(options.index);
+    return node.goto(options.index);
 }
 export function setFlow(value) {
     main.style.setProperty('--flow', value === 'grid' ? 'row wrap' : `${value} nowrap`);
     value === 'grid' ? node.classList.add('grid') : node.classList.remove('grid');
-    return node.slidy.to(options.index);
+    return node.goto(options.index);
 }
 
 export function randomQ(min, max) {
