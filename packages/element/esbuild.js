@@ -39,6 +39,7 @@ const builds = {
         outfile: 'dist/index.mjs',
     },
     iife: {
+        entryPoints: ['src/iife.ts'],
         outfile: 'dist/index.js',
         globalName: 'Slidy',
     },
