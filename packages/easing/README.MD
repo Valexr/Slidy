@@ -62,11 +62,11 @@ type Easing = (t: number) => number;
 
 ```html
 <head>
-    <script src="https://unpkg.com/@slidy/easing"></script>
+    <script src="https://unpkg.com/@slidy/easing/dist/index.js"></script>
 </head>
 
 <script>
-    window.onload = () => easing = Slidy.linear()
+    window.onload = () => easing = SlidyEasing.linear()
 </script>
 ```
 

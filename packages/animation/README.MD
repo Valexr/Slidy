@@ -84,11 +84,11 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
 ```html
 <head>
-    <script src="https://unpkg.com/@slidy/animation"></script>
+    <script src="https://unpkg.com/@slidy/animation/dist/index.js"></script>
 </head>
 
 <script>
-    window.onload = () => animation = Slidy.matrix()
+    window.onload = () => animation = SlidyAnimation.matrix()
 </script>
 ```
 
