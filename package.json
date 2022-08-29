@@ -27,6 +27,7 @@
         "pub:core": "pnpm --filter=@slidy/core pub",
         "pub:media": "pnpm --filter=@slidy/media pub",
         "pub:easing": "pnpm --filter=@slidy/easing pub",
+        "pub:element": "pnpm --filter=@slidy/element pub",
         "pub:animation": "pnpm --filter=@slidy/animation pub",
         "pub:svelte": "pnpm --filter=@slidy/svelte pub",
         "pub:solid": "pnpm --filter=@slidy/solid pub",
