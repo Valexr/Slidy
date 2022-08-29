@@ -11,11 +11,8 @@
     <a href="https://www.npmjs.com/package/@slidy/solid">
         <img alt="licence" src="https://img.shields.io/npm/l/@slidy/solid?style=flat-square" />
     </a>
-    <a href="https://img.shields.io/bundlephobia/minzip/@slidy/solid?style=flat-square">
-        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/solid/" />
-    </a>
     <a href="https://bundlephobia.com/package/@slidy/solid">
-        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/solid/" />
+        <img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/@slidy/solid?label=minzip&style=flat-square" />
     </a>
 </div>
 

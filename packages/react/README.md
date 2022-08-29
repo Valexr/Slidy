@@ -11,11 +11,8 @@
     <a href="https://www.npmjs.com/package/@slidy/react">
         <img alt="licence" src="https://img.shields.io/npm/l/@slidy/react?style=flat-square" />
     </a>
-    <a href="https://img.shields.io/bundlephobia/minzip/@slidy/react?style=flat-square">
-        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/react/" />
-    </a>
     <a href="https://bundlephobia.com/package/@slidy/react">
-        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/react/" />
+        <img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/@slidy/react?label=minzip&style=flat-square" />
     </a>
 </div>
 
