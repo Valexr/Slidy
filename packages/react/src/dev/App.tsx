@@ -19,9 +19,11 @@ const App: FC = () => {
     const duration = useChannel(450);
     const gravity = useChannel(1.45);
     const width = useChannel('auto');
+    const axis = useChannel<'x' | 'y'>('y');
     const snap = useChannel<'start' | 'center' | 'end' | undefined>('center');
     const loop = useChannel(false);
     const gap = useChannel(15);
+    const groups = useChannel(2);
 
     const [index, setIndex] = useState(3);
     const [autoplay, setAutoplay] = useState(false);
@@ -66,7 +68,7 @@ const App: FC = () => {
                 <Slidy
                     animation={flip}
                     easing={linear}
-                    axis={'x'}
+                    axis={axis()}
                     background={false}
                     slides={slides}
                     clamp={clamp() ? 1 : 0}
@@ -85,7 +87,7 @@ const App: FC = () => {
                     autoplay={autoplay}
                     setAutoplay={setAutoplay}
                     // autoplayControl
-                    packed={3}
+                    groups={groups()}
                 />
             </main>
             <Sidemenu controlPanel={controlPanel}>

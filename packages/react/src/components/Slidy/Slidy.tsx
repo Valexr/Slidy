@@ -49,7 +49,7 @@ interface Options {
     /**
      * @default 0
      */
-    packed: number;
+    groups: number;
     /**
      * @default 1.2
      */
@@ -124,7 +124,7 @@ const defaultProps: Options = {
     gravity: 1.2,
     indent: 2,
     loop: false,
-    packed: 0,
+    groups: 0,
     progress: false,
     sensity: 5,
     slides: [],
@@ -225,11 +225,11 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 className={clsx(
                     props.classNames?.root,
                     vertical && 'vertical',
-                    props.packed > 1 && 'packed'
+                    props.groups > 1 && 'groups'
                 )}
                 style={s({
                     '--slidy-autoplay-interval': props.interval + 'ms',
-                    '--slidy-pack-size': props.packed,
+                    '--slidy-group-items': props.groups,
                 })}
                 id={props.id}
                 onClick={handleClick}
