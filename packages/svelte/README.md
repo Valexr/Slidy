@@ -11,11 +11,11 @@
     <a href="https://www.npmjs.com/package/@slidy/svelte">
         <img alt="licence" src="https://img.shields.io/npm/l/@slidy/svelte?style=flat-square" />
     </a>
-    <a href="https://img.shields.io/bundlephobia/minzip/@slidy/svelte?style=flat-square">
-        <img alt="minzipped size" src="https://badgen.net/bundlephobia/minzip/@slidy/svelte/" />
+    <a href="https://bundlephobia.com/package/@slidy/svelte">
+        <img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/@slidy/svelte?style=flat-square" />
     </a>
     <a href="https://bundlephobia.com/package/@slidy/svelte">
-        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/svelte/" />
+        <img alt="dependency count" src="https://badgen.net/bundlephobia/dependency-count/@slidy/svelte?style=flat-square" />
     </a>
 </div>
 
