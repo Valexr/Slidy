@@ -55,13 +55,13 @@ Function `media({ queries, getter, cookie })` is available via named import as `
 
 ```html
 <head>
-    <script src="https://unpkg.com/@slidy/media"></script>
+    <script src="https://unpkg.com/@slidy/media/dist/index.js"></script>
 </head>
 
 <script>
     let mediaQueries = null
 
-    window.onload = () => media = Slidy.media()
+    window.onload = () => media = SlidyMedia.media()
 </script>
 ```
 

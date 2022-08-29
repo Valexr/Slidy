@@ -13,7 +13,6 @@ const esbuildBase = {
     entryPoints: ['src/index.ts'],
     sourcemap: DEV && 'inline',
     legalComments: 'none',
-    globalName: 'Slidy',
 };
 
 const builds = {
@@ -25,6 +24,7 @@ const builds = {
     },
     iife: {
         outfile: './dist/index.js',
+        globalName: 'SlidyAnimation',
     },
 };
 

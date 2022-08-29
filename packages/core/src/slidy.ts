@@ -72,7 +72,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     mount(node)
         .then(() => {
-            node.style.outline = 'none';
+            node.style.outline = '0';
             node.style.overflow = 'hidden';
             node.style.userSelect = 'none';
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
