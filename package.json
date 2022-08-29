@@ -24,15 +24,14 @@
         "build:www": "pnpm --filter=@slidy/www... build",
         "build:malina": "pnpm --filter=@slidy/malina... build",
         "format": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
-        "pub": "pnpm -r pub",
         "pub:core": "pnpm --filter=@slidy/core pub",
         "pub:media": "pnpm --filter=@slidy/media pub",
         "pub:easing": "pnpm --filter=@slidy/easing pub",
-        "pub:element": "pnpm --filter=@slidy/element pub",
         "pub:animation": "pnpm --filter=@slidy/animation pub",
         "pub:svelte": "pnpm --filter=@slidy/svelte pub",
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "pub:react": "pnpm --filter=@slidy/react pub",
+        "pub": "pnpm -r pub",
         "up:all": "pnpm up -r"
     },
     "repository": {
