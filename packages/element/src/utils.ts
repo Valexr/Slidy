@@ -1,10 +1,8 @@
 export function prepareValue(name: string, value: string): any {
-    if (name !== 'length') {
-        if (['animation', 'easing'].includes(name)) {
-            return functioned(value as string)
-        } else {
-            return valued(value)
-        }
+    if (['animation', 'easing'].includes(name)) {
+        return functioned(value as string)
+    } else {
+        return valued(value)
     }
 }
 

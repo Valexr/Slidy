@@ -21,7 +21,6 @@ export default class Slidy extends HTMLElement {
         'snap',
         'axis',
         'loop',
-        'length'
     ];
 
     constructor() {
@@ -67,13 +66,9 @@ export default class Slidy extends HTMLElement {
     }
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-        if (name === 'length') {
-            this.init(this._options);
-        } else {
-            const value = prepareValue(name, newValue as string);
-            const option = { [name]: value }
-            this.update(option);
-        }
+        const value = prepareValue(name, newValue as string);
+        const option = { [name]: value }
+        this.update(option);
     }
 
     init(options: Partial<Options> = {}) {
