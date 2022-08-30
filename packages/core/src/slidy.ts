@@ -70,15 +70,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         dispatch(node, 'mutate', { ML });
     });
 
-    function $() {
-        return dom(node, options);
-    }
-
-    function sense(e: UniqEvent, pos: number): boolean {
-        return options.axis === 'y' && e.type === 'touchmove'
-            ? !$().edges
-            : Math.abs(pos) >= SENSITY;
-    }
+    const $ = () => dom(node, options);
 
     init(node)
 
@@ -172,7 +164,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function onDown(e: UniqEvent): void {
         clear();
 
-        SENSITY = options.sensity as number;
+        // SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;
@@ -195,7 +187,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             GRAVITY = 2;
         };
 
-        if (sense(e, pos)) {
+        if ($().sense(e, pos, SENSITY)) {
             move(pos, INDEX);
             e.preventDefault();
         }
@@ -227,8 +219,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
 
-        !clamped && sense(e, pos) && move(pos, INDEX);
-        wst = (options.snap || clamped) && sense(e, pos) ? setTimeout(() => to(ix), tm) : undefined;
+        !clamped && $().sense(e, pos, SENSITY) && move(pos, INDEX);
+        wst = (options.snap || clamped) && $().sense(e, pos, SENSITY) ? setTimeout(() => to(ix), tm) : undefined;
 
         !$().edges && e.stopPropagation();
     }
