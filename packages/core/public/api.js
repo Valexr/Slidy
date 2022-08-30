@@ -1,8 +1,8 @@
 import { slidy as slidyCore } from './build/core.js';
 
 export async function getPhotos(node, page, limit) {
-    slidy?.destroy();
-    slidyT?.destroy();
+    // slidy?.destroy();
+    // slidyT?.destroy();
     node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
     //page: 38 - END,  61 - START, 28
     try {
@@ -19,10 +19,6 @@ export async function getPhotos(node, page, limit) {
                 const mounted = Array.from(node.children).every(
                     (child) => child && child.isConnected
                 );
-                if (mounted) {
-                    slidy = slidyCore(node, options);
-                    slidyT = slidyCore(thumbs, { index: options.index });
-                }
             }
         } else {
             node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
@@ -43,9 +39,8 @@ export async function getPhotos(node, page, limit) {
                 'height',
                 true
             )}.jpg`;
-            const background = `background-image: url(https://picsum.photos/id/${p.id}/${
-                100 * devicePixelRatio
-            }/${100 * devicePixelRatio}.jpg)`;
+            const background = `background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio
+                }/${100 * devicePixelRatio}.jpg)`;
 
             if (node.id === 'node') {
                 return `<li id="${i}"><img src="${src}" width="${aspect('width')}" height="${aspect(
