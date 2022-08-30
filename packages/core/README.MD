@@ -194,7 +194,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 | :-------- | :------------------ | :---------- |
 | `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
 | `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
-| `mutate`  | `{ML}`              | Fires on mutation `attributes` or `childNodes` in target node `ML: MutationRecord[]`|
+| `mutate`  | `{ML}`              | Fires on mutation `childNodes` in target node `ML: MutationRecord[]`|
 | `move`    | `{index,position}`  | Fires on any sliding |
 | `index`   | `{index}`           | Fires on each index change: `index === changed.index` |
 | `keys`    | `{e.key}`           | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |

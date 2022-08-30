@@ -83,11 +83,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 POSITION = $().position();
 
                 RO.observe(node);
-                MO.observe(node, {
-                    childList: true,
-                    attributes: true,
-                    subtree: true
-                });
+                MO.observe(node, { childList: true, subtree: true });
 
                 listen(node, NODE_EVENTS);
                 listen(window, WINDOW_NATIVE_EVENTS);
@@ -164,7 +160,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function onDown(e: UniqEvent): void {
         clear();
 
-        // SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;

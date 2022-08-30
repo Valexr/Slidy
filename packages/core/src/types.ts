@@ -69,7 +69,17 @@ export interface Options {
      * @readonly
      */
     reverse?: number;
+    // /**
+    //  * Observers configuration
+    //  * @readonly
+    //  */
+    // config?: Config;
 }
+
+// interface Config {
+//     resize: ResizeObserverOptions
+//     mutation: MutationObserverInit
+// }
 
 // type Keys = keyof typeof opts;
 // type Values = typeof opts[Keys];
