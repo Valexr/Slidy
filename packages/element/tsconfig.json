@@ -7,7 +7,7 @@
         "src/*"
     ],
     "exclude": [
-        "src/utils/*",
+        "src/lib/*",
         "src/iife.ts"
     ]
 }

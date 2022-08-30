@@ -52,7 +52,7 @@
         <link rel="stylesheet" defer href="dev.css" />
         <link rel="stylesheet" href="build/element.css" />
         <!-- <script type="text/javascript" src="index.js"></script> -->
-        <!-- <script type="text/javascript" src="https://unpkg.com/@slidy/core/dist/index.js"></script> -->
+        <script type="text/javascript" src="https://unpkg.com/@slidy/easing/dist/index.js"></script>
         <script type="text/javascript" src="https://unpkg.com/@slidy/animation/dist/index.js"></script>
 
         <title id="title"></title>
@@ -72,7 +72,7 @@
                 index: 4,
                 clamp: 0,
                 indent: 1,
-                length: 9,
+                // length: 9,
                 sensity: 5,
                 gravity: 1.2,
                 duration: 375,
@@ -83,25 +83,26 @@
                 easing: easings.lenear,
             };
             window.position = 0;
+            window.page = () => utils.randomQ(1, 99);
             window.getPhotos = getPhotos;
-            window.updateAttribute = (attribute, cb) => {
+            window.setEvents = setEvents;
+            window.updateAttribute = (node, attribute, cb) => {
                 const value = node.getAttribute(attribute);
                 node.setAttribute(attribute, cb(JSON.parse(value)));
             };
-            // node.update({ animation: animations.stairs });
-            // updateAttribute('animation', () => animations.stairs);
+            // node.options = { animation: animations.stairs };
             console.log('module window:', window);
 
-            fetch('https://unpkg.com/@slidy/element/package.json', {
-                mode: 'cors',
-            })
-                .then(async (res) => await res.json())
-                .then(({ version }) => {
-                    title.innerText = `Slidy ${version} - Element`;
-                    header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
-                    getPhotos(node, utils.randomQ(1, 99), options.length)
-                        .then((length) => length && setEvents());
-                });
+            // fetch('https://unpkg.com/@slidy/element/package.json', {
+            //     mode: 'cors',
+            // })
+            //     .then(async (res) => await res.json())
+            //     .then(({ version }) => {
+            //         title.innerText = `Slidy ${version} - Element`;
+            //         header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
+            //         getPhotos(page(), options.length)
+            //             .then((length) => length && setEvents());
+            //     });
         </script>
     </head>
 
@@ -113,35 +114,50 @@
         </header>
 
         <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
-            <slidy-element id="node" tabindex="0" index="2" snap="center" loop="false">
-                <!-- <img src="https://picsum.photos/id/13/1280/800.jpg" />
-                <img src="https://picsum.photos/id/14/1280/800.jpg" />
-                <img src="https://picsum.photos/id/15/1280/800.jpg" />
-                <img src="https://picsum.photos/id/16/1280/800.jpg" />
-                <img src="https://picsum.photos/id/17/1280/800.jpg" /> -->
+            <slidy-element id="node" tabindex="0" index="4" snap="center">
             </slidy-element>
-            <slidy-element id="thumbs" style="--width: 100px; --height: 100px; --gap: 1rem; --flow: row;">
+            <!-- <img width="1280" height="800" src="https://picsum.photos/id/13/1280/800.jpg" />
+            <img width="1280" height="800" src="https://picsum.photos/id/14/1280/800.jpg" />
+            <img width="1280" height="800" src="https://picsum.photos/id/15/1280/800.jpg" />
+            <img width="1280" height="800" src="https://picsum.photos/id/16/1280/800.jpg" />
+            <img width="1280" height="800" src="https://picsum.photos/id/17/1280/800.jpg" /> -->
+            <slidy-element id="thumbs" index="4" style="--width: 100px; --height: 100px; --gap: 1rem; --flow: row;">
             </slidy-element>
+
         </main>
         <script>
             const element = document.querySelector('#node');
             console.log('script window:', window);
-            element.options = { index: 4, animation: SlidyAnimation.stairs };
+            fetch('https://unpkg.com/@slidy/element/package.json', {
+                mode: 'cors',
+            })
+                .then(async (res) => await res.json())
+                .then(({ version }) => {
+                    title.innerText = `Slidy ${version} - Element`;
+                    header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
+                    getPhotos(page(), options.length)
+                        .then((length) => length && setEvents());
+                });
+            // element.options = { snap: 'center', animation: SlidyAnimation.stairs, easing: SlidyEasing.back };
+            // animation.value = 'stairs';
+            // easing.value = 'back';
+            element.setAttribute('easing', SlidyEasing.back.toString());
+            element.setAttribute('animation', SlidyAnimation.stairs.toString());
         </script>
 
         <footer>
             <nav>
-                <button id="prev" onclick="updateAttribute('index', (val) => val-1)">←</button>
-                <button id="reload" onclick="getPhotos(node, utils.randomQ(1, 99), options.length)">
+                <button id="prev" onclick="updateAttribute(node,'index', (val) => val-1)">←</button>
+                <button id="reload" onclick="getPhotos(page(), options.length);">
                     <i class="icon icon-refresh"></i>
                 </button>
-                <button id="next" onclick="updateAttribute('index', (val) => val+1)">→</button>
+                <button id="next" onclick="updateAttribute(node,'index', (val) => val+1)">→</button>
             </nav>
 
             <nav id="dots"></nav>
 
             <nav id="buttons">
-                <button id="loop" onclick="updateAttribute('loop', (val) => val = !val)">
+                <button id="loop" onclick="updateAttribute(node,'loop', (val) => val = !val)">
                     loop
                 </button>
             </nav>

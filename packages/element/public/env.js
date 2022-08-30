@@ -10,7 +10,7 @@ export function setEvents() {
                         if (options[button.id]) {
                             button.classList.add('active');
                         } else if (!isNaN(button.id)) {
-                            button.onclick = (e) => updateAttribute('index', () => e.target.id);
+                            button.onclick = (e) => node.setAttribute('index', e.target.id);
                         }
                     }
 
@@ -92,10 +92,10 @@ export function setEvents() {
                     options.animation = animations[animation.value];
                     break;
 
-                case 'resize':
-                    // slidyT.to(options.index);
-                    // console.log(e.detail);
-                    break;
+                // case 'resize':
+                //     // slidyT.to(options.index);
+                //     // console.log(e.detail);
+                //     break;
 
                 case 'move':
                     utils.moving(e.detail);
@@ -129,7 +129,7 @@ export function setEvents() {
                         }
                     }
                     break;
-                case 'keys':
+                // case 'keys':
                 // console.log(e);
                 default:
                     // console.log(e);

@@ -1,19 +1,33 @@
-import { slidy, type Options, SlidyInstance, AnimationFunc, EasingFunc } from '@slidy/core';
-import { options } from './options'
-import { valued } from './utils'
+import { slidy } from '@slidy/core';
+import { prepareValue } from './utils'
+
+import type { Options, SlidyInstance } from './types'
 
 import './slidy.css'
 
 export default class Slidy extends HTMLElement {
     _slidy?: SlidyInstance;
-    _options?: Options;
+    _options?: Partial<Options>;
 
-    static observedAttributes = Object.keys(options);
+    static observedAttributes = [
+        'index',
+        'clamp',
+        'indent',
+        'sensity',
+        'gravity',
+        'duration',
+        'animation',
+        'easing',
+        'snap',
+        'axis',
+        'loop',
+        'length'
+    ];
 
     constructor() {
         super();
-        this.setUpAccessors();
-        this._options = {}
+        this.setUpAccessors(Slidy.observedAttributes);
+        this._options = this.setUpOptions(Slidy.observedAttributes)
     }
 
     set options(value) {
@@ -24,8 +38,8 @@ export default class Slidy extends HTMLElement {
         return this._options;
     }
 
-    setUpAccessors() {
-        Slidy.observedAttributes.forEach((name) => {
+    setUpAccessors(attributes: string[]) {
+        attributes.forEach((name) => {
             Object.defineProperty(this, name, {
                 set: (value) => this.setAttribute(name, value),
                 get: () => this.getAttribute(name),
@@ -33,27 +47,38 @@ export default class Slidy extends HTMLElement {
         });
     }
 
+    setUpOptions(attributes: string[]) {
+        const attributeOptions = attributes
+            .reduce((acc: Partial<Options>, attribute) => {
+                const value = this[attribute as keyof Slidy] as string
+                if (value) {
+                    acc[attribute as keyof Options] = prepareValue(attribute, value)
+                }
+                return acc
+            }, {})
+        return { ...attributeOptions, ...this.options }
+    }
+
     connectedCallback() {
-        const opts = this.getAttributeNames().reduce((acc: Partial<Options>, attribute) => {
-            const value = this[attribute as keyof Slidy]
-            if (attribute in options && value)
-                acc[attribute as keyof Options] = valued(value)
-            return acc
-        }, {})
         if (this.isConnected) {
-            console.log(this.id, this.options, opts)
-            this.init(opts);
+            console.log(this.id, this._options)
+            this.init(this._options);
         }
     }
 
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-        const option = { [name]: newValue };
-        this.update(option);
+        if (name === 'length') {
+            this.init(this._options);
+        } else {
+            const value = prepareValue(name, newValue as string);
+            const option = { [name]: value }
+            this.update(option);
+        }
     }
 
-    init(opts: Partial<Options>) {
+    init(options: Partial<Options> = {}) {
         this.destroy()
-        this._slidy = slidy(this, { ...this.options, ...opts });
+        this._slidy = slidy(this, options);
     }
 
     goto(index: number) {
@@ -69,4 +94,6 @@ export default class Slidy extends HTMLElement {
     }
 }
 
-customElements.define('slidy-element', Slidy);
+if ('customElements' in window) {
+    customElements.define('slidy-element', Slidy);
+}
