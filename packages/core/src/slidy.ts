@@ -60,6 +60,16 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         dispatch(node, 'resize', { ROE });
     });
 
+    const MO = new MutationObserver((ML) => {
+        loop(ML, (record) => {
+            const { type, addedNodes } = record
+            if (type === 'childList' && addedNodes.length > 1) {
+                destroy().then(() => init(node))
+            }
+        })
+        dispatch(node, 'mutate', { ML });
+    });
+
     function $() {
         return dom(node, options);
     }
@@ -70,19 +80,29 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             : Math.abs(pos) >= SENSITY;
     }
 
-    mount(node)
-        .then(() => {
-            node.style.cssText += 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;'
-            node.onwheel = throttle(onWheel, DURATION, CLAMP);
+    init(node)
 
-            POSITION = $().position();
+    function init(node: HTMLElement) {
+        mount(node)
+            .then(() => {
+                node.style.cssText += 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;'
+                node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-            RO.observe(node);
-            listen(node, NODE_EVENTS);
-            listen(window, WINDOW_NATIVE_EVENTS);
-            dispatch(node, 'mount', { options });
-        })
-        .catch((error: Error) => console.error('Slidy:', error));
+                POSITION = $().position();
+
+                RO.observe(node);
+                MO.observe(node, {
+                    childList: true,
+                    attributes: true,
+                    subtree: true
+                });
+
+                listen(node, NODE_EVENTS);
+                listen(window, WINDOW_NATIVE_EVENTS);
+                dispatch(node, 'mount', { options });
+            })
+            .catch((error: Error) => console.error('Slidy:', error));
+    }
 
     function move(pos: number, index?: number): void {
         options.direction = Math.sign(pos);
@@ -278,7 +298,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         });
     }
 
-    function destroy(): void {
+    async function destroy(): Promise<void> {
         clear();
         RO.disconnect();
         listen(node, NODE_EVENTS, false);
