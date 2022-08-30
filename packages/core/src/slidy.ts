@@ -301,9 +301,10 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     async function destroy(): Promise<void> {
         clear();
         RO.disconnect();
+        MO.disconnect();
         listen(node, NODE_EVENTS, false);
         listen(window, WINDOW_NATIVE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
-    return { update, destroy, to };
+    return { init, update, destroy, to };
 }

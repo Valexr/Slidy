@@ -124,6 +124,10 @@ export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration
 
 export interface SlidyInstance {
     /**
+     * Init slidy() instance
+     */
+    init: (node: HTMLElement) => void;
+    /**
      * Update any property in options
      */
     update: (options: Partial<Options>) => void;

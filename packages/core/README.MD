@@ -235,6 +235,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 | Name        | Arguments          | Description |
 | :---------- | :----------------- | :---------- |
 | `to()`      | `(index)`          | Scroll to `index` |
+| `init()`    | `(node)`           | Init slidy() instance |
 | `update()`  | `({option:value})` | Update any property in options |
 | `destroy()` | `()`               | Remove event listners, observers & defaulted props on `slidy()` instance |
 
