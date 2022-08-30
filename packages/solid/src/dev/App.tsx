@@ -1,4 +1,4 @@
-import { createEffect, Show, createSignal, from } from 'solid-js';
+import { Show, createSignal, from } from 'solid-js';
 import { Slidy } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
@@ -16,10 +16,9 @@ import type { Component } from 'solid-js';
 
 const App: Component = () => {
     const animation = channel(translate);
-    const axis = channel<'x' | 'y'>('y');
+    const axis = channel<'x' | 'y'>('x');
     const easing = channel(linear);
-    const groups = channel(2);
-    const limit = channel(15);
+    const groups = channel(0);
 
     const vertical = channel(false);
     const clamp = channel(1);
@@ -31,7 +30,6 @@ const App: Component = () => {
     const gap = channel(15);
 
     const [index, setIndex] = createSignal(7);
-    const [position, setPosition] = createSignal(0);
     const [autoplay, setAutoplay] = createSignal(false);
 
     const controlPanel = channel(false);
@@ -39,26 +37,14 @@ const App: Component = () => {
     const theme = from(darkTheme);
 
     const slides = channel<Slide[]>([]);
-    const loaded = channel(false);
 
-    function loadSlides() {
-        loaded(false);
-
-        getRandomSlides(limit()).then((s) => {
-            if (s.length === 0) {
-                return loadSlides();
-            } else {
-                slides(s);
-                loaded(true);
-            }
+    const loadSlides = () => {
+        getRandomSlides().then((s) => {
+            return s.length === 0 ? loadSlides() : slides(s);
         });
-    }
+    };
 
     loadSlides();
-
-    createEffect(() => {
-        if (axis() === 'y' && !vertical()) vertical(true);
-    });
 
     return (
         <>
@@ -94,7 +80,7 @@ const App: Component = () => {
                 </fieldset>
             </header>
             <main>
-                <Show when={loaded()}>
+                <Show when={slides().length > 0}>
                     <Slidy
                         animation={animation()}
                         axis={axis()}
@@ -113,9 +99,6 @@ const App: Component = () => {
                         // bind:index
                         index={index}
                         setIndex={setIndex}
-                        // bind:position
-                        position={position}
-                        setPosition={setPosition}
                         // bind:autoplay
                         autoplay={autoplay}
                         setAutoplay={setAutoplay}

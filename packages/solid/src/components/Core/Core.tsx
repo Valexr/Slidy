@@ -19,6 +19,7 @@ declare module 'solid-js' {
             move: CustomEvent;
             resize: CustomEvent;
             update: CustomEvent;
+            mutate: CustomEvent;
         }
     }
 }
@@ -41,12 +42,13 @@ interface Options {
     className: string;
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
-    onMount?: (event: CustomEvent<Options>) => void;
+    onMount?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
     onIndex?: (event: CustomEvent<{ index: number }>) => void;
     onKeys?: (event: CustomEvent<string>) => void;
-    onUpdate?: (event: CustomEvent<Options>) => void;
+    onUpdate?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
+    onMutate?: (event: CustomEvent<{ ML: MutationRecord[] }>) => void;
 
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;
@@ -112,6 +114,7 @@ const Core: FlowComponent<Partial<Options>> = ($props) => {
             on:move={execute(props.onMove)}
             on:resize={execute(props.onResize)}
             on:update={execute(props.onUpdate)}
+            on:mutate={execute(props.onMutate)}
         >
             {props.children}
         </Dynamic>

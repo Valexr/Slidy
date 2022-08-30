@@ -91,11 +91,12 @@ export default () => {
 | `snap`      | `undefined` |           `"start"` or `"center"` or `"end"` or `"deck"`            | Enforces the scroll stop positions.                                   |
 | `tag`       |    `ol`     |                              `string`                               | The HTML tag name to render.                                          |
 | `onResize`  | `undefined` |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                            |
-| `onMount`   | `undefined` |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                             |
+| `onMutate`  | `undefined` |      `(event: CustomEvent<{ ML: MutationRecord[] }>) => void`       | Listen to the core event `mutate` to fire.                            |
+| `onMount`   | `undefined` |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                             |
 | `onMove`    | `undefined` | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                              |
 | `onIndex`   | `undefined` |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                             |
 | `onKeys`    | `undefined` |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                              |
-| `onUpdate`  | `undefined` |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                            |
+| `onUpdate`  | `undefined` |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                            |
 | `onDestroy` | `undefined` |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                           |
 
 For TypeScript users there is the `SlidyCoreOptions` interface available via named import.
@@ -125,11 +126,12 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `slides`          |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
 | `thumbnail`       |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
 | `onResize`        |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
-| `onMount`         |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                                |
+| `onMutate`        |    `undefined`     |      `(event: CustomEvent<{ ML: MutationRecord[] }>) => void`       | Listen to the core event `mutate` to fire.                               |
+| `onMount`         |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                                |
 | `onMove`          |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
 | `onIndex`         |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
 | `onKeys`          |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
-| `onUpdate`        |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                               |
+| `onUpdate`        |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                               |
 | `onDestroy`       |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
 | `autoplay`        | `Accessor<false>`  |                         `Accessor<boolean>`                         | Set's up automatic sliding of the carousel items.                        |
 | `setAutoplay`     |    `undefined`     |                          `Setter<boolean>`                          | Set's up automatic sliding of the carousel items.                        |

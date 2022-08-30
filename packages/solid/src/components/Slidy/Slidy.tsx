@@ -22,6 +22,7 @@ import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
 
+import type { Options as SlidyCoreOptions } from '@slidy/core';
 import type { Slide, SlidyOptions } from './Slidy.types';
 import type { Component, JSX, Setter, Accessor } from 'solid-js';
 
@@ -127,12 +128,13 @@ interface Options {
     children?: (item: Slide) => JSX.Element;
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
-    onMount?: (event: CustomEvent<Options>) => void;
+    onMount?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
     onIndex?: (event: CustomEvent<{ index: number }>) => void;
     onKeys?: (event: CustomEvent<string>) => void;
-    onUpdate?: (event: CustomEvent<Options>) => void;
+    onUpdate?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
+    onMutate?: (event: CustomEvent<{ ML: MutationRecord[] }>) => void;
 }
 
 const defaultProps: Options = {
@@ -250,9 +252,8 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             interval: props.interval,
         });
 
-        onCleanup(destroy);
-
         createEffect(() => update({ status: autoplay() }));
+        onCleanup(destroy);
     };
 
     return (
@@ -303,13 +304,14 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     sensity={props.sensity}
                     snap={props.snap}
                     position={position()}
-                    onResize={execute(props.onResize)}
-                    onMount={execute(props.onMount)}
+                    onResize={props.onResize}
+                    onMount={props.onMount}
                     onMove={execute(onMove, props.onMove)}
                     onIndex={execute(onIndex, props.onIndex)}
-                    onKeys={execute(props.onKeys)}
-                    onUpdate={execute(props.onUpdate)}
-                    onDestroy={execute(props.onDestroy)}
+                    onKeys={props.onKeys}
+                    onUpdate={props.onUpdate}
+                    onDestroy={props.onDestroy}
+                    onMutate={props.onMutate}
                 >
                     <For each={props.slides}>
                         {(item, i) => {
