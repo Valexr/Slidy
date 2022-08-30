@@ -72,7 +72,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     mount(node)
         .then(() => {
-            node.style.cssText += 'outline: 0; overflow: hidden; user-select: none;'
+            node.style.cssText += 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;'
             node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
             POSITION = $().position();
