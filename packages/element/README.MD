@@ -28,7 +28,15 @@ npm i -D @slidy/element
 or from [CDN]:
 
 ```html
+<!-- Element -->
 <script src="https://unpkg.com/@slidy/element"></script>
+
+<!-- Styles -->
+<link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
+    <!-- or -->
+<style>
+    @import url('https://unpkg.com/@slidy/element/dist/index.css');
+</style>
 ```
 
 Playground is available in svelte [REPL].
@@ -47,6 +55,7 @@ CustomElement `<slidy-element>` is available via import as `MJS/CJS` module or v
         // OR
         import 'https://unpkg.com/@slidy/core/dist/index.cjs'; // CJS module
     </script>
+    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5">
@@ -71,7 +80,13 @@ window.Slidy = {
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
+
+<slidy-element id="slidy" index="5" snap="center">
+    <img src="..." width="..." height="..."/>
+    ...
+</slidy-element>
 
 <script>
     let animation = Slidy.animation.flip
@@ -83,11 +98,6 @@ window.Slidy = {
     // options set after attributes on init <slidy-element> & merged/rewrite
     node.options = {animation: animation.toString()}
 </script>
-
-<slidy-element id="slidy" index="5" snap="center">
-    <img src="..." width="..." height="..."/>
-    ...
-</slidy-element>
 ```
 
 ### As third party module in any frameworks
@@ -103,6 +113,10 @@ window.Slidy = {
     <img src="..." width="..." height="..."/>
     ...
 </slidy-element>
+
+<style>
+    @import url('https://unpkg.com/@slidy/element/dist/index.css');
+</style>
 ```
 
 
@@ -149,7 +163,13 @@ If you need keyboard navigation just set `tabindex=0` on `<slidy-element>`.
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
+
+<slidy-element id="slidy" index="5" snap="center">
+    <img src="..." width="..." height="..."/>
+    ...
+</slidy-element>
 
 <script>
     let animation = Slidy.animation.flip
@@ -161,11 +181,6 @@ If you need keyboard navigation just set `tabindex=0` on `<slidy-element>`.
     // options set after attributes on init <slidy-element> & merged/rewrite
     node.options = {animation: animation.toString()}
 </script>
-
-<slidy-element id="slidy" index="5" snap="center">
-    <img src="..." width="..." height="..."/>
-    ...
-</slidy-element>
 ```
 
 
@@ -189,6 +204,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center" onmove="onMove">
@@ -225,6 +241,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center" onmove="onMove">
@@ -275,6 +292,8 @@ You can style `<slidy-element>` & his childs as sample HTMLElements or you can p
     <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
 
     <style>
+        @import url('https://unpkg.com/@slidy/element/dist/index.css');
+        
         #slidy {
             --flow: row;
             border: 1px solid red;
