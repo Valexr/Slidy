@@ -7,8 +7,6 @@
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
-
-### 👨🏻‍💻 in progress...
 -   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - CustomElement
 
 ### 📝 todo...
