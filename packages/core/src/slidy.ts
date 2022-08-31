@@ -64,7 +64,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         loop(ML, (record) => {
             const { type, addedNodes } = record
             if (type === 'childList' && addedNodes.length > 1) {
-                destroy().then(() => init(node))
+                destroy().then(init)
             }
         })
         dispatch(node, 'mutate', { ML });
@@ -72,9 +72,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const $ = () => dom(node, options);
 
-    init(node)
+    init()
 
-    function init(node: HTMLElement) {
+    function init() {
         mount(node)
             .then(() => {
                 node.style.cssText += 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;'

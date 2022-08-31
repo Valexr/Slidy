@@ -11,13 +11,13 @@ function mount(node: HTMLElement) {
                 reject('few slides');
             } else if (node.children.length > 1) {
                 clearInterval(mounting);
-                resolve(init(node));
+                resolve(indexed(node));
             }
         }, 16);
     });
 }
 
-function init(node: HTMLElement) {
+function indexed(node: HTMLElement) {
     return loop(node.children, (child, i) => (child.index = i));
 }
 
