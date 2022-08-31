@@ -51,7 +51,7 @@
         <link rel="icon" type="image/png" href="assets/favicon.png" />
         <link rel="stylesheet" defer href="dev.css" />
         <link rel="stylesheet" href="build/element.css" />
-        <!-- <script type="text/javascript" src="index.js"></script> -->
+
         <script type="text/javascript" src="https://unpkg.com/@slidy/easing/dist/index.js"></script>
         <script type="text/javascript" src="https://unpkg.com/@slidy/animation/dist/index.js"></script>
 
@@ -115,19 +115,25 @@
 
         <main id="main" style="--gap: 2rem; --flow: row; --width: auto; --height: 375px">
             <slidy-element id="node" tabindex="0" index="4" snap="center">
+                <!-- <img width="1280" height="800" src="https://picsum.photos/id/13/1280/800.jpg" />
+                <img width="1280" height="800" src="https://picsum.photos/id/14/1280/800.jpg" />
+                <img width="1280" height="800" src="https://picsum.photos/id/15/1280/800.jpg" />
+                <img width="1280" height="800" src="https://picsum.photos/id/16/1280/800.jpg" />
+                <img width="1280" height="800" src="https://picsum.photos/id/17/1280/800.jpg" /> -->
             </slidy-element>
-            <!-- <img width="1280" height="800" src="https://picsum.photos/id/13/1280/800.jpg" />
-            <img width="1280" height="800" src="https://picsum.photos/id/14/1280/800.jpg" />
-            <img width="1280" height="800" src="https://picsum.photos/id/15/1280/800.jpg" />
-            <img width="1280" height="800" src="https://picsum.photos/id/16/1280/800.jpg" />
-            <img width="1280" height="800" src="https://picsum.photos/id/17/1280/800.jpg" /> -->
             <slidy-element id="thumbs" index="4" style="--width: 100px; --height: 100px; --gap: 1rem; --flow: row;">
             </slidy-element>
-
         </main>
-        <script>
+        <!-- <script src="index.js">
             const element = document.querySelector('#node');
+            console.log(element);
+            element.setAttribute('index', 2);
+            element.setAttribute('easing', Slidy.easing.back.toString());
+            element.setAttribute('animation', Slidy.animation.stairs.toString());
+        </script> -->
+        <script>
             console.log('script window:', window);
+            const element = document.querySelector('#node');
             fetch('https://unpkg.com/@slidy/element/package.json', {
                 mode: 'cors',
             })
@@ -139,8 +145,6 @@
                         .then((length) => length && setEvents());
                 });
             // element.options = { snap: 'center', animation: SlidyAnimation.stairs, easing: SlidyEasing.back };
-            // animation.value = 'stairs';
-            // easing.value = 'back';
             element.setAttribute('easing', SlidyEasing.back.toString());
             element.setAttribute('animation', SlidyAnimation.stairs.toString());
         </script>

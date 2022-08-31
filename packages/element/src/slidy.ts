@@ -76,7 +76,7 @@ export default class Slidy extends HTMLElement {
         this._slidy = slidy(this, options);
     }
 
-    goto(index: number) {
+    to(index: number) {
         this._slidy?.to(index)
     }
 
