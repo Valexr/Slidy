@@ -9,25 +9,25 @@ interface Options {
      */
     index: number;
     /**
-     * Current position
-     * @readonly
-     */
-    position: number;
-    /**
-     * Children axis flow: `0` or any `Number` as `true`
-     * @readonly
-     */
-    vertical: number;
-    /**
-     * Children reverse flow: `-1` or `1`
-     * @readonly
-     */
-    reverse: number;
-    /**
      * Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges.
      * * @readonly
      */
     snap: Snap;
+    /**
+     * Current position
+     * @readonly
+     */
+    _position: number;
+    /**
+     * Children axis flow: `0` or any `Number` as `true`
+     * @readonly
+     */
+    _vertical: number;
+    /**
+     * Children reverse flow: `-1` or `1`
+     * @readonly
+     */
+    _reverse: number;
 }
 
 type Snap = 'start' | 'center' | 'end' | 'deck';

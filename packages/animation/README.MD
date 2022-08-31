@@ -39,10 +39,10 @@ Includes `fade, flip, matrix, rotate, scale, stairs, translate` & `blur, deck, s
 ```ts
 type Options = {
     index: number, // current active slide index
-    position: number; // current position
-    vertical: boolean, // node children flow
-    reverse: boolean, // node children reverse flow
     snap: Snap; // snapping side
+    _position: number; // current position
+    _vertical: boolean, // node children flow
+    _reverse: boolean, // node children reverse flow
 }
 
 type Snap = 'start' | 'center' | 'end' | 'deck' | undefined;
@@ -129,13 +129,13 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
 ### Options
 
-| Name       | Type      | Description |
-| :--------- | :-------- | :---------- |
-| `index`    | `number`  | Current active slide index |
-| `position` | `number`  | Current position |
-| `vertical` | `number`  | Children axis flow: `0` or any `Number` as `true` |
-| `reverse`  | `number`  | Children reverse flow: `-1` or `1` |
-| `snap`     | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
+| Name        | Type      | Description |
+| :---------- | :-------- | :---------- |
+| `index`     | `number`  | Current active slide index |
+| `snap`      | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
+| `_position` | `number`  | Current position |
+| `_vertical` | `number`  | Children axis flow: `0` or any `Number` as `true` |
+| `_reverse`  | `number`  | Children reverse flow: `-1` or `1` |
 
 
 ## Custom
