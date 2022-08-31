@@ -15,6 +15,7 @@ Simple, configurable & reusable carousel CustomElement based on [@slidy/core](ht
 > - [Options](#options)
 > - [Events](#events)
 > - [Methods](#methods)
+> - [Styling](#stiling)
 
 
 ## Getting started
@@ -81,6 +82,21 @@ window.Slidy = {
     node.setAttribute('easing', easing.toString())
     // options set after attributes on init <slidy-element> & merged/rewrite
     node.options = {animation: animation.toString()}
+</script>
+
+<slidy-element id="slidy" index="5" snap="center">
+    <img src="..." width="..." height="..."/>
+    ...
+</slidy-element>
+```
+
+### As third party module in any frameworks
+
+```html
+<!-- Svelte -->
+
+<script>
+    import '@slidy/element';
 </script>
 
 <slidy-element id="slidy" index="5" snap="center">
@@ -216,7 +232,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     ...
 </slidy-element>
 
-<script src="https://unpkg.com/@slidy/core/dist/index.mjs">;
+<script>;
     const slidy = document.querySelector('#slidy');
     const prev = document.querySelector('#prev');
     const next = document.querySelector('#next');
@@ -237,6 +253,44 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     <button onclick="slidy.to(index - 1)">←</button>
     <button onclick="slidy.to(index + 1)">→</button>
 </nav>
+```
+
+## Styling
+
+You can style `<slidy-element>` & his childs as sample HTMLElements or you can pass root props via `style` attribute or in css scope like CSSvariables. For `<img>` children required pass `width/height` attributes.
+
+### CSS variables
+
+| Name       | Default | Description              |
+| :--------- | :------ | :----------------------- |
+| `--flow`   | `row`   | Flex flow                |
+| `--width`  | `auto`  | Each children width      |
+| `--height` | `20rem` | `<slidy-element>` height |
+| `--gap`    | `1rem`  | Gap between childs       |
+
+### Usage
+
+```html
+<head>
+    <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
+
+    <style>
+        #slidy {
+            --flow: row;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<slidy-element
+    id="slidy" 
+    index="5" 
+    snap="center"
+    style="--width: 100px; --height: 100px; --gap: 1rem;"
+    >
+    <img src="..." width="..." height="..."/>
+    ...
+</slidy-element>
 ```
 
 
