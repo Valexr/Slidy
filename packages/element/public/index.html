@@ -72,7 +72,7 @@
                 index: 4,
                 clamp: 0,
                 indent: 1,
-                // length: 9,
+                length: 9,
                 sensity: 5,
                 gravity: 1.2,
                 duration: 375,
@@ -86,23 +86,8 @@
             window.page = () => utils.randomQ(1, 99);
             window.getPhotos = getPhotos;
             window.setEvents = setEvents;
-            window.updateAttribute = (node, attribute, cb) => {
-                const value = node.getAttribute(attribute);
-                node.setAttribute(attribute, cb(JSON.parse(value)));
-            };
-            // node.options = { animation: animations.stairs };
-            console.log('module window:', window);
 
-            // fetch('https://unpkg.com/@slidy/element/package.json', {
-            //     mode: 'cors',
-            // })
-            //     .then(async (res) => await res.json())
-            //     .then(({ version }) => {
-            //         title.innerText = `Slidy ${version} - Element`;
-            //         header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
-            //         getPhotos(page(), options.length)
-            //             .then((length) => length && setEvents());
-            //     });
+            console.log('module window:', window);
         </script>
     </head>
 
@@ -124,44 +109,33 @@
             <slidy-element id="thumbs" index="4" style="--width: 100px; --height: 100px; --gap: 1rem; --flow: row;">
             </slidy-element>
         </main>
-        <!-- <script src="index.js">
-            const element = document.querySelector('#node');
-            console.log(element);
-            element.setAttribute('index', 2);
-            element.setAttribute('easing', Slidy.easing.back.toString());
-            element.setAttribute('animation', Slidy.animation.stairs.toString());
-        </script> -->
         <script>
             console.log('script window:', window);
             const element = document.querySelector('#node');
-            fetch('https://unpkg.com/@slidy/element/package.json', {
-                mode: 'cors',
-            })
+            fetch('https://unpkg.com/@slidy/element/package.json')
                 .then(async (res) => await res.json())
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - Element`;
                     header.innerHTML = `Slidy <span>${version}</span><sub>Element</sub><sub id="stats" />`;
-                    getPhotos(page(), options.length)
-                        .then((length) => length && setEvents());
+                    getPhotos(page(), options.length).then(setEvents);
                 });
-            // element.options = { snap: 'center', animation: SlidyAnimation.stairs, easing: SlidyEasing.back };
             element.setAttribute('easing', SlidyEasing.back.toString());
             element.setAttribute('animation', SlidyAnimation.stairs.toString());
         </script>
 
         <footer>
             <nav>
-                <button id="prev" onclick="updateAttribute(node,'index', (val) => val-1)">←</button>
+                <button id="prev" onclick="node.setAttribute('index', node.index-1)">←</button>
                 <button id="reload" onclick="getPhotos(page(), options.length);">
                     <i class="icon icon-refresh"></i>
                 </button>
-                <button id="next" onclick="updateAttribute(node,'index', (val) => val+1)">→</button>
+                <button id="next" onclick="node.setAttribute('index', node.index+1)">→</button>
             </nav>
 
             <nav id="dots"></nav>
 
             <nav id="buttons">
-                <button id="loop" onclick="updateAttribute(node,'loop', (val) => val = !val)">
+                <button id="loop" onclick="node.setAttribute('loop', node.loop = !node.loop)">
                     loop
                 </button>
             </nav>

@@ -1,10 +1,5 @@
 export async function getPhotos(page = 9, limit = 9) {
     node.innerHTML = `<span style="display: grid; place-items: center">Loading... 🚀</span>`;
-    if (node._slidy && thumbs._slidy) {
-        // node.setAttribute('length', node.children.length);
-        // thumbs.setAttribute('length', thumbs.children.length);
-    }
-    //page: 38 - END,  61 - START, 28
     try {
         const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`);
         const photos = await res.json();
@@ -13,15 +8,6 @@ export async function getPhotos(page = 9, limit = 9) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
             dots.innerHTML = createSlides(dots, photos);
-
-            if (limit === node.children.length && limit === thumbs.children.length) {
-                const mounted = Array.from(thumbs.children).every(
-                    (child) => child && child.isConnected
-                );
-                if (mounted) {
-                    return node.children.length;
-                }
-            }
         } else {
             node.innerHTML = `<span style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</span>`;
         }

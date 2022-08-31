@@ -89,10 +89,10 @@ window.Slidy = {
 </slidy-element>
 
 <script>
-    let animation = Slidy.animation.flip
-        easing = Slidy.easing.cubic
-        media = Slidy.media
-        node = document.querySelector('#slidy')
+    const animation = Slidy.animation.flip
+    const easing = Slidy.easing.cubic
+    const media = Slidy.media
+    const node = document.querySelector('#slidy')
 
     node.setAttribute('easing', easing.toString())
     // options set after attributes on init <slidy-element> & merged/rewrite
@@ -125,8 +125,6 @@ window.Slidy = {
 All `options` are optional & can be passed through element attributes or like options keys. Options set after attributes on init `<slidy-element>` & merged/rewrite.
 
 `animation` & `easing` functions also can be passed through attributes with: `key: function.tostring()` transformation.
-
-@slidy/element does not style the DOM, but uses the browser render, except for 3 rules for target node: `outline: none, overflow: hidden, user-select: none`.
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
 
@@ -212,7 +210,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     ...
 </slidy-element>
 
- <script>
+<script>
     const node = document.querySelector('#slidy');
 
     node.addEventListener('mount', (e) => console.log(e))
@@ -249,6 +247,11 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     ...
 </slidy-element>
 
+<nav>
+    <button id="prev">←</button>
+    <button id="next">→</button>
+</nav>
+
 <script>;
     const slidy = document.querySelector('#slidy');
     const prev = document.querySelector('#prev');
@@ -259,23 +262,12 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     prev.onclick = () => slidy.to(index - 1)
     next.onclick = () => slidy.to(index + 1)
 </script>
-
-<nav>
-    <button id="prev">←</button>
-    <button id="next">→</button>
-</nav>
-
-<!-- if slidy() in global scope you can use global event handlers as atributes -->
-<nav>
-    <button onclick="slidy.to(index - 1)">←</button>
-    <button onclick="slidy.to(index + 1)">→</button>
-</nav>
 ```
 
 
 ## Styling
 
-You can style `<slidy-element>` & his childs as sample HTMLElements or you can pass root props via `style` attribute or in css scope like CSSvariables. For `<img>` children required pass `width/height` attributes.
+`<slidy-element>` nested `@slidy/core` styles `outline: 0; overflow: hidden; user-select: none; -webkit-user-select:none;` & have base simple [stylesheet file](https://github.com/Valexr/Slidy/blob/master/packages/element/src/slidy.css). Also you can style it & his childs as native HTMLElements or you can pass CSSvariables props via `style` attribute or in css scope. For `<img>` children required pass `width/height` attributes.
 
 ### CSS variables
 
