@@ -120,7 +120,7 @@ window.Slidy = {
 
 ## Options
 
-@slidy/core does not style the DOM, but uses the browser render, except for 3 rules for target node: `outline: none, overflow: hidden, user-select: none`.
+@slidy/core does not style the DOM, but uses the browser render, except for 4 rules for target node: `outline: none, overflow: hidden, user-select: none; -webkit-user-select:none;`.
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
 
