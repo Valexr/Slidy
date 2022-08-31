@@ -31,7 +31,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         shifted = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
-        POSITION = options.position as number,
+        POSITION = options._position as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
@@ -93,9 +93,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function move(pos: number, index?: number): void {
-        options.direction = Math.sign(pos);
+        options._direction = Math.sign(pos);
         POSITION += positioning(pos);
-        POSITION = options.position = edging(POSITION);
+        POSITION = options._position = edging(POSITION);
         INDEX = options.index = $().index(POSITION);
 
         GRAVITY = $().edges ? 1.8 : (options.gravity as number);
@@ -197,7 +197,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = CLAMP * (options.direction as number);
+            const range = CLAMP * (options._direction as number);
             index = CLAMP && index - hix ? INDEX + range : index;
 
             return indexing(node, options, index);
@@ -276,7 +276,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
                     default:
                         options[key] = value as never;
-                        POSITION = options.position = $().position(false);
+                        POSITION = options._position = $().position(false);
                         to(INDEX);
                         break;
                 }

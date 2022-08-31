@@ -53,36 +53,23 @@ export interface Options {
      * Current position
      * @readonly
      */
-    position?: number;
+    _position?: number;
     /**
      * Children move direction
      * @readonly
      */
-    direction?: number;
+    _direction?: number;
     /**
      * Children axis flow: `0` or any `Number` as `true`
      * @readonly
      */
-    vertical?: number;
+    _vertical?: number;
     /**
      * Children reverse flow: `-1` or `1`
      * @readonly
      */
-    reverse?: number;
-    // /**
-    //  * Observers configuration
-    //  * @readonly
-    //  */
-    // config?: Config;
+    _reverse?: number;
 }
-
-// interface Config {
-//     resize: ResizeObserverOptions
-//     mutation: MutationObserverInit
-// }
-
-// type Keys = keyof typeof opts;
-// type Values = typeof opts[Keys];
 
 type Axis = 'x' | 'y' | 'both';
 /**
