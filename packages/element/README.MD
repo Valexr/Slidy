@@ -15,7 +15,7 @@ Simple, configurable & reusable carousel CustomElement based on [@slidy/core](ht
 > - [Options](#options)
 > - [Events](#events)
 > - [Methods](#methods)
-> - [Styling](#stiling)
+> - [Styling](#styling)
 
 
 ## Getting started
@@ -271,6 +271,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
     <button onclick="slidy.to(index + 1)">→</button>
 </nav>
 ```
+
 
 ## Styling
 
