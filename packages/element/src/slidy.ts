@@ -89,6 +89,6 @@ export default class Slidy extends HTMLElement {
     }
 }
 
-if ('customElements' in window) {
+if (typeof window === 'object' && 'customElements' in window) {
     customElements.define('slidy-element', Slidy);
 }
