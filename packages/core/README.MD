@@ -124,6 +124,8 @@ window.Slidy = {
 
 If you need reversed flow use css rules on target node, like: `flex-flow: row-reverse / column-reverse`, `direction: rtl` or html attribute `dir="rtl"`.
 
+If you need keyboard navigation just set `tabindex=0` on target node.
+
 ⚠️ Don't positioning childs `absolute`, becouse @slidy use coordinates from childNodes. For deck flow use `options.snap: 'deck'`.
 
 
