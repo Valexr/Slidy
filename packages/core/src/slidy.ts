@@ -62,22 +62,24 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record) => {
-            const { type, addedNodes } = record
+            const { type, addedNodes } = record;
             if (type === 'childList' && addedNodes.length > 1) {
-                destroy().then(init)
+                destroy().then(init);
             }
-        })
+        });
         dispatch(node, 'mutate', { ML });
     });
 
     const $ = () => dom(node, options);
 
-    init()
+    const css = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
+
+    init();
 
     function init() {
         mount(node)
             .then(() => {
-                node.style.cssText += 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;'
+                node.style.cssText += css;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
                 POSITION = $().position();
@@ -115,7 +117,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         function edging(position: number): number {
             const clamped = clamp($().start, position, $().end);
-            return !options.snap && !options.loop ? clamped : position
+            return !options.snap && !options.loop ? clamped : position;
         }
     }
 
@@ -210,8 +212,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const clamped = CLAMP || e.shiftKey || options.axis === 'y'
-        const sensed = $().sense(e, coord, SENSITY)
+        const clamped = CLAMP || e.shiftKey || options.axis === 'y';
+        const sensed = $().sense(e, coord, SENSITY);
         const pos = $().edges ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
@@ -224,18 +226,16 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     function winWheel(e: WheelEvent): void {
         if (e.composedPath().includes(node)) {
-            if (
-                Math.abs(e.deltaX) >= Math.abs(e.deltaY) ||
-                (options.axis === 'y' && !$().edges) ||
-                e.shiftKey
-            )
-                e.preventDefault();
+            const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
+            const edged = options.axis === 'y' && !$().edges;
 
-            const throttled = CLAMP > 0 || options.axis === 'y' || e.shiftKey
+            if (X || edged) e.preventDefault();
+
+            const throttled = CLAMP > 0 || options.axis === 'y' || e.shiftKey;
 
             if (shifted !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);
-                shifted = throttled
+                shifted = throttled;
             }
         }
     }
@@ -276,12 +276,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                         break;
                     case 'clamp':
                         CLAMP = options[key] = value;
-                        // node.onwheel = throttle(onWheel, DURATION, value);
                         break;
-                    // case 'axis':
-                    //     options[key] = value;
-                    //     node.onwheel = throttle(onWheel, DURATION, value === 'y' ? true : false);
-                    //     break;
 
                     default:
                         options[key] = value as never;

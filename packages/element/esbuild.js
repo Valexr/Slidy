@@ -11,9 +11,7 @@ const esbuildBase = {
     incremental: DEV,
     legalComments: 'none',
     plugins: [eslintPlugin()],
-    entryPoints: DEV
-        ? ['@slidy/element', '@slidy/easing', '@slidy/animation']
-        : ['src/index.ts'],
+    entryPoints: DEV ? ['@slidy/element', '@slidy/easing', '@slidy/animation'] : ['src/index.ts'],
     outdir: DEV ? 'public/build' : '',
     sourcemap: DEV ? 'inline' : false,
     format: 'esm',
@@ -46,17 +44,19 @@ const builds = {
 };
 
 if (DEV) {
-    prepare('public/build').then(() => build(esbuildBase).then((bundle) => {
-        derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'public') {
-                    lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
-    }));
+    prepare('public/build').then(() =>
+        build(esbuildBase).then((bundle) => {
+            derver({
+                ...derverConfig,
+                onwatch: async (lr, item) => {
+                    if (item !== 'public') {
+                        lr.prevent();
+                        bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+                    }
+                },
+            });
+        })
+    );
 } else {
     prepare().then(() => {
         for (const key in builds) {

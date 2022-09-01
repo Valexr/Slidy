@@ -29,7 +29,7 @@ function indexing(node: HTMLElement, options: Options, index: number): number {
 function coordinate(e: UniqEvent, options: Options): number {
     if (e.type === 'wheel') {
         const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
-        return (e.shiftKey || options.axis === 'y') ? e.deltaY : X ? e.deltaX : 0;
+        return X ? e.deltaX : e.shiftKey || options.axis === 'y' ? e.deltaY : 0;
     } else {
         const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
         return options.axis === 'y' ? mix(e).pageY : mix(e).pageX;

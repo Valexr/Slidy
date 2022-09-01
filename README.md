@@ -28,6 +28,7 @@
 -   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - CustomElement
 
 ### 👨🏻‍💻 in progress...
+
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 
 ### 📝 todo...
