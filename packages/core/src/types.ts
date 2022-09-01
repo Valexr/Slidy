@@ -53,22 +53,22 @@ export interface Options {
      * Current position
      * @readonly
      */
-    _position?: number;
+    position?: number;
     /**
      * Children move direction
      * @readonly
      */
-    _direction?: number;
+    direction?: number;
     /**
      * Children axis flow: `0` or any `Number` as `true`
      * @readonly
      */
-    _vertical?: number;
+    vertical?: number;
     /**
      * Children reverse flow: `-1` or `1`
      * @readonly
      */
-    _reverse?: number;
+    reverse?: number;
 }
 
 type Axis = 'x' | 'y' | 'both';
@@ -135,5 +135,5 @@ export interface SlidyInstance {
     /**
      * Remove event listners, observers & defaulted props on `slidy()` instance
      */
-    destroy: () => void;
+    destroy: () => Promise<void>;
 }

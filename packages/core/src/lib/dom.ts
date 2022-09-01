@@ -7,27 +7,27 @@ export function dom(node: HTMLElement, options: Options) {
     const indexes = [...Array(length).keys()];
     const last = length - 1;
     const cix = Math.floor(length / 2);
-    const _vertical = nodes[1].offsetTop - nodes[0].offsetTop;
-    const coord = _vertical ? 'offsetTop' : 'offsetLeft';
-    const size = _vertical ? 'offsetHeight' : 'offsetWidth';
-    const _reverse = Math.sign(nodes[last][coord]);
+    const vertical = nodes[1].offsetTop - nodes[0].offsetTop;
+    const coord = vertical ? 'offsetTop' : 'offsetLeft';
+    const size = vertical ? 'offsetHeight' : 'offsetWidth';
+    const reverse = Math.sign(nodes[last][coord]);
     const gap =
         length > 1
-            ? nodes[last][coord] * _reverse -
-            nodes[last - 1][coord] * _reverse -
-            nodes[last - Math.max(_reverse, 0)][size]
+            ? nodes[last][coord] * reverse -
+            nodes[last - 1][coord] * reverse -
+            nodes[last - Math.max(reverse, 0)][size]
             : 0;
-    const start = distance(_reverse < 0 ? last : 0, 'start');
-    const end = distance(_reverse < 0 ? 0 : last, 'end');
+    const start = distance(reverse < 0 ? last : 0, 'start');
+    const end = distance(reverse < 0 ? 0 : last, 'end');
     const scrollable = Math.abs(end - start) > gap * 2;
     const edges = options.loop
         ? false
-        : ((_reverse < 0 ? options.index === last : !options.index) &&
-            (options._direction as number) <= 0 &&
-            (options._position as number) < start) ||
-        ((_reverse < 0 ? !options.index : options.index === last) &&
-            (options._direction as number) > 0 &&
-            (options._position as number) > end);
+        : ((reverse < 0 ? options.index === last : !options.index) &&
+            (options.direction as number) < 0 &&
+            Math.round(options.position as number) <= start) ||
+        ((reverse < 0 ? !options.index : options.index === last) &&
+            (options.direction as number) > 0 &&
+            Math.round(options.position as number) >= end);
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
@@ -36,8 +36,8 @@ export function dom(node: HTMLElement, options: Options) {
 
         const indented = child(index)[size] + gap * 2 < node[size];
         const indent = indented ? (options.indent as number) : offset(index) / 2 / gap || 0;
-        const start = pos(index, snap) <= pos(_reverse < 0 ? last : 0, 'start');
-        const end = pos(index, snap) >= pos(_reverse < 0 ? 0 : last, 'end');
+        const start = pos(index, snap) <= pos(reverse < 0 ? last : 0, 'start');
+        const end = pos(index, snap) >= pos(reverse < 0 ? 0 : last, 'end');
         const SNAP = start ? 'start' : end ? 'end' : options.snap;
 
         return pos(index, options.snap && options.snap !== 'deck' && !options.loop ? SNAP : snap);
@@ -74,11 +74,11 @@ export function dom(node: HTMLElement, options: Options) {
             if (edge) node.prepend(nodes[edge]);
             else node.append(nodes[edge]);
 
-            return (nodes[edge][size] + gap) * (direction * _reverse);
+            return (nodes[edge][size] + gap) * (direction * reverse);
         },
         sense(e: UniqEvent, pos: number, SENSITY = options.sensity as number): boolean {
-            return options.axis === 'y' && e.type === 'touchmove'
-                ? !edges
+            return (e.shiftKey || options.clamp || options.axis === 'y')
+                ? e.type === 'touchmove' ? !edges : true
                 : Math.abs(pos) >= SENSITY;
         },
         animate(): void {
@@ -87,19 +87,19 @@ export function dom(node: HTMLElement, options: Options) {
                 child.active = options.loop ? cix : (options.index as number);
                 child.size = child[size] + gap;
                 child.dist = distance(child.index);
-                child.track = (options._position as number) - child.dist;
+                child.track = (options.position as number) - child.dist;
                 child.turn = clamp(-1, child.track / child.size, 1);
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
 
-                const pos = options.snap === 'deck' ? child.dist : (options._position as number);
-                const translate = _vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
+                const pos = options.snap === 'deck' ? child.dist : (options.position as number);
+                const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const style = options.animation
                     ? options.animation({
                         node,
                         child,
                         options: Object.assign(options, {
-                            _vertical,
-                            _reverse,
+                            vertical,
+                            reverse,
                         }),
                         translate,
                     })

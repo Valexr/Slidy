@@ -31,7 +31,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         shifted = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
-        POSITION = options._position as number,
+        POSITION = options.position as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
@@ -93,9 +93,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function move(pos: number, index?: number): void {
-        options._direction = Math.sign(pos);
+        options.direction = Math.sign(pos);
         POSITION += positioning(pos);
-        POSITION = options._position = edging(POSITION);
+        POSITION = options.position = edging(POSITION);
         INDEX = options.index = $().index(POSITION);
 
         GRAVITY = $().edges ? 1.8 : (options.gravity as number);
@@ -115,7 +115,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         function edging(position: number): number {
             const clamped = clamp($().start, position, $().end);
-            return !options.snap && !options.loop ? clamped : position;
+            return !options.snap && !options.loop ? clamped : position
         }
     }
 
@@ -160,6 +160,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function onDown(e: UniqEvent): void {
         clear();
 
+        SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;
@@ -197,7 +198,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = CLAMP * (options._direction as number);
+            const range = CLAMP * (options.direction as number);
             index = CLAMP && index - hix ? INDEX + range : index;
 
             return indexing(node, options, index);
@@ -209,13 +210,14 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const clamped = CLAMP || e.shiftKey;
+        const clamped = CLAMP || e.shiftKey || options.axis === 'y'
+        const sensed = $().sense(e, coord, SENSITY)
         const pos = $().edges ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
 
-        !clamped && $().sense(e, pos, SENSITY) && move(pos, INDEX);
-        wst = (options.snap || clamped) && $().sense(e, pos, SENSITY) ? setTimeout(() => to(ix), tm) : undefined;
+        !clamped && sensed && move(pos, INDEX);
+        wst = (options.snap || clamped) && sensed ? setTimeout(() => to(ix), tm) : undefined;
 
         !$().edges && e.stopPropagation();
     }
@@ -224,13 +226,16 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         if (e.composedPath().includes(node)) {
             if (
                 Math.abs(e.deltaX) >= Math.abs(e.deltaY) ||
-                e.shiftKey ||
-                (options.axis === 'y' && !$().edges)
+                (options.axis === 'y' && !$().edges) ||
+                e.shiftKey
             )
                 e.preventDefault();
-            if (e.shiftKey !== shifted) {
-                node.onwheel = throttle(onWheel, DURATION, e.shiftKey);
-                shifted = e.shiftKey;
+
+            const throttled = CLAMP > 0 || options.axis === 'y' || e.shiftKey
+
+            if (shifted !== throttled) {
+                node.onwheel = throttle(onWheel, DURATION, throttled);
+                shifted = throttled
             }
         }
     }
@@ -271,12 +276,16 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                         break;
                     case 'clamp':
                         CLAMP = options[key] = value;
-                        node.onwheel = throttle(onWheel, DURATION, value);
+                        // node.onwheel = throttle(onWheel, DURATION, value);
                         break;
+                    // case 'axis':
+                    //     options[key] = value;
+                    //     node.onwheel = throttle(onWheel, DURATION, value === 'y' ? true : false);
+                    //     break;
 
                     default:
                         options[key] = value as never;
-                        POSITION = options._position = $().position(false);
+                        POSITION = options.position = $().position(false);
                         to(INDEX);
                         break;
                 }
