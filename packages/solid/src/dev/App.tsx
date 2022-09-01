@@ -16,11 +16,11 @@ import type { Component } from 'solid-js';
 
 const App: Component = () => {
     const animation = channel(translate);
-    const axis = channel<'x' | 'y'>('x');
+    const axis = channel<'x' | 'y'>('y');
     const easing = channel(linear);
     const groups = channel(0);
 
-    const vertical = channel(false);
+    const vertical = channel(true);
     const clamp = channel(1);
     const duration = channel(450);
     const gravity = channel(1.45);
@@ -104,6 +104,7 @@ const App: Component = () => {
                         setAutoplay={setAutoplay}
                         // autoplayControl
                         groups={groups()}
+                        vertical={vertical()}
                     />
                 </Show>
             </main>

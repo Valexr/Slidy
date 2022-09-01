@@ -44,6 +44,11 @@ interface Options {
      */
     axis?: SlidyOptions['axis'];
     /**
+     * Defines the slides flow by using `aria-orientation`
+     * @default false
+     */
+    vertical?: boolean;
+    /**
      * @default false
      */
     background?: boolean;
@@ -141,6 +146,7 @@ const defaultProps: Options = {
     arrows: true,
     interval: 1500,
     axis: 'x',
+    vertical: false,
     background: false,
     counter: true,
     clamp: 0,
@@ -186,7 +192,6 @@ const Slidy: Component<Partial<Options>> = ($props) => {
     const [autoplayState, setAutoplayState] = createSignal<'play' | 'pause' | 'stop'>('stop');
 
     const length = () => props.slides.length;
-    const vertical = () => props.axis === 'y';
 
     const handleClick = (event: Event): void => {
         const element = event.target as HTMLElement;
@@ -261,7 +266,8 @@ const Slidy: Component<Partial<Options>> = ($props) => {
             <section
                 aria-roledescription={props.i18n.carousel}
                 class={props.classNames?.root}
-                classList={{ vertical: vertical(), groups: props.groups > 1 }}
+                aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+                classList={{ groups: props.groups > 1 }}
                 style={s({
                     '--slidy-autoplay-interval': props.interval + 'ms',
                     '--slidy-group-items': props.groups,
@@ -357,7 +363,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                                 index={index()}
                                 items={length()}
                                 loop={props.loop}
-                                vertical={vertical()}
+                                vertical={props.vertical}
                             >
                                 <Show
                                     when={!props.arrow}
@@ -373,7 +379,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 </Show>
 
                 <Show when={props.progress}>
-                    <Progress value={index() + 1} max={length()} vertical={vertical()} />
+                    <Progress value={index() + 1} max={length()} vertical={props.vertical} />
                 </Show>
 
                 <Show
@@ -399,7 +405,7 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                         current={index() + 1}
                         start={1}
                         end={length()}
-                        vertical={vertical()}
+                        vertical={props.vertical}
                     />
                 </Show>
             </section>

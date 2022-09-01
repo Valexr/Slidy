@@ -60,7 +60,7 @@ const Navigation: VoidComponent<Props> = ($props) => {
     return (
         <nav
             class={classNames?.nav}
-            classList={{ vertical: props.vertical }}
+            aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
             aria-label="pagination"
         >
             <For each={indices()}>
