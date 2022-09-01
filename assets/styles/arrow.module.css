@@ -51,11 +51,11 @@
     transform: rotate(180deg);
 }
 
-.slidy-arrow.prev.vertical .slidy-arrow-icon {
+.slidy-arrow.prev[aria-orientation="vertical"] .slidy-arrow-icon {
     transform: rotate(90deg);
 }
 
-.slidy-arrow.vertical:not(.prev) .slidy-arrow-icon {
+.slidy-arrow[aria-orientation="vertical"]:not(.prev) .slidy-arrow-icon {
     transform: rotate(90deg);
 }
 

@@ -26,9 +26,9 @@
 
 <button
 	aria-label={title}
+	aria-orientation="{vertical ? "vertical" : "horizontal"}"
 	class="{classNames.arrow}"
 	class:prev={type}
-	class:vertical
 	data-step={clamp}
 	{disabled}
 	{title}

@@ -31,7 +31,11 @@ import { fillTemplate } from "../Slidy/i18n";
   $: indices = generateIndexes({ current, start, end, limit, siblings });
 </script>
 
-<nav class="{classNames?.nav}" class:vertical aria-label="pagination">
+<nav
+  aria-label="pagination"
+  aria-orientation="{vertical ? "vertical" : "horizontal"}" 
+  class="{classNames?.nav}"
+>
   {#each indices as item}
     {@const active = current === item}
     {@const contents = item < 0 ? "…" : item}

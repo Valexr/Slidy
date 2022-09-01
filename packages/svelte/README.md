@@ -117,6 +117,7 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `progress` | `false` | `boolean` | Renders the progress bar. |
 | `slides` | `[]` | `Slides[]` | An array of objects with image metadata. |
 | `thumbnail` | `false` | `boolean`  | Renders the thumbnail navigation panel. |
+| `vertical` | `false` | `boolean` | Defines the slides flow by using `aria-orientation`. |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 

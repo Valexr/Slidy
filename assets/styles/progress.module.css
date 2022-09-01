@@ -25,11 +25,11 @@
 
 /* vertical mode */
 
-.slidy-progress.vertical {
+.slidy-progress[aria-orientation="vertical"] {
     height: calc(100% - 1rem);
 }
 
-.slidy-progress.vertical > span {
+.slidy-progress[aria-orientation="vertical"] > span {
     top: calc(var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
     left: 0;
     height: var(--_slidy-progress-size);
@@ -37,7 +37,7 @@
     transition: top 450ms ease-in-out;
 }
 
-.slidy-progress.vertical,
-.slidy-progress.vertical > span {
+.slidy-progress[aria-orientation="vertical"],
+.slidy-progress[aria-orientation="vertical"] > span {
     width: var(--slidy-progress-track-size, 5px);
 }

@@ -41,6 +41,7 @@
 	export let slides: $$Props["slides"] = [];
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
+	export let vertical = false;
 
 	/**
 	 * Indicate the paused autoplay.
@@ -57,7 +58,6 @@
 	setContext("i18n", i18n);
 
 	$: length = slides.length;
-	$: vertical = axis === "y";
 
 	const goto = (slide: number): void => {
 		if (typeof slide === "number" && !Number.isNaN(slide)) {
@@ -113,8 +113,8 @@
 
 <section
 	aria-roledescription="{i18n.carousel}"
+	aria-orientation="{vertical ? "vertical" : "horizontal"}"
 	class="{classNames?.root}"
-	class:vertical
 	class:groups={groups > 1}
 	on:click={handleClick}
 	on:play={handleAutoplay}

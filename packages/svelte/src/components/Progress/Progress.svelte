@@ -11,7 +11,10 @@
 	const classNames = getContext<SlidyStyles>("classNames");
 </script>
 
-<div class="{classNames.progress}" class:vertical>
+<div 
+	aria-orientation="{vertical ? "vertical" : "horizontal"}"
+	class="{classNames.progress}"
+>
 	<span
 		style:--_slidy-progress-size={`${Math.ceil(100 / max)}%`}
 		style:--_slidy-progress="{Math.ceil(value * 100 / max)}%"

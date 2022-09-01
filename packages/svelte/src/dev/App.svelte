@@ -13,7 +13,7 @@
 	import "@slidy/assets/styles/dev/app.module.css";
 
 	let animation = translate;
-	let axis: "x" | "y" = "y";
+	let axis: "x" | "y" = "x";
 	let easing = linear;
 	let groups = 0;
 	let position = 0;
@@ -33,8 +33,6 @@
 	let controlPanel = false;
 
 	let items = getRandomSlides(limit);
-
-	$: vertical = axis === "y";
 </script>
 
 <header class="header">
@@ -91,6 +89,7 @@
 			thumbnail
 			progress
 			packed={0}
+			{vertical}
 		/>
 	{/await}
 </main>
