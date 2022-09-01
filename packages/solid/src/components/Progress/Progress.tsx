@@ -24,7 +24,10 @@ const Progress: VoidComponent<Partial<Props>> = ($props) => {
     const { classNames } = useSlidy();
 
     return (
-        <div class={classNames.progress} classList={{ vertical: props.vertical }}>
+        <div
+            class={classNames.progress}
+            aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+        >
             <span
                 style={s({
                     '--_slidy-progress-size': `${Math.ceil(100 / props.max)}%`,

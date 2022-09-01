@@ -136,6 +136,7 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `autoplay`        | `Accessor<false>`  |                         `Accessor<boolean>`                         | Set's up automatic sliding of the carousel items.                        |
 | `setAutoplay`     |    `undefined`     |                          `Setter<boolean>`                          | Set's up automatic sliding of the carousel items.                        |
 | `autoplayControl` |      `false`       |                              `boolean`                              | Renders the autoplay control and indicator.                              |
+| `vertical`        |      `false`       |                              `boolean`                              | Defines the slides flow by using `aria-orientation`.                     |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 
