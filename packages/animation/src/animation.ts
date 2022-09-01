@@ -69,7 +69,7 @@ const shuffle: AnimationFunc = ({ node, child, options, translate }) => {
     const half = Math.abs(child.track) < child.size / 2;
     const X = half ? -child.track : Math.abs(child.track) - child.size;
 
-    const axis = !options._vertical ? `${X}px, ${dir}px` : `0, ${-child.track}px`;
+    const axis = !options.vertical ? `${X}px, ${dir}px` : `0, ${-child.track}px`;
     const zIndex =
         child.i === child.active
             ? child.active
@@ -96,7 +96,7 @@ const matrix: AnimationFunc = ({ node, child, options }) => {
     const skewY = -child.turn;
     const skewX = -child.turn;
     const scaleY = child.exp;
-    const translateX = -(options._position as number);
+    const translateX = -(options.position as number);
     const translateY = -child.turn;
     // const translateZ = -Math.abs(child.track);
     const zIndex = active
@@ -142,7 +142,7 @@ const flip: AnimationFunc = ({ node, child, options, translate }) => {
 
     const deck = options.snap === 'deck';
     const turn = child.turn / (deck ? -2 : -4);
-    const rotate = options._vertical ? `rotateX(${turn}turn)` : `rotateY(${-turn}turn)`;
+    const rotate = options.vertical ? `rotateX(${turn}turn)` : `rotateY(${-turn}turn)`;
     const active = Math.abs(turn) < 0.25;
 
     return {
@@ -159,8 +159,8 @@ const deck: AnimationFunc = ({ node, child, options, translate }) => {
     const D = child.size / 10;
     const diff = Math.abs(child.track * 2) >= child.size / 2;
     const coord = active ? (diff ? child.size + child.track : -child.track * 2) : -child.track / D;
-    const X = options._vertical ? 0 : coord,
-        Y = options._vertical ? coord : 0,
+    const X = options.vertical ? 0 : coord,
+        Y = options.vertical ? coord : 0,
         Z = -Math.abs(child.track) / (D / 2),
         R = active ? -child.track / D : -child.track / (D * 2),
         S = active ? (child.size - Math.abs(child.track / 2)) / child.size : 1;

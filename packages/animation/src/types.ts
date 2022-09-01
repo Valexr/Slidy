@@ -17,17 +17,17 @@ interface Options {
      * Current position
      * @readonly
      */
-    _position: number;
+    position: number;
     /**
      * Children axis flow: `0` or any `Number` as `true`
      * @readonly
      */
-    _vertical: number;
+    vertical: number;
     /**
      * Children reverse flow: `-1` or `1`
      * @readonly
      */
-    _reverse: number;
+    reverse: number;
 }
 
 type Snap = 'start' | 'center' | 'end' | 'deck';
