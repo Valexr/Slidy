@@ -88,7 +88,6 @@
 			loop={false}
 			thumbnail
 			progress
-			packed={0}
 			{vertical}
 		/>
 	{/await}
