@@ -69,8 +69,8 @@
 }
 
 .slidy-progress-input::-moz-range-thumb {
-    height: var(--slidy-progress-track-size, 10px);
-    width: var(--slidy-progress-track-size, 10px);
+    height: calc(0.9 * var(--slidy-progress-track-size, 10px));
+    width: var(--_slidy-progress-size);
     border-radius: 50%;
     background: var(--range-thumb-color);
     cursor: pointer;
