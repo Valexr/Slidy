@@ -57,7 +57,6 @@
 	"devDependencies": {
 		"@slidy/animation": "workspace:*",
 		"@slidy/assets": "workspace:*",
-		"@slidy/core": "workspace:*",
 		"@slidy/easing": "workspace:*",
 		"@tsconfig/svelte": "^3.0.0",
 		"css-tree": "^2.2.1",
@@ -71,5 +70,8 @@
 	},
 	"peerDependencies": {
 		"svelte": "^3.42.4"
+	},
+	"dependencies": {
+		"@slidy/core": "workspace:*"
 	}
 }
