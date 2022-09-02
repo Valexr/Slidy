@@ -1,21 +1,24 @@
 import { useSlidy } from '../Slidy/Slidy';
 import { mergeProps } from 'solid-js';
+import { noop } from '@slidy/assets/scripts/utils';
 import { s } from '../../utils';
 
 import '@slidy/assets/styles/progress.module.css';
 
-import type { VoidComponent } from 'solid-js';
+import type { VoidComponent, JSX } from 'solid-js';
 
 interface Props {
     value: number;
     max: number;
     vertical: boolean;
+    onInput: JSX.EventHandlerUnion<HTMLInputElement, InputEvent>;
 }
 
 const defaultProps: Props = {
     value: 0,
     max: 1,
     vertical: false,
+    onInput: noop,
 };
 
 const Progress: VoidComponent<Partial<Props>> = ($props) => {
@@ -23,17 +26,28 @@ const Progress: VoidComponent<Partial<Props>> = ($props) => {
 
     const { classNames } = useSlidy();
 
+    const progress = () => Math.ceil((props.value * 100) / props.max);
+    const size = () => Math.ceil(100 / props.max);
+
     return (
         <div
             class={classNames.progress}
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+            style={s({
+                '--_slidy-progress-size': size() + '%',
+                '--_slidy-progress': progress() + '%',
+            })}
         >
-            <span
-                style={s({
-                    '--_slidy-progress-size': `${Math.ceil(100 / props.max)}%`,
-                    '--_slidy-progress': `${Math.ceil((props.value * 100) / props.max)}%`,
-                })}
+            <input
+                class="slidy-progress-input"
+                type="range"
+                value={props.value}
+                min={1}
+                max={props.max}
+                name="slidy-progress"
+                onInput={props.onInput}
             />
+            <span class={classNames['progress-handle']} />
         </div>
     );
 };

@@ -379,7 +379,14 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                 </Show>
 
                 <Show when={props.progress}>
-                    <Progress value={index() + 1} max={length()} vertical={props.vertical} />
+                    <Progress
+                        value={index() + 1}
+                        max={length()}
+                        vertical={props.vertical}
+                        onInput={(e) => {
+                            setIndex(e.currentTarget.valueAsNumber - 1);
+                        }}
+                    />
                 </Show>
 
                 <Show
