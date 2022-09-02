@@ -129,12 +129,12 @@ type AnimationFunc = (args: AnimationArgs) => CSSStyleDeclaration;
 
 ### Options
 
-| Name        | Type      | Description |
-| :---------- | :-------- | :---------- |
-| `index`     | `number`  | Current active slide index |
-| `snap`      | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
+| Name       | Type      | Description |
+| :--------- | :-------- | :---------- |
+| `index`    | `number`  | Current active slide index |
+| `snap`     | `Snap`    | Snapping side: `'start', 'center', 'end', 'deck', undefined` |
 | `position` | `number`  | Current position |
-| `vertical` | `number`  | Children axis flow: `0` or any `Number` as `true` |
+| `vertical` | `boolean` | Children vertical flow |
 | `reverse`  | `number`  | Children reverse flow: `-1` or `1` |
 
 
