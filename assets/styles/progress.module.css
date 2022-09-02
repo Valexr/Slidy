@@ -24,7 +24,7 @@
 	appearance: none;
     justify-self: center;
 	width: calc(100% - 0.75 * var(--_slidy-progress-size));
-	background-color: var(--slidy-progress-track-color);
+	background-color: transparent;
 }
 
 .slidy-progress-input::-webkit-slider-thumb {
@@ -58,21 +58,18 @@
     cursor: pointer;
 }
 
-.slidy-progress-input:global(.min)::-webkit-slider-thumb {
-    background-color: var(--range-thumb-min-color);
-    border-color: var(--range-track-color);
-}
-
 .slidy-progress-input:not(:disabled):hover::-webkit-slider-thumb,
 .slidy-progress-input:not(:disabled):focus::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px 5px var(--focus-ring-color);
 }
 
 .slidy-progress-input::-moz-range-thumb {
-    height: calc(0.9 * var(--slidy-progress-track-size, 10px));
+    -webkit-appearance: none;
+    appearance: none;
+    height: calc(0.5 * var(--slidy-progress-track-size, 10px));
     width: var(--_slidy-progress-size);
-    border-radius: 50%;
-    background: var(--range-thumb-color);
+    border-radius: 5px;
+    background: transparent;
     cursor: pointer;
 }
 
