@@ -214,6 +214,7 @@
 			value={index + 1}
 			max={length}
 			{vertical}
+			on:input={e => index = Number(e.target.value) - 1}
 		/>
 	{/if}
 

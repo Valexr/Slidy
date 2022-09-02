@@ -2,42 +2,113 @@
     grid-area: progress;
     position: relative;
     justify-self: center;
-    display: flex;
+
+    display: grid;
+    grid-template: 1fr / 1fr;
     width: calc(100% - 1rem);
-    justify-content: center;
+    margin-block: 1rem;
     background-color: var(--slidy-progress-track-color, #96969680);
 }
 
-.slidy-progress > span {
+.slidy-progress > * {
+    grid-row: 1;
+    grid-column: 1;
+    height: var(--slidy-progress-track-size, 10px);
+}
+
+/* hidden input */
+
+.slidy-progress-input {
+    position: relative;
+	-webkit-appearance: none;
+	appearance: none;
+    justify-self: center;
+	width: calc(100% - 0.75 * var(--_slidy-progress-size));
+	background-color: var(--slidy-progress-track-color);
+}
+
+.slidy-progress-input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.slidy-progress-input::-ms-track {
+	width: 100%;
+	cursor: pointer;
+	/* Hides the slider so custom styles can be added */
+	background: transparent; 
+	border-color: transparent;
+	color: transparent;
+}
+
+.slidy-progress-input:active + .slidy-progress-handle {
+    transition: unset;
+}
+
+/* hidden input thumb */
+
+.slidy-progress-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--slidy-progress-track-size, 10px);
+    width: var(--_slidy-progress-size);
+    border-radius: 5px;
+    border: var(--range-thumb-border) solid var(--range-thumb-color, red);
+    background: var(--slidy-progress-track-color);
+    cursor: pointer;
+}
+
+.slidy-progress-input:global(.min)::-webkit-slider-thumb {
+    background-color: var(--range-thumb-min-color);
+    border-color: var(--range-track-color);
+}
+
+.slidy-progress-input:not(:disabled):hover::-webkit-slider-thumb,
+.slidy-progress-input:not(:disabled):focus::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px 5px var(--focus-ring-color);
+}
+
+.slidy-progress-input::-moz-range-thumb {
+    height: var(--slidy-progress-track-size, 10px);
+    width: var(--slidy-progress-track-size, 10px);
+    border-radius: 50%;
+    background: var(--range-thumb-color);
+    cursor: pointer;
+}
+
+.slidy-progress-input:not(:disabled):hover::-moz-range-thumb,
+.slidy-progress-input:not(:disabled):focus::-moz-range-thumb {
+    box-shadow: 0px 0px 0px 5px var(--focus-ring-color);
+}
+
+.slidy-progress-input::-webkit-slider-thumb:active {
+    cursor: grabbing;
+}
+
+/* visible "pseudo" handle */
+
+.slidy-progress-handle {
     position: absolute;
     top: 0;
     left: calc(var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
     width: var(--_slidy-progress-size);
     background-color: var(--slidy-progress-thumb-color, #c44f61);
     transition: left 450ms ease-in-out;
+    pointer-events: none;
 }
 
 .slidy-progress,
-.slidy-progress > span {
-    height: var(--slidy-progress-track-size, 5px);
+.slidy-progress-handle {
+    height: var(--slidy-progress-track-size, 10px);
     border-radius: 5px;
 }
 
-/* vertical mode */
-
-.slidy-progress[aria-orientation="vertical"] {
-    height: calc(100% - 1rem);
+.slidy-progress-input:focus-visible {
+    outline: none;
 }
 
-.slidy-progress[aria-orientation="vertical"] > span {
-    top: calc(var(--_slidy-progress, 0%) - var(--_slidy-progress-size));
-    left: 0;
-    height: var(--_slidy-progress-size);
-    width: 100%;
-    transition: top 450ms ease-in-out;
-}
-
-.slidy-progress[aria-orientation="vertical"],
-.slidy-progress[aria-orientation="vertical"] > span {
-    width: var(--slidy-progress-track-size, 5px);
+.slidy-progress-input:focus-visible + .slidy-progress-handle {
+    outline: 3px solid var(--slidy-focus-ring-color, #c9c9c9e6);
+    outline-style: dashed;
+    outline-offset: 3px;
 }

@@ -21,6 +21,7 @@ type SlidyNodes =
 	| "nav-item"
 	| "overlay"
 	| "progress"
+	| "progress-handle"
 	| "root"
 	| "slide"
 	| "slides"

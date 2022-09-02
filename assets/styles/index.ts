@@ -7,6 +7,7 @@ export const classNames = {
     'nav-item': 'slidy-nav-item',
     overlay: 'slidy-overlay',
     progress: 'slidy-progress',
+    'progress-handle': 'slidy-progress-handle',
     root: 'slidy',
     slide: 'slidy-slide',
     slides: 'slidy-slides',
