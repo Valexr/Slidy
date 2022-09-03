@@ -60,10 +60,10 @@ export interface Options {
      */
     direction?: number;
     /**
-     * Children axis flow: `0` or any `Number` as `true`
+     * Children vertical flow
      * @readonly
      */
-    vertical?: number;
+    vertical?: boolean;
     /**
      * Children reverse flow: `-1` or `1`
      * @readonly

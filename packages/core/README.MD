@@ -153,7 +153,7 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 #### Avialable only in Animation Function
 | Key         | Type     | Description |
 | :---------- | :------- | :---------- |
-| `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
+| `vertical`  | `number` | Children vertical flow |
 | `reverse`   | `number` | Children reverse flow: `-1` or `1` |
 
 ### Usage

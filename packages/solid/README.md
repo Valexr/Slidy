@@ -164,21 +164,22 @@ export default () => {
 
 The `classNames` consist of `{ target: className }` pairs:
 
-| Target    |   Default class    | Description             |
-| :-------- | :----------------: | :---------------------- |
-| arrow     |   `slidy-arrow`    | Arrow controls.         |
-| autoplay  |  `slidy-autoplay`  | Autoplay control.       |
-| counter   |  `slidy-counter`   | Slide progress counter. |
-| img       |    `slidy-img`     | Slide image node.       |
-| nav       |    `slidy-nav`     | Slide navigation panel. |
-| nav-item  |  `slidy-nav-item`  | Navigtion panel item.   |
-| overlay   |  `slidy-overlay`   | Slides overlay node.    |
-| progress  |  `slidy-progress`  | Slide progress bar.     |
-| root      |      `slidy`       | Component's root node.  |
-| slide     |   `slidy-slide`    | Slide item node.        |
-| slides    |   `slidy-slides`   | Slides list node.       |
-| thumbnail | `slidy-thumbnail`  | Thumbnail item.         |
-| thumbnail | `slidy-thumbnails` | Thumbnails bar.         |
+| Target          |     Default class      | Description                        |
+| :-------------- | :--------------------: | :--------------------------------- |
+| arrow           |     `slidy-arrow`      | Arrow controls.                    |
+| autoplay        |    `slidy-autoplay`    | Autoplay control.                  |
+| counter         |    `slidy-counter`     | Slide progress counter.            |
+| img             |      `slidy-img`       | Slide image node.                  |
+| nav             |      `slidy-nav`       | Slide navigation panel.            |
+| nav-item        |    `slidy-nav-item`    | Navigtion panel item.              |
+| overlay         |    `slidy-overlay`     | Slides overlay node.               |
+| progress        |    `slidy-progress`    | Slide progress bar.                |
+| progress-handle | `slidy-progress-hadle` | Slide progress bar control handle. |
+| root            |        `slidy`         | Component's root node.             |
+| slide           |     `slidy-slide`      | Slide item node.                   |
+| slides          |     `slidy-slides`     | Slides list node.                  |
+| thumbnail       |   `slidy-thumbnail`    | Thumbnail item.                    |
+| thumbnail       |   `slidy-thumbnails`   | Thumbnails bar.                    |
 
 ### Custom Properties API
 
@@ -202,7 +203,7 @@ List of available public custom properties:
 | `--slidy-nav-item-size`             |     16px     | `<length>`  | The navigation elements size.                        |
 | `--slidy-progress-thumb-color`      |   #c44f61    |  `<color>`  | The progress bar active track color.                 |
 | `--slidy-progress-track-color`      |  #96969680   |  `<color>`  | The progress bar track color.                        |
-| `--slidy-progress-track-size`       |     5px      | `<length>`  | The progress bar height.                             |
+| `--slidy-progress-track-size`       |     10px     | `<length>`  | The progress bar height.                             |
 | `--slidy-slide-aspect-ratio`        |    unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
 | `--slidy-slide-bg-color`            |   darkgray   |  `<color>`  | The placeholder background color for loading images. |
 | `--slidy-slide-gap`                 |     1rem     | `<length>`  | The gap between items in carousel.                   |

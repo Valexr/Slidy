@@ -12,20 +12,9 @@ export interface Slide {
     [key: string]: unknown;
 }
 
-type SlidyNodes =
-    | 'arrow'
-    | 'autoplay'
-    | 'counter'
-    | 'img'
-    | 'nav'
-    | 'nav-item'
-    | 'overlay'
-    | 'progress'
-    | 'root'
-    | 'slide'
-    | 'slides'
-    | 'thumbnail'
-    | 'thumbnails';
+import type { classNames } from './slidy.styles';
+
+type SlidyNodes = keyof typeof classNames;
 
 export type SlidyStyles = Record<SlidyNodes, string>;
 
