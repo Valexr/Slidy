@@ -21,7 +21,7 @@
 	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let counter = true;
-	export let clamp = 0;
+	export let clamp = 1;
 	export let classNames: $$Props["classNames"] = classNamesDefault;
 	export let duration = 450;
 	export let easing: $$Props["easing"] = (t: number): number => t;

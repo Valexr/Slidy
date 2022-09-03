@@ -78,7 +78,7 @@ All props are optional. The only property to get started is `slides` - an array 
 | :------------ | :--------------: | :--------: | :------------------ |
 | `animation` | `undefined` | `AnimationFunc ` | Custom slide animation. |
 | `axis` | `"x"` | `"x" | "y"` | The scroll direction. |
-| `clamp` | `0` | `number` | Clamps sliding index as `{clamp} - {index} + {clamp}` |
+| `clamp` | `1` | `number` | Defines number of items to jump over at one slide action. |
 | `className` | `""` | `string` | Passes the `class` to the node. |
 | `duration` | `450` | `number` | Slide transitions duration value. |
 | `easing` | `undefined` | `(t: number => number)` | Inertion scroll easing behaviour. |
