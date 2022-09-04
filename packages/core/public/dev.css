@@ -42,7 +42,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1 > * {
+section#s1>* {
     flex: 1 0 50%;
     /* width: 50%; */
 }
@@ -54,9 +54,9 @@ section#s4 {
     display: flex;
 }
 
-section#s2 > *,
-section#s3 > *,
-section#s4 > * {
+section#s2>*,
+section#s3>*,
+section#s4>* {
     flex: 1 0 30%;
 }
 
@@ -143,7 +143,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -329,13 +329,15 @@ nav#thumbs {
     gap: 1rem;
     height: auto;
     flex-flow: row;
-    max-width: fit-content;
+    align-items: center;
+    justify-content: center;
+    /* max-width: fit-content; */
     padding: 0;
     margin: var(--size-fluid-2) auto;
 }
 
 nav#thumbs button {
-    flex: 1 0 100px;
+    flex: 0 0 100px;
     width: 100px;
     height: 100px;
     box-shadow: none;

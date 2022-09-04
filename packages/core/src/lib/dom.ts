@@ -19,7 +19,8 @@ export function dom(node: HTMLElement, options: Options) {
             : 0;
     const start = distance(reverse < 0 ? last : 0, 'start');
     const end = distance(reverse < 0 ? 0 : last, 'end');
-    const scrollable = Math.abs(end - start) > gap * 2;
+    const full = nodes.reduce((acc, cur) => acc += (cur[size] + gap), 0)
+    const scrollable = full > node.offsetWidth;
     const edges = options.loop
         ? false
         : ((reverse < 0 ? options.index === last : !options.index) &&
@@ -65,7 +66,7 @@ export function dom(node: HTMLElement, options: Options) {
                 const childs = nodes.slice(index - cix).concat(nodes.slice(0, index - cix));
                 node.replaceChildren(...childs);
             }
-            return scrollable ? distance(options.index as number) : 0;
+            return distance(options.index as number);
         },
         swap(dir: number) {
             const direction = length % dir ? Math.sign(-dir) : dir;
@@ -95,17 +96,18 @@ export function dom(node: HTMLElement, options: Options) {
 
                 const pos = options.snap === 'deck' ? child.dist : (options.position as number);
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
-                const style = options.animation
-                    ? options.animation({
-                        node,
-                        child,
-                        options: Object.assign(options, {
-                            vertical,
-                            reverse,
-                        }),
-                        translate,
-                    })
-                    : { transform: translate };
+                const style = scrollable ?
+                    options.animation
+                        ? options.animation({
+                            node,
+                            child,
+                            options: Object.assign(options, {
+                                vertical,
+                                reverse,
+                            }),
+                            translate,
+                        })
+                        : { transform: translate } : { transform: '' };
 
                 Object.assign(child.style, style);
             });

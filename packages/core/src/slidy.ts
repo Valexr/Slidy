@@ -113,7 +113,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 hix = INDEX;
                 dispatch(node, 'index', { index });
             }
-            return $().scrollable ? pos : 0;
+            return pos;
         }
 
         function edging(position: number): number {
