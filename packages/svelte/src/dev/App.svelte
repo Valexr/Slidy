@@ -20,7 +20,7 @@
 	let limit = 10;
 	let index = 4;
 	let vertical = false;
-	let clamp = 1;
+	let clamp = 0;
 	let duration = 450;
 	let gravity = 1.45;
 	let width = "auto";
