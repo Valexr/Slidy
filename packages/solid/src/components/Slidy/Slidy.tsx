@@ -57,7 +57,8 @@ interface Options {
      */
     counter?: boolean;
     /**
-     * @default 0
+     * Defines number of items to jump over at one slide action.
+     * @default 1
      */
     clamp?: number;
     classNames?: SlidyOptions['classNames'];
@@ -149,7 +150,7 @@ const defaultProps: Options = {
     vertical: false,
     background: false,
     counter: true,
-    clamp: 0,
+    clamp: 1,
     duration: 450,
     easing: (t) => t,
     getImgSrc: (item) => (item as unknown as { src: string }).src ?? '',

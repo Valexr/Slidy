@@ -87,7 +87,7 @@ const App: Component = () => {
                         background={false}
                         easing={easing()}
                         slides={slides()}
-                        clamp={clamp() ? 1 : 0}
+                        clamp={clamp()}
                         duration={duration()}
                         gravity={gravity()}
                         indent={0}
