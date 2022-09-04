@@ -10,6 +10,7 @@ import type { Options, UniqEvent, EventMap, SlidyInstance } from './types';
 export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance {
     const options: Options = {
         index: 0,
+        position: 0,
         clamp: 0,
         indent: 1,
         sensity: 5,
@@ -150,13 +151,13 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         });
     }
 
-    function to(index = 0): void {
+    function to(index = 0, position = 0): void {
         clear();
 
         index = indexing(node, options, index);
         const pos = $().distance(index) - POSITION;
 
-        scroll(index, pos);
+        scroll(index, position || pos);
     }
 
     function onDown(e: UniqEvent): void {
@@ -263,6 +264,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                     case 'index':
                         INDEX = options[key] = indexing(node, options, value);
                         to(INDEX);
+                        break;
+                    case 'position':
+                        to(INDEX, value);
                         break;
                     case 'gravity':
                         GRAVITY = options[key] = clamp(0, value, 2);

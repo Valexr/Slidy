@@ -131,7 +131,8 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 
 | Key         | Default     | Type       | Description |
 | :---------- | :---------- | :--------- | :---------- |
-| `index`     | `0`         | `number`   | Start index |
+| `index`     | `0`         | `number`   | Sliding index |
+| `position`  | `0`         | `number`   | Sliding position. Setter working only in `snap: undefined` mode. |
 | `clamp`     | `0`         | `number`   | Clamping sliding by index: `clamp - index + clamp` |
 | `indent`    | `1`         | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
 | `sensity`   | `5`         | `number`   | Sliding sensity: how many pixels to drag in the RAF `~16ms` to start move, `0` when sliding |
@@ -147,7 +148,6 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 
 | Key         | Type     | Description |
 | :---------- | :------- | :---------- |
-| `position`  | `number` | Current position |
 | `direction` | `number` | Children move direction |
 
 #### Avialable only in Animation Function
@@ -238,12 +238,12 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 
 ## Methods
 
-| Name        | Arguments          | Description |
-| :---------- | :----------------- | :---------- |
-| `to()`      | `(index)`          | Scroll to `index` |
-| `init()`    | `(node)`           | Init slidy() instance |
-| `update()`  | `({option:value})` | Update any property in options |
-| `destroy()` | `()`               | Remove event listners, observers & defaulted props on `slidy()` instance |
+| Name        | Arguments           | Description |
+| :---------- | :------------------ | :---------- |
+| `to()`      | `(index, position)` | Scroll to `index` or `position` (only `snap: undefined`) |
+| `init()`    | `(node)`            | Init slidy() instance |
+| `update()`  | `({option:value})`  | Update any property in options |
+| `destroy()` | `()`                | Remove event listners, observers & defaulted props on `slidy()` instance |
 
 ### Usage
 
@@ -257,7 +257,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
         slidy.update({ snap: 'center' })
         
         prev.onclick = () => slidy.to(index - 1)
-        next.onclick = () => slidy.to(index + 1)
+        next.onclick = () => slidy.to(index + 1, 100)
     </script>
 </head>
 

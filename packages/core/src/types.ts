@@ -4,9 +4,13 @@
  */
 export interface Options {
     /**
-     * Start index
+     * Sliding index
      */
     index?: number;
+    /**
+     * Sliding position. Setter working only in `snap: undefined` mode;
+     */
+    position?: number;
     /**
      * Clamping sliding by index: `clamp - index + clamp`
      */
@@ -49,11 +53,6 @@ export interface Options {
      * Makes the slideshow continious.
      */
     loop?: boolean;
-    /**
-     * Current position
-     * @readonly
-     */
-    position?: number;
     /**
      * Children move direction
      * @readonly
@@ -129,9 +128,9 @@ export interface SlidyInstance {
      */
     update: (options: Partial<Options>) => void;
     /**
-     * Scroll to `index`
+     * Scroll to `index` or `position`
      */
-    to: (index: number) => void;
+    to: (index: number, position: number) => void;
     /**
      * Remove event listners, observers & defaulted props on `slidy()` instance
      */
