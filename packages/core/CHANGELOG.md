@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 3.6.0 - `on:mutate` event & auto reinit
+## 3.6.0 - `on:mutate` event, auto reinit & reactive `position`
 - [add reactive `position`](https://github.com/Valexr/Slidy/commit/ede73065fdd13bffc3281a5905735b30c810784f)
 - [fix `axis: 'y'` behavior](https://github.com/Valexr/Slidy/commit/e042f8feb152c57dba024c5a11c50c6df267f9eb)
 - [add `on:mutate` event & auto reinit](https://github.com/Valexr/Slidy/commit/ec03d72ca6303de89019adc7f37761605ccffd80)
