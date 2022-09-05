@@ -101,8 +101,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         DIRECTION = options.direction = Math.sign(pos);
         POSITION = options.position += positioning(pos);
         INDEX = options.index = $().index(POSITION);
-
-        GRAVITY = $().edges ? 1.8 : (options.gravity as number);
+        GRAVITY = $().edges ? 1.8 : options.gravity;
         SENSITY = 0;
 
         $().animate();
@@ -139,7 +138,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             if (Math.round(delta)) {
                 raf = requestAnimationFrame(loop);
             } else {
-                SENSITY = options.sensity as number;
+                SENSITY = options.sensity;
                 clear();
             }
         });
@@ -157,7 +156,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function onDown(e: UniqEvent): void {
         clear();
 
-        SENSITY = options.sensity as number;
+        SENSITY = options.sensity;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;

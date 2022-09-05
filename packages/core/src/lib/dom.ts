@@ -40,9 +40,9 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
         return options.loop ? current : clamp(start, current, end);
 
-        function pos(index: number, snap: Options['snap']): number {
+        function pos(index: number, snap?: Options['snap']): number {
             const indented = child(index)[size] + gap * 2 < node[size];
-            const indent = indented ? (options.indent as number) : offset(index) / 2 / gap || 0;
+            const indent = (indented ? options.indent : offset(index) / 2 / gap) || 0;
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
             const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
             return child(index)[coord] - offset(index) * part + gap * edge;
@@ -57,12 +57,12 @@ export function dom(node: HTMLElement, options: Options): Dom {
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 0);
         },
         position(replace: boolean): number {
+            const index = options.index as number;
             if (replace) {
-                const index = options.index as number;
                 const childs = nodes.slice(index - cix).concat(nodes.slice(0, index - cix));
                 node.replaceChildren(...childs);
             }
-            return distance(options.index as number);
+            return distance(index);
         },
         swap(dir: number): number {
             const direction = length % dir ? Math.sign(-dir) : dir;
