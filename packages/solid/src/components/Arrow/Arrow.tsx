@@ -6,7 +6,8 @@ import '@slidy/assets/styles/arrow.module.css';
 import type { FlowComponent } from 'solid-js';
 
 interface Props {
-    clamp: number;
+    direction: number;
+    step: number;
     loop?: boolean;
     index: number;
     items?: number;
@@ -14,26 +15,25 @@ interface Props {
 }
 
 const defaultProps: Props = {
-    clamp: 1,
+    direction: 1,
+    step: 1,
     index: 0,
     vertical: false,
 };
 
 const Arrow: FlowComponent<Props> = ($props) => {
-    const props = mergeProps(defaultProps, $props);
+    const props = mergeProps(defaultProps, $props)
 
     const { classNames, i18n } = useSlidy();
 
-    const type = () => props.clamp < 0;
-
     const disabled = () => {
-        return type()
+        return (props.direction > 0)
             ? props.index === 0 && !props.loop
             : props.index === props.items! - 1 && !props.loop;
     };
 
     const title = () => {
-        return type() ? i18n.prev : i18n.next;
+        return (props.direction > 0) ? i18n.next : i18n.prev;
     };
 
     return (
@@ -42,9 +42,9 @@ const Arrow: FlowComponent<Props> = ($props) => {
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
             class={classNames.arrow}
             classList={{
-                prev: type(),
+                prev: props.direction < 1,
             }}
-            data-step={props.clamp}
+            data-step={props.direction * props.step}
             disabled={disabled()}
             title={title()}
         >

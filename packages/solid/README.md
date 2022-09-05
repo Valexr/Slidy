@@ -78,7 +78,7 @@ export default () => {
 | :---------- | :---------: | :-----------------------------------------------------------------: | :-------------------------------------------------------------------- |
 | `animation` | `undefined` |                          `AnimationFunc `                           | Custom slide animation.                                               |
 | `axis`      |    `"x"`    |                           `"x"` or `"y"`                            | The scroll direction.                                                 |
-| `clamp`     |     `1`     |                              `number`                               | Defines number of items to jump over at one slide action.             |
+| `clamp`     |     `0`     |                              `number`                               | Defines number of items to jump over at one slide action.             |
 | `className` |    `""`     |                              `string`                               | Passes the `class` to the node.                                       |
 | `duration`  |    `450`    |                              `number`                               | Slide transitions duration value.                                     |
 | `easing`    | `undefined` |                       `(t: number => number)`                       | Inertion scroll easing behaviour.                                     |

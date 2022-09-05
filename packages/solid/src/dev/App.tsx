@@ -21,7 +21,7 @@ const App: Component = () => {
     const groups = channel(0);
 
     const vertical = channel(true);
-    const clamp = channel(1);
+    const clamp = channel(0);
     const duration = channel(450);
     const gravity = channel(1.45);
     const width = channel('auto');

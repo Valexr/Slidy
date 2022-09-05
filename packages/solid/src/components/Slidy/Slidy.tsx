@@ -150,7 +150,7 @@ const defaultProps: Options = {
     vertical: false,
     background: false,
     counter: true,
-    clamp: 1,
+    clamp: 0,
     duration: 450,
     easing: (t) => t,
     getImgSrc: (item) => (item as unknown as { src: string }).src ?? '',
@@ -357,13 +357,14 @@ const Slidy: Component<Partial<Options>> = ($props) => {
                     when={props.arrows === true}
                     fallback={isFunction(props.arrows) && props.arrows()}
                 >
-                    <For each={[-props.clamp, props.clamp]}>
-                        {(type) => (
+                    <For each={[-1, 1]}>
+                        {(direction) => (
                             <Arrow
-                                clamp={type}
+                                direction={direction}
                                 index={index()}
                                 items={length()}
                                 loop={props.loop}
+                                step={props.clamp > 0 ? props.clamp : 1}
                                 vertical={props.vertical}
                             >
                                 <Show
