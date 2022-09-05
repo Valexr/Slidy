@@ -1,8 +1,8 @@
 # Changelog
 
 
-## 3.6.0 - `on:mutate` event, auto reinit & other improvments
-- [fix `snap` behaviour]()
+## 3.6.0 - `on:mutate` event, auto reinit, improvments & fixes
+- [fix `snap` behaviour](https://github.com/Valexr/Slidy/commit/110d6cda970e0c0fbffc25f948cf26f6c8d2cbc5)
 - [add `scrollable` option](https://github.com/Valexr/Slidy/commit/fb6feabddfcaef98e5474ded4642770a71d46ba4)
 - [add reactive `position`](https://github.com/Valexr/Slidy/commit/ede73065fdd13bffc3281a5905735b30c810784f)
 - [fix `axis: 'y'` behaviour](https://github.com/Valexr/Slidy/commit/e042f8feb152c57dba024c5a11c50c6df267f9eb)

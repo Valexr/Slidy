@@ -4,16 +4,20 @@
 
 ## 3.6.0 - @slidy/element
 
-#### 1.1.0
-- first release
+#### 1.1.0 - fix issues & updates
+-   [add window check](https://github.com/Valexr/Slidy/commit/60199ed16d344c73f44083fc2b9d8dad45b2e447)
+-   [improve init, optimise & cleanup](https://github.com/Valexr/Slidy/commit/81d3139c0553cbd44b0c34284a2e18ce068eb9b4)
+-   [add core methods & cleanup](https://github.com/Valexr/Slidy/commit/c2480c98d4b410ad95170f1621700a62a2bc993c)
 
-#### 1.0.0 
-- draft release
+#### 1.0.0 - first pre-release
 
 ### @slidy/core
 
-#### 3.6.0 
-- [fix `axis: 'y'` behavior](https://github.com/Valexr/Slidy/commit/e042f8feb152c57dba024c5a11c50c6df267f9eb)
+#### 3.6.0 - `on:mutate` event, auto reinit, improvments & fixes
+- [fix `snap` behaviour](https://github.com/Valexr/Slidy/commit/110d6cda970e0c0fbffc25f948cf26f6c8d2cbc5)
+- [add `scrollable` option](https://github.com/Valexr/Slidy/commit/fb6feabddfcaef98e5474ded4642770a71d46ba4)
+- [add reactive `position`](https://github.com/Valexr/Slidy/commit/ede73065fdd13bffc3281a5905735b30c810784f)
+- [fix `axis: 'y'` behaviour](https://github.com/Valexr/Slidy/commit/e042f8feb152c57dba024c5a11c50c6df267f9eb)
 - [add `on:mutate` event & auto reinit](https://github.com/Valexr/Slidy/commit/ec03d72ca6303de89019adc7f37761605ccffd80)
 - [add `-webkit-user-select:none` css rule](https://github.com/Valexr/Slidy/commit/ad84096c7ecf8cf88d1a678d7b2d94c1550817f9)
 
