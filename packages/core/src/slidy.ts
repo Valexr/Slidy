@@ -57,7 +57,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
-        POSITION = $().position(false);
+        POSITION = options.position = $().position(false);
         dispatch(node, 'resize', { ROE });
     });
 
@@ -83,7 +83,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 node.style.cssText += css;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-                POSITION = $().position();
+                POSITION = options.position = $().position();
 
                 RO.observe(node);
                 MO.observe(node, { childList: true, subtree: true });
@@ -97,8 +97,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     function move(pos: number, index?: number): void {
         options.direction = Math.sign(pos);
-        POSITION += positioning(pos);
-        POSITION = options.position = edging(POSITION);
+
+        POSITION = options.position += positioning(pos);
         INDEX = options.index = $().index(POSITION);
 
         GRAVITY = $().edges ? 1.8 : (options.gravity as number);
@@ -114,10 +114,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 dispatch(node, 'index', { index });
             }
             return pos;
-        }
-
-        function edging(position: number): number {
-            return position;
         }
     }
 
