@@ -76,9 +76,6 @@ export interface Options {
 }
 
 type Axis = 'x' | 'y' | 'both';
-/**
- * Clamp sliding by edges.
- */
 type Snap = 'start' | 'center' | 'end' | 'deck';
 
 export interface UniqEvent extends PointerEvent {
@@ -125,9 +122,9 @@ export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration
 
 export interface Dom {
     edges: boolean;
-    distance: (index: number, snap?: ("center" | "end" | "start" | "deck") | undefined) => number;
+    distance: (index: number, snap?: Options['snap']) => number;
     index(target: number): number;
-    position(replace?: boolean | undefined): number;
+    position(replace?: boolean): number;
     swap(dir: number): number;
     sense(e: UniqEvent, pos: number, sensity?: number): boolean;
     animate(): void;

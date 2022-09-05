@@ -1,15 +1,15 @@
 import { clamp, loop, assign } from './utils';
-import type { Child, Options, UniqEvent } from '../types';
+import type { Dom, Child, Options, UniqEvent } from '../types';
 
-export function dom(node: HTMLElement, options: Options) {
+export function dom(node: HTMLElement, options: Options): Dom {
     const nodes: Child[] = [...(node.children as HTMLCollectionOf<Child>)];
     const length = nodes.length;
     const indexes = [...Array(length).keys()];
     const last = length - 1;
     const cix = Math.floor(length / 2);
-    const coord = options.vertical ? 'offsetTop' : 'offsetLeft';
-    const size = options.vertical ? 'offsetHeight' : 'offsetWidth';
     const vertical = nodes[1].offsetTop - nodes[0].offsetTop >= nodes[0].offsetHeight;
+    const coord = vertical ? 'offsetTop' : 'offsetLeft';
+    const size = vertical ? 'offsetHeight' : 'offsetWidth';
     const reverse = Math.sign(nodes[last][coord]);
     const gap = length > 1
         ? nodes[last][coord] * reverse -
@@ -29,13 +29,13 @@ export function dom(node: HTMLElement, options: Options) {
 
     assign(options, { reverse, scrollable, vertical })
 
-    function distance(index: number, snap = options.snap) {
+    function distance(index: number, snap = options.snap): number {
         const child = (index: number) =>
             nodes.find((child: Child) => child.index === index) || nodes[0];
         const offset = (index: number) => node[size] - child(index)[size];
 
-        const start = pos((reverse as number) < 0 ? last : 0, 'start')
-        const end = pos((reverse as number) < 0 ? 0 : last, 'end');
+        const start = pos(reverse < 0 ? last : 0, 'start')
+        const end = pos(reverse < 0 ? 0 : last, 'end');
         const current = pos(index, snap)
 
         return options.loop ? current : clamp(start, current, end);
@@ -56,7 +56,7 @@ export function dom(node: HTMLElement, options: Options) {
             const dist = (index: number) => Math.abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 0);
         },
-        position(replace = options.loop) {
+        position(replace: boolean): number {
             if (replace) {
                 const index = options.index as number;
                 const childs = nodes.slice(index - cix).concat(nodes.slice(0, index - cix));
@@ -64,21 +64,21 @@ export function dom(node: HTMLElement, options: Options) {
             }
             return distance(options.index as number);
         },
-        swap(dir: number) {
+        swap(dir: number): number {
             const direction = length % dir ? Math.sign(-dir) : dir;
             const edge = direction > 0 ? 0 : last;
 
             if (edge) node.prepend(nodes[edge]);
             else node.append(nodes[edge]);
 
-            return (nodes[edge][size] + gap) * (direction * (options.reverse as number));
+            return (nodes[edge][size] + gap) * (direction * reverse);
         },
-        sense(e: UniqEvent, pos: number, SENSITY = options.sensity as number): boolean {
+        sense(e: UniqEvent, pos: number, sensity: number): boolean {
             return e.shiftKey || options.clamp || options.axis === 'y'
                 ? e.type === 'touchmove'
                     ? !edges
                     : true
-                : Math.abs(pos) >= SENSITY;
+                : Math.abs(pos) >= sensity;
         },
         animate(): void {
             loop(nodes, (child: Child, i: number) => {
@@ -91,7 +91,7 @@ export function dom(node: HTMLElement, options: Options) {
                 child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
 
                 const pos = options.snap === 'deck' ? child.dist : (options.position as number);
-                const translate = options.vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
+                const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const args = { node, child, options, translate }
                 const style = options.animation?.(args) || { transform: translate };
 

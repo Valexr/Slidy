@@ -34,6 +34,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
         POSITION = options.position as number,
+        DIRECTION = options.direction as number,
         DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
@@ -80,10 +81,11 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         mount(node)
             .then(() => {
                 $ = () => dom(node, options)
+
                 node.style.cssText += css;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-                POSITION = options.position = $().position();
+                POSITION = options.position = $().position(options.loop);
 
                 RO.observe(node);
                 MO.observe(node, { childList: true, subtree: true });
@@ -96,8 +98,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function move(pos: number, index?: number): void {
-        options.direction = Math.sign(pos);
-
+        DIRECTION = options.direction = Math.sign(pos);
         POSITION = options.position += positioning(pos);
         INDEX = options.index = $().index(POSITION);
 
@@ -194,7 +195,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = CLAMP * (options.direction as number);
+            const range = CLAMP * DIRECTION;
             index = CLAMP && index - hix ? INDEX + range : index;
 
             return indexing(node, options, index);
