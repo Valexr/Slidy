@@ -2,6 +2,7 @@
 
 
 ## 3.6.0 - `on:mutate` event, auto reinit, improvments & fixes
+- [fix `dom()` init](https://github.com/Valexr/Slidy/commit/f5a0d0bf9b2fe6ea4735009ad145657ea9ba818c)
 - [fix `snap` behaviour](https://github.com/Valexr/Slidy/commit/110d6cda970e0c0fbffc25f948cf26f6c8d2cbc5)
 - [add `scrollable` option](https://github.com/Valexr/Slidy/commit/fb6feabddfcaef98e5474ded4642770a71d46ba4)
 - [add reactive `position`](https://github.com/Valexr/Slidy/commit/ede73065fdd13bffc3281a5905735b30c810784f)
