@@ -82,4 +82,7 @@
 		padding: var(--size-3);
 		border-radius: var(--size-3);
 	}
+	:global(.slidy-slides) {
+		justify-content: center;
+	}
 </style>
