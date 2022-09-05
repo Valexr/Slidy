@@ -117,8 +117,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         }
 
         function edging(position: number): number {
-            const clamped = clamp($().start, position, $().end);
-            return !options.snap && !options.loop ? clamped : position;
+            return position;
         }
     }
 
@@ -213,14 +212,15 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const clamped = CLAMP || e.shiftKey || options.axis === 'y';
+        const clamped = CLAMP || e.shiftKey || options.axis === 'y'
         const sensed = $().sense(e, coord, SENSITY);
+        const snaped = options.snap || $().edges || clamped
         const pos = $().edges ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
 
         !clamped && sensed && move(pos, INDEX);
-        wst = (options.snap || clamped) && sensed ? setTimeout(() => to(ix), tm) : undefined;
+        wst = snaped && sensed ? setTimeout(() => to(ix), tm) : undefined;
 
         !$().edges && e.stopPropagation();
     }

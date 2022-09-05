@@ -121,7 +121,7 @@
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
                     getPhotos(node, utils.randomQ(1, 99), options.length).then(() => {
                         slidy = slidyCore(node, options);
-                        slidyT = slidyCore(thumbs, { index: options.index, snap: 'center' });
+                        slidyT = slidyCore(thumbs);
                         setTimeout(setEvents);
                     });
                 });

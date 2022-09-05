@@ -23,11 +23,9 @@ export function dom(node: HTMLElement, options: Options) {
     const scrollable = full > node.offsetWidth;
     const edges = options.loop
         ? false
-        : ((reverse < 0 ? options.index === last : !options.index) &&
-            (options.direction as number) <= 0 &&
+        : ((options.direction as number) <= 0 &&
             Math.round(options.position as number) <= start) ||
-        ((reverse < 0 ? !options.index : options.index === last) &&
-            (options.direction as number) >= 0 &&
+        ((options.direction as number) >= 0 &&
             Math.round(options.position as number) >= end);
 
     Object.assign(options, { reverse, scrollable, vertical })
@@ -37,13 +35,13 @@ export function dom(node: HTMLElement, options: Options) {
             nodes.find((child: Child) => child.index === index) || nodes[0];
         const offset = (index: number) => node[size] - child(index)[size];
 
-        const start = pos(index, snap) <= pos((options.reverse as number) < 0 ? last : 0, 'start');
-        const end = pos(index, snap) >= pos((options.reverse as number) < 0 ? 0 : last, 'end');
-        const SNAP = start ? 'start' : end ? 'end' : options.snap;
+        const start = pos((reverse as number) < 0 ? last : 0, 'start')
+        const end = pos((reverse as number) < 0 ? 0 : last, 'end');
+        const current = pos(index, snap)
 
-        return pos(index, options.snap && options.snap !== 'deck' && !options.loop ? SNAP : snap);
+        return options.loop ? current : clamp(start, current, end);
 
-        function pos(index: number, snap: Options['snap']) {
+        function pos(index: number, snap: Options['snap']): number {
             const indented = child(index)[size] + gap * 2 < node[size];
             const indent = indented ? (options.indent as number) : offset(index) / 2 / gap || 0;
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
