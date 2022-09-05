@@ -1,5 +1,5 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
-import { clamp, loop, throttle } from './lib/utils';
+import { clamp, loop, throttle, entries } from './lib/utils';
 import { dom } from './lib/dom';
 import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
@@ -252,7 +252,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function update(opts: Partial<Options>): void {
-        loop(Object.entries(opts), ([key, value]: [key: keyof Options, value: any]) => {
+        loop(entries(opts), ([key, value]: [key: keyof Options, value: any]) => {
             if (value !== options[key]) {
                 switch (key) {
                     case 'index':

@@ -37,4 +37,6 @@ function int(number: any) {
     return number as number
 }
 
-export { clamp, throttle, loop, int };
+const { assign, entries } = Object;
+
+export { clamp, throttle, loop, int, assign, entries };

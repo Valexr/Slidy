@@ -1,4 +1,4 @@
-import { clamp, loop } from './utils';
+import { clamp, loop, assign } from './utils';
 import type { Child, Options, UniqEvent } from '../types';
 
 export function dom(node: HTMLElement, options: Options) {
@@ -27,7 +27,7 @@ export function dom(node: HTMLElement, options: Options) {
         ((options.direction as number) >= 0 &&
             Math.round(options.position as number) >= end);
 
-    Object.assign(options, { reverse, scrollable, vertical })
+    assign(options, { reverse, scrollable, vertical })
 
     function distance(index: number, snap = options.snap) {
         const child = (index: number) =>
@@ -93,9 +93,9 @@ export function dom(node: HTMLElement, options: Options) {
                 const pos = options.snap === 'deck' ? child.dist : (options.position as number);
                 const translate = options.vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const args = { node, child, options, translate }
-                const style = options.animation ? options.animation(args) : { transform: translate };
+                const style = options.animation?.(args) || { transform: translate };
 
-                Object.assign(child.style, scrollable ? style : { transform: '' });
+                assign(child.style, scrollable ? style : { transform: '' });
             });
         },
     };
