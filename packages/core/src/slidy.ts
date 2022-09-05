@@ -1,7 +1,7 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
 import { clamp, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
-import type { Options, UniqEvent, EventMap, SlidyInstance } from './types';
+import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
 /**
  * Simple, configurable, nested & reusable sliding action script
@@ -24,7 +24,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         ...opts,
     };
 
-    let hix = 0,
+    let $: () => Dom,
+        hix = 0,
         hip = 0,
         raf = 0,
         ets = 0,
@@ -71,8 +72,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         dispatch(node, 'mutate', { ML });
     });
 
-    const $ = () => dom(node, options);
-
     const css = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
 
     init();
@@ -80,6 +79,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function init() {
         mount(node)
             .then(() => {
+                $ = () => dom(node, options)
                 node.style.cssText += css;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
@@ -120,9 +120,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function scroll(index: number, amplitude: number): void {
         const time = performance.now();
         const snaped = options.snap || options.loop || $().edges;
-        const target = snaped
-            ? $().distance(index)
-            : clamp($().start, POSITION + amplitude, $().end);
+        const target = snaped ? $().distance(index) : POSITION + amplitude;
         const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
 
         amplitude = target - POSITION;

@@ -123,6 +123,16 @@ export type AnimationArgs = {
  */
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
 
+export interface Dom {
+    edges: boolean;
+    distance: (index: number, snap?: ("center" | "end" | "start" | "deck") | undefined) => number;
+    index(target: number): number;
+    position(replace?: boolean | undefined): number;
+    swap(dir: number): number;
+    sense(e: UniqEvent, pos: number, sensity?: number): boolean;
+    animate(): void;
+}
+
 export interface SlidyInstance {
     /**
      * Init slidy() instance

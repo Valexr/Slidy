@@ -11,12 +11,11 @@ export function dom(node: HTMLElement, options: Options) {
     const size = options.vertical ? 'offsetHeight' : 'offsetWidth';
     const vertical = nodes[1].offsetTop - nodes[0].offsetTop >= nodes[0].offsetHeight;
     const reverse = Math.sign(nodes[last][coord]);
-    const gap =
-        length > 1
-            ? nodes[last][coord] * reverse -
-            nodes[last - 1][coord] * reverse -
-            nodes[last - Math.max(reverse, 0)][size]
-            : 0;
+    const gap = length > 1
+        ? nodes[last][coord] * reverse -
+        nodes[last - 1][coord] * reverse -
+        nodes[last - Math.max(reverse, 0)][size]
+        : 0;
     const start = distance(reverse < 0 ? last : 0, 'start');
     const end = distance(reverse < 0 ? 0 : last, 'end');
     const full = nodes.reduce((acc, cur) => acc += (cur[size] + gap), 0)
@@ -51,8 +50,6 @@ export function dom(node: HTMLElement, options: Options) {
     }
 
     return {
-        end,
-        start,
         edges,
         distance,
         index(target: number): number {
