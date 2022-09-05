@@ -13,13 +13,13 @@ function throttle(
 ): (args: any) => void {
     return th
         ? (args) => {
-              if (!wait) {
-                  fn(args);
-                  wait = true;
-                  clearTimeout(tm);
-                  tm = setTimeout(() => (wait = false), ms);
-              }
-          }
+            if (!wait) {
+                fn(args);
+                wait = true;
+                clearTimeout(tm);
+                tm = setTimeout(() => (wait = false), ms);
+            }
+        }
         : (args) => fn(args);
 }
 
@@ -33,4 +33,8 @@ function loop(
     return array;
 }
 
-export { clamp, throttle, loop };
+function int(number: any) {
+    return number as number
+}
+
+export { clamp, throttle, loop, int };

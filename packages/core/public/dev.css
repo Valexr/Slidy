@@ -251,7 +251,7 @@ section {
 }
 
 #node,
-nav#thumbs {
+#thumbs {
     display: flex;
     flex-flow: var(--flow);
     gap: var(--gap);
@@ -260,14 +260,12 @@ nav#thumbs {
     height: var(--height, 375px);
     padding: var(--gap) 0;
     list-style: none;
-    -webkit-tap-highlight-color: transparent;
 }
 
 #node li,
-nav#thumbs button {
+#thumbs button {
     flex: 0 0 var(--width, auto);
     width: var(--width, auto);
-    min-height: 100%;
     max-width: 85%;
     max-height: 100%;
     box-sizing: border-box;
@@ -278,15 +276,16 @@ nav#thumbs button {
     border-radius: var(--radius-3);
 }
 
-nav#thumbs button {
+#thumbs button {
+    min-height: 100%;
     box-shadow: none;
     background-size: cover;
     background-blend-mode: luminosity;
     opacity: 0.25;
 }
 
-nav#thumbs button:hover,
-nav#thumbs button.active {
+#thumbs button:hover,
+#thumbs button.active {
     opacity: 1;
     background-blend-mode: normal;
 }

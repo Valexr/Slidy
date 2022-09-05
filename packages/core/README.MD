@@ -146,15 +146,12 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 
 ### Internal calculated - readonly
 
-| Key         | Type     | Description |
-| :---------- | :------- | :---------- |
-| `direction` | `number` | Children move direction |
-
-#### Avialable only in Animation Function
-| Key         | Type     | Description |
-| :---------- | :------- | :---------- |
-| `vertical`  | `number` | Children vertical flow |
-| `reverse`   | `number` | Children reverse flow: `-1` or `1` |
+| Key          | Type     | Description |
+| :----------- | :------- | :---------- |
+| `direction`  | `number` | Children move direction |
+| `reverse`    | `number` | Children reverse flow: `-1` or `1` |
+| `vertical`   | `number` | Children vertical flow |
+| `scrollable` | `number` | Children full size with gaps > target node size |
 
 ### Usage
 

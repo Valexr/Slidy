@@ -8,7 +8,7 @@ import type { Options, UniqEvent, EventMap, SlidyInstance } from './types';
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
 export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance {
-    const options: Options = {
+    const options = {
         index: 0,
         position: 0,
         clamp: 0,

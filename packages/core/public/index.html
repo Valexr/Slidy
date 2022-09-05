@@ -96,7 +96,7 @@
                 clamp: 0,
                 indent: 1,
                 length: 9,
-                sensity: 5,
+                sensity: 2.5,
                 gravity: 1.2,
                 duration: 375,
                 loop: false,
@@ -121,7 +121,7 @@
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
                     getPhotos(node, utils.randomQ(1, 99), options.length).then(() => {
                         slidy = slidyCore(node, options);
-                        slidyT = slidyCore(thumbs, { index: options.index });
+                        slidyT = slidyCore(thumbs, { index: options.index, snap: 'center' });
                         setTimeout(setEvents);
                     });
                 });

@@ -68,6 +68,11 @@ export interface Options {
      * @readonly
      */
     reverse?: number;
+    /**
+     * Children full width size gaps > target node size
+     * @readonly
+     */
+    scrollable?: boolean;
 }
 
 type Axis = 'x' | 'y' | 'both';
