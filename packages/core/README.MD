@@ -148,7 +148,7 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 
 | Key          | Type     | Description |
 | :----------- | :------- | :---------- |
-| `direction`  | `number` | Children move direction |
+| `direction`  | `number` | Children move direction: `-1` <- `0` -> `1`|
 | `reverse`    | `number` | Children reverse flow: `-1` or `1` |
 | `vertical`   | `number` | Children vertical flow |
 | `scrollable` | `number` | Children full size with gaps > target node size |
