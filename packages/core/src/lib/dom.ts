@@ -21,7 +21,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
     assign(options, { reverse, scrollable, vertical })
 
-    function edges(index?: number) {
+    function edges(index: number | undefined = undefined) {
         const start = distance(reverse < 0 ? last : 0, 'start');
         const end = distance(reverse < 0 ? 0 : last, 'end');
         const indexed = !index || index === last
@@ -31,7 +31,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
                 Math.round(options.position as number) <= start) ||
             ((options.direction as number) >= 0 &&
                 Math.round(options.position as number) >= end);
-        return index as number >= 0 ? edged || indexed : edged
+        return index as number >= 0 ? (edged || indexed) : edged
     }
 
     function distance(index: number, snap = options.snap): number {
@@ -79,11 +79,9 @@ export function dom(node: HTMLElement, options: Options): Dom {
             return (nodes[edge][size] + gap) * (direction * reverse);
         },
         sense(e: UniqEvent, pos: number, sensity: number): boolean {
-            return e.shiftKey || options.clamp || options.axis === 'y'
-                ? e.type === 'touchmove'
-                    ? !edges()
-                    : true
-                : Math.abs(pos) >= sensity;
+            return e.shiftKey
+                || (options.axis === 'y' && e.type !== 'touchmove')
+                || Math.abs(pos) >= sensity;
         },
         animate(): void {
             loop(nodes, (child: Child, i: number) => {

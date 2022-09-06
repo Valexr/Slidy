@@ -3,7 +3,7 @@ import { slidy as slidyCore } from './build/core.js';
 export async function getPhotos(node, page, limit) {
     // slidy?.destroy();
     // slidyT?.destroy();
-    node.innerHTML = `<li style="display: grid; place-items: center">Loading... 🚀</li>`;
+    node.innerHTML = `<li id="message">Loading... 🚀</li>`;
     //page: 38 - END,  61 - START, 28
     try {
         const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`, {
@@ -21,7 +21,7 @@ export async function getPhotos(node, page, limit) {
                 );
             }
         } else {
-            node.innerHTML = `<li style="display: grid; place-items: center">Slidy haven't items 🤷🏻‍♂️</li>`;
+            node.innerHTML = `<li id="message">Slidy haven't items 🤷🏻‍♂️</li>`;
         }
     } catch (error) {
         console.error(error);
@@ -39,9 +39,8 @@ export async function getPhotos(node, page, limit) {
                 'height',
                 true
             )}.jpg`;
-            const background = `background-image: url(https://picsum.photos/id/${p.id}/${
-                100 * devicePixelRatio
-            }/${100 * devicePixelRatio}.jpg)`;
+            const background = `background-image: url(https://picsum.photos/id/${p.id}/${100 * devicePixelRatio
+                }/${100 * devicePixelRatio}.jpg)`;
 
             if (node.id === 'node') {
                 return `<li id="${i}"><img src="${src}" width="${aspect('width')}" height="${aspect(

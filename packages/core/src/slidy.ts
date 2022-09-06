@@ -13,7 +13,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         position: 0,
         clamp: 0,
         indent: 1,
-        sensity: 5,
+        sensity: 2.5,
         gravity: 1.2,
         duration: 375,
         animation: undefined,
@@ -45,6 +45,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
+        ['scroll', () => { to(INDEX); GRAVITY = 2; }]
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -173,11 +174,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         ets = e.timeStamp;
         hip = coordinate(e, options);
         track = (2 - GRAVITY) * speed + (GRAVITY - 1) * track;
-
-        window.onscroll = () => {
-            to(INDEX);
-            GRAVITY = 2;
-        };
 
         if ($().sense(e, pos, SENSITY)) {
             move(pos, INDEX);
