@@ -121,7 +121,7 @@ export type AnimationArgs = {
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
 
 export interface Dom {
-    edges: boolean;
+    edges: (index?: number) => boolean;
     distance: (index: number, snap?: Options['snap']) => number;
     index(target: number): number;
     position(replace?: boolean): number;

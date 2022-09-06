@@ -101,7 +101,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         DIRECTION = options.direction = Math.sign(pos);
         POSITION = options.position += positioning(pos);
         INDEX = options.index = $().index(POSITION);
-        GRAVITY = $().edges ? 1.8 : options.gravity;
+        GRAVITY = $().edges() ? 1.8 : options.gravity;
         SENSITY = 0;
 
         $().animate();
@@ -119,7 +119,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     function scroll(index: number, amplitude: number): void {
         const time = performance.now();
-        const snaped = options.snap || options.loop || $().edges;
+        const snaped = options.snap || options.loop || $().edges(index);
         const target = snaped ? $().distance(index) : POSITION + amplitude;
         const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
 
@@ -128,10 +128,10 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         requestAnimationFrame(function loop() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
-            const easing = options.easing ? options.easing(T) : T;
+            const easing = options.easing?.(T) || T;
             const delta = amplitude * easing;
-            const current = options.loop ? $().distance(index) : target;
-            const pos = current - POSITION - delta;
+            const dest = options.loop ? $().distance(index) : target;
+            const pos = dest - POSITION - delta;
 
             move(pos, index);
 
@@ -162,7 +162,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         track = 0;
 
         listen(window, WINDOW_EVENTS);
-        !$().edges && e.stopPropagation();
+        !$().edges() && e.stopPropagation();
     }
 
     function onMove(e: UniqEvent): void {
@@ -206,27 +206,27 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const clamped = CLAMP || e.shiftKey || options.axis === 'y'
+        const clamped = CLAMP || e.shiftKey || (options.axis === 'y' && !options.vertical)
         const sensed = $().sense(e, coord, SENSITY);
-        const snaped = options.snap || $().edges || clamped
-        const pos = $().edges ? coord / 5 : coord;
+        const snaped = options.snap || $().edges() || clamped
+        const pos = $().edges() ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
 
         !clamped && sensed && move(pos, INDEX);
         wst = snaped && sensed ? setTimeout(() => to(ix), tm) : undefined;
 
-        !$().edges && e.stopPropagation();
+        !$().edges() && e.stopPropagation();
     }
 
     function winWheel(e: WheelEvent): void {
         if (e.composedPath().includes(node)) {
             const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
-            const edged = options.axis === 'y' && !$().edges;
+            const edged = options.axis === 'y' && !$().edges();
 
-            if (X || edged) e.preventDefault();
+            if (X || edged || e.shiftKey) e.preventDefault();
 
-            const throttled = CLAMP > 0 || options.axis === 'y' || e.shiftKey;
+            const throttled = CLAMP > 0 || (options.axis === 'y' && !options.vertical) || e.shiftKey;
 
             if (shifted !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);
