@@ -3,10 +3,6 @@
     "version": "2.0.0",
     "description": "Slidy assets",
     "main": "index.js",
-    "devDependencies": {
-        "@slidy/animation": "workspace:*",
-        "@slidy/media": "workspace:*"
-    },
     "keywords": [],
     "author": {
         "name": "Artemiy Schukin",
