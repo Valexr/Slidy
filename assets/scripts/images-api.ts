@@ -1,3 +1,4 @@
+import { randInt } from './utils'
 import type { ImageSchema, GetPhotos, Size, Slide } from '../types';
 
 export const getPhotos: GetPhotos<Slide> = async ({
@@ -9,9 +10,7 @@ export const getPhotos: GetPhotos<Slide> = async ({
     let data: ImageSchema[] = [];
 
     try {
-        const url = `https://picsum.photos/v2/list?limit=${limit}&page=${page}`;
-        const response = await fetch(url, { mode: 'cors' });
-        data = await response.json();
+        data = await getImages({ width, height }, limit);
     } catch (error) {
         console.error(`Could not fetch photos: ${error}`);
     }
@@ -23,10 +22,32 @@ export const getPhotos: GetPhotos<Slide> = async ({
             id: item.id,
             ...size,
             alt: `Image by ${item.author}`,
-            src: `https://picsum.photos/id/${item.id}/${size.width}/${size.height}.jpg`,
+            src: item.src,
         };
     });
 };
+
+function getImages(size: { width: number, height: number }, limit: number): Promise<ImageSchema[]> {
+    return new Promise((resolve, reject) => {
+        const photos = [...Array(limit).keys()].map((id: number) => {
+            const dPR = (size: number) => size * devicePixelRatio;
+
+            const width = randInt(dPR(size.width), dPR(size.height));
+            const height = randInt(dPR(size.height), dPR(size.width));
+
+            return {
+                id,
+                author: 'Unsplash',
+                width,
+                height,
+                src: `https://source.unsplash.com/random/${height}x${height}`
+            };
+        });
+        if (photos.length === limit) {
+            setTimeout(() => resolve(photos), 500);
+        } else reject('No photos');
+    });
+}
 
 const applyRatio = (src: Size, size: Size): Size => {
     const ratio = Math.min(size.width / src.width, size.height, src.height);

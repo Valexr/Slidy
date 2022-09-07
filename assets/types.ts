@@ -11,8 +11,7 @@ export interface ImageSchema {
     author: string;
     width: number;
     height: number;
-    url: string;
-    download_url: string;
+    src: string;
 }
 
 /**
