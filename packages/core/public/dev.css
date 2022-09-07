@@ -291,6 +291,10 @@ section {
     background-blend-mode: normal;
 }
 
+img {
+    object-fit: cover;
+}
+
 #node li:before {
     content: attr(id);
     position: absolute;
