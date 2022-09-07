@@ -291,8 +291,9 @@ section {
     background-blend-mode: normal;
 }
 
-img {
+#node li img {
     object-fit: cover;
+    min-width: 100%;
 }
 
 #node li:before {
@@ -327,7 +328,7 @@ img {
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     #node li img {
         /* width: auto; */
-        /* will-change: transform; */
+        will-change: transform;
     }
 
     #node li:before {

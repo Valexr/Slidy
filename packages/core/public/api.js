@@ -1,5 +1,5 @@
 export async function getSlides(node, limit, gap = 32) {
-    node.innerHTML = thumbs.innerHTML = `Loading... 🚀`;
+    node.innerHTML = `Loading... 🚀`;
     try {
         const photos = await getPhotos(node, limit);
         if (node.isConnected && photos.length) {
