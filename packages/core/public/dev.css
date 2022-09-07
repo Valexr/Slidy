@@ -279,6 +279,7 @@ section {
 #thumbs button {
     min-height: 100%;
     box-shadow: none;
+    background: var(--surface-2);
     background-size: cover;
     background-blend-mode: luminosity;
     opacity: 0.25;
