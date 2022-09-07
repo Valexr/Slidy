@@ -59,7 +59,7 @@
             import * as easings from './build/easing.js';
             import * as animations from './build/animation.js';
             import * as utils from './utils.js';
-            import { getPhotos } from './api.js';
+            import { getSlides } from './api.js';
             import { setEvents } from './env.js';
 
             const queries = {
@@ -108,7 +108,7 @@
             window.position = 0;
             window.slidy = null;
             window.slidyT = null;
-            window.getPhotos = getPhotos;
+            window.getSlides = getSlides;
 
             console.log('window:', window);
 
@@ -119,7 +119,7 @@
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
-                    getPhotos(node, options.length, 32).then(() => {
+                    getSlides(node, options.length).then(() => {
                         slidy = slidyCore(node, options);
                         slidyT = slidyCore(thumbs, { index: options.index, snap: 'center' });
                         setTimeout(setEvents);
@@ -143,7 +143,7 @@
         <footer>
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1, -100)">←</button>
-                <button id="reload" onclick="getPhotos(node, options.length)">
+                <button id="reload" onclick="getSlides(node, options.length)">
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.update({position: 1000})">→</button>
