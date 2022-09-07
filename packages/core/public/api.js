@@ -1,13 +1,9 @@
-import { slidy as slidyCore } from './build/core.js';
-
 export async function getPhotos(node, page, limit) {
-    // slidy?.destroy();
-    // slidyT?.destroy();
-    node.innerHTML = `<li id="message">Loading... 🚀</li>`;
+    node.innerHTML = `Loading... 🚀`;
     //page: 38 - END,  61 - START, 28
     try {
         const res = await fetch(`https://picsum.photos/v2/list?limit=${limit}&page=${page}`, {
-            mode: 'cors',
+            mode: 'cors'
         });
         const photos = await res.json();
         if (photos.length === limit && node.isConnected) {
@@ -21,7 +17,7 @@ export async function getPhotos(node, page, limit) {
                 );
             }
         } else {
-            node.innerHTML = `<li id="message">Slidy haven't items 🤷🏻‍♂️</li>`;
+            node.innerHTML = `Slidy haven't items 🤷🏻‍♂️`;
         }
     } catch (error) {
         console.error(error);
