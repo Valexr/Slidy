@@ -13,7 +13,7 @@
 	const classNames = getContext<SlidyStyles>("classNames");
 	const i18n = getContext<I18NDict>("i18n");
 
-	$: disabled = (direction > 0)
+	$: disabled = (direction < 0)
 		? index === 0 && !loop
 		: index === items - 1 && !loop;
 

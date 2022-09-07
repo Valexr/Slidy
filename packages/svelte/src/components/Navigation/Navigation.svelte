@@ -3,7 +3,7 @@
   import { generateIndexes } from "@slidy/assets/scripts";
   import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
   import "@slidy/assets/styles/navigation.module.css";
-import { fillTemplate } from "../Slidy/i18n";
+	import { fillTemplate } from "../Slidy/i18n";
 
   export let current: number;
   export let start: number;
@@ -33,15 +33,15 @@ import { fillTemplate } from "../Slidy/i18n";
 
 <nav
   aria-label="pagination"
-  aria-orientation="{vertical ? "vertical" : "horizontal"}" 
+  aria-orientation="{vertical ? "vertical" : "horizontal"}"
   class="{classNames?.nav}"
 >
   {#each indices as item}
-    {@const active = current === item}
+    {@const active = item === current}
     {@const contents = item < 0 ? "…" : item}
     {@const ellipsis = item < 0}
     {@const title = setTitle(item)}
-    <slot name="nav-item" index={item} active={item === current}>
+    <slot name="nav-item" index={item} {active}>
       <button
         aria-current={active ? "true" : undefined}
         aria-label={title}
