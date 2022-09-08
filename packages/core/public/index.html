@@ -142,20 +142,14 @@
 
         <footer>
             <nav>
-                <!-- <button id="prev" onclick="slidy.to(options.index - 1, -100)">←</button> -->
-                <input name="themes" placeholder="themes, of, photos" onchange="getSlides(length, this.value)" />
+                <button id="prev" onclick="slidy.to(options.index - 1, -100)">←</button>
                 <button id="reload" onclick="getSlides(length)">
                     <i class="icon icon-refresh"></i>
                 </button>
-                <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
-                    loop
-                </button>
-                <!-- <button id="next" onclick="slidy.update({position: 1000})">→</button> -->
+                <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
             </nav>
 
-            <!-- <nav id="dots"></nav> -->
-
-            <nav id="buttons"></nav>
+            <nav id="dots"></nav>
 
             <form>
                 <fieldset>
@@ -172,6 +166,11 @@
                     <label title="easing">easing
                         <select id="easing" name="easing"
                             onchange="slidy.update({ easing: easings[this.value] })"></select>
+                    </label>
+                    <label title="loop">loop
+                        <input type="checkbox" id="loop" name="loop"
+                            style="margin-top: 0.75rem; background: transparent;"
+                            onchange="slidy.update({ loop: this.checked })"></input>
                     </label>
                 </fieldset>
             </form>
@@ -223,6 +222,10 @@
                     </label>
                     <label title="gap">gap
                         <input onchange="utils.setVar(this)" name="gap" size="4" />
+                    </label>
+                    <label title="themes">themes
+                        <input name="themes" placeholder="themes, of, photos"
+                            onchange="getSlides(length, this.value)" />
                     </label>
                 </fieldset>
             </form>

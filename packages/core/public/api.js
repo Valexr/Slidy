@@ -5,7 +5,7 @@ export async function getSlides(limit, themes = '', gap = 32) {
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            // dots.innerHTML = createSlides(dots, photos);
+            dots.innerHTML = createSlides(dots, photos);
         } else {
             node.innerHTML = `Slidy haven't items 🤷🏻‍♂️`;
         }
@@ -42,7 +42,7 @@ export async function getSlides(limit, themes = '', gap = 32) {
             } else if (node.id === 'thumbs') {
                 return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
             }
-            // else return `<button id="${i}">${i}</button>`;
+            else return `<button id="${i}">${i}</button>`;
         });
         return slides.join('');
     }

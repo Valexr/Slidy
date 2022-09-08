@@ -14,9 +14,6 @@ export function moving(e) {
     );
 }
 export function indexing(x) {
-    // if (!changing) {
-    //     document.querySelector('input[name=index]').value = x;
-    // }
     slidyT.to(x);
 }
 
