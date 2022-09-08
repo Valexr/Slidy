@@ -32,7 +32,7 @@ export function setEvents() {
                             case 'themes':
                                 break;
                             case 'length':
-                                input.value = length;
+                                input.value = limit;
                                 break;
 
                             default:

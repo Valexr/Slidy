@@ -1,4 +1,4 @@
-export async function getSlides(limit, themes = '', gap = 32) {
+export async function getSlides(limit = 9, themes = '', gap = 32) {
     node.innerHTML = `Loading... 🚀`;
     try {
         const photos = await getPhotos({ width: 1280, height: 800 }, limit);
@@ -23,6 +23,7 @@ export async function getSlides(limit, themes = '', gap = 32) {
                 const src = `https://source.unsplash.com/random/${width}x${height}?${themes.split(',')}`;
                 return { width, height, src };
             });
+            console.log(photos, limit, themes);
             if (photos.length === limit) {
                 setTimeout(() => resolve(photos), 500);
             } else reject('No photos');

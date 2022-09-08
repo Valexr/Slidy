@@ -18,7 +18,7 @@ export function indexing(x) {
 }
 
 export function changeLength(target) {
-    length = +target.value;
+    limit = +target.value;
     return getSlides(+target.value);
 }
 export function getVar(name) {
