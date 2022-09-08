@@ -144,19 +144,18 @@
             <nav>
                 <!-- <button id="prev" onclick="slidy.to(options.index - 1, -100)">←</button> -->
                 <input name="themes" placeholder="themes, of, photos" onchange="getSlides(length, this.value)" />
-                <!-- <button id="reload" onclick="getSlides(options.length, 'girl')">
+                <button id="reload" onclick="getSlides(length)">
                     <i class="icon icon-refresh"></i>
                 </button>
-                <button id="next" onclick="slidy.update({position: 1000})">→</button> -->
+                <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
+                    loop
+                </button>
+                <!-- <button id="next" onclick="slidy.update({position: 1000})">→</button> -->
             </nav>
 
             <!-- <nav id="dots"></nav> -->
 
-            <nav id="buttons">
-                <button id="loop" onclick="slidy.update({ loop: options.loop = !options.loop })">
-                    loop
-                </button>
-            </nav>
+            <nav id="buttons"></nav>
 
             <form>
                 <fieldset>
