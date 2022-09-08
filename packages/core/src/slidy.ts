@@ -30,7 +30,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         raf = 0,
         ets = 0,
         track = 0,
-        shifted = false,
+        clamped = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
         POSITION = options.position as number,
@@ -126,7 +126,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         amplitude = target - POSITION;
 
-        requestAnimationFrame(function loop() {
+        requestAnimationFrame(function frame() {
             const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
@@ -137,7 +137,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             move(pos, index);
 
             if (Math.round(delta)) {
-                raf = requestAnimationFrame(loop);
+                raf = requestAnimationFrame(frame);
             } else {
                 SENSITY = options.sensity;
                 clear();
@@ -201,13 +201,12 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         clear();
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
-        const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const clamped = CLAMP || e.shiftKey || (options.axis === 'y' && !options.vertical)
-        const sensed = $().sense(e, coord, SENSITY);
-        const snaped = options.snap || $().edges() || clamped
         const pos = $().edges() ? coord / 5 : coord;
+        const index = INDEX + Math.sign(pos) * (CLAMP || 1);
         const ix = clamped ? index : INDEX;
         const tm = clamped ? 0 : DURATION / 2;
+        const sensed = $().sense(e, coord, SENSITY);
+        const snaped = options.snap || clamped || $().edges()
 
         !clamped && sensed && move(pos, INDEX);
         wst = snaped && sensed ? setTimeout(() => to(ix), tm) : undefined;
@@ -224,9 +223,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
             const throttled = CLAMP > 0 || (options.axis === 'y' && !options.vertical) || e.shiftKey;
 
-            if (shifted !== throttled) {
+            if (clamped !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);
-                shifted = throttled;
+                clamped = throttled;
             }
         }
     }

@@ -23,15 +23,14 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
     function edges(index: number | undefined = undefined) {
         const start = distance(reverse < 0 ? last : 0, 'start');
+        const curr = distance(index as number);
         const end = distance(reverse < 0 ? 0 : last, 'end');
-        const indexed = !index || index === last
-        const edged = options.loop
-            ? false
-            : ((options.direction as number) <= 0 &&
-                Math.round(options.position as number) <= start) ||
-            ((options.direction as number) >= 0 &&
-                Math.round(options.position as number) >= end);
-        return index as number >= 0 ? (edged || indexed) : edged
+        const dir = options.direction as number
+        const pos = Math.round(options.position as number)
+        const indexed = (dir <= 0 && curr <= start) || (dir >= 0 && curr >= end)
+        const edged = (dir <= 0 && pos <= start) || (dir >= 0 && pos >= end);
+
+        return !options.loop && (index as number >= 0 ? (edged || indexed) : edged)
     }
 
     function distance(index: number, snap = options.snap): number {
