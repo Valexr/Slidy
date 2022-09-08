@@ -30,10 +30,11 @@ export const getPhotos: GetPhotos<Slide> = async ({
 function getImages(size: { width: number, height: number }, limit: number): Promise<ImageSchema[]> {
     return new Promise((resolve, reject) => {
         const photos = [...Array(limit).keys()].map((id: number) => {
-            const dPR = (size: number) => size * devicePixelRatio;
+            const dPR = (size: number) => Math.round(size * devicePixelRatio);
 
             const width = randInt(dPR(size.width), dPR(size.height));
             const height = randInt(dPR(size.height), dPR(size.width));
+            console.log(width, height)
 
             return {
                 id,
