@@ -66,8 +66,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record) => {
-            const { type, addedNodes } = record;
-            if (type === 'childList' && addedNodes.length > 1) {
+            if (record.type === 'childList') {
                 destroy().then(init);
             }
         });
