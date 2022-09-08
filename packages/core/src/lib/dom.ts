@@ -58,7 +58,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         distance,
         index(target: number): number {
             const dist = (index: number) => Math.abs(distance(index) - target);
-            return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 0);
+            return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 1);
         },
         position(replace: boolean): number {
             const index = options.index as number;
