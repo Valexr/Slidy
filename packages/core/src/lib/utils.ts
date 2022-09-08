@@ -33,10 +33,6 @@ function loop(
     return array;
 }
 
-function int(number: any) {
-    return number as number
-}
-
 const { assign, entries } = Object;
 
-export { clamp, throttle, loop, int, assign, entries };
+export { clamp, throttle, loop, assign, entries };

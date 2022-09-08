@@ -32,10 +32,10 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         track = 0,
         clamped = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = (hix = options.index as number),
+        INDEX = hix = options.index as number,
         POSITION = options.position as number,
         DIRECTION = options.direction as number,
-        DURATION = (options.duration as number) / 2,
+        DURATION = options.duration as number / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
         CLAMP = options.clamp as number;
@@ -61,7 +61,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
         POSITION = options.position = $().position(false);
-        dispatch(node, 'resize', { ROE });
+        dispatch(node, 'resize', { ROE, options });
     });
 
     const MO = new MutationObserver((ML) => {
@@ -71,7 +71,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 destroy().then(init);
             }
         });
-        dispatch(node, 'mutate', { ML });
+        dispatch(node, 'mutate', { ML, options });
     });
 
     const css = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
@@ -126,8 +126,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         amplitude = target - POSITION;
 
-        requestAnimationFrame(function frame() {
-            const elapsed = time - performance.now();
+        requestAnimationFrame(function frame(now) {
+            const elapsed = time - now;
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
             const delta = amplitude * easing;
