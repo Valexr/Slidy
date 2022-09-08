@@ -1,11 +1,11 @@
-export async function getSlides(node, limit, gap = 32) {
+export async function getSlides(limit, themes = '', gap = 32) {
     node.innerHTML = `Loading... 🚀`;
     try {
-        const photos = await getPhotos(node, limit);
+        const photos = await getPhotos({ width: 1280, height: 800 }, limit);
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            dots.innerHTML = createSlides(dots, photos);
+            // dots.innerHTML = createSlides(dots, photos);
         } else {
             node.innerHTML = `Slidy haven't items 🤷🏻‍♂️`;
         }
@@ -14,17 +14,16 @@ export async function getSlides(node, limit, gap = 32) {
         node.innerHTML = error;
     }
 
-    function getPhotos(node, limit) {
+    function getPhotos(size, limit) {
         return new Promise((resolve, reject) => {
             const photos = [...Array(limit).keys()].map(() => {
-                const { clientWidth, clientHeight } = node;
                 const dPR = (size) => size * devicePixelRatio;
-                const width = utils.randomQ(dPR(clientWidth), dPR(clientHeight));
-                const height = utils.randomQ(dPR(clientHeight), dPR(clientWidth));
-                const src = `https://source.unsplash.com/random/${width}x${height}`;
+                const width = utils.randomQ(size.width, dPR(size.width));
+                const height = utils.randomQ(size.height, dPR(size.height));
+                const src = `https://source.unsplash.com/random/${width}x${height}?${themes.split(',')}`;
                 return { width, height, src };
             });
-            if (node.isConnected && photos.length === limit) {
+            if (photos.length === limit) {
                 setTimeout(() => resolve(photos), 500);
             } else reject('No photos');
         });
@@ -42,7 +41,8 @@ export async function getSlides(node, limit, gap = 32) {
                 return `<li id="${i}"><img src="${src}" ${imgSize} alt="${alt}"/></li>`;
             } else if (node.id === 'thumbs') {
                 return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
-            } else return `<button id="${i}">${i}</button>`;
+            }
+            // else return `<button id="${i}">${i}</button>`;
         });
         return slides.join('');
     }

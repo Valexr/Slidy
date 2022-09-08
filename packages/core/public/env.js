@@ -29,6 +29,11 @@ export function setEvents() {
                                 input.value = options.index;
                                 input.max = options.length - 1;
                                 break;
+                            case 'themes':
+                                break;
+                            case 'length':
+                                input.value = length;
+                                break;
 
                             default:
                                 input.value = options[input.name];
@@ -37,18 +42,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'blur',
                             'deck',

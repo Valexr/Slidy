@@ -21,8 +21,8 @@ export function indexing(x) {
 }
 
 export function changeLength(target) {
-    options[target.name] = +target.value;
-    return getPhotos(node, utils.randomQ(1, 69), +target.value);
+    length = +target.value;
+    return getSlides(+target.value);
 }
 export function getVar(name) {
     return getComputedStyle(main).getPropertyValue(name);
