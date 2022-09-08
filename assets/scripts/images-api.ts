@@ -34,7 +34,6 @@ function getImages(size: { width: number, height: number }, limit: number): Prom
 
             const width = randInt(dPR(size.width), dPR(size.height));
             const height = randInt(dPR(size.height), dPR(size.width));
-            console.log(width, height)
 
             return {
                 id,
