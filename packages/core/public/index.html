@@ -105,11 +105,15 @@
                 easing: easings.lenear,
             };
             window.limit = 9;
-            window.themes = '';
+            window.theme = '';
             window.position = 0;
             window.slidy = null;
             window.slidyT = null;
             window.getSlides = getSlides;
+            window.setThemes = (value) => {
+                console.log(value);
+                theme = value;
+            };
 
             console.log('window:', window);
 
@@ -120,7 +124,7 @@
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
-                    getSlides(limit).then(() => {
+                    getSlides(limit, theme).then(() => {
                         slidy = slidyCore(node, options);
                         slidyT = slidyCore(thumbs, { index: options.index, snap: 'center' });
                         setTimeout(setEvents);
@@ -144,7 +148,7 @@
         <footer>
             <nav>
                 <button id="prev" onclick="slidy.to(options.index - 1, -100)">←</button>
-                <button id="reload" onclick="getSlides(limit)">
+                <button id="reload" onclick="getSlides(limit, theme)">
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
@@ -226,11 +230,11 @@
                     </label>
                 </fieldset>
             </form>
-            <form onsubmit="event.preventDefault()">
+            <form onsubmit="event.preventDefault(); getSlides(limit, theme)">
                 <fieldset>
                     <label title="themes">themes
                         <input type="text" name="themes" placeholder="themes, of, photos"
-                            onchange="getSlides(limit, value)" />
+                            oninput="setThemes(this.value)" />
                     </label>
                 </fieldset>
             </form>
