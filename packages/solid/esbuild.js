@@ -17,7 +17,7 @@ const esbuildBase = {
     external: DEV ? [] : ['solid-js'],
 };
 const derverConfig = {
-    port: 3336,
+    port: 3334,
     host: '0.0.0.0',
     dir: 'public',
     watch: [
