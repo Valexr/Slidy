@@ -27,7 +27,7 @@ const Arrow: FlowComponent<Props> = ($props) => {
     const { classNames, i18n } = useSlidy();
 
     const disabled = () => {
-        return (props.direction > 0)
+        return (props.direction < 0)
             ? props.index === 0 && !props.loop
             : props.index === props.items! - 1 && !props.loop;
     };
