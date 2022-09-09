@@ -35,4 +35,4 @@ function loop(
 
 const { assign, entries } = Object;
 
-export { clamp, throttle, loop, assign, entries };
+export { assign, clamp, entries, loop, throttle };

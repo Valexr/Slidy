@@ -30,7 +30,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const indexed = (dir <= 0 && curr <= start) || (dir >= 0 && curr >= end)
         const edged = (dir <= 0 && pos <= start) || (dir >= 0 && pos >= end);
 
-        return !options.loop && (index as number >= 0 ? (edged || indexed) : edged)
+        return options.loop ? false : (index as number >= 0 ? (edged || indexed) : edged)
     }
 
     function distance(index: number, snap = options.snap): number {

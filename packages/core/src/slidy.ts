@@ -1,5 +1,5 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
-import { clamp, loop, throttle, entries } from './lib/utils';
+import { clamp, entries, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
 import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
@@ -66,7 +66,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record) => {
-            if (record.type === 'childList') {
+            const { type, addedNodes: { length } } = record
+            if (type === 'childList' && length > 1) {
                 destroy().then(init);
             }
         });
@@ -125,8 +126,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         amplitude = target - POSITION;
 
-        requestAnimationFrame(function frame(now) {
-            const elapsed = time - now;
+        requestAnimationFrame(function frame() {
+            const elapsed = time - performance.now();
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
             const delta = amplitude * easing;
@@ -149,7 +150,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         index = indexing(node, options, index);
         const pos = $().distance(index) - POSITION;
-
         scroll(index, position || pos);
     }
 

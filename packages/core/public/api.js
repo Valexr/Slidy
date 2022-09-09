@@ -14,7 +14,6 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
         node.innerHTML = error;
     }
 
-    console.log(limit, themes);
     function getPhotos(size, limit) {
         return new Promise((resolve, reject) => {
             const photos = [...Array(limit).keys()].map(() => {

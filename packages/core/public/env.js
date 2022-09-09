@@ -34,6 +34,9 @@ export function setEvents() {
                             case 'length':
                                 input.value = limit;
                                 break;
+                            case 'loop':
+                                input.checked = options.loop;
+                                break;
 
                             default:
                                 input.value = options[input.name];
