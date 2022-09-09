@@ -12,107 +12,15 @@ import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
 
-import type { Slide, SlidyOptions } from './Slidy.types';
-import type { FC, SetStateAction, Dispatch } from 'react';
+import type { Options } from './Slidy.types';
+import type { FC } from 'react';
 
-interface Options {
-    animation?: SlidyOptions['animation'];
-    /**
-     * @default 'x'
-     */
-    axis?: SlidyOptions['axis'];
-    /**
-     * @default false
-     */
-    background?: boolean;
-    /**
-     * @default true
-     */
-    counter?: boolean;
-    /**
-     * @default 0
-     */
-    clamp?: number;
-    classNames?: SlidyOptions['classNames'];
-    i18n?: SlidyOptions['i18n'];
-    /**
-     * @default 450
-     */
-    duration?: number;
-    easing?: SlidyOptions['easing'];
-    getImgSrc?: SlidyOptions['getImgSrc'];
-    getThumbSrc?: SlidyOptions['getThumbSrc'];
-    /**
-     * @default false
-     */
-    navigation?: boolean;
-    /**
-     * @default 0
-     */
-    groups: number;
-    /**
-     * @default 1.2
-     */
-    gravity?: number;
-    id?: string;
-    /**
-     * @default 2
-     */
-    indent?: SlidyOptions['indent'];
-    /**
-     * @default false
-     */
-    loop?: boolean;
-    /**
-     * @default false
-     */
-    progress?: boolean;
-    /**
-     * @default 5
-     */
-    sensity?: number;
-    /**
-     * @default []
-     */
-    slides?: SlidyOptions['slides'];
-    /**
-     * @default undefined
-     */
-    snap?: SlidyOptions['snap'];
-    /**
-     * @default 1500
-     */
-    interval?: number;
-    autoplay?: boolean;
-    setAutoplay?: Dispatch<SetStateAction<boolean>>;
-    autoplayControl?: boolean;
-
-    index?: number;
-
-    /**
-     * Control the index from outside
-     */
-    setIndex?: Dispatch<SetStateAction<number>>;
-
-    overlay?: () => JSX.Element;
-    thumbnail?: (() => JSX.Element) | boolean;
-    arrows?: (() => JSX.Element) | boolean;
-    arrow?: () => JSX.Element;
-    children?: (item: Slide) => JSX.Element;
-
-    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
-    onMount?: (event: CustomEvent<Options>) => void;
-    onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
-    onIndex?: (event: CustomEvent<{ index: number }>) => void;
-    onKeys?: (event: CustomEvent<string>) => void;
-    onUpdate?: (event: CustomEvent<Options>) => void;
-    onDestroy?: (event: CustomEvent<HTMLElement>) => void;
-}
 
 const defaultProps: Options = {
     arrows: true,
     interval: 1500,
     axis: 'x',
+    vertical: false,
     background: false,
     counter: true,
     clamp: 0,
@@ -157,7 +65,6 @@ const Slidy: FC<Partial<Options>> = ($props) => {
     const [autoplayState, setAutoplayState] = useState<'play' | 'pause' | 'stop'>('stop');
 
     const length = props.slides.length;
-    const vertical = props.axis === 'y';
 
     const handleClick: React.MouseEventHandler<HTMLElement> = (event): void => {
         const element = event.target as HTMLElement;
@@ -222,9 +129,9 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
                 aria-roledescription={props.i18n.carousel}
+                aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
                 className={clsx(
                     props.classNames?.root,
-                    vertical && 'vertical',
                     props.groups > 1 && 'groups'
                 )}
                 style={s({
@@ -316,7 +223,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                             index={index}
                             items={length}
                             loop={props.loop}
-                            vertical={vertical}
+                            vertical={props.vertical}
                         >
                             {!props.arrow && (
                                 <svg className="slidy-arrow-icon" viewBox="0 0 32 32">
@@ -330,7 +237,14 @@ const Slidy: FC<Partial<Options>> = ($props) => {
 
                 {isFunction(props.arrows) && props.arrows()}
 
-                {props.progress && <Progress value={index + 1} max={length} vertical={vertical} />}
+                {props.progress && (<Progress
+                    value={index + 1}
+                    max={length}
+                    vertical={props.vertical}
+                    onInput={(e) => {
+                        setIndex(e.currentTarget?.value - 1);
+                    }}
+                />)}
 
                 {props.thumbnail === true && (
                     <Thumbnail
@@ -351,7 +265,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 {isFunction(props.thumbnail) && props.thumbnail()}
 
                 {props.navigation && (
-                    <Navigation current={index + 1} start={1} end={length} vertical={vertical} />
+                    <Navigation current={index + 1} start={1} end={length} vertical={props.vertical} />
                 )}
             </section>
         </SlidyContext.Provider>

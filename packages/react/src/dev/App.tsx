@@ -19,7 +19,7 @@ const App: FC = () => {
     const duration = useChannel(450);
     const gravity = useChannel(1.45);
     const width = useChannel('auto');
-    const axis = useChannel<'x' | 'y'>('y');
+    const axis = useChannel<'x' | 'y'>('x');
     const snap = useChannel<'start' | 'center' | 'end' | undefined>('center');
     const loop = useChannel(false);
     const gap = useChannel(15);

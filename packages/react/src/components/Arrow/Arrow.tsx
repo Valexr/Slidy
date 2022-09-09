@@ -34,7 +34,8 @@ const Arrow: FC<PropsWithChildren<Props>> = (props) => {
 
     return (
         <button
-            className={clsx(classNames.arrow, props.vertical && 'vertical', type && 'prev')}
+            aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+            className={clsx(classNames.arrow, type && 'prev')}
             disabled={disabled}
             data-step={props.clamp}
             aria-label={title}
