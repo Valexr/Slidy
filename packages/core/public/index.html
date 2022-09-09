@@ -114,6 +114,9 @@
                 console.log(value);
                 theme = value;
             };
+            window.addChild = () => {
+                node.innerHTML += `<li></li>`;
+            };
 
             console.log('window:', window);
 
@@ -152,6 +155,8 @@
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
+                <button id="-" onclick="node.removeChild(node.lastChild);">-</button>
+                <button id="+" onclick="node.appendChild(createElement('li'))">+</button>
             </nav>
 
             <nav id="dots"></nav>
