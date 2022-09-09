@@ -41,14 +41,14 @@ interface Options {
     slides: Slide[];
     className: string;
 
-    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void;
+    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
+    onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
     onMount?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
     onIndex?: (event: CustomEvent<{ index: number }>) => void;
     onKeys?: (event: CustomEvent<string>) => void;
     onUpdate?: (event: CustomEvent<SlidyCoreOptions>) => void;
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
-    onMutate?: (event: CustomEvent<{ ML: MutationRecord[] }>) => void;
 
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;

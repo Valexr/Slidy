@@ -90,8 +90,8 @@ export default () => {
 | `sensity`   |     `5`     |                              `number`                               | Defines the sliding sensity as the number of pixels required to drag. |
 | `snap`      | `undefined` |           `"start"` or `"center"` or `"end"` or `"deck"`            | Enforces the scroll stop positions.                                   |
 | `tag`       |    `ol`     |                              `string`                               | The HTML tag name to render.                                          |
-| `onResize`  | `undefined` |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                            |
-| `onMutate`  | `undefined` |      `(event: CustomEvent<{ ML: MutationRecord[] }>) => void`       | Listen to the core event `mutate` to fire.                            |
+| `onResize`  | `undefined` |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void`    | Listen to the core event `resize` to fire.                            |
+| `onMutate`  | `undefined` |      `(event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void`       | Listen to the core event `mutate` to fire.                            |
 | `onMount`   | `undefined` |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                             |
 | `onMove`    | `undefined` | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                              |
 | `onIndex`   | `undefined` |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                             |
