@@ -85,7 +85,7 @@ const ControlPanel: Component<Options> = (props) => {
                         <span>Align</span>
                         <select
                             onChange={(e) => {
-                                const value = e.currentTarget.value;
+                                const { value } = e.currentTarget;
 
                                 props.snap(
                                     Boolean(value)
@@ -121,7 +121,7 @@ const ControlPanel: Component<Options> = (props) => {
                         <input
                             type="number"
                             value={props.gap()}
-                            onInput={(e) => props.gravity(e.currentTarget.valueAsNumber)}
+                            onInput={(e) => props.gap(e.currentTarget.valueAsNumber)}
                             size={5}
                         />
                     </label>

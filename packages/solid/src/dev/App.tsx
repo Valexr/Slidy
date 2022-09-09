@@ -1,4 +1,4 @@
-import { Show, createSignal, from } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
 import { Slidy } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
@@ -34,14 +34,10 @@ const App: Component = () => {
 
     const controlPanel = channel(false);
 
-    const theme = from(darkTheme);
-
     const slides = channel<Slide[]>([]);
 
     const loadSlides = () => {
-        getRandomSlides().then((s) => {
-            return s.length === 0 ? loadSlides() : slides(s);
-        });
+        getRandomSlides().then((s) => s.length ? slides(s) : loadSlides());
     };
 
     loadSlides();
@@ -63,9 +59,6 @@ const App: Component = () => {
                     </button>
                     <button
                         onClick={darkTheme.switch}
-                        classList={{
-                            active: theme(),
-                        }}
                         title="Switch theme"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">

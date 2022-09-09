@@ -1,11 +1,10 @@
-import { mergeProps, createEffect, onCleanup } from 'solid-js';
+import { mergeProps, splitProps, createEffect, onCleanup } from 'solid-js';
 import { Dynamic } from '..';
 import { slidy } from '@slidy/core';
 import { execute } from '@slidy/assets/scripts/utils';
 
 import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
-import type { Options as SlidyOptions } from '@slidy/core';
 import type { JSX, FlowComponent, Setter } from 'solid-js';
 
 declare module 'solid-js' {
@@ -25,7 +24,7 @@ declare module 'solid-js' {
 }
 
 interface Options {
-    animation: SlidyCoreOptions['animation'];
+    animation?: SlidyCoreOptions['animation'];
     axis: SlidyCoreOptions['axis'];
     clamp: number;
     duration: number;
@@ -36,10 +35,10 @@ interface Options {
     loop: boolean;
     position: number;
     sensity: number;
-    snap: SlidyCoreOptions['snap'];
+    snap?: SlidyCoreOptions['snap'];
     tag: keyof JSX.IntrinsicElements | (string & Record<never, never>);
     slides: Slide[];
-    className: string;
+    className?: string;
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
     onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
@@ -55,7 +54,6 @@ interface Options {
 }
 
 const defaultProps: Options = {
-    animation: undefined,
     axis: 'x',
     clamp: 0,
     duration: 450,
@@ -67,36 +65,17 @@ const defaultProps: Options = {
     loop: false,
     position: 0,
     sensity: 5,
-    snap: undefined,
     tag: 'ol',
-    className: '',
 };
 
 const Core: FlowComponent<Partial<Options>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
-
-    const options = () => {
-        const obj: SlidyOptions = {
-            animation: props.animation,
-            axis: props.axis,
-            clamp: props.clamp,
-            duration: props.duration,
-            easing: props.easing,
-            gravity: props.gravity,
-            indent: props.indent,
-            loop: props.loop,
-            sensity: props.sensity,
-            snap: props.snap,
-            index: props.index,
-        };
-
-        return obj;
-    };
+    const [options] = splitProps(props, ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index']);
 
     const useSlidy = (el: HTMLElement) => {
-        const { destroy, update } = slidy(el, options());
+        const { destroy, update } = slidy(el, options);
 
-        createEffect(() => update(options()));
+        createEffect(() => update(options));
         onCleanup(destroy);
     };
 
