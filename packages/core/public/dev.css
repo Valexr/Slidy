@@ -328,7 +328,7 @@ section {
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     #node li img {
         /* width: auto; */
-        will-change: transform;
+        /* will-change: transform; */
     }
 
     #node li:before {

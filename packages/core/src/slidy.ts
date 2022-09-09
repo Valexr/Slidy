@@ -66,8 +66,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record) => {
-            const { type, addedNodes: { length } } = record
-            if (type === 'childList' && length > 1) {
+            const { addedNodes, removedNodes } = record
+            if (addedNodes.length > 1 || removedNodes.length > 1) {
                 destroy().then(init);
             }
         });
@@ -118,19 +118,20 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         }
     }
 
-    function scroll(index: number, amplitude: number): void {
-        const time = performance.now();
+    function scroll(index: number, amplitude: number, start?: number): void {
         const snaped = options.snap || options.loop || $().edges(index);
         const target = snaped ? $().distance(index) : POSITION + amplitude;
         const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
+        const distance = target - POSITION;
 
-        amplitude = target - POSITION;
+        requestAnimationFrame(frame);
 
-        requestAnimationFrame(function frame() {
-            const elapsed = time - performance.now();
+        function frame(now: number) {
+            start ??= now
+            const elapsed = start - now;
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
-            const delta = amplitude * easing;
+            const delta = distance * easing;
             const dest = options.loop ? $().distance(index) : target;
             const pos = dest - POSITION - delta;
 
@@ -142,7 +143,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 SENSITY = options.sensity;
                 clear();
             }
-        });
+        }
     }
 
     function to(index = 0, position = 0): void {
