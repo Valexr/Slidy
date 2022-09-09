@@ -38,7 +38,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         DURATION = options.duration as number / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
-        CLAMP = options.clamp as number;
+        CLAMP = options.clamp as number
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -60,7 +60,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const RO = new ResizeObserver((ROE) => {
         to(INDEX);
-        POSITION = options.position = $().position(false);
+        POSITION = options.position = $().position();
         dispatch(node, 'resize', { ROE, options });
     });
 
@@ -74,7 +74,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         dispatch(node, 'mutate', { ML, options });
     });
 
-    const css = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
+    const RAF = requestAnimationFrame
+
+    const CSS = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
 
     init();
 
@@ -83,7 +85,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             .then(() => {
                 $ = () => dom(node, options)
 
-                node.style.cssText += css;
+                node.style.cssText += CSS;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
                 POSITION = options.position = $().position(options.loop);
@@ -124,7 +126,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
         const distance = target - POSITION;
 
-        requestAnimationFrame(frame);
+        RAF(frame);
 
         function frame(now: number) {
             start ??= now
@@ -138,7 +140,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             move(pos, index);
 
             if (Math.round(delta)) {
-                raf = requestAnimationFrame(frame);
+                raf = RAF(frame);
             } else {
                 SENSITY = options.sensity;
                 clear();
@@ -273,7 +275,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
                     default:
                         options[key] = value as never;
-                        POSITION = options.position = $().position(false);
+                        POSITION = options.position = $().position();
                         to(INDEX);
                         break;
                 }

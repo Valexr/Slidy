@@ -60,7 +60,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
             const dist = (index: number) => Math.abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 1);
         },
-        position(replace: boolean): number {
+        position(replace?: boolean): number {
             const index = options.index as number;
             if (replace) {
                 const childs = nodes.slice(index - cix).concat(nodes.slice(0, index - cix));
