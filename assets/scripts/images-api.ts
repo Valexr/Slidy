@@ -40,7 +40,7 @@ function getImages(size: { width: number, height: number }, limit: number): Prom
                 author: 'Unsplash',
                 width,
                 height,
-                src: `https://source.unsplash.com/random/${width}x${height}`
+                src: `https://source.unsplash.com/random/${width}x${height}?jpg`
             };
         });
         if (photos.length === limit) {

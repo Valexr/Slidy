@@ -1,4 +1,4 @@
-export async function getSlides(limit = 9, themes = '', gap = 32) {
+export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
     node.innerHTML = `Loading... 🚀`;
     try {
         const photos = await getPhotos({ width: 1280, height: 800 }, limit);

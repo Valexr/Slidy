@@ -31,15 +31,15 @@ const App: FC = () => {
     const controlPanel = useChannel(false);
 
     const slides: Slide[] = [
-        { src: 'https://source.unsplash.com/random/665x375', width: '665', height: '375' },
-        { src: 'https://source.unsplash.com/random/563x375', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/561x375', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/562x375', width: '562', height: '375' },
-        { src: 'https://source.unsplash.com/random/560x375', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/567x375', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/566x375', width: '564', height: '375' },
-        { src: 'https://source.unsplash.com/random/568x375', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/569x375', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/665x375?jpg', width: '665', height: '375' },
+        { src: 'https://source.unsplash.com/random/563x375?jpg', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/561x375?jpg', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/562x375?jpg', width: '562', height: '375' },
+        { src: 'https://source.unsplash.com/random/560x375?jpg', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/567x375?jpg', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/566x375?jpg', width: '564', height: '375' },
+        { src: 'https://source.unsplash.com/random/568x375?jpg', width: '563', height: '375' },
+        { src: 'https://source.unsplash.com/random/569x375?jpg', width: '563', height: '375' },
     ];
 
     return (
