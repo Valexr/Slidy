@@ -1,18 +1,16 @@
 # Changelog
 
 
-
 ## 3.6.0 - @slidy/element
 
+### @slidy/element
 #### 1.1.0 - fix issues & updates
 -   [add window check](https://github.com/Valexr/Slidy/commit/60199ed16d344c73f44083fc2b9d8dad45b2e447)
 -   [improve init, optimise & cleanup](https://github.com/Valexr/Slidy/commit/81d3139c0553cbd44b0c34284a2e18ce068eb9b4)
 -   [add core methods & cleanup](https://github.com/Valexr/Slidy/commit/c2480c98d4b410ad95170f1621700a62a2bc993c)
-
 #### 1.0.0 - first pre-release
 
 ### @slidy/core
-
 #### 3.6.0 - `on:mutate` event, auto reinit, improvments & fixes
 - [fix `dom()` init](https://github.com/Valexr/Slidy/commit/f5a0d0bf9b2fe6ea4735009ad145657ea9ba818c)
 - [fix `snap` behaviour](https://github.com/Valexr/Slidy/commit/110d6cda970e0c0fbffc25f948cf26f6c8d2cbc5)
@@ -22,29 +20,33 @@
 - [add `on:mutate` event & auto reinit](https://github.com/Valexr/Slidy/commit/ec03d72ca6303de89019adc7f37761605ccffd80)
 - [add `-webkit-user-select:none` css rule](https://github.com/Valexr/Slidy/commit/ad84096c7ecf8cf88d1a678d7b2d94c1550817f9)
 
+### @slidy/svelte
+#### 3.3.0 - core futures & fixes
+#### 3.2.2 - test release
+
+### @slidy/solid
+#### 1.3.0 - core futures & fixes
+
+## @slidy/react
+#### 1.1.0 - core futures & fixes
 
 
 ## 3.5.3 - @slidy/react
 
+### @slidy/react
 #### 1.0.0
 - first release
 
-
 ### @slidy/solid
-
 #### 1.2.1
  - implement `groups` prop to control the number of items displayed per viewport
 
-
 ### @slidy/svelte
-
 #### 3.2.1
 - implement `groups` prop to control the number of items displayed per viewport;
 - inherit `clamp` value by control buttons;
 
-
 ### @slidy/core
-
 #### 3.5.3
 - decrease bundle size
 - `window.Slidy` object contain `@slidy/core`, `@slidy/animation`,  `@slidy/easing` & `@slidy/media` functions
@@ -57,75 +59,56 @@ window.Slidy = {
 }
 ```
 
-
-## @slidy/media
-
+### @slidy/media
 #### 1.2.7 
 - IIFE global name `window.SlidyMedia`
 
-
 ### @slidy/animation
-
 #### 1.0.7 
 - IIFE global name `window.SlidyAnimation`
 
-
 ### @slidy/easing
-
 #### 1.0.5 
 - IIFE global name `window.SlidyEasing`
 
 
-
 ## 3.5.2 - @slidy/solid
 
+### @slidy/solid
 #### 1.2.0
  - first release
 
 ### @slidy/svelte
-
 #### 3.2.0
 - add autoplay action
 - add i18n localization script
-
 #### 3.1.3 - 3.1.5
 - testing releases
 
 ### @slidy/core
-
 #### 3.5.2
 - remove `browser` field for modern bundlers & CDN compatibility
 - remove `duration` from  `to(index)` method
 
 ### @slidy/media
-
 #### 1.2.6 
 - fix window availability
-
 #### 1.2.5
 - use generic for better DX https://github.com/Valexr/Slidy/commit/36ecdd8c086d18e0a72805de11b63fdcfd4b58f9
-
 
 
 ## 3.5.1 - fix issues & updates
 
 ### @slidycore
-
 #### 3.5.1
-
 -   [remove duration from to() function](https://github.com/Valexr/Slidy/commit/f4b0226305755a6e2736ba184022924684294f3a)
 
 ### @slidy/svelte
-
 #### 3.1.2
-
 -   [correct classname for arrow orientation](https://github.com/Valexr/Slidy/commit/55c9f4bd195b4ad038c53eebe1bff470a56b9fe5)
-
 #### 3.1.1
-
 -   [update overlay slot description](https://github.com/Valexr/Slidy/commit/f68d65522e810c5c7b639a6070bdfd03c05c5a25)
 -   [typo within a classname](https://github.com/Valexr/Slidy/commit/cd71fefc2ade71336a3ee5d55d61196d836241ec)
-
 
 
 ## 3.5.0 - modulated & fully rethinkin
@@ -135,7 +118,6 @@ window.Slidy = {
 Сompletely mimics the behavior of a native scroll with mouse drag, index navigation, acceleration, gravity & infinite loop mode.
 
 ### Packages
-
 -   [@slidy/core](https://github.com/Valexr/slidy/tree/master/packages/core) - Core sliding script
 -   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
 -   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
@@ -143,7 +125,6 @@ window.Slidy = {
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 
 ### Todo
-
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 -   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
@@ -152,31 +133,25 @@ window.Slidy = {
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 
 
-
 ## 2.8.2
 -   fix index on stop;
-
 
 
 ## 2.8.1
 -   fix index limits;
 
 
-
 ## 2.8.0
 -   new option `immutable={true}`;
-
 
 
 ## 2.7.1
 -   new prop `options.sensity: 0.3` for next slidy scroll sensitivity;
 
 
-
 ## 2.7.0
 -   rename `slidyinit` to `init`, now it's `true` by default.
     [Example](https://svelte.dev/repl/c4b8e256b4eb45a9be8487a891799076);
-
 
 
 ## 2.6.9
@@ -218,7 +193,6 @@ or
 ```svelte
 <Slidy keyExtractor="{(item) => item.id.toString()}" />
 ```
-
 
 
 ## Previous changes (Pre 2.6.5)
