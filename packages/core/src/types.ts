@@ -142,7 +142,7 @@ export interface SlidyInstance {
     /**
      * Scroll to `index` or `position`
      */
-    to: (index: number, position: number) => void;
+    to: (index: number, position?: number) => void;
     /**
      * Remove event listners, observers & defaulted props on `slidy()` instance
      */
