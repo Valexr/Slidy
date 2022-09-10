@@ -1,5 +1,4 @@
 import { useSlidy } from '../Context';
-import { clsx } from 'clsx';
 import { s } from '../../utils';
 import { execute, noop } from '@slidy/assets/scripts/utils';
 
@@ -47,9 +46,6 @@ const Progress: FC<Props> = (props) => {
             />
             <span className={classNames['progress-handle']} />
         </div>
-        // <div className={clsx(classNames.progress, props.vertical && 'vertical')}>
-        //     <span style={style} />
-        // </div>
     );
 };
 

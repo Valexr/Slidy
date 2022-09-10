@@ -241,8 +241,8 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                     value={index + 1}
                     max={length}
                     vertical={props.vertical}
-                    onInput={(e) => {
-                        setIndex(e.currentTarget?.value - 1);
+                    onInput={(e: any) => {
+                        setIndex(e.currentTarget.valueAsNumber - 1);
                     }}
                 />)}
 
