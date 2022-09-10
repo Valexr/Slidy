@@ -273,7 +273,10 @@ section {
     justify-content: center;
 }
 
-#node {
+#node,
+#thumbs {
+    align-items: center;
+    justify-content: center;
     padding: var(--gap, 1rem) 0;
 }
 
@@ -286,8 +289,7 @@ section {
 }
 
 #thumbs {
-    max-width: fit-content;
-    margin: var(--size-fluid-2) auto;
+    padding: 0;
 }
 
 #thumbs button {

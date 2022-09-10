@@ -19,9 +19,10 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
                 const width = utils.randomQ(size.width, ratio(size.width));
                 const height = utils.randomQ(size.height, ratio(size.height));
                 const source = { width, height };
+                console.log(node);
                 const max = { width: node.clientWidth, height: node.clientHeight - gap * 2 };
                 const { W, H } = aspect(source, max);
-                const src = `https://source.unsplash.com/random/${ratio(W)}x${ratio(H)}}`;
+                const src = `https://source.unsplash.com/random/${ratio(W)}x${ratio(H)}`;
                 return { width, height, src };
             });
             if (photos.length === limit) {
@@ -41,7 +42,7 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
             const alt = `unsplashPhoto#${i}`;
 
             if (node.id === 'node') {
-                return `<li id="${i}"><img src="${src}" ${imgSize} alt="${alt}"/></li>`;
+                return `<img id="${i}" src="${src}" ${imgSize} alt="${alt}"/>`;
             } else if (node.id === 'thumbs') {
                 return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
             }
