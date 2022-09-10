@@ -3,8 +3,6 @@ import { prepareValue } from './utils';
 
 import type { Options, SlidyInstance } from './types';
 
-import './slidy.css';
-
 export default class Slidy extends HTMLElement {
     _slidy?: SlidyInstance;
     _options?: Partial<Options>;
@@ -25,6 +23,25 @@ export default class Slidy extends HTMLElement {
 
     constructor() {
         super();
+        this.attachShadow({ mode: 'closed' })
+            .innerHTML = `
+                <style>
+                    :host {
+                        display: flex;
+                        flex-flow: var(--flow);
+                        gap: var(--gap, 1rem);
+                        width: 100%;
+                        height: var(--height, 20rem);
+                    }
+                    
+                    ::slotted(*) {
+                        flex: 0 0 var(--width, auto);
+                        width: var(--width, auto);
+                        height: 100%;
+                    }
+                </style>
+                <slot/>
+            `
         this.setUpAccessors(Slidy.observedAttributes);
         this._options = this.setUpOptions(Slidy.observedAttributes);
     }
@@ -71,7 +88,6 @@ export default class Slidy extends HTMLElement {
     }
 
     init(options: Partial<Options> = {}) {
-        this.destroy();
         this._slidy = slidy(this, options);
     }
 

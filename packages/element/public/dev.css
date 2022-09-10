@@ -290,6 +290,7 @@ section {
 
 #thumbs {
     padding: 0;
+    margin: var(--gap, 1rem) 0;
 }
 
 #thumbs button {
