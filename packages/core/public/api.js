@@ -5,7 +5,6 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            // dots.innerHTML = createSlides(dots, photos);
         } else {
             node.innerHTML = `Slidy haven't items 🤷🏻‍♂️`;
         }
@@ -17,10 +16,12 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
     function getPhotos(size, limit) {
         return new Promise((resolve, reject) => {
             const photos = [...Array(limit).keys()].map(() => {
-                const dPR = (size) => size * devicePixelRatio;
-                const width = utils.randomQ(size.width, dPR(size.width));
-                const height = utils.randomQ(size.height, dPR(size.height));
-                const src = `https://source.unsplash.com/random/${width}x${height}?${themes.split(',')}`;
+                const width = utils.randomQ(size.width, ratio(size.width));
+                const height = utils.randomQ(size.height, ratio(size.height));
+                const source = { width, height };
+                const max = { width: node.clientWidth, height: node.clientHeight - gap * 2 };
+                const { W, H } = aspect(source, max);
+                const src = `https://source.unsplash.com/random/${ratio(W)}x${ratio(H)}?${themes.split(',')}`;
                 return { width, height, src };
             });
             if (photos.length === limit) {
@@ -31,7 +32,9 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
 
     function createSlides(node, photos) {
         const slides = photos.map(({ width, height, src }, i) => {
-            const { W, H } = aspectQ(width, height, node.clientWidth, node.clientHeight - gap * 2);
+            const source = { width, height };
+            const max = { width: node.clientWidth, height: node.clientHeight - gap * 2 };
+            const { W, H } = aspect(source, max);
             const imgSize = `width="${W}" height="${H}"`;
             const thumbsSize = `width="100" height="100"`;
             const background = `background-image: url(${src})`;
@@ -47,11 +50,14 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
         return slides.join('');
     }
 
-    function aspectQ(srcWidth, srcHeight, maxWidth, maxHeight) {
-        let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+    function aspect(src, max) {
+        let ratio = Math.min(max.width / src.width, max.height / src.height);
         return {
-            W: Math.round(srcWidth * ratio),
-            H: Math.round(srcHeight * ratio),
+            W: Math.round(src.width * ratio),
+            H: Math.round(src.height * ratio),
         };
+    }
+    function ratio(size) {
+        return size * devicePixelRatio;
     }
 }
