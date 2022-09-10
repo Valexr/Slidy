@@ -5,7 +5,7 @@ export async function getSlides(limit = 9, themes = '', gap = 32) {
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
-            dots.innerHTML = createSlides(dots, photos);
+            // dots.innerHTML = createSlides(dots, photos);
         } else {
             node.innerHTML = `Slidy haven't items 🤷🏻‍♂️`;
         }
