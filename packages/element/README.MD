@@ -28,15 +28,7 @@ npm i -D @slidy/element
 or from [CDN]:
 
 ```html
-<!-- Element -->
 <script src="https://unpkg.com/@slidy/element"></script>
-
-<!-- Styles -->
-<link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
-    <!-- or -->
-<style>
-    @import url('https://unpkg.com/@slidy/element/dist/index.css');
-</style>
 ```
 
 Playground is available in svelte [REPL].
@@ -55,7 +47,6 @@ CustomElement `<slidy-element>` is available via import as `MJS/CJS` module or v
         // OR
         import 'https://unpkg.com/@slidy/core/dist/index.cjs'; // CJS module
     </script>
-    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5">
@@ -80,7 +71,6 @@ window.Slidy = {
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center">
@@ -113,10 +103,6 @@ window.Slidy = {
     <img src="..." width="..." height="..."/>
     ...
 </slidy-element>
-
-<style>
-    @import url('https://unpkg.com/@slidy/element/dist/index.css');
-</style>
 ```
 
 
@@ -155,13 +141,13 @@ If you need keyboard navigation just set `tabindex=0` on `<slidy-element>`.
 | `direction` | `number` | Children move direction |
 | `vertical`  | `number` | Children axis flow: `0` or any `Number` as `true` |
 | `reverse`   | `number` | Children reverse flow: `-1` or `1` |
+| `scrollable` | `number` | Children full size with gaps > target node size |
 
 ### Usage
 
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center">
@@ -189,8 +175,8 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 | Name      | Detail              | Description |
 | :-------- | :------------------ | :---------- |
 | `mount`   | `{options}`         | Fires when `node.children.length` & node.children isConnected |
-| `resize`  | `{ROE}`             | Fires on resize target node `ROE: ResizeObserverEntry[]`|
-| `mutate`  | `{ML}`              | Fires on mutation `childNodes` in target node `ML: MutationRecord[]`|
+| `resize`  | `{ROE,options}`     | Fires on resize target node `ROE: ResizeObserverEntry[]`|
+| `mutate`  | `{ML,options}`      | Fires on mutation `childNodes` in target node `ML: MutationRecord[]`|
 | `move`    | `{index,position}`  | Fires on any sliding |
 | `index`   | `{index}`           | Fires on each index change: `index === changed.index` |
 | `keys`    | `{e.key}`           | Fires if target node focusing and any key pressed. Predefined keys: `['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']` is `defaultPrevented` & navigate `to(index + options.clamp)`. Focus not in core & can do programaticaly or with `tabindex` attribute on target node. |
@@ -202,7 +188,6 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/element/dist/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center" onmove="onMove">
@@ -239,7 +224,6 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 ```html
 <head>
     <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@slidy/element/dist/index.css" />
 </head>
 
 <slidy-element id="slidy" index="5" snap="center" onmove="onMove">
@@ -267,8 +251,25 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 
 ## Styling
 
-`<slidy-element>` nested `@slidy/core` styles `outline: 0; overflow: hidden; user-select: none; -webkit-user-select:none;` & have base simple [stylesheet file](https://github.com/Valexr/Slidy/blob/master/packages/element/src/slidy.css). Also you can style it & his childs as native HTMLElements or you can pass CSSvariables props via `style` attribute or in css scope. For `<img>` children required pass `width/height` attributes.
+`<slidy-element>` nested `@slidy/core` styles `outline: 0; overflow: hidden; user-select: none; -webkit-user-select:none;` & have base simple incapsulated styles. Also you can style it & his childs as native HTMLElements or you can pass CSSvariables props via `style` attribute or in css scope. For `<img>` children required pass `width/height` attributes.
 
+### Incapsulated styles
+
+```css
+:host {
+    display: flex;
+    flex-flow: var(--flow);
+    gap: var(--gap, 1rem);
+    width: 100%;
+    height: var(--height, 20rem);
+}
+
+::slotted(*) {
+    flex: 0 0 var(--width, auto);
+    width: var(--width, auto);
+    height: 100%;
+}
+```
 ### CSS variables
 
 | Name       | Default | Description              |
@@ -284,9 +285,7 @@ Slidy instance reinit on every change childNodes.length in `on:mutate` event.
 <head>
     <script src="https://unpkg.com/@slidy/core/dist/index.js"></script>
 
-    <style>
-        @import url('https://unpkg.com/@slidy/element/dist/index.css');
-        
+    <style>        
         #slidy {
             --flow: row;
             border: 1px solid red;
