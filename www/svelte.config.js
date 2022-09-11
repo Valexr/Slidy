@@ -11,7 +11,7 @@ const config = {
     extensions: ['.svelte', '.svx'],
     kit: {
         adapter: adapter({
-            fallback: 'index.html',
+            fallback: true,
         }),
         trailingSlash: 'always',
         paths: {
