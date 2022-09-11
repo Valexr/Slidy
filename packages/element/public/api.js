@@ -45,7 +45,6 @@ export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
             } else if (node.id === 'thumbs') {
                 return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
             }
-            else return `<button id="${i}">${i}</button>`;
         });
         return slides.join('');
     }
@@ -61,16 +60,16 @@ export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
         return size * devicePixelRatio;
     }
 
-    // const options = {
-    //     method: 'GET',
-    //     headers: {
-    //         'X-RapidAPI-Key': '6bb2d7ae39msh1a78a65afe6fca6p167ed5jsnae6b023541e8',
-    //         'X-RapidAPI-Host': 'google-image-search1.p.rapidapi.com'
-    //     }
-    // };
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '6bb2d7ae39msh1a78a65afe6fca6p167ed5jsnae6b023541e8',
+            'X-RapidAPI-Host': 'google-image-search1.p.rapidapi.com'
+        }
+    };
 
-    // fetch('https://google-image-search1.p.rapidapi.com/v2/?q=Paris&hl=en', options)
-    //     .then(response => response.json())
-    //     .then(response => console.log(response))
-    //     .catch(err => console.error(err));
+    fetch('https://google-image-search1.p.rapidapi.com/v2/?q=Paris&hl=en', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
 }

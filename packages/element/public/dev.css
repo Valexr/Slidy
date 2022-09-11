@@ -1,10 +1,6 @@
 @import 'https://unpkg.com/open-props';
 @import 'https://unpkg.com/open-props/normalize.min.css';
 
-:where(li) {
-    padding-inline-start: 0;
-}
-
 header,
 footer {
     margin: var(--size-fluid-2) auto;
@@ -19,7 +15,6 @@ article {
 
 a {
     color: var(--accent);
-    text-decoration: none;
 }
 
 a:hover {
@@ -30,104 +25,17 @@ a:visited {
     color: var(--accent);
 }
 
-label {
-    display: block;
-    /* text-align: center; */
-}
-
-section#s1 {
-    /* gap: 1rem; */
-    display: flex;
-    flex-flow: row nowrap;
-    max-height: 300px;
-}
-
-section#s1>* {
-    flex: 1 0 50%;
-    /* width: 50%; */
-}
-
-section#s2,
-section#s3,
-section#s4 {
-    /* flex: 1 0 50%; */
-    display: flex;
-}
-
-section#s2>*,
-section#s3>*,
-section#s4>* {
-    flex: 1 0 30%;
+b {
+    color: var(--accent);
 }
 
 input,
 button,
 select,
 textarea {
-    font-family: inherit;
-    font-size: inherit;
-    padding: 0.4em;
-    box-sizing: border-box;
     color: var(--text-2);
-    /* color: var(--color); */
     background-color: var(--surface-1);
-    /* border: 1px solid transparent; */
-    /* border-radius: var(--radius-conditional-3); */
     accent-color: var(--accent);
-}
-
-input:disabled {
-    color: #ccc;
-}
-
-button {
-    /* color: var(--color); */
-    /* background-color: var(--back); */
-    outline: none;
-    cursor: pointer;
-}
-
-button:disabled {
-    color: #999;
-}
-
-button:not(:disabled):active {
-    /* background-color: var(--color); */
-    /* border-color: var(--accent); */
-    /* color: var(--back); */
-}
-
-button:focus {
-    /* border-color: var(--accent); */
-}
-
-nav,
-form {
-    /* margin: 1rem 0; */
-    /* will-change: transform, border-color, color; */
-}
-
-b {
-    color: var(--accent);
-}
-
-nav#dots {
-    display: flex;
-    overflow-x: scroll;
-    gap: 0.5ex;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-nav#dots::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-nav#dots {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
 
 fieldset {

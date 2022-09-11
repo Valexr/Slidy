@@ -131,14 +131,6 @@
                 <button id="next" onclick="node.setAttribute('index', node.index+1)">→</button>
             </nav>
 
-            <nav id="dots"></nav>
-
-            <nav id="buttons">
-                <button id="loop" onclick="node.setAttribute('loop', node.loop = !node.loop)">
-                    loop
-                </button>
-            </nav>
-
             <form>
                 <fieldset>
                     <label title="axis">axis
@@ -154,6 +146,10 @@
                     <label title="easing">easing
                         <select id="easing" name="easing"
                             onchange="node.update({ easing: easings[this.value] })"></select>
+                    </label>
+                    <label title="loop">loop
+                        <input type="checkbox" id="loop" name="loop" style="margin-top: 0.75rem;"
+                            onchange="node.setAttribute('loop', this.checked)"></input>
                     </label>
                 </fieldset>
             </form>

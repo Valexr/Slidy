@@ -76,7 +76,7 @@ export default class Slidy extends HTMLElement {
 
     connectedCallback() {
         if (this.isConnected) {
-            console.log(this.id, this._options);
+            // console.log(this.id, this._options);
             this.init(this._options);
         }
     }

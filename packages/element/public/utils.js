@@ -9,12 +9,9 @@ export function moving(e) {
     thumbs.childNodes.forEach((t, i) =>
         +t.id === e.index ? t.classList.add('active') : t.classList.remove('active')
     );
-    dots.childNodes.forEach((d, i) =>
-        +d.id === e.index ? d.classList.add('active') : d.classList.remove('active')
-    );
 }
 export function indexing(x) {
-    thumbs.to(x);
+    thumbs.setAttribute('index', x);
 }
 
 export function changeLength(target) {
