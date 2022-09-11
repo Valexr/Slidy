@@ -1,7 +1,7 @@
 export async function getSlides(limit = 9) {
     node.innerHTML = `Loading... 🚀`;
     try {
-        const photos = await getImages(limit);
+        const photos = await getImages(limit, { width: node.clientWidth, height: node.clientHeight });
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
@@ -15,10 +15,7 @@ export async function getSlides(limit = 9) {
 
     function createSlides(node, photos) {
         const slides = photos.map(({ width, height, src, alt }, i) => {
-            const source = { width, height };
-            const max = { width: node.clientWidth, height: node.clientHeight };
-            const { W, H } = aspect(source, max);
-            const imgSize = `width="${W}" height="${H}"`;
+            const imgSize = `width="${width}" height="${height}"`;
             const thumbsSize = `width="100" height="100"`;
             const background = `background-image: url(${src})`;
 
@@ -37,16 +34,15 @@ export async function getSlides(limit = 9) {
         const res = await fetch(url);
         const json = await res.json();
 
-        return json.reduce((acc, [src, width, height, alt], i) => {
+        return json.reduce((acc, [src, width, height, author], i) => {
             if (indexes.includes(i)) {
                 const source = { width, height };
                 const max = { width: size.width, height: size.height };
-                const { W, H } = aspect(source, max);
+                const query = `?w=${ratio(aspect(source, max).width)}`;
                 acc.push({
-                    src: `https://images.unsplash.com${src}?w=${ratio(W)}`,
-                    width: W,
-                    height: H,
-                    alt: `Image by ${alt} from Unsplash`
+                    src: `https://images.unsplash.com${src}${query}`,
+                    alt: `Image by ${author} from Unsplash`,
+                    ...aspect(source, max)
                 });
             }
             return acc;
@@ -55,13 +51,13 @@ export async function getSlides(limit = 9) {
         function ratio(size) {
             return size * devicePixelRatio;
         }
-    }
 
-    function aspect(src, max) {
-        let ratio = Math.min(max.width / src.width, max.height / src.height);
-        return {
-            W: Math.round(src.width * ratio),
-            H: Math.round(src.height * ratio),
-        };
+        function aspect(src, max) {
+            const ratio = Math.min(max.width / src.width, max.height / src.height);
+            return {
+                width: Math.round(src.width * ratio),
+                height: Math.round(src.height * ratio),
+            };
+        }
     }
 }

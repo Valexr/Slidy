@@ -35,16 +35,15 @@ async function getImages(limit: number = 9, size = { width: 1280, height: 800 })
 
     type Image = { src: string; width: any; height: any; alt: string; }
 
-    return json.reduce((acc: Image[], [src, w, h, alt]: any, i: number) => {
+    return json.reduce((acc: Image[], [src, width, height, author]: any, i: number) => {
         if (indexes.includes(i)) {
-            const source = { width: w, height: h };
+            const source = { width, height };
             const max = { width: size.width, height: size.height };
-            const { width, height } = applyRatio(source, max);
+            const query = `?w=${ratio(applyRatio(source, max).width)}`;
             acc.push({
-                src: `https://images.unsplash.com${src}?w=${ratio(width)}`,
-                width,
-                height,
-                alt: `Image by ${alt} from Unsplash`
+                src: `https://images.unsplash.com${src}${query}`,
+                alt: `Image by ${author} from Unsplash`,
+                ...applyRatio(source, max)
             });
         }
         return acc;
