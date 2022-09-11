@@ -1,7 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
 import { eslintPlugin } from 'esbuild-plugin-eslinter';
-import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
@@ -67,13 +66,11 @@ if (DEV || CORE) {
         })
         .catch(() => process.exit(1));
 } else {
-    prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
-    });
+    for (const key in builds) {
+        build({
+            ...esbuildBase,
+            ...builds[key],
+            format: key,
+        });
+    }
 }
