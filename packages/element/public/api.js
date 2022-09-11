@@ -1,7 +1,7 @@
-export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
+export async function getSlides(limit = 9) {
     node.innerHTML = `Loading... 🚀`;
     try {
-        const photos = await getPhotos({ width: 1280, height: 800 }, limit);
+        const photos = await getImages(limit);
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
@@ -13,32 +13,14 @@ export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
         node.innerHTML = error;
     }
 
-    function getPhotos(size, limit) {
-        return new Promise((resolve, reject) => {
-            const photos = [...Array(limit).keys()].map(() => {
-                const width = utils.randomQ(size.width, ratio(size.width));
-                const height = utils.randomQ(size.height, ratio(size.height));
-                const source = { width, height };
-                const max = { width: node.clientWidth, height: node.clientHeight - gap * 2 };
-                const { W, H } = aspect(source, max);
-                const src = `https://source.unsplash.com/random/${ratio(W)}x${ratio(H)}?${themes}`;
-                return { width, height, src };
-            });
-            if (photos.length === limit) {
-                setTimeout(() => resolve(photos), 500);
-            } else reject('No photos');
-        });
-    }
-
     function createSlides(node, photos) {
-        const slides = photos.map(({ width, height, src }, i) => {
+        const slides = photos.map(({ width, height, src, alt }, i) => {
             const source = { width, height };
-            const max = { width: node.clientWidth, height: node.clientHeight - gap * 2 };
+            const max = { width: node.clientWidth, height: node.clientHeight };
             const { W, H } = aspect(source, max);
             const imgSize = `width="${W}" height="${H}"`;
             const thumbsSize = `width="100" height="100"`;
             const background = `background-image: url(${src})`;
-            const alt = `unsplashPhoto#${i}`;
 
             if (node.id === 'node') {
                 return `<img id="${i}" src="${src}" ${imgSize} alt="${alt}"/>`;
@@ -49,6 +31,32 @@ export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
         return slides.join('');
     }
 
+    async function getImages(limit, size = { width: 1280, height: 800 }) {
+        const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
+        const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 25000));
+        const res = await fetch(url);
+        const json = await res.json();
+
+        return json.reduce((acc, [src, width, height, alt], i) => {
+            if (indexes.includes(i)) {
+                const source = { width, height };
+                const max = { width: size.width, height: size.height };
+                const { W, H } = aspect(source, max);
+                acc.push({
+                    src: `https://images.unsplash.com${src}?w=${ratio(W)}`,
+                    width: W,
+                    height: H,
+                    alt: `Image by ${alt} from Unsplash`
+                });
+            }
+            return acc;
+        }, []);
+
+        function ratio(size) {
+            return size * devicePixelRatio;
+        }
+    }
+
     function aspect(src, max) {
         let ratio = Math.min(max.width / src.width, max.height / src.height);
         return {
@@ -56,20 +64,4 @@ export async function getSlides(limit = 9, themes = 'jpg', gap = 32) {
             H: Math.round(src.height * ratio),
         };
     }
-    function ratio(size) {
-        return size * devicePixelRatio;
-    }
-
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '6bb2d7ae39msh1a78a65afe6fca6p167ed5jsnae6b023541e8',
-            'X-RapidAPI-Host': 'google-image-search1.p.rapidapi.com'
-        }
-    };
-
-    fetch('https://google-image-search1.p.rapidapi.com/v2/?q=Paris&hl=en', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
 }

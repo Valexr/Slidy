@@ -10,7 +10,7 @@ export const getPhotos: GetPhotos<Slide> = async ({
     let data: ImageSchema[] = [];
 
     try {
-        data = await getImages({ width, height }, limit);
+        data = await getImages(limit, { width, height });
     } catch (error) {
         console.error(`Could not fetch photos: ${error}`);
     }
@@ -27,26 +27,32 @@ export const getPhotos: GetPhotos<Slide> = async ({
     });
 };
 
-function getImages(size: { width: number, height: number }, limit: number): Promise<ImageSchema[]> {
-    return new Promise((resolve, reject) => {
-        const photos = [...Array(limit).keys()].map((id: number) => {
-            const dPR = (size: number) => Math.round(size * devicePixelRatio);
+async function getImages(limit: number = 9, size = { width: 1280, height: 800 }) {
+    const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
+    const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 25000));
+    const res = await fetch(url);
+    const json = await res.json();
 
-            const width = randInt(dPR(size.width), dPR(size.height));
-            const height = randInt(dPR(size.height), dPR(size.width));
+    type Image = { src: string; width: any; height: any; alt: string; }
 
-            return {
-                id,
-                author: 'Unsplash',
+    return json.reduce((acc: Image[], [src, w, h, alt]: any, i: number) => {
+        if (indexes.includes(i)) {
+            const source = { width: w, height: h };
+            const max = { width: size.width, height: size.height };
+            const { width, height } = applyRatio(source, max);
+            acc.push({
+                src: `https://images.unsplash.com${src}?w=${ratio(width)}`,
                 width,
                 height,
-                src: `https://source.unsplash.com/random/${width}x${height}?jpg`
-            };
-        });
-        if (photos.length === limit) {
-            setTimeout(() => resolve(photos), 500);
-        } else reject('No photos');
-    });
+                alt: `Image by ${alt} from Unsplash`
+            });
+        }
+        return acc;
+    }, []);
+
+    function ratio(size: number) {
+        return size * devicePixelRatio;
+    }
 }
 
 const applyRatio = (src: Size, size: Size): Size => {
