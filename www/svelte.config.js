@@ -11,10 +11,7 @@ const config = {
     extensions: ['.svelte', '.svx'],
     kit: {
         adapter: adapter({
-            pages: 'build',
-            assets: 'build',
             fallback: 'index.html',
-            precompress: false
         }),
         trailingSlash: 'always',
         paths: {
