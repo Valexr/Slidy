@@ -2,6 +2,7 @@
 
 
 ## 3.6.1 - fix issues & updates
+- [guard loop in mutate](https://github.com/Valexr/Slidy/commit/50b2a6ecb79d5724db3c6b1b357bad86c997dfc6)
 - [fix reinit only !moved](https://github.com/Valexr/Slidy/commit/3ccad98f61f0fe209dde8d01e1876983b9dfcfce)
 - [fix snap === 'deck'](https://github.com/Valexr/Slidy/commit/02a0d4868db5f99461147309f09043c34bb3ff58)
 - [ix types](https://github.com/Valexr/Slidy/commit/0656cc5153da1e21a570a5d5522cba80314e0499)
