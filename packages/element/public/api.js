@@ -43,7 +43,7 @@ export async function getSlides(limit = 9) {
 
             return photos.reduce((acc, [src, aspectRatio, author], i) => {
                 if (indexes.includes(i)) {
-                    const source = { width: size.height * aspectRatio / 10, height: size.height };
+                    const source = { width: size.height * (aspectRatio / 10), height: size.height };
                     const max = { width: size.width, height: size.height };
                     const query = `?w=${ratio(aspect(source, max).width)}`;
                     acc.push({
