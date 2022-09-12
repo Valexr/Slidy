@@ -28,7 +28,7 @@ export const getPhotos: GetPhotos<Slide> = async ({
 
 async function getImages(limit: number = 9, size = { width: 1280, height: 800 }) {
     const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
-    const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24699));
+    const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
 
     type Image = { src: string; width: number; height: number; alt: string; }
 

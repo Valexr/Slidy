@@ -30,7 +30,7 @@ export async function getSlides(limit = 9) {
 
     async function getImages(limit, size = { width: 1280, height: 800 }) {
         const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
-        const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24699));
+        const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
 
         if (typeof window === 'object') {
             let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '[]');
