@@ -1,7 +1,7 @@
 export async function getSlides(limit = 9) {
     node.innerHTML = `Loading... 🚀`;
     try {
-        const photos = await getImages(limit, { width: node.clientWidth, height: node.clientHeight });
+        const photos = await getImages(limit, { width: node.clientWidth, height: node.clientHeight - 64 });
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
@@ -14,7 +14,7 @@ export async function getSlides(limit = 9) {
     }
 
     function createSlides(node, photos) {
-        const slides = photos.map(({ width, height, src, alt }, i) => {
+        const slides = photos.map(({ src, width, height, alt }, i) => {
             const imgSize = `width="${width}" height="${height}"`;
             const thumbsSize = `width="100" height="100"`;
             const background = `background-image: url(${src})`;
@@ -30,17 +30,17 @@ export async function getSlides(limit = 9) {
 
     async function getImages(limit, size = { width: 1280, height: 800 }) {
         const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
-        const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 25000));
+        const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24699));
         const res = await fetch(url);
         const json = await res.json();
 
-        return json.reduce((acc, [src, width, height, author], i) => {
+        return json.reduce((acc, [src, aspectRatio, author], i) => {
             if (indexes.includes(i)) {
-                const source = { width, height };
+                const source = { width: size.height * aspectRatio, height: size.height };
                 const max = { width: size.width, height: size.height };
                 const query = `?w=${ratio(aspect(source, max).width)}`;
                 acc.push({
-                    src: `https://images.unsplash.com${src}${query}`,
+                    src: `https://images.unsplash.com/photo-${src}${query}`,
                     alt: `Image by ${author} from Unsplash`,
                     ...aspect(source, max)
                 });
