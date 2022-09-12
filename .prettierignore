@@ -7,3 +7,5 @@ build
 *.log
 
 /packages/svelte
+
+/assets/static/photos.json
