@@ -2,9 +2,8 @@ import type { ImageSchema, GetPhotos, Size, Slide } from '../types';
 
 export const getPhotos: GetPhotos<Slide> = async ({
     limit = 5,
-    page = 1,
-    width = 1280,
-    height = 800,
+    width = window.innerWidth,
+    height = window.innerHeight,
 }) => {
     let data: ImageSchema[] = [];
 
@@ -26,7 +25,7 @@ export const getPhotos: GetPhotos<Slide> = async ({
     });
 };
 
-async function getImages(limit: number = 9, size = { width: 1280, height: 800 }) {
+async function getImages(limit: number = 9, size = { width: window.innerWidth, height: window.innerHeight }) {
     const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
     const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
     const res = await fetch(url);
