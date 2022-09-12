@@ -1,7 +1,10 @@
 export async function getSlides(limit = 9) {
     node.innerHTML = `Loading... 🚀`;
     try {
-        const photos = await getImages(limit, { width: node.clientWidth, height: node.clientHeight - 64 });
+        const photos = await getImages(limit, {
+            width: node.clientWidth,
+            height: node.clientHeight - 64,
+        });
         if (node.isConnected && photos.length) {
             node.innerHTML = createSlides(node, photos);
             thumbs.innerHTML = createSlides(thumbs, photos);
@@ -29,7 +32,8 @@ export async function getSlides(limit = 9) {
     }
 
     async function getImages(limit, size = { width: 1280, height: 800 }) {
-        const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
+        const url =
+            'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
         const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
         const res = await fetch(url);
         const photos = await res.json();
@@ -42,12 +46,11 @@ export async function getSlides(limit = 9) {
                 acc.push({
                     src: `https://images.unsplash.com/photo-${src}${query}`,
                     alt: `Image by ${author} from Unsplash`,
-                    ...aspect(source, max)
+                    ...aspect(source, max),
                 });
             }
             return acc;
         }, []);
-
 
         function ratio(size) {
             return size * devicePixelRatio;

@@ -48,7 +48,7 @@
 
 /* vertical mode */
 
-.slidy-nav[aria-orientation="vertical"] {
+.slidy-nav[aria-orientation='vertical'] {
     flex-flow: column nowrap;
 }
 

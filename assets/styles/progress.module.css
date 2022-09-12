@@ -20,25 +20,25 @@
 
 .slidy-progress-input {
     position: relative;
-	-webkit-appearance: none;
-	appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
     justify-self: center;
-	width: calc(100% - 0.75 * var(--_slidy-progress-size));
-	background-color: transparent;
+    width: calc(100% - 0.75 * var(--_slidy-progress-size));
+    background-color: transparent;
 }
 
 .slidy-progress-input::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .slidy-progress-input::-ms-track {
-	width: 100%;
-	cursor: pointer;
-	/* Hides the slider so custom styles can be added */
-	background: transparent; 
-	border-color: transparent;
-	color: transparent;
+    width: 100%;
+    cursor: pointer;
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
 }
 
 .slidy-progress-input:active + .slidy-progress-handle {

@@ -51,7 +51,7 @@ form {
     flex-wrap: wrap;
 }
 
-form>* {
+form > * {
     display: flex;
 }
 
@@ -188,8 +188,8 @@ section {
     padding: var(--gap, 1rem) 0;
 }
 
-#node>*,
-#thumbs>* {
+#node > *,
+#thumbs > * {
     max-width: 85%;
     box-shadow: var(--shadow-3);
     background: var(--surface-1);

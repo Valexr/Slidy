@@ -23,8 +23,7 @@ export default class Slidy extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({ mode: 'closed' })
-            .innerHTML = `
+        this.attachShadow({ mode: 'closed' }).innerHTML = `
                 <style>
                     :host {
                         display: flex;
@@ -41,7 +40,7 @@ export default class Slidy extends HTMLElement {
                     }
                 </style>
                 <slot/>
-            `
+            `;
         this.setUpAccessors(Slidy.observedAttributes);
         this._options = this.setUpOptions(Slidy.observedAttributes);
     }

@@ -32,20 +32,26 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         track = 0,
         clamped = false,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index as number,
+        INDEX = (hix = options.index as number),
         POSITION = options.position as number,
         DIRECTION = options.direction as number,
-        DURATION = options.duration as number / 2,
+        DURATION = (options.duration as number) / 2,
         SENSITY = options.sensity as number,
         GRAVITY = options.gravity as number,
-        CLAMP = options.clamp as number
+        CLAMP = options.clamp as number;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
-        ['scroll', () => { to(INDEX); GRAVITY = 2; }]
+        [
+            'scroll',
+            () => {
+                to(INDEX);
+                GRAVITY = 2;
+            },
+        ],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -66,15 +72,16 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record: MutationRecord) => {
-            const mutatedNodes = [...record.addedNodes, ...record.removedNodes]
-            if (!mutatedNodes.every(node => 'index' in node)) {
+            const { addedNodes, removedNodes } = record;
+            const mutatedNodes = [...addedNodes, ...removedNodes];
+            if (!mutatedNodes.every((node) => 'index' in node)) {
                 destroy().then(init);
             }
         });
         dispatch(node, 'mutate', { ML, options });
     });
 
-    const RAF = requestAnimationFrame
+    const RAF = requestAnimationFrame;
 
     const CSS = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
 
@@ -83,7 +90,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function init() {
         mount(node)
             .then(() => {
-                $ = () => dom(node, options)
+                $ = () => dom(node, options);
 
                 node.style.cssText += CSS;
                 node.onwheel = throttle(onWheel, DURATION, CLAMP);
@@ -129,7 +136,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         RAF(frame);
 
         function frame(now: number) {
-            start ??= now
+            start ??= now;
             const elapsed = start - now;
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
@@ -204,7 +211,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
         const index = INDEX + Math.sign(coord) * (CLAMP || 1);
-        const snaped = options.snap || clamped || $().edges()
+        const snaped = options.snap || clamped || $().edges();
         const sensed = $().sense(e, coord, SENSITY);
         const pos = $().edges() ? coord / 5 : coord;
         const ix = clamped ? index : INDEX;
@@ -223,7 +230,8 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
             if (X || edged || e.shiftKey) e.preventDefault();
 
-            const throttled = CLAMP > 0 || (options.axis === 'y' && !options.vertical) || e.shiftKey;
+            const throttled =
+                CLAMP > 0 || (options.axis === 'y' && !options.vertical) || e.shiftKey;
 
             if (clamped !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);

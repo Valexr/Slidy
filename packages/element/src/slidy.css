@@ -6,7 +6,7 @@ slidy-element {
     height: var(--height, 20rem);
 }
 
-slidy-element>* {
+slidy-element > * {
     flex: 0 0 var(--width, auto);
     width: var(--width, auto);
     height: 100%;

@@ -74,30 +74,30 @@ export default () => {
 
 ### Core Component API
 
-| Property    |   Default   |                                Type                                 | Description                                                           |
-| :---------- | :---------: | :-----------------------------------------------------------------: | :-------------------------------------------------------------------- |
-| `animation` | `undefined` |                          `AnimationFunc `                           | Custom slide animation.                                               |
-| `axis`      |    `"x"`    |                           `"x"` or `"y"`                            | The scroll direction.                                                 |
-| `clamp`     |     `0`     |                              `number`                               | Defines number of items to jump over at one slide action.             |
-| `className` |    `""`     |                              `string`                               | Passes the `class` to the node.                                       |
-| `duration`  |    `450`    |                              `number`                               | Slide transitions duration value.                                     |
-| `easing`    | `undefined` |                       `(t: number => number)`                       | Inertion scroll easing behaviour.                                     |
-| `gravity`   |    `1.2`    |                              `number`                               | Scroll inertia value.                                                 |
-| `indent`    |     `0`     |                              `number`                               | Custom scroll indent value, calculates as `gap * indent`.             |
-| `index`     |     `0`     |                              `number`                               | The index of the initial slide.                                       |
-| `loop`      |   `false`   |                              `boolean`                              | Makes the slideshow continious.                                       |
-| `position`  |     `0`     |                              `number`                               | The current position value of the carousel.                           |
-| `sensity`   |     `5`     |                              `number`                               | Defines the sliding sensity as the number of pixels required to drag. |
-| `snap`      | `undefined` |           `"start"` or `"center"` or `"end"` or `"deck"`            | Enforces the scroll stop positions.                                   |
-| `tag`       |    `ol`     |                              `string`                               | The HTML tag name to render.                                          |
-| `onResize`  | `undefined` |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void`    | Listen to the core event `resize` to fire.                            |
-| `onMutate`  | `undefined` |      `(event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void`       | Listen to the core event `mutate` to fire.                            |
-| `onMount`   | `undefined` |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                             |
-| `onMove`    | `undefined` | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                              |
-| `onIndex`   | `undefined` |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                             |
-| `onKeys`    | `undefined` |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                              |
-| `onUpdate`  | `undefined` |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                            |
-| `onDestroy` | `undefined` |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                           |
+| Property    |   Default   |                                           Type                                            | Description                                                           |
+| :---------- | :---------: | :---------------------------------------------------------------------------------------: | :-------------------------------------------------------------------- |
+| `animation` | `undefined` |                                     `AnimationFunc `                                      | Custom slide animation.                                               |
+| `axis`      |    `"x"`    |                                      `"x"` or `"y"`                                       | The scroll direction.                                                 |
+| `clamp`     |     `0`     |                                         `number`                                          | Defines number of items to jump over at one slide action.             |
+| `className` |    `""`     |                                         `string`                                          | Passes the `class` to the node.                                       |
+| `duration`  |    `450`    |                                         `number`                                          | Slide transitions duration value.                                     |
+| `easing`    | `undefined` |                                  `(t: number => number)`                                  | Inertion scroll easing behaviour.                                     |
+| `gravity`   |    `1.2`    |                                         `number`                                          | Scroll inertia value.                                                 |
+| `indent`    |     `0`     |                                         `number`                                          | Custom scroll indent value, calculates as `gap * indent`.             |
+| `index`     |     `0`     |                                         `number`                                          | The index of the initial slide.                                       |
+| `loop`      |   `false`   |                                         `boolean`                                         | Makes the slideshow continious.                                       |
+| `position`  |     `0`     |                                         `number`                                          | The current position value of the carousel.                           |
+| `sensity`   |     `5`     |                                         `number`                                          | Defines the sliding sensity as the number of pixels required to drag. |
+| `snap`      | `undefined` |                      `"start"` or `"center"` or `"end"` or `"deck"`                       | Enforces the scroll stop positions.                                   |
+| `tag`       |    `ol`     |                                         `string`                                          | The HTML tag name to render.                                          |
+| `onResize`  | `undefined` | `(event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void` | Listen to the core event `resize` to fire.                            |
+| `onMutate`  | `undefined` |    `(event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void`    | Listen to the core event `mutate` to fire.                            |
+| `onMount`   | `undefined` |                     `(event: CustomEvent<SlidyCoreOptions>) => void`                      | Listen to the core event `mount` to fire.                             |
+| `onMove`    | `undefined` |            `(event: CustomEvent<{ index: number; position: number }>) => void`            | Listen to the core event `move` to fire.                              |
+| `onIndex`   | `undefined` |                     `(event: CustomEvent<{ index: number }>) => void`                     | Listen to the core event `index` to fire.                             |
+| `onKeys`    | `undefined` |                          `(event: CustomEvent<string>) => void`                           | Listen to the core event `keys` to fire.                              |
+| `onUpdate`  | `undefined` |                     `(event: CustomEvent<SlidyCoreOptions>) => void`                      | Listen to the core event `update` to fire.                            |
+| `onDestroy` | `undefined` |                        `(event: CustomEvent<HTMLElement>) => void`                        | Listen to the core event `destroy` to fire.                           |
 
 For TypeScript users there is the `SlidyCoreOptions` interface available via named import.
 
