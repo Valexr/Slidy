@@ -29,32 +29,24 @@ export const getPhotos: GetPhotos<Slide> = async ({
 async function getImages(limit: number = 9, size = { width: 1280, height: 800 }) {
     const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
     const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
+    const res = await fetch(url);
+    const photos = await res.json();
 
     type Image = { src: string; width: number; height: number; alt: string; }
 
-    if (typeof window === 'object') {
-        let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '[]');
-
-        if (!photos?.length) {
-            const res = await fetch(url);
-            photos = await res.json();
-            sessionStorage.setItem('slidy_photos', JSON.stringify(photos));
+    return photos.reduce((acc: Image[], [src, aspectRatio, author]: [string, number, string], i: number) => {
+        if (indexes.includes(i)) {
+            const source = { width: size.height * (aspectRatio / 10), height: size.height };
+            const max = { width: size.width, height: size.height };
+            const query = `?w=${ratio(applyRatio(source, max).width)}`;
+            acc.push({
+                src: `https://images.unsplash.com/photo-${src}${query}`,
+                alt: `Image by ${author} from Unsplash`,
+                ...applyRatio(source, max)
+            });
         }
-
-        return photos.reduce((acc: Image[], [src, aspectRatio, author]: [string, number, string], i: number) => {
-            if (indexes.includes(i)) {
-                const source = { width: size.height * (aspectRatio / 10), height: size.height };
-                const max = { width: size.width, height: size.height };
-                const query = `?w=${ratio(applyRatio(source, max).width)}`;
-                acc.push({
-                    src: `https://images.unsplash.com/photo-${src}${query}`,
-                    alt: `Image by ${author} from Unsplash`,
-                    ...applyRatio(source, max)
-                });
-            }
-            return acc;
-        }, []);
-    }
+        return acc;
+    }, []);
 
     function ratio(size: number) {
         return size * devicePixelRatio;
