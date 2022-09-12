@@ -33,7 +33,7 @@ async function getImages(limit: number = 9, size = { width: 1280, height: 800 })
     type Image = { src: string; width: number; height: number; alt: string; }
 
     if (typeof window === 'object') {
-        let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '');
+        let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '[]');
 
         if (!photos?.length) {
             const res = await fetch(url);

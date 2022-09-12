@@ -33,7 +33,7 @@ export async function getSlides(limit = 9) {
         const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24699));
 
         if (typeof window === 'object') {
-            let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '');
+            let photos = JSON.parse(sessionStorage.getItem('slidy_photos') || '[]');
 
             if (!photos.length) {
                 const res = await fetch(url);
