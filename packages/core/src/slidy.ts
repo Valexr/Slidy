@@ -31,6 +31,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         ets = 0,
         track = 0,
         clamped = false,
+        moved = false,
         wst: NodeJS.Timeout | undefined,
         INDEX = hix = options.index as number,
         POSITION = options.position as number,
@@ -66,7 +67,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record) => {
-            if (record.type === 'childList' && !options.loop) {
+            if (record.type === 'childList' && !moved) {
                 destroy().then(init);
             }
         });
@@ -105,6 +106,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         INDEX = options.index = $().index(POSITION);
         GRAVITY = $().edges() ? 1.8 : options.gravity;
         SENSITY = 0;
+        moved = true
 
         $().animate();
         dispatch(node, 'move', { index: INDEX, position: POSITION });
@@ -242,6 +244,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function clear(): void {
+        moved = false
         clearTimeout(wst);
         cancelAnimationFrame(raf);
         listen(window, WINDOW_EVENTS, false);
