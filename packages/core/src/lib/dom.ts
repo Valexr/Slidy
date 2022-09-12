@@ -42,7 +42,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const end = pos(reverse < 0 ? 0 : last, 'end');
         const current = pos(index, snap)
 
-        return options.loop ? current : clamp(start, current, end);
+        return options.loop || snap === 'deck' ? current : clamp(start, current, end);
 
         function pos(index: number, snap?: Options['snap']): number {
             const indented = child(index)[size] + gap * 2 < node[size];
