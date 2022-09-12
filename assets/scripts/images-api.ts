@@ -43,7 +43,7 @@ async function getImages(limit: number = 9, size = { width: 1280, height: 800 })
 
         return photos.reduce((acc: Image[], [src, aspectRatio, author]: [string, number, string], i: number) => {
             if (indexes.includes(i)) {
-                const source = { width: size.height * aspectRatio, height: size.height };
+                const source = { width: size.height * aspectRatio / 10, height: size.height };
                 const max = { width: size.width, height: size.height };
                 const query = `?w=${ratio(applyRatio(source, max).width)}`;
                 acc.push({
