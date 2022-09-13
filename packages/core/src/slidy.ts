@@ -16,11 +16,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         sensity: 2.5,
         gravity: 1.2,
         duration: 375,
-        animation: undefined,
-        easing: undefined,
-        snap: undefined,
-        axis: undefined,
-        loop: false,
         ...opts,
     };
 
@@ -45,13 +40,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
-        [
-            'scroll',
-            () => {
-                to(INDEX);
-                GRAVITY = 2;
-            },
-        ],
+        ['scroll', () => { to(INDEX); GRAVITY = 2; }],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -85,26 +74,32 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const CSS = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
 
+    const instance = { init, update, destroy, to }
+
     init();
 
     function init() {
-        mount(node)
-            .then(() => {
-                $ = () => dom(node, options);
+        mount(node).then(() => {
 
-                node.style.cssText += CSS;
-                node.onwheel = throttle(onWheel, DURATION, CLAMP);
+            $ = () => dom(node, options);
 
-                POSITION = options.position = $().position(options.loop);
+            node.style.cssText += CSS;
+            node.onwheel = throttle(onWheel, DURATION, CLAMP);
 
-                RO.observe(node);
-                MO.observe(node, { childList: true, subtree: true });
+            POSITION = options.position = $().position(options.loop);
 
-                listen(node, NODE_EVENTS);
-                listen(window, WINDOW_NATIVE_EVENTS);
-                dispatch(node, 'mount', { options });
-            })
-            .catch((error: Error) => console.error('Slidy:', error));
+            RO.observe(node);
+            MO.observe(node, { childList: true, subtree: true });
+
+            options.plugin?.({ node, options, instance })
+
+            listen(node, NODE_EVENTS);
+            listen(window, WINDOW_NATIVE_EVENTS);
+            dispatch(node, 'mount', { options });
+
+        }).catch((error: Error) => {
+            console.error('Slidy:', error)
+        })
     }
 
     function move(pos: number, index?: number): void {
@@ -302,5 +297,5 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         listen(window, WINDOW_NATIVE_EVENTS, false);
         dispatch(node, 'destroy', node);
     }
-    return { init, update, destroy, to };
+    return instance;
 }

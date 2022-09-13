@@ -14,8 +14,8 @@ export function dom(node: HTMLElement, options: Options): Dom {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-              nodes[last - 1][coord] * reverse -
-              nodes[last - Math.max(reverse, 0)][size]
+            nodes[last - 1][coord] * reverse -
+            nodes[last - Math.max(reverse, 0)][size]
             : 0;
     const full = nodes.reduce((acc, cur) => (acc += cur[size] + gap), 0);
     const scrollable = full > node.offsetWidth;

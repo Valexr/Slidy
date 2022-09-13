@@ -42,6 +42,11 @@ export interface Options {
      */
     easing?: EasingFunc;
     /**
+     * Slidy plugins.
+     * @see https://github.com/Valexr/Slidy/tree/master/packages/plugin 
+     */
+    plugin?: PluginFunc
+    /**
      * Control coordinate axis: `'x'`, `'y'`.
      */
     axis?: Axis;
@@ -117,8 +122,36 @@ export type AnimationArgs = {
 /**
  * Animation function
  * @see https://github.com/Valexr/Slidy/tree/master/packages/animation
+ * ```ts
+ * AnimationArgs = {
+ *  node: HTMLElement;
+ *  child: Child;
+ *  options: Partial<Options>;
+ *  translate: string;
+ * }
+ * ```
  */
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
+
+export type PluginArgs = {
+    node: HTMLElement,
+    options: Options,
+    instance: SlidyInstance
+}
+
+/**
+ * Plugin function
+ * @see https://github.com/Valexr/Slidy/tree/master/packages/plugin
+ * 
+ * ```ts
+ * PluginArgs = {
+ *  node: HTMLElement,
+ *  options: Options,
+ *  instance: SlidyInstance
+ * }
+ * ```
+ */
+export type PluginFunc = (args: PluginArgs) => void;
 
 export interface Dom {
     edges: (index?: number) => boolean;

@@ -98,9 +98,13 @@
                 sensity: 2.5,
                 gravity: 1.2,
                 duration: 375,
-                loop: true,
-                snap: '',
+                loop: false,
+                snap: 'center',
                 axis: 'x',
+                plugin: ({ node, options, instance }) => {
+                    console.log({ node, options, instance });
+                    node.onpointerenter = (e) => instance.to(options.index);
+                },
                 animation: animations.flip,
                 easing: easings.lenear,
             };
@@ -117,8 +121,12 @@
             window.addChild = () => {
                 node.innerHTML += `<li></li>`;
             };
+            window.plugin = ({ node, options, instance }) => {
+                console.log({ node, options, instance });
+                node.onpointerenter = (e) => instance.to(options.index);
+            },
 
-            console.log('window:', window);
+                console.log('window:', window);
 
             fetch('https://unpkg.com/@slidy/core/package.json', {
                 mode: 'cors',
