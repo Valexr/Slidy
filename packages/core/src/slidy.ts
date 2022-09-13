@@ -130,18 +130,19 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         RAF(frame);
 
-        let elapsed = 0, T = 0, easing = 0, dist = 0, delta = 0, dest = 0
+        let dist = 0, delta = 0
 
         function frame(now: number) {
             start ??= now;
-            elapsed = start - now;
-            T = Math.exp(elapsed / duration);
-            easing = options.easing?.(T) || T;
+            const elapsed = start - now;
+            const T = Math.exp(elapsed / duration);
+            const easing = options.easing?.(T) || T;
             dist = delta
             delta = distance * easing;
-            dest = ((dist - delta) % distance) || 0;
+            const dest = (dist - delta) % distance;
+            const pos = dest % delta ? dest : 0
 
-            move(dest, index);
+            move(pos, index);
 
             if (Math.round(delta)) {
                 raf = RAF(frame);

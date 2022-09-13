@@ -9,7 +9,7 @@ function mount(node: HTMLElement) {
             if (count >= 69) {
                 clearInterval(mounting);
                 reject('few slides');
-            } else if (node.children.length > 1) {
+            } else if (node.childElementCount) {
                 clearInterval(mounting);
                 resolve(indexed(node));
             }
