@@ -40,7 +40,7 @@ const d = `M ${r + stroke / 2}, ${r + stroke / 2} m -${r}, 0 a ${r},${r} 0 1,0 $
 const ButtonAutoplay: FC<Options> = (props) => {
     const { i18n } = useSlidy();
 
-    const setTitle = (state: State) => {
+    const getTitle = (state: State) => {
         if (state === 'play') {
             return i18n.stop;
         } else if (state === 'stop') {
@@ -67,7 +67,7 @@ const ButtonAutoplay: FC<Options> = (props) => {
                     d={d}
                 />
             </svg>
-            <button disabled={props.disabled} onClick={props.onClick} title={setTitle(props.state)}>
+            <button disabled={props.disabled} onClick={props.onClick} title={getTitle(props.state)}>
                 <svg viewBox="0 0 24 24">
                     <path d={iconPath[props.state]} />
                 </svg>

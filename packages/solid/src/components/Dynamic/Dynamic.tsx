@@ -1,11 +1,7 @@
 import { splitProps } from 'solid-js';
 import { spread } from 'solid-js/web';
 
-interface Options {
-    component: string;
-}
-
-type Props = Options & Record<string, unknown>;
+import type { Props } from './Dynamic.types'
 
 const Dynamic = (props: Props) => {
     const [p, others] = splitProps(props, ['component']);

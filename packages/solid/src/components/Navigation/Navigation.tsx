@@ -7,16 +7,7 @@ import { format } from '@slidy/assets/scripts/utils';
 import '@slidy/assets/styles/navigation.module.css';
 
 import type { VoidComponent } from 'solid-js';
-
-interface Options {
-    current: number;
-    start: number;
-    end: number;
-    ordinal: boolean;
-    vertical: boolean;
-    limit: number;
-    siblings: number;
-}
+import type { Props } from './Navigation.types'
 
 const defaultProps = {
     ordinal: false,
@@ -24,9 +15,6 @@ const defaultProps = {
     limit: 7,
     siblings: 1,
 };
-
-type Props = Pick<Options, 'start' | 'current' | 'end'> &
-    Partial<Omit<Options, 'start' | 'current' | 'end'>>;
 
 const Navigation: VoidComponent<Props> = ($props) => {
     const props = mergeProps(defaultProps, $props);

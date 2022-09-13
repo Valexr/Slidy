@@ -4,33 +4,12 @@ import { useSlidy } from '../Slidy/Slidy';
 import { format } from '@slidy/assets/scripts/utils';
 import { s } from '../../utils';
 
-import type { SlidyThumbOptions } from './thumbnail.types';
+import type { Props } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';
 
 import '@slidy/assets/styles/thumbnail.module.css';
 
-interface Options {
-    active: number;
-    animation: SlidyThumbOptions['animation'];
-    axis: SlidyThumbOptions['axis'];
-    background: boolean;
-    clamp: number;
-    duration: SlidyThumbOptions['duration'];
-    easing: SlidyThumbOptions['easing'];
-    getImgSrc: SlidyThumbOptions['getImgSrc'];
-    gravity: number;
-    indent: number;
-    index: number;
-    loop: boolean;
-    sensity: number;
-    slides: SlidyThumbOptions['slides'];
-    snap: SlidyThumbOptions['snap'];
-
-    onIndex?: (event: CustomEvent<{ index: number }>) => void;
-    onSelect?: (index: number) => void;
-}
-
-const defaultProps: Options = {
+const defaultProps: Props = {
     active: 0,
     animation: undefined,
     axis: 'x',
@@ -48,7 +27,7 @@ const defaultProps: Options = {
     snap: undefined,
 };
 
-const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
+const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
     const { classNames, i18n } = useSlidy();
@@ -75,13 +54,13 @@ const Thumbnail: VoidComponent<Partial<Options>> = ($props) => {
                             role="group"
                             style={s({
                                 '--_slidy-slide-bg': props.background
-                                    ? `url(${props.getImgSrc(item)})`
+                                    ? `url(${props.getImgSrc?.(item)})`
                                     : '',
                             })}
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>
-                                <Image {...item} src={props.getImgSrc(item)} />
+                                <Image {...item} src={props.getImgSrc?.(item)} />
                             </Show>
                         </button>
                     );

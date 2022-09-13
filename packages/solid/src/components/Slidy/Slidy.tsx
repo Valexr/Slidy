@@ -22,9 +22,8 @@ import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
 
-import type { Options as SlidyCoreOptions } from '@slidy/core';
-import type { Slide, SlidyOptions } from './Slidy.types';
-import type { Component, JSX, Setter, Accessor } from 'solid-js';
+import type { Props } from './Slidy.types';
+import type { Component, } from 'solid-js';
 
 declare module 'solid-js' {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -37,113 +36,7 @@ declare module 'solid-js' {
     }
 }
 
-interface Options {
-    animation?: SlidyOptions['animation'];
-    /**
-     * @default 'x'
-     */
-    axis?: SlidyOptions['axis'];
-    /**
-     * Defines the slides flow by using `aria-orientation`
-     * @default false
-     */
-    vertical?: boolean;
-    /**
-     * @default false
-     */
-    background?: boolean;
-    /**
-     * @default true
-     */
-    counter?: boolean;
-    /**
-     * Defines number of items to jump over at one slide action.
-     * @default 1
-     */
-    clamp?: number;
-    classNames?: SlidyOptions['classNames'];
-    i18n?: SlidyOptions['i18n'];
-    /**
-     * @default 450
-     */
-    duration?: number;
-    easing?: SlidyOptions['easing'];
-    getImgSrc?: SlidyOptions['getImgSrc'];
-    getThumbSrc?: SlidyOptions['getThumbSrc'];
-    /**
-     * @default false
-     */
-    navigation?: boolean;
-    /**
-     * @default 1.2
-     */
-    gravity?: number;
-    id?: string;
-    /**
-     * @default 2
-     */
-    indent?: SlidyOptions['indent'];
-    /**
-     * @default false
-     */
-    loop?: boolean;
-    /**
-     * @default 0
-     */
-    groups?: number;
-    /**
-     * @default false
-     */
-    progress?: boolean;
-    /**
-     * @default 5
-     */
-    sensity?: number;
-    /**
-     * @default []
-     */
-    slides?: SlidyOptions['slides'];
-    /**
-     * @default undefined
-     */
-    snap?: SlidyOptions['snap'];
-    /**
-     * @default 1500
-     */
-    interval?: number;
-    autoplay?: Accessor<boolean>;
-    setAutoplay?: Setter<boolean>;
-    autoplayControl?: boolean;
-
-    index?: Accessor<number>;
-    position?: Accessor<number>;
-
-    /**
-     * Control the index from outside
-     */
-    setIndex?: Setter<number>;
-    /**
-     * Control the position from outside
-     */
-    setPosition?: Setter<number>;
-
-    overlay?: () => JSX.Element;
-    thumbnail?: (() => JSX.Element) | boolean;
-    arrows?: (() => JSX.Element) | boolean;
-    arrow?: () => JSX.Element;
-    children?: (item: Slide) => JSX.Element;
-
-    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
-    onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
-    onMount?: (event: CustomEvent<SlidyCoreOptions>) => void;
-    onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
-    onIndex?: (event: CustomEvent<{ index: number }>) => void;
-    onKeys?: (event: CustomEvent<string>) => void;
-    onUpdate?: (event: CustomEvent<SlidyCoreOptions>) => void;
-    onDestroy?: (event: CustomEvent<HTMLElement>) => void;
-}
-
-const defaultProps: Options = {
+const defaultProps: Props = {
     arrows: true,
     interval: 1500,
     axis: 'x',
@@ -172,8 +65,8 @@ const defaultProps: Options = {
     i18n: i18nDefaults,
 };
 
-const Slidy: Component<Partial<Options>> = ($props) => {
-    const props = mergeProps(defaultProps as unknown as Required<Options>, $props);
+const Slidy: Component<Partial<Props>> = ($props) => {
+    const props = mergeProps(defaultProps as unknown as Required<Props>, $props);
 
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
@@ -210,11 +103,11 @@ const Slidy: Component<Partial<Options>> = ($props) => {
         }
     };
 
-    const onIndex: Options['onIndex'] = (e) => {
+    const onIndex: Props['onIndex'] = (e) => {
         Promise.resolve(e.detail.index).then(setIndex);
     };
 
-    const onMove: Options['onMove'] = (e) => {
+    const onMove: Props['onMove'] = (e) => {
         setPosition(e.detail.position);
     };
 

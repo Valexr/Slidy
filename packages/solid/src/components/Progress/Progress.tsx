@@ -5,14 +5,8 @@ import { s } from '../../utils';
 
 import '@slidy/assets/styles/progress.module.css';
 
-import type { VoidComponent, JSX } from 'solid-js';
-
-interface Props {
-    value: number;
-    max: number;
-    vertical: boolean;
-    onInput: JSX.EventHandlerUnion<HTMLInputElement, InputEvent>;
-}
+import type { VoidComponent } from 'solid-js';
+import type { Props } from './Progress.types'
 
 const defaultProps: Props = {
     value: 0,

@@ -3,16 +3,8 @@ import { useSlidy } from '../Slidy/Slidy';
 
 import '@slidy/assets/styles/arrow.module.css';
 
+import type { Props } from './Arrow.types'
 import type { FlowComponent } from 'solid-js';
-
-interface Props {
-    direction: number;
-    step: number;
-    loop?: boolean;
-    index: number;
-    items?: number;
-    vertical: boolean;
-}
 
 const defaultProps: Props = {
     direction: 1,

@@ -5,18 +5,10 @@ import { s } from '../../utils';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
+import type { Props, State } from './ButtonAutoplay.types'
 import type { Component } from 'solid-js';
 
-type State = 'play' | 'pause' | 'stop';
-
-interface Options {
-    disabled: boolean;
-    state: State;
-
-    onClick: () => void;
-}
-
-const defaultProps: Options = {
+const defaultProps: Props = {
     disabled: false,
     state: 'stop',
     onClick: noop,
@@ -37,7 +29,7 @@ const strokeWidth = `${stroke}px`;
 // prettier-ignore
 const d = `M ${r + stroke / 2}, ${r + stroke / 2} m -${r}, 0 a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${-2 * r},0`;
 
-const ButtonAutoplay: Component<Partial<Options>> = ($props) => {
+const ButtonAutoplay: Component<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
 
     const { i18n } = useSlidy();
