@@ -128,23 +128,25 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     }
 
     function scroll(index: number, amplitude: number, start?: number): void {
-        const snaped = options.snap || options.loop || $().edges(index);
+        const snaped = options.snap || $().edges(index);
         const target = snaped ? $().distance(index) : POSITION + amplitude;
         const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
         const distance = target - POSITION;
 
         RAF(frame);
 
+        let elapsed = 0, T = 0, easing = 0, dist = 0, delta = 0, dest = 0
+
         function frame(now: number) {
             start ??= now;
-            const elapsed = start - now;
-            const T = Math.exp(elapsed / duration);
-            const easing = options.easing?.(T) || T;
-            const delta = distance * easing;
-            const dest = options.loop ? $().distance(index) : target;
-            const pos = dest - POSITION - delta;
+            elapsed = start - now;
+            T = Math.exp(elapsed / duration);
+            easing = options.easing?.(T) || T;
+            dist = delta
+            delta = distance * easing;
+            dest = ((dist - delta) % distance) || 0;
 
-            move(pos, index);
+            move(dest, index);
 
             if (Math.round(delta)) {
                 raf = RAF(frame);
