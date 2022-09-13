@@ -23,6 +23,7 @@ export type GetSrc<T> = (item: T) => string;
 
 export interface Props {
     animation?: SlidyCoreOptions['animation'];
+    plugin?: SlidyCoreOptions['plugin'];
     /**
      * @default 'x'
      */

@@ -1,37 +1,8 @@
-import type { AnimationFunc } from '@slidy/core';
+import type { Options as SlidyCoreOptions } from '@slidy/core';
 import type { Slide } from '../Slidy/Slidy.types';
 import type { JSX, Setter } from 'solid-js';
 
-export interface SlidyCoreOptions {
-    animation?: AnimationFunc;
-    axis: 'x' | 'y';
-    clamp?: number;
-    className?: string;
-    duration?: number;
-    easing?: (t: number) => number;
-    gravity?: number;
-    indent?: number;
-    index?: number;
-    loop?: boolean;
-    position?: number;
-    sensity?: number;
-    snap?: 'deck' | 'start' | 'center' | 'end';
-    tag: string;
-}
-
-export interface Props {
-    animation?: SlidyCoreOptions['animation'];
-    axis: SlidyCoreOptions['axis'];
-    clamp: number;
-    duration: number;
-    easing: SlidyCoreOptions['easing'];
-    gravity: number;
-    indent: SlidyCoreOptions['indent'];
-    index: number;
-    loop: boolean;
-    position: number;
-    sensity: number;
-    snap?: SlidyCoreOptions['snap'];
+export interface Props extends SlidyCoreOptions {
     tag: keyof JSX.IntrinsicElements | (string & Record<never, never>);
     slides: Slide[];
     className?: string;
@@ -48,3 +19,5 @@ export interface Props {
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;
 }
+
+export { SlidyCoreOptions }

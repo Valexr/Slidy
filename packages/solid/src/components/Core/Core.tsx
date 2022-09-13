@@ -39,7 +39,7 @@ const defaultProps: Props = {
 
 const Core: FlowComponent<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
-    const [options] = splitProps(props, ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index']);
+    const [options] = splitProps(props, ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index', 'plugin']);
 
     const useSlidy = (el: HTMLElement) => {
         const { destroy, update } = slidy(el, options);
