@@ -43,7 +43,7 @@ export interface Options {
     easing?: EasingFunc;
     /**
      * Slidy plugins.
-     * @see https://github.com/Valexr/Slidy/tree/master/packages/plugin 
+     * @see https://github.com/Valexr/Slidy/tree/master/packages/plugins
      */
     plugins?: PluginFunc[]
     /**
