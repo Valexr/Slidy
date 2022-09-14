@@ -1,4 +1,4 @@
-import { mergeProps, splitProps, createEffect, onCleanup, onMount } from 'solid-js';
+import { mergeProps, splitProps, createEffect, onCleanup } from 'solid-js';
 import { Dynamic } from '..';
 import { slidy } from '@slidy/core';
 import { execute } from '@slidy/assets/scripts/utils';
@@ -49,7 +49,7 @@ const Core: FlowComponent<Partial<Props>> = ($props) => {
             onCleanup(destroy);
         }
 
-        onMount(fn);
+        fn()
     };
 
     return (
