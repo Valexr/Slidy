@@ -8,8 +8,8 @@ const cwd = process.cwd();
  * @param {string} line
  */
 const filterer = (line) => {
-    const match =
-        line.includes('import') && line.includes('@slidy/assets') && line.includes('module.css');
+    const inc = line.includes.bind(line);
+    const match = inc('import') && inc('@slidy/assets') && inc('module.css');
 
     return !match;
 };
