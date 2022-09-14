@@ -25,7 +25,7 @@
 	export let classNames: $$Props["classNames"] = classNamesDefault;
 	export let duration = 450;
 	export let easing: $$Props["easing"] = (t: number): number => t;
-	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src ?? "";
+	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src;
 	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
 	export let navigation = false;
 	export let gravity = 1.2;
