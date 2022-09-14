@@ -45,7 +45,7 @@ export interface Options {
      * Slidy plugins.
      * @see https://github.com/Valexr/Slidy/tree/master/packages/plugin 
      */
-    plugin?: PluginFunc
+    plugins?: PluginFunc[]
     /**
      * Control coordinate axis: `'x'`, `'y'`.
      */

@@ -1,7 +1,7 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
 import { clamp, entries, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
-import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
+import type { Dom, Options, UniqEvent, EventMap, SlidyInstance, PluginFunc } from './types';
 
 /**
  * Simple, configurable, nested & reusable sliding action script
@@ -90,11 +90,12 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
             RO.observe(node);
             MO.observe(node, { childList: true, subtree: true });
-
-            options.plugin?.({ node, options, instance })
-
             listen(node, NODE_EVENTS);
             listen(window, WINDOW_NATIVE_EVENTS);
+
+            if (options.plugins?.length)
+                loop(options.plugins, (plugin: PluginFunc) => plugin({ node, options, instance }))
+
             dispatch(node, 'mount', { options });
 
         }).catch((error: Error) => {
@@ -134,13 +135,13 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
         function frame(now: number) {
             start ??= now;
+            dist = delta
             const elapsed = start - now;
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
-            dist = delta
             delta = distance * easing;
             const dest = (dist - delta) % distance;
-            const pos = dest % delta ? dest : 0
+            const pos = dest % delta ? dest : 1
 
             move(pos, index);
 

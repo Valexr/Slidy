@@ -83,7 +83,7 @@
             });
 
             // let slidy1, slidy2, slidy3, slidy4;
-            // slidy1 = slidyCore(s1, { snap: 'center' });
+            let slidy1 = slidyCore(s1, { snap: 'center', loop: true, axis: 'y' });
             // slidy2 = slidyCore(s2, { snap: 'center' });
             // slidy3 = slidyCore(s3, { snap: 'center' });
             // slidy4 = slidyCore(s4, { snap: 'center' });
@@ -102,11 +102,17 @@
                 snap: 'center',
                 axis: 'x',
                 plugin: ({ node, options, instance }) => {
-                    console.log({ node, options, instance });
-                    node.onpointerenter = (e) => instance.to(options.index);
+                    // console.log({ node, options, instance });
+                    const handle = (e) => instance.to(options.index);
+
+                    // node.addEventListener('pointerenter', handle);
+                    // node.addEventListener('destroy', function destroyHandle(e) {
+                    //     node.removeEventListener('pointerenter', handle);
+                    //     node.removeEventListener('destroy', destroyHandle);
+                    // });
                 },
                 animation: animations.flip,
-                easing: easings.lenear,
+                easing: easings.elastic,
             };
             window.limit = 9;
             window.theme = 'jpg';
@@ -270,7 +276,32 @@
                 <img src="https://source.unsplash.com/random/1280x800" alt="10" />
             </section>
         </section> -->
-
+        <section id="s1">
+            <div class="slide">
+                <h2>Header 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="slide">
+                <h2>Header 2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="slide">
+                <h2>Header 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </section>
         <article>
             <h1>@Slidy</h1>
             <h3>
