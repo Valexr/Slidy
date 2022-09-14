@@ -34,6 +34,8 @@ Easing functions available via named import as `MJS/CJS` module or via global `W
 Includes `linear, quad, cubic, quart, quint, bounce, sine, expo, elastic, circ, back` as EaseIn functions.  
 More info: https://easings.net.
 
+> ⚠️ For proper operation minimal `duration: 450` needed.
+
 ```ts
 /** Easing function.
  * @param t value from 0 to 1
