@@ -11,5 +11,6 @@
 
 ### 📝 todo...
 
+-   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 -   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
