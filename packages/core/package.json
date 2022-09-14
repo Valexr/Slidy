@@ -49,6 +49,7 @@
     "devDependencies": {
         "@slidy/animation": "workspace:*",
         "@slidy/easing": "workspace:*",
-        "@slidy/media": "workspace:*"
+        "@slidy/media": "workspace:*",
+        "@slidy/plugins": "workspace:*"
     }
 }

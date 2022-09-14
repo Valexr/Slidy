@@ -13,7 +13,7 @@ const esbuildBase = {
     incremental: DEV || CORE,
     plugins: [eslintPlugin()],
     entryPoints: CORE
-        ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation']
+        ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation', '@slidy/plugins']
         : ['src/index.ts'],
     outdir: CORE ? 'public/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
@@ -31,6 +31,7 @@ const derverConfig = {
         'node_modules/@slidy/animation',
         'node_modules/@slidy/easing',
         'node_modules/@slidy/media',
+        'node_modules/@slidy/plugins',
     ],
 };
 const builds = {
