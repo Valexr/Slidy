@@ -43,6 +43,5 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/plugins",
     "dependencies": {
-        "@slidy/core": "workspace:*"
     }
 }
