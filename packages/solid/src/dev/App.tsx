@@ -98,6 +98,8 @@ const App: Component = () => {
                         // autoplayControl
                         groups={groups()}
                         vertical={vertical()}
+
+                        plugins={[console.log]}
                     />
                 </Show>
             </main>

@@ -203,7 +203,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                     loop={props.loop}
                     sensity={props.sensity}
                     snap={props.snap}
-                    plugin={props.plugin}
+                    plugins={props.plugins}
                     position={position()}
                     onResize={props.onResize}
                     onMount={props.onMount}
