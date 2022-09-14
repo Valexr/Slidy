@@ -83,7 +83,7 @@
             });
 
             // let slidy1, slidy2, slidy3, slidy4;
-            let slidy1 = slidyCore(s1, { snap: 'center', loop: true, axis: 'y' });
+            // let slidy1 = slidyCore(s1, { snap: 'center', loop: true, axis: 'y' });
             // slidy2 = slidyCore(s2, { snap: 'center' });
             // slidy3 = slidyCore(s3, { snap: 'center' });
             // slidy4 = slidyCore(s4, { snap: 'center' });
@@ -97,20 +97,20 @@
                 indent: 1,
                 sensity: 2.5,
                 gravity: 1.2,
-                duration: 375,
+                // duration: 375,
                 loop: false,
                 snap: 'center',
                 axis: 'x',
-                plugin: ({ node, options, instance }) => {
-                    // console.log({ node, options, instance });
-                    const handle = (e) => instance.to(options.index);
+                // plugins: [({ node, options, instance }) => {
+                //     // console.log({ node, options, instance });
+                //     const handle = (e) => instance.to(options.index);
 
-                    // node.addEventListener('pointerenter', handle);
-                    // node.addEventListener('destroy', function destroyHandle(e) {
-                    //     node.removeEventListener('pointerenter', handle);
-                    //     node.removeEventListener('destroy', destroyHandle);
-                    // });
-                },
+                //     node.addEventListener('pointerenter', handle);
+                //     node.addEventListener('destroy', function destroyHandle(e) {
+                //         node.removeEventListener('pointerenter', handle);
+                //         node.removeEventListener('destroy', destroyHandle);
+                //     });
+                // }],
                 animation: animations.flip,
                 easing: easings.elastic,
             };
@@ -127,12 +127,8 @@
             window.addChild = () => {
                 node.innerHTML += `<li></li>`;
             };
-            window.plugin = ({ node, options, instance }) => {
-                console.log({ node, options, instance });
-                node.onpointerenter = (e) => instance.to(options.index);
-            },
 
-                console.log('window:', window);
+            console.log('window:', window);
 
             fetch('https://unpkg.com/@slidy/core/package.json', {
                 mode: 'cors',
@@ -142,7 +138,7 @@
                     title.innerText = `Slidy ${version} - NativeJS`;
                     header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
                     getSlides(limit, theme).then(() => {
-                        slidy = slidyCore(node, options);
+                        slidy = slidyCore(node);
                         slidyT = slidyCore(thumbs, { index: options.index, snap: 'center' });
                         setTimeout(setEvents);
                     });
@@ -276,7 +272,7 @@
                 <img src="https://source.unsplash.com/random/1280x800" alt="10" />
             </section>
         </section> -->
-        <section id="s1">
+        <!-- <section id="s1">
             <div class="slide">
                 <h2>Header 1</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
@@ -301,7 +297,7 @@
                     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
                     culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-        </section>
+        </section> -->
         <article>
             <h1>@Slidy</h1>
             <h3>

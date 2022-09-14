@@ -137,9 +137,9 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 | `indent`    | `1`         | `number`   | Sliding indent: part of gap padding both start/end edges of slide `gap * indent` |
 | `sensity`   | `2.5`       | `number`   | Sliding sensity: how many pixels to drag in the RAF `~16ms` to start move, `0` when sliding |
 | `gravity`   | `1.2`       | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
-| `duration`  | `375`       | `number`   | Sliding duration in ms |
+| `duration`  | `450`       | `number`   | Sliding duration in ms |
 | `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
-| `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. |
+| `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. For proper operation minimal `duration: 450` needed. |
 | `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
 | `axis`      | `undefined` | `string`   | Control coordinate axis: `'x', 'y'`. |
 | `loop`      | `false`     | `boolean`  | Infinite loop mode |

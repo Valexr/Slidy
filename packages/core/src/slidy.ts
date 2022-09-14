@@ -11,11 +11,10 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     const options = {
         index: 0,
         position: 0,
-        clamp: 0,
         indent: 1,
         sensity: 2.5,
         gravity: 1.2,
-        duration: 375,
+        duration: 450,
         ...opts,
     };
 
@@ -25,7 +24,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         raf = 0,
         ets = 0,
         track = 0,
-        clamped = false,
+        clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
         INDEX = (hix = options.index as number),
         POSITION = options.position as number,
@@ -123,27 +122,26 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         }
     }
 
-    function scroll(index: number, amplitude: number, start?: number): void {
+    function scroll(index: number, amplitude: number): void {
         const snaped = options.snap || $().edges(index);
         const target = snaped ? $().distance(index) : POSITION + amplitude;
-        const duration = DURATION * clamp(1, Math.abs(index - hix), 2);
+        const duration = DURATION * clamp(1, index - hix, 2);
         const distance = target - POSITION;
 
         RAF(frame);
 
-        let dist = 0, delta = 0
+        let start = 0, dist = 0, delta = 0
 
         function frame(now: number) {
-            start ??= now;
+            start ||= now;
             dist = delta
             const elapsed = start - now;
             const T = Math.exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
             delta = distance * easing;
-            const dest = (dist - delta) % distance;
-            const pos = dest % delta ? dest : 1
+            const dest = dist % delta ? ((dist - delta) % distance) : 0;
 
-            move(pos, index);
+            move(dest, index);
 
             if (Math.round(delta)) {
                 raf = RAF(frame);
@@ -198,8 +196,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            const range = CLAMP * DIRECTION;
-            index = CLAMP && index - hix ? INDEX + range : index;
+            index = CLAMP && index - hix
+                ? INDEX + CLAMP * DIRECTION
+                : index;
 
             return indexing(node, options, index);
         }
@@ -230,7 +229,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             if (X || edged || e.shiftKey) e.preventDefault();
 
             const throttled =
-                CLAMP > 0 || (options.axis === 'y' && !options.vertical) || e.shiftKey;
+                CLAMP || (options.axis === 'y' && !options.vertical) || e.shiftKey;
 
             if (clamped !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);
