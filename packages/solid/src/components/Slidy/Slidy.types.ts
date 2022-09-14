@@ -21,13 +21,9 @@ export type SlidyStyles = Record<SlidyNodes, string>;
 
 export type GetSrc<T> = (item: T) => string;
 
-export interface Props {
-    animation?: SlidyCoreOptions['animation'];
-    plugins?: SlidyCoreOptions['plugins'];
-    /**
-     * @default 'x'
-     */
-    axis?: SlidyCoreOptions['axis'];
+type BaseCoreOptions = Omit<SlidyCoreOptions, 'index' | 'position'>
+
+export interface Props extends BaseCoreOptions {
     /**
      * Defines the slides flow by using `aria-orientation`
      * @default false
@@ -41,17 +37,8 @@ export interface Props {
      * @default true
      */
     counter?: boolean;
-    /**
-     * Defines number of items to jump over at one slide action.
-     * @default 1
-     */
-    clamp?: number;
     classNames?: SlidyStyles;
     i18n?: I18NDict;
-    /**
-     * @default 450
-     */
-    duration?: number;
     easing?: SlidyCoreOptions['easing'];
     getImgSrc?: (item: unknown | Slide) => string;
     getThumbSrc?: (item: unknown | Slide) => string;
@@ -59,19 +46,7 @@ export interface Props {
      * @default false
      */
     navigation?: boolean;
-    /**
-     * @default 1.2
-     */
-    gravity?: number;
     id?: string;
-    /**
-     * @default 2
-     */
-    indent?: SlidyCoreOptions['indent'];
-    /**
-     * @default false
-     */
-    loop?: boolean;
     /**
      * @default 0
      */
@@ -81,17 +56,9 @@ export interface Props {
      */
     progress?: boolean;
     /**
-     * @default 5
-     */
-    sensity?: number;
-    /**
      * @default []
      */
     slides?: Slide[];
-    /**
-     * @default undefined
-     */
-    snap?: SlidyCoreOptions['snap'];
     /**
      * @default 1500
      */
