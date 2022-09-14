@@ -19,7 +19,7 @@ export const getPhotos: GetPhotos<Slide> = async ({
         return {
             id: item.id,
             ...size,
-            alt: `Image by ${item.author}`,
+            alt: item.alt,
             src: item.src,
         };
     });
@@ -34,15 +34,17 @@ async function getImages(
     const res = await fetch(url);
     const photos = await res.json();
 
-    type Image = { src: string; width: number; height: number; alt: string };
+    type Image = { id: number, src: string; width: number; height: number; alt: string };
 
     return photos.reduce(
-        (acc: Image[], [src, aspectRatio, author]: [string, number, string], i: number) => {
-            if (indexes.includes(i)) {
+        (acc: Image[], [src, aspectRatio, author]: [string, number, string], id: number) => {
+            if (indexes.includes(id)) {
                 const source = { width: size.height * (aspectRatio / 10), height: size.height };
                 const max = { width: size.width, height: size.height };
                 const query = `?w=${ratio(applyRatio(source, max).width)}`;
+                console.log(author)
                 acc.push({
+                    id,
                     src: `https://images.unsplash.com/photo-${src}${query}`,
                     alt: `Image by ${author} from Unsplash`,
                     ...applyRatio(source, max),

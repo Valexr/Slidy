@@ -8,10 +8,10 @@ export interface Size {
  */
 export interface ImageSchema {
     id: number;
-    author: string;
+    alt: string;
+    src: string;
     width: number;
     height: number;
-    src: string;
 }
 
 /**
