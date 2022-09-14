@@ -41,7 +41,5 @@
     "bugs": {
         "url": "https://github.com/Valexr/Slidy/issues"
     },
-    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/plugins",
-    "dependencies": {
-    }
+    "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/plugins"
 }
