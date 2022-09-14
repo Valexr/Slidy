@@ -1,4 +1,4 @@
-import { mergeProps, splitProps, createEffect, onCleanup } from 'solid-js';
+import { mergeProps, splitProps, createEffect, onCleanup, onMount } from 'solid-js';
 import { Dynamic } from '..';
 import { slidy } from '@slidy/core';
 import { execute } from '@slidy/assets/scripts/utils';
@@ -42,10 +42,14 @@ const Core: FlowComponent<Partial<Props>> = ($props) => {
     const [options] = splitProps(props, ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index', 'plugins']);
 
     const useSlidy = (el: HTMLElement) => {
-        const { destroy, update } = slidy(el, options);
+        const fn = () => {
+            const { destroy, update } = slidy(el, options);
 
-        createEffect(() => update(options));
-        onCleanup(destroy);
+            createEffect(() => update(options));
+            onCleanup(destroy);
+        }
+
+        onMount(fn);
     };
 
     return (
