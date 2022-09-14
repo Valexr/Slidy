@@ -1,16 +1,10 @@
-import { splitProps } from 'solid-js';
-import { spread } from 'solid-js/web';
+import { Dynamic as OriginalDynamic } from 'solid-js/web';
 
+import type { JSX } from 'solid-js'
 import type { Props } from './Dynamic.types'
 
 const Dynamic = (props: Props) => {
-    const [p, others] = splitProps(props, ['component']);
-
-    const el = document.createElement(p.component);
-
-    spread(el, others, false);
-
-    return el;
+    return (OriginalDynamic as (arg: any) => JSX.Element)(props);
 };
 
 export default Dynamic;
