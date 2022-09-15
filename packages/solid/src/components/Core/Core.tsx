@@ -37,14 +37,16 @@ const defaultProps: Props = {
     tag: 'ol',
 };
 
+const splitter = ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index'] as const;
+
 const Core: FlowComponent<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
-    const [options] = splitProps(props, ['animation', 'axis', 'clamp', 'duration', 'easing', 'gravity', 'indent', 'loop', 'sensity', 'snap', 'index']);
+    const options = splitProps(props, splitter)[0];
 
     const useSlidy = (el: HTMLElement) => {
         const fn = () => {
-            const opts = Object.assign({}, options, { plugins: props.plugins });
-            const { update, destroy } = slidy(el, opts);
+            const $options = Object.assign(options, { plugins: props.plugins });
+            const { update, destroy } = slidy(el, $options);
 
             const effect = () => {
                 update(options);

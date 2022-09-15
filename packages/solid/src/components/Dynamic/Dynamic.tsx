@@ -3,8 +3,6 @@ import { Dynamic as OriginalDynamic } from 'solid-js/web';
 import type { JSX } from 'solid-js'
 import type { Props } from './Dynamic.types'
 
-const Dynamic = (props: Props) => {
-    return (OriginalDynamic as (arg: any) => JSX.Element)(props);
-};
+const Dynamic = OriginalDynamic as (arg: Props) => JSX.Element;
 
 export default Dynamic;
