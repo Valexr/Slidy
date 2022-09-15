@@ -99,7 +99,7 @@ const App: Component = () => {
                         groups={groups()}
                         vertical={vertical()}
 
-                        plugins={[]}
+                        plugins={[console.log]}
                     />
                 </Show>
             </main>
