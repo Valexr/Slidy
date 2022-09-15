@@ -10,8 +10,8 @@ import type { Dom, Options, UniqEvent, EventMap, SlidyInstance, PluginFunc } fro
 export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance {
     const options = {
         index: 0,
-        position: 0,
         indent: 1,
+        position: 0,
         sensity: 2.5,
         gravity: 1.2,
         duration: 450,
@@ -60,8 +60,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const MO = new MutationObserver((ML) => {
         loop(ML, (record: MutationRecord) => {
-            const { addedNodes, removedNodes } = record;
-            const mutatedNodes = [...addedNodes, ...removedNodes];
+            const mutatedNodes = [...record.addedNodes, ...record.removedNodes];
             if (!mutatedNodes.every((node) => 'index' in node)) {
                 destroy().then(init);
             }
@@ -96,9 +95,6 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
                 loop(options.plugins, (plugin: PluginFunc) => plugin({ node, options, instance }))
 
             dispatch(node, 'mount', { options });
-
-        }).catch((error: Error) => {
-            console.error('Slidy:', error)
         })
     }
 

@@ -103,16 +103,6 @@
                 snap: 'center',
                 axis: 'x',
                 plugins: [log, marquee],
-                // plugins: [({ node, options, instance }) => {
-                //     // console.log({ node, options, instance });
-                //     const handle = (e) => instance.to(options.index);
-
-                //     node.addEventListener('pointerenter', handle);
-                //     node.addEventListener('destroy', function destroyHandle(e) {
-                //         node.removeEventListener('pointerenter', handle);
-                //         node.removeEventListener('destroy', destroyHandle);
-                //     });
-                // }],
                 animation: animations.flip,
                 easing: easings.sine,
             };

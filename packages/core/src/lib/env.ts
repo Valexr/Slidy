@@ -1,9 +1,8 @@
 import { clamp, loop } from './utils';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-function mount(node: HTMLElement) {
+function mount(node: HTMLElement, count = 0) {
     return new Promise((resolve, reject) => {
-        let count = 0;
         const mounting = setInterval(() => {
             count++;
             if (count >= 69) {
@@ -13,7 +12,7 @@ function mount(node: HTMLElement) {
                 clearInterval(mounting);
                 resolve(indexed(node));
             }
-        }, 16);
+        }, 16)
     });
 }
 
