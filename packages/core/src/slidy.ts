@@ -7,16 +7,7 @@ import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
  * Simple, configurable, nested & reusable sliding action script
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
-export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance {
-    const options = {
-        index: 0,
-        indent: 1,
-        position: 0,
-        sensity: 2.5,
-        gravity: 1.2,
-        duration: 450,
-        ...opts,
-    };
+export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyInstance {
 
     let $: () => Dom,
         hix = 0,
@@ -26,13 +17,13 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
         track = 0,
         clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
-        INDEX = (hix = options.index as number),
-        POSITION = options.position as number,
-        DIRECTION = options.direction as number,
-        DURATION = (options.duration as number) / 2,
-        SENSITY = options.sensity as number,
-        GRAVITY = options.gravity as number,
-        CLAMP = options.clamp as number;
+        INDEX = hix = options.index ||= 0,
+        POSITION = options.position ||= 0,
+        DIRECTION = options.direction ||= 0,
+        DURATION = (options.duration ||= 450) / 2,
+        SENSITY = options.sensity ||= 2.5,
+        GRAVITY = options.gravity ||= 1.2,
+        CLAMP = options.clamp;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -103,9 +94,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     function move(pos: number, index?: number): void {
         DIRECTION = options.direction = Math.sign(pos);
-        POSITION = options.position += positioning(pos);
+        POSITION = (options.position as number) += positioning(pos);
         INDEX = options.index = $().index(POSITION);
-        GRAVITY = $().edges() ? 1.8 : options.gravity;
+        GRAVITY = $().edges() ? 1.8 : options.gravity as number;
         SENSITY = 0;
 
         $().animate();
@@ -145,7 +136,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
             if (Math.round(delta)) {
                 raf = RAF(frame);
             } else {
-                SENSITY = options.sensity;
+                SENSITY = options.sensity as number;
                 clear();
             }
         }
@@ -162,7 +153,7 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
     function onDown(e: UniqEvent): void {
         clear();
 
-        SENSITY = options.sensity;
+        SENSITY = options.sensity as number;
         hip = coordinate(e, options);
         ets = e.timeStamp;
         track = 0;
