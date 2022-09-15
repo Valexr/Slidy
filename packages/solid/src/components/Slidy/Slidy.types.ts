@@ -87,7 +87,7 @@ export interface Props extends BaseCoreOptions {
 
     onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
     onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
-    onMount?: (event: CustomEvent<SlidyCoreOptions>) => void;
+    onMount?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
     onIndex?: (event: CustomEvent<{ index: number }>) => void;
     onKeys?: (event: CustomEvent<string>) => void;
