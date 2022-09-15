@@ -3,13 +3,13 @@ import type { Setter } from 'solid-js'
 
 interface Channel<T> {
     (): T;
-    (setter: Setter<T>): T;
+    (setter: Parameters<Setter<T>>[0]): T;
 }
 
 function channel<T>(init: T): Channel<T> {
     const [get, set] = createSignal(init);
 
-    function controller(setter?: Setter<T>) {
+    function controller(setter?: Parameters<Setter<T>>[0]) {
         if (arguments.length === 0) {
             return get();
         } else {
