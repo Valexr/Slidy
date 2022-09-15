@@ -12,12 +12,11 @@ import {
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 
-import { execute, isFunction, format } from '@slidy/assets/scripts/utils';
+import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
 
 import { i18nDefaults } from './i18n';
 import { s } from '../../utils';
-import { not, increment } from '@slidy/assets/scripts/utils';
 import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
@@ -203,7 +202,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                     loop={props.loop}
                     sensity={props.sensity}
                     snap={props.snap}
-                    plugins={props.plugins}
+                    plugins={/* @once */ props.plugins}
                     position={position()}
                     onResize={props.onResize}
                     onMount={props.onMount}
