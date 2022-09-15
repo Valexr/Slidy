@@ -1,48 +1,34 @@
 import type { ImageSchema, GetPhotos, Size, Slide } from '../types';
 
-export const getPhotos: GetPhotos<Slide> = async ({
+export const getPhotos = async ({
     limit = 5,
     width = window.innerWidth,
     height = window.innerHeight,
 }) => {
-    let data: ImageSchema[] = [];
-
     try {
-        data = await getImages(limit, { width, height });
+        return await getImages(limit, { width, height });
     } catch (error) {
         console.error(`Could not fetch photos: ${error}`);
     }
 
-    return data.map((item) => {
-        const size = applyRatio({ width: item.width, height: item.height }, { width, height });
-
-        return {
-            id: item.id,
-            ...size,
-            alt: item.alt,
-            src: item.src,
-        };
-    });
 };
 
 async function getImages(
     limit: number = 9,
     size = { width: window.innerWidth, height: window.innerHeight }
-) {
+): Promise<Slide[]> {
     const url = 'https://raw.githubusercontent.com/Valexr/Slidy/master/assets/static/photos.json';
     const indexes = Array.from({ length: limit }, () => Math.floor(Math.random() * 24644));
     const res = await fetch(url);
     const photos = await res.json();
 
-    type Image = { id: number, src: string; width: number; height: number; alt: string };
-
     return photos.reduce(
-        (acc: Image[], [src, aspectRatio, author]: [string, number, string], id: number) => {
+        (acc: ImageSchema[], [src, aspectRatio, author]: [string, number, string], id: number) => {
             if (indexes.includes(id)) {
                 const source = { width: size.height * (aspectRatio / 10), height: size.height };
                 const max = { width: size.width, height: size.height };
                 const query = `?w=${ratio(applyRatio(source, max).width)}`;
-                console.log(author)
+
                 acc.push({
                     id,
                     src: `https://images.unsplash.com/photo-${src}${query}`,
