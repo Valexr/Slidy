@@ -88,7 +88,8 @@
             // slidy2 = slidyCore(s2, { snap: 'center' });
             // slidy3 = slidyCore(s3, { snap: 'center' });
             // slidy4 = slidyCore(s4, { snap: 'center' });
-
+            // const pl = play({ opts: 'opts' });
+            // console.log(pl);
             window.utils = utils;
             window.easings = easings;
             window.animations = animations;
@@ -102,7 +103,7 @@
                 loop: false,
                 snap: 'center',
                 axis: 'x',
-                plugins: [play],
+                plugins: [play({ opts: 'opts' }), log(), marquee()],
                 animation: animations.flip,
                 easing: easings.sine,
             };
@@ -159,6 +160,8 @@
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
+                <button onclick="play.stop()">stop</button>
+                <button onclick="play.play()">play</button>
             </nav>
 
             <!-- <nav id="dots"></nav> -->

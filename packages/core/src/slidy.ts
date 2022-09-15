@@ -1,7 +1,7 @@
 import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
 import { clamp, entries, loop, throttle } from './lib/utils';
 import { dom } from './lib/dom';
-import type { Dom, Options, UniqEvent, EventMap, SlidyInstance, PluginFunc } from './types';
+import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
 /**
  * Simple, configurable, nested & reusable sliding action script
@@ -74,6 +74,11 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
     const instance = { init, update, destroy, to }
 
+    if (options.plugins)
+        loop(options.plugins, (plugin, i, array) => {
+            array[i] = plugin({ node, options, instance })
+        })
+
     init();
 
     function init() {
@@ -88,11 +93,9 @@ export function slidy(node: HTMLElement, opts?: Partial<Options>): SlidyInstance
 
             RO.observe(node);
             MO.observe(node, { childList: true, subtree: true });
+
             listen(node, NODE_EVENTS);
             listen(window, WINDOW_NATIVE_EVENTS);
-
-            if (options.plugins?.length)
-                loop(options.plugins, (plugin: PluginFunc) => plugin({ node, options, instance }))
 
             dispatch(node, 'mount', { options });
         })

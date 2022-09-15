@@ -5,11 +5,13 @@ export function setEvents() {
         node.addEventListener(event, (e) => {
             switch (event) {
                 case 'mount':
+                    console.log(e.detail);
+                    window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;
                     Object.assign(options, e.detail.options);
                     for (const button of document.querySelectorAll('button')) {
                         if (options[button.id]) {
                             button.classList.add('active');
-                        } else if (!isNaN(button.id)) {
+                        } else if (button.id && !isNaN(button.id)) {
                             button.onclick = (e) => slidy.to(+e.target.id);
                         }
                     }
@@ -45,18 +47,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'blur',
                             'deck',

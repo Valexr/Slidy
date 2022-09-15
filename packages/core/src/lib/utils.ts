@@ -25,11 +25,9 @@ function throttle(
 
 function loop(
     array: string | any[] | HTMLCollection | Array<Partial<Options>> | PluginFunc[],
-    cb: (item: typeof array[number], i: number) => void
+    cb: (item: typeof array[number], i: number, array: any) => void
 ) {
-    for (let i = 0; i < array.length; i++) {
-        cb(array[i], i);
-    }
+    for (let i = 0; i < array.length; i++) cb(array[i], i, array)
     return array;
 }
 
