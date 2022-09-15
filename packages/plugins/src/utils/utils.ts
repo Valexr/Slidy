@@ -1,4 +1,4 @@
-import type { EventMap } from './types'
+import type { EventMap } from '../types'
 
 function loop<T>(
     array: ArrayLike<T>,

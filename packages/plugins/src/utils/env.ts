@@ -16,30 +16,30 @@ function timer(callback: () => void, interval: number): TimerInstace {
         remaining = interval - (performance.now() - start);
         clearInterval(tid);
         state = 2;
-    };
+    }
 
     function resume() {
         if (state !== 2) return;
         state = 3;
         setTimeout(timeoutCallback, remaining);
-    };
+    }
 
     function stop() {
         state = 0;
         clearInterval(tid);
-    };
+    }
 
     function play() {
         tid = setInterval(callback, interval);
         start = performance.now();
         state = 1;
-    };
+    }
 
     function timeoutCallback() {
         if (state !== 3) return;
         callback();
         play()
-    };
+    }
 
     return { play, pause, resume, stop }
 }

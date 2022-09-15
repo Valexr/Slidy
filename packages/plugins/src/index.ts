@@ -1,4 +1,4 @@
-export { log } from './log';
-export { play } from './play';
-export { marquee } from './marquee';
+export { log } from './lib/log';
+export { play } from './lib/play';
+export { marquee } from './lib/marquee';
 export type { PluginArgs, PluginFunc } from './types';
