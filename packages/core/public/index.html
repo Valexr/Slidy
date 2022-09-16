@@ -120,6 +120,17 @@
             window.addChild = () => {
                 node.innerHTML += `<li></li>`;
             };
+            window.playButton = (button) => {
+                button.classList.toggle('active');
+
+                if (button.classList.contains('active')) {
+                    window.play.play();
+                    button.innerText = 'stop';
+                } else {
+                    window.play.stop();
+                    button.innerText = 'play';
+                }
+            };
 
             console.log('window:', window);
 
@@ -160,8 +171,7 @@
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
-                <button onclick="play.stop(); this.classList.toggle('active');">stop</button>
-                <button onclick="play.play(); this.classList.toggle('active');">play</button>
+                <button class="active" onclick="playButton(this)">stop</button>
             </nav>
 
             <!-- <nav id="dots"></nav> -->
