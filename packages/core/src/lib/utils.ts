@@ -1,7 +1,11 @@
 import type { Options, PluginFunc } from '../types';
 
-function clamp(min: number, val: number, max: number): number {
-    return Math.min(max, Math.max(min, val));
+const { assign, entries } = Object;
+
+const { abs, exp, floor, min, max, round, sign } = Math
+
+function clamp(mn: number, val: number, mx: number): number {
+    return min(mx, max(mn, val));
 }
 
 function throttle(
@@ -31,6 +35,4 @@ function loop(
     return array;
 }
 
-const { assign, entries } = Object;
-
-export { assign, clamp, entries, loop, throttle };
+export { assign, abs, exp, floor, max, round, sign, clamp, entries, loop, throttle };

@@ -1,5 +1,7 @@
-import { clamp, loop } from './utils';
+import { clamp, loop, abs } from './utils';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
+
+const X = (e: UniqEvent | WheelEvent, options: Options) => abs(e.deltaX) >= abs(e.deltaY) && options.axis !== 'y';
 
 function mount(node: HTMLElement, count = 0) {
     return new Promise((resolve, reject) => {
@@ -27,8 +29,7 @@ function indexing(node: HTMLElement, options: Options, index: number): number {
 
 function coordinate(e: UniqEvent, options: Options): number {
     if (e.type === 'wheel') {
-        const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY) && options.axis !== 'y';
-        return X ? e.deltaX : e.shiftKey || options.axis === 'y' ? e.deltaY : 0;
+        return X(e, options) ? e.deltaX : e.shiftKey || options.axis === 'y' ? e.deltaY : 0;
     } else {
         const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
         return options.axis === 'y' ? mix(e).pageY : mix(e).pageX;
@@ -47,4 +48,4 @@ function listen(node: Window | HTMLElement, events: EventMap, on = true): void {
     });
 }
 
-export { mount, listen, dispatch, indexing, coordinate };
+export { mount, listen, dispatch, indexing, coordinate, X };

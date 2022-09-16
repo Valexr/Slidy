@@ -1,4 +1,4 @@
-import { clamp, loop, assign } from './utils';
+import { clamp, loop, assign, floor, sign, max, round, abs } from './utils';
 import type { Dom, Child, Options, UniqEvent } from '../types';
 
 export function dom(node: HTMLElement, options: Options): Dom {
@@ -6,16 +6,16 @@ export function dom(node: HTMLElement, options: Options): Dom {
     const length = nodes.length;
     const indexes = [...Array(length).keys()];
     const last = length - 1;
-    const cix = Math.floor(length / 2);
+    const cix = floor(length / 2);
     const vertical = nodes[1].offsetTop - nodes[0].offsetTop >= nodes[0].offsetHeight;
     const coord = vertical ? 'offsetTop' : 'offsetLeft';
     const size = vertical ? 'offsetHeight' : 'offsetWidth';
-    const reverse = Math.sign(nodes[last][coord]);
+    const reverse = sign(nodes[last][coord]);
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
             nodes[last - 1][coord] * reverse -
-            nodes[last - Math.max(reverse, 0)][size]
+            nodes[last - max(reverse, 0)][size]
             : 0;
     const full = nodes.reduce((acc, cur) => (acc += cur[size] + gap), 0);
     const scrollable = full > node.offsetWidth;
@@ -27,7 +27,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const curr = distance(index as number);
         const end = distance(reverse < 0 ? 0 : last, 'end');
         const dir = options.direction as number;
-        const pos = Math.round(options.position as number);
+        const pos = round(options.position as number);
         const indexed = (dir <= 0 && curr <= start) || (dir >= 0 && curr >= end);
         const edged = (dir <= 0 && pos <= start) || (dir >= 0 && pos >= end);
 
@@ -58,7 +58,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         edges,
         distance,
         index(target: number): number {
-            const dist = (index: number) => Math.abs(distance(index) - target);
+            const dist = (index: number) => abs(distance(index) - target);
             return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 1);
         },
         position(replace?: boolean): number {
@@ -70,7 +70,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
             return distance(index);
         },
         swap(dir: number): number {
-            const direction = length % dir ? Math.sign(-dir) : dir;
+            const direction = length % dir ? sign(-dir) : dir;
             const edge = direction > 0 ? 0 : last;
 
             if (edge) node.prepend(nodes[edge]);
@@ -82,7 +82,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
             return (
                 e.shiftKey ||
                 (options.axis === 'y' && e.type !== 'touchmove') ||
-                Math.abs(pos) >= sensity
+                abs(pos) >= sensity
             );
         },
         animate(): void {
@@ -93,7 +93,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
                 child.dist = distance(child.index);
                 child.track = (options.position as number) - child.dist;
                 child.turn = clamp(-1, child.track / child.size, 1);
-                child.exp = clamp(0, (child.size - Math.abs(child.track)) / child.size, 1);
+                child.exp = clamp(0, (child.size - abs(child.track)) / child.size, 1);
 
                 const pos = options.snap === 'deck' ? child.dist : (options.position as number);
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;

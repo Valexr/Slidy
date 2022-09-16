@@ -1,5 +1,5 @@
-import { coordinate, dispatch, indexing, listen, mount } from './lib/env';
-import { clamp, entries, loop, throttle } from './lib/utils';
+import { coordinate, dispatch, indexing, listen, mount, X } from './lib/env';
+import { clamp, entries, loop, throttle, sign, exp, round } from './lib/utils';
 import { dom } from './lib/dom';
 import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
 
@@ -92,7 +92,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
     }
 
     function move(pos: number, index?: number): void {
-        DIRECTION = options.direction = Math.sign(pos);
+        DIRECTION = options.direction = sign(pos);
         POSITION = (options.position as number) += positioning(pos);
         INDEX = options.index = $().index(POSITION);
         GRAVITY = $().edges() ? 1.8 : options.gravity as number;
@@ -125,14 +125,14 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
             start ||= now;
             dist = delta
             const elapsed = start - now;
-            const T = Math.exp(elapsed / duration);
+            const T = exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
             delta = distance * easing;
             const dest = dist % delta ? ((dist - delta) % distance) : 0;
 
             move(dest, index);
 
-            if (Math.round(delta)) {
+            if (round(delta)) {
                 raf = RAF(frame);
             } else {
                 SENSITY = options.sensity as number;
@@ -197,7 +197,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         clear();
 
         const coord = coordinate(e, options) * (2 - GRAVITY);
-        const index = INDEX + Math.sign(coord) * (CLAMP || 1);
+        const index = INDEX + sign(coord) * (CLAMP || 1);
         const snaped = options.snap || clamped || $().edges();
         const sensed = $().sense(e, coord, SENSITY);
         const pos = $().edges() ? coord / 5 : coord;
@@ -212,10 +212,9 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
     function winWheel(e: WheelEvent): void {
         if (e.composedPath().includes(node)) {
-            const X = Math.abs(e.deltaX) >= Math.abs(e.deltaY);
             const edged = options.axis === 'y' && !$().edges();
 
-            if (X || edged || e.shiftKey) e.preventDefault();
+            if (X(e, options) || edged || e.shiftKey) e.preventDefault();
 
             const throttled =
                 CLAMP || (options.axis === 'y' && !options.vertical) || e.shiftKey;
