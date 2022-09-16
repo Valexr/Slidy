@@ -2,16 +2,17 @@ import { timer as IntervalTimer } from '../utils/env'
 import type { PluginArgs } from '../types'
 // marquee: {speed: 300, startAfter: 1000}
 
-export function play(params?: any) {
+export function play(duration = 1000) {
     return ({ node, options, instance }: PluginArgs) => {
-        console.log(params)
+
         options.loop = true
 
         const timer = IntervalTimer(() => {
             instance.to((options.index as number) + 1)
-        }, 3000);
+        }, duration);
 
         timer.play()
+
         document.onvisibilitychange = () => {
             if (document.visibilityState === 'hidden') timer.pause()
             else timer.resume()
@@ -30,6 +31,8 @@ export function play(params?: any) {
             // destroy event
             node.removeEventListener('destroy', destroy);
         });
+
+        // methods
         return timer
     }
 }
