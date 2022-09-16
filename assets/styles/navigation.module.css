@@ -16,7 +16,7 @@
     aspect-ratio: 1 / 1;
     border: none;
     outline: none;
-    border-radius: var(--slidy-nav-item-radius, 50%);
+    border-radius: var(--slidy-nav-item-radius, 0.35em);
     background-color: var(--slidy-nav-item-color, currentColor);
     opacity: 0.5;
     width: var(--slidy-nav-item-size, 24px);
@@ -46,10 +46,39 @@
     line-height: 1em;
 }
 
+/* arrow */
+
+.slidy-nav-item.arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slidy-nav-item.arrow svg {
+    pointer-events: none;
+}
+
+.slidy-nav-item.arrow:last-child svg {
+    transform: rotate(180deg);
+}
+
+.slidy-nav-item.arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 /* vertical mode */
 
 .slidy-nav[aria-orientation='vertical'] {
     flex-flow: column nowrap;
+}
+
+.slidy-nav[aria-orientation='vertical'] .slidy-nav-item.arrow:first-child svg {
+    transform: rotate(90deg);
+}
+
+.slidy-nav[aria-orientation='vertical'] .slidy-nav-item.arrow:last-child svg {
+    transform: rotate(270deg);
 }
 
 /* ellipsis */
