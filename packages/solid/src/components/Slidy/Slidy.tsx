@@ -14,6 +14,7 @@ import { SlidyContext, useSlidy } from '../Context/Context';
 
 import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
+import { iconChevron } from "@slidy/assets/icons";
 
 import { i18nDefaults } from './i18n';
 import { s } from '../../utils';
@@ -264,8 +265,8 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                                     when={!props.arrow}
                                     fallback={isFunction(props.arrow) && props.arrow()}
                                 >
-                                    <svg class="slidy-arrow-icon" viewBox="0 0 32 32">
-                                        <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                                    <svg class="slidy-arrow-icon" viewBox={iconChevron.viewBox}>
+                                        <path d={iconChevron.path} />
                                     </svg>
                                 </Show>
                             </Arrow>

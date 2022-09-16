@@ -3,6 +3,7 @@ import { useSlidy } from '../Slidy/Slidy';
 
 import { generateIndexes } from '@slidy/assets/scripts/navigation';
 import { format } from '@slidy/assets/scripts/utils';
+import { iconChevron } from "@slidy/assets/icons";
 
 import '@slidy/assets/styles/navigation.module.css';
 
@@ -51,17 +52,28 @@ const Navigation: VoidComponent<Props> = ($props) => {
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
             aria-label="pagination"
         >
+            	<button
+		            aria-label={i18n.first}
+		            class={classNames["nav-item"] + ' arrow'}
+		            data-step={-1}
+		            disabled={props.current <= 1}
+		            title={i18n.prev}
+	            >
+                <svg viewBox={iconChevron.viewBox}>
+                    <path d={iconChevron.path} />
+                </svg>
+            </button>
             <For each={indices()}>
                 {(item) => {
                     const active = () => props.current === item;
                     const contents = () => (item < 0 ? '…' : item);
                     const ellipsis = () => item < 0;
-                    const title = () => getTitle(item);
+                    const title = getTitle(item);
 
                     return (
                         <button
                             aria-current={active() ? 'true' : undefined}
-                            aria-label={title()}
+                            aria-label={title}
                             class={classNames['nav-item']}
                             classList={{
                                 active: active(),
@@ -70,13 +82,24 @@ const Navigation: VoidComponent<Props> = ($props) => {
                             }}
                             data-index={ellipsis() ? undefined : item - 1}
                             disabled={ellipsis()}
-                            title={title()}
+                            title={title}
                         >
                             {ordinal() ? contents() : ''}
                         </button>
                     );
                 }}
             </For>
+            <button
+                aria-label={i18n.first}
+                class={classNames["nav-item"] + ' arrow'} 
+                data-step={1}
+                disabled={props.current >= props.end}
+                title={i18n.next}
+	        >
+		        <svg viewBox={iconChevron.viewBox}>
+			        <path d={iconChevron.path} />
+		        </svg>
+	        </button>
         </nav>
     );
 };
