@@ -1,8 +1,9 @@
 import { timer as IntervalTimer } from '../utils/env'
 import type { PluginArgs } from '../types'
-// marquee: {speed: 300, startAfter: 1000}
 
-export function play(duration = 1000) {
+export function play(params = { duration: 1000, delay: 0 }) {
+    const { duration, delay } = params
+
     return ({ node, options, instance }: PluginArgs) => {
 
         options.loop = true
@@ -21,7 +22,7 @@ export function play(duration = 1000) {
             timer.pause()
         }
         node.onpointerleave = () => {
-            timer.resume()
+            setTimeout(timer.resume, delay)
         }
 
         node.onfocus = () => timer.stop()

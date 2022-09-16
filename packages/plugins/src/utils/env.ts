@@ -5,7 +5,7 @@ type TimerInstace = {
     stop: () => void;
 }
 
-function timer(callback: () => void, interval: number): TimerInstace {
+function timer(callback: () => void, interval: number, delay = 0): TimerInstace {
     let tid: NodeJS.Timer,
         start = 0,
         remaining = 0,
@@ -13,7 +13,7 @@ function timer(callback: () => void, interval: number): TimerInstace {
 
     function pause() {
         if (state !== 1) return;
-        remaining = interval - (performance.now() - start);
+        remaining = delay || interval - (performance.now() - start)
         clearInterval(tid);
         state = 2;
     }
@@ -44,4 +44,4 @@ function timer(callback: () => void, interval: number): TimerInstace {
     return { play, pause, resume, stop }
 }
 
-export { timer }
+export { timer, type TimerInstace }
