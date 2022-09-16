@@ -2,8 +2,9 @@
 	import { createEventDispatcher, getContext } from "svelte/internal";
 	import Core from "../Core/Core.svelte";
 	import Image from "../Image/Image.svelte";
+	import { fillTemplate } from "@slidy/assets/i18n";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
-	import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
+	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/thumbnail.module.css";
 </script>
 
@@ -12,7 +13,6 @@
 	
 	export let active = 0;
 	export let animation: $$Props["animation"] = undefined;
-	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let clamp = 0;
 	export let duration: $$Props["duration"] = 250;
@@ -33,7 +33,7 @@
 
 <Core
 	{animation}
-	{axis}
+	axis="x"
 	{clamp}
 	className="{classNames?.thumbnails}"
 	{duration}
@@ -46,10 +46,9 @@
 	{snap}
 	tag="nav"
 	on:index
-	on:index={e => e.detail.index}
 >
 	{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-		{@const title = i18n.slideN.replace("%s", (i + 1).toString())}
+		{@const title = fillTemplate(i18n.slideN, [ (i + 1).toString() ])}
 		<button
 			aria-current={i === active ? "true" : undefined}
 			aria-label={title}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
 	import "@slidy/assets/styles/arrow.module.css";
+	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 
 	export let direction = 1;
 	export let loop: boolean;

@@ -1,36 +1,5 @@
 import type { SlidyCoreOptions } from "../Core/Core.types";
-
-/**
- * Common Image interface.
- */
-export interface Slide {
-	id?: string | number;
-	src?: string;
-	alt?: string;
-	width?: string | number;
-	height?: string | number;
-	[key: string]: unknown;
-}
-
-type SlidyNodes =
-	| "arrow"
-	| "autoplay"
-	| "counter"
-	| "img"
-	| "nav"
-	| "nav-item"
-	| "overlay"
-	| "progress"
-	| "progress-handle"
-	| "root"
-	| "slide"
-	| "slides"
-	| "thumbnail"
-	| "thumbnails";
-
-export type SlidyStyles = Record<SlidyNodes, string>;
-
-export type GetSrc<T> = (item: T) => string;
+import type { SlidyStyles, I18NDict, Slide, GetSrc } from "@slidy/assets/types";
 
 export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
@@ -38,8 +7,8 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	autoplayControl?: boolean;
 	background?: boolean;
 	classNames: SlidyStyles;
-	getImgSrc: (item: unknown | Slide) => string;
-	getThumbSrc: (item: unknown | Slide ) => string;
+	getImgSrc: GetSrc<Slide>;
+	getThumbSrc: GetSrc<Slide>;
 	groups?: number;
 	i18n: I18NDict;
 	interval?: number;
@@ -48,17 +17,3 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	slides: Slide[];
 	thumbnail?: boolean;
 }
-
-type i18nKey =
-	| "carousel"
-	| "counter"
-	| "first"
-	| "last"
-	| "next"
-	| "play"
-	| "prev"
-	| "slide"
-	| "slideN"
-	| "stop";
-
-export type I18NDict = Record<i18nKey, string>;

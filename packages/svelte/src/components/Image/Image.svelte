@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import type { SlidyStyles } from "../Slidy/Slidy.types";
+	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/image.module.css";
 
 	export let alt = "";

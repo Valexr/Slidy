@@ -26,7 +26,7 @@
 	export let classNames: $$Props["classNames"] = classNamesDefault;
 	export let duration = 450;
 	export let easing: $$Props["easing"] = (t: number): number => t;
-	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src;
+	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src || "";
 	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
 	export let navigation = false;
 	export let gravity = 1.2;
@@ -80,6 +80,16 @@
 			goto(parseInt(element.dataset.step) + index);
 			return;
 		}
+	};
+
+	const handleIndexChange = (event: CustomEvent<{ index: number }>) => {
+		const i = event.detail.index;
+		goto(i);
+		indexThumb = i;
+	};
+
+	const handlePositionChange = (event: CustomEvent<{ position: number }>) => {
+		position = event.detail.position;
 	};
 
 	const handleAutoplay = () => {
@@ -161,16 +171,11 @@
 		{snap}
 		on:destroy
 		on:index
-		on:index={e => {
-			goto(e.detail.index);
-			indexThumb = e.detail.index;
-		}}
+		on:index={handleIndexChange}
 		on:keys
 		on:mount
 		on:move
-		on:move={e => {
-			position = e.detail.position;
-		}}
+		on:move={handlePositionChange}
 		on:resize
 		on:update
 	>

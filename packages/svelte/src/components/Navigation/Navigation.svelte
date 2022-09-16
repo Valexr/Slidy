@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
 	import { generateIndexes } from "@slidy/assets/scripts";
-	import type { I18NDict, SlidyStyles } from "../Slidy/Slidy.types";
-	import "@slidy/assets/styles/navigation.module.css";
 	import { fillTemplate } from "../Slidy/i18n";
 	import { iconChevron } from "@slidy/assets/icons";
+	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
+	import "@slidy/assets/styles/navigation.module.css";
 
 	export let current: number;
 	export let start: number;

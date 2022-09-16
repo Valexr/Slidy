@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
+	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/progress.module.css";
-
-	import type { SlidyStyles } from "../Slidy/Slidy.types";
 
 	export let value = 0;
 	export let max = 1;
