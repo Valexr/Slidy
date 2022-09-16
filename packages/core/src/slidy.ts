@@ -66,7 +66,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
     const instance = { init, update, destroy, to }
 
     loop(options.plugins || [], (plugin, i, array) => {
-        array[i] = plugin({ node, options, instance })
+        array[i] = plugin?.({ node, options, instance })
     })
 
     init();
