@@ -1,4 +1,4 @@
-import { timer as IntervalTimer, type TimerInstace } from '../utils/env'
+import { timer as IntervalTimer } from '../utils/env'
 import type { PluginArgs } from '../types'
 
 export function marquee(params = { duration: 700, delay: 1 }) {
