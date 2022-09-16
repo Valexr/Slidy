@@ -160,8 +160,8 @@
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
-                <button onclick="play.stop()">stop</button>
-                <button onclick="play.play()">play</button>
+                <button onclick="play.stop(); this.classList.toggle('active');">stop</button>
+                <button onclick="play.play(); this.classList.toggle('active');">play</button>
             </nav>
 
             <!-- <nav id="dots"></nav> -->
