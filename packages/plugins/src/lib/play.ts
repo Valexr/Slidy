@@ -10,7 +10,7 @@ export function play(params = { duration: 1000, delay: 0 }) {
 
         const timer = IntervalTimer(() => {
             instance.to((options.index as number) + 1)
-        }, duration);
+        }, duration, delay);
 
         timer.play()
 
@@ -22,7 +22,7 @@ export function play(params = { duration: 1000, delay: 0 }) {
             timer.pause()
         }
         node.onpointerleave = () => {
-            setTimeout(timer.resume, delay)
+            timer.resume()
         }
 
         node.onfocus = () => timer.stop()
