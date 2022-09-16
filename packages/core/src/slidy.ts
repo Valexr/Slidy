@@ -269,8 +269,6 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
                     default:
                         options[key] = value as never;
-                        POSITION = options.position = $().position();
-                        to(INDEX);
                         break;
                 }
                 dispatch(node, 'update', opts);
