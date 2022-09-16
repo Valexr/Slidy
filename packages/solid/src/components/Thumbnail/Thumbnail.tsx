@@ -51,7 +51,6 @@ const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
                                 active: active(),
                                 bg: props.background,
                             }}
-                            role="group"
                             style={s({
                                 '--_slidy-slide-bg': props.background
                                     ? `url(${props.getImgSrc?.(item)})`
