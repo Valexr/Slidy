@@ -179,7 +179,7 @@ List of available public custom properties:
 | `--slidy-focus-ring-color`     |  #c9c9c9e6 | `<color>`   | Focus ring color for all focusable elements.         |
 | `--slidy-height`               |  100%      | `<length>`  | The height of the component's node.                  |
 | `--slidy-nav-item-color`       |  white     | `<color>`   | The navigation elements color.                       |
-| `--slidy-nav-item-radius`      |  50%       | `<length>`  | The navigation elements border radius.               |
+| `--slidy-nav-item-radius`      |  0.35em    | `<length>`  | The navigation elements border radius.               |
 | `--slidy-nav-item-size`        |  16px      | `<length>`  | The navigation elements size.                        |
 | `--slidy-progress-thumb-color` |  #c44f61   | `<color>`   | The progress bar active track color.                 |
 | `--slidy-progress-track-color` |  #96969680 | `<color>`   | The progress bar track color.                        |
