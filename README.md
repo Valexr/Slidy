@@ -30,10 +30,10 @@
 ### 👨🏻‍💻 in progress...
 
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
+-   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 
 ### 📝 todo...
 
--   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 -   [@slidy/vue](https://github.com/Valexr/slidy/tree/master/packages/vue) - VueJS template
 -   [@slidy/malina](https://github.com/Valexr/slidy/tree/master/packages/malina) - MalinaJS template
 
