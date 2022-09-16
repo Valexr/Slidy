@@ -9,3 +9,5 @@ Icon?
 *-lock.*
 *.log
 dev.js
+
+!assets/icons
