@@ -47,7 +47,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
         function pos(index: number, snap?: Options['snap']): number {
             const indented = child(index)[size] + gap * 2 < node[size];
-            const indent = (indented ? (options.indent || 1) : offset(index) / 2 / gap) || 0;
+            const indent = indented ? (options.indent || 0) : offset(index) / 2 / gap;
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
             const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
             return child(index)[coord] - offset(index) * part + gap * edge;
