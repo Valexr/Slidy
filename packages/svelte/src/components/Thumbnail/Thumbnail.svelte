@@ -57,7 +57,6 @@
 			class="{classNames.thumbnail}"
 			class:active={i === active}
 			class:bg={background}
-			role="group"
 			style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
 			{title}
 			on:click={() => dispatch("select", { index: i })}
