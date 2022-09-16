@@ -6,18 +6,17 @@ export function marquee(params = { duration: 700, delay: 1 }) {
 
     return ({ node, options, instance }: PluginArgs) => {
 
-        let timer: TimerInstace
+        const timer = IntervalTimer(() => {
+            instance.to((options.index as number), duration / 16.667)
+        }, Math.abs(duration / 16.667), delay);
 
         node.addEventListener('mount', mount)
+        node.addEventListener('destroy', timer.stop);
 
         function mount() {
             options.loop = true
             options.snap = undefined
             options.duration = Math.abs(duration)
-
-            timer = IntervalTimer(() => {
-                instance.to((options.index as number), duration / 16.667)
-            }, Math.abs(duration / 16.667), delay);
 
             timer.play()
 
@@ -30,7 +29,6 @@ export function marquee(params = { duration: 700, delay: 1 }) {
 
             // node.onfocus = () => timer.stop()
             // node.onblur = () => timer.play()
-            node.addEventListener('destroy', timer.stop);
 
             return timer
         }
