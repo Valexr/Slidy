@@ -28,9 +28,6 @@ export function marquee(params = { duration: 700, delay: 1 }) {
             }
             node.onpointerenter = () => timer.pause()
             node.onpointerleave = () => timer.resume()
-
-            // node.onfocus = () => timer.stop()
-            // node.onblur = () => timer.play()
         }
     }
 }
