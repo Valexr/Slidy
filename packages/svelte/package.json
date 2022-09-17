@@ -16,7 +16,7 @@
 		"dev": "node esbuild --dev",
 		"dev:svelte": "node esbuild --svelte",
 		"dev:local": "pnpm dev:svelte --parallel --filter=@slidy/svelte...",
-		"build": "node esbuild && tsc --project tsconfig.build.json && node ../../env/dts && prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
+		"build": "node ../../env/rm && node esbuild && tsc --project tsconfig.build.json && node ../../env/dts && prettier --write 'dist/**/*.{ts,md,svelte,json,html,css}'",
 		"build:local": "pnpm build -r --filter=@slidy/svelte...",
 		"format": "prettier --write '**/*.{ts,md,svelte,json,html,css}'",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
