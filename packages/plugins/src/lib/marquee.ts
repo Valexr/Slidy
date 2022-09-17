@@ -13,6 +13,8 @@ export function marquee(params = { duration: 700, delay: 1 }) {
         node.addEventListener('mount', mount)
         node.addEventListener('destroy', timer.stop);
 
+        return timer
+
         function mount() {
             options.loop = true
             options.snap = undefined
@@ -29,8 +31,6 @@ export function marquee(params = { duration: 700, delay: 1 }) {
 
             // node.onfocus = () => timer.stop()
             // node.onblur = () => timer.play()
-
-            return timer
         }
     }
 }
