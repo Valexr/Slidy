@@ -1,7 +1,6 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"declarationDir": "dist",
 		"sourceMap": true,
 		"skipLibCheck": true,
 		"preserveValueImports": true,

@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-        "baseUrl": "."
-    },
-    "extends": "./tsconfig.json",
-    "exclude": ["dist", "public", "src/dev/*", "src/component.ts", "src/iife.ts"]
-}

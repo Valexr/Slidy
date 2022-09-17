@@ -1,6 +1,6 @@
 import type { SlidyCoreOptions } from "../Core/Core.types";
 import type { SlidyStyles, I18NDict, Slide, GetSrc } from "@slidy/assets/types";
-
+export type { Slide }
 export interface SlidyOptions extends SlidyCoreOptions {
 	arrows?: boolean;
 	autoplay?: boolean;

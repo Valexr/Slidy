@@ -1,9 +1,14 @@
 export function setEvents() {
-    const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy'];
+    const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy', 'play', 'pause', 'resume'];
 
     events.forEach((event) => {
         node.addEventListener(event, (e) => {
             switch (event) {
+                case 'play':
+                case 'pause':
+                case 'resume':
+                    console.log(e.detail);
+                    break;
                 case 'mount':
                     console.log(e.detail);
                     window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;

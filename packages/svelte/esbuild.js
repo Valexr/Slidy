@@ -111,7 +111,12 @@ if (DEV) {
 
 		await build({
 			...esbuildBase,
-			entryPoints: ["@slidy/assets/actions", "@slidy/assets/scripts"],
+			entryPoints: [
+				"@slidy/assets/actions",
+				"@slidy/assets/scripts",
+				"@slidy/assets/icons",
+				"@slidy/assets/i18n"
+			],
 			outdir: "dist/assets",
 			format: "esm",
 		});

@@ -1,4 +1,4 @@
-import { slidy } from '@slidy/core';
+import { slidy as slidyCore } from '@slidy/core';
 import { prepareValue } from './utils';
 
 import type { Options, SlidyInstance } from './types';
@@ -15,6 +15,7 @@ export default class Slidy extends HTMLElement {
         'gravity',
         'duration',
         'animation',
+        'plugins',
         'easing',
         'snap',
         'axis',
@@ -53,7 +54,7 @@ export default class Slidy extends HTMLElement {
         return this._options;
     }
 
-    setUpAccessors(attributes: string[]) {
+    setUpAccessors(attributes: string[]): void {
         attributes.forEach((name) => {
             Object.defineProperty(this, name, {
                 set: (value) => this.setAttribute(name, value),
@@ -62,7 +63,7 @@ export default class Slidy extends HTMLElement {
         });
     }
 
-    setUpOptions(attributes: string[]) {
+    setUpOptions(attributes: string[]): Partial<Options> {
         const attributeOptions = attributes.reduce((acc: Partial<Options>, attribute) => {
             const value = this[attribute as keyof Slidy] as string;
             if (value) {
@@ -73,21 +74,21 @@ export default class Slidy extends HTMLElement {
         return { ...attributeOptions, ...this.options };
     }
 
-    connectedCallback() {
+    connectedCallback(): void {
         if (this.isConnected) {
             // console.log(this.id, this._options);
             this.init(this._options);
         }
     }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
         const value = prepareValue(name, newValue as string);
         const option = { [name]: value };
         this.update(option);
     }
 
     init(options: Partial<Options> = {}) {
-        this._slidy = slidy(this, options);
+        this._slidy = slidyCore(this, options);
     }
 
     to(index: number) {

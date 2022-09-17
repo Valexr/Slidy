@@ -1,7 +1,12 @@
 {
     "compilerOptions": {
-        "baseUrl": "."
+        "outFile": "dist/index.d.ts",
+        "isolatedModules": false
     },
     "extends": "./tsconfig.json",
-    "exclude": ["dist", "public", "src/dev/*"]
+    "exclude": [
+        "dist",
+        "public",
+        "src/dev/*"
+    ]
 }

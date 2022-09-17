@@ -151,7 +151,7 @@ export type PluginArgs = {
  * }
  * ```
  */
-export type PluginFunc = (params?: any) => (args: PluginArgs) => void;
+export type PluginFunc = (params?: unknown) => (args: PluginArgs) => void;
 
 export interface Dom {
     edges: (index?: number) => boolean;

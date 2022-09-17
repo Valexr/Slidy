@@ -12,3 +12,5 @@ export {
     range,
 } from './scripts';
 export { autoplay } from './actions';
+export * from './icons';
+export * from './i18n';

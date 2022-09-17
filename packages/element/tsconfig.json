@@ -1,8 +1,14 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declarationDir": "dist/"
+        "outFile": "dist/index.d.ts",
+        "isolatedModules": false
     },
-    "include": ["src/*"],
-    "exclude": ["src/lib/*", "src/iife.ts"]
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        "src/lib/*",
+        "src/iife.ts"
+    ]
 }

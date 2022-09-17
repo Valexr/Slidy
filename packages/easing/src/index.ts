@@ -11,4 +11,4 @@ export {
     circ,
     back,
 } from './easing';
-export type { Easing } from './types';
+export type { EasingFunc } from './types';
