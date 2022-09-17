@@ -45,7 +45,7 @@ const Core: FlowComponent<Partial<Props>> = ($props) => {
 
     const useSlidy = (el: HTMLElement) => {
         const fn = () => {
-            const { update, destroy } = slidy(el, options);
+            const { update, destroy } = slidy(el, Object.assign({}, options));
 
             createEffect(() => {
                 update(options);
