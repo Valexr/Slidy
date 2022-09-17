@@ -19,7 +19,6 @@ export default async function main() {
     const content = await fs.readFile(dtsFilePath, 'utf-8');
 
     const declarations = content.match(re);
-    console.log(declarations.at(-1));
 
     if (declarations === null) throw new Error(`No found declarations at ${dtsFilePath}`);
 
