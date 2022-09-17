@@ -12,8 +12,6 @@ export function play(params = { duration: 1000, delay: 0 }) {
             instance.to((options.index as number) + 1)
         }, duration, delay);
 
-        timer.play()
-
         document.onvisibilitychange = () => {
             if (document.visibilityState === 'hidden') timer.pause()
             else timer.resume()
