@@ -8,6 +8,8 @@
     ],
     "main": "dist/slidy.mjs",
     "module": "dist/slidy.mjs",
+    "cdn": "dist/slidy.js",
+    "unpkg": "dist/slidy.js",
     "types": "dist/index.d.ts",
     "style": "dist/slidy.css",
     "sideEffects": false,

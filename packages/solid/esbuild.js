@@ -62,5 +62,12 @@ if (DEV) {
             jsx: 'preserve',
             outfile: './dist/slidy.jsx',
         });
+
+        build({
+            ...esbuildBase,
+            format: 'iife',
+            outfile: './dist/slidy.js',
+            globalName: 'SlidySolid',
+        });
     });
 }
