@@ -1,12 +1,11 @@
 import { useSlidy } from '../Slidy/Slidy';
 import { mergeProps } from 'solid-js';
 import { noop } from '@slidy/assets/scripts/utils';
-import { s } from '../../utils';
 
 import '@slidy/assets/styles/progress.module.css';
 
 import type { VoidComponent } from 'solid-js';
-import type { Props } from './Progress.types'
+import type { Props } from './Progress.types';
 
 const defaultProps: Props = {
     value: 0,
@@ -27,10 +26,10 @@ const Progress: VoidComponent<Partial<Props>> = ($props) => {
         <div
             class={classNames.progress}
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-            style={s({
+            style={{
                 '--_slidy-progress-size': size() + '%',
                 '--_slidy-progress': progress() + '%',
-            })}
+            }}
         >
             <input
                 class="slidy-progress-input"

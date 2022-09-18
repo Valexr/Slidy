@@ -2,7 +2,6 @@ import { mergeProps } from 'solid-js';
 import { useSlidy } from '../Slidy/Slidy';
 import { noop } from '@slidy/assets/scripts/utils';
 import { iconPause, iconPlay, iconStop } from '@slidy/assets/icons';
-import { s } from '../../utils';
 
 import '@slidy/assets/styles/button-autoplay.module.css';
 
@@ -44,10 +43,7 @@ const ButtonAutoplay: Component<Partial<Props>> = ($props) => {
     };
 
     return (
-        <div
-            class="slidy-autoplay"
-            style={s({ '--slidy-autoplay-stroke-length': 2 * Math.PI * r })}
-        >
+        <div class="slidy-autoplay" style={{ '--slidy-autoplay-stroke-length': 2 * Math.PI * r }}>
             <svg viewBox={viewBox}>
                 <path
                     stroke="var(--slidy-counter-bg, #4e4e4ebf)"

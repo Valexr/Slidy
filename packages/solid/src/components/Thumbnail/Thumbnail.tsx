@@ -2,7 +2,6 @@ import { mergeProps, For, Show } from 'solid-js';
 import { Core, Image } from '..';
 import { useSlidy } from '../Slidy/Slidy';
 import { format } from '@slidy/assets/scripts/utils';
-import { s } from '../../utils';
 
 import type { Props } from './thumbnail.types';
 import type { VoidComponent } from 'solid-js';
@@ -51,11 +50,11 @@ const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
                                 active: active(),
                                 bg: props.background,
                             }}
-                            style={s({
+                            style={{
                                 '--_slidy-slide-bg': props.background
                                     ? `url(${props.getImgSrc?.(item)})`
                                     : '',
-                            })}
+                            }}
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>

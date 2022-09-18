@@ -14,16 +14,15 @@ import { SlidyContext, useSlidy } from '../Context/Context';
 
 import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
-import { iconChevron } from "@slidy/assets/icons";
+import { iconChevron } from '@slidy/assets/icons';
 
 import { i18nDefaults } from './i18n';
-import { s } from '../../utils';
 import { classNames as classNamesDefaults } from './slidy.styles';
 
 import '@slidy/assets/styles/slidy.module.css';
 
 import type { Props } from './Slidy.types';
-import type { Component, } from 'solid-js';
+import type { Component } from 'solid-js';
 
 declare module 'solid-js' {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -162,10 +161,10 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                 class={props.classNames?.root}
                 aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
                 classList={{ groups: props.groups > 1 }}
-                style={s({
+                style={{
                     '--slidy-autoplay-interval': props.interval + 'ms',
                     '--slidy-group-items': props.groups,
-                })}
+                }}
                 id={props.id}
                 onClick={handleClick}
                 on:play={handleAutoplay}
@@ -233,11 +232,11 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                                         bg: props.background,
                                     }}
                                     role="group"
-                                    style={s({
+                                    style={{
                                         '--_slidy-slide-bg': props.background
                                             ? `url("${props.getImgSrc(item)}")`
                                             : undefined,
-                                    })}
+                                    }}
                                 >
                                     <Show when={!props.background}>
                                         <Image {...item} src={props.getImgSrc(item)} />
