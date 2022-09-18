@@ -1,5 +1,5 @@
 export function setEvents() {
-    const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy', 'play', 'pause', 'resume'];
+    const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy', 'play', 'pause', 'resume', 'stop'];
 
     events.forEach((event) => {
         node.addEventListener(event, (e) => {
@@ -7,6 +7,7 @@ export function setEvents() {
                 case 'play':
                 case 'pause':
                 case 'resume':
+                case 'stop':
                     console.log(e);
                     break;
                 case 'mount':
