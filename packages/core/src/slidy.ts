@@ -17,13 +17,13 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         track = 0,
         clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index ||= 0,
-        POSITION = options.position ||= 0,
-        DIRECTION = options.direction ||= 0,
-        DURATION = (options.duration ||= 450) / 2,
-        SENSITY = options.sensity ||= 2.5,
-        GRAVITY = options.gravity ||= 1.2,
-        CLAMP = options.clamp;
+        INDEX = hix = options.index ??= 0,
+        POSITION = options.position ??= 0,
+        DIRECTION = options.direction ??= 0,
+        DURATION = (options.duration ??= 450) / 2,
+        SENSITY = options.sensity ??= 2.5,
+        GRAVITY = options.gravity ??= 1.2,
+        CLAMP = options.clamp ??= 0;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
@@ -44,8 +44,8 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
     ];
 
     const RO = new ResizeObserver((ROE) => {
-        to(INDEX);
         POSITION = options.position = $().position();
+        to(INDEX);
         dispatch(node, 'resize', { ROE, options });
     });
 
@@ -65,11 +65,11 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
     const instance = { init, update, destroy, to }
 
+    init();
+
     loop(options.plugins || [], (plugin, i, array) => {
         array[i] = plugin({ node, options, instance })
     })
-
-    init();
 
     function init() {
         mount(node).then(() => {
