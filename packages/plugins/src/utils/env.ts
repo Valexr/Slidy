@@ -1,9 +1,5 @@
-type TimerInstace = {
-    play: () => void;
-    pause: () => void;
-    resume: () => void;
-    stop: () => void;
-}
+import { loop } from './utils'
+import type { EventMap, TimerInstace } from '../types'
 
 function timer(callback: () => void, interval: number, delay = 0): TimerInstace {
     let tid: NodeJS.Timer,
@@ -44,4 +40,16 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     return { play, pause, resume, stop }
 }
 
-export { timer, type TimerInstace }
+function listen(node: HTMLElement, events: EventMap[], on = true): void {
+    loop(events, (item) => {
+        const state = on ? 'addEventListener' : 'removeEventListener';
+        const [event, handle, options] = item;
+        node[state](event, handle, options);
+    });
+}
+
+function dispatch(node: HTMLElement, event: string) {
+    return node.dispatchEvent(new CustomEvent(event));
+};
+
+export { timer, type TimerInstace, listen, dispatch }

@@ -7,7 +7,7 @@ export function setEvents() {
                 case 'play':
                 case 'pause':
                 case 'resume':
-                    console.log(e.detail);
+                    console.log(e);
                     break;
                 case 'mount':
                     console.log(e.detail);

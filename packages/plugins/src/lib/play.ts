@@ -1,4 +1,4 @@
-import { timer as IntervalTimer } from '../utils/env'
+import { timer as IntervalTimer, dispatch } from '../utils/env'
 import type { PluginArgs } from '../types'
 
 export function play(params?: { duration: number, delay: number }, cb?: () => void) {
@@ -23,14 +23,21 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
             options.loop = true
 
             document.onvisibilitychange = () => {
-                if (document.visibilityState === 'hidden') timer.pause()
-                else timer.resume()
+                if (document.visibilityState === 'hidden') {
+                    timer.pause()
+                    dispatch(node, 'pause');
+                } else {
+                    timer.resume()
+                    dispatch(node, 'play');
+                }
             }
             node.onpointerenter = () => {
                 timer.pause()
+                dispatch(node, 'pause');
             }
             node.onpointerleave = () => {
                 timer.resume()
+                dispatch(node, 'play');
             }
         }
     }
