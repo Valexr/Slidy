@@ -10,7 +10,6 @@ export const getPhotos = async ({
     } catch (error) {
         console.error(`Could not fetch photos: ${error}`);
     }
-
 };
 
 async function getImages(

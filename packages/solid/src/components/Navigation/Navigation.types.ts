@@ -8,7 +8,6 @@ interface Options {
     siblings: number;
 }
 
-
 type Require<T extends object, Keys extends keyof T> = Pick<T, Keys> & Partial<Omit<T, Keys>>;
 
-export type Props = Require<Options, 'start' | 'current' | 'end'>
+export type Props = Require<Options, 'start' | 'current' | 'end'>;

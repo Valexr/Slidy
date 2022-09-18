@@ -7,7 +7,9 @@ export interface Props extends SlidyCoreOptions {
     slides: Slide[];
     className?: string;
 
-    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
+    onResize?: (
+        event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>
+    ) => void;
     onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
     onMount?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
@@ -20,4 +22,4 @@ export interface Props extends SlidyCoreOptions {
     setPosition?: Setter<number>;
 }
 
-export { SlidyCoreOptions }
+export { SlidyCoreOptions };

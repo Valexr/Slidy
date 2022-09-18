@@ -4,7 +4,5 @@
         "outFile": "dist/index.d.ts",
         "isolatedModules": false
     },
-    "include": [
-        "src/*"
-    ]
+    "include": ["src/*"]
 }

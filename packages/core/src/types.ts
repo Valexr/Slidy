@@ -45,7 +45,7 @@ export interface Options {
      * Slidy plugins.
      * @see https://github.com/Valexr/Slidy/tree/master/packages/plugins
      */
-    plugins?: ReturnType<PluginFunc>[]
+    plugins?: ReturnType<PluginFunc>[];
     /**
      * Control coordinate axis: `'x'`, `'y'`.
      */
@@ -134,15 +134,15 @@ export type AnimationArgs = {
 export type AnimationFunc = (args: AnimationArgs) => Partial<CSSStyleDeclaration>;
 
 export type PluginArgs = {
-    node: HTMLElement,
-    options: Options,
-    instance: SlidyInstance
-}
+    node: HTMLElement;
+    options: Options;
+    instance: SlidyInstance;
+};
 
 /**
  * Plugin function
  * @see https://github.com/Valexr/Slidy/tree/master/packages/plugin
- * 
+ *
  * ```ts
  * PluginArgs = {
  *  node: HTMLElement,

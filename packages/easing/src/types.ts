@@ -1,1 +1,1 @@
-export type { EasingFunc } from "@slidy/core";
+export type { EasingFunc } from '@slidy/core';

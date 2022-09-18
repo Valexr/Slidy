@@ -1,1 +1,1 @@
-export type { Options, AnimationArgs, AnimationFunc } from '@slidy/core'
+export type { Options, AnimationArgs, AnimationFunc } from '@slidy/core';

@@ -14,8 +14,8 @@ export function dom(node: HTMLElement, options: Options): Dom {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-            nodes[last - 1][coord] * reverse -
-            nodes[last - max(reverse, 0)][size]
+              nodes[last - 1][coord] * reverse -
+              nodes[last - max(reverse, 0)][size]
             : 0;
     const full = nodes.reduce((acc, cur) => (acc += cur[size] + gap), 0);
     const scrollable = full > node.offsetWidth;
@@ -47,7 +47,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
         function pos(index: number, snap?: Options['snap']): number {
             const indented = child(index)[size] + gap * 2 < node[size];
-            const indent = indented ? (options.indent ?? 1) : offset(index) / 2 / gap;
+            const indent = indented ? options.indent ?? 1 : offset(index) / 2 / gap;
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
             const edge = snap === 'start' ? -indent : snap === 'end' ? indent : 0;
             return child(index)[coord] - offset(index) * part + gap * edge;

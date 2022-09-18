@@ -1,15 +1,28 @@
 # Changelog
 
-## 3.6.1 - fix issues & updates
+## 3.7.0 - @slidy/plugins
+
+### @slidy/plugins
+
+#### 1.0.0 - first release
 
 ### @slidy/core
 
-#### 3.6.1 - fix issues & updates
+#### 3.7.0 - add `options.plugins`, fix issues & updates
 
+-   [add plugins to iife](https://github.com/Valexr/Slidy/commit/f8b0442273392f5ba4e48cfcb83431e1ebc4ab6a)
+-   [fix default options](https://github.com/Valexr/Slidy/commit/9b2fb4c3e7e48b76feee42340b23caf6717261b8)
+-   [options.plugins: []](https://github.com/Valexr/Slidy/commit/59be47539bd27622079dbd571ee9daa50b995073)
 -   [fix unsnapped loop mode](https://github.com/Valexr/Slidy/commit/49a730394f0d8040e9bb19d792b23c0553555a1d)
 -   [guard loop in mutate](https://github.com/Valexr/Slidy/commit/50b2a6ecb79d5724db3c6b1b357bad86c997dfc6)
 -   [fix snap === 'deck'](https://github.com/Valexr/Slidy/commit/02a0d4868db5f99461147309f09043c34bb3ff58)
--   [fix types](https://github.com/Valexr/Slidy/commit/0656cc5153da1e21a570a5d5522cba80314e0499)
+-   [ix types](https://github.com/Valexr/Slidy/commit/0656cc5153da1e21a570a5d5522cba80314e0499)
+
+### @slidy/element
+
+#### 1.2.0 - add `options.plugins`
+
+-   [add plugins to iife](https://github.com/Valexr/Slidy/commit/8b829ca7d1961161e0390d0bd5da55f230c153f1)
 
 ## 3.6.0 - @slidy/element
 

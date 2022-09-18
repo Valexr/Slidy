@@ -1,5 +1,5 @@
-import { loop } from './utils'
-import type { EventMap, TimerInstace } from '../types'
+import { loop } from './utils';
+import type { EventMap, TimerInstace } from '../types';
 
 function timer(callback: () => void, interval: number, delay = 0): TimerInstace {
     let tid: NodeJS.Timer,
@@ -9,7 +9,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
 
     function pause() {
         if (state !== 1) return;
-        remaining = delay || interval - (performance.now() - start)
+        remaining = delay || interval - (performance.now() - start);
         clearInterval(tid);
         state = 2;
     }
@@ -34,10 +34,10 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     function timeoutCallback() {
         if (state !== 3) return;
         callback();
-        play()
+        play();
     }
 
-    return { play, pause, resume, stop }
+    return { play, pause, resume, stop };
 }
 
 function listen(node: HTMLElement, events: EventMap, on = true): void {
@@ -52,4 +52,4 @@ function dispatch(node: HTMLElement, event: string) {
     return node.dispatchEvent(new CustomEvent(event));
 }
 
-export { timer, type TimerInstace, listen, dispatch }
+export { timer, type TimerInstace, listen, dispatch };

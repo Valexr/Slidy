@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 - add `options.plugins`
+
+-   [add plugins to iife](https://github.com/Valexr/Slidy/commit/8b829ca7d1961161e0390d0bd5da55f230c153f1)
+
 ## 1.1.0 - fix issues & updates
 
 -   [add window check](https://github.com/Valexr/Slidy/commit/60199ed16d344c73f44083fc2b9d8dad45b2e447)

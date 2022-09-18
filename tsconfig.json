@@ -6,6 +6,7 @@
             "@slidy/animation": ["packages/animation/src"],
             "@slidy/core": ["packages/core/src"],
             "@slidy/easing": ["packages/easing/src"],
+            "@slidy/plugins": ["packages/plugins/src"],
             "@slidy/element": ["packages/element/src"],
             "@slidy/media": ["packages/media/src"],
             "@slidy/react": ["packages/react/src"],

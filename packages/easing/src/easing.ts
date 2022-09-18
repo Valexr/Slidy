@@ -1,6 +1,6 @@
 import type { EasingFunc } from './types';
 
-const { cos, sin, pow, sqrt, PI } = Math
+const { cos, sin, pow, sqrt, PI } = Math;
 
 const linear: EasingFunc = (t) => t;
 const quad: EasingFunc = (t) => t * t;
@@ -39,4 +39,3 @@ const elastic: EasingFunc = (t) => {
 };
 
 export { linear, quad, cubic, quart, quint, bounce, sine, expo, elastic, circ, back };
-

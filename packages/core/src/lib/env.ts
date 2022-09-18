@@ -1,7 +1,8 @@
 import { clamp, loop, abs } from './utils';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-const X = (e: UniqEvent | WheelEvent, options: Options) => abs(e.deltaX) >= abs(e.deltaY) && options.axis !== 'y';
+const X = (e: UniqEvent | WheelEvent, options: Options) =>
+    abs(e.deltaX) >= abs(e.deltaY) && options.axis !== 'y';
 
 function mount(node: HTMLElement, count = 0) {
     return new Promise((resolve, reject) => {
@@ -14,7 +15,7 @@ function mount(node: HTMLElement, count = 0) {
                 clearInterval(mounting);
                 resolve(indexed(node));
             }
-        }, 16)
+        }, 16);
     });
 }
 

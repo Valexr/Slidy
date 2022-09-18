@@ -85,7 +85,7 @@ export default () => {
 | `gravity`   |    `1.2`    |                                         `number`                                          | Scroll inertia value.                                                 |
 | `indent`    |     `0`     |                                         `number`                                          | Custom scroll indent value, calculates as `gap * indent`.             |
 | `index`     |     `0`     |                                         `number`                                          | The index of the initial slide.                                       |
-| `plugins`   | `undefined` |                                         `ReturnType<PluginFunc>[]`                                    | Plugins to operate with the slidy instance and its options directly.  |
+| `plugins`   | `undefined` |                                `ReturnType<PluginFunc>[]`                                 | Plugins to operate with the slidy instance and its options directly.  |
 | `loop`      |   `false`   |                                         `boolean`                                         | Makes the slideshow continious.                                       |
 | `position`  |     `0`     |                                         `number`                                          | The current position value of the carousel.                           |
 | `sensity`   |     `5`     |                                         `number`                                          | Defines the sliding sensity as the number of pixels required to drag. |

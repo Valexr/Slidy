@@ -8,7 +8,6 @@ import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
 export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyInstance {
-
     let $: () => Dom,
         hix = 0,
         hip = 0,
@@ -17,20 +16,26 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         track = 0,
         clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index ??= 0,
-        POSITION = options.position ??= 0,
-        DIRECTION = options.direction ??= 0,
+        INDEX = (hix = options.index ??= 0),
+        POSITION = (options.position ??= 0),
+        DIRECTION = (options.direction ??= 0),
         DURATION = (options.duration ??= 450) / 2,
-        SENSITY = options.sensity ??= 2.5,
-        GRAVITY = options.gravity ??= 1.2,
-        CLAMP = options.clamp ??= 0;
+        SENSITY = (options.sensity ??= 2.5),
+        GRAVITY = (options.gravity ??= 1.2),
+        CLAMP = (options.clamp ??= 0);
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
-        ['scroll', () => { to(INDEX); GRAVITY = 2; }],
+        [
+            'scroll',
+            () => {
+                to(INDEX);
+                GRAVITY = 2;
+            },
+        ],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -63,17 +68,16 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
     const CSS = 'outline:0;overflow:hidden;user-select:none;-webkit-user-select:none;';
 
-    const instance = { init, update, destroy, to }
+    const instance = { init, update, destroy, to };
 
     init();
 
     loop(options.plugins || [], (plugin, i, array) => {
-        array[i] = plugin({ node, options, instance })
-    })
+        array[i] = plugin({ node, options, instance });
+    });
 
     function init() {
         mount(node).then(() => {
-
             $ = () => dom(node, options);
 
             node.style.cssText += CSS;
@@ -88,14 +92,14 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
             listen(window, WINDOW_NATIVE_EVENTS);
 
             dispatch(node, 'mount', { options });
-        })
+        });
     }
 
     function move(pos: number, index?: number): void {
         DIRECTION = options.direction = sign(pos);
         POSITION = (options.position as number) += positioning(pos);
         INDEX = options.index = $().index(POSITION);
-        GRAVITY = $().edges() ? 1.8 : options.gravity as number;
+        GRAVITY = $().edges() ? 1.8 : (options.gravity as number);
         SENSITY = 0;
 
         $().animate();
@@ -119,16 +123,18 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
         RAF(frame);
 
-        let start = 0, dist = 0, delta = 0
+        let start = 0,
+            dist = 0,
+            delta = 0;
 
         function frame(now: number) {
             start ||= now;
-            dist = delta
+            dist = delta;
             const elapsed = start - now;
             const T = exp(elapsed / duration);
             const easing = options.easing?.(T) || T;
             delta = distance * easing;
-            const dest = dist % delta ? ((dist - delta) % distance) : 0;
+            const dest = dist % delta ? (dist - delta) % distance : 0;
 
             move(dest, index);
 
@@ -185,9 +191,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         scroll(clamping(index, options), amplitude);
 
         function clamping(index: number, options: Options): number {
-            index = CLAMP && index - hix
-                ? INDEX + CLAMP * DIRECTION
-                : index;
+            index = CLAMP && index - hix ? INDEX + CLAMP * DIRECTION : index;
 
             return indexing(node, options, index);
         }
@@ -216,8 +220,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
             if (X(e, options) || edged || e.shiftKey) e.preventDefault();
 
-            const throttled =
-                CLAMP || (options.axis === 'y' && !options.vertical) || e.shiftKey;
+            const throttled = CLAMP || (options.axis === 'y' && !options.vertical) || e.shiftKey;
 
             if (clamped !== throttled) {
                 node.onwheel = throttle(onWheel, DURATION, throttled);

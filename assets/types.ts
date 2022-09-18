@@ -63,20 +63,20 @@ type i18nKey =
 export type I18NDict = Record<i18nKey, string>;
 
 export type SlidyNodes =
-	| "arrow"
-	| "autoplay"
-	| "counter"
-	| "img"
-	| "nav"
-	| "nav-item"
-	| "overlay"
-	| "progress"
-	| "progress-handle"
-	| "root"
-	| "slide"
-	| "slides"
-	| "thumbnail"
-	| "thumbnails";
+    | 'arrow'
+    | 'autoplay'
+    | 'counter'
+    | 'img'
+    | 'nav'
+    | 'nav-item'
+    | 'overlay'
+    | 'progress'
+    | 'progress-handle'
+    | 'root'
+    | 'slide'
+    | 'slides'
+    | 'thumbnail'
+    | 'thumbnails';
 
 export type SlidyStyles = Record<SlidyNodes, string>;
 

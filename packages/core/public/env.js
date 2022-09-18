@@ -1,5 +1,17 @@
 export function setEvents() {
-    const events = ['mount', 'move', 'index', 'resize', 'keys', 'update', 'destroy', 'play', 'pause', 'resume', 'stop'];
+    const events = [
+        'mount',
+        'move',
+        'index',
+        'resize',
+        'keys',
+        'update',
+        'destroy',
+        'play',
+        'pause',
+        'resume',
+        'stop',
+    ];
 
     events.forEach((event) => {
         node.addEventListener(event, (e) => {
@@ -7,14 +19,14 @@ export function setEvents() {
                 case 'play':
                 case 'pause':
                 case 'resume':
-                    console.log(e);
+                    // console.log(e);
                     break;
                 case 'stop':
                     autoplay.classList.toggle('active');
                     autoplay.innerText = 'play';
                     break;
                 case 'mount':
-                    console.log(e.detail);
+                    // console.log(e.detail);
                     window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;
                     Object.assign(options, e.detail.options);
                     for (const button of document.querySelectorAll('button')) {
@@ -56,18 +68,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                        'linear',
-                        'sine',
-                        'quad',
-                        'cubic',
-                        'quart',
-                        'quint',
-                        'expo',
-                        'circ',
-                        'back',
-                        'elastic',
-                        'bounce',
-                    ],
+                            'linear',
+                            'sine',
+                            'quad',
+                            'cubic',
+                            'quart',
+                            'quint',
+                            'expo',
+                            'circ',
+                            'back',
+                            'elastic',
+                            'bounce',
+                        ],
                         animates = [
                             'blur',
                             'deck',
