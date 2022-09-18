@@ -21,6 +21,7 @@ const App: Component = () => {
     const groups = channel(0);
 
     const vertical = channel(true);
+    const autoplayControl = channel(true);
     const clamp = channel(0);
     const duration = channel(450);
     const gravity = channel(1.45);
@@ -37,7 +38,7 @@ const App: Component = () => {
     const slides = channel<Slide[]>([]);
 
     const loadSlides = () => {
-        getRandomSlides().then((s) => s.length ? slides(s) : loadSlides());
+        getRandomSlides().then((s) => (s?.length ? slides(s) : loadSlides()));
     };
 
     loadSlides();
@@ -45,8 +46,8 @@ const App: Component = () => {
     return (
         <>
             <header class="header">
-                <picture aria-hidden="true">
-                    <img alt="slidy" width="35" height="35" src={logo} />
+                <picture>
+                    <img aria-hidden={true} alt="slidy" width="35" height="35" src={logo} />
                 </picture>
                 <h1>
                     Slidy <small>v.{version}</small>
@@ -57,10 +58,7 @@ const App: Component = () => {
                             <path d="M3.56,10.56H9a3.62,3.62,0,0,1,2.88,1.55,12.14,12.14,0,0,1,1.85-2.58A6.61,6.61,0,0,0,9,7.44H3.56a1.56,1.56,0,0,0,0,3.12Zm12,4.84c.86-2.58,3.51-4.84,5.68-4.84h2.86l-2,2a1.57,1.57,0,0,0,0,2.2,1.59,1.59,0,0,0,1.1.45,1.55,1.55,0,0,0,1.1-.45L30,9,24.23,3.23A1.56,1.56,0,0,0,22,5.43l2,2H21.19c-3.54,0-7.33,3.06-8.63,7l-.74,2.2c-1,3-3.22,4.83-4.38,4.83H3.56a1.56,1.56,0,0,0,0,3.12H7.44c2.86,0,6-3,7.34-7ZM22,17.23a1.57,1.57,0,0,0,0,2.2l2,2H20.41a4.44,4.44,0,0,1-4.19-3.27,14.51,14.51,0,0,1-1.69,3.39,7.4,7.4,0,0,0,5.88,3h3.64l-2,2a1.57,1.57,0,0,0,0,2.2,1.59,1.59,0,0,0,1.1.45,1.55,1.55,0,0,0,1.1-.45L30,23l-5.77-5.77A1.57,1.57,0,0,0,22,17.23Z" />
                         </svg>
                     </button>
-                    <button
-                        onClick={darkTheme.switch}
-                        title="Switch theme"
-                    >
+                    <button onClick={darkTheme.switch} title="Switch theme">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                             <path d="M30,21.4a14.74,14.74,0,0,1-19,7.5A13.89,13.89,0,0,1,3.14,10.5,14.48,14.48,0,0,1,14.8,2a.83.83,0,0,1,.86.46.76.76,0,0,1-.15.93A10.48,10.48,0,0,0,12.26,11a11,11,0,0,0,11.25,10.7,11.62,11.62,0,0,0,5.25-1.31.91.91,0,0,1,1,.11A.83.83,0,0,1,30,21.4Z" />
                         </svg>
@@ -95,10 +93,9 @@ const App: Component = () => {
                         // bind:autoplay
                         autoplay={autoplay}
                         setAutoplay={setAutoplay}
-                        // autoplayControl
+                        autoplayControl={autoplayControl()}
                         groups={groups()}
                         vertical={vertical()}
-
                         plugins={[console.log]}
                     />
                 </Show>
