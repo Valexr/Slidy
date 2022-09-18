@@ -63,11 +63,11 @@ const vSlidy = {
     <!-- <section ref="$node" @mount="onMount" @VnodeMounted="initLib"> -->
     <section v-slidy>
         <!-- <img v-for="(item, index) in items.item" src="{{item}}" /> -->
-        <img src="https://picsum.photos/id/10/1280/800.jpg" alt="10" />
-        <img src="https://picsum.photos/id/11/1280/800.jpg" alt="11" />
-        <img src="https://picsum.photos/id/12/1280/800.jpg" alt="12" />
-        <img src="https://picsum.photos/id/13/1280/800.jpg" alt="13" />
-        <img src="https://picsum.photos/id/14/1280/800.jpg" alt="14" />
+        <img width="640" height="400" src="https://source.unsplash.com/random/1280x800?jpg" />
+        <img width="500" height="400" src="https://source.unsplash.com/random/1000x800?jpg" />
+        <img width="400" height="400" src="https://source.unsplash.com/random/800x800?jpg" />
+        <img width="400" height="500" src="https://source.unsplash.com/random/800x1000?jpg" />
+        <img width="400" height="640" src="https://source.unsplash.com/random/800x1200?jpg" />
     </section>
 </template>
 
