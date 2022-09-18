@@ -1,27 +1,8 @@
 import type { SlidyCoreOptions } from '../Core/Core.types';
-import type { JSX, Accessor, Setter } from 'solid-js'
+import type { JSX, Accessor, Setter } from 'solid-js';
+import type { SlidyStyles, I18NDict, Slide, GetSrc } from '@slidy/assets/types';
 
-/**
- * Common Image interface.
- */
-export interface Slide {
-    id?: string | number;
-    src?: string;
-    alt?: string;
-    width?: string | number;
-    height?: string | number;
-    [key: string]: unknown;
-}
-
-import type { classNames } from './slidy.styles';
-
-type SlidyNodes = keyof typeof classNames;
-
-export type SlidyStyles = Record<SlidyNodes, string>;
-
-export type GetSrc<T> = (item: T) => string;
-
-type BaseCoreOptions = Omit<SlidyCoreOptions, 'index' | 'position'>
+type BaseCoreOptions = Omit<SlidyCoreOptions, 'index' | 'position'>;
 
 export interface Props extends BaseCoreOptions {
     /**
@@ -40,8 +21,8 @@ export interface Props extends BaseCoreOptions {
     classNames?: SlidyStyles;
     i18n?: I18NDict;
     easing?: SlidyCoreOptions['easing'];
-    getImgSrc?: (item: unknown | Slide) => string;
-    getThumbSrc?: (item: unknown | Slide) => string;
+    getImgSrc?: GetSrc<Slide | unknown>;
+    getThumbSrc?: GetSrc<Slide | unknown>;
     /**
      * @default false
      */
@@ -85,7 +66,9 @@ export interface Props extends BaseCoreOptions {
     arrow?: () => JSX.Element;
     children?: (item: Slide) => JSX.Element;
 
-    onResize?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
+    onResize?: (
+        event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>
+    ) => void;
     onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
     onMount?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;
     onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
@@ -95,18 +78,4 @@ export interface Props extends BaseCoreOptions {
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
 }
 
-type i18nKey =
-    | 'carousel'
-    | 'counter'
-    | 'first'
-    | 'last'
-    | 'next'
-    | 'play'
-    | 'prev'
-    | 'slide'
-    | 'slideN'
-    | 'stop';
-
-export type I18NDict = Record<i18nKey, string>;
-
-export { SlidyCoreOptions }
+export { SlidyCoreOptions, GetSrc };
