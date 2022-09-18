@@ -50,6 +50,6 @@ function listen(node: HTMLElement, events: EventMap, on = true): void {
 
 function dispatch(node: HTMLElement, event: string) {
     return node.dispatchEvent(new CustomEvent(event));
-};
+}
 
 export { timer, type TimerInstace, listen, dispatch }
