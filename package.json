@@ -24,6 +24,7 @@
         "build:vue": "pnpm --filter=@slidy/vue... build",
         "build:www": "pnpm --filter=@slidy/www... build",
         "build:malina": "pnpm --filter=@slidy/malina... build",
+        "build:all": "pnpm -r build",
         "format": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
         "pub:core": "pnpm --filter=@slidy/core pub",
         "pub:media": "pnpm --filter=@slidy/media pub",
@@ -34,7 +35,7 @@
         "pub:svelte": "pnpm --filter=@slidy/svelte pub",
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "pub:react": "pnpm --filter=@slidy/react pub",
-        "pub": "pnpm -r pub",
+        "pub:all": "pnpm -r pub",
         "up:all": "pnpm up -r"
     },
     "repository": {
