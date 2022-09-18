@@ -28,7 +28,7 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
                     dispatch(node, 'pause');
                 } else {
                     timer.resume()
-                    dispatch(node, 'play');
+                    dispatch(node, 'resume');
                 }
             }
             node.onpointerenter = () => {
@@ -37,7 +37,7 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
             }
             node.onpointerleave = () => {
                 timer.resume()
-                dispatch(node, 'play');
+                dispatch(node, 'resume');
             }
         }
     }
