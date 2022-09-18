@@ -40,7 +40,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     return { play, pause, resume, stop }
 }
 
-function listen(node: HTMLElement, events: EventMap[], on = true): void {
+function listen(node: HTMLElement, events: EventMap, on = true): void {
     loop(events, (item) => {
         const state = on ? 'addEventListener' : 'removeEventListener';
         const [event, handle, options] = item;
