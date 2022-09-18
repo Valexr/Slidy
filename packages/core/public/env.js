@@ -7,8 +7,11 @@ export function setEvents() {
                 case 'play':
                 case 'pause':
                 case 'resume':
-                case 'stop':
                     console.log(e);
+                    break;
+                case 'stop':
+                    autoplay.classList.toggle('active');
+                    autoplay.innerText = 'play';
                     break;
                 case 'mount':
                     console.log(e.detail);
