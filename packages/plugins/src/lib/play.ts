@@ -11,9 +11,12 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
 
     return ({ node, options, instance }: PluginArgs) => {
         cb ||= () => {
-            if (!options.loop && options.index === node.childElementCount - 1)
+            if (!options.loop && options.index === node.childElementCount - 1) {
+                dispatch(node, 'stop')
                 timer.stop()
-            else instance.to((options.index as number) + 1)
+            } else {
+                instance.to((options.index as number) + 1)
+            }
         }
 
         const timer = IntervalTimer(cb, duration, delay);
@@ -26,20 +29,20 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
         function mount() {
             document.onvisibilitychange = () => {
                 if (document.visibilityState === 'hidden') {
-                    timer.pause()
                     dispatch(node, 'pause');
+                    timer.pause()
                 } else {
-                    timer.resume()
                     dispatch(node, 'resume');
+                    timer.resume()
                 }
             }
             node.onpointerenter = () => {
-                timer.pause()
                 dispatch(node, 'pause');
+                timer.pause()
             }
             node.onpointerleave = () => {
-                timer.resume()
                 dispatch(node, 'resume');
+                timer.resume()
             }
         }
     }
