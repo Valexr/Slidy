@@ -63,7 +63,7 @@ All `options` are optional, but mount `node` required:
 
 ### IIFE as `Window` Object
 
-window.Slidy object contain core script, [@slidy/animation],  [@slidy/easing] & [@slidy/media] functions
+window.Slidy object contain core script, [@slidy/animation],  [@slidy/easing],  [@slidy/plugins] & [@slidy/media] functions
 
 ```js
 window.Slidy = {
@@ -88,7 +88,8 @@ window.Slidy = {
         window.onload = () => {
             animation = Slidy.animation.flip
             easing = Slidy.easing.cubic
-            slidy = Slidy.core(node, { animation, easing });
+            plugin = Slidy.plugin.play
+            slidy = Slidy.core(node, { animation, easing, plugins: [ plugin() ] });
         }
 </script>
 
@@ -140,6 +141,7 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 | `duration`  | `450`       | `number`   | Sliding duration in ms |
 | `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
 | `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. For proper operation minimal `duration: 450` needed. |
+| `plugins`   | `undefined` | `function` | Plugins functions: `t value from 1 to 0` - predefined in [@slidy/plugins]. |
 | `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
 | `axis`      | `undefined` | `string`   | Control coordinate axis: `'x', 'y'`. |
 | `loop`      | `false`     | `boolean`  | Infinite loop mode |
@@ -284,6 +286,7 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 [NPM]: https://www.npmjs.com/package/@slidy/core
 [CDN]: https://unpkg.com/@slidy/core/
 [REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
-[@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
 [@slidy/animation]: https://github.com/Valexr/Slidy/tree/master/packages/animation
+[@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
+[@slidy/plugins]: https://github.com/Valexr/Slidy/tree/master/packages/plugins
 [@slidy/media]: https://github.com/Valexr/Slidy/tree/master/packages/media

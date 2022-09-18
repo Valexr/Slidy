@@ -16,26 +16,20 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         track = 0,
         clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
-        INDEX = (hix = options.index ??= 0),
-        POSITION = (options.position ??= 0),
-        DIRECTION = (options.direction ??= 0),
-        DURATION = (options.duration ??= 450) / 2,
-        SENSITY = (options.sensity ??= 2.5),
-        GRAVITY = (options.gravity ??= 1.2),
-        CLAMP = (options.clamp ??= 0);
+        INDEX = hix = options.index ??= 0,
+        POSITION = options.position ??= 0,
+        DIRECTION = options.direction ??= 0,
+        DURATION = options.duration ??= 450 / 2,
+        SENSITY = options.sensity ??= 2.5,
+        GRAVITY = options.gravity ??= 1.2,
+        CLAMP = options.clamp ??= 0;
 
     const WINDOW_EVENTS: EventMap = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
-        [
-            'scroll',
-            () => {
-                to(INDEX);
-                GRAVITY = 2;
-            },
-        ],
+        ['scroll', () => { to(INDEX); GRAVITY = 2; }]
     ];
     const WINDOW_NATIVE_EVENTS: EventMap = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -123,9 +117,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
         RAF(frame);
 
-        let start = 0,
-            dist = 0,
-            delta = 0;
+        let start = 0, dist = 0, delta = 0;
 
         function frame(now: number) {
             start ||= now;
@@ -192,7 +184,6 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
         function clamping(index: number, options: Options): number {
             index = CLAMP && index - hix ? INDEX + CLAMP * DIRECTION : index;
-
             return indexing(node, options, index);
         }
     }
