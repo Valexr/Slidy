@@ -2,15 +2,23 @@
     "name": "@slidy/solid",
     "version": "1.3.0",
     "description": "Simple, configurable & reusable carousel component built with SolidJS",
-    "main": "dist/slidy.cjs",
-    "module": "dist/slidy.mjs",
-    "browser": "dist/slidy.js",
-    "types": "dist/index.d.ts",
-    "style": "dist/slidy.css",
     "type": "module",
     "files": [
         "dist/*"
     ],
+    "main": "dist/slidy.mjs",
+    "module": "dist/slidy.mjs",
+    "types": "dist/index.d.ts",
+    "style": "dist/slidy.css",
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "solid": "./dist/slidy.jsx",
+            "node": "./dist/slidy.jsx",
+            "default": "./dist/slidy.mjs"
+        },
+        "./dist/*": "./dist/*"
+    },
     "scripts": {
         "dev": "node esbuild --dev",
         "build": "node esbuild && tsc --project tsconfig.build.json && node ../../env/dts",

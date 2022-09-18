@@ -29,18 +29,6 @@ const derverConfig = {
         'node_modules/@slidy/easing',
     ],
 };
-const builds = {
-    cjs: {
-        outfile: './dist/slidy.cjs',
-    },
-    esm: {
-        outfile: './dist/slidy.mjs',
-    },
-    iife: {
-        outfile: './dist/slidy.js',
-        globalName: 'Slidy',
-    },
-};
 
 if (DEV) {
     build({
@@ -61,12 +49,18 @@ if (DEV) {
     });
 } else {
     prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
+        build({
+            ...esbuildBase,
+            format: 'esm',
+            outfile: './dist/slidy.mjs',
+        });
+
+        build({
+            ...esbuildBase,
+            plugins: [],
+            format: 'esm',
+            jsx: 'preserve',
+            outfile: './dist/slidy.jsx',
+        });
     });
 }
