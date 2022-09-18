@@ -46,6 +46,7 @@
         "@slidy/animation": "workspace:*",
         "@slidy/core": "workspace:*",
         "@slidy/easing": "workspace:*",
+        "@slidy/plugins": "workspace:*",
         "@slidy/media": "workspace:*"
     }
 }

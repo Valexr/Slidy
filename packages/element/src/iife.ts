@@ -1,5 +1,6 @@
 export { default as element } from './slidy';
-export * as animation from '@slidy/animation/src/index';
-export * as easing from '@slidy/easing/src/index';
-export { media } from '@slidy/media/src/index';
+export * as animation from '@slidy/animation/src';
+export * as easing from '@slidy/easing/src';
+export * as plugin from '@slidy/plugins/src';
+export { media } from '@slidy/media/src';
 export type { Options, EasingFunc, AnimationFunc, AnimationArgs } from '@slidy/core';
