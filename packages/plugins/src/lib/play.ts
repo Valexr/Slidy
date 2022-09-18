@@ -10,7 +10,11 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
     const { duration, delay } = params
 
     return ({ node, options, instance }: PluginArgs) => {
-        cb ||= () => instance.to((options.index as number) + 1)
+        cb ||= () => {
+            if (!options.loop && options.index === node.childElementCount - 1)
+                timer.stop()
+            else instance.to((options.index as number) + 1)
+        }
 
         const timer = IntervalTimer(cb, duration, delay);
 
@@ -20,8 +24,6 @@ export function play(params?: { duration: number, delay: number }, cb?: () => vo
         return timer
 
         function mount() {
-            options.loop = true
-
             document.onvisibilitychange = () => {
                 if (document.visibilityState === 'hidden') {
                     timer.pause()

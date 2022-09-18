@@ -143,7 +143,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
     function to(index = 0, position = 0): void {
         clear();
-
+        console.log(index)
         index = indexing(node, options, index);
         const pos = $().distance(index) - POSITION;
         scroll(index, position || pos);
