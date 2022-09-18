@@ -78,4 +78,4 @@ export interface Props extends BaseCoreOptions {
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
 }
 
-export { SlidyCoreOptions, GetSrc };
+export { SlidyCoreOptions, GetSrc, Slide };
