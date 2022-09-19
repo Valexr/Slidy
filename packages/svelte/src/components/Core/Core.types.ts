@@ -1,5 +1,5 @@
 import type { AnimationFunc } from "@slidy/core";
-import type { PluginFunc } from "@slidy/core";
+import type { PluginFunc } from "@slidy/plugins";
 
 export interface SlidyCoreOptions {
 	animation?: AnimationFunc;
