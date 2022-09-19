@@ -36,6 +36,7 @@
 	export let interval = 1500;
 	export let loop = false;
 	export let groups = 0;
+	export let plugins: $$Props["plugins"] = [];
 	export let position = 0;
 	export let progress = false;
 	export let sensity = 5;
@@ -167,6 +168,7 @@
 		{indent}
 		{index}
 		{loop}
+		{plugins}
 		{sensity}
 		{snap}
 		on:destroy

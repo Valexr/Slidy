@@ -1,4 +1,5 @@
 import type { AnimationFunc } from "@slidy/core";
+import type { PluginFunc } from "@slidy/core";
 
 export interface SlidyCoreOptions {
 	animation?: AnimationFunc;
@@ -11,6 +12,7 @@ export interface SlidyCoreOptions {
 	indent?: number;
 	index?: number;
 	loop?: boolean;
+	plugins?: ReturnType<PluginFunc>[];
 	position?: number;
 	sensity?: number;
 	snap?: "deck" | "start" | "center" | "end";

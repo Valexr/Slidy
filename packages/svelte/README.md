@@ -86,6 +86,7 @@ All props are optional. The only property to get started is `slides` - an array 
 | `indent` | `0` | `number` | Custom scroll indent value, calculates as `gap * indent`. |
 | `index` | `0` | `number` | The index of the initial slide. |
 | `loop` | `false` | `boolean` | Makes the slideshow continious. |
+| `plugins` | `[]` | `PluginFunc[]` | The array of plugins. |
 | `position` | `0` | `number` | The current position value of the carousel. |
 | `sensity`| `5` | `number` | Defines the sliding sensity as the number of pixels required to drag. |
 | `snap` | `undefined` | `"start"  | "center" | "end" | "deck"` | Enforces the scroll stop positions. |

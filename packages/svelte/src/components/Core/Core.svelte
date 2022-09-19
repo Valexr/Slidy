@@ -14,6 +14,7 @@
 	export let indent: $$Props["indent"] = 2;
 	export let index = 0;
 	export let loop = false;
+	export let plugins: $$Props["plugins"] = [];
 	export let position = 0;
 	export let sensity = 5;
 	export let snap: $$Props["snap"] = undefined;
@@ -35,6 +36,7 @@
 		indent,
 		index,
 		loop,
+		plugins,
 		sensity,
 		snap
 	}}
