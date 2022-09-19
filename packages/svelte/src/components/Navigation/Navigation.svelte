@@ -30,8 +30,6 @@
 	// Too many items -> should be ordinal for accessibility and responsiveness
 	$: ordinal = end - start + 1 > limit && true;
 	$: indices = generateIndexes({ current, start, end, limit, siblings });
-
-	$: console.log(current);
 </script>
 
 <nav
