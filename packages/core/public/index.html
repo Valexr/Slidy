@@ -58,7 +58,7 @@
             import { media as mediaStorage } from './build/media.js';
             import * as easings from './build/easing.js';
             import * as animations from './build/animation.js';
-            import { log, marquee, play } from './build/plugins.js';
+            import { log, marquee, play, fool } from './build/plugins.js';
             import * as utils from './utils.js';
             import { getSlides } from './api.js';
             import { setEvents } from './env.js';
@@ -101,9 +101,9 @@
                 gravity: 1.2,
                 // duration: 375,
                 loop: false,
-                snap: '',
+                snap: 'center',
                 axis: 'x',
-                plugins: [play()],
+                plugins: [fool()],
                 animation: animations.flip,
                 easing: easings.sine,
             };
