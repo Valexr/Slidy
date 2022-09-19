@@ -10,7 +10,7 @@ export function fool() {
             const index = event.detail.index;
 
             Promise.resolve(index % 2 === 0).then((val) => {
-                instance.update({ axis: val ? 'x' : 'y' });
+                Promise.resolve({ axis: val ? 'x' : 'y' } as const).then(instance.update)
             });
         }
 
