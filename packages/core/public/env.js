@@ -68,18 +68,18 @@ export function setEvents() {
                     }
 
                     const eases = [
-                            'linear',
-                            'sine',
-                            'quad',
-                            'cubic',
-                            'quart',
-                            'quint',
-                            'expo',
-                            'circ',
-                            'back',
-                            'elastic',
-                            'bounce',
-                        ],
+                        'linear',
+                        'sine',
+                        'quad',
+                        'cubic',
+                        'quart',
+                        'quint',
+                        'expo',
+                        'circ',
+                        'back',
+                        'elastic',
+                        'bounce',
+                    ],
                         animates = [
                             'blur',
                             'deck',
@@ -142,6 +142,7 @@ export function setEvents() {
                     // console.log(e.detail, key, value);
                     for (const option in e.detail) {
                         const target = document.getElementById(option);
+                        slidy.to(options.index);
                         if (target) {
                             if (target.tagName === 'BUTTON') {
                                 target.classList.toggle('active');

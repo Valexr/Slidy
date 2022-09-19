@@ -14,11 +14,12 @@ export function dom(node: HTMLElement, options: Options): Dom {
     const gap =
         length > 1
             ? nodes[last][coord] * reverse -
-              nodes[last - 1][coord] * reverse -
-              nodes[last - max(reverse, 0)][size]
+            nodes[last - 1][coord] * reverse -
+            nodes[last - max(reverse, 0)][size]
             : 0;
     const full = nodes.reduce((acc, cur) => (acc += cur[size] + gap), 0);
     const scrollable = full > node.offsetWidth;
+    const deck = options.snap === 'deck'
 
     assign(options, { reverse, scrollable, vertical });
 
@@ -31,7 +32,9 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const indexed = (dir <= 0 && curr <= start) || (dir >= 0 && curr >= end);
         const edged = (dir <= 0 && pos <= start) || (dir >= 0 && pos >= end);
 
-        return options.loop ? false : (index as number) >= 0 ? edged || indexed : edged;
+        return options.loop ? false
+            : (index as number) >= 0 ? edged || indexed
+                : edged;
     }
 
     function distance(index: number, snap = options.snap): number {
@@ -43,9 +46,10 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const end = pos(reverse < 0 ? 0 : last, 'end');
         const current = pos(index, snap);
 
-        return options.loop || snap === 'deck' ? current : clamp(start, current, end);
+        return (options.loop || snap === 'deck') ? current : clamp(start, current, end);
 
         function pos(index: number, snap?: Options['snap']): number {
+            snap = deck ? 'deck' : snap
             const indented = child(index)[size] + gap * 2 < node[size];
             const indent = indented ? options.indent ?? 1 : offset(index) / 2 / gap;
             const part = snap === 'start' ? 0 : snap === 'end' ? 1 : 0.5;
@@ -95,7 +99,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
                 child.turn = clamp(-1, child.track / child.size, 1);
                 child.exp = clamp(0, (child.size - abs(child.track)) / child.size, 1);
 
-                const pos = options.snap === 'deck' ? child.dist : (options.position as number);
+                const pos = deck ? child.dist : (options.position as number);
                 const translate = vertical ? `translateY(${-pos}px)` : `translateX(${-pos}px)`;
                 const args = { node, child, options, translate };
                 const style = options.animation?.(args) || { transform: translate };
