@@ -23,7 +23,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
     assign(options, { reverse, scrollable, vertical });
 
-    function edges(index: number | undefined = options.index) {
+    function edges(index?: number) {
         const start = distance(reverse < 0 ? last : 0, 'start');
         const end = distance(reverse < 0 ? 0 : last, 'end');
         const curr = distance(index as number);
@@ -33,7 +33,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
         const edged = (val?: number) => (dir <= 0 && val as number <= start)
             || (dir >= 0 && val as number >= end);
 
-        return options.loop ? false : edged(pos) || edged(curr)
+        return options.loop ? false : edged(index as number >= 0 ? curr : pos)
     }
 
     function distance(index: number, snap = options.snap): number {
