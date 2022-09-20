@@ -4,19 +4,19 @@ import type { Dom, Child, Options, UniqEvent } from '../types';
 export function dom(node: HTMLElement, options: Options): Dom {
     const nodes: Child[] = [...(node.children as HTMLCollectionOf<Child>)];
     const length = nodes.length;
-    const indexes = [...Array(length).keys()];
     const last = length - 1;
     const cix = floor(length / 2);
-    const vertical = nodes[1].offsetTop - nodes[0].offsetTop >= nodes[0].offsetHeight;
+    const vertical = length > 1
+        ? nodes[1].offsetTop - nodes[0].offsetTop >= nodes[0].offsetHeight
+        : false;
     const coord = vertical ? 'offsetTop' : 'offsetLeft';
     const size = vertical ? 'offsetHeight' : 'offsetWidth';
     const reverse = sign(nodes[last][coord]);
-    const gap =
-        length > 1
-            ? nodes[last][coord] * reverse -
-            nodes[last - 1][coord] * reverse -
-            nodes[last - max(reverse, 0)][size]
-            : 0;
+    const gap = length > 1
+        ? nodes[last][coord] * reverse -
+        nodes[last - 1][coord] * reverse -
+        nodes[last - max(reverse, 0)][size]
+        : 0;
     const full = nodes.reduce((acc, cur) => (acc += cur[size] + gap), 0);
     const scrollable = full > node.offsetWidth;
     const deck = options.snap === 'deck'
@@ -61,8 +61,8 @@ export function dom(node: HTMLElement, options: Options): Dom {
         edges,
         distance,
         index(target: number): number {
-            const dist = (index: number) => abs(distance(index) - target);
-            return indexes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev), 1);
+            const dist = ({ index }: Child) => abs(distance(index) - target);
+            return nodes.reduce((prev, curr) => (dist(curr) < dist(prev) ? curr : prev)).index;
         },
         position(replace?: boolean): number {
             const index = options.index as number;
