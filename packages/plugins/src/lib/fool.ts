@@ -1,7 +1,8 @@
 import type { PluginArgs } from '../types';
 
 /**
- * Changes axis depending on the parity of the slide index
+ * Changes axis depending on the parity of the slide index.
+ * 
  * Plug it on at April Fool's Day and you won't get fired!
  */
 export function fool() {
@@ -14,8 +15,9 @@ export function fool() {
         node.addEventListener('index', index as EventListener);
 
         function index({ detail: { index } }: CustomEvent<{ index: number }>) {
-            const fooling = () => instance.update({ axis: (index % 2) ? 'x' : 'y' })
-            setTimeout(fooling)
+            setTimeout(function fooling() {
+                instance.update({ axis: index % 2 ? 'x' : 'y' });
+            })
         }
     };
 }
