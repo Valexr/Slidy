@@ -23,18 +23,17 @@ export function dom(node: HTMLElement, options: Options): Dom {
 
     assign(options, { reverse, scrollable, vertical });
 
-    function edges(index: number | undefined = undefined) {
+    function edges(index: number | undefined = options.index) {
         const start = distance(reverse < 0 ? last : 0, 'start');
-        const curr = distance(index as number);
         const end = distance(reverse < 0 ? 0 : last, 'end');
+        const curr = distance(index as number);
         const dir = options.direction as number;
         const pos = round(options.position as number);
-        const indexed = (dir <= 0 && curr <= start) || (dir >= 0 && curr >= end);
-        const edged = (dir <= 0 && pos <= start) || (dir >= 0 && pos >= end);
 
-        return options.loop ? false
-            : (index as number) >= 0 ? edged || indexed
-                : edged;
+        const edged = (val?: number) => (dir <= 0 && val as number <= start)
+            || (dir >= 0 && val as number >= end);
+
+        return options.loop ? false : edged(pos) || edged(curr)
     }
 
     function distance(index: number, snap = options.snap): number {
