@@ -7,17 +7,17 @@
 		<link rel="stylesheet" href="/Slidy/app.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/start-8e40bd2d.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/control-01561563.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/start-4546d624.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/control-fedcff13.js">
 	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-7c52a698.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/singletons-5786e753.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-9dce4f88.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/singletons-c8ea5baf.js">
+	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-fdf16bd9.js">
 	</head>
 
 	<body>
 		
 		<script type="module" data-sveltekit-hydrate="45h">
-		import { start } from "/Slidy/_app/immutable/start-8e40bd2d.js";
+		import { start } from "/Slidy/_app/immutable/start-4546d624.js";
 
 		start({
 			env: {},
