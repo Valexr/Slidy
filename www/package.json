@@ -14,13 +14,13 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.25.2",
+		"@playwright/test": "^1.26.0",
 		"@slidy/animation": "workspace:*",
 		"@slidy/assets": "workspace:*",
 		"@slidy/media": "workspace:*",
 		"@slidy/svelte": "workspace:*",
 		"@sveltejs/adapter-static": "1.0.0-next.39",
-		"@sveltejs/kit": "^1.0.0-next.489",
+		"@sveltejs/kit": "^1.0.0-next.491",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^3.4.1",
 		"mdast-util-to-string": "^3.1.0",
