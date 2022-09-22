@@ -7,25 +7,25 @@
 		<link rel="stylesheet" href="/Slidy/app.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/start-5aec88f7.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/control-a028d45e.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-7c52a698.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/singletons-e3d6a2af.js">
-	<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-a2f5a0d4.js">
+		<link rel="modulepreload" href="/Slidy/_app/immutable/start-3244e702.js">
+		<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/control-ce73bf8b.js">
+		<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/index-7c52a698.js">
+		<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/singletons-c2711c97.js">
+		<link rel="modulepreload" href="/Slidy/_app/immutable/chunks/paths-89897d70.js">
 	</head>
 
 	<body>
 		
 		<script type="module" data-sveltekit-hydrate="45h">
-		import { start } from "/Slidy/_app/immutable/start-5aec88f7.js";
+			import { start } from "/Slidy/_app/immutable/start-3244e702.js";
 
-		start({
-			env: {},
-			hydrate: null,
-			paths: {"base":"/Slidy","assets":"/Slidy"},
-			target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-			trailing_slash: "always"
-		});
-	</script>
+			start({
+				env: {},
+				hydrate: null,
+				paths: {"base":"/Slidy","assets":"/Slidy"},
+				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
+				trailing_slash: "always"
+			});
+		</script>
 	</body>
 </html>
