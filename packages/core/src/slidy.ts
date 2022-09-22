@@ -19,7 +19,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
         INDEX = hix = options.index ??= 0,
         POSITION = options.position ??= 0,
         DIRECTION = options.direction ??= 0,
-        DURATION = options.duration ??= 450 / 2,
+        DURATION = (options.duration ??= 450) / 2,
         SENSITY = options.sensity ??= 2.5,
         GRAVITY = options.gravity ??= 1.2,
         CLAMP = options.clamp ??= 0;
