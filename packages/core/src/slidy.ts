@@ -182,7 +182,7 @@ export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyI
 
         scroll(clamping(index, options), amplitude);
 
-        function clamping(index: number, options: Options): number {
+        function clamping(index: number, options: Partial<Options>): number {
             index = CLAMP && index - hix ? INDEX + CLAMP * DIRECTION : index;
             return indexing(node, options, index);
         }

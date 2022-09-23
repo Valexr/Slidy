@@ -103,7 +103,7 @@
                 loop: false,
                 snap: 'center',
                 axis: 'x',
-                // plugins: [fool()],
+                plugins: [play()],
                 animation: animations.flip,
                 easing: easings.sine,
             };
@@ -131,12 +131,15 @@
                     button.innerText = 'play';
                 }
             };
+            // main.addEventListener('pause', console.log);
+            // main.addEventListener('resume', console.log);
+            // main.onpause = console.log;
+            // node.addEventListener('pause', console.log);
+            // node.addEventListener('resume', console.log);
 
             console.log('window:', window);
 
-            fetch('https://unpkg.com/@slidy/core/package.json', {
-                mode: 'cors',
-            })
+            fetch('https://unpkg.com/@slidy/core/package.json')
                 .then(async (res) => await res.json())
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;

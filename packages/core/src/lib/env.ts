@@ -1,7 +1,7 @@
 import { clamp, loop, abs } from './utils';
 import type { Options, UniqEvent, Detail, EventMap } from '../types';
 
-const X = (e: UniqEvent | WheelEvent, options: Options) =>
+const X = (e: UniqEvent | WheelEvent, options: Partial<Options>) =>
     abs(e.deltaX) >= abs(e.deltaY) && options.axis !== 'y';
 
 function mount(node: HTMLElement, count = 0) {
@@ -23,12 +23,12 @@ function indexed(node: HTMLElement) {
     return loop(node.children, (child, i) => (child.index = i));
 }
 
-function indexing(node: HTMLElement, options: Options, index: number): number {
+function indexing(node: HTMLElement, options: Partial<Options>, index: number): number {
     const length = node.children.length;
     return options.loop ? (index + length) % length : clamp(0, index, length - 1);
 }
 
-function coordinate(e: UniqEvent, options: Options): number {
+function coordinate(e: UniqEvent, options: Partial<Options>): number {
     if (e.type === 'wheel') {
         return X(e, options) ? e.deltaX : e.shiftKey || options.axis === 'y' ? e.deltaY : 0;
     } else {

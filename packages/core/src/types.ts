@@ -78,6 +78,11 @@ export interface Options {
      * @readonly
      */
     scrollable?: boolean;
+    /**
+     * Scroll position on one of the edges
+     * @readonly
+     */
+    edged?: boolean;
 }
 
 type Axis = 'x' | 'y' | 'both';

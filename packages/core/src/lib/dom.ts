@@ -1,7 +1,7 @@
 import { clamp, loop, assign, floor, sign, max, round, abs } from './utils';
 import type { Dom, Child, Options, UniqEvent } from '../types';
 
-export function dom(node: HTMLElement, options: Options): Dom {
+export function dom(node: HTMLElement, options: Partial<Options>): Dom {
     const nodes: Child[] = [...(node.children as HTMLCollectionOf<Child>)];
     const length = nodes.length;
     const last = length - 1;
@@ -21,7 +21,7 @@ export function dom(node: HTMLElement, options: Options): Dom {
     const scrollable = full > node.offsetWidth;
     const deck = options.snap === 'deck'
 
-    assign(options, { reverse, scrollable, vertical });
+    assign(options, { reverse, scrollable, vertical, edged: edges() });
 
     function edges(index?: number) {
         const start = distance(reverse < 0 ? last : 0, 'start');

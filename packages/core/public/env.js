@@ -19,7 +19,7 @@ export function setEvents() {
                 case 'play':
                 case 'pause':
                 case 'resume':
-                    // console.log(e);
+                    // console.log(e.composedPath());
                     break;
                 case 'stop':
                     autoplay.classList.toggle('active');
