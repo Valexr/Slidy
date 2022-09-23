@@ -11,6 +11,7 @@
 <script lang="ts">
 	import { darkTheme} from "@slidy/assets/scripts";
 	import "@slidy/assets/styles/dev/app.module.css";
+  import { play } from "@slidy/plugins";
 
 	let animation = translate;
 	let axis: "x" | "y" = "x";
@@ -89,6 +90,8 @@
 			thumbnail
 			progress
 			{vertical}
+			plugins={[play({duration: 2000})]}
+			autoplayControl
 		/>
 	{/await}
 </main>

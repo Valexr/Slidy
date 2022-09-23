@@ -10,17 +10,17 @@
     height: var(--slidy-autoplay-control-size, 2.25em);
 }
 
-.slidy-autoplay > svg {
+.slidy-autoplay>svg {
     width: var(--slidy-autoplay-control-size, 2.25em);
     height: var(--slidy-autoplay-control-size, 2.25em);
 }
 
-.slidy-autoplay > * {
+.slidy-autoplay>* {
     grid-row: 1;
     grid-column: 1;
 }
 
-.slidy-autoplay > button {
+.slidy-autoplay>button {
     pointer-events: all;
     display: flex;
     justify-content: center;
@@ -35,18 +35,18 @@
     outline: none;
 }
 
-.slidy-autoplay > button,
-.slidy-autoplay > button svg {
+.slidy-autoplay>button,
+.slidy-autoplay>button svg {
     width: calc(0.9 * var(--slidy-autoplay-control-size, 2.25em));
     height: calc(0.9 * var(--slidy-autoplay-control-size, 2.25em));
 }
 
-.slidy-autoplay > button:disabled {
+.slidy-autoplay>button:disabled {
     opacity: 0.75;
     cursor: not-allowed;
 }
 
-.slidy-autoplay > button:focus-visible {
+.slidy-autoplay>button:focus-visible {
     outline: 2px dashed var(--slidy-focus-ring-color, #c9c9c9e6);
     outline-offset: calc(0.25 * var(--slidy-autoplay-control-size, 2.25em));
     border-radius: 50%;
@@ -58,8 +58,16 @@
     animation: slidy-autoplay-indicator var(--slidy-autoplay-interval) linear forwards infinite;
 }
 
-.slidy-autoplay-indicator.stop,
+.slidy-autoplay-indicator.play,
+.slidy-autoplay-indicator.resume {
+    animation-play-state: running;
+}
+
 .slidy-autoplay-indicator.pause {
+    animation-play-state: paused;
+}
+
+.slidy-autoplay-indicator.stop {
     animation: unset;
 }
 

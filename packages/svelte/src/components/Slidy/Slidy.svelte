@@ -44,7 +44,8 @@
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
 	export let vertical = false;
-
+	export let player;
+$: console.log(player,autoplayState)
 	/**
 	 * Indicate the paused autoplay.
 	 */
@@ -104,19 +105,27 @@
 		}
 	};
 
-	const handleAutoplayPause = () => {
+	const handleAutoplayPause = (e) => {
+		console.log(e.composedPath())
 		autoplayState = "pause";
 	};
+	const handleAutoplayResume = (e) => {
+		// console.log(e)
+		autoplayState = "resume";
+	};
 
-	const handleAutoplayStop = () => {
+	const handleAutoplayStop = (e) => {
+		// console.log(e)
 		autoplayState = "stop";
 		autoplay = false;
 	};
 
 	const handleAutoplayControl = () => {
-		if (autoplayState === "play" || autoplayState === "pause") {
+		if (autoplayState === "play" || autoplayState === "resume" || autoplayState === "pause") {
 			autoplayState = "stop";
+			player.stop()
 		} else if (autoplayState === "stop") {
+			player.play()
 			autoplayState = "play";
 		}
 		autoplay = !autoplay;
@@ -129,13 +138,10 @@
 	class="{classNames?.root}"
 	class:groups={groups > 1}
 	on:click={handleClick}
-	on:play={handleAutoplay}
+
+	on:resume={handleAutoplayResume}
 	on:pause={handleAutoplayPause}
 	on:stop={handleAutoplayStop}
-	use:autoplayAction={{	status: autoplay,	interval }}
-	on:play
-	on:pause
-	on:stop
 	style:--slidy-autoplay-interval="{interval}ms"
 	style:--slidy-group-items="{groups}"
 >
@@ -175,7 +181,7 @@
 		on:index
 		on:index={handleIndexChange}
 		on:keys
-		on:mount
+		on:mount={({detail: {options: {plugins}}})=> player = plugins.find(p => p.play)}
 		on:move
 		on:move={handlePositionChange}
 		on:resize
