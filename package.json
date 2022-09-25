@@ -104,7 +104,7 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.6",
-        "@types/node": "^18.7.20",
+        "@types/node": "^18.7.21",
         "@typescript-eslint/eslint-plugin": "^5.38.0",
         "@typescript-eslint/parser": "^5.38.0",
         "derver": "^0.5.3",
