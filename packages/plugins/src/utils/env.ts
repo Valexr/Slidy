@@ -12,7 +12,6 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
         state = 2;
         clearInterval(tid);
         remaining = delay || interval - Math.abs(performance.now() - start);
-        console.log(remaining, interval, performance.now(), start)
     }
 
     function resume() {
