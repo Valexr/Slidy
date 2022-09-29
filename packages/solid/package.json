@@ -24,15 +24,14 @@
     "scripts": {
         "dev": "node esbuild --dev",
         "build": "node esbuild && tsc --project tsconfig.build.json && node ../../env/dts",
-        "build:local": "pnpm build -r --filter=@slidy/react...",
+        "build:local": "pnpm build -r --filter=@slidy/solid...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
     },
     "keywords": [
         "Solid",
         "SolidJs",
-        "Carousel",
-        "Solid-plugin"
+        "Carousel"
     ],
     "author": {
         "name": "Artemiy Schukin",
@@ -65,6 +64,6 @@
         "esbuild-plugin-solid": "^0.4.2"
     },
     "peerDependencies": {
-        "solid-js": "^1.4.8"
+        "solid-js": "*"
     }
 }
