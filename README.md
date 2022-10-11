@@ -51,7 +51,7 @@
 [@ariya](https://github.com/ariya) for [kinetic](https://github.com/ariya/kinetic) - examples & explanations of scroll kinetic principles  
 [@argyleink](https://github.com/argyleink) for [open-props](https://github.com/argyleink/open-props) - Open Source CSS Variables  
 [@evanw](https://github.com/evanw) for [esbuild](https://github.com/evanw/esbuild) - an extremely fast JS bundler  
-[unsplash](https://github.com/unsplash) for [light dataset](https://github.com/unsplash/datasets) - Unsplash images made available for research and machine learning by this [terms](https://github.com/unsplash/datasets/blob/master/TERMS.md)  
+[Unsplash](https://github.com/unsplash) for [light dataset](https://github.com/unsplash/datasets) - Unsplash images made available for research and machine learning by this [terms](https://github.com/unsplash/datasets/blob/master/TERMS.md)  
 [@AlexxNB](https://github.com/AlexxNB) for [derver](https://github.com/AlexxNB/derver) - simple but powerfull dev/prod nodejs server  
 [@PaulMaly](https://github.com/PaulMaly) for idea of simplifing reactive updates of options object  
 [@rodshtein](https://github.com/rodshtein) for the idea of implementing the action function  
