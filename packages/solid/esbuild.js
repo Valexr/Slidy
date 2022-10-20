@@ -16,6 +16,7 @@ const esbuildBase = {
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['solid-js'],
 };
+
 const derverConfig = {
     port: 3334,
     host: '0.0.0.0',
@@ -31,6 +32,7 @@ const derverConfig = {
 };
 
 if (DEV) {
+    inject().then(() => {
     build({
         ...esbuildBase,
         entryPoints: ['src/dev/index.tsx'],
@@ -47,7 +49,9 @@ if (DEV) {
             },
         });
     });
+    })
 } else {
+    inject().then(() => {
     prepare().then(() => {
         build({
             ...esbuildBase,
@@ -70,4 +74,40 @@ if (DEV) {
             globalName: 'SlidySolid',
         });
     });
+    })
 }
+
+import { createRequire } from 'node:module'
+import { readFile, writeFile } from 'fs/promises'
+
+/**
+ * @todo: open an issue in @ryansolid/dom-expressions
+ * 
+ * 'transformCondition'
+ * @see https://github.com/ryansolid/dom-expressions/blob/b3468dc9170b7b760b712f5d3f1bc7cd8653de1f/packages/babel-plugin-jsx-dom-expressions/src/shared/component.js#L165
+ */
+async function inject(target = 'babel-plugin-jsx-dom-expressions') {
+    const Require = createRequire(import.meta.url);
+
+    let entry = '';
+
+    for (const id of Object.keys(Require.cache)) {
+        if (!id) continue;
+
+        const inc = id.includes.bind(id);
+
+        if (inc(target) && inc('index.js')) {
+            entry = id;
+        }
+    }
+
+    if (!entry) throw new Error(`${target} entry was not found!!`);
+
+    const source = await readFile(entry, 'utf-8');
+    const data = source.replaceAll('transformCondition(', 'transformCondition$1(');
+
+    await writeFile(entry, data, 'utf-8')
+
+    console.log(`${target} was modified!!`)
+}
+
