@@ -22,11 +22,11 @@
 -   [@slidy/media](https://github.com/Valexr/slidy/tree/master/packages/media) - Observable media
 -   [@slidy/easing](https://github.com/Valexr/slidy/tree/master/packages/easing) - Easing functions
 -   [@slidy/animation](https://github.com/Valexr/slidy/tree/master/packages/animation) - Animation functions
+-   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
+-   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - CustomElement
 -   [@slidy/svelte](https://github.com/Valexr/slidy/tree/master/packages/svelte) - SvelteJS template
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
--   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - CustomElement
--   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 
 ### 👨🏻‍💻 in progress...
 
