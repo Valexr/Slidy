@@ -26,11 +26,11 @@
 -   [@slidy/solid](https://github.com/Valexr/slidy/tree/master/packages/solid) - SolidJS template
 -   [@slidy/react](https://github.com/Valexr/slidy/tree/master/packages/react) - ReactJS template
 -   [@slidy/element](https://github.com/Valexr/slidy/tree/master/packages/element) - CustomElement
+-   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 
 ### 👨🏻‍💻 in progress...
 
 -   [Demo docs site](https://github.com/Valexr/slidy/tree/master/www) based on SvelteKit
--   [@slidy/plugins](https://github.com/Valexr/slidy/tree/master/packages/plugins) - Plugins functions
 
 ### 📝 todo...
 
