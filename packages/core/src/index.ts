@@ -1,4 +1,4 @@
-export { slidy } from './slidy';
+export { slidy } from './lib/slidy';
 export type {
     Options,
     SlidyInstance,

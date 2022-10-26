@@ -1,13 +1,14 @@
-import { coordinate, dispatch, indexing, listen, mount, X } from './lib/env';
-import { clamp, entries, loop, throttle, sign, exp, round } from './lib/utils';
-import { dom } from './lib/dom';
-import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from './types';
+import { coordinate, dispatch, indexing, listen, mount, X } from '../utils/env';
+import { clamp, entries, loop, throttle, sign, exp, round } from '../utils/utils';
+import { dom } from '../utils/dom';
+import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from '../types';
 
 /**
  * Simple, configurable, nested & reusable sliding action script
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
 export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyInstance {
+
     let $: () => Dom,
         hix = 0,
         hip = 0,

@@ -4,6 +4,11 @@
         "outFile": "dist/index.d.ts",
         "isolatedModules": false
     },
-    "include": ["src/*"],
-    "exclude": ["src/iife.ts"]
+    "include": [
+        "src/*",
+        "src/lib/slidy.ts"
+    ],
+    "exclude": [
+        "src/iife.ts"
+    ]
 }

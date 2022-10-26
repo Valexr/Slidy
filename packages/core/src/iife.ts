@@ -1,4 +1,4 @@
-export { slidy as core } from './slidy';
+export { slidy as core } from './lib/slidy';
 export * as animation from '@slidy/animation/src';
 export * as easing from '@slidy/easing/src';
 export * as plugin from '@slidy/plugins/src';
