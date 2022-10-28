@@ -12,9 +12,21 @@
 
 <img src="assets/static/flip.gif">
 
-`{ snap: 'deck', animation: flip }`
+```html
+<script>
+    import { slidy } from '@slidy/core'
+    import { flip } from '@slidy/animation'
 
-## Try the version 3 [DEMO](https://slidy-core.surge.sh/)
+    slidy(node, { snap: 'deck', animation: flip })
+</script>
+
+<div id="node">
+    <img />
+    ...
+</div>
+```
+
+## Try the [DEMO](https://slidy-core.surge.sh/)
 
 ## [Packages](https://github.com/Valexr/slidy/tree/master/packages)
 
