@@ -19,18 +19,18 @@
         "@slidy/assets": "workspace:*",
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
-        "@sveltejs/adapter-static": "^1.0.0-next.46",
-        "@sveltejs/kit": "^1.0.0-next.528",
+        "@sveltejs/adapter-static": "^1.0.0-next.47",
+        "@sveltejs/kit": "^1.0.0-next.531",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.0",
         "mdsvex": "^0.10.6",
         "prettier-plugin-svelte": "^2.8.0",
-        "rehype-slug": "^5.0.1",
+        "rehype-slug": "^5.1.0",
         "svelte": "^3.52.0",
         "svelte-check": "^2.9.2",
         "svelte-preprocess": "^4.10.7",
         "unist-util-visit": "^4.1.1",
-        "vite": "^3.2.1"
+        "vite": "^3.2.2"
     }
 }
