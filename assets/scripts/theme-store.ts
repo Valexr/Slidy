@@ -4,11 +4,10 @@ const store = <T>(current: T, subscribers = new Set<(value: T) => void>()) => {
     const subscribe = (cb: (value: T) => void) => {
         subscribers.add(cb), cb(current);
 
-        return () => (subscribers.delete(cb), void 0);
+        return () => { subscribers.delete(cb); }
     };
 
     const push = (value: T) => subscribers.forEach((cb) => cb(value));
-
     const update = (fn: (prev: T) => T) => push((current = fn(current)));
 
     return [subscribe, update] as const;
