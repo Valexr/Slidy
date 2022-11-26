@@ -1,9 +1,9 @@
 import type { Options as SlidyCoreOptions } from '@slidy/core';
 import type { Slide } from '../Slidy/Slidy.types';
-import type { JSX, Setter } from 'solid-js';
+import type { Setter, ValidComponent } from 'solid-js';
 
 export interface Props extends SlidyCoreOptions {
-    tag: keyof JSX.IntrinsicElements | (string & Record<never, never>);
+    tag: ValidComponent;
     slides: Slide[];
     className?: string;
 
