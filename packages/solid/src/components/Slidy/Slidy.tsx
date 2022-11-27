@@ -2,18 +2,14 @@ import {
     Show,
     For,
     mergeProps,
-    createEffect,
     createSignal,
-    onCleanup,
-    batch,
     untrack,
 } from 'solid-js';
 
-import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
+import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 
-import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
-import { autoplay as autoplayAction } from '@slidy/assets/actions';
+import { execute, isFunction, format, } from '@slidy/assets/scripts/utils';
 import { iconChevron } from '@slidy/assets/icons';
 
 import { i18nDefaults } from './i18n';
@@ -37,7 +33,6 @@ declare module 'solid-js' {
 
 const defaultProps: Props = {
     arrows: true,
-    interval: 1500,
     axis: 'x',
     vertical: false,
     background: false,
@@ -58,8 +53,6 @@ const defaultProps: Props = {
     thumbnail: false,
     index: () => 0,
     position: () => 0,
-    autoplay: () => false,
-    autoplayControl: false,
     classNames: classNamesDefaults,
     i18n: i18nDefaults,
 };
@@ -74,15 +67,6 @@ const Slidy: Component<Partial<Props>> = ($props) => {
     const [position, setPosition] = isFunction(props.setPosition)
         ? [props.position, props.setPosition]
         : createSignal(untrack(props.position));
-
-    const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
-        ? [props.autoplay, props.setAutoplay]
-        : createSignal(untrack(props.autoplay));
-
-    /**
-     * Indicate the paused autoplay.
-     */
-    const [autoplayState, setAutoplayState] = createSignal<'play' | 'pause' | 'stop'>('stop');
 
     const length = () => props.slides.length;
 
@@ -110,50 +94,6 @@ const Slidy: Component<Partial<Props>> = ($props) => {
         setPosition(e.detail.position);
     };
 
-    const handleAutoplay = () => {
-        batch(() => {
-            setAutoplayState('play');
-
-            if (props.loop) {
-                setIndex(increment);
-            } else if (untrack(index) + 1 < length()) {
-                setIndex(increment);
-            } else {
-                setAutoplay(false);
-            }
-        });
-    };
-
-    const handleAutoplayPause = () => {
-        setAutoplayState('pause');
-    };
-
-    const handleAutoplayStop = () => {
-        batch(() => {
-            setAutoplayState('stop');
-            setAutoplay(false);
-        });
-    };
-
-    const handleAutoplayControl = () => {
-        const state = untrack(autoplayState);
-
-        batch(() => {
-            setAutoplayState(state === 'stop' ? 'play' : 'stop');
-            setAutoplay(not);
-        });
-    };
-
-    const useAutoplay = (el: HTMLElement) => {
-        const { update, destroy } = autoplayAction(el, {
-            status: untrack(autoplay),
-            interval: props.interval,
-        });
-
-        createEffect(() => update({ status: autoplay() }));
-        onCleanup(destroy);
-    };
-
     return (
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
@@ -162,15 +102,10 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                 aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
                 classList={{ groups: props.groups > 1 }}
                 style={{
-                    '--slidy-autoplay-interval': props.interval + 'ms',
                     '--slidy-group-items': props.groups,
                 }}
                 id={props.id}
                 onClick={handleClick}
-                // on:play={handleAutoplay}
-                // on:pause={handleAutoplayPause}
-                // on:stop={handleAutoplayStop}
-                // ref={useAutoplay}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
@@ -178,13 +113,6 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                             <output class={props.classNames?.counter}>
                                 {index() + 1} / {length()}
                             </output>
-                        </Show>
-                        <Show when={props.autoplayControl}>
-                            <ButtonAutoplay
-                                state={autoplayState()}
-                                disabled={index() + 1 >= length() && !props.loop}
-                                onClick={handleAutoplayControl}
-                            />
                         </Show>
                         {isFunction(props.overlay) && props.overlay()}
                     </div>

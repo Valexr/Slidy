@@ -37,6 +37,8 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
 
         if (!parent) throw error('node has no parent element');
 
+        parent.style.setProperty('--slidy-autoplay-interval', interval + 'ms');
+
         const overlay = parent.querySelector('.slidy-overlay');
 
         if (!overlay) throw error('overlay should be enabled');

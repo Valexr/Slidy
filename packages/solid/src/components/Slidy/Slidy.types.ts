@@ -40,13 +40,6 @@ export interface Props extends BaseCoreOptions {
      * @default []
      */
     slides?: Slide[];
-    /**
-     * @default 1500
-     */
-    interval?: number;
-    autoplay?: Accessor<boolean>;
-    setAutoplay?: Setter<boolean>;
-    autoplayControl?: boolean;
 
     index?: Accessor<number>;
     position?: Accessor<number>;

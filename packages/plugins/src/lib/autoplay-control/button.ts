@@ -1,4 +1,5 @@
 import { iconPause, iconPlay, iconStop } from '../../../../../assets/icons';
+import '@slidy/assets/styles/button-autoplay.module.css';
 
 const r = 15;
 const stroke = 2;
