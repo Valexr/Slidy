@@ -1,10 +1,11 @@
 import { Show, createSignal } from 'solid-js';
-import { Slidy } from '..';
+import { Slidy, i18nDefaults  } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
 import { translate } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
+import { autoplay as autoplay2 } from '@slidy/plugins'
 
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
@@ -21,7 +22,7 @@ const App: Component = () => {
     const groups = channel(0);
 
     const vertical = channel(true);
-    const autoplayControl = channel(true);
+    const autoplayControl = channel(false);
     const clamp = channel(0);
     const duration = channel(450);
     const gravity = channel(1.45);
@@ -31,7 +32,7 @@ const App: Component = () => {
     const gap = channel(15);
 
     const [index, setIndex] = createSignal(7);
-    const [autoplay, setAutoplay] = createSignal(false);
+    const [autoplay, setAutoplay] = createSignal(true);
 
     const controlPanel = channel(false);
 
@@ -96,7 +97,7 @@ const App: Component = () => {
                         autoplayControl={autoplayControl()}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[console.log]}
+                        plugins={[autoplay2({ slides: slides(), i18n: i18nDefaults, autoplay: true, interval: 1500 })]}
                     />
                 </Show>
             </main>

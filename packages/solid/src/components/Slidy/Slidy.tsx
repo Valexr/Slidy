@@ -167,10 +167,10 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                 }}
                 id={props.id}
                 onClick={handleClick}
-                on:play={handleAutoplay}
-                on:pause={handleAutoplayPause}
-                on:stop={handleAutoplayStop}
-                ref={useAutoplay}
+                // on:play={handleAutoplay}
+                // on:pause={handleAutoplayPause}
+                // on:stop={handleAutoplayStop}
+                // ref={useAutoplay}
             >
                 <Show when={props.counter || props.overlay}>
                     <div class={props.classNames?.overlay}>
