@@ -22,7 +22,6 @@ const App: Component = () => {
     const groups = channel(0);
 
     const vertical = channel(true);
-    const autoplayControl = channel(false);
     const clamp = channel(0);
     const duration = channel(450);
     const gravity = channel(1.45);
@@ -32,7 +31,6 @@ const App: Component = () => {
     const gap = channel(15);
 
     const [index, setIndex] = createSignal(7);
-    const [autoplay, setAutoplay] = createSignal(true);
 
     const controlPanel = channel(false);
 
@@ -91,10 +89,6 @@ const App: Component = () => {
                         // bind:index
                         index={index}
                         setIndex={setIndex}
-                        // bind:autoplay
-                        autoplay={autoplay}
-                        setAutoplay={setAutoplay}
-                        autoplayControl={autoplayControl()}
                         groups={groups()}
                         vertical={vertical()}
                         plugins={[autoplay2({ slides: slides(), i18n: i18nDefaults, autoplay: true, interval: 1500 })]}
