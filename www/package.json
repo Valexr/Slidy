@@ -14,23 +14,23 @@
         "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
     },
     "devDependencies": {
-        "@playwright/test": "^1.27.1",
+        "@playwright/test": "^1.28.1",
         "@slidy/animation": "workspace:*",
         "@slidy/assets": "workspace:*",
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.0-next.48",
-        "@sveltejs/kit": "^1.0.0-next.546",
+        "@sveltejs/kit": "^1.0.0-next.562",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.0",
         "mdsvex": "^0.10.6",
-        "prettier-plugin-svelte": "^2.8.0",
+        "prettier-plugin-svelte": "^2.8.1",
         "rehype-slug": "^5.1.0",
         "svelte": "^3.53.1",
         "svelte-check": "^2.9.2",
         "svelte-preprocess": "^4.10.7",
         "unist-util-visit": "^4.1.1",
-        "vite": "^3.2.3"
+        "vite": "^3.2.4"
     }
 }
