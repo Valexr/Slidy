@@ -20,7 +20,7 @@ function template(html: string, t: HTMLTemplateElement) {
     return t.innerHTML = html, t.content.firstChild as unknown as Element;
 }
 
-function button() {
+function button(onclick: () => void) {
     let path0: SVGPathElement, path1: SVGPathElement, button: HTMLButtonElement;
 
     const el = template(
@@ -35,6 +35,8 @@ function button() {
     button = el.firstElementChild!.nextElementSibling! as HTMLButtonElement;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const
     path1 = button.firstElementChild!.firstElementChild! as SVGPathElement;
+
+    button.addEventListener('click', onclick);
 
     return [el, button, path0, path1, iconPath] as const;
 }

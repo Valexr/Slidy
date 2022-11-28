@@ -58,7 +58,11 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
             status: autoplay,
         });
 
-        const [button_root, button, path0, path1, iconPath] = createButton();
+        const [button_root, button, path0, path1, iconPath] = createButton(function handleAutoplayControl() {
+            autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
+            autoplay = !autoplay;
+            onStateChange(), onAutoplayChange();
+        });
 
         const onStateChange: OnStateChange = () => {
             /**
@@ -118,21 +122,12 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
             onStateChange();
         };
 
-        const handleAutoplayControl = () => {
-            autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
-            autoplay = !autoplay;
-            onStateChange(), onAutoplayChange();
-        };
-
-
         const mount = () => {
             parent.addEventListener('play', handleAutoplay);
             parent.addEventListener('pause', handleAutoplayPause);
             parent.addEventListener('stop', handleAutoplayStop);
 
             node.addEventListener('index', onIndexChange);
-
-            button.addEventListener('click', handleAutoplayControl);
 
             overlay.appendChild(button_root);
         };
