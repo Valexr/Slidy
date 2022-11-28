@@ -1,10 +1,15 @@
 import { button as createButton } from './button'
 import { autoplay as autoplayAction } from '@slidy/assets/actions';
 import type { PluginArgs } from '../../types';
-import type { Slide, I18NDict } from '../../../../../assets/types'
+import type { Slide } from '../../../../../assets/types'
 
 function error(statement: string) {
     return new Error('@slidy/autoplay-control: ' + statement);
+}
+
+interface PlayI18NDict {
+    play: string;
+    stop: string
 }
 
 interface PlayProps {
@@ -15,7 +20,7 @@ interface PlayProps {
     /**
      * написать зачем что и откуда взять
      */
-    i18n: I18NDict;
+    i18n: PlayI18NDict;
     /**
      * Interval ляля
      */
@@ -31,6 +36,11 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
      * Indicate the paused autoplay.
      */
     let autoplayState = 'stop' as 'play' | 'pause' | 'stop';
+
+    interface OnStateChange {
+        (): void;
+        current?: typeof autoplayState;
+    }
 
     return ({ node, options, instance }: PluginArgs) => {
         const parent = node.parentElement;
@@ -48,22 +58,34 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
             status: autoplay,
         });
 
-        const [el, button, path0, path1, iconPath] = createButton();
+        const [button_root, button, path0, path1, iconPath] = createButton();
 
-        const onStateChange = () => {
+        const onStateChange: OnStateChange = () => {
+            /**
+             * Если текущее состояние равно состоянию автоплея, то менять нечего.
+             */
+            if (onStateChange.current === autoplayState) return;
+
+            onStateChange.current = autoplayState;
+
             path0.setAttribute('class', `slidy-autoplay-indicator ${autoplayState}`);
             path1.setAttribute('d', iconPath[autoplayState]);
 
-            button.setAttribute('title', autoplayState === 'play' ? i18n.stop : autoplayState === 'stop' ? i18n.play : '');
+            button.setAttribute(
+                'title',
+                autoplayState === 'play' ? i18n.stop : autoplayState === 'stop' ? i18n.play : ''
+            );
+        };
 
+        onStateChange();
+
+        const onIndexChange = () => {
             if ((options.index as number) + 1 >= slides.length && !options.loop) {
                 button.setAttribute('disabled', 'disabled');
             } else {
                 button.removeAttribute('disabled');
             }
-        };
-
-        onStateChange();
+        }
 
         const onAutoplayChange = () => {
             update({ status: autoplay });
@@ -99,20 +121,20 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
         const handleAutoplayControl = () => {
             autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
             autoplay = !autoplay;
-            onStateChange();
-            onAutoplayChange();
+            onStateChange(), onAutoplayChange();
         };
 
-        button.addEventListener('click', handleAutoplayControl);
 
         const mount = () => {
             parent.addEventListener('play', handleAutoplay);
             parent.addEventListener('pause', handleAutoplayPause);
             parent.addEventListener('stop', handleAutoplayStop);
 
-            node.addEventListener('index', onStateChange);
+            node.addEventListener('index', onIndexChange);
 
-            overlay.appendChild(el);
+            button.addEventListener('click', handleAutoplayControl);
+
+            overlay.appendChild(button_root);
         };
 
         node.addEventListener('mount', mount);
@@ -120,7 +142,7 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
         node.addEventListener('destroy', function destroy() {
             node.removeEventListener('mount', mount);
             node.removeEventListener('destroy', destroy);
-            node.removeEventListener('index', onStateChange);
+            node.removeEventListener('index', onIndexChange);
 
             parent.removeEventListener('play', handleAutoplay);
             parent.removeEventListener('pause', handleAutoplayPause);
