@@ -10,9 +10,7 @@ const config = {
     preprocess: [mdsvex(mdsvexConfig), preprocess()],
     extensions: ['.svelte', '.svx'],
     kit: {
-        adapter: adapter({
-            // fallback: 'index.html'
-        }),
+        adapter: adapter(),
         paths: {
             base: dev ? '' : '/Slidy'
         }
