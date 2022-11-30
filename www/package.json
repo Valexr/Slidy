@@ -20,7 +20,7 @@
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.0-next.48",
-        "@sveltejs/kit": "^1.0.0-next.562",
+        "@sveltejs/kit": "^1.0.0-next.567",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.0",
@@ -28,7 +28,7 @@
         "prettier-plugin-svelte": "^2.8.1",
         "rehype-slug": "^5.1.0",
         "svelte": "^3.53.1",
-        "svelte-check": "^2.9.2",
+        "svelte-check": "^2.10.0",
         "svelte-preprocess": "^4.10.7",
         "unist-util-visit": "^4.1.1",
         "vite": "^3.2.4"
