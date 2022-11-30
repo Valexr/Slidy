@@ -1,5 +1,5 @@
 import { button as createButton } from './button'
-import { autoplay as autoplayAction } from '@slidy/assets/actions';
+import { autoplay as autoplayAction } from '../../../../../assets/actions';
 import type { PluginArgs } from '../../types';
 import type { Slide } from '../../../../../assets/types'
 
@@ -31,7 +31,7 @@ interface PlayProps {
     autoplay: boolean
 }
 
-export function play({ slides, i18n, interval, autoplay }: PlayProps) {
+export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
     /**
      * Indicate the paused autoplay.
      */
@@ -58,7 +58,7 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
             status: autoplay,
         });
 
-        const [button_root, button, path0, path1, iconPath] = createButton(function handleAutoplayControl() {
+        const [buttonRoot, button, path0, path1, iconPath] = createButton(function handleAutoplayControl() {
             autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
             autoplay = !autoplay;
             onStateChange(), onAutoplayChange();
@@ -129,7 +129,7 @@ export function play({ slides, i18n, interval, autoplay }: PlayProps) {
 
             node.addEventListener('index', onIndexChange);
 
-            overlay.appendChild(button_root);
+            overlay.appendChild(buttonRoot);
         };
 
         node.addEventListener('mount', mount);

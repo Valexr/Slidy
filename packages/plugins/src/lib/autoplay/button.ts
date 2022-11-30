@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const */
+
 import { iconPause, iconPlay, iconStop } from '../../../../../assets/icons';
 import '@slidy/assets/styles/button-autoplay.module.css';
 
@@ -29,14 +31,11 @@ function button(onclick: () => void) {
         document.createElement('template')
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const
     path0 = el.firstElementChild!.firstElementChild!.nextElementSibling! as SVGPathElement;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const
     button = el.firstElementChild!.nextElementSibling! as HTMLButtonElement;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const
     path1 = button.firstElementChild!.firstElementChild! as SVGPathElement;
 
-    button.addEventListener('click', onclick);
+    button.onclick = onclick;
 
     return [el, button, path0, path1, iconPath] as const;
 }
