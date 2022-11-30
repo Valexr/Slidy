@@ -11,7 +11,7 @@ const config = {
     extensions: ['.svelte', '.svx'],
     kit: {
         adapter: adapter({
-            fallback: true
+            // fallback: 'index.html'
         }),
         paths: {
             base: dev ? '' : '/Slidy'
