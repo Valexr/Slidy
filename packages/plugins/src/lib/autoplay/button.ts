@@ -37,7 +37,7 @@ function button(onclick: () => void) {
 
     button.onclick = onclick;
 
-    return [el, button, path0, path1, iconPath] as const;
+    return [el, button, path0, path1] as const;
 }
 
-export { button }
+export { button, iconPath }

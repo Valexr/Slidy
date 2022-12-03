@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { button as createButton } from './button'
+import { button as createButton, iconPath as buttonIconPath } from './button';
 import { eventListener } from './utils'
 import { autoplay as autoplayAction } from '../../../../../assets/actions';
 import type { PluginArgs } from '../../types';
@@ -51,12 +51,12 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             status: autoplay,
         });
 
-        const [buttonRoot, button, path0, path1, iconPath] = createButton(
+        const [buttonRoot, button, path0, path1] = createButton(
             function handleAutoplayControl() {
                 autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
                 autoplay = !autoplay;
                 onStateChange(), onAutoplayChange();
-            }
+            },
         );
 
         const onStateChange: OnStateChange = () => {
@@ -64,7 +64,7 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             onStateChange.current = autoplayState;
 
             path0.setAttribute('class', `slidy-autoplay-indicator ${autoplayState}`);
-            path1.setAttribute('d', iconPath[autoplayState]);
+            path1.setAttribute('d', buttonIconPath[autoplayState]);
 
             button.setAttribute(
                 'title',
