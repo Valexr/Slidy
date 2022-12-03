@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { button as createButton } from './button'
+import { eventListener } from './utils'
 import { autoplay as autoplayAction } from '../../../../../assets/actions';
 import type { PluginArgs } from '../../types';
 import type { Slide } from '../../../../../assets/types'
-
-function error(statement: string) {
-    return new Error('@slidy/autoplay-control: ' + statement);
-}
 
 interface PlayI18NDict {
     play: string;
@@ -18,17 +16,17 @@ interface PlayProps {
      */
     slides: Slide[];
     /**
-     * написать зачем что и откуда взять
+     * The i18n localization dictionary
      */
     i18n: PlayI18NDict;
     /**
-     * Interval ляля
+     * Defines the autoplay interval time in ms
      */
     interval: number;
     /**
-     * состояние типа включено или нет
+     * Initial autoplay state
      */
-    autoplay: boolean
+    autoplay: boolean;
 }
 
 export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
@@ -43,33 +41,26 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
     }
 
     return ({ node, options, instance }: PluginArgs) => {
-        const parent = node.parentElement;
+        const parent = node.parentElement!;
 
-        if (!parent) throw error('node has no parent element');
-
+        // Set interval property that is used in button animation
         parent.style.setProperty('--slidy-autoplay-interval', interval + 'ms');
 
-        const overlay = parent.querySelector('.slidy-overlay');
-
-        if (!overlay) throw error('overlay should be enabled');
-
-        const { update, destroy: $destroy } = autoplayAction(parent, {
+        const actionInstance = autoplayAction(parent, {
             interval: interval,
             status: autoplay,
         });
 
-        const [buttonRoot, button, path0, path1, iconPath] = createButton(function handleAutoplayControl() {
-            autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
-            autoplay = !autoplay;
-            onStateChange(), onAutoplayChange();
-        });
+        const [buttonRoot, button, path0, path1, iconPath] = createButton(
+            function handleAutoplayControl() {
+                autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
+                autoplay = !autoplay;
+                onStateChange(), onAutoplayChange();
+            }
+        );
 
         const onStateChange: OnStateChange = () => {
-            /**
-             * Если текущее состояние равно состоянию автоплея, то менять нечего.
-             */
             if (onStateChange.current === autoplayState) return;
-
             onStateChange.current = autoplayState;
 
             path0.setAttribute('class', `slidy-autoplay-indicator ${autoplayState}`);
@@ -89,10 +80,10 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             } else {
                 button.removeAttribute('disabled');
             }
-        }
+        };
 
         const onAutoplayChange = () => {
-            update({ status: autoplay });
+            actionInstance.update({ status: autoplay });
         };
 
         const handleAutoplay = () => {
@@ -101,9 +92,7 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
 
             const index = options.index as number;
 
-            if (options.loop) {
-                instance.update({ index: index + 1 });
-            } else if (index + 1 < slides.length) {
+            if (options.loop || index + 1 < slides.length) {
                 instance.update({ index: index + 1 });
             } else {
                 autoplay = false;
@@ -122,28 +111,34 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             onStateChange();
         };
 
+        /**
+         * Create [addEventListener, removeEventListener] pair just to type less
+         */
+        const [pael, prel] = eventListener(parent);
+        const [nael, nrel] = eventListener(node);
+
         const mount = () => {
-            parent.addEventListener('play', handleAutoplay);
-            parent.addEventListener('pause', handleAutoplayPause);
-            parent.addEventListener('stop', handleAutoplayStop);
+            pael('play', handleAutoplay);
+            pael('pause', handleAutoplayPause);
+            pael('stop', handleAutoplayStop);
 
-            node.addEventListener('index', onIndexChange);
-
-            overlay.appendChild(buttonRoot);
+            parent.querySelector('.slidy-overlay')!.appendChild(buttonRoot);
         };
 
-        node.addEventListener('mount', mount);
+        const destroy = () => {
+            nrel('mount', mount);
+            nrel('index', onIndexChange);
+            nrel('destroy', destroy);
 
-        node.addEventListener('destroy', function destroy() {
-            node.removeEventListener('mount', mount);
-            node.removeEventListener('destroy', destroy);
-            node.removeEventListener('index', onIndexChange);
+            prel('play', handleAutoplay);
+            prel('pause', handleAutoplayPause);
+            prel('stop', handleAutoplayStop);
 
-            parent.removeEventListener('play', handleAutoplay);
-            parent.removeEventListener('pause', handleAutoplayPause);
-            parent.removeEventListener('stop', handleAutoplayStop);
+            actionInstance.destroy();
+        };
 
-            $destroy();
-        });
+        nael('mount', mount);
+        nael('index', onIndexChange);
+        nael('destroy', destroy);
     };
 }
