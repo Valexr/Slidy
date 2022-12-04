@@ -54,8 +54,8 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
         const [buttonRoot, button, path0, path1] = createButton(
             function handleAutoplayControl() {
                 autoplayState = autoplayState === 'stop' ? 'play' : 'stop';
-                autoplay = !autoplay;
-                onStateChange(), onAutoplayChange();
+                onStateChange();
+                onAutoplayChange((autoplay = !autoplay));
             },
         );
 
@@ -82,8 +82,8 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             }
         };
 
-        const onAutoplayChange = () => {
-            actionInstance.update({ status: autoplay });
+        const onAutoplayChange = (status: typeof autoplay) => {
+            actionInstance.update({ status });
         };
 
         const handleAutoplay = () => {
@@ -95,8 +95,7 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             if (options.loop || index + 1 < slides.length) {
                 instance.update({ index: index + 1 });
             } else {
-                autoplay = false;
-                onAutoplayChange();
+                onAutoplayChange((autoplay = false));
             }
         };
 
