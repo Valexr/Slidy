@@ -61,7 +61,6 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
 
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === autoplayState) return;
-            onStateChange.current = autoplayState;
 
             path0.setAttribute('class', `slidy-autoplay-indicator ${autoplayState}`);
             path1.setAttribute('d', buttonIconPath[autoplayState]);
@@ -70,6 +69,8 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
                 'title',
                 autoplayState === 'play' ? i18n.stop : autoplayState === 'stop' ? i18n.play : ''
             );
+
+            onStateChange.current = autoplayState;
         };
 
         onStateChange();

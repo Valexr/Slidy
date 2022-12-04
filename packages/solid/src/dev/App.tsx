@@ -5,7 +5,7 @@ import { ControlPanel, Sidemenu } from './components';
 import { translate } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
-import { autoplay as autoplay2 } from '@slidy/plugins'
+import { autoplay } from '@slidy/plugins'
 
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
@@ -91,7 +91,7 @@ const App: Component = () => {
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay2({ slides: slides(), i18n: i18nDefaults, autoplay: true, interval: 1500 })]}
+                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, autoplay: true, interval: 2500 })]}
                     />
                 </Show>
             </main>
