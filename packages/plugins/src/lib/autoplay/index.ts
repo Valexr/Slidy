@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { button as createButton, iconPath as buttonIconPath } from './button';
-import { eventListener } from './utils'
+import { eventListener } from './utils';
 import { autoplay as autoplayAction } from '../../../../../assets/actions';
 import type { PluginArgs } from '../../types';
 import type { Slide } from '../../../../../assets/types'
@@ -111,34 +111,24 @@ export function autoplay({ slides, i18n, interval, autoplay }: PlayProps) {
             onStateChange();
         };
 
-        /**
-         * Create [addEventListener, removeEventListener] pair just to type less
-         */
-        const [pael, prel] = eventListener(parent);
-        const [nael, nrel] = eventListener(node);
+        const unlistenParentEvents = eventListener(parent, {
+            play: handleAutoplay,
+            pause: handleAutoplayPause,
+            stop: handleAutoplayStop
+        });
 
         const mount = () => {
-            pael('play', handleAutoplay);
-            pael('pause', handleAutoplayPause);
-            pael('stop', handleAutoplayStop);
-
             parent.querySelector('.slidy-overlay')!.appendChild(buttonRoot);
         };
 
         const destroy = () => {
-            nrel('mount', mount);
-            nrel('index', onIndexChange);
-            nrel('destroy', destroy);
-
-            prel('play', handleAutoplay);
-            prel('pause', handleAutoplayPause);
-            prel('stop', handleAutoplayStop);
-
-            actionInstance.destroy();
+            unlistenNodeEvents(), unlistenParentEvents(), actionInstance.destroy();
         };
 
-        nael('mount', mount);
-        nael('index', onIndexChange);
-        nael('destroy', destroy);
+        const unlistenNodeEvents = eventListener(node, {
+            mount: mount,
+            index: onIndexChange,
+            destroy: destroy
+        });
     };
 }

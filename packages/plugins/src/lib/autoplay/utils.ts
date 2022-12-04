@@ -2,16 +2,32 @@ const error = (statement: string) => {
     return new Error('@slidy/autoplay: ' + statement);
 }
 
-const eventListener = (node: HTMLElement) => {
-    const ael = (method: string, handler: () => any) => {
-        addEventListener.call(node, method, handler);
+type AnyFunction = () => void;
+
+type EventsMap<T extends string, K extends AnyFunction> = {
+    [key in T]: K;
+};
+
+/**
+ * Listen to events, and return function to unlisten
+ */
+// prettier-ignore
+const eventListener = <Listeners extends EventsMap<string, AnyFunction>>(el: HTMLElement, listeners: Listeners) => {
+    const events = Object.entries(listeners);
+
+    const listen = () => {
+        for (const [name, listener] of events) {
+            el.addEventListener(name, listener);
+        }
+    }
+
+    const unlisten = () => {
+        for (const [name, listener] of events) {
+            el.removeEventListener(name, listener);
+        }
     };
 
-    const rel = (method: string, handler: () => any) => {
-        removeEventListener.call(node, method, handler);
-    };
+    return listen(), unlisten;
+};
 
-    return [ael, rel] as const;
-}
-
-export { error, eventListener }
+export { error, eventListener };
