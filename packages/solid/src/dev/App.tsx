@@ -30,7 +30,7 @@ const App: Component = () => {
     const loop = channel(false);
     const gap = channel(15);
 
-    const [index, setIndex] = createSignal(7);
+    const [index, setIndex] = createSignal(0);
 
     const controlPanel = channel(false);
 
@@ -91,7 +91,7 @@ const App: Component = () => {
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, autoplay: true, interval: 2500 })]}
+                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, autoplay: true, duration: 2500, delay: 0 })]}
                     />
                 </Show>
             </main>

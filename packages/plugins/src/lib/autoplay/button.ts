@@ -27,7 +27,7 @@ function button(onclick: () => void) {
 
     const el = template(
         // prettier-ignore
-        `<div class="slidy-autoplay" style="--slidy-autoplay-stroke-length: ${2 * Math.PI * r}"><svg viewBox="${viewBox}"><path stroke="var(--slidy-counter-bg, #4e4e4ebf)" stroke-width="${strokeWidth}" fill="none" d="${d}"></path><path stroke="var(--slidy-autoplay-indicator-accent, lightpink)" stroke-width="${strokeWidth}" fill="none" d="${d}"></path></svg><button type="button"><svg viewBox="0 0 24 24"><path d=""></path></svg></button></div>`,
+        `<div class="slidy-autoplay" style="--slidy-autoplay-stroke-length: ${2 * Math.PI * r}"><svg viewBox="${viewBox}"><path stroke="var(--slidy-counter-bg, #4e4e4ebf)" stroke-width="${strokeWidth}" fill="none" d="${d}"></path><path class="slidy-autoplay-indicator" stroke="var(--slidy-autoplay-indicator-accent, lightpink)" stroke-width="${strokeWidth}" fill="none" d="${d}"></path></svg><button type="button"><svg viewBox="0 0 24 24"><path d=""></path></svg></button></div>`,
         document.createElement('template')
     );
 

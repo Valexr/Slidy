@@ -54,13 +54,11 @@
 
 .slidy-autoplay-indicator {
     stroke-dasharray: var(--slidy-autoplay-stroke-length);
-    stroke-dashoffset: var(--slidy-autoplay-stroke-length);
-    animation: slidy-autoplay-indicator var(--slidy-autoplay-interval) linear forwards infinite;
+    stroke-dashoffset: var(--slidy-autoplay-stroke-length);  
 }
 
-.slidy-autoplay-indicator.stop,
-.slidy-autoplay-indicator.pause {
-    animation: unset;
+.slidy-autoplay-indicator.playing {
+    animation: slidy-autoplay-indicator var(--slidy-autoplay-interval) linear forwards infinite;
 }
 
 @keyframes slidy-autoplay-indicator {
