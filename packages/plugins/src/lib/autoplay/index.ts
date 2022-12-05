@@ -83,6 +83,9 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
             onStateChange();
         });
 
+        // append button into `.slidy-overlay`
+        parent.querySelector('.slidy-overlay')!.appendChild(buttonRoot);
+
         const onStateChange: OnStateChange = () => {
             // no unnecessary redraws
             if (onStateChange.current === state) return;
@@ -118,10 +121,25 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
             }
         };
 
-        function mount() {
-            parent.querySelector('.slidy-overlay')!.appendChild(buttonRoot);
+        const unregisterButtonEventListeners = eventListener(button, {
+            pointerenter: () => {
+                if (state === State.Resume) {
+                    state = State.Pause;
+                    timer.pause();
+                    onStateChange();
+                }
+            },
+            pointerleave: () => {
+                if (state === State.Pause) {
+                    state = State.Resume;
+                    timer.play();
+                    onStateChange();
+                }
+            },
+        });
 
-            document.addEventListener('visibilitychange', () => {
+        const unregisterDocumentEventListeners = eventListener(document, {
+            visibilitychange: () => {
                 if (document.visibilityState === 'hidden') {
                     if (state === State.Resume) {
                         state = 2;
@@ -133,27 +151,17 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
                         onStateChange();
                     }
                 }
-            });
+            },
+        });
 
-            button.addEventListener('pointerenter', () => {
-                if (state === State.Resume) {
-                    state = State.Pause;
-                    timer.pause();
-                    onStateChange();
-                }
-            });
-
-            button.addEventListener('pointerleave', () => {
-                if (state === State.Pause) {
-                    state = State.Resume;
-                    timer.play();
-                    onStateChange();
-                }
-            });
-        }
-
-        node.addEventListener('index', onIndexChange);
-        node.addEventListener('mount', mount);
-        node.addEventListener('destroy', timer.stop);
+        const unregisterNodeEventListeners = eventListener(node, {
+            index: onIndexChange,
+            destroy: () => {
+                timer.stop();
+                unregisterButtonEventListeners();
+                unregisterDocumentEventListeners();
+                unregisterNodeEventListeners();
+            },
+        });
     };
 }
