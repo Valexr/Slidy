@@ -91,7 +91,7 @@ const App: Component = () => {
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, autoplay: true, duration: 2500, delay: 0 })]}
+                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, duration: 2500, delay: 0 })]}
                     />
                 </Show>
             </main>

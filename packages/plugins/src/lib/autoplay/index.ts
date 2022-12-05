@@ -2,7 +2,6 @@
 import { button as createButton, iconPath as buttonIconPath } from './button';
 import { eventListener } from './utils';
 import { timer as IntervalTimer } from '../../utils/env';
-import { autoplay as autoplayAction } from '../../../../../assets/actions';
 import type { PluginArgs } from '../../types';
 import type { Slide } from '../../../../../assets/types';
 
@@ -28,10 +27,6 @@ interface PlayProps {
      * Defines the autoplay delay time in ms
      */
     delay?: number;
-    /**
-     * Initial autoplay state
-     */
-    autoplay: boolean;
 }
 
 const enum State {
@@ -40,7 +35,7 @@ const enum State {
     Pause,
 }
 
-export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
+export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
     interface OnStateChange {
         (): void;
         current?: State;
@@ -57,7 +52,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         const cb = () => {
             const next = (options.index as number) + 1;
 
-            if (options.loop || next < slides.length) {
+            if ((options.loop || next < slides.length) && !options.edged) {
                 state = State.Resume;
                 instance.to(next);
             } else {
@@ -71,6 +66,12 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         const timer = IntervalTimer(cb, duration as number, delay);
 
         const [buttonRoot, button, path0, path1] = createButton(function onButtonClick() {
+            /**
+             * When we click on playing icon we expect it to stop the autoplay,
+             * And because on `pointerenter` we automatically stop the autoplay, `State.Pause` also in check
+             *
+             * When state is `Stop`, then we want it to play
+             */
             if (state === State.Pause || state === State.Resume) {
                 state = State.Stop;
                 timer.stop();
@@ -83,21 +84,24 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         });
 
         const onStateChange: OnStateChange = () => {
+            // no unnecessary redraws
             if (onStateChange.current === state) return;
 
-            // zero it
+            // remove it because animation need to start from zero
             path0.classList.remove('playing');
 
+            // add .playing to show playing animation when needed
             if (state === State.Resume) {
                 path0.classList.add('playing');
             }
 
-            path1.setAttribute('d', state === State.Resume ? buttonIconPath.pause : buttonIconPath.play);
-
-            button.setAttribute(
-                'title',
-                state === State.Resume ? i18n.stop : state === State.Stop ? i18n.play : ''
+            // show user the action, not state
+            path1.setAttribute(
+                'd',
+                state === State.Resume ? buttonIconPath.pause : buttonIconPath.play
             );
+
+            button.setAttribute('title', state === State.Resume ? i18n.stop : i18n.play);
 
             onStateChange.current = state;
         };
@@ -129,7 +133,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
                         onStateChange();
                     }
                 }
-            })
+            });
 
             button.addEventListener('pointerenter', () => {
                 if (state === State.Resume) {
