@@ -52,7 +52,7 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
         const cb = () => {
             const next = (options.index as number) + 1;
 
-            if ((options.loop || next < slides.length) && !options.edged) {
+            if (options.loop || next < slides.length) {
                 state = State.Resume;
                 instance.to(next);
             } else {
