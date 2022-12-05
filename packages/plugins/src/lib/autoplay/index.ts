@@ -114,6 +114,13 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             onStateChange.current = state;
         };
 
+        if (autoplay) {
+            state = State.Resume;
+            // если поменять состояние до запуска timer.play отсюда, то будет печально
+            // как ещё этот delay сделать я не знаю
+            setTimeout(timer.play, delay);
+        }
+
         onStateChange();
 
         const onIndexChange = () => {
