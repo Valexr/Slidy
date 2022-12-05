@@ -142,7 +142,7 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
             visibilitychange: () => {
                 if (document.visibilityState === 'hidden') {
                     if (state === State.Resume) {
-                        state = 2;
+                        state = State.Pause;
                         timer.pause();
                     }
                 } else {
