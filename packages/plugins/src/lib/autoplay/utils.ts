@@ -2,7 +2,7 @@ const error = (statement: string) => {
     return new Error('@slidy/autoplay: ' + statement);
 }
 
-type AnyFunction = () => void;
+type AnyFunction = (...args: any[]) => void;
 
 type EventsMap<T extends string, K extends AnyFunction> = {
     [key in T]: K;

@@ -152,7 +152,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                             return (
                                 <li
                                     aria-current={active() ? 'true' : undefined}
-                                    aria-label={format(props.i18n.counter, index() + 1, length())}
+                                    aria-label={format(props.i18n.counter, i() + 1, length())}
                                     aria-roledescription={props.i18n.slide}
                                     class={props.classNames?.slide}
                                     classList={{

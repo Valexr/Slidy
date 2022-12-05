@@ -27,6 +27,10 @@ interface PlayProps {
      * Defines the autoplay delay time in ms
      */
     delay?: number;
+    /**
+     * Defines the autoplay state
+     */
+    autoplay?: boolean;
 }
 
 const enum State {
@@ -35,7 +39,7 @@ const enum State {
     Pause,
 }
 
-export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
+export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
     interface OnStateChange {
         (): void;
         current?: State;
@@ -45,6 +49,7 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
 
     return ({ node, options, instance }: PluginArgs) => {
         const parent = node.parentElement!;
+        const overlay = parent.querySelector('.slidy-overlay')!;
 
         // Set interval property that is used in button animation
         parent.style.setProperty('--slidy-autoplay-interval', duration + 'ms');
@@ -84,7 +89,7 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
         });
 
         // append button into `.slidy-overlay`
-        parent.querySelector('.slidy-overlay')!.appendChild(buttonRoot);
+        overlay.appendChild(buttonRoot);
 
         const onStateChange: OnStateChange = () => {
             // no unnecessary redraws
@@ -121,22 +126,68 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
             }
         };
 
-        const unregisterButtonEventListeners = eventListener(button, {
-            pointerenter: () => {
-                if (state === State.Resume) {
-                    state = State.Pause;
-                    timer.pause();
-                    onStateChange();
+        const onPointerEnter = () => {
+            if (state === State.Resume) {
+                state = State.Pause;
+                timer.pause();
+                onStateChange();
+            }
+        };
+
+        const onPointerLeave = () => {
+            if (state === State.Pause) {
+                state = State.Resume;
+                timer.play();
+                onStateChange();
+            }
+        };
+
+        // #start посох гвоздь виселица
+
+        let isOnNode = false;
+        let isOnButton = false;
+
+        node.onpointerenter = () => {
+            isOnNode = true;
+
+            setTimeout(() => {
+                if (isOnNode || isOnButton) {
+                    onPointerEnter();
                 }
-            },
-            pointerleave: () => {
-                if (state === State.Pause) {
-                    state = State.Resume;
-                    timer.play();
-                    onStateChange();
+            });
+        };
+
+        node.onpointerleave = () => {
+            isOnNode = false;
+
+            setTimeout(() => {
+                if (!isOnNode || !isOnButton) {
+                    onPointerLeave();
                 }
-            },
-        });
+            });
+        };
+
+        button.onpointerenter = () => {
+            isOnButton = true;
+
+            setTimeout(() => {
+                if (isOnNode || isOnButton) {
+                    onPointerEnter();
+                }
+            });
+        };
+
+        button.onpointerleave = () => {
+            isOnButton = false;
+
+            setTimeout(() => {
+                if (!isOnNode || !isOnButton) {
+                    onPointerLeave();
+                }
+            });
+        };
+
+        // #end
 
         const unregisterDocumentEventListeners = eventListener(document, {
             visibilitychange: () => {
@@ -158,7 +209,7 @@ export function autoplay({ slides, i18n, duration, delay }: PlayProps) {
             index: onIndexChange,
             destroy: () => {
                 timer.stop();
-                unregisterButtonEventListeners();
+                // unregisterButtonEventListeners();
                 unregisterDocumentEventListeners();
                 unregisterNodeEventListeners();
             },
