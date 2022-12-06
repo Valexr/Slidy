@@ -30,7 +30,7 @@ interface PlayProps {
     /**
      * Defines the autoplay state
      */
-    autoplay?: never;
+    autoplay?: boolean;
 }
 
 enum State {
@@ -39,7 +39,7 @@ enum State {
     Pause,
 }
 
-export function autoplay({ slides, i18n, duration, delay, }: PlayProps) {
+export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
     interface OnStateChange {
         (): void;
         current?: State;
@@ -213,9 +213,14 @@ export function autoplay({ slides, i18n, duration, delay, }: PlayProps) {
 
         const unregisterNodeEventListeners = eventListener(node, {
             index: onIndexChange,
+            mount: () => {
+                /**
+                 * This is very naive
+                 */
+                if (autoplay) setTimeout(timer.play, delay);  
+            },
             destroy: () => {
                 timer.stop();
-                // unregisterButtonEventListeners();
                 unregisterDocumentEventListeners();
                 unregisterNodeEventListeners();
             },
