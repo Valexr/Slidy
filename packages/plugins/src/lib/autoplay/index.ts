@@ -188,9 +188,9 @@ export function autoplay({ slides, i18n, duration, delay, }: PlayProps) {
             wasOnButton = false;
             wasOnNode = true;
 
-            if (!isOnButton) {
-                onPointerLeave();
-            }
+            setTimeout(() => {
+                if (!isOnButton) onPointerLeave();
+            }, 2);
         };
 
         // #end
