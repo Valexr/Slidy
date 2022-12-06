@@ -35,4 +35,11 @@ const eventListener = <Listeners extends EventsMap<string, AnyFunction>>(el: Lis
     return listen(), unlisten;
 };
 
-export { error, eventListener };
+/**
+ * `items`.includes(`c`)
+ */
+const eql = <T>(c: T, ...items: T[]) => {
+    return items.includes(c);
+} 
+
+export { error, eventListener, eql };

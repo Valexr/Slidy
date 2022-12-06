@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { button as createButton, iconPath as buttonIconPath } from './button';
-import { eventListener } from './utils';
+import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from '../../utils/env';
 import type { PluginArgs } from '../../types';
 import type { Slide } from '../../../../../assets/types';
@@ -30,22 +30,22 @@ interface PlayProps {
     /**
      * Defines the autoplay state
      */
-    autoplay?: boolean;
+    autoplay?: never;
 }
 
-const enum State {
+enum State {
+    Play,
     Stop,
-    Resume,
     Pause,
 }
 
-export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
+export function autoplay({ slides, i18n, duration, delay, }: PlayProps) {
     interface OnStateChange {
         (): void;
         current?: State;
     }
 
-    let state = 0 as State;
+    let state = State.Stop as State;
 
     return ({ node, options, instance }: PluginArgs) => {
         const parent = node.parentElement!;
@@ -58,7 +58,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             const next = (options.index as number) + 1;
 
             if (options.loop || next < slides.length) {
-                state = State.Resume;
+                state = State.Play;
                 instance.to(next);
             } else {
                 state = State.Stop;
@@ -77,11 +77,11 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
              *
              * When state is `Stop`, then we want it to play
              */
-            if (state === State.Pause || state === State.Resume) {
+            if (eql(state, State.Pause, State.Play)) {
                 state = State.Stop;
                 timer.stop();
             } else {
-                state = State.Resume;
+                state = State.Play;
                 timer.play();
             }
 
@@ -95,31 +95,32 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             // no unnecessary redraws
             if (onStateChange.current === state) return;
 
+            console.log(`Current state is ${State[state]}`);
+
             // remove it because animation need to start from zero
             path0.classList.remove('playing');
 
             // add .playing to show playing animation when needed
-            if (state === State.Resume) {
+            if (state === State.Play) {
                 path0.classList.add('playing');
             }
 
             // show user the action, not state
+            const D_STATE_MAP = {
+                [State.Play]: 'pause',
+                [State.Stop]: 'play',
+                [State.Pause]: 'stop',
+            } as const;
+
             path1.setAttribute(
                 'd',
-                state === State.Resume ? buttonIconPath.pause : buttonIconPath.play
+                buttonIconPath[D_STATE_MAP[state]]
             );
 
-            button.setAttribute('title', state === State.Resume ? i18n.stop : i18n.play);
+            button.setAttribute('title', state === State.Play ? i18n.stop : i18n.play);
 
             onStateChange.current = state;
         };
-
-        if (autoplay) {
-            state = State.Resume;
-            // если поменять состояние до запуска timer.play отсюда, то будет печально
-            // как ещё этот delay сделать я не знаю
-            setTimeout(timer.play, delay);
-        }
 
         onStateChange();
 
@@ -134,7 +135,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         };
 
         const onPointerEnter = () => {
-            if (state === State.Resume) {
+            if (state === State.Play) {
                 state = State.Pause;
                 timer.pause();
                 onStateChange();
@@ -143,7 +144,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
 
         const onPointerLeave = () => {
             if (state === State.Pause) {
-                state = State.Resume;
+                state = State.Play;
                 timer.play();
                 onStateChange();
             }
@@ -154,44 +155,42 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         let isOnNode = false;
         let isOnButton = false;
 
+        let wasOnButton = false;
+        let wasOnNode = false;
+
         node.onpointerenter = () => {
             isOnNode = true;
 
-            setTimeout(() => {
-                if (isOnNode || isOnButton) {
-                    onPointerEnter();
-                }
-            });
-        };
-
-        node.onpointerleave = () => {
-            isOnNode = false;
-
-            setTimeout(() => {
-                if (!isOnNode || !isOnButton) {
-                    onPointerLeave();
-                }
-            });
+            if (!wasOnButton) {
+                onPointerEnter();
+            }
         };
 
         button.onpointerenter = () => {
             isOnButton = true;
 
-            setTimeout(() => {
-                if (isOnNode || isOnButton) {
-                    onPointerEnter();
-                }
-            });
+            onPointerEnter();
         };
 
         button.onpointerleave = () => {
             isOnButton = false;
+            wasOnButton = true;
 
-            setTimeout(() => {
-                if (!isOnNode || !isOnButton) {
-                    onPointerLeave();
-                }
-            });
+            if (!isOnNode && !wasOnNode) {
+                onPointerLeave();
+            }
+
+            wasOnNode = false;
+        };
+
+        node.onpointerleave = () => {
+            isOnNode = false;
+            wasOnButton = false;
+            wasOnNode = true;
+
+            if (!isOnButton) {
+                onPointerLeave();
+            }
         };
 
         // #end
@@ -199,7 +198,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
         const unregisterDocumentEventListeners = eventListener(document, {
             visibilitychange: () => {
                 if (document.visibilityState === 'hidden') {
-                    if (state === State.Resume) {
+                    if (state === State.Play) {
                         state = State.Pause;
                         timer.pause();
                     }
