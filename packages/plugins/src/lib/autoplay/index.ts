@@ -2,36 +2,7 @@
 import { button as createButton, iconPath as buttonIconPath } from './button';
 import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from '../../utils/env';
-import type { PluginArgs } from '../../types';
-import type { Slide } from '../../../../../assets/types';
-
-interface PlayI18NDict {
-    play: string;
-    stop: string;
-}
-
-interface PlayProps {
-    /**
-     * Slides you pass into `<Slidy slides={} />` component
-     */
-    slides: Slide[];
-    /**
-     * The i18n localization dictionary
-     */
-    i18n: PlayI18NDict;
-    /**
-     * Defines the autoplay duration time in ms
-     */
-    duration?: number;
-    /**
-     * Defines the autoplay delay time in ms
-     */
-    delay?: number;
-    /**
-     * Defines the autoplay state
-     */
-    autoplay?: boolean;
-}
+import type { AutoplayPluginFunc } from './types';
 
 const enum State {
     Play,
@@ -72,10 +43,10 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
+export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, autoplay }) => {
     let state = State.Stop as State;
 
-    return ({ node, options, instance }: PluginArgs) => {
+    return ({ node, options, instance }) => {
         const parent = node.parentElement!;
         const overlay = parent.querySelector('.slidy-overlay')!;
 
@@ -98,7 +69,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
 
         const timer = IntervalTimer(cb, duration as number, delay);
 
-        const [buttonRoot, button, path0, path1] = createButton(function onButtonClick() {
+        const [buttonRoot, button, path0, path1] = createButton(() => {
             /**
              * When we click on playing icon we expect it to stop the autoplay,
              * And because on `pointerenter` we automatically stop the autoplay, `State.Pause` also in check
@@ -126,10 +97,7 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             path0.classList.remove('playing');
             state === State.Play && path0.classList.add('playing');
 
-            path1.setAttribute(
-                'd',
-                buttonIconPath[D_STATE_MAP[state]]
-            );
+            path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
 
             button.setAttribute('title', state === State.Play ? i18n.stop : i18n.play);
 
@@ -233,5 +201,25 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
                 unregisterNodeEventListeners();
             },
         });
+
+        return {
+            play() {
+                state = State.Play;
+                onStateChange();
+                timer.play();
+            },
+            pause() {
+                state = State.Pause;
+                onStateChange();
+                timer.pause();
+            },
+            stop() {
+                state = State.Stop;
+                onStateChange();
+                timer.stop();
+            },
+        };
     };
-}
+};
+
+export * from './types';

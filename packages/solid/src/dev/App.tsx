@@ -86,12 +86,11 @@ const App: Component = () => {
                         loop={loop()}
                         thumbnail
                         progress
-                        // bind:index
                         index={index}
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, duration: 2500, delay: 0, autoplay: true })]}
+                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, duration: 2500, delay: 0, autoplay: false })]}
                     />
                 </Show>
             </main>
