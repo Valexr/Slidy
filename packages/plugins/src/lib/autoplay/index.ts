@@ -33,18 +33,46 @@ interface PlayProps {
     autoplay?: boolean;
 }
 
-enum State {
+const enum State {
     Play,
     Stop,
     Pause,
 }
 
-export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
-    interface OnStateChange {
-        (): void;
-        current?: State;
-    }
+/**
+ * Since the autoplay button and slidy overlay are in different layers, it is necessary to know the correct position of the mouse to process the action more correctly
+ */
+const enum PreviousMouseLocation {
+    Button,
+    Node,
+    Else,
+}
 
+const enum CurrentMouseLocation {
+    Button,
+    Node,
+    Else,
+}
+
+/**
+ * Function to make ui changes
+ */
+interface OnStateChange {
+    (): void;
+    current?: State;
+}
+
+/**
+ * Used in button icon.
+ * Stated are reversed, because we need to show the action, and not the state
+ */
+const D_STATE_MAP = {
+    [State.Play]: 'pause',
+    [State.Stop]: 'play',
+    [State.Pause]: 'stop',
+} as const;
+
+export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps) {
     let state = State.Stop as State;
 
     return ({ node, options, instance }: PluginArgs) => {
@@ -88,29 +116,15 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             onStateChange();
         });
 
-        // append button into `.slidy-overlay`
         overlay.appendChild(buttonRoot);
 
         const onStateChange: OnStateChange = () => {
-            // no unnecessary redraws
+            // avoid unnecessary redraws
             if (onStateChange.current === state) return;
-
-            console.log(`Current state is ${State[state]}`);
 
             // remove it because animation need to start from zero
             path0.classList.remove('playing');
-
-            // add .playing to show playing animation when needed
-            if (state === State.Play) {
-                path0.classList.add('playing');
-            }
-
-            // show user the action, not state
-            const D_STATE_MAP = {
-                [State.Play]: 'pause',
-                [State.Stop]: 'play',
-                [State.Pause]: 'stop',
-            } as const;
+            state === State.Play && path0.classList.add('playing');
 
             path1.setAttribute(
                 'd',
@@ -152,44 +166,37 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
 
         // #start посох гвоздь виселица
 
-        let isOnNode = false;
-        let isOnButton = false;
-
-        let wasOnButton = false;
-        let wasOnNode = false;
+        let previousMouseLocation = PreviousMouseLocation.Else;
+        let currentMouseLocation = CurrentMouseLocation.Else;
 
         node.onpointerenter = () => {
-            isOnNode = true;
+            currentMouseLocation = CurrentMouseLocation.Node;
 
-            if (!wasOnButton) {
+            if (previousMouseLocation !== PreviousMouseLocation.Button) {
                 onPointerEnter();
             }
         };
 
         button.onpointerenter = () => {
-            isOnButton = true;
-
+            currentMouseLocation = CurrentMouseLocation.Button;
             onPointerEnter();
         };
 
         button.onpointerleave = () => {
-            isOnButton = false;
-            wasOnButton = true;
-
-            if (!isOnNode && !wasOnNode) {
+            if (previousMouseLocation !== PreviousMouseLocation.Node) {
                 onPointerLeave();
             }
 
-            wasOnNode = false;
+            previousMouseLocation = PreviousMouseLocation.Button;
         };
 
         node.onpointerleave = () => {
-            isOnNode = false;
-            wasOnButton = false;
-            wasOnNode = true;
+            previousMouseLocation = PreviousMouseLocation.Node;
 
             setTimeout(() => {
-                if (!isOnButton) onPointerLeave();
+                if (currentMouseLocation !== CurrentMouseLocation.Button) {
+                    onPointerLeave();
+                }
             }, 2);
         };
 
@@ -197,16 +204,12 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
 
         const unregisterDocumentEventListeners = eventListener(document, {
             visibilitychange: () => {
-                if (document.visibilityState === 'hidden') {
-                    if (state === State.Play) {
-                        state = State.Pause;
-                        timer.pause();
-                    }
-                } else {
-                    if (state === State.Pause) {
-                        timer.resume();
-                        onStateChange();
-                    }
+                if (document.visibilityState === 'hidden' && state === State.Play) {
+                    state = State.Pause;
+                    timer.pause();
+                } else if (state === State.Pause) {
+                    timer.resume();
+                    onStateChange();
                 }
             },
         });
@@ -215,9 +218,14 @@ export function autoplay({ slides, i18n, duration, delay, autoplay }: PlayProps)
             index: onIndexChange,
             mount: () => {
                 /**
-                 * This is very naive
+                 * Outside of the user's desire, we will run an autoplay
                  */
-                if (autoplay) setTimeout(timer.play, delay);  
+                if (autoplay) {
+                    setTimeout(() => {
+                        state = State.Play;
+                        timer.play();
+                    }, delay);
+                }
             },
             destroy: () => {
                 timer.stop();
