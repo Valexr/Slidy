@@ -67,7 +67,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             onStateChange();
         };
 
-        const timer = IntervalTimer(cb, duration as number, delay);
+        const timer = IntervalTimer(cb, duration as number, 0);
 
         const [buttonRoot, button, path0, path1] = createButton(() => {
             /**
@@ -81,7 +81,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 timer.stop();
             } else {
                 state = State.Play;
-                timer.play();
+                timer.resume();
             }
 
             onStateChange();
@@ -90,15 +90,17 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         overlay.appendChild(buttonRoot);
 
         const onStateChange: OnStateChange = () => {
-            // avoid unnecessary redraws
             if (onStateChange.current === state) return;
 
-            // remove it because animation need to start from zero
-            path0.classList.remove('playing');
-            state === State.Play && path0.classList.add('playing');
+            if (state !== State.Pause) {
+                path0.classList.remove('playing');
+            }
+
+            if (state === State.Play) {
+                path0.classList.add('playing');
+            }
 
             path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
-
             button.setAttribute('title', state === State.Play ? i18n.stop : i18n.play);
 
             onStateChange.current = state;
@@ -121,16 +123,25 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 state = State.Pause;
                 timer.pause();
                 onStateChange();
+
+                path0.classList.add('paused');
             }
         };
 
         const onPointerLeave = () => {
             if (state === State.Pause) {
                 state = State.Play;
-                timer.play();
+                timer.resume()
                 onStateChange();
+                path0.classList.remove('paused');
             }
         };
+
+        const onPointerLeaveNode = () => {
+            if (currentMouseLocation !== CurrentMouseLocation.Button && currentMouseLocation !== CurrentMouseLocation.Node) {
+                onPointerLeave();
+            }
+        }
 
         // #start посох гвоздь виселица
 
@@ -160,12 +171,9 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
 
         node.onpointerleave = () => {
             previousMouseLocation = PreviousMouseLocation.Node;
+            currentMouseLocation = CurrentMouseLocation.Else;
 
-            setTimeout(() => {
-                if (currentMouseLocation !== CurrentMouseLocation.Button) {
-                    onPointerLeave();
-                }
-            }, 2);
+            queueMicrotask(onPointerLeaveNode);
         };
 
         // #end

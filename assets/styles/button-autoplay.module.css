@@ -61,6 +61,10 @@
     animation: slidy-autoplay-indicator var(--slidy-autoplay-interval) linear forwards infinite;
 }
 
+.slidy-autoplay-indicator.paused {
+    animation-play-state: paused;
+}
+
 @keyframes slidy-autoplay-indicator {
     to {
         stroke-dashoffset: 0;
