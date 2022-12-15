@@ -1,5 +1,5 @@
 import { build } from 'esbuild';
-import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -9,7 +9,7 @@ const esbuildBase = {
     watch: DEV,
     minify: !DEV,
     incremental: DEV,
-    plugins: [eslintPlugin()],
+    plugins: [eslint()],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV && 'inline',
     legalComments: 'none',

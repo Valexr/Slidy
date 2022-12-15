@@ -1,6 +1,6 @@
 import { build } from 'esbuild';
 import { derver } from 'derver';
-import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -12,7 +12,7 @@ const esbuildBase = {
     legalComments: 'none',
     minify: !DEV && !CORE,
     incremental: DEV || CORE,
-    plugins: [eslintPlugin()],
+    plugins: [eslint()],
     entryPoints: CORE
         ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation', '@slidy/plugins']
         : ['src/index.ts'],
