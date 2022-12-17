@@ -104,15 +104,15 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.4.10",
-        "@types/node": "^18.11.15",
+        "@types/node": "^18.11.16",
         "@typescript-eslint/eslint-plugin": "^5.46.1",
         "@typescript-eslint/parser": "^5.46.1",
         "derver": "^0.5.3",
-        "esbuild": "^0.16.7",
-        "eslint": "^8.29.0",
+        "esbuild": "^0.16.8",
+        "eslint": "^8.30.0",
         "open-props": "^1.5.1",
         "prettier": "^2.8.1",
-        "sass": "^1.56.2",
+        "sass": "^1.57.0",
         "tslib": "^2.4.1",
         "typescript": "^4.9.4"
     }
