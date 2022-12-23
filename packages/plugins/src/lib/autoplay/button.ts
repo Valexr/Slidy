@@ -40,7 +40,7 @@ function button(onclick: () => void) {
     return [el, button, path0, path1] as const;
 }
 
-function animate(target: SVGPathElement, strokeDashoffset = 2 * Math.PI * r) {
+function animate(target: SVGPathElement, duration: number, strokeDashoffset = 2 * Math.PI * r) {
     return target.animate(
         [
             {
@@ -52,7 +52,7 @@ function animate(target: SVGPathElement, strokeDashoffset = 2 * Math.PI * r) {
         ],
         {
             iterations: Infinity,
-            duration: 2500,
+            duration: duration,
             delay: 0,
         }
     );

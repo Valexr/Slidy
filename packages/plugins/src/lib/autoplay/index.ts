@@ -48,6 +48,8 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
     let animation!: Animation;
     let currentTime = 0;
 
+    duration ||= 2500;
+
     return ({ node, options, instance }) => {
         const parent = node.parentElement!;
         const overlay = parent.querySelector('.slidy-overlay')!;
@@ -93,7 +95,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         });
 
         overlay.appendChild(buttonRoot);
-        animation = animate(indicator);
+        animation = animate(indicator, duration!);
 
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;
