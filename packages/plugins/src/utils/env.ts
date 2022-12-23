@@ -15,7 +15,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     }
 
     function resume() {
-        if (state !== 2) return;
+        if (state !== 2) return false;
         state = 3;
         setTimeout(timeoutCallback, remaining);
     }

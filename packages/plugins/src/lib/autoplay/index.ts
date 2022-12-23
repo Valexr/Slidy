@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { button as createButton, iconPath as buttonIconPath } from './button';
+import { button as createButton, animate, iconPath as buttonIconPath } from './button';
 import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from '../../utils/env';
 import type { AutoplayPluginFunc } from './types';
@@ -45,6 +45,8 @@ const D_STATE_MAP = {
 
 export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, autoplay }) => {
     let state = State.Stop as State;
+    let animation!: Animation;
+    let currentTime = 0;
 
     return ({ node, options, instance }) => {
         const parent = node.parentElement!;
@@ -69,7 +71,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
 
         const timer = IntervalTimer(cb, duration as number, 0);
 
-        const [buttonRoot, button, path0, path1] = createButton(() => {
+        const [buttonRoot, button, indicator, path1] = createButton(() => {
             /**
              * When we click on playing icon we expect it to stop the autoplay,
              * And because on `pointerenter` we automatically stop the autoplay, `State.Pause` also in check
@@ -79,25 +81,29 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             if (eql(state, State.Pause, State.Play)) {
                 state = State.Stop;
                 timer.stop();
+                animation?.cancel();
             } else {
                 state = State.Play;
-                timer.resume();
+
+                animation?.play();
+                if (timer.resume() === false) timer.play();
             }
 
             onStateChange();
         });
 
         overlay.appendChild(buttonRoot);
+        animation = animate(indicator);
 
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;
 
             if (state !== State.Pause) {
-                path0.classList.remove('playing');
+                animation?.cancel();
             }
 
             if (state === State.Play) {
-                path0.classList.add('playing');
+                animation?.play();
             }
 
             path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
@@ -124,24 +130,28 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 timer.pause();
                 onStateChange();
 
-                path0.classList.add('paused');
+                animation?.pause();
+
+                currentTime = animation!.currentTime ?? currentTime;
             }
         };
 
         const onPointerLeave = () => {
             if (state === State.Pause) {
                 state = State.Play;
-                timer.resume()
+                timer.resume();
                 onStateChange();
-                path0.classList.remove('paused');
+                animation.currentTime = currentTime;
+                animation!.play();
             }
         };
 
         const onPointerLeaveNode = () => {
-            if (currentMouseLocation !== CurrentMouseLocation.Button && currentMouseLocation !== CurrentMouseLocation.Node) {
+            // prettier-ignore
+            if (!eql(currentMouseLocation, CurrentMouseLocation.Button, CurrentMouseLocation.Node)) {
                 onPointerLeave();
             }
-        }
+        };
 
         // #start посох гвоздь виселица
 
@@ -209,24 +219,6 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 unregisterNodeEventListeners();
             },
         });
-
-        return {
-            play() {
-                state = State.Play;
-                onStateChange();
-                timer.play();
-            },
-            pause() {
-                state = State.Pause;
-                onStateChange();
-                timer.pause();
-            },
-            stop() {
-                state = State.Stop;
-                onStateChange();
-                timer.stop();
-            },
-        };
     };
 };
 

@@ -44,4 +44,4 @@ export interface AutoplayControls {
     stop: () => void;
 }
 
-export type AutoplayPluginFunc = (params: PlayProps) => (plugin: PluginArgs) => AutoplayControls;
+export type AutoplayPluginFunc = (params: PlayProps) => (plugin: PluginArgs) => void;

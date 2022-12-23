@@ -19,7 +19,7 @@ const strokeWidth = `${stroke}px`;
 const d = `M ${r + stroke / 2}, ${r + stroke / 2} m -${r}, 0 a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${-2 * r},0`;
 
 function template(html: string, t: HTMLTemplateElement) {
-    return t.innerHTML = html, t.content.firstChild as unknown as Element;
+    return (t.innerHTML = html), t.content.firstChild as unknown as Element;
 }
 
 function button(onclick: () => void) {
@@ -40,4 +40,22 @@ function button(onclick: () => void) {
     return [el, button, path0, path1] as const;
 }
 
-export { button, iconPath }
+function animate(target: SVGPathElement, strokeDashoffset = 2 * Math.PI * r) {
+    return target.animate(
+        [
+            {
+                strokeDashoffset: strokeDashoffset,
+            },
+            {
+                strokeDashoffset: 0,
+            },
+        ],
+        {
+            iterations: Infinity,
+            duration: 2500,
+            delay: 0,
+        }
+    );
+}
+
+export { button, animate, iconPath };
