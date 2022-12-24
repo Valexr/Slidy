@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { button as createButton, animate, iconPath as buttonIconPath } from './button';
 import { eventListener, eql } from './utils';
-import { timer as IntervalTimer } from '../../utils/env';
+import { timer as IntervalTimer } from './timer';
 import type { AutoplayPluginFunc } from './types';
 
 const enum State {
@@ -46,8 +46,6 @@ const D_STATE_MAP = {
 export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, autoplay }) => {
     let state = State.Stop as State;
     let animation!: Animation;
-    let currentTime = 0;
-
     duration ||= 2500;
 
     return ({ node, options, instance }) => {
@@ -71,7 +69,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             onStateChange();
         };
 
-        const timer = IntervalTimer(cb, duration as number, 0);
+        const timer = IntervalTimer(cb, duration as number);
 
         const [buttonRoot, button, indicator, path1] = createButton(() => {
             /**
@@ -83,12 +81,9 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             if (eql(state, State.Pause, State.Play)) {
                 state = State.Stop;
                 timer.stop();
-                animation?.cancel();
             } else {
                 state = State.Play;
-
-                animation?.play();
-                if (timer.resume() === false) timer.play();
+                timer.resume();
             }
 
             onStateChange();
@@ -100,12 +95,12 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;
 
-            if (state !== State.Pause) {
-                animation?.cancel();
-            }
-
             if (state === State.Play) {
-                animation?.play();
+                animation!.play();
+            } else if (state === State.Pause) {
+                animation!.pause();
+            } else if (state === State.Stop) {
+                animation!.cancel();
             }
 
             path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
@@ -131,10 +126,6 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 state = State.Pause;
                 timer.pause();
                 onStateChange();
-
-                animation?.pause();
-
-                currentTime = animation!.currentTime ?? currentTime;
             }
         };
 
@@ -143,8 +134,8 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 state = State.Play;
                 timer.resume();
                 onStateChange();
-                animation.currentTime = currentTime;
-                animation!.play();
+
+                animation.currentTime = duration! - timer.remaining
             }
         };
 
