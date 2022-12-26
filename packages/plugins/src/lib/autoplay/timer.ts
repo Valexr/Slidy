@@ -58,6 +58,9 @@ function timer(callback: () => void, interval: number) {
     stop,
     get remaining() {
       return remaining
+    },
+    set remaining(value: number) {
+      remaining = value;
     }
   };
 }

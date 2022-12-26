@@ -46,6 +46,7 @@ const D_STATE_MAP = {
 export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, autoplay }) => {
     let state = State.Stop as State;
     let animation!: Animation;
+
     duration ||= 2500;
 
     return ({ node, options, instance }) => {
@@ -132,10 +133,13 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         const onPointerLeave = () => {
             if (state === State.Pause) {
                 state = State.Play;
-                timer.resume();
                 onStateChange();
 
-                animation.currentTime = duration! - timer.remaining
+                const current = animation.currentTime! % duration!;
+                const remaining = duration! - current;
+
+                timer.remaining = remaining;
+                timer.resume();
             }
         };
 

@@ -20,28 +20,13 @@ export interface PlayProps {
      */
     duration?: number;
     /**
-     * Defines the autoplay delay time in ms
+     * Defines the autoplay delay time from the first launch in ms
      */
     delay?: number;
     /**
      * Defines the autoplay state
      */
     autoplay?: boolean;
-}
-
-export interface AutoplayControls {
-    /**
-     * Changes the autoplay state to "play" and starts it immediately
-     */
-    play: () => void;
-    /**
-     * Changes the autoplay state to "pause" and pauses it immediately
-     */
-    pause: () => void;
-    /**
-     * Changes the autoplay state to "stop" and stops it immediately
-     */
-    stop: () => void;
 }
 
 export type AutoplayPluginFunc = (params: PlayProps) => (plugin: PluginArgs) => void;
