@@ -1,4 +1,4 @@
-import { loop } from './utils';
+import { loop } from '.';
 import type { EventMap } from '../types';
 
 function listen(node: HTMLElement, events: EventMap, on = true): void {
