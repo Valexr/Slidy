@@ -21,7 +21,7 @@
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.0",
         "@sveltejs/kit": "^1.0.1",
-        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.0",
         "mdsvex": "^0.10.6",
