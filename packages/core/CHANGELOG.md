@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.7.1 - fix duplicated options
+
+- [fix duplicated options](https://github.com/Valexr/Slidy/commit/0e33d46fe6fec592b702fc9991e7ba285ce34cd6)
+
 ## 3.7.0 - add `options.plugins`, fix issues & updates
 
 -   [add plugins to iife](https://github.com/Valexr/Slidy/commit/f8b0442273392f5ba4e48cfcb83431e1ebc4ab6a)
