@@ -7,7 +7,9 @@ import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from '../types'
  * Simple, configurable, nested & reusable sliding action script
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
-export function slidy(node: HTMLElement, options: Partial<Options> = {}): SlidyInstance {
+export function slidy(node: HTMLElement, opts: Partial<Options> = {}): SlidyInstance {
+
+    const options = { ...opts }
 
     let $: () => Dom,
         hix = 0,
