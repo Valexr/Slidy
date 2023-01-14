@@ -1,4 +1,4 @@
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { derver } from 'derver';
 import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
@@ -7,11 +7,10 @@ const DEV = process.argv.includes('--dev');
 const CORE = process.argv.includes('--core');
 
 const esbuildBase = {
-    watch: DEV,
     bundle: true,
+    format: 'esm',
     legalComments: 'none',
     minify: !DEV && !CORE,
-    incremental: DEV || CORE,
     plugins: [eslint()],
     entryPoints: CORE
         ? ['@slidy/core', '@slidy/media', '@slidy/easing', '@slidy/animation', '@slidy/plugins']
@@ -19,7 +18,6 @@ const esbuildBase = {
     outdir: CORE ? 'public/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
-    format: 'esm',
 };
 
 const derverConfig = {
@@ -35,6 +33,7 @@ const derverConfig = {
         'node_modules/@slidy/plugins',
     ],
 };
+
 const builds = {
     cjs: {
         outfile: 'dist/index.cjs',
@@ -49,32 +48,34 @@ const builds = {
     },
 };
 
+
 if (DEV || CORE) {
-    build(esbuildBase)
-        .then((bundle) => {
-            if (DEV) console.log('watching @slidy/core...');
-            else
-                derver({
-                    ...derverConfig,
-                    onwatch: async (lr, item) => {
-                        if (item !== 'public') {
-                            lr.prevent();
-                            bundle
-                                .rebuild()
-                                .catch((err) => lr.error(err.message, 'TS compile error'));
-                        }
-                    },
-                });
-        })
-        .catch(() => process.exit(1));
+    const ctx = await context(esbuildBase);
+
+    if (DEV) {
+        await ctx.rebuild();
+        await ctx.watch();
+        console.log('watching @slidy/core...');
+    } else {
+        derver({
+            ...derverConfig,
+            onwatch: async (lr, item) => {
+                if (item !== 'public') {
+                    lr.prevent();
+                    ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+                }
+            },
+        });
+    }
 } else {
-    prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
-    });
+    await prepare();
+
+    for (const key in builds) {
+        await build({
+            ...esbuildBase,
+            ...builds[key],
+            format: key,
+        });
+    }
+
 }

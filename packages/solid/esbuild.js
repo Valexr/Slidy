@@ -1,4 +1,4 @@
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { derver } from 'derver';
 import { solidPlugin } from 'esbuild-plugin-solid';
 import prepare from '../../env/prepare.js';
@@ -9,7 +9,6 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    incremental: DEV,
     legalComments: 'none',
     plugins: [solidPlugin()],
     entryPoints: ['src/index.tsx'],
@@ -31,44 +30,50 @@ const derverConfig = {
     ],
 };
 
+const builds = {
+    esm: {
+        format: 'esm',
+        outfile: './dist/slidy.mjs',
+    },
+    jsx: {
+        plugins: [],
+        format: 'esm',
+        jsx: 'preserve',
+        outfile: './dist/slidy.jsx',
+    },
+    iife: {
+        format: 'iife',
+        outfile: './dist/slidy.js',
+        globalName: 'SlidySolid',
+    }
+};
+
 if (DEV) {
-    build({
+    const ctx = await context({
         ...esbuildBase,
         entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
         loader: { '.svg': 'dataurl' },
-    }).then((bundle) => {
-        derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'public') {
-                    lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
     });
+
+    derver({
+        ...derverConfig,
+        onwatch: async (lr, item) => {
+            if (item !== 'public') {
+                lr.prevent();
+                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+            }
+        },
+    });
+
 } else {
-    prepare().then(() => {
-        build({
-            ...esbuildBase,
-            format: 'esm',
-            outfile: './dist/slidy.mjs',
-        });
+    await prepare();
 
-        build({
+    for (const key in builds) {
+        await build({
             ...esbuildBase,
-            plugins: [],
-            format: 'esm',
-            jsx: 'preserve',
-            outfile: './dist/slidy.jsx',
+            ...builds[key],
         });
+    }
 
-        build({
-            ...esbuildBase,
-            format: 'iife',
-            outfile: './dist/slidy.js',
-            globalName: 'SlidySolid',
-        });
-    });
 }

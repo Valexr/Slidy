@@ -1,4 +1,4 @@
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { derver } from 'derver';
 import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
@@ -9,7 +9,6 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    incremental: DEV,
     legalComments: 'none',
     plugins: [eslint()],
     entryPoints: ['src/index.tsx'],
@@ -45,30 +44,32 @@ const builds = {
 };
 
 if (DEV) {
-    build({
+    const ctx = await context({
         ...esbuildBase,
         entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
         loader: { '.svg': 'dataurl' },
-    }).then((bundle) => {
-        derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'public') {
-                    lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
     });
+
+    derver({
+        ...derverConfig,
+        onwatch: async (lr, item) => {
+            if (item !== 'public') {
+                lr.prevent();
+                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+            }
+        },
+    });
+
 } else {
-    prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
-    });
+    await prepare();
+
+    for (const key in builds) {
+        await build({
+            ...esbuildBase,
+            ...builds[key],
+            format: key,
+        });
+    }
+
 }

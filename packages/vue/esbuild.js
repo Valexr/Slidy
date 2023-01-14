@@ -1,4 +1,4 @@
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { derver } from 'derver';
 import { eslint } from '../../env/eslint.js';
 import vue from 'esbuild-plugin-vue-next';
@@ -8,7 +8,6 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    incremental: DEV,
     legalComments: 'none',
     plugins: [vue(), eslint()],
     entryPoints: ['src/index.ts'],
@@ -34,25 +33,26 @@ const builds = {
 };
 
 if (DEV) {
-    build({
+    const ctx = await context({
         ...esbuildBase,
         entryPoints: ['public/app.ts'],
         outfile: 'public/build/bundle.js',
         loader: { '.svg': 'file' },
-    }).then((bundle) => {
-        derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'public') {
-                    lr.prevent();
-                    bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
     });
+
+    derver({
+        ...derverConfig,
+        onwatch: async (lr, item) => {
+            if (item !== 'public') {
+                lr.prevent();
+                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+            }
+        },
+    });
+
 } else {
     for (const key in builds) {
-        build({
+        await build({
             ...esbuildBase,
             ...builds[key],
             format: key,
