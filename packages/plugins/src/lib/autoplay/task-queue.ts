@@ -11,7 +11,7 @@ class TaskQueue {
   protected originalQueue: Queue;
   protected queue: Queue;
   protected index: number;
-  protected timeoutId: Timeout | null;
+  protected timeoutId: Timeout;
 
   protected time = now();
 
@@ -19,7 +19,7 @@ class TaskQueue {
     this.originalQueue = queue;
     this.queue = this.resetQueue();
     this.index = 0;
-    this.timeoutId = null;
+    this.timeoutId = null as any as Timeout;
   }
 
   public start() {
@@ -28,7 +28,7 @@ class TaskQueue {
   }
 
   public pause() {
-    clearTimeout(this.timeoutId!);
+    clearTimeout(this.timeoutId);
 
     const nextAwaitQueueItem = this.getNextAwaitQueueItem();
 
@@ -40,7 +40,7 @@ class TaskQueue {
   }
 
   public stop() {
-    clearTimeout(this.timeoutId!);
+    clearTimeout(this.timeoutId);
 
     this.index = 0;
     this.resetQueue();
