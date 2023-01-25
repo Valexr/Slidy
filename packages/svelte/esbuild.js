@@ -1,4 +1,4 @@
-import { build } from "esbuild";
+import { build, context } from "esbuild";
 import { derver } from "derver";
 import sveltePlugin from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
@@ -31,12 +31,10 @@ const cssModulesOptions = {
 };
 
 const esbuildBase = {
-	watch: DEV,
 	bundle: true,
 	globalName: "slidy",
 	legalComments: "none",
 	minify: !DEV && !SVELTE,
-	incremental: DEV || SVELTE,
 	entryPoints: ["src/index.ts"],
 	sourcemap: (DEV || SVELTE) && "inline",
 	external: !SVELTE ? ["svelte", "svelte/*"] : [],
@@ -73,30 +71,35 @@ const builds = {
 };
 
 if (DEV) {
-	build({
+	const ctx = await context({
 		...esbuildBase,
 		outfile: "./dist/slidy.mjs",
 		format: "esm",
-	}).then((bundle) => {
-		console.log("Watching @slidy/svelte...");
 	});
+
+	await ctx.rebuild();
+	await ctx.watch();
+	console.log('watching @slidy/svelte...');
+
 } else if (SVELTE) {
-	build({
+
+	const ctx = await context({
 		...esbuildBase,
 		entryPoints: ["src/dev/main.ts"],
 		outfile: "public/build/bundle.js",
 		platform: "browser",
-	}).then((bundle) => {
-		derver({
-			...derverConfig,
-			onwatch: async (lr, item) => {
-				if (item !== "public") {
-					lr.prevent();
-					bundle.rebuild().catch((err) => lr.error(err.message, "Svelte compile error"));
-				}
-			},
-		});
 	});
+
+	derver({
+		...derverConfig,
+		onwatch: async (lr, item) => {
+			if (item !== "public") {
+				lr.prevent();
+				ctx.rebuild().catch((err) => lr.error(err.message, "Svelte compile error"));
+			}
+		},
+	});
+
 } else {
 	(async () => {
 		await prepare();

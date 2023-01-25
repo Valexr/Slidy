@@ -1,6 +1,6 @@
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { derver } from 'derver';
-import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -8,14 +8,14 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    incremental: DEV,
+    format: 'esm',
     legalComments: 'none',
-    plugins: [eslintPlugin()],
+    plugins: [eslint()],
     entryPoints: DEV ? ['@slidy/element', '@slidy/easing', '@slidy/animation'] : ['src/index.ts'],
     outdir: DEV ? 'public/build' : '',
     sourcemap: DEV ? 'inline' : false,
-    format: 'esm',
 };
+
 const derverConfig = {
     dir: 'public',
     port: 3333,
@@ -44,27 +44,27 @@ const builds = {
 };
 
 if (DEV) {
-    prepare('public/build').then(() =>
-        build(esbuildBase).then((bundle) => {
-            derver({
-                ...derverConfig,
-                onwatch: async (lr, item) => {
-                    if (item !== 'public') {
-                        lr.prevent();
-                        bundle.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                    }
-                },
-            });
-        })
-    );
-} else {
-    prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
+    const ctx = await context(esbuildBase);
+
+    await prepare('public/build');
+
+    derver({
+        ...derverConfig,
+        onwatch: async (lr, item) => {
+            if (item !== 'public') {
+                lr.prevent();
+                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
+            }
+        },
     });
+} else {
+    await prepare();
+
+    for (const key in builds) {
+        await build({
+            ...esbuildBase,
+            ...builds[key],
+            format: key,
+        });
+    }
 }

@@ -1,4 +1,5 @@
-import { timer as IntervalTimer, dispatch } from '../utils/env';
+import { dispatch } from '../utils/env';
+import { timer as IntervalTimer } from '../utils/timer';
 import type { PluginArgs } from '../types';
 
 type Params = Partial<{ duration: number; delay: number }>

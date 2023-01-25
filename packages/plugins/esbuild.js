@@ -1,16 +1,16 @@
-import { build } from 'esbuild';
-import { eslintPlugin } from 'esbuild-plugin-eslinter';
+import { build, context } from 'esbuild';
+import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
 
 const esbuildBase = {
     bundle: true,
-    watch: DEV,
     minify: !DEV,
-    incremental: DEV,
-    plugins: [eslintPlugin()],
+    format: 'esm',
+    plugins: [eslint()],
     entryPoints: ['src/index.ts'],
+    outfile: './dist/index.mjs',
     sourcemap: DEV && 'inline',
     legalComments: 'none',
 };
@@ -29,19 +29,21 @@ const builds = {
 };
 
 if (DEV) {
-    build({
-        ...esbuildBase,
-        outfile: './dist/index.mjs',
-        format: 'esm',
-    }).then(() => console.log('watching @slidy/easing...'));
+    const ctx = await context(esbuildBase);
+
+    await ctx.rebuild();
+    await ctx.watch();
+
+    console.log('watching @slidy/plugins...');
 } else {
-    prepare().then(() => {
-        for (const key in builds) {
-            build({
-                ...esbuildBase,
-                ...builds[key],
-                format: key,
-            });
-        }
-    });
+    await prepare();
+
+    for (const key in builds) {
+        await build({
+            ...esbuildBase,
+            ...builds[key],
+            format: key,
+        });
+    }
+
 }
