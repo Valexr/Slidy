@@ -10,44 +10,16 @@ const enum State {
 interface TimerAdditionalProps {
   readonly animation: Animation;
   readonly delay: number;
+  readonly interval: number;
 }
 
-function timer(callback: () => void, interval: number, props: TimerAdditionalProps) {
-  let state = State.Idle
-
-  function pause() {
-    if (state !== State.Delayed) state = State.Paused;
-
-    props.animation.pause();
-    taskQueue.pause();
-  }
-
-  function resume() {
-    if (state !== State.Delayed) {
-      props.animation.play();
-    }
-
-    state = State.Running;
-    taskQueue.start();
-  }
-
-  function stop() {
-    state = State.Idle;
-    props.animation.cancel();
-    taskQueue.stop();
-  }
-
-  function play() {
-    state = State.Running;
-    taskQueue.start();
-  }
-
+function timer(callback: () => void, props: TimerAdditionalProps, state = State.Idle) {
   const taskQueue = new TaskQueue([
     () => {
       props.animation.play();
     },
     {
-      await: interval
+      await: props.interval
     },
     () => {
       callback();
@@ -64,10 +36,23 @@ function timer(callback: () => void, interval: number, props: TimerAdditionalPro
   ]);
 
   return {
-    play,
-    pause,
-    resume,
-    stop,
+    play() {
+      if (state !== State.Delayed) props.animation.play();
+
+      state = State.Running;
+      taskQueue.start();
+    },
+    pause() {
+      if (state !== State.Delayed) state = State.Paused;
+
+      props.animation.pause();
+      taskQueue.pause();
+    },
+    stop() {
+      state = State.Idle;
+      props.animation.cancel();
+      taskQueue.stop();
+    }
   };
 }
 

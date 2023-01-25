@@ -15,11 +15,12 @@ export interface PlayProps {
      */
     duration?: number;
     /**
-     * Defines the autoplay delay time from the first launch in ms
+     * Defines the autoplay delay time in ms
      */
     delay?: number;
     /**
-     * Defines the autoplay state
+     * Defines the autoplay state - `Idle` or `Running`
+     * @default false
      */
     autoplay?: boolean;
 }

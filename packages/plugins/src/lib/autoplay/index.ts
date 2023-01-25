@@ -76,11 +76,12 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
             onStateChange();
         };
 
-        const timer = IntervalTimer(cb, duration as number, {
+        const timer = IntervalTimer(cb, {
             get animation() {
                 return animation
             },
-            delay: delay as number
+            delay: delay as number,
+            interval: duration as number
         });
 
         const [buttonRoot, button, indicator, path1] = createButton(() => {
@@ -95,7 +96,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
                 timer.stop();
             } else {
                 state = State.Play;
-                timer.resume();
+                timer.play();
             }
 
             onStateChange();
@@ -142,11 +143,11 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
             if (state === State.Pause) {
                 state = State.Play;
                 onStateChange();
-                timer.resume();
+                timer.play();
             }
         };
 
-        // #start посох гвоздь виселица
+        // #start mouse location
 
         const onPointerLeaveNode = () => {
             // prettier-ignore
@@ -194,7 +195,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
                     state = State.Pause;
                     timer.pause();
                 } else if (state === State.Pause) {
-                    timer.resume();
+                    timer.play();
                     onStateChange();
                 }
             },
@@ -203,7 +204,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
         const unregisterNodeEventListeners = eventListener(node, {
             index: onIndexChange,
             mount: () => {
-                if (autoplay) state = State.Play, timer.play();
+                if (autoplay) state = State.Play, onStateChange(), timer.play();
             },
             destroy: () => {
                 timer.stop();

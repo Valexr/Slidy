@@ -64,7 +64,6 @@ class TaskQueue {
         nextAwaitQueueItem.await = nextAwaitQueueItem.await - elapsed;
       }
 
-
       this.index++;
       this.runNextTask();
     } else {
