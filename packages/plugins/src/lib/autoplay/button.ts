@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const */
 
 import { iconPause, iconPlay, iconStop } from '../../../../../assets/icons';
-import '@slidy/assets/styles/button-autoplay.module.css';
+import './button-autoplay.module.css';
 
 const r = 15;
 const stroke = 2;
