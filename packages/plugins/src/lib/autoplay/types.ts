@@ -1,5 +1,4 @@
 import type { PluginArgs } from '../../types';
-import type { Slide } from '../../../../../assets/types';
 
 export interface PlayI18NDict {
     play: string;
@@ -7,10 +6,6 @@ export interface PlayI18NDict {
 }
 
 export interface PlayProps {
-    /**
-     * Slides you pass into `<Slidy slides={} />` component
-     */
-    slides: Slide[];
     /**
      * The i18n localization dictionary
      */

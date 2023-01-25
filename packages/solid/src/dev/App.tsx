@@ -1,5 +1,5 @@
 import { Show, createSignal } from 'solid-js';
-import { Slidy, i18nDefaults  } from '..';
+import { Slidy, i18nDefaults } from '..';
 import { channel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
 import { translate } from '@slidy/animation';
@@ -90,7 +90,7 @@ const App: Component = () => {
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay({ slides: slides(), i18n: i18nDefaults, duration: 2500, delay: 0, autoplay: false })]}
+                        plugins={[autoplay({ i18n: i18nDefaults, duration: 1500, delay: 1000, autoplay: false })]}
                     />
                 </Show>
             </main>

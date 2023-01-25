@@ -41,7 +41,7 @@ function button(onclick: () => void) {
 }
 
 function animate(target: SVGPathElement, duration: number, strokeDashoffset = 2 * Math.PI * r) {
-    return target.animate(
+    const animation = target.animate(
         [
             {
                 strokeDashoffset: strokeDashoffset,
@@ -56,6 +56,8 @@ function animate(target: SVGPathElement, duration: number, strokeDashoffset = 2 
             delay: 0,
         }
     );
+
+    return animation.cancel(), animation
 }
 
 export { button, animate, iconPath };

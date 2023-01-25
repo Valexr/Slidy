@@ -1,7 +1,3 @@
-const error = (statement: string) => {
-    return new Error('@slidy/autoplay: ' + statement);
-}
-
 type AnyFunction = (...args: any[]) => void;
 
 type EventsMap<T extends string, K extends AnyFunction> = {
@@ -40,6 +36,6 @@ const eventListener = <Listeners extends EventsMap<string, AnyFunction>>(el: Lis
  */
 const eql = <T>(c: T, ...items: T[]) => {
     return items.includes(c);
-} 
+}
 
-export { error, eventListener, eql };
+export { eventListener, eql };

@@ -1,67 +1,68 @@
+import { TaskQueue } from './task-queue'
+
 const enum State {
   Idle,
   Running,
   Paused,
 }
 
-type Timer = /** number */ NodeJS.Timer;
+interface TimerAdditionalProps {
+  readonly animation: Animation;
+  readonly delay: number;
+}
 
-function timer(callback: () => void, interval: number) {
-  let iid: Timer, tid: Timer,
-    state = State.Idle,
-    start = 0,
-    remaining = interval
+function timer(callback: () => void, interval: number, props: TimerAdditionalProps) {
+  let state = State.Idle
 
+  // todo: if Delayed, and then paused, it breaks
   function pause() {
     if (state !== State.Running) return;
 
     state = State.Paused;
-    clearInterval(iid);
-    clearTimeout(tid);
-
-    remaining = interval - Math.abs(performance.now() - start);
+    props.animation.pause();
+    taskQueue.pause()
   }
 
   function resume() {
     if (state !== State.Paused) return play();
 
     state = State.Running;
-    tid = setTimeout(timeoutCallback, remaining);
+    props.animation.play();
+    taskQueue.start();
   }
 
   function stop() {
     state = State.Idle;
-    clearInterval(iid);
+    props.animation.cancel();
+    taskQueue.stop();
   }
 
   function play() {
     state = State.Running;
-    start = performance.now();
-
-    iid = setInterval(() => {
-      callback()
-      start = performance.now();
-    }, interval);
+    taskQueue.start();
   }
 
-  function timeoutCallback() {
-    if (state !== State.Running) return;
-
-    callback();
-    play();
-  }
+  const taskQueue = new TaskQueue([
+    () => {
+      props.animation.play();
+    },
+    {
+      await: interval
+    },
+    () => {
+      callback();
+      props.animation.cancel();
+    },
+    {
+      await: props.delay
+    },
+  ]);
 
   return {
     play,
     pause,
     resume,
     stop,
-    get remaining() {
-      return remaining
-    },
-    set remaining(value: number) {
-      remaining = value;
-    }
   };
 }
 

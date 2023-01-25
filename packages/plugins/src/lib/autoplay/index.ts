@@ -43,23 +43,29 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, autoplay }) => {
+export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }) => {
     let state = State.Stop as State;
     let animation!: Animation;
 
     duration ||= 2500;
+    delay ||= 0;
+
+    const I18N_STATE_MAP = {
+        [State.Play]: i18n.stop,
+        [State.Stop]: i18n.play,
+        [State.Pause]: i18n.stop,
+    }
 
     return ({ node, options, instance }) => {
         const parent = node.parentElement!;
         const overlay = parent.querySelector('.slidy-overlay')!;
 
-        // Set interval property that is used in button animation
-        parent.style.setProperty('--slidy-autoplay-interval', duration + 'ms');
+        const slides = node.childElementCount;
 
         const cb = () => {
             const next = (options.index as number) + 1;
 
-            if (options.loop || next < slides.length) {
+            if (options.loop || next < slides) {
                 state = State.Play;
                 instance.to(next);
             } else {
@@ -70,7 +76,12 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             onStateChange();
         };
 
-        const timer = IntervalTimer(cb, duration as number);
+        const timer = IntervalTimer(cb, duration as number, {
+            get animation() {
+                return animation
+            },
+            delay: delay as number
+        });
 
         const [buttonRoot, button, indicator, path1] = createButton(() => {
             /**
@@ -96,16 +107,8 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;
 
-            if (state === State.Play) {
-                animation!.play();
-            } else if (state === State.Pause) {
-                animation!.pause();
-            } else if (state === State.Stop) {
-                animation!.cancel();
-            }
-
+            button.setAttribute('title', I18N_STATE_MAP[state]);
             path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
-            button.setAttribute('title', state === State.Play ? i18n.stop : i18n.play);
 
             onStateChange.current = state;
         };
@@ -115,11 +118,16 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         const onIndexChange = () => {
             const next = (options.index as number) + 1;
 
-            if (options.loop || next < slides.length) {
+            if (options.loop || next < slides) {
                 button.removeAttribute('disabled');
             } else {
                 button.setAttribute('disabled', 'disabled');
+
+                state = State.Stop;
+                timer.stop();
             }
+
+            onStateChange();
         };
 
         const onPointerEnter = () => {
@@ -134,14 +142,11 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
             if (state === State.Pause) {
                 state = State.Play;
                 onStateChange();
-
-                const current = animation.currentTime! % duration!;
-                const remaining = duration! - current;
-
-                timer.remaining = remaining;
                 timer.resume();
             }
         };
+
+        // #start посох гвоздь виселица
 
         const onPointerLeaveNode = () => {
             // prettier-ignore
@@ -149,8 +154,6 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
                 onPointerLeave();
             }
         };
-
-        // #start посох гвоздь виселица
 
         let previousMouseLocation = PreviousMouseLocation.Else;
         let currentMouseLocation = CurrentMouseLocation.Else;
@@ -200,15 +203,7 @@ export const autoplay: AutoplayPluginFunc = ({ slides, i18n, duration, delay, au
         const unregisterNodeEventListeners = eventListener(node, {
             index: onIndexChange,
             mount: () => {
-                /**
-                 * Outside of the user's desire, we will run an autoplay
-                 */
-                if (autoplay) {
-                    setTimeout(() => {
-                        state = State.Play;
-                        timer.play();
-                    }, delay);
-                }
+                if (autoplay) state = State.Play, timer.play();
             },
             destroy: () => {
                 timer.stop();
