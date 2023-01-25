@@ -4,6 +4,7 @@ const enum State {
   Idle,
   Running,
   Paused,
+  Delayed,
 }
 
 interface TimerAdditionalProps {
@@ -14,20 +15,19 @@ interface TimerAdditionalProps {
 function timer(callback: () => void, interval: number, props: TimerAdditionalProps) {
   let state = State.Idle
 
-  // todo: if Delayed, and then paused, it breaks
   function pause() {
-    if (state !== State.Running) return;
+    if (state !== State.Delayed) state = State.Paused;
 
-    state = State.Paused;
     props.animation.pause();
-    taskQueue.pause()
+    taskQueue.pause();
   }
 
   function resume() {
-    if (state !== State.Paused) return play();
+    if (state !== State.Delayed) {
+      props.animation.play();
+    }
 
     state = State.Running;
-    props.animation.play();
     taskQueue.start();
   }
 
@@ -52,10 +52,15 @@ function timer(callback: () => void, interval: number, props: TimerAdditionalPro
     () => {
       callback();
       props.animation.cancel();
+      state = State.Delayed;
     },
     {
       await: props.delay
     },
+    () => {
+      state = State.Running;
+      props.animation.cancel();
+    }
   ]);
 
   return {
