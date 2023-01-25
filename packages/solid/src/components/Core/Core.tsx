@@ -47,7 +47,10 @@ const Core: FlowComponent<Partial<Props>> = ($props) => {
         const fn = () => {
             const { update, destroy } = slidy(el, { ...options });
 
-            createEffect(update.bind(update, options));
+            createEffect(() => {
+                update(options);
+            });
+
             onCleanup(destroy);
         }
 
