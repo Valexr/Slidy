@@ -108,7 +108,7 @@
         "@typescript-eslint/eslint-plugin": "^5.48.2",
         "@typescript-eslint/parser": "^5.48.2",
         "derver": "^0.5.3",
-        "esbuild": "^0.17.3",
+        "esbuild": "^0.17.4",
         "eslint": "^8.32.0",
         "open-props": "^1.5.3",
         "prettier": "^2.8.3",
