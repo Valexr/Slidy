@@ -33,9 +33,7 @@ class TaskQueue {
     const nextAwaitQueueItem = this.getNextAwaitQueueItem();
 
     if (nextAwaitQueueItem) {
-      const remained = now() - this.time;
-
-      nextAwaitQueueItem.await = nextAwaitQueueItem.await - remained;
+      nextAwaitQueueItem.await -= now() - this.time;
     }
   }
 
@@ -55,13 +53,13 @@ class TaskQueue {
     const task = this.queue[this.index];
 
     if (typeof task === 'function') {
-      let elapsed = now();
-      task(), elapsed = now() - elapsed;
+      const start = now();
+      task();
 
       const nextAwaitQueueItem = this.getNextAwaitQueueItem();
 
       if (nextAwaitQueueItem) {
-        nextAwaitQueueItem.await = nextAwaitQueueItem.await - elapsed;
+        nextAwaitQueueItem.await -= now() - start;
       }
 
       this.index++;
