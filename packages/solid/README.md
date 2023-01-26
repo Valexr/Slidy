@@ -134,9 +134,6 @@ The `<Slidy />` component interface extends the `<Core />`. There are a list of 
 | `onKeys`          |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
 | `onUpdate`        |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                               |
 | `onDestroy`       |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
-| `autoplay`        | `Accessor<false>`  |                         `Accessor<boolean>`                         | Set's up automatic sliding of the carousel items.                        |
-| `setAutoplay`     |    `undefined`     |                          `Setter<boolean>`                          | Set's up automatic sliding of the carousel items.                        |
-| `autoplayControl` |      `false`       |                              `boolean`                              | Renders the autoplay control and indicator.                              |
 | `vertical`        |      `false`       |                              `boolean`                              | Defines the slides flow by using `aria-orientation`.                     |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
@@ -168,7 +165,6 @@ The `classNames` consist of `{ target: className }` pairs:
 | Target          |     Default class      | Description                        |
 | :-------------- | :--------------------: | :--------------------------------- |
 | arrow           |     `slidy-arrow`      | Arrow controls.                    |
-| autoplay        |    `slidy-autoplay`    | Autoplay control.                  |
 | counter         |    `slidy-counter`     | Slide progress counter.            |
 | img             |      `slidy-img`       | Slide image node.                  |
 | nav             |      `slidy-nav`       | Slide navigation panel.            |
@@ -194,8 +190,6 @@ List of available public custom properties:
 | `--slidy-arrow-bg-hover`            |  #4e4e4e54   |  `<color>`  | The arrow control hover background color.            |
 | `--slidy-arrow-icon-color`          | currentColor |  `<color>`  | The arrow control icon fill color.                   |
 | `--slidy-arrow-size`                |     24px     | `<length>`  | The arrow controls size.                             |
-| `--slidy-autoplay-control-size`     |    2.25em    | `<length>`  | The autoplay control size.                           |
-| `--slidy-autoplay-indicator-accent` |  lightpink   |   <color>   | The autoplay control indicator ring color.           |
 | `--slidy-counter-bg`                |  #4e4e4ebf   |  `<color>`  | The counter's background color.                      |
 | `--slidy-focus-ring-color`          |  #c9c9c9e6   |  `<color>`  | Focus ring color for all focusable elements.         |
 | `--slidy-height`                    |     100%     | `<length>`  | The height of the component's node.                  |
