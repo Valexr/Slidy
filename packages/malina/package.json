@@ -1,16 +1,50 @@
 {
     "name": "@slidy/malina",
-    "version": "1.0.0",
+    "version": "0.1.0",
+    "description": "Simple, configurable & reusable carousel component built with MalinaJS",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
+    "browser": "dist/index.js",
+    "type": "module",
+    "files": [
+        "dist/*"
+    ],
     "scripts": {
-        "build": "node node_modules/malinajs/malina-esbuild",
-        "dev": "node node_modules/malinajs/malina-esbuild -w",
+        "build": "node esbuild",
+        "dev": "node esbuild --dev",
         "start": "npx derver --production public",
         "surge": "cd public && npx surge"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Valexr/slidy.git"
+    },
+    "keywords": [
+        "Slidy",
+        "Slider",
+        "Carousel",
+        "Action",
+        "Script",
+        "MalinaJS",
+        "Js",
+        "Ts"
+    ],
+    "author": {
+        "name": "Valexr",
+        "email": "valexr@gmail.com",
+        "url": "https://github.com/Valexr"
+    },
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Valexr/slidy/issues"
+    },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/malina",
     "devDependencies": {
+        "@slidy/animation": "workspace:*",
         "@slidy/core": "workspace:*",
+        "@slidy/easing": "workspace:*",
+        "@slidy/plugins": "workspace:*",
+        "@slidy/media": "workspace:*",
         "malinajs": "^0.6.64"
     }
 }
