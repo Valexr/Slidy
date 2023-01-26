@@ -26,7 +26,13 @@ class AutoplayButton extends HTMLElement {
     }
 }
 
+let defined = false;
+
 function button(onclick: () => void) {
+    if (!defined) {
+        customElements.define('autoplay-button', AutoplayButton), defined = true;
+    }
+
     const element = document.createElement('autoplay-button');
     const root = element.shadowRoot!;
 
@@ -55,10 +61,6 @@ function animate(target: SVGPathElement, duration: number, strokeDashoffset = 2 
     );
 
     return animation.cancel(), animation
-}
-
-if (typeof window === 'object' && 'customElements' in window) {
-    customElements.define('autoplay-button', AutoplayButton);
 }
 
 export { button, animate, iconPath };
