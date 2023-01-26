@@ -6,8 +6,7 @@ export const clamp = (min: number, value: number, max: number) => {
     return Math.min(Math.max(min, value), max);
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const isFunction = (fn: unknown): fn is Function => {
+export const isFunction = (fn: unknown): fn is (..._: any[]) => any => {
     return typeof fn === 'function';
 };
 
