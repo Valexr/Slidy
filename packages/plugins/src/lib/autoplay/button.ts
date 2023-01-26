@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const */
 
-import { iconPause, iconPlay, iconStop } from '../../../../../assets/icons';
+import { iconPause, iconPlay, iconStop } from '@slidy/assets/icons';
 
 const r = 15;
 const stroke = 2;
