@@ -172,10 +172,10 @@
                 height: 0.1rem;
                 background: var(--accent);
                 transform: scaleX(1);
-                transform-origin: bottom right;
+                transform-origin: center;
                 animation-name: progress;
                 animation-duration: 1500ms;
-                animation-fill-mode: 1;
+                animation-direction: alternate;
                 animation-iteration-count: infinite;
                 animation-play-state: var(--animation);
             }
@@ -185,10 +185,6 @@
             }
 
             @keyframes progress {
-                from {
-                    transform: scaleX(1);
-                }
-
                 to {
                     transform: scaleX(0);
                 }
