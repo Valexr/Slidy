@@ -2,7 +2,12 @@
 import { button as createButton, iconPath } from './button';
 import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from './timer';
-import type { AutoplayPluginFunc } from './types';
+import type { AutoplayPluginFunc, PlayI18NDict } from './types';
+
+const i18nDefaults: PlayI18NDict = {
+    play: 'Start autoplay',
+    stop: 'Stop autoplay',
+}
 
 const enum State {
     Play,
@@ -43,11 +48,8 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay, target }) => {
+export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2500, delay = 0, autoplay = false, target }) => {
     let state = State.Stop;
-
-    duration ||= 2500;
-    delay ||= 0;
 
     const I18N_STATE_MAP = {
         [State.Play]: i18n.stop,
@@ -91,8 +93,8 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay, 
                 state = value;
                 onStateChange();
             },
-            delay: delay as number,
-            interval: duration as number,
+            delay: delay,
+            interval: duration,
             animation: autoplayButton.animation
         });
 
@@ -104,7 +106,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay, 
             target.appendChild(autoplayButton)
         }
 
-        autoplayButton.setDuration(duration!);
+        autoplayButton.setDuration(duration);
 
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;

@@ -9,7 +9,7 @@ export interface PlayProps {
     /**
      * The i18n localization dictionary
      */
-    i18n: PlayI18NDict;
+    i18n?: PlayI18NDict;
     /**
      * Defines the autoplay duration time in ms
      */
