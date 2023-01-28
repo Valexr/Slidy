@@ -9,8 +9,8 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     function pause() {
         if (state !== 1) return;
         state = 2;
-        clearInterval(tid);
         remaining = delay || interval - Math.abs(performance.now() - start);
+        clearInterval(tid);
     }
 
     function resume() {

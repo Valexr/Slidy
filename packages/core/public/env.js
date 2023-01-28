@@ -16,15 +16,10 @@ export function setEvents() {
     events.forEach((event) => {
         node.addEventListener(event, (e) => {
             switch (event) {
-                case 'play':
-                case 'pause':
-                case 'resume':
-                    // console.log(e.composedPath());
-                    break;
-                case 'stop':
-                    autoplay.classList.toggle('active');
-                    autoplay.innerText = 'play';
-                    break;
+                // case 'play':
+                // case 'pause':
+                // case 'resume':
+                // case 'stop':
                 case 'mount':
                     // console.log(e.detail);
                     window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;
