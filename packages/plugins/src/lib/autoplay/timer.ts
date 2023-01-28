@@ -1,3 +1,4 @@
+import type { AutoplayButton } from './button'
 import { TaskQueue } from './task-queue'
 
 const enum State {
@@ -8,9 +9,11 @@ const enum State {
 }
 
 interface TimerAdditionalProps {
-  readonly animation: Animation;
+  readonly animation: AutoplayButton['animation'];
   readonly delay: number;
   readonly interval: number;
+
+  set state(value: 0 | 1 | 2);
 }
 
 function timer(callback: () => void, props: TimerAdditionalProps, state = State.Idle) {
@@ -40,16 +43,19 @@ function timer(callback: () => void, props: TimerAdditionalProps, state = State.
       if (state !== State.Delayed) props.animation.play();
 
       state = State.Running;
+      props.state = 0;
       taskQueue.start();
     },
     pause() {
       if (state !== State.Delayed) state = State.Paused;
 
+      props.state = 2;
       props.animation.pause();
       taskQueue.pause();
     },
     stop() {
       state = State.Idle;
+      props.state = 1;
       props.animation.cancel();
       taskQueue.stop();
     }

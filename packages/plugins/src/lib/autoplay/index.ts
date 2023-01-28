@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { button as createButton, animate, iconPath as buttonIconPath } from './button';
+import { button as createButton, iconPath } from './button';
 import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from './timer';
 import type { AutoplayPluginFunc } from './types';
@@ -43,9 +43,8 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }) => {
-    let state = State.Stop as State;
-    let animation!: Animation;
+export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay, target }) => {
+    let state = State.Stop;
 
     duration ||= 2500;
     delay ||= 0;
@@ -57,9 +56,6 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
     }
 
     return ({ node, options, instance }) => {
-        const parent = node.parentElement!;
-        const overlay = parent.querySelector('.slidy-overlay')!;
-
         const slides = node.childElementCount;
 
         const cb = () => {
@@ -67,24 +63,14 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
 
             if (options.loop || next < slides) {
                 state = State.Play;
+                onStateChange();
                 instance.to(next);
             } else {
-                state = State.Stop;
                 timer.stop();
             }
-
-            onStateChange();
         };
 
-        const timer = IntervalTimer(cb, {
-            get animation() {
-                return animation
-            },
-            delay: delay as number,
-            interval: duration as number
-        });
-
-        const [buttonRoot, button, indicator, path1] = createButton(() => {
+        const [autoplayButton, button, icon] = createButton(() => {
             /**
              * When we click on playing icon we expect it to stop the autoplay,
              * And because on `pointerenter` we automatically stop the autoplay, `State.Pause` also in check
@@ -92,24 +78,39 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
              * When state is `Stop`, then we want it to play
              */
             if (eql(state, State.Pause, State.Play)) {
-                state = State.Stop;
                 timer.stop();
             } else {
-                state = State.Play;
                 timer.play();
             }
 
             onStateChange();
         });
 
-        overlay.appendChild(buttonRoot);
-        animation = animate(indicator, duration!);
+        const timer = IntervalTimer(cb, {
+            set state(value: State) {
+                state = value;
+                onStateChange();
+            },
+            delay: delay as number,
+            interval: duration as number,
+            animation: autoplayButton.animation
+        });
+
+        if (!target) {
+            node.insertAdjacentElement('afterend', autoplayButton);
+        } else if (typeof target === 'string') {
+            document.querySelector(target)!.appendChild(autoplayButton);
+        } else {
+            target.appendChild(autoplayButton)
+        }
+
+        autoplayButton.setDuration(duration!);
 
         const onStateChange: OnStateChange = () => {
             if (onStateChange.current === state) return;
 
             button.setAttribute('title', I18N_STATE_MAP[state]);
-            path1.setAttribute('d', buttonIconPath[D_STATE_MAP[state]]);
+            icon.setAttribute('d', iconPath[D_STATE_MAP[state]]);
 
             onStateChange.current = state;
         };
@@ -123,8 +124,6 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
                 button.removeAttribute('disabled');
             } else {
                 button.setAttribute('disabled', 'disabled');
-
-                state = State.Stop;
                 timer.stop();
             }
 
@@ -133,16 +132,12 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
 
         const onPointerEnter = () => {
             if (state === State.Play) {
-                state = State.Pause;
                 timer.pause();
-                onStateChange();
             }
         };
 
         const onPointerLeave = () => {
             if (state === State.Pause) {
-                state = State.Play;
-                onStateChange();
                 timer.play();
             }
         };
@@ -167,12 +162,12 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
             }
         };
 
-        button.onpointerenter = () => {
+        autoplayButton.onpointerenter = () => {
             currentMouseLocation = CurrentMouseLocation.Button;
             onPointerEnter();
         };
 
-        button.onpointerleave = () => {
+        autoplayButton.onpointerleave = () => {
             if (previousMouseLocation !== PreviousMouseLocation.Node) {
                 onPointerLeave();
             }
@@ -192,11 +187,9 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
         const unregisterDocumentEventListeners = eventListener(document, {
             visibilitychange: () => {
                 if (document.visibilityState === 'hidden' && state === State.Play) {
-                    state = State.Pause;
                     timer.pause();
                 } else if (state === State.Pause) {
                     timer.play();
-                    onStateChange();
                 }
             },
         });
@@ -204,7 +197,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n, duration, delay, autoplay }
         const unregisterNodeEventListeners = eventListener(node, {
             index: onIndexChange,
             mount: () => {
-                if (autoplay) state = State.Play, onStateChange(), timer.play();
+                if (autoplay) timer.play();
             },
             destroy: () => {
                 timer.stop();

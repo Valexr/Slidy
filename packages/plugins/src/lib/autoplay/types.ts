@@ -23,6 +23,11 @@ export interface PlayProps {
      * @default false
      */
     autoplay?: boolean;
+    /**
+     * Node, into which the button will be mounted
+     * @default undefined
+     */
+    target?: HTMLElement | string;
 }
 
 export type AutoplayPluginFunc = (params: PlayProps) => (plugin: PluginArgs) => void;
