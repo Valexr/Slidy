@@ -30,4 +30,4 @@ export interface PlayProps {
     target?: HTMLElement | string;
 }
 
-export type AutoplayPluginFunc = (params: PlayProps) => (plugin: PluginArgs) => void;
+export type AutoplayPluginFunc = (params?: PlayProps) => (plugin: PluginArgs) => void;

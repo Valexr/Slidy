@@ -48,7 +48,7 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2500, delay = 0, autoplay = false, target }) => {
+export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2500, delay = 0, autoplay = false, target } = {}) => {
     let state = State.Stop;
 
     const I18N_STATE_MAP = {
