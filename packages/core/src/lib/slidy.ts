@@ -203,7 +203,7 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         const tm = clamped ? 0 : DURATION / 2;
 
         !clamped && sensed && move(pos, INDEX);
-        wst = snaped && sensed ? setTimeout(() => to(ix), tm) : undefined;
+        wst = snaped && sensed ? setTimeout(to, tm, ix) : undefined;
 
         !$().edges() && e.stopPropagation();
     }

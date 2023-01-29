@@ -1,9 +1,7 @@
 export function moving(e) {
     position = e.position;
     options.index = e.index;
-    if (stats) {
-        stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
-    }
+    stats.innerHTML = `[<b>${options.index}</b>] / <b>${Math.trunc(position)}</b>px`;
 
     node.childNodes.forEach((n, i) =>
         +n.id === e.index ? n.classList.add('active') : n.classList.remove('active')

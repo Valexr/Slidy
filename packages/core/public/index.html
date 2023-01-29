@@ -162,7 +162,7 @@
                 .then((res) => res.json())
                 .then(({ version }) => {
                     title.innerText = `Slidy ${version} - NativeJS`;
-                    header.innerHTML = `Slidy <span>${version}</span><sub>nativeJS</sub><sub id="stats" />`;
+                    vers.innerText = version;
 
                 });
         </script>
@@ -197,7 +197,7 @@
     <body>
         <header>
             <img id="slidy-logo" alt="Slidy" width="50" height="50" src="assets/favicon.png" />
-            <h3 id="header"></h3>
+            <h3 id="header">Slidy <span id="vers"></span><sub>nativeJS</sub><sub id="stats" /></h3>
             <a id="github" href="https://github.com/Valexr/Slidy"></a>
         </header>
 
