@@ -1,11 +1,9 @@
 import type { SlidyCoreOptions } from "../Core/Core.types";
 import type { SlidyOptions } from "../Slidy/Slidy.types";
 
-export interface SlidyThumbOptions extends Omit<SlidyCoreOptions, "axis" | "className" | "position"> {
+export interface SlidyThumbOptions extends Omit<SlidyCoreOptions, "axis" | "className" | "position" | "position" | "className"> {
 	active: number;
 	background: SlidyOptions["background"];
-	className: never;
 	getImgSrc: SlidyOptions["getImgSrc"];
-	position: never;
 	slides: SlidyOptions["slides"];
 }

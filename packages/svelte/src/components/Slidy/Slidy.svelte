@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
 	import { setContext } from "svelte/internal";
-	import { Arrow, ButtonAutoplay, Core, Image, Navigation, Progress, Thumbnail } from "../index";
-	import { autoplay as autoplayAction } from "@slidy/assets/actions";
+	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../index";
 	import { clamp as clampValue } from "@slidy/assets/scripts";
 	import { classNames as classNamesDefault } from "./slidy.styles";
 	import "@slidy/assets/styles/slidy.module.css";
@@ -17,8 +16,6 @@
 
 	export let animation: $$Props["animation"] = undefined;
 	export let arrows = true;
-	export let autoplay = false;
-	export let autoplayControl = false;
 	export let axis: $$Props["axis"] = "x";
 	export let background = false;
 	export let counter = true;
@@ -33,7 +30,6 @@
 	export let i18n: $$Props["i18n"] = i18nDefaults;
 	export let indent: $$Props["indent"] = 2;
 	export let index = 0;
-	export let interval = 1500;
 	export let loop = false;
 	export let groups = 0;
 	export let plugins: $$Props["plugins"] = [];
@@ -44,11 +40,6 @@
 	export let snap: $$Props["snap"] = undefined;
 	export let thumbnail = false;
 	export let vertical = false;
-
-	/**
-	 * Indicate the paused autoplay.
-	 */
-	let autoplayState: "play" | "pause" | "stop" = "stop";
 
 	/**
 	 * To prevent infinite loop the thumb index has separate variable
@@ -82,61 +73,15 @@
 			return;
 		}
 	};
-
-	const handleIndexChange = (event: CustomEvent<{ index: number }>) => {
-		const i = event.detail.index;
-		goto(i);
-		indexThumb = i;
-	};
-
-	const handlePositionChange = (event: CustomEvent<{ position: number }>) => {
-		position = event.detail.position;
-	};
-
-	const handleAutoplay = () => {
-		autoplayState = "play";
-		if (loop) {
-			index += 1;
-		}	else if (index + 1 < slides.length) {
-			index += 1;
-		}	else {
-			autoplay = false;
-		}
-	};
-
-	const handleAutoplayPause = () => {
-		autoplayState = "pause";
-	};
-
-	const handleAutoplayStop = () => {
-		autoplayState = "stop";
-		autoplay = false;
-	};
-
-	const handleAutoplayControl = () => {
-		if (autoplayState === "play" || autoplayState === "pause") {
-			autoplayState = "stop";
-		} else if (autoplayState === "stop") {
-			autoplayState = "play";
-		}
-		autoplay = !autoplay;
-	};
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <section
 	aria-roledescription="{i18n.carousel}"
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"
 	class="{classNames?.root}"
 	class:groups={groups > 1}
 	on:click={handleClick}
-	on:play={handleAutoplay}
-	on:pause={handleAutoplayPause}
-	on:stop={handleAutoplayStop}
-	use:autoplayAction={{	status: autoplay,	interval }}
-	on:play
-	on:pause
-	on:stop
-	style:--slidy-autoplay-interval="{interval}ms"
 	style:--slidy-group-items="{groups}"
 >
 	{#if counter || $$slots.overlay}
@@ -145,13 +90,6 @@
 				<output class="{classNames?.counter}">
 					{fillTemplate(i18n.counter, [ `${index + 1}`, length.toString() ])}
 				</output>
-			{/if}
-			{#if autoplayControl}
-				<ButtonAutoplay
-					state={autoplayState}
-					disabled={index + 1 >= length && !loop}
-					on:click={handleAutoplayControl}
-				/>
 			{/if}
 			<slot name="overlay" />
 		</div>
@@ -173,11 +111,9 @@
 		{snap}
 		on:destroy
 		on:index
-		on:index={handleIndexChange}
 		on:keys
 		on:mount
 		on:move
-		on:move={handlePositionChange}
 		on:resize
 		on:update
 	>
