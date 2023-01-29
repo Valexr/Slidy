@@ -6,6 +6,8 @@
 
 	import { translate } from "@slidy/animation";
 	import { linear } from "@slidy/easing";
+
+	import { autoplay } from '@slidy/plugins'
 </script>
 
 <script lang="ts">
@@ -70,7 +72,6 @@
 <main>
 	{#await items then slides}
 		<Slidy
-			interval={2000}
 			{animation}
 			{axis}
 			{background}
@@ -89,6 +90,7 @@
 			thumbnail
 			progress
 			{vertical}
+			plugins={[autoplay({ duration: 2000 })]}
 		/>
 	{/await}
 </main>

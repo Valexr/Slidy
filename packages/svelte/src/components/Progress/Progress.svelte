@@ -1,4 +1,8 @@
 <script lang="ts">
+	interface $$Events {
+		'input': Parameters<svelte.JSX.FormEventHandler<HTMLInputElement>>[0]
+	}
+
 	import { getContext } from "svelte/internal";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/progress.module.css";

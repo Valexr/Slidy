@@ -3,7 +3,7 @@
 
 	//export let limit = 9;
 	export let vertical = false;
-	export let clamp = true;
+	export let clamp = 0;
 	export let duration = 450;
 	export let gravity = 1.45;
 	export let width = "auto";
@@ -31,9 +31,8 @@
 			</label>
 			<label>
 				<input
-					type="checkbox"
-					checked={clamp}
-					on:change={() => (clamp = !clamp)}
+					type="number"
+					bind:value={clamp}
 				/>
 				<span>Clamp</span>
 			</label>
