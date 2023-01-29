@@ -11,54 +11,45 @@ interface Options {
     current: number;
     start: number;
     end: number;
-    ordinal: boolean;
+    ordinal?: boolean;
     vertical: boolean;
     limit: number;
     siblings: number;
 }
 
-const defaultProps = {
-    ordinal: false,
-    vertical: false,
-    limit: 7,
-    siblings: 1,
-};
-
 type Props = Pick<Options, 'start' | 'current' | 'end'> &
     Partial<Omit<Options, 'start' | 'current' | 'end'>>;
 
-const Navigation: FC<Props> = ($props) => {
-    const props = $props as Options;
-
+const Navigation: FC<Props> = ({ vertical = false, limit = 7, siblings = 1, start, current, end, }) => {
     const { i18n, classNames } = useSlidy();
 
     const getTitle = (i: number) => {
-        if (i === props.start) {
+        if (i === start) {
             return i18n.first;
-        } else if (i === props.end) {
+        } else if (i === end) {
             return i18n.last;
         } else {
             return format(i18n.slideN, i);
         }
     };
 
-    const ordinal = props.end - props.start + 1 > props.limit && true;
+    const ordinal = end - start + 1 > limit && true;
 
     const indices = generateIndexes({
-        current: props.current,
-        start: props.start,
-        end: props.end,
-        limit: props.limit,
-        siblings: props.siblings,
+        current: current,
+        start: start,
+        end: end,
+        limit: limit,
+        siblings: siblings,
     });
 
     return (
         <nav
-            className={clsx(classNames?.nav, props.vertical && 'vertical')}
+            className={clsx(classNames?.nav, vertical && 'vertical')}
             aria-label="pagination"
         >
             {indices.map((item, i) => {
-                const active = props.current === item;
+                const active = current === item;
                 const contents = item < 0 ? '…' : item;
                 const ellipsis = item < 0;
                 const title = getTitle(item);
@@ -85,7 +76,5 @@ const Navigation: FC<Props> = ($props) => {
         </nav>
     );
 };
-
-Navigation.defaultProps = defaultProps;
 
 export default Navigation;

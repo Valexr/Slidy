@@ -1,46 +1,54 @@
 import { Slidy } from '../components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useChannel } from './lib';
 import { ControlPanel, Sidemenu } from './components';
-import { flip } from '@slidy/animation';
+import { translate } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
+import { autoplay } from '@slidy/plugins'
 
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
 
+import { getRandomSlides } from '@slidy/assets/scripts/slide-store';
 import { darkTheme } from '@slidy/assets/scripts/theme-store';
 
 import type { Slide } from '..';
 import type { FC } from 'react';
 
 const App: FC = () => {
-    const clamp = useChannel(1);
+    const clamp = useChannel(0);
     const duration = useChannel(450);
-    const gravity = useChannel(1.45);
+    const gravity = useChannel(1.35);
     const width = useChannel('auto');
     const axis = useChannel<'x' | 'y'>('x');
     const snap = useChannel<'start' | 'center' | 'end' | undefined>('center');
-    const loop = useChannel(false);
+    const loop = useChannel(true);
     const gap = useChannel(15);
-    const groups = useChannel(2);
+    const groups = useChannel(0);
 
-    const [index, setIndex] = useState(3);
-    const [autoplay, setAutoplay] = useState(false);
+    const [index, setIndex] = useState(0);
 
     const controlPanel = useChannel(false);
+    const slides = useChannel<Slide[]>([]);
 
-    const slides: Slide[] = [
-        { src: 'https://source.unsplash.com/random/665x375?jpg', width: '665', height: '375' },
-        { src: 'https://source.unsplash.com/random/563x375?jpg', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/561x375?jpg', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/562x375?jpg', width: '562', height: '375' },
-        { src: 'https://source.unsplash.com/random/560x375?jpg', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/567x375?jpg', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/566x375?jpg', width: '564', height: '375' },
-        { src: 'https://source.unsplash.com/random/568x375?jpg', width: '563', height: '375' },
-        { src: 'https://source.unsplash.com/random/569x375?jpg', width: '563', height: '375' },
-    ];
+    const loadSlides = () => {
+        let slides$ = localStorage.getItem('slides');
+
+        if (slides$) {
+            return slides(JSON.parse(slides$));
+        }
+
+        getRandomSlides().then((s) => {
+            if (s?.length) {
+                return localStorage.setItem('slides', JSON.stringify(s)), slides(s);
+            }
+
+            loadSlides();
+        });
+    };
+
+    useEffect(loadSlides, []);
 
     return (
         <>
@@ -65,30 +73,28 @@ const App: FC = () => {
                 </fieldset>
             </header>
             <main>
-                <Slidy
-                    animation={flip}
-                    easing={linear}
-                    axis={axis()}
-                    background={false}
-                    slides={slides}
-                    clamp={clamp() ? 1 : 0}
-                    duration={duration()}
-                    gravity={gravity()}
-                    indent={0}
-                    navigation
-                    snap={snap()}
-                    loop={loop()}
-                    thumbnail={false}
-                    progress
-                    // bind:index
-                    index={index}
-                    setIndex={setIndex}
-                    // bind:autoplay
-                    autoplay={autoplay}
-                    setAutoplay={setAutoplay}
-                    // autoplayControl
-                    groups={groups()}
-                />
+                {slides().length > 0 && (
+                    <Slidy
+                        animation={translate}
+                        easing={linear}
+                        axis={axis()}
+                        background={false}
+                        slides={slides()}
+                        clamp={clamp()}
+                        duration={duration()}
+                        gravity={gravity()}
+                        indent={0}
+                        navigation
+                        snap={snap()}
+                        loop={loop()}
+                        thumbnail
+                        progress
+                        index={index}
+                        setIndex={setIndex}
+                        groups={groups()}
+                        plugins={[autoplay({ delay: 1000, duration: 1500 })]}
+                    />
+                )}
             </main>
             <Sidemenu controlPanel={controlPanel}>
                 <ControlPanel

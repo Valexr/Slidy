@@ -13,23 +13,16 @@ interface Props {
     onInput: (e: InputEvent) => void;
 }
 
-const defaultProps: Props = {
-    value: 0,
-    max: 1,
-    vertical: false,
-    onInput: noop
-};
-
-const Progress: FC<Props> = (props) => {
+const Progress: FC<Props> = ({ value = 0, max = 1, vertical = false, onInput = noop }) => {
     const { classNames } = useSlidy();
 
-    const progress = () => Math.ceil((props.value * 100) / props.max);
-    const size = () => Math.ceil(100 / props.max);
+    const progress = () => Math.ceil((value * 100) / max);
+    const size = () => Math.ceil(100 / max);
 
     return (
         <div
             className={classNames.progress}
-            aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+            aria-orientation={vertical ? 'vertical' : 'horizontal'}
             style={s({
                 '--_slidy-progress-size': size() + '%',
                 '--_slidy-progress': progress() + '%',
@@ -38,17 +31,15 @@ const Progress: FC<Props> = (props) => {
             <input
                 className="slidy-progress-input"
                 type="range"
-                value={props.value}
+                value={value}
                 min={1}
-                max={props.max}
+                max={max}
                 name="slidy-progress"
-                onInput={execute(props.onInput)}
+                onInput={execute(onInput)}
             />
             <span className={classNames['progress-handle']} />
         </div>
     );
 };
-
-Progress.defaultProps = defaultProps;
 
 export default Progress;

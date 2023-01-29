@@ -118,12 +118,9 @@ export interface Options {
      */
     snap?: SlidyOptions['snap'];
     /**
-     * @default 1500
+     * @default []
      */
-    interval?: number;
-    autoplay?: boolean;
-    setAutoplay?: Dispatch<SetStateAction<boolean>>;
-    autoplayControl?: boolean;
+    plugins?: SlidyOptions['plugins'];
 
     index?: number;
 

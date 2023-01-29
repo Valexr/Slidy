@@ -1,11 +1,10 @@
-import { useState, useRef } from 'react';
-import { execute, isFunction, format, not, increment } from '@slidy/assets/scripts/utils';
-import { useEventListener, useAction } from '../../hooks';
-import { Arrow, Core, Image, Progress, Thumbnail, Navigation, ButtonAutoplay } from '..';
+import { execute, isFunction, format } from '@slidy/assets/scripts/utils';
+import { useExternalState } from '../../hooks';
+import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
-import { autoplay as autoplayAction } from '@slidy/assets/actions/autoplay';
 import { clsx } from 'clsx';
 import { s } from '../../utils';
+import { iconChevron } from '@slidy/assets/icons';
 
 import { i18nDefaults } from './i18n';
 import { classNames as classNamesDefaults } from './slidy.styles';
@@ -18,7 +17,6 @@ import type { FC } from 'react';
 
 const defaultProps: Options = {
     arrows: true,
-    interval: 1500,
     axis: 'x',
     vertical: false,
     background: false,
@@ -38,31 +36,15 @@ const defaultProps: Options = {
     slides: [],
     thumbnail: false,
     index: 0,
-    autoplay: false,
-    autoplayControl: false,
     classNames: classNamesDefaults,
     i18n: i18nDefaults,
+    plugins: [],
 };
 
 const Slidy: FC<Partial<Options>> = ($props) => {
     const props = $props as Required<Options>;
 
-    const localIndex = useState(props.index);
-
-    const [index, setIndex] = isFunction(props.setIndex)
-        ? [props.index, props.setIndex]
-        : localIndex;
-
-    const localAutoplay = useState(props.autoplay);
-
-    const [autoplay, setAutoplay] = isFunction(props.setAutoplay)
-        ? [props.autoplay, props.setAutoplay]
-        : localAutoplay;
-
-    /**
-     * Indicate the paused autoplay.
-     */
-    const [autoplayState, setAutoplayState] = useState<'play' | 'pause' | 'stop'>('stop');
+    const [index, setIndex] = useExternalState(props.index, props.setIndex);
 
     const length = props.slides.length;
 
@@ -86,45 +68,6 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         setIndex(e.detail.index);
     };
 
-    const handleAutoplayControl = () => {
-        setAutoplayState(autoplayState === 'stop' ? 'play' : 'stop');
-        setAutoplay(not);
-    };
-
-    const handleAutoplay = () => {
-        setAutoplayState('play');
-
-        if (props.loop) {
-            setIndex(increment);
-        } else if (index + 1 < length) {
-            setIndex(increment);
-        } else {
-            setAutoplay(false);
-        }
-    };
-
-    const handleAutoplayPause = () => {
-        setAutoplayState('pause');
-    };
-
-    const handleAutoplayStop = () => {
-        setAutoplayState('stop');
-        setAutoplay(false);
-    };
-
-    const section = useRef<HTMLElement>(null);
-
-    useEventListener('play', handleAutoplay, section);
-    useEventListener('pause', handleAutoplayPause, section);
-    useEventListener('stop', handleAutoplayStop, section);
-
-    const options = {
-        status: autoplay,
-        interval: props.interval,
-    };
-
-    useAction(autoplayAction, options, section, [autoplay]);
-
     return (
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
@@ -135,12 +78,10 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                     props.groups > 1 && 'groups'
                 )}
                 style={s({
-                    '--slidy-autoplay-interval': props.interval + 'ms',
                     '--slidy-group-items': props.groups,
                 })}
                 id={props.id}
                 onClick={handleClick}
-                ref={section}
             >
                 {(props.counter || props.overlay) && (
                     <div className={props.classNames?.overlay}>
@@ -149,16 +90,10 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                                 {index + 1} / {length}
                             </output>
                         )}
-                        {props.autoplayControl && (
-                            <ButtonAutoplay
-                                state={autoplayState}
-                                disabled={index + 1 >= length && !props.loop}
-                                onClick={handleAutoplayControl}
-                            />
-                        )}
                         {isFunction(props.overlay) && props.overlay()}
                     </div>
                 )}
+
                 <Core
                     animation={props.animation}
                     axis={props.axis}
@@ -179,6 +114,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                     onKeys={execute(props.onKeys)}
                     onUpdate={execute(props.onUpdate)}
                     onDestroy={execute(props.onDestroy)}
+                    plugins={props.plugins}
                 >
                     {props.slides.map((item, i) => {
                         const active = index === i;
@@ -215,25 +151,28 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                         );
                     })}
                 </Core>
-                {props.arrows === true &&
-                    [-props.clamp, props.clamp].map((type) => (
+
+                {props.arrows === true && (
+                    [-1, 1].map(direction => (
                         <Arrow
-                            key={type}
-                            clamp={type as -1 | 1}
+                            key={'arrow-' + direction}
+                            direction={direction}
                             index={index}
                             items={length}
                             loop={props.loop}
+                            step={props.clamp > 0 ? props.clamp : 1}
                             vertical={props.vertical}
                         >
                             {!props.arrow && (
-                                <svg className="slidy-arrow-icon" viewBox="0 0 32 32">
-                                    <path d="M19.56,24a.89.89,0,0,1-.63-.26L11.8,16.65a.92.92,0,0,1,0-1.27h0l7.13-7.16A.9.9,0,0,1,20.2,9.48L13.69,16l6.51,6.5a.91.91,0,0,1,0,1.26h0A.9.9,0,0,1,19.56,24Z" />
+                                <svg className="slidy-arrow-icon" viewBox={iconChevron.viewBox}>
+                                    <path d={iconChevron.path} />
                                 </svg>
                             )}
 
                             {isFunction(props.arrow) && props.arrow()}
                         </Arrow>
-                    ))}
+                    ))
+                )}
 
                 {isFunction(props.arrows) && props.arrows()}
 

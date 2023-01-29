@@ -86,6 +86,7 @@ export default () => {
 | `indent`    |     `0`     |                              `number`                               | Custom scroll indent value, calculates as `gap * indent`.             |
 | `index`     |     `0`     |                              `number`                               | The index of the initial slide.                                       |
 | `setIndex`  | `undefined` |           `React.Dispatch<React.SetStateAction<number>>`            | Set's index of a current slide.                                       |
+| `plugins`   | `undefined` |                     `ReturnType<PluginFunc>[]`                      | Plugins to operate with the slidy instance and its options directly.  |
 | `loop`      |   `false`   |                              `boolean`                              | Makes the slideshow continious.                                       |
 | `sensity`   |     `5`     |                              `number`                               | Defines the sliding sensity as the number of pixels required to drag. |
 | `snap`      | `undefined` |           `"start"` or `"center"` or `"end"` or `"deck"`            | Enforces the scroll stop positions.                                   |
@@ -108,32 +109,30 @@ For TypeScript users there is the `SlidyCoreOptions` interface available via nam
 
 The `<Slidy />` component interface extends the `<Core />`. There are a list of additional options available:
 
-| Property          |      Default       |                                Type                                 | Description                                                              |
-| :---------------- | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
-| `arrows`          |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
-| `arrow`           |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
-| `children`        |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
-| `overlay`         |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
-| `background`      |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
-| `classNames`      |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
-| `getImgSrc`       | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
-| `getThumbSrc`     | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
-| `i18n`            |   `i18nDefaults`   |                             `I18NDict`                              | The i18n localization dictionary.                                        |
-| `navigation`      |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
-| `groups`          |        `0`         |                              `number`                               | Controls the number of items displayed per viewport.                     |
-| `progress`        |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
-| `slides`          |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
-| `thumbnail`       |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
-| `onResize`        |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
-| `onMount`         |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                                |
-| `onMove`          |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
-| `onIndex`         |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
-| `onKeys`          |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
-| `onUpdate`        |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                               |
-| `onDestroy`       |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
-| `autoplay`        |      `false`       |                              `boolean`                              | Set's up automatic sliding of the carousel items.                        |
-| `setAutoplay`     |    `undefined`     |           `React.Dispatch<React.SetStateAction<boolean>>`           | Set's up automatic sliding of the carousel items.                        |
-| `autoplayControl` |      `false`       |                              `boolean`                              | Renders the autoplay control and indicator.                              |
+| Property      |      Default       |                                Type                                 | Description                                                              |
+| :------------ | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
+| `arrows`      |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
+| `arrow`       |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
+| `children`    |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
+| `overlay`     |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
+| `background`  |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
+| `classNames`  |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
+| `getImgSrc`   | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
+| `getThumbSrc` | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
+| `i18n`        |   `i18nDefaults`   |                             `I18NDict`                              | The i18n localization dictionary.                                        |
+| `navigation`  |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
+| `groups`      |        `0`         |                              `number`                               | Controls the number of items displayed per viewport.                     |
+| `progress`    |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
+| `slides`      |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
+| `thumbnail`   |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
+| `onResize`    |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
+| `onMount`     |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `mount` to fire.                                |
+| `onMove`      |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
+| `onIndex`     |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
+| `onKeys`      |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
+| `onUpdate`    |    `undefined`     |               `(event: CustomEvent<Options>) => void`               | Listen to the core event `update` to fire.                               |
+| `onDestroy`   |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
+| `plugins`     |    `undefined`     |                     `ReturnType<PluginFunc>[]`                      | Plugins to operate with the slidy instance and its options directly.     |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 
@@ -362,7 +361,6 @@ export default () => {
         <>
             <Slidy slides={slides} index={index} setIndex={setIndex} />
             <button onClick={() => setIndex((prev) => prev + 1)}>Next slide</button>
-            <button onClick={() => setPosition((prev) => prev + 50)}>Move</button>
         </>
     );
 };

@@ -6,46 +6,35 @@ import '@slidy/assets/styles/arrow.module.css';
 import type { FC, PropsWithChildren } from 'react';
 
 interface Props {
-    clamp: number;
-    loop: boolean;
+    direction: number;
+    step: number;
+    loop?: boolean;
     index: number;
-    items: number;
+    items?: number;
     vertical: boolean;
 }
 
-const defaultProps: Props = {
-    clamp: 1,
-    index: 0,
-    items: 0,
-    vertical: false,
-    loop: false,
-};
-
-const Arrow: FC<PropsWithChildren<Props>> = (props) => {
+const Arrow: FC<PropsWithChildren<Props>> = ({ direction = 1, step = 1, index = 0, items = 0, vertical = false, loop = false, children }) => {
     const { classNames, i18n } = useSlidy();
 
-    const type = props.clamp < 0;
+    const disabled = direction < 0
+        ? index === 0 && !loop
+        : index === items - 1 && !loop;
 
-    const disabled = type
-        ? props.index === 0 && !props.loop
-        : props.index === props.items - 1 && !props.loop;
-
-    const title = type ? i18n.prev : i18n.next;
+    const title = direction > 0 ? i18n.prev : i18n.next;
 
     return (
         <button
-            aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-            className={clsx(classNames.arrow, type && 'prev')}
-            disabled={disabled}
-            data-step={props.clamp}
             aria-label={title}
+            aria-orientation={vertical ? 'vertical' : 'horizontal'}
+            className={clsx(classNames.arrow, direction < 1 && 'prev')}
+            data-step={direction * step}
+            disabled={disabled}
             title={title}
         >
-            {props.children}
+            {children}
         </button>
     );
 };
-
-Arrow.defaultProps = defaultProps;
 
 export default Arrow;

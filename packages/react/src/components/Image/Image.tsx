@@ -1,8 +1,7 @@
 import { useSlidy } from '../Context';
+import type { FC } from 'react';
 
 import '@slidy/assets/styles/image.module.css';
-
-import type { FC } from 'react';
 
 type ImgNativeAttrs = Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading' | 'class' | 'id'>;
 
@@ -11,14 +10,7 @@ interface Props extends ImgNativeAttrs {
     id?: string | number;
 }
 
-const defaultProps: Props = {
-    decoding: 'auto',
-    lazy: false,
-};
-
-const Image: FC<Props> = (props) => {
-    const { lazy, id, ...rest } = props;
-
+const Image: FC<Props> = ({ lazy = false, decoding = 'auto', id, ...rest }) => {
     const { classNames } = useSlidy();
 
     return (
@@ -31,7 +23,5 @@ const Image: FC<Props> = (props) => {
         />
     );
 };
-
-Image.defaultProps = defaultProps;
 
 export default Image;
