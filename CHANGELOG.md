@@ -3,12 +3,12 @@
 ## 3.7.0 - @slidy/plugins
 
 ### @slidy/plugins
-
+#### 1.1.0 - add autoplay() plugin
 #### 1.0.0 - first release
 
 ### @slidy/core
-
-## 3.7.1 - fix duplicated options
+#### 3.7.2 - cleanup
+#### 3.7.1 - fix duplicated options
 
 - [fix duplicated options](https://github.com/Valexr/Slidy/commit/0e33d46fe6fec592b702fc9991e7ba285ce34cd6)
 
@@ -24,9 +24,20 @@
 
 ### @slidy/element
 
+#### 1.2.2 - update core
+#### 1.2.1 - update core
 #### 1.2.0 - add `options.plugins`
 
 -   [add plugins to iife](https://github.com/Valexr/Slidy/commit/8b829ca7d1961161e0390d0bd5da55f230c153f1)
+
+### @slidy/solid
+#### 1.4.0 - add plugins option
+
+### @slidy/svelte
+#### 3.4.0 - add plugins option
+
+### @slidy/react
+#### 1.2.0 - add plugins option
 
 ## 3.6.0 - @slidy/element
 
