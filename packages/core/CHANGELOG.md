@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.7.2 - cleanup
+
 ## 3.7.1 - fix duplicated options
 
 - [fix duplicated options](https://github.com/Valexr/Slidy/commit/0e33d46fe6fec592b702fc9991e7ba285ce34cd6)
