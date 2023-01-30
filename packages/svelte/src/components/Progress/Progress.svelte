@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	interface $$Events {
-		'input': Event & { currentTarget: EventTarget & HTMLInputElement }
+		"input": Event & { currentTarget: EventTarget & HTMLInputElement }
 	}
 
 	export let value = 0;

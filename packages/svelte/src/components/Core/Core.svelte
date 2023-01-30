@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import { slidy } from "@slidy/core";
-	import type { ActionReturn } from 'svelte/action';
+	import type { ActionReturn } from "svelte/action";
 	import type { SlidyCoreOptions, Attributes, Events } from "./Core.types";
 
 	const action = slidy as (node: HTMLElement, options: SlidyCoreOptions) => ActionReturn<SlidyCoreOptions, Attributes>;

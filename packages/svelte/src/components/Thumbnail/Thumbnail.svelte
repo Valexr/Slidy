@@ -3,7 +3,7 @@
 	import Image from "../Image/Image.svelte";
 
 	import { createEventDispatcher, getContext } from "svelte/internal";
-	import { format } from '@slidy/assets/scripts/utils';
+	import { format } from "@slidy/assets/scripts/utils";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/thumbnail.module.css";
@@ -12,7 +12,7 @@
 <script lang="ts">
 	type $$Props = SlidyThumbOptions;
 	type $$Events = {
-		'select': CustomEvent<{ index: number }>
+		"select": CustomEvent<{ index: number }>
 	}
 
 	export let active = 0;

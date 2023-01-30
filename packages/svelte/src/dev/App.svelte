@@ -7,8 +7,8 @@
 	import { translate } from "@slidy/animation";
 	import { linear } from "@slidy/easing";
 
-	import { autoplay } from '@slidy/plugins'
-	import type { Slide } from '..'
+	import { autoplay } from "@slidy/plugins";
+	import type { Slide } from "..";
 </script>
 
 <script lang="ts">
@@ -100,7 +100,7 @@
 			loop={false}
 			thumbnail
 			progress
-			plugins={[autoplay({ duration: 2000 })]}
+			plugins={[ autoplay({ duration: 2000 }) ]}
 	/>
 	{/await}
 </main>
