@@ -1,7 +1,6 @@
 <script lang="ts">
 	import "@slidy/assets/styles/dev/control-panel.module.css";
 
-	//export let limit = 9;
 	export let vertical = false;
 	export let clamp = 0;
 	export let duration = 450;

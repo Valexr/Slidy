@@ -1,8 +1,14 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import { slidy } from "@slidy/core";
-	import type { SlidyCoreOptions } from "./Core.types";
+	import type { ActionReturn } from 'svelte/action';
+	import type { SlidyCoreOptions, Attributes, Events } from "./Core.types";
 
+	const action = slidy as (node: HTMLElement, options: SlidyCoreOptions) => ActionReturn<SlidyCoreOptions, Attributes>;
+</script>
+
+<script lang="ts">
 	type $$Props = SlidyCoreOptions;
+	type $$Events = Events;
 
 	export let animation: $$Props["animation"] = undefined;
 	export let axis: $$Props["axis"] = "x";
@@ -24,9 +30,10 @@
 <svelte:element
 	class="{className}"
 	aria-live="polite"
+	role="listbox"
 	tabindex="0"
 	this={tag}
-	use:slidy={{
+	use:action={{
 		animation,
 		axis,
 		clamp,

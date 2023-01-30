@@ -1,8 +1,10 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import { getContext } from "svelte/internal";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/image.module.css";
+</script>
 
+<script lang="ts">
 	export let alt = "";
 	export let decoding: "sync" | "async" | "auto" = "auto";
 	export let height: number | string | undefined = undefined;

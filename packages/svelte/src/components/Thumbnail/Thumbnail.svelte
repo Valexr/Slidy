@@ -1,8 +1,9 @@
 <script lang="ts" context="module">
-	import { createEventDispatcher, getContext } from "svelte/internal";
 	import Core from "../Core/Core.svelte";
 	import Image from "../Image/Image.svelte";
-	import { fillTemplate } from "@slidy/assets/i18n";
+
+	import { createEventDispatcher, getContext } from "svelte/internal";
+	import { format } from '@slidy/assets/scripts/utils';
 	import type { SlidyThumbOptions } from "./thumbnail.types";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/thumbnail.module.css";
@@ -10,7 +11,10 @@
 
 <script lang="ts">
 	type $$Props = SlidyThumbOptions;
-	
+	type $$Events = {
+		'select': CustomEvent<{ index: number }>
+	}
+
 	export let active = 0;
 	export let animation: $$Props["animation"] = undefined;
 	export let background = false;
@@ -33,9 +37,7 @@
 
 <Core
 	{animation}
-	axis="x"
 	{clamp}
-	className="{classNames?.thumbnails}"
 	{duration}
 	{easing}
 	{gravity}
@@ -45,10 +47,11 @@
 	{sensity}
 	{snap}
 	tag="nav"
-	on:index
+	axis="x"
+	className="{classNames?.thumbnails}"
 >
 	{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
-		{@const title = fillTemplate(i18n.slideN, [ (i + 1).toString() ])}
+		{@const title = format(i18n.slideN, i + 1)}
 		<button
 			aria-current={i === active ? "true" : undefined}
 			aria-label={title}
@@ -56,7 +59,7 @@
 			class="{classNames.thumbnail}"
 			class:active={i === active}
 			class:bg={background}
-			style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : ""}
+			style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)})` : ""}
 			{title}
 			on:click={() => dispatch("select", { index: i })}
 		>
