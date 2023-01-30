@@ -18,3 +18,18 @@ export interface SlidyCoreOptions {
 	snap?: "deck" | "start" | "center" | "end";
 	tag?: string;
 }
+
+export type Attributes = {
+	'on:resize'?: (event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>) => void;
+	'on:mutate'?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
+	'on:mount'?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;
+	'on:move'?: (event: CustomEvent<{ index: number; position: number }>) => void;
+	'on:index'?: (event: CustomEvent<{ index: number }>) => void;
+	'on:keys'?: (event: CustomEvent<string>) => void;
+	'on:update'?: (event: CustomEvent<SlidyCoreOptions>) => void;
+	'on:destroy'?: (event: CustomEvent<HTMLElement>) => void;
+}
+
+export type Events = {
+	[Key in keyof Required<Attributes> as Key extends `on:${infer Name}` ? Name : never]: Parameters<Required<Attributes>[Key]>[0]
+}

@@ -1,8 +1,10 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import { getContext } from "svelte/internal";
 	import "@slidy/assets/styles/arrow.module.css";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
+</script>
 
+<script lang="ts">
 	export let direction = 1;
 	export let loop: boolean;
 	export let index: number;

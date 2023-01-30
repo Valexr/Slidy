@@ -1,4 +1,6 @@
-export const classNames = {
+import type { SlidyStyles } from "@slidy/assets/types";
+
+export const classNames: SlidyStyles = {
 	"arrow": "slidy-arrow",
 	"autoplay": "slidy-autoplay",
 	"counter": "slidy-counter",

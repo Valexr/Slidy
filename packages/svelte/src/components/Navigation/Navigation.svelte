@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import { generateIndexes } from "@slidy/assets/scripts";
-	import { fillTemplate } from "../Slidy/i18n";
+	import { generateIndexes, format } from "@slidy/assets/scripts";
 	import { iconChevron } from "@slidy/assets/icons";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/navigation.module.css";
@@ -23,7 +22,7 @@
 		} else if (i === end) {
 			return i18n.last;
 		} else {
-			return fillTemplate(i18n.slideN, [ i.toString() ]);
+			return format(i18n.slideN, i);
 		}
 	};
 

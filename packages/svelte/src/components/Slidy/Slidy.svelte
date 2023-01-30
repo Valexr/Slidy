@@ -1,43 +1,40 @@
 <script lang="ts" context="module">
 	import { setContext } from "svelte/internal";
 	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../index";
-	import { clamp as clampValue } from "@slidy/assets/scripts";
+	import { format } from "@slidy/assets/scripts";
 	import { classNames as classNamesDefault } from "./slidy.styles";
-	import "@slidy/assets/styles/slidy.module.css";
 	import { iconChevron } from "@slidy/assets/icons";
+	import { i18nDefaults } from "./i18n";
+
+	import "@slidy/assets/styles/slidy.module.css";
 
 	import type { SlidyOptions } from "./Slidy.types";
 </script>
 
 <script lang="ts">
-	import { fillTemplate, i18nDefaults } from "./i18n";
-
-	type $$Props = SlidyOptions;
-
-	export let animation: $$Props["animation"] = undefined;
+	export let animation: SlidyOptions["animation"] = undefined;
 	export let arrows = true;
-	export let axis: $$Props["axis"] = "x";
+	export let axis: SlidyOptions["axis"] = "x";
 	export let background = false;
 	export let counter = true;
 	export let clamp = 0;
-	export let classNames: $$Props["classNames"] = classNamesDefault;
+	export let classNames = classNamesDefault;
 	export let duration = 450;
-	export let easing: $$Props["easing"] = (t: number): number => t;
-	export let getImgSrc: $$Props["getImgSrc"] = (item) => item.src || "";
-	export let getThumbSrc: $$Props["getThumbSrc"] = (item) => getImgSrc(item);
+	export let easing: SlidyOptions["easing"] = (t: number): number => t;
+	export let getImgSrc: SlidyOptions["getImgSrc"] = (item) => item.src || "";
+	export let getThumbSrc: SlidyOptions["getThumbSrc"] = (item) => getImgSrc(item);
 	export let navigation = false;
 	export let gravity = 1.2;
-	export let i18n: $$Props["i18n"] = i18nDefaults;
-	export let indent: $$Props["indent"] = 2;
+	export let i18n: SlidyOptions["i18n"] = i18nDefaults;
+	export let indent: SlidyOptions["indent"] = 2;
 	export let index = 0;
 	export let loop = false;
 	export let groups = 0;
-	export let plugins: $$Props["plugins"] = [];
-	export let position = 0;
+	export let plugins: SlidyOptions["plugins"] = [];
 	export let progress = false;
 	export let sensity = 5;
-	export let slides: $$Props["slides"] = [];
-	export let snap: $$Props["snap"] = undefined;
+	export let slides: SlidyOptions["slides"];
+	export let snap: SlidyOptions["snap"] = undefined;
 	export let thumbnail = false;
 	export let vertical = false;
 
@@ -52,24 +49,18 @@
 
 	$: length = slides.length;
 
-	const goto = (slide: number): void => {
-		if (typeof slide === "number" && !Number.isNaN(slide)) {
-			index = clampValue(0, slide, length - 1);
-		}
-	};
-
 	const handleClick = (event: Event): void => {
 		const element = event.target as HTMLElement;
 
 		if (element.nodeName !== "BUTTON") return;
 
 		if (element.dataset.index) {
-			goto(parseInt(element.dataset.index));
+			index = parseInt(element.dataset.index);
 			return;
 		}
 
 		if (element.dataset.step) {
-			goto(parseInt(element.dataset.step) + index);
+			index = parseInt(element.dataset.step) + index;
 			return;
 		}
 	};
@@ -81,14 +72,14 @@
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"
 	class="{classNames?.root}"
 	class:groups={groups > 1}
-	on:click={handleClick}
 	style:--slidy-group-items="{groups}"
+	on:click={handleClick}
 >
 	{#if counter || $$slots.overlay}
 		<div class="{classNames?.overlay}">
 			{#if counter}
 				<output class="{classNames?.counter}">
-					{fillTemplate(i18n.counter, [ `${index + 1}`, length.toString() ])}
+					{format(i18n.counter, index + 1, length)}
 				</output>
 			{/if}
 			<slot name="overlay" />
@@ -111,6 +102,7 @@
 		{snap}
 		on:destroy
 		on:index
+		on:index={e => index = e.detail.index}
 		on:keys
 		on:mount
 		on:move
@@ -121,7 +113,7 @@
 			{@const active = i === index}
 			<li
 				aria-current={active ? "true" : undefined}
-				aria-label="{fillTemplate(i18n.counter, [ i.toString(), length.toString() ])}"
+				aria-label="{format(i18n.counter, i, length)}"
 				aria-roledescription="{i18n.slide}"
 				class="{classNames?.slide}"
 				class:active
@@ -176,7 +168,7 @@
 	{#if thumbnail}
 		<slot name="thumbnail">
 			<Thumbnail
-				active={indexThumb}
+				active={index}
 				{background}
 				{duration}
 				{easing}
@@ -186,8 +178,7 @@
 				{loop}
 				{sensity}
 				{slides}
-				on:index
-				on:select={event => goto(event.detail.index)}
+				on:select={event => index = event.detail.index}
 			/>
 		</slot>
 	{/if}

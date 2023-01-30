@@ -1,11 +1,13 @@
-<script lang="ts">
-	interface $$Events {
-		'input': Parameters<svelte.JSX.FormEventHandler<HTMLInputElement>>[0]
-	}
-
+<script lang="ts" context="module">
 	import { getContext } from "svelte/internal";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/progress.module.css";
+</script>
+
+<script lang="ts">
+	interface $$Events {
+		'input': Event & { currentTarget: EventTarget & HTMLInputElement }
+	}
 
 	export let value = 0;
 	export let max = 1;

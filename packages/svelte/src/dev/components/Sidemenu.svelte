@@ -12,6 +12,8 @@
 </script>
 
 <aside class="side-menu" class:open>
+	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		class="backdrop"
 		title="Close sidebar"
