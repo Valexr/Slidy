@@ -122,13 +122,14 @@
             };
             window.playButton = (button) => {
                 button.classList.toggle('active');
-                progress.classList.toggle('active');
                 if (button.classList.contains('active')) {
                     window.play.play();
                     button.innerText = 'stop';
+                    progress.classList.add('active');
                 } else {
                     window.play.stop();
                     button.innerText = 'play';
+                    progress.classList.remove('active');
                 }
             };
             // node.addEventListener('play', () => {
@@ -137,12 +138,12 @@
             //     autoplay.innerText = 'stop';
             // });
             node.addEventListener('pause', () => {
-                progress.classList.remove('active');
+                progress.classList.add('pause');
                 autoplay.innerText = 'pause';
             });
             node.addEventListener('resume', () => {
-                progress.classList.add('active');
-                autoplay.innerText = 'play';
+                progress.classList.remove('pause');
+                autoplay.innerText = 'stop';
             });
             node.addEventListener('stop', () => {
                 progress.classList.remove('active');
@@ -168,14 +169,12 @@
         </script>
         <style>
             #progress::after {
-                --animation: paused;
                 content: '';
                 display: flex;
                 height: 0.1rem;
                 background: var(--accent);
                 transform: scaleX(1);
                 transform-origin: center;
-                animation-name: progress;
                 animation-duration: 1500ms;
                 animation-direction: alternate;
                 animation-iteration-count: infinite;
@@ -184,6 +183,11 @@
 
             #progress.active::after {
                 --animation: running;
+                animation-name: progress;
+            }
+
+            #progress.pause::after {
+                --animation: paused;
             }
 
             @keyframes progress {
