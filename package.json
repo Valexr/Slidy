@@ -36,7 +36,8 @@
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "pub:react": "pnpm --filter=@slidy/react pub",
         "pub:all": "pnpm -r pub",
-        "up:all": "pnpm up -r"
+        "up:all": "pnpm up -r",
+        "lint:all": "eslint '**/src/**/*.{js,ts}'"
     },
     "repository": {
         "type": "git",
