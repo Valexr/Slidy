@@ -139,7 +139,7 @@ If you need keyboard navigation just set `tabindex=0` on target node.
 | `sensity`   | `2.5`       | `number`   | Sliding sensity: how many pixels to drag in the RAF `~16ms` to start move, `0` when sliding |
 | `gravity`   | `1.2`       | `number`   | Sliding gravity: `0(space) ~ 1(eath) ~ 2(underground)` |
 | `duration`  | `450`       | `number`   | Sliding duration in ms |
-| `animation` | `undefuned` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
+| `animation` | `undefined` | `function` | Animation function: `AnimationFunc = (args: AnimationArgs) => Styles` - predefined in [@slidy/animation]. |
 | `easing`    | `undefined` | `function` | Easing function: `t value from 1 to 0` - predefined in [@slidy/easing]. For proper operation minimal `duration: 450` needed. |
 | `plugins`   | `undefined` | `function` | Plugins functions: `t value from 1 to 0` - predefined in [@slidy/plugins]. |
 | `snap`      | `undefined` | `string`   | Snapping side: `'start', 'center', 'end', 'deck', undefined`. Default clamp sliding by edges. |
