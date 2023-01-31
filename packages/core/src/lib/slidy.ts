@@ -1,6 +1,6 @@
-import { coordinate, dispatch, indexing, listen, mount, X } from '../utils/env';
-import { clamp, entries, loop, throttle, sign, exp, round } from '../utils/utils';
-import { dom } from '../utils/dom';
+import { coordinate, dispatch, indexing, listen, mount, X } from './env';
+import { clamp, entries, loop, throttle, sign, exp, round } from './utils';
+import { dom } from './dom';
 import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from '../types';
 
 /**
