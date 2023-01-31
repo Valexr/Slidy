@@ -1,7 +1,7 @@
 import { slidy as slidyCore } from '@slidy/core';
 import { prepareValue } from './utils';
 
-import type { Options, SlidyInstance } from './types';
+import type { Options, SlidyInstance } from '../types';
 
 export default class Slidy extends HTMLElement {
     _slidy?: SlidyInstance;
