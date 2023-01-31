@@ -20,7 +20,7 @@
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^1.0.5",
-        "@sveltejs/kit": "^1.3.3",
+        "@sveltejs/kit": "^1.3.6",
         "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.1",
