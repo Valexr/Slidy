@@ -8,16 +8,15 @@ type Timeout = /** number */ NodeJS.Timeout;
 const now = performance.now.bind(performance);
 
 class TaskQueue {
-  protected originalQueue: Queue;
   protected queue: Queue;
   protected index: number;
   protected timeoutId: Timeout;
+  protected off: number = 0;
 
   protected time = now();
 
   constructor(queue: Queue) {
-    this.originalQueue = queue;
-    this.queue = this.resetQueue();
+    this.queue = queue;
     this.index = 0;
     this.timeoutId = null as any as Timeout;
   }
@@ -29,25 +28,19 @@ class TaskQueue {
 
   public pause() {
     clearTimeout(this.timeoutId);
-
-    const nextAwaitQueueItem = this.getNextAwaitQueueItem();
-
-    if (nextAwaitQueueItem) {
-      nextAwaitQueueItem.await -= now() - this.time;
-    }
+    this.off += now() - this.time;
   }
 
   public stop() {
     clearTimeout(this.timeoutId);
 
+    this.off = 0;
     this.index = 0;
-    this.resetQueue();
   }
 
   protected runNextTask() {
     if (this.index === this.queue.length) {
-      this.index = 0;
-      this.resetQueue();
+      this.stop();
     }
 
     const task = this.queue[this.index];
@@ -56,47 +49,17 @@ class TaskQueue {
       const start = now();
       task();
 
-      const nextAwaitQueueItem = this.getNextAwaitQueueItem();
-
-      if (nextAwaitQueueItem) {
-        nextAwaitQueueItem.await -= now() - start;
-      }
-
       this.index++;
+      this.off += now() - start;
       this.runNextTask();
     } else {
       this.timeoutId = setTimeout(() => {
         this.index++;
         this.time = now();
+        this.off = 0;
         this.runNextTask();
-      }, task.await)
+      }, task.await - this.off)
     }
-  }
-
-  protected getNextAwaitQueueItem() {
-    let i = this.index;
-
-    while (i < this.queue.length) {
-      if ('await' in this.queue[i]) {
-        return this.queue[i] as AwaitQueueItem;
-      }
-
-      i++;
-    }
-
-    return null;
-  }
-
-  protected resetQueue() {
-    this.queue = this.originalQueue.map(item => {
-      if ('await' in item) {
-        return { await: item.await };
-      } else {
-        return item;
-      }
-    });
-
-    return this.queue;
   }
 }
 
