@@ -12,6 +12,7 @@
         "dev:vue": "pnpm --filter=@slidy/vue... --parallel dev",
         "dev:www": "pnpm --filter=@slidy/www... --parallel dev",
         "dev:malina": "pnpm --filter=@slidy/malina... --parallel dev",
+
         "build:core": "pnpm --filter=@slidy/core build",
         "build:media": "pnpm --filter=@slidy/media build",
         "build:easing": "pnpm --filter=@slidy/easing build",
@@ -25,7 +26,7 @@
         "build:www": "pnpm --filter=@slidy/www... build",
         "build:malina": "pnpm --filter=@slidy/malina... build",
         "build:all": "pnpm -r build",
-        "format": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
+
         "pub:core": "pnpm --filter=@slidy/core pub",
         "pub:media": "pnpm --filter=@slidy/media pub",
         "pub:easing": "pnpm --filter=@slidy/easing pub",
@@ -36,8 +37,10 @@
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "pub:react": "pnpm --filter=@slidy/react pub",
         "pub:all": "pnpm -r pub",
-        "up:all": "pnpm up -r",
-        "lint:all": "eslint '**/src/**/*.{js,ts,svelte}'"
+        
+        "format:all": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
+        "lint:all": "eslint '**/src/**/*.{js,ts,svelte}'",
+        "up:all": "pnpm up -r"
     },
     "repository": {
         "type": "git",
