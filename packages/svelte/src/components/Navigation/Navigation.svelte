@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte/internal";
-	import { generateIndexes, format } from "@slidy/assets/scripts";
+	import { format } from "@slidy/assets/scripts/utils";
+	import { generateIndexes } from "@slidy/assets/scripts/navigation";
 	import { iconChevron } from "@slidy/assets/icons";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/navigation.module.css";

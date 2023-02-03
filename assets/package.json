@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "description": "Slidy assets",
     "main": "index.js",
-    "keywords": [],
+    "type": "module",
     "author": {
         "name": "Artemiy Schukin",
         "url": "https://github.com/yhdgms1"

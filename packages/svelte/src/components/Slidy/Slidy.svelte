@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { setContext } from "svelte/internal";
 	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../index";
-	import { format } from "@slidy/assets/scripts";
+	import { format } from "@slidy/assets/scripts/utils";
 	import { classNames as classNamesDefault } from "./slidy.styles";
 	import { iconChevron } from "@slidy/assets/icons";
 	import { i18nDefaults } from "./i18n";

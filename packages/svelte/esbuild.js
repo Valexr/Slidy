@@ -101,39 +101,39 @@ if (DEV) {
 	});
 
 } else {
-	(async () => {
-		await prepare();
 
-		for (const key in builds) {
-			await build({
-				...esbuildBase,
-				...builds[key],
-				format: key,
-			});
-		}
+	await prepare();
 
+	for (const key in builds) {
 		await build({
 			...esbuildBase,
-			entryPoints: [
-				"@slidy/assets/actions",
-				"@slidy/assets/scripts",
-				"@slidy/assets/icons",
-				"@slidy/assets/i18n"
-			],
-			outdir: "dist/assets",
-			format: "esm",
+			...builds[key],
+			treeShaking: true,
+			format: key,
 		});
+	}
 
-	})().then(() => {
-
-		transpile({
-			input: "./src/",
-			output: "./dist/",
-			ext: [".svelte", ".ts"],
-			exclude: ["dev", "types.ts", "images-api.ts"],
-			replace: [["./slidy.module.css", "../../slidy.css"], ["@slidy/assets", "../../assets"]],
-			remove: ["images-api", "module.css"],
-		});
-
+	await build({
+		...esbuildBase,
+		entryPoints: [
+			"@slidy/assets/actions",
+			"@slidy/assets/scripts/utils",
+			"@slidy/assets/scripts/navigation",
+			"@slidy/assets/icons",
+			"@slidy/assets/i18n"
+		],
+		treeShaking: true,
+		outdir: "dist/assets",
+		format: "esm",
 	});
+
+	transpile({
+		input: "./src/",
+		output: "./dist/",
+		ext: [".svelte", ".ts"],
+		exclude: ["dev", "types.ts", "images-api.ts"],
+		replace: [["./slidy.module.css", "../../slidy.css"], ["@slidy/assets", "../../assets"]],
+		remove: ["images-api", "module.css"],
+	});
+
 }
