@@ -108,7 +108,6 @@ if (DEV) {
 		await build({
 			...esbuildBase,
 			...builds[key],
-			treeShaking: true,
 			format: key,
 		});
 	}
@@ -122,7 +121,6 @@ if (DEV) {
 			"@slidy/assets/icons",
 			"@slidy/assets/i18n"
 		],
-		treeShaking: true,
 		outdir: "dist/assets",
 		format: "esm",
 	});
