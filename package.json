@@ -12,7 +12,6 @@
         "dev:vue": "pnpm --filter=@slidy/vue... --parallel dev",
         "dev:www": "pnpm --filter=@slidy/www... --parallel dev",
         "dev:malina": "pnpm --filter=@slidy/malina... --parallel dev",
-
         "build:core": "pnpm --filter=@slidy/core build",
         "build:media": "pnpm --filter=@slidy/media build",
         "build:easing": "pnpm --filter=@slidy/easing build",
@@ -26,7 +25,6 @@
         "build:www": "pnpm --filter=@slidy/www... build",
         "build:malina": "pnpm --filter=@slidy/malina... build",
         "build:all": "pnpm -r build",
-
         "pub:core": "pnpm --filter=@slidy/core pub",
         "pub:media": "pnpm --filter=@slidy/media pub",
         "pub:easing": "pnpm --filter=@slidy/easing pub",
@@ -37,7 +35,6 @@
         "pub:solid": "pnpm --filter=@slidy/solid pub",
         "pub:react": "pnpm --filter=@slidy/react pub",
         "pub:all": "pnpm -r pub",
-        
         "format:all": "prettier --write '**/*.{js,ts,md,json,html,css,md}'",
         "lint:all": "eslint '**/src/**/*.{js,ts,svelte}'",
         "up:all": "pnpm up -r"
@@ -108,11 +105,11 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.21.0",
-        "@types/node": "^18.11.18",
-        "@typescript-eslint/eslint-plugin": "^5.50.0",
-        "@typescript-eslint/parser": "^5.50.0",
+        "@types/node": "^18.11.19",
+        "@typescript-eslint/eslint-plugin": "^5.51.0",
+        "@typescript-eslint/parser": "^5.51.0",
         "derver": "^0.5.3",
-        "esbuild": "^0.17.5",
+        "esbuild": "^0.17.6",
         "eslint": "^8.33.0",
         "open-props": "^1.5.5",
         "prettier": "^2.8.3",
