@@ -14,7 +14,7 @@
         "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
     },
     "devDependencies": {
-        "@playwright/test": "^1.31.2",
+        "@playwright/test": "^1.32.0",
         "@slidy/animation": "workspace:*",
         "@slidy/assets": "workspace:*",
         "@slidy/media": "workspace:*",
@@ -25,7 +25,7 @@
         "eslint-plugin-svelte3": "^3.4.1",
         "mdast-util-to-string": "^3.1.1",
         "mdsvex": "^0.10.6",
-        "prettier-plugin-svelte": "^2.9.0",
+        "prettier-plugin-svelte": "^2.10.0",
         "rehype-slug": "^5.1.0",
         "svelte": "^3.57.0",
         "svelte-check": "^2.10.3",
