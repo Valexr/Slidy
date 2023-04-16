@@ -52,7 +52,6 @@ const defaultProps: Props = {
     slides: [],
     thumbnail: false,
     index: () => 0,
-    position: () => 0,
     classNames: classNamesDefaults,
     i18n: i18nDefaults,
 };
@@ -63,10 +62,6 @@ const Slidy: Component<Partial<Props>> = ($props) => {
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
         : createSignal(untrack(props.index));
-
-    const [position, setPosition] = isFunction(props.setPosition)
-        ? [props.position, props.setPosition]
-        : createSignal(untrack(props.position));
 
     const length = () => props.slides.length;
 
@@ -88,10 +83,6 @@ const Slidy: Component<Partial<Props>> = ($props) => {
 
     const onIndex: Props['onIndex'] = (e) => {
         Promise.resolve(e.detail.index).then(setIndex);
-    };
-
-    const onMove: Props['onMove'] = (e) => {
-        setPosition(e.detail.position);
     };
 
     return (
@@ -131,10 +122,9 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                     sensity={props.sensity}
                     snap={props.snap}
                     plugins={/* @once */ props.plugins}
-                    position={position()}
                     onResize={props.onResize}
                     onMount={props.onMount}
-                    onMove={execute(onMove, props.onMove)}
+                    onMove={props.onMove}
                     onIndex={execute(onIndex, props.onIndex)}
                     onKeys={props.onKeys}
                     onUpdate={props.onUpdate}

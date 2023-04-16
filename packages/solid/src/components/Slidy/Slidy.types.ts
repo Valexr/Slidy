@@ -41,17 +41,14 @@ export interface Props extends BaseCoreOptions {
      */
     slides?: Slide[];
 
+    /**
+     * Slide index
+     */
     index?: Accessor<number>;
-    position?: Accessor<number>;
-
     /**
      * Control the index from outside
      */
     setIndex?: Setter<number>;
-    /**
-     * Control the position from outside
-     */
-    setPosition?: Setter<number>;
 
     overlay?: () => JSX.Element;
     thumbnail?: (() => JSX.Element) | boolean;
