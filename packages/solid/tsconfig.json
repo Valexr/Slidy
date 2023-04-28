@@ -6,8 +6,13 @@
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "skipLibCheck": true,
-        "preserveValueImports": true
     },
-    "include": ["src/*", "src/dev/*"],
-    "exclude": ["dist", "public"]
+    "include": [
+        "src/*",
+        "src/dev/*"
+    ],
+    "exclude": [
+        "dist",
+        "public"
+    ]
 }

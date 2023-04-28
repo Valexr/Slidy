@@ -83,7 +83,7 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                 id={props.id}
                 onClick={handleClick}
             >
-                {(props.counter || props.overlay) && (
+                {(props.counter || props.overlay()) && (
                     <div className={props.classNames?.overlay}>
                         {props.counter && (
                             <output className={props.classNames?.counter}>
