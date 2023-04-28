@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import { ESLint } from 'eslint';
 
-export function eslint(persistLintIssues = true) {
+export default function eslint(persistLintIssues = true) {
     return {
         name: 'ESLint',
         async setup(build) {

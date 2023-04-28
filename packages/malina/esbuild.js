@@ -1,7 +1,6 @@
 import { build, context } from 'esbuild';
-import { derver } from 'derver';
 import malina from './malina.js';
-import { eslint } from '../../env/eslint.js';
+import eslint from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -15,20 +14,7 @@ const esbuildBase = {
     entryPoints: DEV ? ['src/dev/main.js'] : ['src/index.js'],
     outdir: DEV ? 'public/build' : '',
     sourcemap: DEV ? 'inline' : false,
-};
-
-const derverConfig = {
-    dir: 'public',
-    port: 3336,
-    host: '0.0.0.0',
-    watch: [
-        'src',
-        'public',
-        'node_modules/@slidy/core',
-        'node_modules/@slidy/easing',
-        'node_modules/@slidy/media',
-        'node_modules/@slidy/plugins',
-    ],
+    logLevel: 'info'
 };
 
 const builds = {
@@ -49,17 +35,8 @@ const builds = {
 if (DEV) {
     const ctx = await context(esbuildBase);
 
-    await prepare('public/build');
-
-    derver({
-        ...derverConfig,
-        onwatch: async (lr, item) => {
-            if (item !== 'public') {
-                lr.prevent();
-                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-            }
-        },
-    });
+    await ctx.watch();
+    await ctx.serve({ servedir: 'public', port: 3336 });
 } else {
     await prepare();
 

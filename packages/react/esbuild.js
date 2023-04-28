@@ -1,6 +1,5 @@
 import { build, context } from 'esbuild';
-import { derver } from 'derver';
-import { eslint } from '../../env/eslint.js';
+import eslint from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -16,20 +15,9 @@ const esbuildBase = {
     external: DEV ? [] : ['react', 'react-dom'],
     // inject: ['./react-shim.ts'],
     jsx: 'automatic',
+    logLevel: 'info'
 };
-const derverConfig = {
-    port: 3332,
-    host: '0.0.0.0',
-    dir: 'public',
-    watch: [
-        'src',
-        'public',
-        'node_modules/@slidy/animation',
-        'node_modules/@slidy/assets',
-        'node_modules/@slidy/core',
-        'node_modules/@slidy/easing',
-    ],
-};
+
 const builds = {
     cjs: {
         outfile: './dist/slidy.cjs',
@@ -51,15 +39,8 @@ if (DEV) {
         loader: { '.svg': 'dataurl' },
     });
 
-    derver({
-        ...derverConfig,
-        onwatch: async (lr, item) => {
-            if (item !== 'public') {
-                lr.prevent();
-                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-            }
-        },
-    });
+    await ctx.watch();
+    await ctx.serve({ servedir: 'public', port: 3332 });
 
 } else {
     await prepare();

@@ -1,7 +1,8 @@
-import fsp from 'fs/promises';
+import { readFile } from 'fs/promises';
+import path from 'path';
 import malina from 'malinajs';
 
-export default function (options = {}) {
+export default function malinaPlugin(options = {}) {
 
     const cssModules = new Map();
 
@@ -10,11 +11,26 @@ export default function (options = {}) {
     return {
         name: 'malina-plugin',
         setup(build) {
+            build.onResolve({ filter: /^malinajs$/ }, async (args) => {
+                const runtime = await build.resolve('malinajs/runtime.js', { resolveDir: args.resolveDir });
+                return {
+                    path: runtime.path,
+                    sideEffects: false
+                };
+            });
+
+            build.onResolve({ filter: /\.(xht|ma|html)$/ }, (arg) => {
+                return {
+                    path: path.resolve(arg.resolveDir, arg.path),
+                    sideEffects: false
+                };
+            });
+
             build.onLoad(
                 { filter: /\.(xht|ma|html)$/ },
                 async (args) => {
 
-                    let source = await fsp.readFile(args.path, 'utf8');
+                    let source = await readFile(args.path, 'utf8');
 
                     let ctx = await malina.compile(source, {
                         path: args.path,

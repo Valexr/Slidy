@@ -1,5 +1,4 @@
 import { build, context } from "esbuild";
-import { derver } from "derver";
 import sveltePlugin from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
 import cssmodules from "./cssmodules.js";
@@ -42,20 +41,7 @@ const esbuildBase = {
 		sveltePlugin(svelteOptions),
 		cssmodules(cssModulesOptions),
 	],
-};
-
-const derverConfig = {
-	dir: "public",
-	port: 3331,
-	host: "0.0.0.0",
-	watch: [
-		'src',
-		'public',
-		'node_modules/@slidy/animation',
-		'node_modules/@slidy/assets',
-		'node_modules/@slidy/core',
-		'node_modules/@slidy/easing',
-	],
+	logLevel: 'info'
 };
 
 const builds = {
@@ -90,15 +76,8 @@ if (DEV) {
 		platform: "browser",
 	});
 
-	derver({
-		...derverConfig,
-		onwatch: async (lr, item) => {
-			if (item !== "public") {
-				lr.prevent();
-				ctx.rebuild().catch((err) => lr.error(err.message, "Svelte compile error"));
-			}
-		},
-	});
+	await ctx.watch();
+	await ctx.serve({ servedir: 'public', port: 3331 });
 
 } else {
 

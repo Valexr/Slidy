@@ -1,5 +1,5 @@
 import { build, context } from 'esbuild';
-import { eslint } from '../../env/eslint.js';
+import eslint from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');

@@ -15,6 +15,11 @@
         <script defer src="build/main.js"></script>
     </head>
 
-    <body />
+    <body></body>
+
+    <script type="module">
+        new EventSource('/esbuild')
+            .addEventListener('change', () => location.reload());
+    </script>
 
 </html>

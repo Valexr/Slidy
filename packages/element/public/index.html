@@ -87,6 +87,9 @@
             window.setEvents = setEvents;
 
             console.log('module window:', window);
+
+            new EventSource('/esbuild')
+                .addEventListener('change', () => location.reload());
         </script>
     </head>
 

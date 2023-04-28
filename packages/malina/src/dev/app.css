@@ -27,9 +27,11 @@ label {
     flex-wrap: wrap;
     align-items: center;
 }
+
 *.active {
     color: red;
 }
+
 input {
     margin: 0;
 }

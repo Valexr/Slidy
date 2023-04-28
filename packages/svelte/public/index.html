@@ -18,4 +18,9 @@
 
 	<body></body>
 
+	<script type="module">
+		new EventSource('/esbuild')
+			.addEventListener('change', () => location.reload());
+	</script>
+
 </html>

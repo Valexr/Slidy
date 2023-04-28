@@ -1,5 +1,4 @@
 import { build, context } from 'esbuild';
-import { derver } from 'derver';
 import { solidPlugin } from 'esbuild-plugin-solid';
 import prepare from '../../env/prepare.js';
 
@@ -14,20 +13,7 @@ const esbuildBase = {
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['solid-js'],
-};
-
-const derverConfig = {
-    port: 3334,
-    host: '0.0.0.0',
-    dir: 'public',
-    watch: [
-        'src',
-        'public',
-        'node_modules/@slidy/animation',
-        'node_modules/@slidy/assets',
-        'node_modules/@slidy/core',
-        'node_modules/@slidy/easing',
-    ],
+    logLevel: 'info'
 };
 
 const builds = {
@@ -56,15 +42,8 @@ if (DEV) {
         loader: { '.svg': 'dataurl' },
     });
 
-    derver({
-        ...derverConfig,
-        onwatch: async (lr, item) => {
-            if (item !== 'public') {
-                lr.prevent();
-                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-            }
-        },
-    });
+    await ctx.watch();
+    await ctx.serve({ servedir: 'public', port: 3334 });
 
 } else {
     await prepare();

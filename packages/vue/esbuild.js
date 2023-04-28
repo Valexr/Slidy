@@ -1,6 +1,5 @@
 import { build, context } from 'esbuild';
-import { derver } from 'derver';
-import { eslint } from '../../env/eslint.js';
+import eslint from '../../env/eslint.js';
 import vue from 'esbuild-plugin-vue-next';
 
 const DEV = process.argv.includes('--dev');
@@ -12,13 +11,9 @@ const esbuildBase = {
     plugins: [vue(), eslint()],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV ? 'inline' : false,
+    logLevel: 'info'
 };
-const derverConfig = {
-    port: 3335,
-    host: '0.0.0.0',
-    dir: 'public',
-    watch: ['public', 'src', 'node_modules/@slidy/core'],
-};
+
 const builds = {
     cjs: {
         outfile: './dist/slidy.cjs',
@@ -40,15 +35,8 @@ if (DEV) {
         loader: { '.svg': 'file' },
     });
 
-    derver({
-        ...derverConfig,
-        onwatch: async (lr, item) => {
-            if (item !== 'public') {
-                lr.prevent();
-                ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-            }
-        },
-    });
+    await ctx.watch();
+    await ctx.serve({ servedir: 'public', port: 3335 });
 
 } else {
     for (const key in builds) {

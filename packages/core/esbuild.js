@@ -1,5 +1,5 @@
 import { build, context } from 'esbuild';
-import { eslint } from '../../env/eslint.js';
+import eslint from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -37,9 +37,6 @@ const builds = {
 
 if (DEV || CORE) {
     const ctx = await context(esbuildBase);
-
-    process.on('SIGTERM', ctx.dispose);
-    process.on("exit", ctx.dispose);
 
     if (DEV) {
         await ctx.rebuild();
