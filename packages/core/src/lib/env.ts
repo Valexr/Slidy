@@ -32,8 +32,8 @@ function coordinate(e: UniqEvent, options: Partial<Options>): number {
     if (e.type === 'wheel') {
         return X(e, options) ? e.deltaX : e.shiftKey || options.axis === 'y' ? e.deltaY : 0;
     } else {
-        const mix = (e: UniqEvent): Touch => (e.touches && e.touches[0]) || e;
-        return options.axis === 'y' ? mix(e).pageY : mix(e).pageX;
+        const mix = e.touches && e.touches[0] || e;
+        return options.axis === 'y' ? mix.pageY : mix.pageX;
     }
 }
 
