@@ -1,11 +1,10 @@
 import { loop } from '.';
 import type { EventMap } from '../types';
 
-function listen(node: HTMLElement, events: EventMap, on = true): void {
+function listen(node: HTMLElement, events: EventMap[], on = true): void {
     loop(events, (item) => {
         const state = on ? 'addEventListener' : 'removeEventListener';
-        const [event, handle, options] = item;
-        node[state](event, handle, options);
+        node[state](...item);
     });
 }
 
