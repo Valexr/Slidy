@@ -20,7 +20,6 @@ interface Options {
     sensity: number;
     snap: SlidyCoreOptions['snap'];
     tag: keyof JSX.IntrinsicElements | (string & Record<never, never>);
-    slides: Slide[];
     className: string;
     plugins: SlidyCoreOptions['plugins']
 
@@ -33,7 +32,7 @@ interface Options {
     onDestroy?: (event: CustomEvent<HTMLElement>) => void;
 }
 
-const Core: FC<PropsWithChildren<Partial<Options>>> = ({ animation, axis = 'x', clamp = 0, duration = 450, easing = (t) => t, gravity = 1.2, indent = 2, index = 0, slides = [], loop = false, sensity = 5, snap, tag = 'ol', className, children, plugins, onDestroy, onIndex, onKeys, onMount, onMove, onResize, onUpdate }) => {
+const Core: FC<PropsWithChildren<Partial<Options>>> = ({ animation, axis = 'x', clamp = 0, duration = 450, easing = (t) => t, gravity = 1.2, indent = 2, index = 0, loop = false, sensity = 5, snap, tag = 'ol', className, children, plugins, onDestroy, onIndex, onKeys, onMount, onMove, onResize, onUpdate }) => {
     const el = useRef<HTMLOListElement | null>(null);
 
     useEventListener('destroy', execute(onDestroy), el);

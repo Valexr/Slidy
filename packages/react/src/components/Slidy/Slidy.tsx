@@ -12,7 +12,7 @@ import { classNames as classNamesDefaults } from './slidy.styles';
 import '@slidy/assets/styles/slidy.module.css';
 
 import type { Options } from './Slidy.types';
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 
 
 const defaultProps: Options = {
@@ -41,14 +41,49 @@ const defaultProps: Options = {
     plugins: [],
 };
 
-const Slidy: FC<Partial<Options>> = ($props) => {
-    const props = $props as Required<Options>;
+const Slidy: FC<Partial<Options>> = ({
+    arrows = true,
+    axis = 'x',
+    vertical = false,
+    background = false,
+    counter = true,
+    clamp = 0,
+    duration = 450,
+    easing = (t) => t,
+    getImgSrc = (item) => (item as unknown as { src: string }).src ?? '',
+    getThumbSrc = (item) => (item as unknown as { src: string }).src ?? '',
+    navigation = false,
+    gravity = 1.2,
+    indent = 2,
+    loop = false,
+    groups = 0,
+    progress = false,
+    sensity = 5,
+    slides = [],
+    thumbnail = false,
+    index: _index = 0,
+    setIndex: _setIndex,
+    id,
+    classNames = classNamesDefaults,
+    i18n = i18nDefaults,
+    plugins = [],
+    overlay,
+    animation,
+    snap,
+    onDestroy,
+    onIndex,
+    onKeys,
+    onMount,
+    onMove,
+    onResize,
+    onUpdate,
+    children,
+    arrow
+}) => {
+    const [index, setIndex] = useExternalState(_index, _setIndex);
+    const length = slides.length;
 
-    const [index, setIndex] = useExternalState(props.index, props.setIndex);
-
-    const length = props.slides.length;
-
-    const handleClick: React.MouseEventHandler<HTMLElement> = (event): void => {
+    const handleClick: MouseEventHandler<HTMLElement> = (event): void => {
         const element = event.target as HTMLElement;
 
         if (element.nodeName !== 'BUTTON') return;
@@ -64,63 +99,63 @@ const Slidy: FC<Partial<Options>> = ($props) => {
         }
     };
 
-    const onIndex: Options['onIndex'] = (e) => {
+    const _onIndex: Options['onIndex'] = (e) => {
         setIndex(e.detail.index);
     };
 
     return (
-        <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
+        <SlidyContext.Provider value={{ classNames: classNames, i18n: i18n }}>
             <section
-                aria-roledescription={props.i18n.carousel}
-                aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
+                aria-roledescription={i18n.carousel}
+                aria-orientation={vertical ? 'vertical' : 'horizontal'}
                 className={clsx(
-                    props.classNames?.root,
-                    props.groups > 1 && 'groups'
+                    classNames?.root,
+                    groups > 1 && 'groups'
                 )}
                 style={s({
-                    '--slidy-group-items': props.groups,
+                    '--slidy-group-items': groups,
                 })}
-                id={props.id}
+                id={id}
                 onClick={handleClick}
             >
-                {(props.counter || props.overlay()) && (
-                    <div className={props.classNames?.overlay}>
-                        {props.counter && (
-                            <output className={props.classNames?.counter}>
+                {(counter || isFunction(overlay)) && (
+                    <div className={classNames?.overlay}>
+                        {counter && (
+                            <output className={classNames?.counter}>
                                 {index + 1} / {length}
                             </output>
                         )}
-                        {isFunction(props.overlay) && props.overlay()}
+                        {isFunction(overlay) && overlay()}
                     </div>
                 )}
 
                 <Core
-                    animation={props.animation}
-                    axis={props.axis}
-                    clamp={props.clamp}
-                    className={props.classNames?.slides}
-                    duration={props.duration}
-                    easing={props.easing}
-                    gravity={props.gravity}
-                    indent={props.indent}
+                    animation={animation}
+                    axis={axis}
+                    clamp={clamp}
+                    className={classNames?.slides}
+                    duration={duration}
+                    easing={easing}
+                    gravity={gravity}
+                    indent={indent}
                     index={index}
-                    loop={props.loop}
-                    sensity={props.sensity}
-                    snap={props.snap}
-                    onResize={execute(props.onResize)}
-                    onMount={execute(props.onMount)}
-                    onMove={execute(props.onMove)}
-                    onIndex={execute(onIndex, props.onIndex)}
-                    onKeys={execute(props.onKeys)}
-                    onUpdate={execute(props.onUpdate)}
-                    onDestroy={execute(props.onDestroy)}
-                    plugins={props.plugins}
+                    loop={loop}
+                    sensity={sensity}
+                    snap={snap}
+                    onResize={execute(onResize)}
+                    onMount={execute(onMount)}
+                    onMove={execute(onMove)}
+                    onIndex={execute(onIndex, _onIndex)}
+                    onKeys={execute(onKeys)}
+                    onUpdate={execute(onUpdate)}
+                    onDestroy={execute(onDestroy)}
+                    plugins={plugins}
                 >
-                    {props.slides.map((item, i) => {
+                    {slides.map((item, i) => {
                         const active = index === i;
-                        const key = props.getImgSrc(item) ?? i;
+                        const key = getImgSrc(item) ?? i;
 
-                        const Children = props.children;
+                        const Children = children;
 
                         if (isFunction(Children)) {
                             return <Children key={key} {...item} />;
@@ -130,81 +165,81 @@ const Slidy: FC<Partial<Options>> = ($props) => {
                             <li
                                 key={key}
                                 aria-current={active ? 'true' : undefined}
-                                aria-label={format(props.i18n.counter, i + 1, length)}
-                                aria-roledescription={props.i18n.slide}
+                                aria-label={format(i18n.counter, i + 1, length)}
+                                aria-roledescription={i18n.slide}
                                 className={clsx(
-                                    props.classNames?.slide,
+                                    classNames?.slide,
                                     active && 'active',
-                                    props.background && 'bg'
+                                    background && 'bg'
                                 )}
                                 role="group"
                                 style={s({
-                                    '--_slidy-slide-bg': props.background
-                                        ? `url("${props.getImgSrc(item)}")`
+                                    '--_slidy-slide-bg': background
+                                        ? `url("${getImgSrc(item)}")`
                                         : undefined,
                                 })}
                             >
-                                {!props.background && (
-                                    <Image {...item} src={props.getImgSrc(item)} />
+                                {!background && (
+                                    <Image {...item} src={getImgSrc(item)} />
                                 )}
                             </li>
                         );
                     })}
                 </Core>
 
-                {props.arrows === true && (
+                {arrows === true && (
                     [-1, 1].map(direction => (
                         <Arrow
                             key={'arrow-' + direction}
                             direction={direction}
                             index={index}
                             items={length}
-                            loop={props.loop}
-                            step={props.clamp > 0 ? props.clamp : 1}
-                            vertical={props.vertical}
+                            loop={loop}
+                            step={clamp > 0 ? clamp : 1}
+                            vertical={vertical}
                         >
-                            {!props.arrow && (
+                            {!arrow && (
                                 <svg className="slidy-arrow-icon" viewBox={iconChevron.viewBox}>
                                     <path d={iconChevron.path} />
                                 </svg>
                             )}
 
-                            {isFunction(props.arrow) && props.arrow()}
+                            {isFunction(arrow) && arrow()}
                         </Arrow>
                     ))
                 )}
 
-                {isFunction(props.arrows) && props.arrows()}
+                {isFunction(arrows) && arrows()}
 
-                {props.progress && (<Progress
+                {progress && (<Progress
                     value={index + 1}
                     max={length}
-                    vertical={props.vertical}
+                    vertical={vertical}
                     onInput={(e: any) => {
                         setIndex(e.currentTarget.valueAsNumber - 1);
                     }}
                 />)}
 
-                {props.thumbnail === true && (
+                {thumbnail === true && (
                     <Thumbnail
                         active={index}
-                        background={props.background}
-                        duration={props.duration}
-                        easing={props.easing}
-                        getImgSrc={props.getThumbSrc}
-                        indent={props.indent}
+                        background={background}
+                        duration={duration}
+                        easing={easing}
+                        getImgSrc={getThumbSrc}
+                        indent={indent}
                         index={index}
-                        loop={props.loop}
-                        sensity={props.sensity}
-                        slides={props.slides}
+                        loop={loop}
+                        sensity={sensity}
+                        slides={slides}
                         onSelect={setIndex}
                     />
                 )}
 
-                {isFunction(props.thumbnail) && props.thumbnail()}
+                {isFunction(thumbnail) && thumbnail()}
 
-                {props.navigation && (
-                    <Navigation current={index + 1} start={1} end={length} vertical={props.vertical} />
+                {navigation && (
+                    <Navigation current={index + 1} start={1} end={length} vertical={vertical} />
                 )}
             </section>
         </SlidyContext.Provider>

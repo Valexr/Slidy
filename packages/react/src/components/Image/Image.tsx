@@ -20,6 +20,7 @@ const Image: FC<Props> = ({ lazy = false, decoding = 'auto', id, ...rest }) => {
             id={id ? String(id) : undefined}
             alt={rest.alt}
             loading={lazy ? 'lazy' : undefined}
+            decoding={decoding}
         />
     );
 };

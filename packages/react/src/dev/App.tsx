@@ -33,7 +33,7 @@ const App: FC = () => {
     const slides = useChannel<Slide[]>([]);
 
     const loadSlides = () => {
-        let slides$ = localStorage.getItem('slides');
+        const slides$ = localStorage.getItem('slides');
 
         if (slides$) {
             return slides(JSON.parse(slides$));
