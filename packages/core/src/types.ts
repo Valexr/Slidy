@@ -94,7 +94,7 @@ export interface UniqEvent extends PointerEvent {
     deltaY: number;
 }
 
-export type EventMap = [string, EventListener, AddEventListenerOptions?][];
+export type EventMap = [string, EventListener, AddEventListenerOptions?];
 
 export type Detail = Record<string, any> | HTMLCollectionOf<Child> | HTMLElement | Options | string;
 

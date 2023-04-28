@@ -7,10 +7,10 @@ export function setEvents() {
         'keys',
         'update',
         'destroy',
-        'play',
-        'pause',
-        'resume',
-        'stop',
+        // 'play',
+        // 'pause',
+        // 'resume',
+        // 'stop',
     ];
 
     events.forEach((event) => {
@@ -22,7 +22,7 @@ export function setEvents() {
                 // case 'stop':
                 case 'mount':
                     // console.log(e.detail);
-                    window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;
+                    // window.play = e.detail.options.plugins ? e.detail.options.plugins[0] : 0;
                     Object.assign(options, e.detail.options);
                     for (const button of document.querySelectorAll('button')) {
                         if (options[button.id]) {

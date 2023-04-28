@@ -27,17 +27,17 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         GRAVITY = options.gravity ??= 1.2,
         CLAMP = options.clamp ??= 0;
 
-    const WINDOW_EVENTS: EventMap = [
+    const WINDOW_EVENTS: EventMap[] = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
         ['scroll', () => { to(INDEX); GRAVITY = 2; }]
     ];
-    const WINDOW_NATIVE_EVENTS: EventMap = [
+    const WINDOW_NATIVE_EVENTS: EventMap[] = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
     ];
-    const NODE_EVENTS: EventMap = [
+    const NODE_EVENTS: EventMap[] = [
         ['touchstart', onDown as EventListener, { passive: false }],
         ['mousedown', onDown as EventListener],
         ['keydown', onKeys as EventListener],

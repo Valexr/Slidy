@@ -1,5 +1,4 @@
 import { build, context } from 'esbuild';
-import { derver } from 'derver';
 import { eslint } from '../../env/eslint.js';
 import prepare from '../../env/prepare.js';
 
@@ -18,20 +17,7 @@ const esbuildBase = {
     outdir: CORE ? 'public/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
-};
-
-const derverConfig = {
-    dir: 'public',
-    port: 3330,
-    host: '0.0.0.0',
-    watch: [
-        'src',
-        'public',
-        'node_modules/@slidy/animation',
-        'node_modules/@slidy/easing',
-        'node_modules/@slidy/media',
-        'node_modules/@slidy/plugins',
-    ],
+    logLevel: 'info'
 };
 
 const builds = {
@@ -52,20 +38,16 @@ const builds = {
 if (DEV || CORE) {
     const ctx = await context(esbuildBase);
 
+    process.on('SIGTERM', ctx.dispose);
+    process.on("exit", ctx.dispose);
+
     if (DEV) {
         await ctx.rebuild();
         await ctx.watch();
         console.log('watching @slidy/core...');
     } else {
-        derver({
-            ...derverConfig,
-            onwatch: async (lr, item) => {
-                if (item !== 'public') {
-                    lr.prevent();
-                    ctx.rebuild().catch((err) => lr.error(err.message, 'TS compile error'));
-                }
-            },
-        });
+        await ctx.watch();
+        await ctx.serve({ servedir: 'public', port: 3330 });
     }
 } else {
     await prepare();

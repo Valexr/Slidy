@@ -41,11 +41,10 @@ function dispatch(node: HTMLElement, name: string, detail?: Detail): void {
     node.dispatchEvent(new CustomEvent(name, { detail }));
 }
 
-function listen(node: Window | HTMLElement, events: EventMap, on = true): void {
-    loop(events, (item) => {
+function listen(node: Window | HTMLElement, events: EventMap[], on = true): void {
+    loop(events, (item: EventMap) => {
         const state = on ? 'addEventListener' : 'removeEventListener';
-        const [event, handle, options] = item;
-        node[state](event, handle, options);
+        node[state](...item);
     });
 }
 

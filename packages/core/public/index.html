@@ -103,7 +103,7 @@
                 loop: false,
                 snap: 'center',
                 axis: 'x',
-                plugins: [play()],
+                // plugins: [play()],
                 animation: animations.flip,
                 easing: easings.sine,
             };
@@ -137,19 +137,19 @@
             //     autoplay.classList.add('active');
             //     autoplay.innerText = 'stop';
             // });
-            node.addEventListener('pause', () => {
-                progress.classList.add('pause');
-                autoplay.innerText = 'pause';
-            });
-            node.addEventListener('resume', () => {
-                progress.classList.remove('pause');
-                autoplay.innerText = 'stop';
-            });
-            node.addEventListener('stop', () => {
-                progress.classList.remove('active');
-                autoplay.classList.remove('active');
-                autoplay.innerText = 'play';
-            });
+            // node.addEventListener('pause', () => {
+            //     progress.classList.add('pause');
+            //     autoplay.innerText = 'pause';
+            // });
+            // node.addEventListener('resume', () => {
+            //     progress.classList.remove('pause');
+            //     autoplay.innerText = 'stop';
+            // });
+            // node.addEventListener('stop', () => {
+            //     progress.classList.remove('active');
+            //     autoplay.classList.remove('active');
+            //     autoplay.innerText = 'play';
+            // });
 
             console.log('window:', window);
 
@@ -166,6 +166,9 @@
                     vers.innerText = version;
 
                 });
+
+            new EventSource('/esbuild')
+                .addEventListener('change', () => location.reload());
         </script>
         <style>
             #progress::after {
@@ -209,7 +212,7 @@
             <ul id="node" tabindex="0"></ul>
             <nav id="thumbs" style="--gap: 1rem; --flow: row; --width: 68px; --height: 100px;"></nav>
         </main>
-        <div id="progress"></div>
+        <!-- <div id="progress"></div> -->
 
         <footer>
             <nav>
@@ -220,7 +223,7 @@
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
-                <button id="autoplay" onclick="playButton(this)">play</button>
+                <!-- <button id="autoplay" onclick="playButton(this)">play</button> -->
             </nav>
 
             <!-- <nav id="dots"></nav> -->
