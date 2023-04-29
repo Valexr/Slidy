@@ -3,19 +3,39 @@
 		"browser": true,
 		"es2021": true
 	},
-	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:svelte/recommended"
+	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 2021,
 		"sourceType": "module",
-		"extraFileExtensions": [".svelte"]
+		"extraFileExtensions": [
+			".svelte"
+		]
 	},
-	"plugins": ["svelte3", "@typescript-eslint"],
+	"plugins": [
+		"@typescript-eslint"
+	],
 	"rules": {
-		"indent": ["error", "tab"],
-		"quotes": ["error", "double"],
-		"semi": ["error", "always"],
-		"array-bracket-spacing": ["error", "always"],
+		"indent": [
+			"error",
+			"tab"
+		],
+		"quotes": [
+			"error",
+			"double"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
+		"array-bracket-spacing": [
+			"error",
+			"always"
+		],
 		"@typescript-eslint/no-unsafe-assignment": "off",
 		"@typescript-eslint/no-unsafe-call": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
@@ -24,12 +44,16 @@
 	},
 	"overrides": [
 		{
-			"files": ["*.svelte"],
+			"files": [
+				"*.svelte"
+			],
 			"processor": "svelte3/svelte3"
 		}
 	],
 	"settings": {
 		"svelte3/typescript": true
 	},
-	"ignorePatterns": ["node_modules"]
+	"ignorePatterns": [
+		"node_modules"
+	]
 }

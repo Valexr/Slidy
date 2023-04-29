@@ -22,7 +22,7 @@
         "@sveltejs/adapter-static": "^2.0.2",
         "@sveltejs/kit": "^1.15.9",
         "eslint-config-prettier": "^8.8.0",
-        "eslint-plugin-svelte3": "^4.0.0",
+        "eslint-plugin-svelte": "^2.27.2",
         "mdast-util-to-string": "^3.2.0",
         "mdsvex": "^0.10.6",
         "prettier-plugin-svelte": "^2.10.0",
