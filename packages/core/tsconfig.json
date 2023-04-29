@@ -6,7 +6,6 @@
     },
     "include": [
         "src/*",
-        "src/lib/slidy.ts"
     ],
     "exclude": [
         "src/iife.ts"

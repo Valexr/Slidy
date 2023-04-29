@@ -42,10 +42,8 @@ function dispatch(node: HTMLElement, name: string, detail?: Detail): void {
 }
 
 function listen(node: Window | HTMLElement, events: EventMap[], on = true): void {
-    loop(events, (item: EventMap) => {
-        const state = on ? 'addEventListener' : 'removeEventListener';
-        node[state](...item);
-    });
+    const state = on ? 'addEventListener' : 'removeEventListener';
+    loop(events, (item: EventMap) => node[state](...item));
 }
 
 export { mount, listen, dispatch, indexing, coordinate, X };
