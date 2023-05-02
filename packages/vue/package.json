@@ -58,6 +58,6 @@
         "esbuild-plugin-vue-next": "^0.1.4",
         "eslint-plugin-vue": "^9.11.0",
         "vue": "^3.2.47",
-        "vue-tsc": "^1.6.1"
+        "vue-tsc": "^1.6.3"
     }
 }

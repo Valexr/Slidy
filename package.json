@@ -106,8 +106,8 @@
     "devDependencies": {
         "@types/eslint": "^8.37.0",
         "@types/node": "^18.16.3",
-        "@typescript-eslint/eslint-plugin": "^5.59.1",
-        "@typescript-eslint/parser": "^5.59.1",
+        "@typescript-eslint/eslint-plugin": "^5.59.2",
+        "@typescript-eslint/parser": "^5.59.2",
         "esbuild": "^0.17.18",
         "eslint": "^8.39.0",
         "open-props": "^1.5.8",

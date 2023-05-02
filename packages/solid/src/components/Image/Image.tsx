@@ -6,7 +6,7 @@ import '@slidy/assets/styles/image.module.css';
 import type { Component } from 'solid-js';
 import type { Props } from './Image.types'
 
-const defaultProps: Props = {
+const defaultProps: Partial<Props> = {
     decoding: 'auto',
     lazy: false,
 };
