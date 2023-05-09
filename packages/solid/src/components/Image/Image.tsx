@@ -6,12 +6,12 @@ import '@slidy/assets/styles/image.module.css';
 import type { Component } from 'solid-js';
 import type { Props } from './Image.types'
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Props = {
     decoding: 'auto',
     lazy: false,
 };
 
-const Image: Component<Props> = ($props) => {
+const Image: Component<Partial<Props>> = ($props) => {
     const props = mergeProps(defaultProps, $props);
     const [it, rest] = splitProps(props, ['lazy', 'id']);
 

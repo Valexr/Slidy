@@ -37,11 +37,9 @@ const App: Component = () => {
     const slides = channel<Slide[]>([]);
 
     const loadSlides = () => {
-        let slides$ = localStorage.getItem('slides');
+        const slides$ = localStorage.getItem('slides');
 
-        if (slides$) {
-            return slides(JSON.parse(slides$));
-        }
+        if (slides$) return slides(JSON.parse(slides$));
 
         getRandomSlides().then((s) => {
             if (s?.length) {
