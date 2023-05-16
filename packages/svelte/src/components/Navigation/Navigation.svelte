@@ -32,6 +32,7 @@
 	$: indices = generateIndexes({ current, start, end, limit, siblings });
 </script>
 
+<!-- svelte-ignore a11y-role-supports-aria-props -->
 <nav
 	aria-label="pagination"
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"

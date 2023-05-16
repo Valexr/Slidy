@@ -67,6 +67,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-role-supports-aria-props -->
 <section
 	aria-roledescription="{i18n.carousel}"
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"

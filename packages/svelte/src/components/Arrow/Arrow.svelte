@@ -24,6 +24,7 @@
 		: i18n.prev;
 </script>
 
+<!-- svelte-ignore a11y-role-supports-aria-props -->
 <button
 	aria-label={title}
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"
