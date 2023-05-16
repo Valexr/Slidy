@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { execute } from '@slidy/assets/scripts/utils'
 import { useEventListener, useAction } from '../../hooks';
 
-import type { Slide } from '../Slidy/Slidy.types';
+// import type { Slide } from '../Slidy/Slidy.types';
 import type { SlidyCoreOptions } from './Core.types';
 import type { FC, PropsWithChildren, LegacyRef } from 'react';
 
