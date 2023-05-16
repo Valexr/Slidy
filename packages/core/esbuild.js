@@ -8,7 +8,6 @@ const CORE = process.argv.includes('--core');
 const esbuildBase = {
     bundle: true,
     format: 'esm',
-    legalComments: 'none',
     minify: !DEV && !CORE,
     plugins: [eslint()],
     entryPoints: CORE
@@ -17,6 +16,7 @@ const esbuildBase = {
     outdir: CORE ? 'public/build' : '',
     outfile: !CORE ? 'dist/index.mjs' : '',
     sourcemap: DEV || CORE ? 'inline' : false,
+    legalComments: 'none',
     logLevel: 'info'
 };
 

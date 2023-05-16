@@ -8,11 +8,11 @@ const esbuildBase = {
     bundle: true,
     minify: !DEV,
     format: 'esm',
-    legalComments: 'none',
     plugins: [eslint()],
     entryPoints: DEV ? ['@slidy/element', '@slidy/easing', '@slidy/animation'] : ['src/index.ts'],
     outdir: DEV ? 'public/build' : '',
     sourcemap: DEV ? 'inline' : false,
+    legalComments: 'none',
     logLevel: 'info'
 };
 

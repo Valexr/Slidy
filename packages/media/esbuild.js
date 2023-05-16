@@ -13,6 +13,7 @@ const esbuildBase = {
     outfile: './dist/index.mjs',
     sourcemap: DEV && 'inline',
     legalComments: 'none',
+    logLevel: 'info'
 };
 
 const builds = {

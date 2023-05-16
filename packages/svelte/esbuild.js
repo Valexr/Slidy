@@ -32,7 +32,6 @@ const cssModulesOptions = {
 const esbuildBase = {
 	bundle: true,
 	globalName: "slidy",
-	legalComments: "none",
 	minify: !DEV && !SVELTE,
 	entryPoints: ["src/index.ts"],
 	sourcemap: (DEV || SVELTE) && "inline",
@@ -41,6 +40,7 @@ const esbuildBase = {
 		sveltePlugin(svelteOptions),
 		cssmodules(cssModulesOptions),
 	],
+	legalComments: "none",
 	logLevel: 'info'
 };
 

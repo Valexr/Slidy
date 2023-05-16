@@ -7,10 +7,10 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    legalComments: 'none',
     plugins: [vue(), eslint()],
     entryPoints: ['src/index.ts'],
     sourcemap: DEV ? 'inline' : false,
+    legalComments: 'none',
     logLevel: 'info'
 };
 

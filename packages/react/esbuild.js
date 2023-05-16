@@ -8,13 +8,13 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    legalComments: 'none',
     plugins: [eslint()],
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['react', 'react-dom'],
     // inject: ['./react-shim.ts'],
     jsx: 'automatic',
+    legalComments: 'none',
     logLevel: 'info'
 };
 

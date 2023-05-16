@@ -8,11 +8,11 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    legalComments: 'none',
     plugins: [solidPlugin()],
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
     external: DEV ? [] : ['solid-js'],
+    legalComments: 'none',
     logLevel: 'info'
 };
 
