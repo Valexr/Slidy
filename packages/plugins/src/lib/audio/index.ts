@@ -33,7 +33,9 @@ const audio: AudioPluginFunc = (params = melodies) => {
                     play(audioContext, note.freq, note.dur);
                     
                     if (index === 0) playing = true;
-                    if (index === melody.length - 1) playing = false;
+                    if (index === melody.length - 1) setTimeout(() => {
+                        playing = false;
+                    }, note.dur);
                 }, delay);
             });
         }
