@@ -58,12 +58,12 @@ export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2
     }
 
     return ({ node, options, instance }) => {
-        const slides = node.childElementCount;
+        const slides = () => node.childElementCount;
 
         const cb = () => {
             const next = (options.index as number) + 1;
 
-            if (options.loop || next < slides) {
+            if (options.loop || next < slides()) {
                 state = State.Play;
                 onStateChange();
                 instance.to(next);
@@ -119,10 +119,10 @@ export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2
 
         onStateChange();
 
-        const onIndexChange = () => {
-            const next = (options.index as number) + 1;
+        const onIndexChange = (event: CustomEvent<{ index: number }>) => {
+            const next = event.detail.index + 1;
 
-            if (options.loop || next < slides) {
+            if (options.loop || next < slides()) {
                 button.removeAttribute('disabled');
             } else {
                 button.setAttribute('disabled', 'disabled');
