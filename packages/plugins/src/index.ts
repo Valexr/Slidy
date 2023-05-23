@@ -4,4 +4,5 @@ export { marquee } from './lib/marquee';
 export { fool } from './lib/fool';
 export { autoplay } from './lib/autoplay';
 export { audio } from './lib/audio';
+export { share } from './lib/share';
 export type { PluginArgs, PluginFunc } from './types';
