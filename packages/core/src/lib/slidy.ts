@@ -119,9 +119,8 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         const distance = target - POSITION;
 
         /**
-         * Cancel previous animation frame and keep the current to prevent infinite contest between 2+ `scroll` index targets
+         * Keep the current to prevent infinite contest between 2+ `scroll` index targets because if not keeped then not cleared
          */
-        cancelAnimationFrame(raf);
         raf = RAF(frame);
 
         let start = 0,
@@ -148,9 +147,11 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         }
     }
 
-    function to(index = indexing(node, options, 0), position = $().distance(index) - POSITION): void {
+    function to(index = 0, position = 0): void {
+        index = indexing(node, options, index);
+
         clear();
-        scroll(index, position);
+        scroll(index, position || $().distance(index) - POSITION);
     }
 
     function onDown(e: UniqEvent): void {
