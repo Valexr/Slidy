@@ -104,8 +104,8 @@
                 snap: 'center',
                 axis: 'x',
                 // plugins: [play()],
-                animation: animations.flip,
-                easing: easings.sine,
+                // animation: animations.flip,
+                // easing: easings.sine,
             };
             window.limit = 9;
             window.theme = 'jpg';
@@ -174,7 +174,7 @@
                 slidy = slidyCore(node, options);
                 slidyT = slidyCore(thumbs);
                 setTimeout(setEvents);
-                window.onRange = (index) => slidy.to(+index);
+                window.onRange = throttle(slidy.to, 50, false);
             });
 
             fetch('https://unpkg.com/@slidy/core/package.json')
