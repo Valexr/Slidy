@@ -118,9 +118,14 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         const duration = DURATION * clamp(1, index - hix, 2);
         const distance = target - POSITION;
 
-        RAF(frame);
+        /**
+         * Keep the current to prevent infinite contest between 2+ `scroll` index targets because if not keeped then not cleared
+         */
+        raf = RAF(frame);
 
-        let start = 0, dist = 0, delta = 0;
+        let start = 0,
+            dist = 0,
+            delta = 0;
 
         function frame(now: number) {
             start ||= now;
@@ -143,11 +148,10 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
     }
 
     function to(index = 0, position = 0): void {
-        clear();
-
         index = indexing(node, options, index);
-        const pos = $().distance(index) - POSITION;
-        scroll(index, position || pos);
+
+        clear();
+        scroll(index, position || $().distance(index) - POSITION);
     }
 
     function onDown(e: UniqEvent): void {
@@ -244,8 +248,7 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
             if (value !== options[key]) {
                 switch (key) {
                     case 'index':
-                        INDEX = options[key] = indexing(node, options, value);
-                        to(INDEX);
+                        to(INDEX = options[key] = indexing(node, options, value));
                         break;
                     case 'position':
                         to(INDEX, value);
