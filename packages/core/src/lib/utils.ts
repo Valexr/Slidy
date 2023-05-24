@@ -1,30 +1,22 @@
 import type { Options, PluginFunc } from '../types';
 
 const { assign, entries } = Object;
-
 const { abs, exp, floor, min, max, round, sign } = Math;
 
 function clamp(mn: number, val: number, mx: number): number {
     return min(mx, max(mn, val));
 }
 
-function throttle(
-    fn: (args: any) => void,
-    ms: number,
-    th?: boolean | number,
-    wait?: boolean,
-    tm?: NodeJS.Timeout
-): (args: any) => void {
+function throttle(fn: (args: any) => void, ms = 50, th: boolean | number = true): (args: any) => void {
+    let tm = 0;
     return th
         ? (args) => {
-            if (!wait) {
+            const now = performance.now();
+            if (now - tm >= ms) {
                 fn(args);
-                wait = true;
-                clearTimeout(tm);
-                tm = setTimeout(() => (wait = false), ms);
+                tm = now;
             }
-        }
-        : (args) => fn(args);
+        } : (args) => fn(args);
 }
 
 function loop(
