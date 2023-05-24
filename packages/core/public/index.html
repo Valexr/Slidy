@@ -104,8 +104,8 @@
                 snap: 'center',
                 axis: 'x',
                 // plugins: [play()],
-                animation: animations.flip,
-                easing: easings.sine,
+                // animation: animations.flip,
+                // easing: easings.sine,
             };
             window.limit = 9;
             window.theme = 'jpg';
@@ -132,6 +132,23 @@
                     progress.classList.remove('active');
                 }
             };
+            function throttle(fn, ms, th = true) {
+                let tm = 0;
+                return th
+                    ? (...args) => {
+                        const now = performance.now();
+                        if (now - tm >= ms) {
+                            fn(...args);
+                            tm = now;
+                        }
+                    } : (...args) => fn(...args);
+            }
+
+            // (index) => {
+            //     console.log(index);
+            //     slidy.to(index);
+            //     // slidy.update({ index });
+            // };
             // node.addEventListener('play', () => {
             //     progress.classList.add('active');
             //     autoplay.classList.add('active');
@@ -157,6 +174,7 @@
                 slidy = slidyCore(node, options);
                 slidyT = slidyCore(thumbs);
                 setTimeout(setEvents);
+                window.onRange = throttle(slidy.to, 50, false);
             });
 
             fetch('https://unpkg.com/@slidy/core/package.json')
@@ -169,6 +187,7 @@
 
             new EventSource('/esbuild')
                 .addEventListener('change', () => location.reload());
+
         </script>
         <style>
             #progress::after {
@@ -221,6 +240,7 @@
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
+                <input type="range" min="0" max="8" oninput="onRange(this.value)" />
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
                 <!-- <button id="autoplay" onclick="playButton(this)">play</button> -->
