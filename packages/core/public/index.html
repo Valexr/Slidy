@@ -104,8 +104,8 @@
                 snap: 'center',
                 axis: 'x',
                 // plugins: [play()],
-                // animation: animations.flip,
-                // easing: easings.sine,
+                animation: animations.flip,
+                easing: easings.sine,
             };
             window.limit = 9;
             window.theme = 'jpg';
@@ -174,7 +174,7 @@
                 slidy = slidyCore(node, options);
                 slidyT = slidyCore(thumbs);
                 setTimeout(setEvents);
-                window.onRange = throttle(slidy.to, 50, false);
+                // window.onRange = throttle(slidy.to, 50, false);
             });
 
             fetch('https://unpkg.com/@slidy/core/package.json')
@@ -240,7 +240,7 @@
                     <i class="icon icon-refresh"></i>
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
-                <input type="range" min="0" max="8" oninput="onRange(this.value)" />
+                <!-- <input type="range" min="0" max="8" oninput="onRange(this.value)" /> -->
                 <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
                 <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
                 <!-- <button id="autoplay" onclick="playButton(this)">play</button> -->
