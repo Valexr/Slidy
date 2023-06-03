@@ -286,7 +286,7 @@ MIT &copy; [Valexr](https://github.com/Valexr)
 [DEMO]: https://slidy-core.surge.sh
 [NPM]: https://www.npmjs.com/package/@slidy/core
 [CDN]: https://unpkg.com/@slidy/core/
-[REPL]: https://svelte.dev/repl/e7a3683b13b342dc8ecfc1d9b2b806f6
+[REPL]: https://svelte.dev/repl/e9195dce6b564393b433784803eabe51
 [@slidy/animation]: https://github.com/Valexr/Slidy/tree/master/packages/animation
 [@slidy/easing]: https://github.com/Valexr/Slidy/tree/master/packages/easing
 [@slidy/plugins]: https://github.com/Valexr/Slidy/tree/master/packages/plugins
