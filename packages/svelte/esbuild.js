@@ -11,7 +11,7 @@ const SVELTE = process.argv.includes("--svelte");
 const svelteOptions = {
 	compilerOptions: {
 		dev: DEV || SVELTE,
-		css: !SVELTE,
+		css: !SVELTE ? 'injected' : 'external',
 		immutable: true,
 	},
 	preprocess: [
