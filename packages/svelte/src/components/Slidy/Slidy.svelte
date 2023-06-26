@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { setContext } from "svelte/internal";
+	import { setContext } from "svelte";
 	import { Arrow, Core, Image, Navigation, Progress, Thumbnail } from "../index";
 	import { format } from "@slidy/assets/scripts/utils";
 	import { classNames as classNamesDefault } from "./slidy.styles";

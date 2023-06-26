@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext } from "svelte/internal";
+	import { getContext } from "svelte";
 	import { format } from "@slidy/assets/scripts/utils";
 	import { generateIndexes } from "@slidy/assets/scripts/navigation";
 	import { iconChevron } from "@slidy/assets/icons";

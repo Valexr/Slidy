@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { getContext } from "svelte/internal";
+	import { getContext } from "svelte";
 	import "@slidy/assets/styles/arrow.module.css";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 </script>

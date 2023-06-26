@@ -2,7 +2,7 @@
 	import Core from "../Core/Core.svelte";
 	import Image from "../Image/Image.svelte";
 
-	import { createEventDispatcher, getContext } from "svelte/internal";
+	import { createEventDispatcher, getContext } from "svelte";
 	import { format } from "@slidy/assets/scripts/utils";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";

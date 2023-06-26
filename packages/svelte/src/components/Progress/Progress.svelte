@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { getContext } from "svelte/internal";
+	import { getContext } from "svelte";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/progress.module.css";
 </script>
@@ -19,7 +19,7 @@
 	$: size = Math.ceil(100 / max);
 </script>
 
-<div 
+<div
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"
 	class="{classNames.progress}"
 	style:--_slidy-progress-size="{size}%"
@@ -36,5 +36,5 @@
 	/>
 	<span
 		class="{classNames["progress-handle"]}"
-	/>	
+	/>
 </div>

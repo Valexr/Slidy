@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { getContext } from "svelte/internal";
+	import { getContext } from "svelte";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/image.module.css";
 </script>
