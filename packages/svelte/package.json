@@ -61,9 +61,9 @@
 		"@tsconfig/svelte": "^4.0.1",
 		"css-tree": "^2.3.1",
 		"esbuild-svelte": "^0.7.4",
-		"eslint-plugin-svelte": "^2.32.2",
+		"eslint-plugin-svelte": "^2.32.4",
 		"prettier-plugin-svelte": "^2.10.1",
-		"svelte": "^4.0.5",
+		"svelte": "^4.1.1",
 		"svelte-check": "^3.4.6",
 		"svelte-preprocess": "^5.0.4",
 		"svelte2tsx": "^0.6.19"
