@@ -104,11 +104,11 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "@types/eslint": "^8.44.0",
-        "@types/node": "^20.4.4",
+        "@types/eslint": "^8.44.1",
+        "@types/node": "^20.4.5",
         "@typescript-eslint/eslint-plugin": "^5.62.0",
         "@typescript-eslint/parser": "^5.62.0",
-        "esbuild": "^0.18.15",
+        "esbuild": "^0.18.17",
         "eslint": "^8.45.0",
         "open-props": "^1.5.10",
         "prettier": "^2.8.8",
