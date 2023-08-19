@@ -1,7 +1,7 @@
 import type { TimerInstace } from '../types';
 
 function timer(callback: () => void, interval: number, delay = 0): TimerInstace {
-    let tid: NodeJS.Timer,
+    let tid: NodeJS.Timeout,
         state = 0, //  0 = idle, 1 = running, 2 = paused, 3 = resumed
         start = 0,
         remaining = interval
