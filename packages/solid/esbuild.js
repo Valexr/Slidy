@@ -39,7 +39,11 @@ if (DEV) {
         ...esbuildBase,
         entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
-        loader: { '.svg': 'dataurl' },
+        loader: {
+            '.svg': 'dataurl',
+            '.css': 'global-css',
+            '.module.css': 'global-css'
+        },
     });
 
     await ctx.watch();
