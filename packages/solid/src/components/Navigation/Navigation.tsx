@@ -74,8 +74,9 @@ const Navigation: VoidComponent<Props> = ($props) => {
                         <button
                             aria-current={active() ? 'true' : undefined}
                             aria-label={title}
-                            class={classNames['nav-item']}
                             classList={{
+                                [classNames['nav-item']]: true,
+                                
                                 active: active(),
                                 ellipsis: ellipsis(),
                                 ordinal: ordinal(),

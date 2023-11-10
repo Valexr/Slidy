@@ -89,9 +89,12 @@ const Slidy: Component<Partial<Props>> = ($props) => {
         <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
                 aria-roledescription={props.i18n.carousel}
-                class={props.classNames?.root}
                 aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-                classList={{ groups: props.groups > 1 }}
+                classList={{
+                    [props.classNames && props.classNames.root]: true,
+                    
+                    groups: props.groups > 1
+                }}
                 style={{
                     '--slidy-group-items': props.groups,
                 }}
@@ -144,8 +147,9 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                                     aria-current={active() ? 'true' : undefined}
                                     aria-label={format(props.i18n.counter, i() + 1, length())}
                                     aria-roledescription={props.i18n.slide}
-                                    class={props.classNames?.slide}
                                     classList={{
+                                        [props.classNames && props.classNames.slide]: true,
+
                                         active: active(),
                                         bg: props.background,
                                     }}

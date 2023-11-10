@@ -32,8 +32,9 @@ const Arrow: FlowComponent<Props> = ($props) => {
         <button
             aria-label={title()}
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-            class={classNames.arrow}
             classList={{
+                [classNames.arrow]: true,
+                
                 prev: props.direction < 1,
             }}
             data-step={props.direction * props.step}

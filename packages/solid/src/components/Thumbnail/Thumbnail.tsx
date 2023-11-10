@@ -45,8 +45,9 @@ const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
                             aria-label={title()}
                             title={title()}
                             aria-roledescription="slide"
-                            class={classNames.thumbnail}
                             classList={{
+                                [classNames.thumbnail]: true,
+                                
                                 active: active(),
                                 bg: props.background,
                             }}
