@@ -1,3 +1,4 @@
-- assets/**
-- packages/**
-- www/**
+packages:
+    - assets/**
+    - packages/**
+    - www/**
