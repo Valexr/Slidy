@@ -15,6 +15,7 @@
     "sideEffects": false,
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "solid": "./dist/slidy.jsx",
             "node": "./dist/slidy.jsx",
             "default": "./dist/slidy.mjs"
