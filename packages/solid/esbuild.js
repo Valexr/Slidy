@@ -56,6 +56,11 @@ if (DEV) {
         await build({
             ...esbuildBase,
             ...builds[key],
+            loader: {
+                '.svg': 'dataurl',
+                '.css': 'global-css',
+                '.module.css': 'global-css'
+            },
         });
     }
 
