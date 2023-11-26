@@ -1,6 +1,6 @@
 {
     "name": "@slidy/solid",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "Simple, configurable & reusable carousel component built with SolidJS",
     "type": "module",
     "files": [
