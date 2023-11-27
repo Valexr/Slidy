@@ -58,7 +58,7 @@
 		"@slidy/animation": "workspace:*",
 		"@slidy/assets": "workspace:*",
 		"@slidy/easing": "workspace:*",
-		"@tsconfig/svelte": "^4.0.1",
+		"@tsconfig/svelte": "^5.0.2",
 		"css-tree": "^2.3.1",
 		"esbuild-svelte": "^0.7.4",
 		"eslint-plugin-svelte": "^2.35.1",
