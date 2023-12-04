@@ -60,7 +60,7 @@
 		"@slidy/easing": "workspace:*",
 		"@tsconfig/svelte": "^5.0.2",
 		"css-tree": "^2.3.1",
-		"esbuild-svelte": "^0.7.4",
+		"esbuild-svelte": "^0.8.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"prettier-plugin-svelte": "^2.10.1",
 		"svelte": "^4.2.7",
