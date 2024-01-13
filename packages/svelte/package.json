@@ -69,7 +69,7 @@
 		"svelte2tsx": "^0.6.27"
 	},
 	"peerDependencies": {
-		"svelte": "^3.42.4"
+		"svelte": "3 - 4"
 	},
 	"dependencies": {
 		"@slidy/core": "workspace:*"
