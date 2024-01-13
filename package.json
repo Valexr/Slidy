@@ -104,14 +104,14 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "@types/eslint": "^8.56.0",
-        "@types/node": "^20.10.5",
-        "@typescript-eslint/eslint-plugin": "^6.16.0",
-        "@typescript-eslint/parser": "^6.16.0",
-        "esbuild": "^0.19.10",
+        "@types/eslint": "^8.56.2",
+        "@types/node": "^20.11.0",
+        "@typescript-eslint/eslint-plugin": "^6.18.1",
+        "@typescript-eslint/parser": "^6.18.1",
+        "esbuild": "^0.19.11",
         "eslint": "^8.56.0",
-        "open-props": "^1.6.16",
-        "prettier": "^3.1.1",
+        "open-props": "^1.6.17",
+        "prettier": "^3.2.1",
         "typescript": "^5.3.3"
     }
 }
