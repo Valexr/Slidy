@@ -8,6 +8,11 @@
 	"svelte": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"style": "dist/slidy.css",
+	"exports": {     
+         ".": {
+             "svelte": "./dist/index.js"
+         }
+  },
 	"type": "module",
 	"files": [
 		"dist/*"
