@@ -2,6 +2,7 @@ export {
     blur,
     deck,
     fade,
+    film,
     flip,
     matrix,
     perspective,

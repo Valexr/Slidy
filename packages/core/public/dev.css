@@ -42,7 +42,7 @@ section#s1 {
     max-height: 300px;
 }
 
-section#s1 > * {
+section#s1>* {
     flex: 1 0 50%;
     /* width: 50%; */
 }
@@ -54,9 +54,9 @@ section#s4 {
     display: flex;
 }
 
-section#s2 > *,
-section#s3 > *,
-section#s4 > * {
+section#s2>*,
+section#s3>*,
+section#s4>* {
     flex: 1 0 30%;
 }
 
@@ -143,7 +143,7 @@ form {
     flex-wrap: wrap;
 }
 
-form > * {
+form>* {
     display: flex;
 }
 
@@ -266,14 +266,19 @@ section {
 #thumbs button {
     flex: 0 0 var(--width, auto);
     width: var(--width, auto);
-    max-width: 85%;
-    max-height: 100%;
+    max-width: calc(100% - var(--gap) * 2);
+    height: 100%;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-3);
     background: var(--surface-1);
     border-radius: var(--radius-3);
+    background: var(--img);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* clip-path: inset(0 round var(--radius-3)); */
 }
 
 #thumbs button {

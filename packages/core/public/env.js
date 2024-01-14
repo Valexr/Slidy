@@ -79,6 +79,7 @@ export function setEvents() {
                             'blur',
                             'deck',
                             'fade',
+                            'film',
                             'flip',
                             'matrix',
                             'perspective',
