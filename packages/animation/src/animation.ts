@@ -1,39 +1,39 @@
 import type { AnimationFunc } from './types';
 
-const { abs, exp, floor, min, max, round, sign, trunc } = Math;
+// const { abs, exp, floor, min, max, round, sign, trunc } = Math;
 
-function clamp(mn: number, val: number, mx: number): number {
-    return min(mx, max(mn, val));
-}
+// function clamp(mn: number, val: number, mx: number): number {
+//     return min(mx, max(mn, val));
+// }
 
-const film: AnimationFunc = ({ node, child, translate, options }) => {
-    const exp = clamp(0, (child.size - abs(child.track)) / child.size, 1)
-    const img = child.firstChild
-    const turn = child.turn < 0
-    // options.snap === 'deck' ? child.turn > 0 : child.turn < 0
-    const track = Number(options.position) - child.dist
-    const part = (node.offsetWidth - abs(track)) / node.offsetWidth
-    const scale = part || clamp(0, child.exp, 1)
+// const film: AnimationFunc = ({ node, child, translate, options }) => {
+//     const exp = clamp(0, (child.size - abs(child.track)) / child.size, 1)
+//     const img = child.firstChild
+//     const turn = child.turn < 0
+//     // options.snap === 'deck' ? child.turn > 0 : child.turn < 0
+//     const track = Number(options.position) - child.dist
+//     const part = (node.offsetWidth - abs(track)) / node.offsetWidth
+//     const scale = part || clamp(0, child.exp, 1)
 
-    const active = child.index === options.index;
-    const scaleX = child.exp || 1;
-    const skewY = 0;
-    const skewX = 0;
-    const scaleY = 1;
-    const translateX = -Number(options.position);
-    const translateY = 0;
+//     const active = child.index === options.index;
+//     const scaleX = child.exp || 1;
+//     const skewY = 0;
+//     const skewX = 0;
+//     const scaleY = 1;
+//     const translateX = -Number(options.position);
+//     const translateY = 0;
 
-    if (img instanceof HTMLImageElement) {
-        // img.style.transform = `scaleX(${1 / scale})`
-        // img.style.transformOrigin = child.turn < 0 ? 'left center' : 'right center'
-    }
-    return {
-        transform: `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, ${translateX}, ${translateY})`,
-        transformOrigin: turn ? 'left csenter' : 'right center',
-        borderRadius: `calc(1rem / ${scaleX || 1}) / 1rem`,
-        backgroundSize: `${100 / scaleX}% 100%`,
-    };
-};
+//     if (img instanceof HTMLImageElement) {
+//         // img.style.transform = `scaleX(${1 / scale})`
+//         // img.style.transformOrigin = child.turn < 0 ? 'left center' : 'right center'
+//     }
+//     return {
+//         transform: `matrix(${scaleX}, ${skewY}, ${skewX}, ${scaleY}, ${translateX}, ${translateY})`,
+//         transformOrigin: turn ? 'left csenter' : 'right center',
+//         borderRadius: `calc(1rem / ${scaleX || 1}) / 1rem`,
+//         backgroundSize: `${100 / scaleX}% 100%`,
+//     };
+// };
 
 const fade: AnimationFunc = ({ child, translate }) => {
     return {
@@ -215,7 +215,7 @@ export {
     blur,
     deck,
     fade,
-    film,
+    // film,
     flip,
     matrix,
     perspective,
