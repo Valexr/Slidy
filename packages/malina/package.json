@@ -43,8 +43,8 @@
         "@slidy/animation": "workspace:*",
         "@slidy/core": "workspace:*",
         "@slidy/easing": "workspace:*",
-        "@slidy/plugins": "workspace:*",
         "@slidy/media": "workspace:*",
-        "malinajs": "^0.7.17"
+        "@slidy/plugins": "workspace:*",
+        "malinajs": "^0.7.18"
     }
 }
