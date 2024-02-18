@@ -1,22 +1,23 @@
 import type { Options as SlidyCoreOptions } from '@slidy/core';
-import type { Slide } from '../Slidy/Slidy.types';
 import type { Setter, ValidComponent } from 'solid-js';
+
+/**
+ * Custom event handler, turns `T` into `(event: CustomEvent<T>) => void` function definition
+ */
+type CEHandler<T> = (event: CustomEvent<T>) => void;
 
 export interface Props extends SlidyCoreOptions {
     tag: ValidComponent;
-    slides: Slide[];
     className?: string;
 
-    onResize?: (
-        event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>
-    ) => void;
-    onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
-    onMount?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;
-    onMove?: (event: CustomEvent<{ index: number; position: number }>) => void;
-    onIndex?: (event: CustomEvent<{ index: number }>) => void;
-    onKeys?: (event: CustomEvent<string>) => void;
-    onUpdate?: (event: CustomEvent<SlidyCoreOptions>) => void;
-    onDestroy?: (event: CustomEvent<HTMLElement>) => void;
+    onResize?:  CEHandler<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>;
+    onMutate?:  CEHandler<{ ML: MutationRecord[]; options: SlidyCoreOptions }>;
+    onMount?:   CEHandler<{ options: SlidyCoreOptions }>
+    onMove?:    CEHandler<{ index: number; position: number }>
+    onIndex?:   CEHandler<{ index: number }>
+    onKeys?:    CEHandler<string>
+    onUpdate?:  CEHandler<SlidyCoreOptions>
+    onDestroy?: CEHandler<HTMLElement>
 
     setIndex?: Setter<number>;
     setPosition?: Setter<number>;

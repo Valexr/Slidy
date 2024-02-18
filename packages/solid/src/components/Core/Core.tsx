@@ -14,7 +14,6 @@ const defaultProps: Props = {
     gravity: 1.2,
     indent: 2,
     index: 0,
-    slides: [],
     loop: false,
     position: 0,
     sensity: 5,
