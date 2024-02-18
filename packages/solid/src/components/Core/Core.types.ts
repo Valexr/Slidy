@@ -1,5 +1,5 @@
 import type { Options as SlidyCoreOptions } from '@slidy/core';
-import type { Setter, ValidComponent } from 'solid-js';
+import type { ValidComponent } from 'solid-js';
 
 /**
  * Custom event handler, turns `T` into `(event: CustomEvent<T>) => void` function definition
@@ -18,9 +18,6 @@ export interface Props extends SlidyCoreOptions {
     onKeys?:    CEHandler<string>
     onUpdate?:  CEHandler<SlidyCoreOptions>
     onDestroy?: CEHandler<HTMLElement>
-
-    setIndex?: Setter<number>;
-    setPosition?: Setter<number>;
 }
 
 export { SlidyCoreOptions };
