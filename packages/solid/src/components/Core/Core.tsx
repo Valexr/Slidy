@@ -6,22 +6,6 @@ import { execute } from '@slidy/assets/scripts/utils';
 import type { Props } from './Core.types'
 import type { FlowComponent } from 'solid-js';
 
-declare module 'solid-js' {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace JSX {
-        interface CustomEvents {
-            destroy: CustomEvent;
-            index: CustomEvent;
-            keys: CustomEvent;
-            mount: CustomEvent;
-            move: CustomEvent;
-            resize: CustomEvent;
-            update: CustomEvent;
-            mutate: CustomEvent;
-        }
-    }
-}
-
 const defaultProps: Props = {
     axis: 'x',
     clamp: 0,
@@ -60,10 +44,12 @@ const Core: FlowComponent<Partial<Props>> = ($props) => {
     return (
         <Dynamic
             component={props.tag}
+            
             class={props.className}
             aria-live="polite"
             tabindex="0"
             ref={useSlidy}
+            
             on:destroy={execute(props.onDestroy)}
             on:index={execute(props.onIndex)}
             on:keys={execute(props.onKeys)}

@@ -20,17 +20,6 @@ import '@slidy/assets/styles/slidy.module.css';
 import type { Props } from './Slidy.types';
 import type { Component } from 'solid-js';
 
-declare module 'solid-js' {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace JSX {
-        interface CustomEvents {
-            play: CustomEvent;
-            stop: CustomEvent;
-            pause: CustomEvent;
-        }
-    }
-}
-
 const defaultProps: Props = {
     arrows: true,
     axis: 'x',
