@@ -107,7 +107,7 @@
         "@types/eslint": "^8.56.2",
         "@types/node": "^20.11.10",
         "@typescript-eslint/eslint-plugin": "^7.0.0",
-        "@typescript-eslint/parser": "^6.20.0",
+        "@typescript-eslint/parser": "^7.0.1",
         "esbuild": "^0.20.0",
         "eslint": "^8.56.0",
         "open-props": "^1.6.18",
