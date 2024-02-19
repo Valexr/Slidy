@@ -45,6 +45,6 @@
         "@slidy/easing": "workspace:*",
         "@slidy/media": "workspace:*",
         "@slidy/plugins": "workspace:*",
-        "malinajs": "^0.7.18"
+        "malinajs": "^0.7.19"
     }
 }
