@@ -1,6 +1,6 @@
 import { build, context } from "esbuild";
 import sveltePlugin from "esbuild-svelte";
-import sveltePreprocess from "svelte-preprocess";
+import { sveltePreprocess } from "svelte-preprocess";
 import cssmodules from "./cssmodules.js";
 import transpile from "./transpilator.js";
 import prepare from '../../env/prepare.js';
