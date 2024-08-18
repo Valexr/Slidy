@@ -106,7 +106,7 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "@types/eslint": "^8.56.11",
+        "@types/eslint": "^9.6.0",
         "@types/node": "^22.4.0",
         "@typescript-eslint/eslint-plugin": "^8.1.0",
         "@typescript-eslint/parser": "^8.1.0",
