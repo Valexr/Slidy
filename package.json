@@ -93,8 +93,10 @@
         "rules": {
             "semi": 0,
             "no-underscore-dangle": 0,
+            "no-unused-expressions": 0,
             "import/prefer-default-export": 0,
-            "@typescript-eslint/no-explicit-any": "off"
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-unused-expressions": "off"
         }
     },
     "prettier": {
@@ -105,10 +107,10 @@
     },
     "devDependencies": {
         "@types/eslint": "^8.56.11",
-        "@types/node": "^22.3.0",
+        "@types/node": "^22.4.0",
         "@typescript-eslint/eslint-plugin": "^8.1.0",
         "@typescript-eslint/parser": "^8.1.0",
-        "esbuild": "^0.23.0",
+        "esbuild": "^0.23.1",
         "eslint": "^8.57.0",
         "open-props": "^1.7.5",
         "prettier": "^3.3.3",
