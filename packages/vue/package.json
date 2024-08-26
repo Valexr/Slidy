@@ -12,10 +12,10 @@
     ],
     "exports": {
         ".": {
-            "import": "./dist/slidy.mjs",
+            "browser": "./dist/slidy.js",
             "module": "./dist/slidy.mjs",
             "require": "./dist/slidy.cjs",
-            "browser": "./dist/slidy.js"
+            "import": "./dist/slidy.mjs"
         },
         "./package.json": "./package.json"
     },

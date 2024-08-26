@@ -106,10 +106,10 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "@types/eslint": "^8.56.11",
-        "@types/node": "^22.4.0",
-        "@typescript-eslint/eslint-plugin": "^8.1.0",
-        "@typescript-eslint/parser": "^8.1.0",
+        "@types/eslint": "^8.56.12",
+        "@types/node": "^22.5.0",
+        "@typescript-eslint/eslint-plugin": "^8.2.0",
+        "@typescript-eslint/parser": "^8.2.0",
         "esbuild": "^0.23.1",
         "eslint": "^8.57.0",
         "open-props": "^1.7.5",

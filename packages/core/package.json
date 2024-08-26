@@ -13,12 +13,10 @@
     ],
     "exports": {
         ".": {
+            "browser": "./dist/index.js",
             "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.mjs",
             "require": "./dist/index.cjs",
-            "import": "./dist/index.mjs",
-            "default": "./dist/index.mjs",
-            "browser": "./dist/index.js"
+            "import": "./dist/index.mjs"
         },
         "./*": "./dist/*",
         "./package.json": "./package.json"
