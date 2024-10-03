@@ -1,4 +1,4 @@
-type VoidFunction = (() => void)
+type VoidFunction = () => void;
 type AwaitQueueItem = { await: number };
 
 type Queue = (VoidFunction | AwaitQueueItem)[];
@@ -18,7 +18,7 @@ class TaskQueue {
     constructor(queue: Queue) {
         this.queue = queue;
         this.index = 0;
-        this.off = 0
+        this.off = 0;
     }
 
     public start() {
@@ -58,9 +58,9 @@ class TaskQueue {
                 this.time = now();
                 this.off = 0;
                 this.runNextTask();
-            }, task.await - this.off)
+            }, task.await - this.off);
         }
     }
 }
 
-export { TaskQueue }
+export { TaskQueue };

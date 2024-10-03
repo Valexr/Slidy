@@ -5,9 +5,9 @@ type EventsMap<T extends string, K extends AnyFunction> = {
 };
 
 type Listenable = {
-    addEventListener(key: string, listener: AnyFunction): void
-    removeEventListener(key: string, listener: AnyFunction): void
-}
+    addEventListener(key: string, listener: AnyFunction): void;
+    removeEventListener(key: string, listener: AnyFunction): void;
+};
 
 /**
  * Listen to events, and return function to unlisten
@@ -36,6 +36,6 @@ const eventListener = <Listeners extends EventsMap<string, AnyFunction>>(el: Lis
  */
 const eql = <T>(c: T, ...items: T[]) => {
     return items.includes(c);
-}
+};
 
 export { eventListener, eql };

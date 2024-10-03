@@ -4,7 +4,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     let tid: NodeJS.Timeout,
         state = 0, //  0 = idle, 1 = running, 2 = paused, 3 = resumed
         start = 0,
-        remaining = interval
+        remaining = interval;
 
     function pause() {
         if (state !== 1) return;
@@ -28,7 +28,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
         state = 1;
         start = performance.now();
         tid = setInterval(() => {
-            callback()
+            callback();
             start = performance.now();
         }, interval);
     }
@@ -36,7 +36,7 @@ function timer(callback: () => void, interval: number, delay = 0): TimerInstace 
     function timeoutCallback() {
         if (state !== 3) return;
         callback();
-        play()
+        play();
     }
 
     return { play, pause, resume, stop };

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { button as createButton, iconPath } from './button';
 import { eventListener, eql } from './utils';
 import { timer as IntervalTimer } from './timer';
@@ -7,7 +6,7 @@ import type { AutoplayPluginFunc, PlayI18NDict } from './types';
 const i18nDefaults: PlayI18NDict = {
     play: 'Start autoplay',
     stop: 'Stop autoplay',
-}
+};
 
 const enum State {
     Play,
@@ -48,14 +47,20 @@ const D_STATE_MAP = {
     [State.Pause]: 'stop',
 } as const;
 
-export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2500, delay = 0, autoplay = false, target } = {}) => {
+export const autoplay: AutoplayPluginFunc = ({
+    i18n = i18nDefaults,
+    duration = 2500,
+    delay = 0,
+    autoplay = false,
+    target,
+} = {}) => {
     let state = State.Stop;
 
     const I18N_STATE_MAP = {
         [State.Play]: i18n.stop,
         [State.Stop]: i18n.play,
         [State.Pause]: i18n.stop,
-    }
+    };
 
     return ({ node, options, instance }) => {
         const slides = () => node.childElementCount;
@@ -95,7 +100,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2
             },
             delay: delay,
             interval: duration,
-            animation: autoplayButton.animation
+            animation: autoplayButton.animation,
         });
 
         if (!target) {
@@ -103,7 +108,7 @@ export const autoplay: AutoplayPluginFunc = ({ i18n = i18nDefaults, duration = 2
         } else if (typeof target === 'string') {
             document.querySelector(target)!.appendChild(autoplayButton);
         } else {
-            target.appendChild(autoplayButton)
+            target.appendChild(autoplayButton);
         }
 
         autoplayButton.setDuration(duration);

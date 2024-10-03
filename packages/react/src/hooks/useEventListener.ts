@@ -25,7 +25,7 @@ const useEventListener = <T extends Listenable>(eventName: string, handler: AnyF
     }, [handler]);
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+         
         const target = element.current!;
 
         const eventListener: typeof handler = (event) => savedHandler.current(event);

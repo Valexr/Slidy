@@ -14,6 +14,8 @@
         "dev": "node esbuild --dev",
         "build": "node esbuild && tsc --project tsconfig.build.json && node ../../env/dts",
         "build:local": "pnpm build -r --filter=@slidy/react...",
+        "lint": "eslint './src/**/*.{js,ts}'",
+        "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
     },
@@ -54,7 +56,7 @@
         "@slidy/easing": "workspace:*"
     },
     "dependencies": {
-        "@types/react": "^18.3.8",
+        "@types/react": "^18.3.11",
         "@types/react-dom": "^18.3.0",
         "clsx": "^2.1.1",
         "react": "^18.3.1",

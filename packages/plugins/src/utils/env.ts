@@ -7,8 +7,7 @@ function listen(node: HTMLElement, events: EventMap[], on = true): void {
 }
 
 function dispatch(node: HTMLElement, event: string, detail?: EventInit) {
-    const EVENT = detail ? new CustomEvent(event, detail)
-        : new Event(event, { bubbles: true })
+    const EVENT = detail ? new CustomEvent(event, detail) : new Event(event, { bubbles: true });
     return node.dispatchEvent(EVENT);
 }
 

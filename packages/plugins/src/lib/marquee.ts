@@ -10,7 +10,7 @@ export function marquee(params = { duration: 700, delay: 1 }) {
                 instance.to(options.index as number, duration / 16.667);
             },
             Math.abs(duration / 16.667),
-            delay
+            delay,
         );
 
         node.addEventListener('mount', mount);

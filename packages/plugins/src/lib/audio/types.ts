@@ -23,4 +23,4 @@ type AudioProps = Partial<Record<Events, Note[]>>;
 
 type AudioPluginFunc = (props?: AudioProps) => (args: PluginArgs) => void;
 
-export type { Events, Note, AudioProps, AudioPluginFunc }
+export type { Events, Note, AudioProps, AudioPluginFunc };

@@ -18,7 +18,10 @@ const share: SharePluginFunc = ({ target, type } = { target: undefined, type: 'u
              */
             if (!current) return;
 
-            const img = current.querySelector<HTMLImageElement>('[src]')?.src || current.style.backgroundImage || undefined;
+            const img =
+                current.querySelector<HTMLImageElement>('[src]')?.src ||
+                current.style.backgroundImage ||
+                undefined;
             const title = current.querySelector('img')?.alt || undefined;
 
             /**
@@ -33,7 +36,8 @@ const share: SharePluginFunc = ({ target, type } = { target: undefined, type: 'u
                         title,
                     });
                 }
-            } finally {}
+            } finally {
+            }
         });
 
         function destroy() {
@@ -42,12 +46,12 @@ const share: SharePluginFunc = ({ target, type } = { target: undefined, type: 'u
         }
 
         node.addEventListener('destroy', destroy);
-        
+
         if (!target) {
             node.insertAdjacentElement('afterend', button);
         } else if (typeof target === 'string') {
             // it's done like that because if error happens it would not be silent
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             document.querySelector(target)!.appendChild(button);
         } else {
             target.appendChild(button);
@@ -55,4 +59,4 @@ const share: SharePluginFunc = ({ target, type } = { target: undefined, type: 'u
     };
 };
 
-export { share }
+export { share };

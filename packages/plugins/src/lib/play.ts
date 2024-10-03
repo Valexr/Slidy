@@ -2,13 +2,9 @@ import { dispatch } from '../utils/env';
 import { timer as IntervalTimer } from '../utils/timer';
 import type { PluginArgs } from '../types';
 
-type Params = Partial<{ duration: number; delay: number }>
+type Params = Partial<{ duration: number; delay: number }>;
 
-export function play(
-    params?: Params,
-    cb?: () => void,
-    state = 0
-) {
+export function play(params?: Params, cb?: () => void, state = 0) {
     if (!params || !Object.keys(params).length) {
         params = { duration: 1500, delay: 0 };
     }
@@ -20,9 +16,9 @@ export function play(
             if (!options.loop && options.index && options.edged) {
                 dispatch(node, 'stop');
                 timer.stop();
-                state = 0
+                state = 0;
             } else {
-                state = 1
+                state = 1;
                 instance.to((options.index as number) + 1);
             }
         };
@@ -37,29 +33,26 @@ export function play(
         function mount() {
             document.onvisibilitychange = () => {
                 if (document.visibilityState === 'hidden') {
-                    if (state !== 1) return
+                    if (state !== 1) return;
                     dispatch(node, 'pause');
                     timer.pause();
-                    state = 2
-
+                    state = 2;
                 } else {
-                    if (state !== 2) return
+                    if (state !== 2) return;
                     dispatch(node, 'resume');
                     timer.resume();
                 }
             };
             node.onpointerenter = () => {
-                if (state !== 1) return
+                if (state !== 1) return;
                 dispatch(node, 'pause');
                 timer.pause();
-                state = 2
-
+                state = 2;
             };
             node.onpointerleave = () => {
-                if (state !== 2) return
+                if (state !== 2) return;
                 dispatch(node, 'resume');
                 timer.resume();
-
             };
         }
     };

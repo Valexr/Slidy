@@ -18,8 +18,8 @@ const melodies = {
     ],
     keys: [
         { freq: frequencies.Beep, dur: 1 },
-        { freq: frequencies.Bell, dur: 0.5 }
-    ]
+        { freq: frequencies.Bell, dur: 0.5 },
+    ],
 } satisfies AudioProps;
 
-export { frequencies, melodies }
+export { frequencies, melodies };

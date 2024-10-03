@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unused-vars, prefer-const */
-
 import { iconPause, iconPlay, iconStop } from '@slidy/assets/icons';
 
 const r = 15;
@@ -30,7 +28,9 @@ class AutoplayButton extends HTMLElement {
     }
 
     get path0() {
-        const el = this.shadowRoot!.firstElementChild!.nextElementSibling!.firstElementChild!.nextElementSibling;
+        const el =
+            this.shadowRoot!.firstElementChild!.nextElementSibling!.firstElementChild!
+                .nextElementSibling;
 
         return el as SVGPathElement;
     }
@@ -55,12 +55,12 @@ class AutoplayButton extends HTMLElement {
                 classList.add('pause');
             },
             cancel() {
-                classList.add('stop')
+                classList.add('stop');
             },
             play() {
                 classList.remove('stop', 'pause');
-            }
-        }
+            },
+        };
     }
 }
 
@@ -68,7 +68,7 @@ let defined = false;
 
 function button(onclick: () => void) {
     if (!defined) {
-        customElements.define('autoplay-button', AutoplayButton), defined = true;
+        customElements.define('autoplay-button', AutoplayButton), (defined = true);
     }
 
     const element = document.createElement('autoplay-button') as AutoplayButton;
@@ -80,4 +80,4 @@ function button(onclick: () => void) {
 }
 
 export { button, iconPath };
-export type { AutoplayButton }
+export type { AutoplayButton };

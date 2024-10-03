@@ -5,6 +5,7 @@
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "skipLibCheck": true,
+        "verbatimModuleSyntax": true,
         // "preserveValueImports": true
     },
     "include": [
