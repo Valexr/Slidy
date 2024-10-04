@@ -13,7 +13,17 @@ const config = {
         adapter: adapter(),
         paths: {
             base: dev ? '' : '/Slidy'
-        }
+        },
+        alias: {
+            '@components': './src/lib/components',
+            '@lib': './src/lib',
+            '@paths': './src/core/paths.ts',
+            '@styles': './src/lib/styles',
+            '@stores': './src/lib/stores',
+            '@utils': './src/lib/utils',
+            '@types': './src/types',
+        },
+        prerender: { handleMissingId: 'warn' }
     }
 };
 

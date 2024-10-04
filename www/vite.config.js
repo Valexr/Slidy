@@ -14,9 +14,9 @@ const aliases = [
 /** @type {import("vite").UserConfig} */
 const config = {
     plugins: [sveltekit()],
-    resolve: {
-        alias: Object.fromEntries(aliases.map((alias) => [alias.name, path.resolve(alias.path)]))
-    },
+    // resolve: {
+    //     alias: Object.fromEntries(aliases.map((alias) => [alias.name, path.resolve(alias.path)]))
+    // },
     server: {
         port: 3339
     }
