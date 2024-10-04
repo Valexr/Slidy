@@ -1,6 +1,6 @@
 {
 	"name": "@slidy/svelte",
-	"version": "3.4.4",
+	"version": "3.4.5",
 	"description": "Simple, configurable & reusable carousel component built with SvelteJS",
 	"main": "dist/slidy.cjs",
 	"module": "dist/slidy.mjs",

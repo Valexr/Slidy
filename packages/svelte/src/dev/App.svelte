@@ -97,7 +97,7 @@
 			{indent}
 			navigation
 			{snap}
-			loop={false}
+			{loop}
 			thumbnail
 			progress
 			plugins={[ autoplay({ duration: 2000 }) ]}
