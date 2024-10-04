@@ -1,6 +1,6 @@
 {
     "name": "@slidy/media",
-    "version": "1.2.8",
+    "version": "1.2.9",
     "description": "Simple, observable & cookie-persisted media-query store",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
@@ -11,7 +11,11 @@
     ],
     "exports": {
         ".": {
-            "browser": "./dist/index.js",
+            "browser": {
+                "import": "./dist/index.mjs",
+                "require": "./dist/index.cjs",
+                "default": "./dist/index.js"
+            },
             "types": "./dist/index.d.ts",
             "require": "./dist/index.cjs",
             "import": "./dist/index.mjs"
