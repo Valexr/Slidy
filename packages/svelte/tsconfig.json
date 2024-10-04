@@ -6,7 +6,8 @@
 		"types": [
 			"svelte",
 			"node"
-		]
+		],
+		"verbatimModuleSyntax": true
 	},
 	"include": [
 		"src/*"

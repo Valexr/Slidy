@@ -2,7 +2,8 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"outFile": "dist/index.d.ts",
-		"isolatedModules": false
+		"isolatedModules": false,
+		"verbatimModuleSyntax": false
 	},
 	"exclude": [
 		"dist",
