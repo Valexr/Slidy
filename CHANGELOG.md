@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.7.8 - @slidy/www
+
 ## 3.7.0 - @slidy/plugins
 
 ### @slidy/plugins
