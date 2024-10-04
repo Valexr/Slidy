@@ -76,10 +76,11 @@ export function dom(node: HTMLElement, options: Partial<Options>): Dom {
             const direction = length % dir ? sign(-dir) : dir;
             const edge = direction > 0 ? 0 : last;
 
-            if (edge) node.prepend(nodes[edge]);
-            else node.append(nodes[edge]);
+            if (scrollable)
+                if (edge) node.prepend(nodes[edge]);
+                else node.append(nodes[edge]);
 
-            return (nodes[edge][size] + gap) * (direction * reverse);
+            return (nodes[edge][size] + gap) * (direction * reverse)
         },
         sense(e: UniqEvent, pos: number, sensity: number): boolean {
             return (
