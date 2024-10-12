@@ -109,14 +109,14 @@
         "@eslint/eslintrc": "^3.1.0",
         "@eslint/js": "^9.12.0",
         "@types/eslint": "^9.6.1",
-        "@types/node": "^22.7.4",
-        "@typescript-eslint/eslint-plugin": "^8.8.0",
-        "@typescript-eslint/parser": "^8.8.0",
+        "@types/node": "^22.7.5",
+        "@typescript-eslint/eslint-plugin": "^8.8.1",
+        "@typescript-eslint/parser": "^8.8.1",
         "esbuild": "^0.24.0",
         "eslint": "^9.12.0",
-        "globals": "^15.10.0",
-        "open-props": "^1.7.6",
+        "globals": "^15.11.0",
+        "open-props": "^1.7.7",
         "prettier": "^3.3.3",
-        "typescript": "^5.6.2"
+        "typescript": "^5.6.3"
     }
 }

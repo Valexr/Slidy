@@ -4,9 +4,7 @@
         "jsx": "react-jsx",
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
-        "skipLibCheck": true,
-        "verbatimModuleSyntax": true,
-        // "preserveValueImports": true
+        "skipLibCheck": true
     },
     "include": [
         "src/*",
