@@ -1,6 +1,6 @@
 {
     "name": "@slidy/core",
-    "version": "3.7.8",
+    "version": "3.7.9",
     "description": "Simple, configurable, nested & reusable sliding action script",
     "unpkg": "dist/index.js",
     "jsdelivr": "dist/index.js",
