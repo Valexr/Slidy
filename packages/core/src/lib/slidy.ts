@@ -8,8 +8,7 @@ import type { Dom, Options, UniqEvent, EventMap, SlidyInstance } from '../types'
  * @see https://github.com/Valexr/slidy/tree/master/packages/core
  */
 export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance {
-
-    const options = { ...opts }
+    const options = { ...opts };
 
     let $: () => Dom,
         hix = 0,
@@ -19,20 +18,26 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         track = 0,
         clamped: number | boolean,
         wst: NodeJS.Timeout | undefined,
-        INDEX = hix = options.index ??= 0,
-        POSITION = options.position ??= 0,
-        DIRECTION = options.direction ??= 0,
+        INDEX = (hix = options.index ??= 0),
+        POSITION = (options.position ??= 0),
+        DIRECTION = (options.direction ??= 0),
         DURATION = (options.duration ??= 450) / 2,
-        SENSITY = options.sensity ??= 2.5,
-        GRAVITY = options.gravity ??= 1.2,
-        CLAMP = options.clamp ??= 0;
+        SENSITY = (options.sensity ??= 2.5),
+        GRAVITY = (options.gravity ??= 1.2),
+        CLAMP = (options.clamp ??= 0);
 
     const WINDOW_EVENTS: EventMap[] = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
         ['touchend', onUp as EventListener],
         ['mouseup', onUp as EventListener],
-        ['scroll', () => { to(INDEX); GRAVITY = 2; }]
+        [
+            'scroll',
+            () => {
+                to(INDEX);
+                GRAVITY = 2;
+            },
+        ],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap[] = [
         ['wheel', winWheel as EventListener, { passive: false, capture: true }],
@@ -83,7 +88,7 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
             POSITION = options.position = $().position(options.loop);
 
             RO.observe(node);
-            MO.observe(node, { childList: true, subtree: true });
+            MO.observe(node, { childList: true });
 
             listen(node, NODE_EVENTS);
             listen(window, WINDOW_NATIVE_EVENTS);
@@ -245,7 +250,7 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
             if (value !== options[key]) {
                 switch (key) {
                     case 'index':
-                        to(INDEX = options[key] = indexing(node, options, value));
+                        to((INDEX = options[key] = indexing(node, options, value)));
                         break;
                     case 'position':
                         to(INDEX, value);

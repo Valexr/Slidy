@@ -241,8 +241,8 @@
                 </button>
                 <button id="next" onclick="slidy.to(options.index + 1, +100)">→</button>
                 <!-- <input type="range" min="0" max="8" oninput="onRange(this.value)" /> -->
-                <!-- <button id="-" onclick="node.removeChild(node.lastChild);">-</button> -->
-                <!-- <button id="+" onclick="node.appendChild(createElement('li'))">+</button> -->
+                <button id="-" onclick="node.removeChild(node.lastChild);">-</button>
+                <button id="+" onclick="node.appendChild(document.createElement('li'))">+</button>
                 <button id="autoplay" onclick="playButton(this)">play</button>
             </nav>
 

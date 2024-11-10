@@ -16,6 +16,11 @@ export async function getSlides(limit = 9) {
         node.innerHTML = error;
     }
 
+    window.test = function (node) {
+        node.textContent = 'loading';
+        setTimeout(() => (node.textContent = 'check'), 500);
+    };
+
     function createSlides(node, photos) {
         const slides = photos.map(({ src, width, height, alt }, i) => {
             const imgSize = `width="${width}" height="${height}"`;
@@ -23,7 +28,7 @@ export async function getSlides(limit = 9) {
             const background = `background-image: url(${src})`;
 
             if (node.id === 'node') {
-                return `<li id="${i}"><img src="${src}" ${imgSize} alt="${alt}"/></li>`;
+                return `<li id="${i}"><button onclick="test(this)">check</button><img src="${src}" ${imgSize} alt="${alt}"/></li>`;
             } else if (node.id === 'thumbs') {
                 return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
             }
