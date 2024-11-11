@@ -1,6 +1,6 @@
 {
   "name": "@slidy/svelte",
-  "version": "3.4.7",
+  "version": "3.4.8",
   "description": "Simple, configurable & reusable carousel component built with SvelteJS",
   "main": "dist/slidy.cjs",
   "module": "dist/slidy.mjs",
@@ -63,9 +63,9 @@
   },
   "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/svelte",
   "devDependencies": {
-    "@slidy/animation": "workspace:*",
-    "@slidy/assets": "workspace:*",
-    "@slidy/easing": "workspace:*",
+    "@slidy/animation": "workspace:^",
+    "@slidy/assets": "workspace:^",
+    "@slidy/easing": "workspace:^",
     "@tsconfig/svelte": "^5.0.4",
     "css-tree": "^2.3.1",
     "esbuild-svelte": "^0.8.2",
@@ -80,6 +80,6 @@
     "svelte": "3 - 4"
   },
   "dependencies": {
-    "@slidy/core": "workspace:*"
+    "@slidy/core": "workspace:^"
   }
 }
