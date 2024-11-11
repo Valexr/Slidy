@@ -80,6 +80,6 @@
     "svelte": "3 - 4"
   },
   "dependencies": {
-    "@slidy/core": "^workspace:*"
+    "@slidy/core": "workspace:*"
   }
 }
