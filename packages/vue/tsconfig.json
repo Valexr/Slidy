@@ -1,11 +1,14 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "outFile": "dist/index.d.ts",
         "isolatedModules": false,
         "jsx": "preserve"
     },
     "include": [
-        "src/*"
+        "src/**/*",
+    ],
+    "exclude": [
+        "dist",
+        "public"
     ]
 }

@@ -21,7 +21,7 @@
     },
     "scripts": {
         "dev": "node esbuild --dev",
-        "build": "node esbuild && tsc && node ../../env/dts",
+        "build": "node esbuild && tsc --project tsconfig.build.json && node ../../env/dts",
         "build:local": "pnpm build -r --filter=@slidy/react...",
         "format": "prettier --write '**/*.{ts,tsx,md,svelte,json,html,css}'",
         "pub": "pnpm build && pnpm publish --no-git-checks --access public"
@@ -55,6 +55,8 @@
         "@vue/eslint-config-prettier": "^10.1.0",
         "@vue/eslint-config-typescript": "^14.1.3",
         "@vue/tsconfig": "^0.6.0",
+        "esbuild-plugin-vue": "^0.2.4",
+        "esbuild-plugin-vue-next": "^0.1.4",
         "esbuild-plugin-vue3": "^0.4.2",
         "eslint-plugin-vue": "^9.31.0",
         "vue": "^3.5.12",

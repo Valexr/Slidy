@@ -8,7 +8,7 @@ const esbuildBase = {
     bundle: true,
     minify: !DEV,
     plugins: [vue(), eslint()],
-    entryPoints: ['src/index.ts'],
+    entryPoints: ['src/Slidy/index.ts'],
     sourcemap: DEV ? 'inline' : false,
     legalComments: 'none',
     logLevel: 'info',
@@ -30,7 +30,7 @@ const builds = {
 if (DEV) {
     const ctx = await context({
         ...esbuildBase,
-        entryPoints: ['public/app.ts'],
+        entryPoints: ['src/dev/app.ts'],
         outfile: 'public/build/bundle.js',
         loader: { '.svg': 'file' },
     });
