@@ -6,13 +6,15 @@
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/navigation.module.css";
 
-	export let current: number;
-	export let start: number;
-	export let end: number;
-	export let ordinal = false;
-	export let vertical = false;
-	export let limit = 7;
-	export let siblings = 1;
+	let {
+		current = 0,
+		start = 0,
+		end = 0,
+		ordinal = false,
+		vertical = false,
+		limit = 7,
+		siblings = 1,
+	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
 	const i18n = getContext<I18NDict>("i18n");
@@ -28,22 +30,22 @@
 	};
 
 	// Too many items -> should be ordinal for accessibility and responsiveness
-	$: ordinal = end - start + 1 > limit && true;
-	$: indices = generateIndexes({ current, start, end, limit, siblings });
+	// ordinal = $derived( end - start + 1 > limit && true);
+	const indices = generateIndexes({ current, start, end, limit, siblings });
 </script>
 
-<!-- svelte-ignore a11y-role-supports-aria-props -->
+<!-- svelte-ignore a11y_role_supports_aria_props_implicit -->
 <nav
 	aria-label="pagination"
 	aria-orientation="{vertical ? "vertical" : "horizontal"}"
-	class="{classNames?.nav}"
+	class={classNames?.nav}
 >
 	<button
-		aria-label="{i18n.first}"
+		aria-label={i18n.first}
 		class="{classNames["nav-item"]} arrow"
 		data-step={-1}
 		disabled={current <= 1}
-		title="{i18n.prev}"
+		title={i18n.prev}
 	>
 		<svg viewBox="{iconChevron.viewBox}">
 			<path d="{iconChevron.path}" />
@@ -54,7 +56,7 @@
 		{@const contents = item < 0 ? "…" : item}
 		{@const ellipsis = item < 0}
 		{@const title = setTitle(item)}
-		<slot name="nav-item" index={item} {active}>
+		<!-- <slot name="nav-item" index={item} {active}> -->
 			<button
 				aria-current={active ? "true" : undefined}
 				aria-label={title}
@@ -68,17 +70,17 @@
 			>
 				{ordinal ? contents : ""}
 			</button>
-		</slot>
+		<!-- </slot> -->
 	{/each}
 	<button
-		aria-label="{i18n.first}"
+		aria-label={i18n.first}
 		class="{classNames["nav-item"]} arrow"
 		data-step={1}
 		disabled={current >= end}
-		title="{i18n.next}"
+		title={i18n.next}
 	>
-		<svg viewBox="{iconChevron.viewBox}">
-			<path d="{iconChevron.path}" />
+		<svg viewBox={iconChevron.viewBox}>
+			<path d={iconChevron.path} />
 		</svg>
 	</button>
 </nav>

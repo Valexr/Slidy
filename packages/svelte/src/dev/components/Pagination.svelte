@@ -1,8 +1,7 @@
 <script lang="ts">
 	import "@slidy/assets/styles/dev/pagination.module.css";
 
-	export let current: number;
-	export let pages: number;
+	let {current = 0, pages = 0} = $props()
 </script>
 
 <nav class="pagination">
@@ -10,7 +9,7 @@
 		<button
 			class="pagination-item"
 			class:active={i === current}
-			on:click={() => (current = i)}			
+			onclick={() => (current = i)}
 		>
 			{i}
 		</button>

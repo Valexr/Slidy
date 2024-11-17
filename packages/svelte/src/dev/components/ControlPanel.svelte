@@ -1,14 +1,16 @@
 <script lang="ts">
 	import "@slidy/assets/styles/dev/control-panel.module.css";
 
-	export let vertical = false;
-	export let clamp = 0;
-	export let duration = 450;
-	export let gravity = 1.45;
-	export let width = "auto";
-	export let snap: "start" | "center" | "end" = "center";
-	export let loop = false;
-	export let gap = 15;
+	let {
+		vertical = $bindable(false),
+		clamp = $bindable(0),
+		duration = $bindable(450),
+		gravity = $bindable(1.45),
+		width = $bindable("auto"),
+		snap= $bindable("center"),
+		loop = $bindable(false),
+		gap = $bindable(15),
+	} = $props()
 </script>
 
 <form class="controls">
@@ -24,7 +26,7 @@
 				<input
 					type="checkbox"
 					checked={vertical}
-					on:change={() => (vertical = !vertical)}
+					onchange={() => (vertical = !vertical)}
 				/>
 				<span>Vertical</span>
 			</label>
@@ -39,7 +41,7 @@
 				<input
 					type="checkbox"
 					checked={loop}
-					on:change={() => (loop = !loop)}
+					onchange={() => (loop = !loop)}
 				/>
 				<span>Loop</span>
 			</label>
