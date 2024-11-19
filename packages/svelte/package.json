@@ -1,6 +1,6 @@
 {
 	"name": "@slidy/svelte",
-	"version": "3.5.0",
+	"version": "3.5.1",
 	"description": "Simple, configurable & reusable carousel component built with SvelteJS",
 	"main": "dist/slidy.cjs",
 	"module": "dist/slidy.mjs",
@@ -77,7 +77,7 @@
 		"svelte2tsx": "^0.6.27"
 	},
 	"peerDependencies": {
-		"svelte": "3 - 4"
+		"svelte": "^5.0.0"
 	},
 	"dependencies": {
 		"@slidy/core": "workspace:^"
