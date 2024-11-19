@@ -12,7 +12,8 @@
 		items = 0,
 		step = 1,
 		vertical = false,
-		children
+		children,
+		onclick
 	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
@@ -35,6 +36,7 @@
 	data-step={direction * step}
 	{disabled}
 	{title}
+	{onclick}
 >
 	{@render children?.()}
 </button>

@@ -1,8 +1,9 @@
 <script lang="ts" module>
+	import {  getContext } from "svelte";
+
 	import Core from "../Core/Core.svelte";
 	import Image from "../Image/Image.svelte";
 
-	import {  getContext } from "svelte";
 	import { format } from "@slidy/assets/scripts/utils";
 	import type { SlidyThumbOptions } from "./thumbnail.types";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";

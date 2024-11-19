@@ -52,7 +52,6 @@
 		slide, overlay, thumbnails, arrrows, arrrow
 	}: Partial<SlidyOptions<K> & Snippets<Slide & NoInfer<K>>> = $props()
 
-
 	setContext("classNames", classNames);
 	setContext("i18n", i18n);
 
@@ -75,8 +74,6 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_role_supports_aria_props_implicit -->
 <section
 	aria-roledescription={i18n.carousel}
@@ -84,7 +81,6 @@
 	class={classNames?.root}
 	class:groups={groups > 1}
 	style:--slidy-group-items={groups}
-	onclick={handleClick}
 >
 	{#if counter}
 		<div class={classNames?.overlay}>
@@ -152,6 +148,7 @@
 					{vertical}
 					items={length}
 					step={clamp > 0 ? clamp : 1}
+					onclick={handleClick}
 				>
 					{#if arrrow}
 						{@render arrrow?.()}
@@ -173,8 +170,8 @@
 		<Progress
 			value={index + 1}
 			max={length}
+			change={(valueAsNumber: number) => index = valueAsNumber - 1}
 			{vertical}
-			change={valueAsNumber => index = valueAsNumber - 1}
 		/>
 	{/if}
 
@@ -199,6 +196,6 @@
 	{/if}
 
 	{#if navigation}
-		<Navigation current={index + 1} start={1} end={length} {vertical} />
+		<Navigation current={index + 1} start={1} end={length} {vertical} onclick={handleClick} />
 	{/if}
 </section>

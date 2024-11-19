@@ -13,8 +13,8 @@
 		value = 0,
 		max = 1,
 		vertical = false,
-		change = (valueAsNumber) => valueAsNumber,
-	}: {value: number; max: number; vertical: boolean; change: (valueAsNumber: number) => number} = $props()
+		change = (valueAsNumber: number) => valueAsNumber,
+	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
 
@@ -30,12 +30,12 @@
 >
 	<input
 		class="slidy-progress-input"
-		type="range"
-		{value}
-		min={1}
-		{max}
 		name="slidy-progress"
+		type="range"
+		min="1"
 		oninput={(e) => change(e.currentTarget.valueAsNumber)}
+		{value}
+		{max}
 	/>
 	<span class={classNames["progress-handle"]}></span>
 </div>

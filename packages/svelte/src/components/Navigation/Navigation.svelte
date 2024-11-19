@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { getContext } from "svelte";
+	import { iconChevron } from "@slidy/assets/icons";
 	import { format } from "@slidy/assets/scripts/utils";
 	import { generateIndexes } from "@slidy/assets/scripts/navigation";
-	import { iconChevron } from "@slidy/assets/icons";
 	import type { I18NDict, SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/navigation.module.css";
 
@@ -14,6 +14,7 @@
 		vertical = false,
 		limit = 7,
 		siblings = 1,
+		onclick
 	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
@@ -46,6 +47,7 @@
 		data-step={-1}
 		disabled={current <= 1}
 		title={i18n.prev}
+		{onclick}
 	>
 		<svg viewBox="{iconChevron.viewBox}">
 			<path d="{iconChevron.path}" />
@@ -67,6 +69,7 @@
 				data-index={ellipsis ? undefined : item - 1}
 				disabled={ellipsis}
 				{title}
+				{onclick}
 			>
 				{ordinal ? contents : ""}
 			</button>
@@ -78,6 +81,7 @@
 		data-step={1}
 		disabled={current >= end}
 		title={i18n.next}
+		{onclick}
 	>
 		<svg viewBox={iconChevron.viewBox}>
 			<path d={iconChevron.path} />

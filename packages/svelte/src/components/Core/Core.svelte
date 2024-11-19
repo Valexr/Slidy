@@ -3,8 +3,6 @@
 	import type { Snippet } from "svelte";
 	import type { Action } from "svelte/action";
 	import type { SlidyCoreOptions, Events } from "./Core.types";
-
-	const action: Action<HTMLElement, SlidyCoreOptions, Events> = slidy
 </script>
 
 <script lang="ts">
@@ -29,6 +27,8 @@
 		onindex = e => index = e.detail.index,
 		onmove = e => position = e.detail.position
 	}: SlidyCoreOptions & { children: Snippet } = $props();
+
+	const action: Action<HTMLElement, SlidyCoreOptions, Events> = slidy
 </script>
 
 <svelte:element
