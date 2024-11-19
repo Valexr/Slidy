@@ -13,6 +13,8 @@ const svelteOptions = {
 		dev: DEV || SVELTE,
 		css: !SVELTE ? 'injected' : 'external',
 		immutable: true,
+		runes: true,
+		modernAst: true
 	},
 	preprocess: [
 		sveltePreprocess({
@@ -71,7 +73,7 @@ if (DEV) {
 
 	const ctx = await context({
 		...esbuildBase,
-		entryPoints: ["src/dev/main.ts"],
+		entryPoints: ["src/dev/app.ts"],
 		outfile: "public/build/bundle.js",
 		platform: "browser",
 	});

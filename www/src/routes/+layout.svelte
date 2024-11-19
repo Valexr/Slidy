@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { Footer, Masthead } from '@components';
 
 	import '../styles/globals.css';
@@ -7,6 +7,10 @@
 	import '../styles/typography.css';
 </script>
 
+<script lang="ts">
+	let { children } = $props();
+</script>
+
 <Masthead />
-<slot />
+{@render children?.()}
 <Footer />

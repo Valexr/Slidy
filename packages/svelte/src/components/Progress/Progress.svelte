@@ -1,40 +1,42 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { getContext } from "svelte";
 	import type { SlidyStyles } from "@slidy/assets/types";
 	import "@slidy/assets/styles/progress.module.css";
 </script>
 
 <script lang="ts">
-	interface $$Events {
-		"input": Event & { currentTarget: EventTarget & HTMLInputElement }
-	}
-
-	export let value = 0;
-	export let max = 1;
-	export let vertical = false;
+	let {
+		value = 0,
+		max = 1,
+		vertical = false,
+		change = (valueAsNumber) => valueAsNumber,
+	}: {
+		value: number;
+		max: number;
+		vertical: boolean;
+		change: (valueAsNumber: number) => number
+	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
 
-	$: progress = Math.ceil(value * 100 / max);
-	$: size = Math.ceil(100 / max);
+	const progress = $derived(() => Math.ceil(value * 100 / max));
+	const size = $derived(() => Math.ceil(100 / max));
 </script>
 
 <div
-	aria-orientation="{vertical ? "vertical" : "horizontal"}"
-	class="{classNames.progress}"
+	aria-orientation={vertical ? "vertical" : "horizontal"}
+	class={classNames.progress}
 	style:--_slidy-progress-size="{size}%"
 	style:--_slidy-progress="{progress}%"
 >
 	<input
 		class="slidy-progress-input"
-		type="range"
-		{value}
-		min="{1}"
-		{max}
 		name="slidy-progress"
-		on:input
+		type="range"
+		min={1}
+		oninput={(e) => change(e.currentTarget.valueAsNumber)}
+		{value}
+		{max}
 	/>
-	<span
-		class="{classNames["progress-handle"]}"
-	/>
+	<span class={classNames["progress-handle"]}></span>
 </div>

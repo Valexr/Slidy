@@ -1,9 +1,8 @@
-<svelte:window on:keydown={handleKeydown} />
-
 <script lang="ts">
+	import type { Snippet } from "svelte";
 	import "@slidy/assets/styles/dev/side-menu.module.css";
 
-	export let open = false;
+	let { open = $bindable(false), children }: {open: boolean, children?: Snippet} = $props();
 
 	const close = () => (open = !open);
 	const handleKeydown = (event: KeyboardEvent) => {
@@ -11,17 +10,19 @@
 	};
 </script>
 
+<svelte:window onkeydown={handleKeydown} />
+
 <aside class="side-menu" class:open>
-	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="backdrop"
 		title="Close sidebar"
 		aria-label="Close sidebar"
-		on:click={close}
-		tabindex="0"
-	/>
+		aria-roledescription="button"
+		onclick={close}
+	></div>
 	<section class="contents">
-		<slot />
+		{@render children?.()}
 	</section>
 </aside>

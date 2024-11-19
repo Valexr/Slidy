@@ -1,6 +1,8 @@
 <script>
-	import "./code.styles.css";
-	import "./code-theme.styles.css";
+	import './code.styles.css';
+	import './code-theme.styles.css';
+
+	let { children } = $props();
 </script>
 
 <!--
@@ -13,6 +15,6 @@
 -->
 <pre>
 	<code>
-		<slot />
+		{@render children?.()}
 	</code>
 </pre>
