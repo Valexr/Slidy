@@ -1,1 +1,0 @@
-export { autoplay } from './autoplay';
