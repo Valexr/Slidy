@@ -8,7 +8,7 @@
 
 	import "@slidy/assets/styles/slidy.module.css";
 
-	import type { SlidyOptions } from "./Slidy.types";
+	import type { Slide, SlidyOptions } from "./Slidy.types";
 </script>
 
 <script lang="ts">
@@ -38,11 +38,17 @@
 		snap = undefined,
 		thumbnail = false,
 		vertical = false,
-		onmove,onmount, onkeys, onresize, onupdate, ondestroy,
-		children, overlay, thumbnails, arrrows, arrrow
-	}: Partial<SlidyOptions & {
-		children: Snippet, overlay: Snippet, thumbnails: Snippet, arrrows: Snippet, arrrow: Snippet
-	}> = $props()
+		onmove, onmount, onkeys, onresize, onupdate, ondestroy,
+		slide, overlay, thumbnails, arrrows, arrrow
+	}: Partial<SlidyOptions & Snippets> = $props()
+
+	interface Snippets {
+		slide: Snippet,
+		overlay: Snippet,
+		thumbnails: Snippet,
+		arrrows: Snippet,
+		arrrow: Snippet
+	}
 
 	setContext("classNames", classNames);
 	setContext("i18n", i18n);
@@ -122,8 +128,8 @@
 				role="group"
 				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
 			>
-				{#if children}
-					{@render children()}
+				{#if slide}
+					{@render slide(item)}
 				{:else}
 					{#if !background}
 						<Image src={getImgSrc(item)} {...item} />

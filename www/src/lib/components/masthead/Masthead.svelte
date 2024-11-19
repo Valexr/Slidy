@@ -7,13 +7,13 @@
 </script>
 
 <header class={`contents ${styles.masthead}`}>
-	<section label="logo">
+	<section aria-label="logo">
 		<Link href="{base}/">
 			<img src="{base}/Slidy.svg" alt="Slidy" width="32" height="32" />
 			Slidy
 		</Link>
 	</section>
-	<section label="navigation">
+	<section aria-label="navigation">
 		<Navigation.Container>
 			<Navigation.Item href="{base}/" pattern={/\/home/}>Home</Navigation.Item>
 			<Navigation.Item href="{base}/playground" pattern={/\/playground/}>

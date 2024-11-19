@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
-import { sveltePreprocess } from 'svelte-preprocess';
+// import { sveltePreprocess } from 'svelte-preprocess';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 import { mdsvexConfig } from './mdsvex.config.js';
 
@@ -7,10 +8,12 @@ const dev = process.env.npm_lifecycle_event === 'dev';
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
-    preprocess: [mdsvex(mdsvexConfig), sveltePreprocess()],
+    preprocess: [mdsvex(mdsvexConfig), vitePreprocess()],
     extensions: ['.svelte', '.svx'],
     kit: {
-        adapter: adapter(),
+        adapter: adapter({
+            fallback: '404.html'
+        }),
         paths: {
             base: dev ? '' : '/Slidy'
         },

@@ -24,7 +24,8 @@
 		sensity = 5,
 		snap = undefined,
 		tag = "ol"	,
-		children, onmount, onkeys, onresize, onupdate, ondestroy,
+		children,
+		onmount, onkeys, onresize, onupdate, ondestroy,
 		onindex = e => index = e.detail.index,
 		onmove = e => position = e.detail.position
 	}: SlidyCoreOptions & { children: Snippet } = $props();
@@ -52,8 +53,8 @@
 	}}
 	{onmount}
 	{onkeys}
-	{onresize}
 	{onupdate}
+	{onresize}
 	{ondestroy}
 	{onindex}
 	{onmove}

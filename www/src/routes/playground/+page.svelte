@@ -20,6 +20,7 @@
 			index={4}
 			{slides}
 			arrows
+			loop
 		/>
 	{/await}
 </main>

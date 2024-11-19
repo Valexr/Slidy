@@ -3,12 +3,11 @@
 	"compilerOptions": {
 		"outFile": "dist/index.d.ts",
 		"isolatedModules": false,
-		"verbatimModuleSyntax": false
+		"verbatimModuleSyntax": false,
 	},
 	"exclude": [
 		"dist",
 		"public",
 		"src/dev/*",
-		"src/global.d.ts"
 	]
 }

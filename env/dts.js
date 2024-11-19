@@ -23,7 +23,9 @@ export default async function main() {
     if (declarations === null) throw new Error(`No found declarations at ${dtsFilePath}`);
 
     const json = await readJSON('package.json');
-    const searchValue = declarations.at(-1);
+    const [_, pkgName] = json.name.split('/');
+    let searchValue = declarations.find(d => d.includes(`${pkgName}/src/index`));
+    if (!searchValue) searchValue = declarations.at(-1)
     const replaceValue = searchValue.replace(/"(.*?)"/, `"${json.name}"`);
     const edited = content.replace(searchValue, replaceValue);
 

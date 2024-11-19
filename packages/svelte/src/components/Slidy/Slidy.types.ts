@@ -13,7 +13,7 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	i18n: I18NDict;
 	navigation: boolean;
 	progress: boolean;
-	slides: Slide[];
+	slides: Record<string, unknown>[];
 	thumbnail: boolean;
 	counter: boolean;
 	indexThumb: number

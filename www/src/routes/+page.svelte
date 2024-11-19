@@ -8,6 +8,8 @@
 		pathPackageCore,
 		pathPackageEasing,
 		pathPackageMedia,
+		pathPackagePlugins,
+		pathPackageReact,
 		pathPackageSvelte,
 		pathPackageSolid
 	} from '$lib/paths';
@@ -18,8 +20,10 @@
 		{ id: 1, name: '@slidy/core', href: pathPackageCore },
 		{ id: 2, name: '@slidy/easing', href: pathPackageEasing },
 		{ id: 3, name: '@slidy/media', href: pathPackageMedia },
-		{ id: 4, name: '@slidy/svelte', href: pathPackageSvelte },
-		{ id: 5, name: '@slidy/solid', href: pathPackageSolid }
+		{ id: 4, name: '@slidy/plugins', href: pathPackagePlugins },
+		{ id: 5, name: '@slidy/react', href: pathPackageReact },
+		{ id: 6, name: '@slidy/svelte', href: pathPackageSvelte },
+		{ id: 7, name: '@slidy/solid', href: pathPackageSolid }
 	];
 </script>
 
@@ -46,13 +50,15 @@
 			gravity={1.45}
 			snap="center"
 			arrows
-			let:item
+			loop
 		>
-			<article class="surface-3">
-				<Link href={item.href}>
-					{item.name}
-				</Link>
-			</article>
+			{#snippet slide(item)}
+				<article class="surface-3">
+					<Link href={item.href}>
+						{item.name}
+					</Link>
+				</article>
+			{/snippet}
 		</Slidy>
 	</section>
 </main>

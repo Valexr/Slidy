@@ -1,4 +1,4 @@
-<script lang="ts" >
+<script lang="ts" module>
 	import Slidy from "../components/Slidy/Slidy.svelte";
 	import { Header, ControlPanel, Sidemenu } from "./components";
 
@@ -8,7 +8,9 @@
 
 	import { getRandomSlides } from "@slidy/assets/scripts";
 	import "@slidy/assets/styles/dev/app.module.css";
+</script>
 
+<script lang="ts">
 	let animation = translate;
 	let axis: "x" | "y" = "x";
 	let easing = linear;
@@ -44,16 +46,16 @@
 			{axis}
 			{background}
 			{easing}
-			bind:index
 			{slides}
 			{clamp}
 			{duration}
 			{gravity}
 			{groups}
 			{indent}
-			navigation
 			{snap}
 			{loop}
+			bind:index
+			navigation
 			thumbnail
 			progress
 			plugins={[ autoplay({ duration: 2000 }) ]}/>
