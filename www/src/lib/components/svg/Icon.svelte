@@ -3,10 +3,7 @@
 <script lang="ts">
 	import styles from './icon.module.css';
 
-	export let className = '';
-	export let path: string | undefined = undefined;
-	export let title: string | undefined = undefined;
-	export let viewBox = '0 0 100 100';
+	let { className = '', path = '', title = '', viewBox = '0 0 100 100', children } = $props();
 </script>
 
 <svg
@@ -22,5 +19,5 @@
 	{#if path}
 		<path d={path} />
 	{/if}
-	<slot />
+	{@render children?.()}
 </svg>

@@ -1,6 +1,10 @@
-<script context="module">
-	import { Link as a, Code as pre } from "@components";
+<script module>
+	import { Link as a, Code as pre } from '@components';
 	export { pre, a };
 </script>
 
-<slot />
+<script lang="ts">
+	let { children } = $props();
+</script>
+
+{@render children?.()}
