@@ -1,6 +1,6 @@
 {
     "name": "@slidy/solid",
-    "version": "1.5.1",
+    "version": "1.5.2",
     "description": "Simple, configurable & reusable carousel component built with SolidJS",
     "type": "module",
     "files": [
@@ -58,10 +58,10 @@
         "solid-js": "^1.9.3"
     },
     "devDependencies": {
-        "@slidy/animation": "workspace:*",
-        "@slidy/assets": "workspace:*",
-        "@slidy/core": "workspace:*",
-        "@slidy/easing": "workspace:*",
+        "@slidy/animation": "workspace:^",
+        "@slidy/assets": "workspace:^",
+        "@slidy/core": "workspace:^",
+        "@slidy/easing": "workspace:^",
         "esbuild-plugin-solid": "^0.5.0"
     },
     "peerDependencies": {
