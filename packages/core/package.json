@@ -1,6 +1,6 @@
 {
     "name": "@slidy/core",
-    "version": "3.7.9",
+    "version": "3.8.0",
     "description": "Simple, configurable, nested & reusable sliding action script",
     "unpkg": "dist/index.js",
     "jsdelivr": "dist/index.js",
@@ -63,9 +63,9 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/core",
     "devDependencies": {
-        "@slidy/animation": "workspace:*",
-        "@slidy/easing": "workspace:*",
-        "@slidy/media": "workspace:*",
-        "@slidy/plugins": "workspace:*"
+        "@slidy/animation": "workspace:^",
+        "@slidy/easing": "workspace:^",
+        "@slidy/media": "workspace:^",
+        "@slidy/plugins": "workspace:^"
     }
 }
