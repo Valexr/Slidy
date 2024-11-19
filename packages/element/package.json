@@ -1,6 +1,6 @@
 {
     "name": "@slidy/element",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "Simple, configurable & reusable carousel CustomElement",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
@@ -43,10 +43,10 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/element",
     "devDependencies": {
-        "@slidy/animation": "workspace:*",
-        "@slidy/core": "workspace:*",
-        "@slidy/easing": "workspace:*",
-        "@slidy/plugins": "workspace:*",
-        "@slidy/media": "workspace:*"
+        "@slidy/animation": "workspace:^",
+        "@slidy/core": "workspace:^",
+        "@slidy/easing": "workspace:^",
+        "@slidy/plugins": "workspace:^",
+        "@slidy/media": "workspace:^"
     }
 }
