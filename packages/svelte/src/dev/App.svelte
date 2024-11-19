@@ -1,5 +1,4 @@
 <script lang="ts" module>
-	// import Slidy from "../components/Slidy/Slidy.svelte";
 	import { Slidy } from '@slidy/svelte'
 	import { Header, ControlPanel, Sidemenu } from "./components";
 
