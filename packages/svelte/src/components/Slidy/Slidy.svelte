@@ -170,7 +170,7 @@
 		<Progress
 			value={index + 1}
 			max={length}
-			change={(valueAsNumber: number) => index = valueAsNumber - 1}
+			change={(valueAsNumber) => index = valueAsNumber - 1}
 			{vertical}
 		/>
 	{/if}

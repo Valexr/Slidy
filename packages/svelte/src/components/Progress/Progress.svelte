@@ -5,15 +5,16 @@
 </script>
 
 <script lang="ts">
-	interface $$Events {
-		"input": Event & { currentTarget: EventTarget & HTMLInputElement }
-	}
-
 	let {
 		value = 0,
 		max = 1,
 		vertical = false,
-		change = (valueAsNumber: number) => valueAsNumber,
+		change = (valueAsNumber) => valueAsNumber,
+	}: {
+		value: number;
+		max: number;
+		vertical: boolean;
+		change: (valueAsNumber: number) => number
 	} = $props()
 
 	const classNames = getContext<SlidyStyles>("classNames");
@@ -32,7 +33,7 @@
 		class="slidy-progress-input"
 		name="slidy-progress"
 		type="range"
-		min="1"
+		min={1}
 		oninput={(e) => change(e.currentTarget.valueAsNumber)}
 		{value}
 		{max}
