@@ -3,7 +3,7 @@ import type { SlidyStyles, I18NDict, Slide, GetSrc } from "@slidy/assets/types";
 
 export type { Slide } from "@slidy/assets/types";
 
-export interface SlidyOptions extends SlidyCoreOptions {
+export interface SlidyOptions<K> extends SlidyCoreOptions {
 	arrows: boolean;
 	background: boolean;
 	classNames: SlidyStyles;
@@ -13,7 +13,7 @@ export interface SlidyOptions extends SlidyCoreOptions {
 	i18n: I18NDict;
 	navigation: boolean;
 	progress: boolean;
-	slides: Record<string, unknown>[];
+	slides: K[];
 	thumbnail: boolean;
 	counter: boolean;
 	indexThumb: number

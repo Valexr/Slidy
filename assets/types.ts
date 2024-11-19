@@ -33,7 +33,7 @@ export interface Slide {
     alt?: string;
     width?: string | number;
     height?: string | number;
-    [key: string]: unknown;
+    // [key: string]: unknown;
 }
 
 export type GetPhotos<T> = (params: SlideParams) => Promise<T[]>;

@@ -1,5 +1,6 @@
 <script lang="ts" module>
-	import Slidy from "../components/Slidy/Slidy.svelte";
+	// import Slidy from "../components/Slidy/Slidy.svelte";
+	import { Slidy } from '@slidy/svelte'
 	import { Header, ControlPanel, Sidemenu } from "./components";
 
 	import { translate } from "@slidy/animation";
@@ -58,7 +59,11 @@
 			navigation
 			thumbnail
 			progress
-			plugins={[ autoplay({ duration: 2000 }) ]}/>
+			plugins={[ autoplay({ duration: 2000 }) ]} >
+			<!-- {#snippet slide(item)}
+				<img src="{item.src}" alt="{item.alt}" />
+			{/snippet} -->
+		</Slidy>
 	{/await}
 </main>
 

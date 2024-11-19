@@ -9,9 +9,19 @@
 	import "@slidy/assets/styles/slidy.module.css";
 
 	import type { Slide, SlidyOptions } from "./Slidy.types";
+
+	interface Snippets<K> {
+		slide: Snippet<[K]>,
+		overlay: Snippet,
+		thumbnails: Snippet,
+		arrrows: Snippet,
+		arrrow: Snippet
+	}
 </script>
 
 <script lang="ts">
+	type K = $$Generic<Record<PropertyKey, unknown>>
+
 	let {
 		animation= undefined,
 		arrows = true,
@@ -40,15 +50,8 @@
 		vertical = false,
 		onmove, onmount, onkeys, onresize, onupdate, ondestroy,
 		slide, overlay, thumbnails, arrrows, arrrow
-	}: Partial<SlidyOptions & Snippets> = $props()
+	}: Partial<SlidyOptions<K> & Snippets<Slide & NoInfer<K>>> = $props()
 
-	interface Snippets {
-		slide: Snippet,
-		overlay: Snippet,
-		thumbnails: Snippet,
-		arrrows: Snippet,
-		arrrow: Snippet
-	}
 
 	setContext("classNames", classNames);
 	setContext("i18n", i18n);
@@ -118,24 +121,22 @@
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			{@const active = i === index}
-			<li
-				aria-current={active ? "true" : undefined}
-				aria-label={format(i18n.counter, i, length)}
-				aria-roledescription={i18n.slide}
-				class={classNames?.slide}
-				class:active
-				class:bg={background}
-				role="group"
-				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
-			>
-				{#if slide}
-					{@render slide(item)}
-				{:else}
-					{#if !background}
-						<Image src={getImgSrc(item)} {...item} />
-					{/if}
-				{/if}
-			</li>
+			{#if slide}
+				{@render slide(item)}
+			{:else}
+				<li
+					aria-current={active ? "true" : undefined}
+					aria-label={format(i18n.counter, i, length)}
+					aria-roledescription={i18n.slide}
+					class={classNames?.slide}
+					class:active
+					class:bg={background}
+					role="group"
+					style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
+				>
+					{#if !background}<Image src={getImgSrc(item)} {...item} />{/if}
+				</li>
+			{/if}
 		{/each}
 	</Core>
 
@@ -147,10 +148,10 @@
 				<Arrow
 					{direction}
 					{index}
-					items={length}
 					{loop}
-					step={clamp > 0 ? clamp : 1}
 					{vertical}
+					items={length}
+					step={clamp > 0 ? clamp : 1}
 				>
 					{#if arrrow}
 						{@render arrrow?.()}
