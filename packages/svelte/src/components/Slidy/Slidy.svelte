@@ -119,22 +119,22 @@
 	>
 		{#each slides as item, i (item.id ?? getImgSrc(item) ?? i)}
 			{@const active = i === index}
-			{#if slide}
-				{@render slide(item)}
-			{:else}
-				<li
-					aria-current={active ? "true" : undefined}
-					aria-label={format(i18n.counter, i, length)}
-					aria-roledescription={i18n.slide}
-					class={classNames?.slide}
-					class:active
-					class:bg={background}
-					role="group"
-					style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
-				>
+			<li
+				aria-current={active ? "true" : undefined}
+				aria-label={format(i18n.counter, i, length)}
+				aria-roledescription={i18n.slide}
+				class={classNames?.slide}
+				class:active
+				class:bg={background}
+				role="group"
+				style:--_slidy-slide-bg={background ? `url(${getImgSrc(item)}` : undefined}
+			>
+				{#if slide}
+					{@render slide(item)}
+				{:else}
 					{#if !background}<Image src={getImgSrc(item)} {...item} />{/if}
-				</li>
-			{/if}
+				{/if}
+			</li>
 		{/each}
 	</Core>
 
