@@ -299,6 +299,7 @@ section {
 #node li img {
     object-fit: cover;
     min-width: 100%;
+    block-size: inherit;
 }
 
 #node li:before {

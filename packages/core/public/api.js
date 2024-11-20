@@ -23,14 +23,18 @@ export async function getSlides(limit = 9) {
 
     function createSlides(node, photos) {
         const slides = photos.map(({ src, width, height, alt }, i) => {
-            const imgSize = `width="${width}" height="${height}"`;
-            const thumbsSize = `width="100" height="100"`;
-            const background = `background-image: url(${src})`;
+            // const imgSize = `width="${width}" height="${height}"`;
+            // const thumbsSize = `width="100" height="100"`;
+            // const background = `background-image: url(${src})`;
 
             if (node.id === 'node') {
-                return `<li id="${i}"><button onclick="test(this)">check</button><img src="${src}" ${imgSize} alt="${alt}"/></li>`;
+                return `
+                <li id="${i}">
+                    <!-- button onclick="test(this)">check</button -->
+                    <img src="${src}" width="${width}" height="${height}" alt="${alt}"/>
+                </li>`;
             } else if (node.id === 'thumbs') {
-                return `<button id="${i}" style="${background}" ${thumbsSize}>${i}</button>`;
+                return `<button id="${i}" style="background-image: url(${src})" width="100" height="100">${i}</button>`;
             }
         });
         return slides.join('');
