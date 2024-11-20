@@ -39,6 +39,7 @@
 		i18n = i18nDefaults,
 		indent = 2,
 		index = $bindable(0),
+		position = $bindable(0),
 		loop = false,
 		groups = 0,
 		plugins = [],
@@ -102,6 +103,7 @@
 		{gravity}
 		{indent}
 		{index}
+		{position}
 		{loop}
 		{plugins}
 		{sensity}

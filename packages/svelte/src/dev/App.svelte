@@ -15,8 +15,9 @@
 	let axis: "x" | "y" = "x";
 	let easing = linear;
 	let groups = 0;
-	let limit = $state(9);;
+	let limit = $state(9);
 	let index = $state(4)
+	let position = $state(0);
 	let vertical = $state(false);
 	let clamp = $state(0);
 	let duration = $state(450);
@@ -55,6 +56,7 @@
 			{snap}
 			{loop}
 			bind:index
+			bind:position
 			navigation
 			thumbnail
 			progress
