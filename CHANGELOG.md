@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.8.0 - @slidy/svelte
+
 ## 3.7.8 - @slidy/www
 
 ## 3.7.0 - @slidy/plugins
