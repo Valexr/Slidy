@@ -19,7 +19,7 @@
         "@slidy/media": "workspace:*",
         "@slidy/svelte": "workspace:*",
         "@sveltejs/adapter-static": "^3.0.6",
-        "@sveltejs/kit": "^2.8.3",
+        "@sveltejs/kit": "^2.8.4",
         "@sveltejs/vite-plugin-svelte": "^4.0.2",
         "eslint-config-prettier": "^8.10.0",
         "eslint-plugin-svelte": "^2.46.0",
