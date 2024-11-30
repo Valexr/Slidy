@@ -1,7 +1,7 @@
 <script lang="ts">
 	import styles from './header.module.css';
 
-	let { className = '', title = '', children } = $props();
+	let { className = '', title = '', children = null } = $props();
 </script>
 
 <header class="{styles.hero} {className}">

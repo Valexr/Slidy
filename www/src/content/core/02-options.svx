@@ -18,7 +18,7 @@
 | `axis`      | undefined | `"x"` or `"y"` | Defines the flow direction. |
 | `loop`      | false     | boolean  | Activated the infinite sliding mode. |
 
-### Readonly properties:
+### Readonly properties
 
 | Key         | Type     | Description |
 | :---------- | :------- | :---------- |
