@@ -1,1 +1,0 @@
-import"./disclose-version.Asr4m_pL.js";import"./legacy.BEn2tCka.js";import{l as a,s as r}from"./props.pwJwjTfn.js";import{P as e}from"./Page.DPag8eWD.js";const p={toc:[]};function m(s,t){const o=a(t,["children","$$slots","$$events","$$legacy"]);e(s,r(()=>o,p))}export{m as default,p as metadata};
