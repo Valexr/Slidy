@@ -115,8 +115,8 @@
         "esbuild": "^0.24.0",
         "eslint": "^9.16.0",
         "globals": "^15.13.0",
-        "open-props": "^1.7.7",
-        "prettier": "^3.4.1",
+        "open-props": "^1.7.8",
+        "prettier": "^3.4.2",
         "typescript": "^5.7.2"
     }
 }
