@@ -1,0 +1,1 @@
+import{e as t,a as m}from"./disclose-version.aDxFXWT7.js";import{a3 as i,Y as s,a4 as e,a5 as n}from"./runtime.CITBsLGg.js";import{s as f}from"./class.C5XTEbx8.js";import"./Link.CPkTImq1.js";import"./legacy.C5qRRbfG.js";import"./entry.Bnv14grM.js";function v(r,a){i(a,!0);var o=t(),p=s(o);f(p,()=>a.children??e),m(r,o),n()}export{v as P};
