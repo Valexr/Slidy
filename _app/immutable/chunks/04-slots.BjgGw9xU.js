@@ -1,0 +1,1 @@
+import"./disclose-version.aDxFXWT7.js";import"./legacy.C5qRRbfG.js";import{l as a,s as r}from"./props.CIf3yywa.js";import{P as e}from"./Page.DopbmHou.js";const p={toc:[]};function m(s,t){const o=a(t,["children","$$slots","$$events","$$legacy"]);e(s,r(()=>o,p))}export{m as default,p as metadata};
