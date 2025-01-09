@@ -55,7 +55,7 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/solid",
     "dependencies": {
-        "solid-js": "^1.9.3"
+        "solid-js": "^1.9.4"
     },
     "devDependencies": {
         "@slidy/animation": "workspace:^",
