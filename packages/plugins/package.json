@@ -1,6 +1,6 @@
 {
     "name": "@slidy/plugins",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Simple plugins functions for @slidy/core",
     "unpkg": "dist/index.js",
     "jsdelivr": "dist/index.js",
