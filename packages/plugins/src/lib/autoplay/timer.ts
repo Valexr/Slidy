@@ -9,7 +9,7 @@ const enum State {
 }
 
 interface TimerAdditionalProps {
-    readonly animation: AutoplayButton['animation'];
+    readonly animation: InstanceType<typeof AutoplayButton>['animation'];
     readonly delay: number;
     readonly interval: number;
 

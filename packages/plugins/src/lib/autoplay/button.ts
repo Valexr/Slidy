@@ -1,4 +1,5 @@
 import { iconPause, iconPlay, iconStop } from '@slidy/assets/icons';
+import { defineCustomElement } from '../../utils/defineCustomElement';
 
 const r = 15;
 const stroke = 2;
@@ -15,7 +16,8 @@ const strokeWidth = `${stroke}px`;
 // prettier-ignore
 const d = `M ${r + stroke / 2}, ${r + stroke / 2} m -${r}, 0 a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${-2 * r},0`;
 
-class AutoplayButton extends HTMLElement {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AutoplayButton = defineCustomElement('autoplay-button', () => class AutoplayButton extends HTMLElement {
     constructor() {
         super();
 
@@ -62,16 +64,10 @@ class AutoplayButton extends HTMLElement {
             },
         };
     }
-}
-
-let defined = false;
+});
 
 function button(onclick: () => void) {
-    if (!defined) {
-        customElements.define('autoplay-button', AutoplayButton), (defined = true);
-    }
-
-    const element = document.createElement('autoplay-button') as AutoplayButton;
+    const element = document.createElement('autoplay-button') as InstanceType<typeof AutoplayButton>;
     const button = element.button;
 
     button.onclick = onclick;
