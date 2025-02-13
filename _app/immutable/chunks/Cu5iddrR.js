@@ -1,1 +1,0 @@
-import"./B109eW-1.js";import"./fImC2UEv.js";import{l as r,s as e}from"./O1Vu6-D3.js";import{P as p}from"./CzZ4yvwm.js";const s={toc:[]},{toc:l}=s;function m(t,o){const a=r(o,["children","$$slots","$$events","$$legacy"]);p(t,e(()=>a,s))}export{m as default,s as metadata};
