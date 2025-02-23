@@ -1,15 +1,9 @@
-import {
-    Show,
-    For,
-    mergeProps,
-    createSignal,
-    untrack,
-} from 'solid-js';
+import { Show, For, merge, createSignal, untrack } from 'solid-js';
 
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
 
-import { execute, isFunction, format, } from '@slidy/assets/scripts/utils';
+import { execute, isFunction, format } from '@slidy/assets/scripts/utils';
 import { iconChevron } from '@slidy/assets/icons';
 
 import { i18nDefaults } from './i18n';
@@ -38,8 +32,8 @@ const defaultProps: Props = {
     i18n: i18nDefaults,
 };
 
-const Slidy: Component<Partial<Props>> = ($props) => {
-    const props = mergeProps(defaultProps as unknown as Required<Props>, $props);
+const Slidy: Component<Partial<Props>> = (rawProps) => {
+    const props = merge(defaultProps as unknown as Required<Props>, rawProps);
 
     const [index, setIndex] = isFunction(props.setIndex)
         ? [props.index, props.setIndex]
@@ -68,14 +62,14 @@ const Slidy: Component<Partial<Props>> = ($props) => {
     };
 
     return (
-        <SlidyContext.Provider value={{ classNames: props.classNames, i18n: props.i18n }}>
+        <SlidyContext value={{ classNames: props.classNames, i18n: props.i18n }}>
             <section
                 aria-roledescription={props.i18n.carousel}
                 aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-                classList={{
+                class={{
                     [props.classNames && props.classNames.root]: true,
-                    
-                    groups: props.groups > 1
+
+                    groups: props.groups > 1,
                 }}
                 style={{
                     '--slidy-group-items': props.groups,
@@ -121,7 +115,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                             const active = () => index() === i();
 
                             if (props.children) {
-                                return props.children(item);
+                                return props.children(item());
                             }
 
                             return (
@@ -129,7 +123,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                                     aria-current={active() ? 'true' : undefined}
                                     aria-label={format(props.i18n.counter, i() + 1, length())}
                                     aria-roledescription={props.i18n.slide}
-                                    classList={{
+                                    class={{
                                         [props.classNames && props.classNames.slide]: true,
 
                                         active: active(),
@@ -138,12 +132,12 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                                     role="group"
                                     style={{
                                         '--_slidy-slide-bg': props.background
-                                            ? `url("${props.getImgSrc(item)}")`
+                                            ? `url("${props.getImgSrc(item())}")`
                                             : undefined,
                                     }}
                                 >
                                     <Show when={!props.background}>
-                                        <Image {...item} src={props.getImgSrc(item)} />
+                                        <Image {...item()} src={props.getImgSrc(item())} />
                                     </Show>
                                 </li>
                             );
@@ -157,7 +151,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                     <For each={[-1, 1]}>
                         {(direction) => (
                             <Arrow
-                                direction={direction}
+                                direction={direction()}
                                 index={index()}
                                 items={length()}
                                 loop={props.loop}
@@ -215,7 +209,7 @@ const Slidy: Component<Partial<Props>> = ($props) => {
                     />
                 </Show>
             </section>
-        </SlidyContext.Provider>
+        </SlidyContext>
     );
 };
 

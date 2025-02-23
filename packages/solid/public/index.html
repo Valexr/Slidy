@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -20,8 +19,6 @@
     <body></body>
 
     <script type="module">
-        new EventSource('/esbuild')
-            .addEventListener('change', () => location.reload());
+        new EventSource('/esbuild').addEventListener('change', () => location.reload());
     </script>
-
 </html>

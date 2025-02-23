@@ -1,16 +1,16 @@
 import { createSignal } from 'solid-js';
 import type { Setter } from 'solid-js';
 
-interface Channel<T> {
+type Channel<T> = Setter<T> & {
     (): T;
-    (setter: Parameters<Setter<T>>[0]): T;
-}
+};
 
+// todo: get rid of this
 function channel<T>(init: T): Channel<T> {
-    const [get, set] = createSignal(init);
+    const [get, set] = createSignal(() => init);
 
-    function controller() {
-        return !arguments.length ? get() : set(arguments[0]);
+    function controller(...args: T[]) {
+        return args.length ? set(() => args[0]) : get();
     }
 
     return controller as Channel<T>;

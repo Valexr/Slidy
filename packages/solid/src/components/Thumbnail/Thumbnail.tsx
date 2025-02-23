@@ -1,4 +1,4 @@
-import { mergeProps, For, Show } from 'solid-js';
+import { merge, For, Show } from 'solid-js';
 import { Core, Image } from '..';
 import { useSlidy } from '../Slidy/Slidy';
 import { format } from '@slidy/assets/scripts/utils';
@@ -26,8 +26,8 @@ const defaultProps: Props = {
     snap: undefined,
 };
 
-const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
-    const props = mergeProps(defaultProps, $props);
+const Thumbnail: VoidComponent<Partial<Props>> = (rawProps) => {
+    const props = merge(defaultProps, rawProps);
 
     const { classNames, i18n } = useSlidy();
 
@@ -45,21 +45,21 @@ const Thumbnail: VoidComponent<Partial<Props>> = ($props) => {
                             aria-label={title()}
                             title={title()}
                             aria-roledescription="slide"
-                            classList={{
+                            class={{
                                 [classNames.thumbnail]: true,
-                                
+
                                 active: active(),
                                 bg: props.background,
                             }}
                             style={{
                                 '--_slidy-slide-bg': props.background
-                                    ? `url(${props.getImgSrc?.(item)})`
+                                    ? `url(${props.getImgSrc?.(item())})`
                                     : '',
                             }}
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>
-                                <Image {...item} src={props.getImgSrc?.(item)} />
+                                <Image {...item()} src={props.getImgSrc?.(item())} />
                             </Show>
                         </button>
                     );

@@ -1,14 +1,14 @@
-import { mergeProps, For } from 'solid-js';
+import { merge, For } from 'solid-js';
 import { useSlidy } from '../Slidy/Slidy';
 
 import { generateIndexes } from '@slidy/assets/scripts/navigation';
 import { format } from '@slidy/assets/scripts/utils';
-import { iconChevron } from "@slidy/assets/icons";
+import { iconChevron } from '@slidy/assets/icons';
 
 import '@slidy/assets/styles/navigation.module.css';
 
 import type { VoidComponent } from 'solid-js';
-import type { Props } from './Navigation.types'
+import type { Props } from './Navigation.types';
 
 const defaultProps = {
     ordinal: false,
@@ -17,8 +17,8 @@ const defaultProps = {
     siblings: 1,
 };
 
-const Navigation: VoidComponent<Props> = ($props) => {
-    const props = mergeProps(defaultProps, $props);
+const Navigation: VoidComponent<Props> = (rawProps) => {
+    const props = merge(defaultProps, rawProps);
 
     const { i18n, classNames } = useSlidy();
 
@@ -52,36 +52,36 @@ const Navigation: VoidComponent<Props> = ($props) => {
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
             aria-label="pagination"
         >
-            	<button
-		            aria-label={i18n.first}
-		            class={classNames["nav-item"] + ' arrow'}
-		            data-step={-1}
-		            disabled={props.current <= 1}
-		            title={i18n.prev}
-	            >
+            <button
+                aria-label={i18n.first}
+                class={classNames['nav-item'] + ' arrow'}
+                data-step={-1}
+                disabled={props.current <= 1}
+                title={i18n.prev}
+            >
                 <svg viewBox={iconChevron.viewBox}>
                     <path d={iconChevron.path} />
                 </svg>
             </button>
             <For each={indices()}>
                 {(item) => {
-                    const active = () => props.current === item;
-                    const contents = () => (item < 0 ? '…' : item);
-                    const ellipsis = () => item < 0;
-                    const title = getTitle(item);
+                    const active = () => props.current === item();
+                    const contents = () => (item() < 0 ? '…' : item());
+                    const ellipsis = () => item() < 0;
+                    const title = getTitle(item());
 
                     return (
                         <button
                             aria-current={active() ? 'true' : undefined}
                             aria-label={title}
-                            classList={{
+                            class={{
                                 [classNames['nav-item']]: true,
-                                
+
                                 active: active(),
                                 ellipsis: ellipsis(),
                                 ordinal: ordinal(),
                             }}
-                            data-index={ellipsis() ? undefined : item - 1}
+                            data-index={ellipsis() ? undefined : item() - 1}
                             disabled={ellipsis()}
                             title={title}
                         >
@@ -92,15 +92,15 @@ const Navigation: VoidComponent<Props> = ($props) => {
             </For>
             <button
                 aria-label={i18n.first}
-                class={classNames["nav-item"] + ' arrow'} 
+                class={classNames['nav-item'] + ' arrow'}
                 data-step={1}
                 disabled={props.current >= props.end}
                 title={i18n.next}
-	        >
-		        <svg viewBox={iconChevron.viewBox}>
-			        <path d={iconChevron.path} />
-		        </svg>
-	        </button>
+            >
+                <svg viewBox={iconChevron.viewBox}>
+                    <path d={iconChevron.path} />
+                </svg>
+            </button>
         </nav>
     );
 };

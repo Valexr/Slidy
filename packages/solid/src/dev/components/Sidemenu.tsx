@@ -21,7 +21,7 @@ const Sidemenu: FlowComponent<Props> = (props) => {
     onCleanup(() => removeEventListener('keydown', handleKeydown));
 
     return (
-        <aside classList={{ 'side-menu': true, open: controlPanel() }}>
+        <aside class={{ 'side-menu': true, open: controlPanel() }}>
             <div
                 class="backdrop"
                 title="Close sidebar"

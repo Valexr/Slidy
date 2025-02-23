@@ -110,31 +110,31 @@ For TypeScript users there is the `SlidyCoreOptions` interface available via nam
 
 The `<Slidy />` component interface extends the `<Core />`. There are a list of additional options available:
 
-| Property          |      Default       |                                Type                                 | Description                                                              |
-| :---------------- | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
-| `arrows`          |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
-| `arrow`           |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
-| `children`        |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
-| `overlay`         |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
-| `background`      |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
-| `classNames`      |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
-| `getImgSrc`       | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
-| `getThumbSrc`     | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
-| `i18n`            |   `i18nDefaults`   |                             `I18NDict`                              | The i18n localization dictionary.                                        |
-| `navigation`      |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
-| `groups`          |        `0`         |                              `number`                               | Controls the number of items displayed per viewport.                     |
-| `progress`        |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
-| `slides`          |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
-| `thumbnail`       |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
-| `onResize`        |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
-| `onMutate`        |    `undefined`     |      `(event: CustomEvent<{ ML: MutationRecord[] }>) => void`       | Listen to the core event `mutate` to fire.                               |
-| `onMount`         |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                                |
-| `onMove`          |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
-| `onIndex`         |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
-| `onKeys`          |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
-| `onUpdate`        |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                               |
-| `onDestroy`       |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
-| `vertical`        |      `false`       |                              `boolean`                              | Defines the slides flow by using `aria-orientation`.                     |
+| Property      |      Default       |                                Type                                 | Description                                                              |
+| :------------ | :----------------: | :-----------------------------------------------------------------: | :----------------------------------------------------------------------- |
+| `arrows`      |       `true`       |                   `boolean` or `() => JSXElement`                   | Renders the arrow button controls for accessible slide navigation.       |
+| `arrow`       |    `undefined`     |                         `() => JSXElement`                          | Renders the arrow.                                                       |
+| `children`    |    `undefined`     |                    `(item: Slide) => JSXElement`                    | Renders each slide.                                                      |
+| `overlay`     |    `undefined`     |                         `() => JSXElement`                          | Renders the overlay.                                                     |
+| `background`  |      `false`       |                              `boolean`                              | Sets `background-image` instead of `<img />` elements to display slides. |
+| `classNames`  |   `SlidyStyles`    |                        `SlidyStylesDefault`                         | The class names object used over the component.                          |
+| `getImgSrc`   | `item => item.src` |                             `function`                              | The slide's `src` attribute getter.                                      |
+| `getThumbSrc` | `item => item.src` |                             `function`                              | The thumbnail's `src` attribute getter.                                  |
+| `i18n`        |   `i18nDefaults`   |                             `I18NDict`                              | The i18n localization dictionary.                                        |
+| `navigation`  |      `false`       |                              `boolean`                              | Renders the navigation controls for pagination-like slide navigation.    |
+| `groups`      |        `0`         |                              `number`                               | Controls the number of items displayed per viewport.                     |
+| `progress`    |      `false`       |                              `boolean`                              | Renders the progress bar.                                                |
+| `slides`      |        `[]`        |                             `Slides[]`                              | An array of objects with image metadata.                                 |
+| `thumbnail`   |      `false`       |                   `boolean` or `() => JSXElement`                   | Renders the thumbnail navigation panel.                                  |
+| `onResize`    |    `undefined`     |   `(event: CustomEvent<{ ROE: ResizeObserverEntry[] }>) => void`    | Listen to the core event `resize` to fire.                               |
+| `onMutate`    |    `undefined`     |      `(event: CustomEvent<{ ML: MutationRecord[] }>) => void`       | Listen to the core event `mutate` to fire.                               |
+| `onMount`     |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `mount` to fire.                                |
+| `onMove`      |    `undefined`     | `(event: CustomEvent<{ index: number; position: number }>) => void` | Listen to the core event `move` to fire.                                 |
+| `onIndex`     |    `undefined`     |          `(event: CustomEvent<{ index: number }>) => void`          | Listen to the core event `index` to fire.                                |
+| `onKeys`      |    `undefined`     |               `(event: CustomEvent<string>) => void`                | Listen to the core event `keys` to fire.                                 |
+| `onUpdate`    |    `undefined`     |          `(event: CustomEvent<SlidyCoreOptions>) => void`           | Listen to the core event `update` to fire.                               |
+| `onDestroy`   |    `undefined`     |             `(event: CustomEvent<HTMLElement>) => void`             | Listen to the core event `destroy` to fire.                              |
+| `vertical`    |      `false`       |                              `boolean`                              | Defines the slides flow by using `aria-orientation`.                     |
 
 By default component works with images. Image object should contain `width` and `height` attributes to prevent layout shifts and `alt` for accessibility.
 
@@ -184,31 +184,31 @@ For easier style customization `Slidy` provides a set of predefined custom prope
 
 List of available public custom properties:
 
-| Property                            |   Default    |    Type     | Description                                          |
-| :---------------------------------- | :----------: | :---------: | :--------------------------------------------------- |
-| `--slidy-arrow-bg`                  |  #4e4e4ebf   |  `<color>`  | The arrow control background color.                  |
-| `--slidy-arrow-bg-hover`            |  #4e4e4e54   |  `<color>`  | The arrow control hover background color.            |
-| `--slidy-arrow-icon-color`          | currentColor |  `<color>`  | The arrow control icon fill color.                   |
-| `--slidy-arrow-size`                |     24px     | `<length>`  | The arrow controls size.                             |
-| `--slidy-counter-bg`                |  #4e4e4ebf   |  `<color>`  | The counter's background color.                      |
-| `--slidy-focus-ring-color`          |  #c9c9c9e6   |  `<color>`  | Focus ring color for all focusable elements.         |
-| `--slidy-height`                    |     100%     | `<length>`  | The height of the component's node.                  |
-| `--slidy-nav-item-color`            |    white     |  `<color>`  | The navigation elements color.                       |
-| `--slidy-nav-item-radius`           |     50%      | `<length>`  | The navigation elements border radius.               |
-| `--slidy-nav-item-size`             |     16px     | `<length>`  | The navigation elements size.                        |
-| `--slidy-progress-thumb-color`      |   #c44f61    |  `<color>`  | The progress bar active track color.                 |
-| `--slidy-progress-track-color`      |  #96969680   |  `<color>`  | The progress bar track color.                        |
-| `--slidy-progress-track-size`       |     10px     | `<length>`  | The progress bar height.                             |
-| `--slidy-slide-aspect-ratio`        |    unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
-| `--slidy-slide-bg-color`            |   darkgray   |  `<color>`  | The placeholder background color for loading images. |
-| `--slidy-slide-gap`                 |     1rem     | `<length>`  | The gap between items in carousel.                   |
-| `--slidy-slide-height`              |     100%     | `<length>`  | The carousel items height.                           |
-| `--slidy-slide-object-fit`          |    cover     |      -      | The carousel items (images) resize behaviour.        |
-| `--slidy-slide-radius`              |     1rem     | `<length>`  | The slide's border radius value.                     |
-| `--slidy-slide-width`               |     auto     | `<length>`  | The carousel items width.                            |
-| `--slidy-thumbnail-radius`          |    0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
-| `--slidy-thumbnail-size`            |     50px     | `<length>`  | The thumbnail panel size.                            |
-| `--slidy-width`                     |     100%     | `<length>`  | The width of the component's node.                   |
+| Property                       |   Default    |    Type     | Description                                          |
+| :----------------------------- | :----------: | :---------: | :--------------------------------------------------- |
+| `--slidy-arrow-bg`             |  #4e4e4ebf   |  `<color>`  | The arrow control background color.                  |
+| `--slidy-arrow-bg-hover`       |  #4e4e4e54   |  `<color>`  | The arrow control hover background color.            |
+| `--slidy-arrow-icon-color`     | currentColor |  `<color>`  | The arrow control icon fill color.                   |
+| `--slidy-arrow-size`           |     24px     | `<length>`  | The arrow controls size.                             |
+| `--slidy-counter-bg`           |  #4e4e4ebf   |  `<color>`  | The counter's background color.                      |
+| `--slidy-focus-ring-color`     |  #c9c9c9e6   |  `<color>`  | Focus ring color for all focusable elements.         |
+| `--slidy-height`               |     100%     | `<length>`  | The height of the component's node.                  |
+| `--slidy-nav-item-color`       |    white     |  `<color>`  | The navigation elements color.                       |
+| `--slidy-nav-item-radius`      |     50%      | `<length>`  | The navigation elements border radius.               |
+| `--slidy-nav-item-size`        |     16px     | `<length>`  | The navigation elements size.                        |
+| `--slidy-progress-thumb-color` |   #c44f61    |  `<color>`  | The progress bar active track color.                 |
+| `--slidy-progress-track-color` |  #96969680   |  `<color>`  | The progress bar track color.                        |
+| `--slidy-progress-track-size`  |     10px     | `<length>`  | The progress bar height.                             |
+| `--slidy-slide-aspect-ratio`   |    unset     | `<int/int>` | Defines the slide aspect-ratio.                      |
+| `--slidy-slide-bg-color`       |   darkgray   |  `<color>`  | The placeholder background color for loading images. |
+| `--slidy-slide-gap`            |     1rem     | `<length>`  | The gap between items in carousel.                   |
+| `--slidy-slide-height`         |     100%     | `<length>`  | The carousel items height.                           |
+| `--slidy-slide-object-fit`     |    cover     |      -      | The carousel items (images) resize behaviour.        |
+| `--slidy-slide-radius`         |     1rem     | `<length>`  | The slide's border radius value.                     |
+| `--slidy-slide-width`          |     auto     | `<length>`  | The carousel items width.                            |
+| `--slidy-thumbnail-radius`     |    0.5rem    | `<length>`  | The thumbnail `border-radius` value.                 |
+| `--slidy-thumbnail-size`       |     50px     | `<length>`  | The thumbnail panel size.                            |
+| `--slidy-width`                |     100%     | `<length>`  | The width of the component's node.                   |
 
 #### Inherited custom properties
 
@@ -375,8 +375,8 @@ export default () => {
 
 ## Possible issues
 
--   Slides should not have `absolute` positioning, otherwise the core script won't get correct dimentions;
--   Using the `background` option usually is not recommended. In case you need to use it, specify the slide sizes with custom properties: `width` and `height`, or just `aspect-ratio`.
+- Slides should not have `absolute` positioning, otherwise the core script won't get correct dimentions;
+- Using the `background` option usually is not recommended. In case you need to use it, specify the slide sizes with custom properties: `width` and `height`, or just `aspect-ratio`.
 
 ## License
 

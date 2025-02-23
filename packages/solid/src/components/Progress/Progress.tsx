@@ -1,5 +1,5 @@
 import { useSlidy } from '../Slidy/Slidy';
-import { mergeProps } from 'solid-js';
+import { merge } from 'solid-js';
 import { noop } from '@slidy/assets/scripts/utils';
 
 import '@slidy/assets/styles/progress.module.css';
@@ -14,8 +14,8 @@ const defaultProps: Props = {
     onInput: noop,
 };
 
-const Progress: VoidComponent<Partial<Props>> = ($props) => {
-    const props = mergeProps(defaultProps, $props);
+const Progress: VoidComponent<Partial<Props>> = (rawProps) => {
+    const props = merge(defaultProps, rawProps);
 
     const { classNames } = useSlidy();
 

@@ -90,7 +90,7 @@ const ControlPanel: Component<Options> = (props) => {
                                 props.snap(
                                     Boolean(value)
                                         ? (value as 'start' | 'center' | 'end')
-                                        : undefined
+                                        : undefined,
                                 );
                             }}
                         >

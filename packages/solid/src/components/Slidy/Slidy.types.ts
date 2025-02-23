@@ -57,7 +57,7 @@ export interface Props extends BaseCoreOptions {
     children?: (item: Slide) => JSX.Element;
 
     onResize?: (
-        event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>
+        event: CustomEvent<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>,
     ) => void;
     onMutate?: (event: CustomEvent<{ ML: MutationRecord[]; options: SlidyCoreOptions }>) => void;
     onMount?: (event: CustomEvent<{ options: SlidyCoreOptions }>) => void;

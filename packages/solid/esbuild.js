@@ -1,5 +1,5 @@
 import { build, context } from 'esbuild';
-import { solidPlugin } from 'esbuild-plugin-solid';
+import babel from 'esbuild-plugin-babel';
 import prepare from '../../env/prepare.js';
 
 const DEV = process.argv.includes('--dev');
@@ -8,10 +8,20 @@ const DEV = process.argv.includes('--dev');
 const esbuildBase = {
     bundle: true,
     minify: !DEV,
-    plugins: [solidPlugin()],
+    plugins: [
+        babel({
+            filter: /\.(jsx?|tsx?)$/,      
+            config: {
+                presets: [
+                    "@babel/preset-typescript",
+                    ["solid", { omitNestedClosingTags: true }],
+                ],
+            }
+        })
+    ],
     entryPoints: ['src/index.tsx'],
     sourcemap: DEV ? 'inline' : false,
-    external: DEV ? [] : ['solid-js'],
+    external: DEV ? [] : ['solid-js', '@solidjs/web'],
     legalComments: 'none',
     logLevel: 'info'
 };
@@ -37,6 +47,7 @@ const builds = {
 if (DEV) {
     const ctx = await context({
         ...esbuildBase,
+        minify: false,
         entryPoints: ['src/dev/index.tsx'],
         outfile: 'public/build/bundle.js',
         loader: {

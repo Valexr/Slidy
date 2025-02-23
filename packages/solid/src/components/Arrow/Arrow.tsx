@@ -1,9 +1,9 @@
-import { mergeProps } from 'solid-js';
+import { merge } from 'solid-js';
 import { useSlidy } from '../Slidy/Slidy';
 
 import '@slidy/assets/styles/arrow.module.css';
 
-import type { Props } from './Arrow.types'
+import type { Props } from './Arrow.types';
 import type { FlowComponent } from 'solid-js';
 
 const defaultProps: Props = {
@@ -13,28 +13,28 @@ const defaultProps: Props = {
     vertical: false,
 };
 
-const Arrow: FlowComponent<Props> = ($props) => {
-    const props = mergeProps(defaultProps, $props)
+const Arrow: FlowComponent<Props> = (rawProps) => {
+    const props = merge(defaultProps, rawProps);
 
     const { classNames, i18n } = useSlidy();
 
     const disabled = () => {
-        return (props.direction < 0)
+        return props.direction < 0
             ? props.index === 0 && !props.loop
             : props.index === props.items! - 1 && !props.loop;
     };
 
     const title = () => {
-        return (props.direction > 0) ? i18n.next : i18n.prev;
+        return props.direction > 0 ? i18n.next : i18n.prev;
     };
 
     return (
         <button
             aria-label={title()}
             aria-orientation={props.vertical ? 'vertical' : 'horizontal'}
-            classList={{
+            class={{
                 [classNames.arrow]: true,
-                
+
                 prev: props.direction < 1,
             }}
             data-step={props.direction * props.step}

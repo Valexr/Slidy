@@ -5,7 +5,7 @@ import { ControlPanel, Sidemenu } from './components';
 import { translate } from '@slidy/animation';
 import { linear } from '@slidy/easing';
 import { version } from '../../package.json';
-import { autoplay } from '@slidy/plugins'
+import { autoplay } from '@slidy/plugins';
 
 import logo from '@slidy/assets/static/Slidy.svg';
 import '@slidy/assets/styles/dev/app.module.css';
@@ -100,7 +100,14 @@ const App: Component = () => {
                         setIndex={setIndex}
                         groups={groups()}
                         vertical={vertical()}
-                        plugins={[autoplay({ i18n: i18nDefaults, duration: 1500, delay: 1000, autoplay: false })]}
+                        plugins={[
+                            autoplay({
+                                i18n: i18nDefaults,
+                                duration: 1500,
+                                delay: 1000,
+                                autoplay: false,
+                            }),
+                        ]}
                     />
                 </Show>
             </main>

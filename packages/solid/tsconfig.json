@@ -5,14 +5,8 @@
         "jsxImportSource": "solid-js",
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
-        "skipLibCheck": true,
+        "skipLibCheck": true
     },
-    "include": [
-        "src/*",
-        "src/dev/*"
-    ],
-    "exclude": [
-        "dist",
-        "public"
-    ]
+    "include": ["src/*", "src/dev/*"],
+    "exclude": ["dist", "public"]
 }

@@ -10,14 +10,14 @@ export interface Props extends SlidyCoreOptions {
     tag: ValidComponent;
     className?: string;
 
-    onResize?:  CEHandler<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>;
-    onMutate?:  CEHandler<{ ML: MutationRecord[]; options: SlidyCoreOptions }>;
-    onMount?:   CEHandler<{ options: SlidyCoreOptions }>
-    onMove?:    CEHandler<{ index: number; position: number }>
-    onIndex?:   CEHandler<{ index: number }>
-    onKeys?:    CEHandler<string>
-    onUpdate?:  CEHandler<SlidyCoreOptions>
-    onDestroy?: CEHandler<HTMLElement>
+    onResize?: CEHandler<{ ROE: ResizeObserverEntry[]; options: SlidyCoreOptions }>;
+    onMutate?: CEHandler<{ ML: MutationRecord[]; options: SlidyCoreOptions }>;
+    onMount?: CEHandler<{ options: SlidyCoreOptions }>;
+    onMove?: CEHandler<{ index: number; position: number }>;
+    onIndex?: CEHandler<{ index: number }>;
+    onKeys?: CEHandler<string>;
+    onUpdate?: CEHandler<SlidyCoreOptions>;
+    onDestroy?: CEHandler<HTMLElement>;
 }
 
 export { SlidyCoreOptions };
