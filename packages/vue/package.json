@@ -60,6 +60,6 @@
         "esbuild-plugin-vue3": "^0.4.2",
         "eslint-plugin-vue": "^9.32.0",
         "vue": "^3.5.13",
-        "vue-tsc": "^2.2.0"
+        "vue-tsc": "^2.2.4"
     }
 }
