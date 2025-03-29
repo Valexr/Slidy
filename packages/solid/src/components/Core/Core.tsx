@@ -1,4 +1,4 @@
-import { merge, omit, createEffect, onCleanup, createSignal } from 'solid-js';
+import { merge, createEffect, onCleanup, createSignal } from 'solid-js';
 import { Dynamic } from '@solidjs/web';
 import { slidy } from '@slidy/core';
 import { execute } from '@slidy/assets/scripts/utils';
@@ -35,41 +35,37 @@ const optionsKeys = [
     'plugins',
 ] as const;
 
-type OptionsKeys = (typeof optionsKeys)[number];
-type PropsKeys = keyof Props;
-
-type OmitKeys = Exclude<PropsKeys, OptionsKeys>;
-
-// todo: either keep it or write `pick` util
-const getOmitKeys = <T extends Props>(object: T): OmitKeys[] => {
-    return Object.keys(object).filter(
-        (key) => !optionsKeys.includes(key as OptionsKeys),
-    ) as OmitKeys[];
+type PickByKeys<T extends Record<PropertyKey, unknown>, K extends readonly (keyof T)[]> = {
+    [P in keyof T as Extract<P, K[number]>]: T[P];
 };
 
-// todo: wait for conventional way to trigger on every property of object change
-const trigger = (object: Record<PropertyKey, unknown>) => {
-    for (const key of Object.getOwnPropertyNames(object)) {
-        object[key];
+const pickByKeys = <T extends Record<PropertyKey, unknown>, K extends readonly (keyof T)[]>(
+    object: T,
+    keys: K,
+) => {
+    const result: Record<PropertyKey, unknown> = {};
+
+    for (const key of keys) {
+        // access only keys that are in `keys` array
+        result[key] = object[key];
     }
+
+    return result as PickByKeys<T, K>;
 };
 
 const Core: FlowComponent<Partial<Props>> = (rawProps) => {
     const props = merge(defaultProps, rawProps);
-    const options = omit(props, ...getOmitKeys(props));
+    const options = () => pickByKeys(props, optionsKeys);
 
     const [ref, setRef] = createSignal();
 
     createEffect(ref, (element) => {
         if (element instanceof HTMLElement) {
-            const { update, destroy } = slidy(element, { ...options });
+            const { update, destroy } = slidy(element, options());
 
-            createEffect(
-                () => trigger(options),
-                () => {
-                    update(options);
-                },
-            );
+            createEffect(options, () => {
+                update(options());
+            });
 
             onCleanup(destroy);
         }
