@@ -107,16 +107,16 @@
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
-        "@eslint/js": "^9.23.0",
+        "@eslint/js": "^9.24.0",
         "@types/eslint": "^9.6.1",
-        "@types/node": "^22.13.14",
-        "@typescript-eslint/eslint-plugin": "^8.28.0",
-        "@typescript-eslint/parser": "^8.28.0",
+        "@types/node": "^22.14.1",
+        "@typescript-eslint/eslint-plugin": "^8.29.1",
+        "@typescript-eslint/parser": "^8.29.1",
         "esbuild": "^0.24.2",
-        "eslint": "^9.23.0",
+        "eslint": "^9.24.0",
         "globals": "^15.15.0",
-        "open-props": "^1.7.14",
+        "open-props": "^1.7.15",
         "prettier": "^3.5.3",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.3"
     }
 }
