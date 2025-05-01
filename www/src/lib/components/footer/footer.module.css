@@ -20,7 +20,7 @@ footer > .wrapper {
 	padding-bottom: var(--size-5);
 }
 
-.footer section[label='user'] {
+.footer section[aria-label='user'] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;

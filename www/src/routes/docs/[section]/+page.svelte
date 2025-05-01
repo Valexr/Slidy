@@ -1,13 +1,12 @@
-<script module lang="ts">
-	import type { PageData } from './$types';
-</script>
-
-<script lang="ts">
+<script lang="ts" module>
 	import { base } from '$app/paths';
 	import { Header, Link } from '@components';
 	import styles from './docs.module.css';
 	import stylesArticle from './page.module.css';
+	import type { PageData } from './$types';
+</script>
 
+<script lang="ts">
 	let { data }: { data: PageData } = $props();
 </script>
 

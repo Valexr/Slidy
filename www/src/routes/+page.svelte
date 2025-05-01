@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { base } from '$app/paths';
 	import { Slidy } from '@slidy/svelte';
 	import { stairs } from '@slidy/animation';
@@ -14,7 +14,9 @@
 		pathPackageSolid
 	} from '$lib/paths';
 	import '@slidy/svelte/dist/slidy.css';
+</script>
 
+<script lang="ts">
 	const packages = [
 		{ id: 0, name: '@slidy/animation', href: pathPackageAnimation },
 		{ id: 1, name: '@slidy/core', href: pathPackageCore },

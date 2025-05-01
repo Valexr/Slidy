@@ -8,7 +8,7 @@
 		nofollow = false,
 		disabled = false,
 		title = '',
-		restProps = '',
+		// restProps = '',
 		children
 	} = $props();
 
@@ -27,7 +27,6 @@
 	{target}
 	{rel}
 	{title}
-	{...restProps}
 	aria-disabled={disabled ? 'true' : undefined}
 	class:disabled
 	tabIndex={disabled ? -1 : undefined}

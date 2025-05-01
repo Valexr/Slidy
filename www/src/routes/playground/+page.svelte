@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { getRandomSlides } from '@slidy/assets/scripts/slide-store';
 	import { Slidy } from '@slidy/svelte';
 	import { stairs } from '@slidy/animation';
