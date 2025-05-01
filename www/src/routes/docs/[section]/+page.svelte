@@ -18,7 +18,7 @@
 		<ol>
 			{#each data.toc as { level, title, id }}
 				<li style:--toc-level={level} data-level={level}>
-					<Link href="{base}#{id}">
+					<Link href="#{id}">
 						{title}
 					</Link>
 				</li>
