@@ -10,7 +10,9 @@
 </svelte:head>
 
 <main>
-	{#await getRandomSlides(10) then slides}
+	{#await getRandomSlides(10)}
+		<h1>Loading slides...</h1>
+	{:then slides}
 		<Slidy
 			animation={stairs}
 			duration={450}
@@ -31,5 +33,11 @@
 		--slidy-nav-item-color: white;
 
 		padding: var(--size-fluid-2) 0;
+		align-content: center;
+		flex: 1;
+
+		h1 {
+			text-align: center;
+		}
 	}
 </style>

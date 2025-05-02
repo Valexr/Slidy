@@ -1,6 +1,8 @@
-<script lang="ts">
+<script lang="ts" module>
 	import styles from './link.module.css';
+</script>
 
+<script lang="ts">
 	let {
 		className = '',
 		href = '',
@@ -8,8 +10,8 @@
 		nofollow = false,
 		disabled = false,
 		title = '',
-		// restProps = '',
-		children
+		children,
+		active
 	} = $props();
 
 	// if no `href` is provided -> link will be disabled
@@ -27,9 +29,16 @@
 	{target}
 	{rel}
 	{title}
-	aria-disabled={disabled ? 'true' : undefined}
+	aria-disabled={(!href && 'true') || undefined}
 	class:disabled
+	class:active
 	tabIndex={disabled ? -1 : undefined}
 >
 	{@render children?.()}
 </a>
+
+<style>
+	.active {
+		text-decoration: underline;
+	}
+</style>
