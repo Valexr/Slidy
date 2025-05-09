@@ -21,5 +21,5 @@ import{t as r,a as d}from"./DAMNgkwm.js";import"./C3IaZYxX.js";import{s as n,f a
 
     <span class="token keyword">const</span> media <span class="token operator">=</span> <span class="token function">mediaStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-    $<span class="token operator">:</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>$media<span class="token punctuation">)</span>
+    <span class="token literal-property property">$</span><span class="token operator">:</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>$media<span class="token punctuation">)</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code>`),p(c),d(l,e)}export{j as default,g as metadata};
