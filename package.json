@@ -117,6 +117,6 @@
         "globals": "^15.15.0",
         "open-props": "^1.7.16",
         "prettier": "^3.6.2",
-        "typescript": "^5.8.3"
+        "typescript": "^5.9.2"
     }
 }
