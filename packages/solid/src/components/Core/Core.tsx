@@ -46,7 +46,6 @@ const pickByKeys = <T extends Record<PropertyKey, unknown>, K extends readonly (
     const result: Record<PropertyKey, unknown> = {};
 
     for (const key of keys) {
-        // access only keys that are in `keys` array
         result[key] = object[key];
     }
 

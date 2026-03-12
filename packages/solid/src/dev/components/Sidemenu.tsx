@@ -1,27 +1,30 @@
-import type { FlowComponent } from 'solid-js';
-import type { Channel } from '../lib';
-import { onMount, onCleanup } from 'solid-js';
+import type { FlowComponent, Setter } from 'solid-js';
+import { onSettled } from 'solid-js';
 
 import '@slidy/assets/styles/dev/side-menu.module.css';
 
 interface Props {
-    controlPanel: Channel<boolean>;
+    controlPanelVisible: boolean;
+    setControlPanelVisible: Setter<boolean>;
 }
 
 const Sidemenu: FlowComponent<Props> = (props) => {
-    const controlPanel = props.controlPanel;
-
-    const close = () => controlPanel((v) => !v);
+    const close = () => props.setControlPanelVisible((v) => !v);
 
     const handleKeydown = (event: KeyboardEvent) => {
         return event.code === 'Escape' && close();
     };
 
-    onMount(() => addEventListener('keydown', handleKeydown));
-    onCleanup(() => removeEventListener('keydown', handleKeydown));
+    onSettled(() => {
+        addEventListener('keydown', handleKeydown);
+
+        return () => {
+            removeEventListener('keydown', handleKeydown);
+        }
+    });
 
     return (
-        <aside class={{ 'side-menu': true, open: controlPanel() }}>
+        <aside class={{ 'side-menu': true, open: props.controlPanelVisible }}>
             <div
                 class="backdrop"
                 title="Close sidebar"

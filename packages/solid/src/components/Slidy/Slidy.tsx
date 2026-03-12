@@ -1,4 +1,4 @@
-import { Show, For, merge, createSignal, untrack } from 'solid-js';
+import { Show, For, merge, createSignal, untrack, flush } from 'solid-js';
 
 import { Arrow, Core, Image, Progress, Thumbnail, Navigation } from '..';
 import { SlidyContext, useSlidy } from '../Context/Context';
@@ -58,7 +58,8 @@ const Slidy: Component<Partial<Props>> = (rawProps) => {
     };
 
     const onIndex: Props['onIndex'] = (e) => {
-        Promise.resolve(e.detail.index).then(setIndex);
+        flush();
+        setIndex(e.detail.index);
     };
 
     return (
