@@ -29,14 +29,15 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
     const WINDOW_EVENTS: EventMap[] = [
         ['touchmove', onMove as EventListener, { passive: false }],
         ['mousemove', onMove as EventListener],
-        ['touchend', onUp as EventListener],
-        ['mouseup', onUp as EventListener],
+        ['touchend', onUp as EventListener, { passive: true }],
+        ['mouseup', onUp as EventListener, { passive: true }],
         [
             'scroll',
             () => {
                 to(INDEX);
                 GRAVITY = 2;
             },
+            { passive: true },
         ],
     ];
     const WINDOW_NATIVE_EVENTS: EventMap[] = [
@@ -46,7 +47,7 @@ export function slidy(node: HTMLElement, opts: Partial<Options>): SlidyInstance 
         ['touchstart', onDown as EventListener, { passive: false }],
         ['mousedown', onDown as EventListener],
         ['keydown', onKeys as EventListener],
-        ['contextmenu', () => to(INDEX)],
+        ['contextmenu', () => to(INDEX), { passive: true }],
         ['dragstart', (e) => e.preventDefault()],
     ];
 
