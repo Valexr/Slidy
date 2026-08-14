@@ -1,7 +1,6 @@
-import { merge, createEffect, onCleanup, createSignal } from 'solid-js';
+import { merge, createEffect, createSignal } from 'solid-js';
 import { Dynamic } from '@solidjs/web';
 import { slidy } from '@slidy/core';
-import { execute } from '@slidy/assets/scripts/utils';
 
 import type { Props } from './Core.types';
 import type { FlowComponent } from 'solid-js';
@@ -35,6 +34,17 @@ const optionsKeys = [
     'plugins',
 ] as const;
 
+const coreEvents = [
+    ['destroy', 'onDestroy'],
+    ['index', 'onIndex'],
+    ['keys', 'onKeys'],
+    ['mount', 'onMount'],
+    ['move', 'onMove'],
+    ['mutate', 'onMutate'],
+    ['resize', 'onResize'],
+    ['update', 'onUpdate'],
+] as const;
+
 type PickByKeys<T extends Record<PropertyKey, unknown>, K extends readonly (keyof T)[]> = {
     [P in keyof T as Extract<P, K[number]>]: T[P];
 };
@@ -52,22 +62,49 @@ const pickByKeys = <T extends Record<PropertyKey, unknown>, K extends readonly (
     return result as PickByKeys<T, K>;
 };
 
+const bindCoreEvents = (node: HTMLElement, props: Props) => {
+    const listeners = coreEvents.map(([event, key]) => {
+        const listener = (e: Event) => props[key]?.(e as never);
+
+        node.addEventListener(event, listener);
+
+        return () => node.removeEventListener(event, listener);
+    });
+
+    return () => {
+        for (const off of listeners) {
+            off();
+        }
+    };
+};
+
 const Core: FlowComponent<Partial<Props>> = (rawProps) => {
     const props = merge(defaultProps, rawProps);
     const options = () => pickByKeys(props, optionsKeys);
 
-    const [ref, setRef] = createSignal();
+    const [node, setNode] = createSignal<HTMLElement>();
+    let instance: ReturnType<typeof slidy> | undefined;
 
-    createEffect(ref, (element) => {
-        if (element instanceof HTMLElement) {
-            const { update, destroy } = slidy(element, options());
+    createEffect(node, (element) => {
+        instance?.destroy();
+        instance = undefined;
 
-            createEffect(options, () => {
-                update(options());
-            });
-
-            onCleanup(destroy);
+        if (!(element instanceof HTMLElement)) {
+            return;
         }
+
+        instance = slidy(element, options());
+        const unbind = bindCoreEvents(element, props);
+
+        return () => {
+            instance?.destroy();
+            unbind();
+            instance = undefined;
+        };
+    });
+
+    createEffect(options, (opts) => {
+        instance?.update(opts);
     });
 
     return (
@@ -76,15 +113,7 @@ const Core: FlowComponent<Partial<Props>> = (rawProps) => {
             class={props.className}
             aria-live="polite"
             tabindex="0"
-            ref={setRef}
-            on:destroy={execute(props.onDestroy)}
-            on:index={execute(props.onIndex)}
-            on:keys={execute(props.onKeys)}
-            on:mount={execute(props.onMount)}
-            on:move={execute(props.onMove)}
-            on:resize={execute(props.onResize)}
-            on:update={execute(props.onUpdate)}
-            on:mutate={execute(props.onMutate)}
+            ref={setNode}
         >
             {props.children}
         </Dynamic>

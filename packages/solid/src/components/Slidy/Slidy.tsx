@@ -116,7 +116,7 @@ const Slidy: Component<Partial<Props>> = (rawProps) => {
                             const active = () => index() === i();
 
                             if (props.children) {
-                                return props.children(item());
+                                return props.children(item);
                             }
 
                             return (
@@ -133,12 +133,12 @@ const Slidy: Component<Partial<Props>> = (rawProps) => {
                                     role="group"
                                     style={{
                                         '--_slidy-slide-bg': props.background
-                                            ? `url("${props.getImgSrc(item())}")`
+                                            ? `url("${props.getImgSrc(item)}")`
                                             : undefined,
                                     }}
                                 >
                                     <Show when={!props.background}>
-                                        <Image {...item()} src={props.getImgSrc(item())} />
+                                        <Image {...item} src={props.getImgSrc(item)} />
                                     </Show>
                                 </li>
                             );
@@ -152,7 +152,7 @@ const Slidy: Component<Partial<Props>> = (rawProps) => {
                     <For each={[-1, 1]}>
                         {(direction) => (
                             <Arrow
-                                direction={direction()}
+                                direction={direction}
                                 index={index()}
                                 items={length()}
                                 loop={props.loop}

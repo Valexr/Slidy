@@ -63,17 +63,17 @@ const Navigation: VoidComponent<Props> = (rawProps) => {
                     <path d={iconChevron.path} />
                 </svg>
             </button>
-            <For each={indices()}>
+            <For each={indices()} keyed={false}>
                 {(item) => {
                     const active = () => props.current === item();
                     const contents = () => (item() < 0 ? '…' : item());
                     const ellipsis = () => item() < 0;
-                    const title = getTitle(item());
+                    const title = () => getTitle(item());
 
                     return (
                         <button
                             aria-current={active() ? 'true' : undefined}
-                            aria-label={title}
+                            aria-label={title()}
                             class={{
                                 [classNames['nav-item']]: true,
 
@@ -83,7 +83,7 @@ const Navigation: VoidComponent<Props> = (rawProps) => {
                             }}
                             data-index={ellipsis() ? undefined : item() - 1}
                             disabled={ellipsis()}
-                            title={title}
+                            title={title()}
                         >
                             {ordinal() ? contents() : ''}
                         </button>

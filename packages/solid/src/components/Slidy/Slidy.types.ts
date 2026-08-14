@@ -1,5 +1,6 @@
 import type { SlidyCoreOptions } from '../Core/Core.types';
-import type { JSX, Accessor, Setter } from 'solid-js';
+import type { Accessor, Setter } from 'solid-js';
+import type { JSX } from '@solidjs/web';
 import type { SlidyStyles, I18NDict, Slide, GetSrc } from '@slidy/assets/types';
 
 type BaseCoreOptions = Omit<SlidyCoreOptions, 'index' | 'position'>;

@@ -53,13 +53,13 @@ const Thumbnail: VoidComponent<Partial<Props>> = (rawProps) => {
                             }}
                             style={{
                                 '--_slidy-slide-bg': props.background
-                                    ? `url(${props.getImgSrc?.(item())})`
+                                    ? `url(${props.getImgSrc?.(item)})`
                                     : '',
                             }}
                             onClick={() => props.onSelect?.(i())}
                         >
                             <Show when={!props.background}>
-                                <Image {...item()} src={props.getImgSrc?.(item())} />
+                                <Image {...item} src={props.getImgSrc?.(item)} />
                             </Show>
                         </button>
                     );

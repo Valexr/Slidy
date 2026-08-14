@@ -1,4 +1,7 @@
 packages:
-    - assets/**
-    - packages/**
-    - www/**
+  - assets/**
+  - packages/**
+  - www/**
+allowBuilds:
+  esbuild: true
+  svelte-preprocess: true

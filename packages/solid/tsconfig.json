@@ -2,7 +2,8 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "jsx": "preserve",
-        "jsxImportSource": "solid-js",
+        "jsxImportSource": "@solidjs/web",
+        "moduleResolution": "bundler",
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "skipLibCheck": true

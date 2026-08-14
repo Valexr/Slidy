@@ -1,5 +1,5 @@
 import type { Options as SlidyCoreOptions } from '@slidy/core';
-import type { ValidComponent } from 'solid-js';
+import type { ValidComponent } from '@solidjs/web';
 
 /**
  * Custom event handler, turns `T` into `(event: CustomEvent<T>) => void` function definition

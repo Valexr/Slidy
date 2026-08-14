@@ -1,4 +1,4 @@
-import type { JSX } from 'solid-js';
+import type { JSX } from '@solidjs/web';
 
 type ImgNativeAttrs = Omit<JSX.ImgHTMLAttributes<HTMLImageElement>, 'loading' | 'class' | 'id'>;
 
