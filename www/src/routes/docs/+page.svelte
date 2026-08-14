@@ -1,37 +1,32 @@
-<script lang="ts">
-	import { base } from "$app/paths";
-	import { page } from "$app/stores";
-	import { Header, Link } from "@components";
+<script lang="ts" module>
+	import { base } from '$app/paths';
+	import { page } from '$app/state';
+	import { Header, Link } from '@components';
+</script>
 
+<script lang="ts">
 	const sections = [
 		{
-			section: "Core Script",
-			items: [
-				{ title: "Core", href: "/docs/core" }
-			]
+			section: 'Core Script',
+			items: [{ title: 'Core', href: '/docs/core' }]
 		},
 		{
-			section: "Integrations",
-			items: [
-				{ title: "Svelte", href: "/docs/svelte" }
-			]
+			section: 'Integrations',
+			items: [{ title: 'Svelte', href: '/docs/svelte' }]
 		},
 		{
-			section: "Extensions",
+			section: 'Extensions',
 			items: [
-				{ title: "Animation", href: "/docs/animation" },
-				{ title: "Easing", href: "/docs/easing" },
-				{ title: "Media", href: "/docs/media" }
+				{ title: 'Animation', href: '/docs/animation' },
+				{ title: 'Easing', href: '/docs/easing' },
+				{ title: 'Media', href: '/docs/media' }
 			]
 		}
 	];
 </script>
 
 <main>
-	<Header
-		className="surface-2"
-		title="{$page.params.section || "Documentation"}"
-	/>
+	<Header className="surface-2" title={page.params.section || 'Documentation'} />
 	<div class="contents">
 		{#each sections as { section, items }}
 			<section>

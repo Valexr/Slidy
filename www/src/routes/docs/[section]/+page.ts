@@ -9,22 +9,30 @@ interface Data {
 		title: string;
 		id: string;
 	}[];
-	pages: unknown[];
+	pages: ConstructorOfATypedSvelteComponent[];
+}
+
+interface Page {
+	default: ConstructorOfATypedSvelteComponent;
+	metadata: {
+		title: string;
+		description: string;
+		toc: { level: number; title: string; id: string }[];
+	};
 }
 
 export const load: PageLoad = async ({ params }) => {
 	const { section } = params;
-	const pages = [];
+	const pages: ConstructorOfATypedSvelteComponent[] = [];
 
 	const toc: Data['toc'] = [];
 	let title: Data['title'] = null;
 	let description: Data['description'] = null;
 
 	try {
-		const contents = import.meta.glob('/src/content/**/*.svx');
-
-		for await (const [filename, module] of Object.entries(contents)) {
-			if (filename.includes(`/${section}`)) {
+		const contents = import.meta.glob<Page>('/src/content/**/*.svx');
+		for (const [filepath, module] of Object.entries(contents)) {
+			if (filepath.includes(`/${section}`)) {
 				const page = await module();
 				const { metadata } = page;
 

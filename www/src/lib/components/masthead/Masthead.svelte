@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { base } from '$app/paths';
 	import * as Navigation from '../menu/index';
 	import { Link } from '../link';

@@ -1,13 +1,12 @@
-<script module lang="ts">
-	import type { PageData } from './$types';
-</script>
-
-<script lang="ts">
-	import { base } from '$app/paths';
+<script lang="ts" module>
 	import { Header, Link } from '@components';
 	import styles from './docs.module.css';
 	import stylesArticle from './page.module.css';
+	import type { PageData } from './$types';
+	import { page } from '$app/state';
+</script>
 
+<script lang="ts">
 	let { data }: { data: PageData } = $props();
 </script>
 
@@ -19,7 +18,7 @@
 		<ol>
 			{#each data.toc as { level, title, id }}
 				<li style:--toc-level={level} data-level={level}>
-					<Link href="{base}#{id}">
+					<Link href="#{id}" active={page.url.hash === `#${id}`}>
 						{title}
 					</Link>
 				</li>

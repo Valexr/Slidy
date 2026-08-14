@@ -1,15 +1,13 @@
 <script module lang="ts">
-	import type { Readable } from 'svelte/store';
+	import { page } from '$app/state';
+	import { setContext } from 'svelte';
+	import styles from './menu.module.css';
 	import type { Page } from '@sveltejs/kit';
 
-	export type MenuContext = Readable<Page>;
+	export type MenuContext = Page;
 </script>
 
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { setContext } from 'svelte';
-	import styles from './menu.module.css';
-
 	let { children } = $props();
 
 	setContext<MenuContext>('page', page);
