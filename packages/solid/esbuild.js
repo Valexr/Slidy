@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { sep } from 'node:path';
-import { transform } from '@dom-expressions/compiler';
+import { transform } from '@solidjs/compiler';
 import { build, context } from 'esbuild';
 import prepare from '../../env/prepare.js';
 
