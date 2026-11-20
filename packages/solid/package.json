@@ -55,17 +55,17 @@
     },
     "homepage": "https://github.com/Valexr/Slidy/tree/master/packages/solid",
     "dependencies": {
-        "@solidjs/web": "2.0.0-rc.13",
-        "solid-js": "2.0.0-rc.13"
+        "@solidjs/web": "^2.0.3",
+        "solid-js": "^2.0.3"
     },
     "devDependencies": {
-        "@solidjs/compiler": "^2.0.0-rc.13",
+        "@solidjs/compiler": "^2.0.2",
         "@slidy/animation": "workspace:^",
         "@slidy/assets": "workspace:^",
         "@slidy/core": "workspace:^",
         "@slidy/easing": "workspace:^"
     },
     "peerDependencies": {
-        "solid-js": "^2.0.0-rc.13"
+        "solid-js": "^2.0.3"
     }
 }
